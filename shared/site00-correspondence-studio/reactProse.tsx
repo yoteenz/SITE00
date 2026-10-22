@@ -103,7 +103,7 @@ function SplitBangQuestion({ ch }: { ch: '!' | '?' }) {
   const m = DISPLAY_SPLIT_MARKS[ch];
   return (
     <img
-      className="correspondence-display-split"
+      className={`correspondence-display-split correspondence-display-split--${ch === '?' ? 'question' : 'exclamation'}`}
       src={`${CORRESPONDENCE_MARK_BASE}/${m.file}`}
       alt={ch}
       width={m.w}

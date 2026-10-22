@@ -1,0 +1,154 @@
+{
+  "status": "PROPOSED",
+  "families": {
+    "display": "'SITE 00 Display', 900",
+    "text": "'Saira Semi Condensed', 400–700"
+  },
+  "case": "application copy uppercase via CSS text-transform; .ws-data / .ws-read (names, emails, domains, keys, user text) untransformed",
+  "floor_px": {
+    "M": 10,
+    "TP": 10,
+    "TL": 10,
+    "D": 10,
+    "UW": 10,
+    "note": "labels 11 from TP up; only rail/bottom-nav words and count badges sit at 10"
+  },
+  "tokens": {
+    "--ws-fs-title": {
+      "M": "clamp(40px, 13.3vw, 50px)",
+      "TP": 48,
+      "TL": 48,
+      "TL_short": 44,
+      "D": 52,
+      "D_short": 44,
+      "UW": 60,
+      "weight": 900,
+      "line_height": 0.86,
+      "tracking": "0",
+      "wrap": "balance, never ellipsis"
+    },
+    "--ws-fs-h2": {
+      "M": 28,
+      "TP": 30,
+      "TL": 30,
+      "D": 32,
+      "UW": 36,
+      "weight": 900,
+      "line_height": 0.9,
+      "wrap": "balance"
+    },
+    "--ws-fs-statement": {
+      "M": 24,
+      "TP": 26,
+      "TL": 26,
+      "D": 28,
+      "UW": 32,
+      "weight": 900,
+      "line_height": 0.92,
+      "wrap": "balance; focus statement +2 and ≤ 22ch"
+    },
+    "--ws-fs-num": {
+      "M": 30,
+      "TP": 34,
+      "TL": 34,
+      "D": 40,
+      "UW": 44,
+      "weight": 900,
+      "numerals": "tabular"
+    },
+    "--ws-fs-name": {
+      "M": 13,
+      "TP": 14,
+      "TL": 14,
+      "D": 14,
+      "UW": 15,
+      "weight": 700,
+      "tracking": "0.10em",
+      "wrap": "one line, ellipsis + title/aria full name"
+    },
+    "--ws-fs-body": {
+      "M": 13,
+      "TP": 13,
+      "TL": 13,
+      "D": 14,
+      "UW": 15,
+      "weight": 600,
+      "tracking": "0.06em",
+      "wrap": "wrap; next action clamp 2"
+    },
+    "--ws-fs-read": {
+      "M": 15,
+      "TP": 15,
+      "TL": 15,
+      "D": 15,
+      "UW": 16,
+      "weight": 400,
+      "line_height": 1.6,
+      "measure": "68ch",
+      "case": "sentence (user text)"
+    },
+    "--ws-fs-label": {
+      "M": 10,
+      "TP": 11,
+      "TL": 11,
+      "D": 11,
+      "UW": 12,
+      "weight": 700,
+      "tracking": "0.16em",
+      "wrap": "never truncated; headings wrap balanced"
+    },
+    "--ws-fs-meta": {
+      "M": 11,
+      "TP": 11,
+      "TL": 11,
+      "D": 12,
+      "UW": 12,
+      "weight": 500,
+      "tracking": "0.10em"
+    },
+    "--ws-fs-nav": {
+      "M": 10,
+      "TP": 10,
+      "TL": 10,
+      "D": 12,
+      "UW": 12,
+      "weight": 700,
+      "tracking": "0.04 (bottom) · 0.06 (rail) · 0.12em (sidebar)"
+    },
+    "--ws-fs-btn": {
+      "M": 11,
+      "TP": 11,
+      "TL": 11,
+      "D": 12,
+      "UW": 12,
+      "weight": 600,
+      "tracking": "0.18em (0.14 sm, 0.12 mobile bar)",
+      "wrap": "single line, never truncated"
+    },
+    "--ws-fs-input": {
+      "M": 16,
+      "TP": 15,
+      "TL": 15,
+      "D": 14,
+      "UW": 14,
+      "note": "16 on phones prevents iOS focus zoom"
+    },
+    "--ws-fs-chip": {
+      "all": 10,
+      "weight": 700,
+      "tracking": "0.12em"
+    }
+  },
+  "max_line_length": {
+    "reading": "68ch",
+    "statement": "22ch (focus)",
+    "detail text in console": "wraps at column width (≥220px)"
+  },
+  "opus1_comparison": {
+    "title_desktop": "68 → 52",
+    "labels_desktop": "7.5–9 → 11",
+    "meta_desktop": "8.5 → 12",
+    "table_text": "8.5 → 14",
+    "buttons": "10 → 12"
+  }
+}

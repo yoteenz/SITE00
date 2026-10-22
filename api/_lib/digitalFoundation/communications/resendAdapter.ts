@@ -20,6 +20,25 @@ export function resendApiKeyConfigured(): boolean {
   return Boolean(process.env.RESEND_API_KEY?.trim());
 }
 
+export type ResendEmailStatusResult =
+  | { ok: true; last_event: string | null; created_at?: string }
+  | { ok: false; error: string };
+
+export async function fetchResendEmailStatus(providerMessageId: string): Promise<ResendEmailStatusResult> {
+  const apiKey = process.env.RESEND_API_KEY?.trim();
+  if (!apiKey) return { ok: false, error: 'RESEND_API_KEY not configured' };
+  try {
+    const res = await fetch(`https://api.resend.com/emails/${encodeURIComponent(providerMessageId)}`, {
+      headers: { Authorization: `Bearer ${apiKey}` },
+    });
+    const body = (await res.json().catch(() => ({}))) as { last_event?: string; created_at?: string; message?: string };
+    if (!res.ok) return { ok: false, error: body.message ?? `Resend HTTP ${res.status}` };
+    return { ok: true, last_event: body.last_event ?? null, created_at: body.created_at };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : 'Resend fetch failed' };
+  }
+}
+
 export async function sendViaResend(input: ResendSendInput): Promise<ResendSendResult> {
   const apiKey = process.env.RESEND_API_KEY?.trim();
   if (!apiKey) {

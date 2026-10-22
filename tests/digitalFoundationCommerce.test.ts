@@ -19,6 +19,7 @@ import { calculateQuoteTotals, buildQuoteLines } from '../shared/site00-digital-
 import { defaultDigitalFoundationCommercialConfig } from '../shared/site00-digital-foundation/commercialConfig.js';
 import { projectTimeline } from '../shared/site00-digital-foundation/timelineEngine.js';
 import { materializeFixtureScenario } from '../api/_lib/digitalFoundation/service.js';
+import { completeIntakeWithContactPhone } from './helpers/dfTestContactPhone.js';
 import { findReferralByKind, seedReferralSources } from '../shared/site00-digital-foundation/referralSources.js';
 
 describe('Digital Foundation quote + timeline', () => {
@@ -59,7 +60,7 @@ describe('Digital Foundation artifact lifecycle', () => {
 
   it('requires explicit disclosures before checkout', async () => {
     const a = createArtifactForLead({});
-    completeIntake(a.artifact_id);
+    completeIntakeWithContactPhone(a.artifact_id);
     expect(() => acceptQuote({ artifact_id: a.artifact_id, disclosures: ['partial'] })).toThrow(
       /DISCLOSURE_REQUIRED/,
     );
@@ -67,7 +68,7 @@ describe('Digital Foundation artifact lifecycle', () => {
 
   it('confirms payment only via webhook simulation', async () => {
     const a = createArtifactForLead({});
-    completeIntake(a.artifact_id);
+    completeIntakeWithContactPhone(a.artifact_id);
     acceptQuote({
       artifact_id: a.artifact_id,
       disclosures: [
@@ -127,7 +128,7 @@ describe('Digital Foundation artifact lifecycle', () => {
 
   it('quote versioning on client edit', () => {
     const a = createArtifactForLead({});
-    completeIntake(a.artifact_id);
+    completeIntakeWithContactPhone(a.artifact_id);
     const v1 = getArtifactPayload(a.artifact_id).quote!.quote_version;
     updateQuoteSelections(a.artifact_id, [{ addon_id: 'ADDITIONAL_MAILBOX', quantity: 2 }]);
     const v2 = getArtifactPayload(a.artifact_id).quote!.quote_version;

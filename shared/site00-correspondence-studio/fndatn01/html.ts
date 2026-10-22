@@ -121,7 +121,9 @@ const DISPLAY_SPLIT_MARK: Record<'!' | '?', { file: string; w: number; h: number
 function displaySplitBangQuestion(ch: '!' | '?'): string {
   const m = DISPLAY_SPLIT_MARK[ch];
   const src = esc(`/site00-correspondence-studio/fndatn-01/marks/${m.file}`);
-  return `<img src="${src}" alt="${esc(ch)}" width="${m.w}" height="${m.h}" style="display:inline;height:1em;width:auto;vertical-align:-0.06em;border:0;margin:0" />`;
+  const height = ch === '?' ? '0.72em' : '0.76em';
+  const valign = ch === '?' ? '0.1em' : '0.08em';
+  return `<img src="${src}" alt="${esc(ch)}" width="${m.w}" height="${m.h}" style="display:inline-block;height:${height};width:auto;vertical-align:${valign};border:0;margin:0" />`;
 }
 
 function displayLineHtml(line: string): string {

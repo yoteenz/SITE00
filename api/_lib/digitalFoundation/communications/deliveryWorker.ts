@@ -34,7 +34,10 @@ export type ProcessIntentResult = { intent: CommunicationSendIntent; blocked?: s
 /**
  * Attempt provider delivery for one intent. Never marks DELIVERED — only ACCEPTED when Resend accepts the API call.
  */
-export async function processSendIntent(intentId: string, opts: { forceDryRun?: boolean } = {}): Promise<ProcessIntentResult> {
+export async function processSendIntent(
+  intentId: string,
+  opts: { forceDryRun?: boolean; e2eRunAuthorized?: boolean } = {},
+): Promise<ProcessIntentResult> {
   const state = mem.getDfMemoryState();
   const intent = [...state.sendIntents.values()].find((i) => i.intent_id === intentId);
   if (!intent) throw new Error('INTENT_NOT_FOUND');
@@ -61,10 +64,13 @@ export async function processSendIntent(intentId: string, opts: { forceDryRun?: 
   }
 
   const sendFlag = isDfCommunicationFlagEnabled(DF_COMM_FEATURE_FLAGS.SITE00_DF_TRANSACTIONAL_EMAIL_SEND);
-  if (!sendFlag && !opts.forceDryRun) {
+  if (!sendFlag && !opts.forceDryRun && !opts.e2eRunAuthorized) {
     intent.status = 'DRY_RUN';
     intent.delivery_channel = 'NONE';
     return { intent, blocked: 'SITE00_DF_TRANSACTIONAL_EMAIL_SEND is off' };
+  }
+  if (opts.e2eRunAuthorized && !sendFlag) {
+    return { intent, blocked: 'E2E run still requires SITE00_DF_TRANSACTIONAL_EMAIL_SEND=1 on API' };
   }
 
   if (!supportsFndatnTemplate(intent.template_id)) {

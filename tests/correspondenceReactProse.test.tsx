@@ -20,7 +20,7 @@ describe('CorrespondenceProse (live pages)', () => {
     expect(displayLineEndsWithSplitMark('YOUR BLUEPRINT')).toBe(false);
     const html = renderToStaticMarkup(<CorrespondenceDisplayLine line="IT FEEL?" />);
     expect(html).toContain('marks/question.png');
-    expect(html).toContain('correspondence-display-split');
+    expect(html).toContain('correspondence-display-split--question');
     expect(html).not.toContain('bs-dot');
   });
 

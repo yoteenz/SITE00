@@ -1,0 +1,9 @@
+# Railway config for staging SPA service (carefree-luck) only.
+# In Railway: carefree-luck → Settings → Config-as-code → path = railway-spa.toml
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+startCommand = "npm run start:spa"
+healthcheckPath = "/"
+restartPolicyType = "ON_FAILURE"

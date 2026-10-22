@@ -13,6 +13,11 @@ DirectoryIndex index.html
   # App route prefixes — rewrite even when a physical directory exists on the host (e.g. projects/).
   RewriteRule ^(projects|services|control|origin|studio-world|admin|app|assts|idnty|bldr|evolve|validation|astral-world|bluprint|build|live|system|sign-in|identity|register|create-account)(/.*)?$ index.html [L,QSA]
 
+  # Missing hashed bundles must 404 — never serve index.html as JavaScript (Safari blank screen after deploy).
+  RewriteCond %{REQUEST_URI} ^/assets/
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule . - [R=404,L]
+
   # Static assets and real files/directories.
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d

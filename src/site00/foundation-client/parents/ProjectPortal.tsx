@@ -1,13 +1,37 @@
 /** Family C — client project portal (P07–P10, records, communication preferences). */
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import type { ClientDigitalFoundationPayload } from '../../../../shared/site00-digital-foundation/clientProjection.js';
 import {
   buildClientRecords,
   type ClientRecordCategory,
+  type ClientRecordRow,
 } from '../../../../shared/site00-digital-foundation/clientRecords.js';
 import { stageLabel } from '../../../../shared/site00-digital-foundation/projectStages.js';
-import type { ClientActionRequest, ProjectStageCode } from '../../../../shared/site00-digital-foundation/types.js';
+import type {
+  ClientActionRequest,
+  ClientActionType,
+  ProjectStageCode,
+} from '../../../../shared/site00-digital-foundation/types.js';
 import { completeClientAction } from '../api';
+import {
+  DfBackLink,
+  DfBoardList,
+  DfBoardRow,
+  DfDecisionLine,
+  DfDuo,
+  DfHonestNote,
+  DfIdCard,
+  DfKv,
+  DfMachine,
+  DfPanel,
+  DfPill,
+  DfTabs,
+  type DfKvRow,
+} from '../boardKit';
+import { dfInputDisplayUpper } from '../dfInputText';
+import { DfThresholdHero } from '../objects';
+import { formatUsPhoneDisplay } from '../phoneFormat';
+import { DF_REVIEW_INERT_MESSAGE, useDfReviewInert } from '../reviewInert';
 import {
   activationTurnaround,
   deriveActivationState,
@@ -15,7 +39,7 @@ import {
   isPaidState,
   type VerifyPhase,
 } from '../model';
-import { DfIcon } from '../icons';
+import { DfIcon, type DfIconName } from '../icons';
 import { DfCta, DfHeadline, DfLede, DfRail, DfTrust } from '../shell';
 import { SpecRow } from './CheckoutActivation';
 
@@ -43,6 +67,8 @@ export function P07ProjectOverview({
   onStage,
   onActivation,
   onPrefs,
+  onComplete,
+  onLocation,
 }: {
   payload: ClientDigitalFoundationPayload;
   verify: VerifyPhase;
@@ -52,7 +78,10 @@ export function P07ProjectOverview({
   onStage: (code: ProjectStageCode) => void;
   onActivation: () => void;
   onPrefs: () => void;
+  onComplete?: () => void;
+  onLocation?: () => void;
 }) {
+  const complete = payload.artifact.completion_state === 'COMPLETE';
   const state = deriveActivationState(payload, verify);
   const paid = isPaidState(state);
   const open = payload.client_actions.filter((a) => a.status === 'OPEN');
@@ -83,6 +112,31 @@ export function P07ProjectOverview({
           />
         )}
       </ul>
+      {complete && (onComplete || onLocation) && (
+        <DfPanel label="FOUNDATION MILESTONE">
+          <DfBoardList>
+            {onComplete && (
+              <DfBoardRow
+                rowId="milestone-complete"
+                icon="check"
+                iconTone="success"
+                title="YOUR FOUNDATION IS COMPLETE"
+                sub="VERIFIED STATUS AND RECORD SUMMARY"
+                onOpen={onComplete}
+              />
+            )}
+            {onLocation && (
+              <DfBoardRow
+                rowId="milestone-location"
+                icon="domain"
+                title="YOUR DIGITAL LOCATION"
+                sub="NEXT THRESHOLD — OPTIONAL"
+                onOpen={onLocation}
+              />
+            )}
+          </DfBoardList>
+        </DfPanel>
+      )}
       {open.length > 0 && (
         <section className="df-section" aria-labelledby="df-needs-h">
           <h2 className="df-section__label df-section__label--red" id="df-needs-h">
@@ -207,34 +261,140 @@ export function P09StageDetail({
   );
 }
 
+const APPROVAL_ACTIONS = new Set<ClientActionType>(['APPROVE_SIGNATURE', 'APPROVE_DOMAIN', 'APPROVE_DNS_CHANGE', 'REVIEW_FINAL_RECORD']);
+
+const ACTION_ICON: Partial<Record<ClientActionType, DfIconName>> = {
+  APPROVE_SIGNATURE: 'signature',
+  APPROVE_DOMAIN: 'domain',
+  CHOOSE_DOMAIN: 'domain',
+  AUTHORIZE_DOMAIN_TRANSFER: 'domain',
+  PROVIDE_DOMAIN_ACCESS: 'lock',
+  PROVIDE_PROVIDER_ACCESS: 'lock',
+  AUTHORIZE_PROVIDER: 'lock',
+  APPROVE_DNS_CHANGE: 'server',
+  CHOOSE_EMAIL_ADDRESS: 'email',
+  CONFIRM_EMAIL_ADDRESS: 'email',
+  CONFIRM_PRIMARY_EMAIL: 'email',
+  CONFIRM_RECOVERY_EMAIL: 'email',
+  CONNECT_DEVICE: 'device',
+  COMPLETE_DEVICE_SETUP: 'device',
+  REVIEW_FINAL_RECORD: 'document',
+};
+
+const COUNT_WORD = ['NO', 'ONE', 'TWO', 'THREE', 'FOUR', 'FIVE'];
+
+function countWord(n: number): string {
+  return COUNT_WORD[n] ?? String(n);
+}
+
+function isApprovalAction(a: ClientActionRequest): boolean {
+  return APPROVAL_ACTIONS.has(a.action_type);
+}
+
+/** Signature preview fields — only what the project actually holds. */
+export function signaturePreviewFields(payload: ClientDigitalFoundationPayload) {
+  const intake = payload.artifact.intake;
+  const o = payload.ownership_record;
+  return {
+    business: intake.business_name || payload.lead.business_name || o?.business || null,
+    person: intake.contact_name || payload.lead.contact_name || null,
+    mailbox: o?.primary_mailbox ?? null,
+    phone: intake.phone ? formatUsPhoneDisplay(intake.phone) : null,
+    site: o?.domain ?? intake.existing_domain ?? null,
+  };
+}
+
+function SignaturePreview({ payload }: { payload: ClientDigitalFoundationPayload }) {
+  const f = signaturePreviewFields(payload);
+  const lines: { icon: DfIconName; value: string }[] = [];
+  if (f.mailbox) lines.push({ icon: 'email', value: f.mailbox });
+  if (f.phone) lines.push({ icon: 'telephone', value: f.phone });
+  if (f.site) lines.push({ icon: 'domain', value: f.site });
+  return (
+    <DfPanel label="BUSINESS SIGNATURE PREVIEW" className="df-sigcard">
+      <div className="df-sigcard__grid" style={f.person ? undefined : { gridTemplateColumns: 'minmax(0, 1fr)' }}>
+        <div>
+          <p className="df-sigcard__business">{(f.business ?? 'YOUR BUSINESS').toUpperCase()}</p>
+          {f.person && <p className="df-sigcard__person">{f.person.toUpperCase()}</p>}
+          {lines.length > 0 && (
+            <ul className="df-sigcard__lines">
+              {lines.map((l) => (
+                <li key={l.icon}>
+                  <DfIcon name={l.icon} />
+                  <DfMachine>{l.value}</DfMachine>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        {f.person && (
+          <div className="df-sigcard__mark" aria-hidden="true">
+            <span className="df-sigcard__script">{f.person}</span>
+            <span className="df-sigcard__caption">{f.person.toUpperCase()}</span>
+          </div>
+        )}
+      </div>
+    </DfPanel>
+  );
+}
+
 function ActionWorkspace({
   action,
+  payload,
   busy,
-  onApprove,
-  onRequestChange,
-  onProvide,
+  onRespond,
 }: {
   action: ClientActionRequest;
+  payload: ClientDigitalFoundationPayload;
   busy: boolean;
-  onApprove: () => void;
-  onRequestChange: () => void;
-  onProvide: (notes: string) => void;
+  onRespond: (decision: 'APPROVE' | 'REQUEST_CHANGE', notes: string) => void;
 }) {
   const [notes, setNotes] = useState('');
+  const [changing, setChanging] = useState(false);
+  const approval = isApprovalAction(action);
   return (
-    <article className="df-action-card" data-action-id={action.request_id}>
-      <h3 className="df-action-card__title">{action.title.toUpperCase()}</h3>
-      <p className="df-action-card__body">{action.detail.toUpperCase()}</p>
-      <label className="df-field">
-        <span className="df-field__label">YOUR NOTES (OPTIONAL)</span>
-        <textarea className="df-input df-input--area" rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} />
-      </label>
-      <div className="df-actions df-actions--inline">
-        <DfCta label="APPROVE" busy={busy} onClick={onApprove} />
-        <DfCta tone="outline" label="REQUEST CHANGES" busy={busy} onClick={onRequestChange} />
-        <DfCta tone="outline" label="SUBMIT INFORMATION" busy={busy} onClick={() => onProvide(notes)} />
-      </div>
-    </article>
+    <div className="df-action" data-action-id={action.request_id}>
+      <DfPanel>
+        <DfIdCard
+          icon={ACTION_ICON[action.action_type] ?? 'approval'}
+          title={action.title.toUpperCase()}
+          sub={action.detail.toUpperCase()}
+          aside={<DfPill tone="alert">{approval ? 'AWAITING APPROVAL' : 'AWAITING YOU'}</DfPill>}
+        />
+      </DfPanel>
+      {action.action_type === 'APPROVE_SIGNATURE' && <SignaturePreview payload={payload} />}
+      {(changing || !approval) && (
+        <label className="df-field df-action__notes">
+          <span className="df-field__label">{approval ? 'WHAT SHOULD CHANGE?' : 'YOUR RESPONSE'}</span>
+          <textarea
+            className="df-input df-input--area"
+            rows={3}
+            value={notes}
+            onChange={(e) => setNotes(dfInputDisplayUpper(e.target.value))}
+          />
+        </label>
+      )}
+      <DfDuo>
+        {approval ? (
+          <DfCta label="APPROVE" busy={busy} action="approve" onClick={() => onRespond('APPROVE', '')} />
+        ) : (
+          <DfCta label="SUBMIT" busy={busy} action="submit-information" onClick={() => onRespond('APPROVE', notes)} />
+        )}
+        <DfCta
+          tone="outline"
+          label={changing ? 'SEND CHANGE' : 'REQUEST CHANGE'}
+          busy={busy}
+          action="request-change"
+          onClick={() => {
+            if (!changing && approval) {
+              setChanging(true);
+              return;
+            }
+            onRespond('REQUEST_CHANGE', notes || 'PLEASE REVISE.');
+          }}
+        />
+      </DfDuo>
+    </div>
   );
 }
 
@@ -249,17 +409,34 @@ export function P10NeedsYou({
   onReload: () => Promise<unknown>;
   onOverview: () => void;
 }) {
+  const inert = useDfReviewInert();
   const open = payload.client_actions.filter((a) => a.status === 'OPEN');
   const done = payload.client_actions.filter((a) => a.status === 'COMPLETED');
   const [busyId, setBusyId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
+  const approvals = open.filter(isApprovalAction);
+  const headline = !open.length
+    ? ['NOTHING', 'NEEDS YOU', 'RIGHT NOW']
+    : approvals.length
+      ? ['WE NEED', 'YOUR', 'APPROVAL']
+      : ['WE NEED', 'YOUR', 'INPUT'];
+  const n = open.length;
+  const primary = approvals[0] ?? open[0];
+  const rest = open.filter((a) => a !== primary);
 
-  const respond = async (action: ClientActionRequest, decision: 'APPROVE' | 'REQUEST_CHANGE', notes?: string) => {
+  const respond = async (action: ClientActionRequest, decision: 'APPROVE' | 'REQUEST_CHANGE', notes: string) => {
     setError(null);
+    setNotice(null);
+    if (inert) {
+      setNotice(DF_REVIEW_INERT_MESSAGE);
+      return;
+    }
     setBusyId(action.request_id);
     try {
-      await completeClientAction(token, action.request_id, { decision, notes: notes ?? '', target_version: 1 });
+      await completeClientAction(token, action.request_id, { decision, notes, target_version: 1 });
       await onReload();
+      setNotice(decision === 'APPROVE' ? 'RECEIVED. SITE 00 CONTINUES YOUR FOUNDATION.' : 'CHANGE REQUEST RECEIVED. SITE 00 WILL REVISE AND RETURN IT TO YOU.');
     } catch {
       setError('WE COULD NOT SAVE YOUR RESPONSE. PLEASE TRY AGAIN.');
     } finally {
@@ -269,40 +446,88 @@ export function P10NeedsYou({
 
   return (
     <>
-      <DfRail index="10" label="NEEDS YOU" />
-      <DfHeadline lines={['YOUR', 'ACTIONS']} />
-      <DfLede>REVIEW EACH REQUEST, APPROVE, REQUEST CHANGES, OR SUBMIT INFORMATION. SITE 00 PROCESSES YOUR RESPONSE ON THE SERVER.</DfLede>
-      {error && <p className="df-field__error" role="alert">{error}</p>}
-      {!open.length && <p className="df-section__note">NO OPEN REQUESTS RIGHT NOW. CHECK BACK WHEN SITE 00 NEEDS SOMETHING FROM YOU.</p>}
-      {open.map((a) => (
+      <DfRail index="10" label="NEEDS YOU + APPROVAL" />
+      <DfHeadline lines={headline} />
+      <DfLede>
+        {n
+          ? `${countWord(n)} ITEM${n === 1 ? ' NEEDS' : 'S NEED'} YOUR REVIEW BEFORE SITE 00 CAN CONTINUE. ONCE YOU RESPOND, SITE 00 PROCESSES IT ON THE SERVER AND CONTINUES YOUR FOUNDATION.`
+          : 'SITE 00 WILL ASK HERE WHEN A DECISION, APPROVAL OR DETAIL IS NEEDED FROM YOU. YOUR PROJECT KEEPS MOVING IN THE MEANTIME.'}
+      </DfLede>
+      {primary && (
         <ActionWorkspace
-          key={a.request_id}
-          action={a}
-          busy={busyId === a.request_id}
-          onApprove={() => void respond(a, 'APPROVE')}
-          onRequestChange={() => void respond(a, 'REQUEST_CHANGE', 'Please revise.')}
-          onProvide={(notes) => void respond(a, 'APPROVE', notes)}
+          key={primary.request_id}
+          action={primary}
+          payload={payload}
+          busy={busyId === primary.request_id}
+          onRespond={(decision, notes) => void respond(primary, decision, notes)}
         />
-      ))}
-      {done.length > 0 && (
-        <section className="df-section">
-          <h2 className="df-section__label">COMPLETED</h2>
-          <ul className="df-specs">
-            {done.slice(0, 5).map((a) => (
-              <SpecRow key={a.request_id} icon="check" label={a.title.toUpperCase()} sub="COMPLETED" wide />
+      )}
+      {error && (
+        <p className="df-field__error" role="alert">
+          {error}
+        </p>
+      )}
+      {notice && <DfHonestNote>{notice}</DfHonestNote>}
+      {n > 0 && (
+        <DfDecisionLine
+          title={`${countWord(n)} ITEM${n === 1 ? ' REQUIRES' : 'S REQUIRE'} YOUR DECISION.`}
+          sub="WE WILL CONTINUE ONCE YOU RESPOND."
+        />
+      )}
+      {rest.length > 0 && (
+        <DfPanel label="ALSO NEEDS YOU">
+          <DfBoardList>
+            {rest.map((a) => (
+              <DfBoardRow
+                key={a.request_id}
+                icon={ACTION_ICON[a.action_type] ?? 'approval'}
+                title={a.title.toUpperCase()}
+                sub={a.detail.toUpperCase()}
+                aside={<DfPill tone="alert">{isApprovalAction(a) ? 'APPROVAL' : 'ACTION'}</DfPill>}
+              />
             ))}
-          </ul>
-        </section>
+          </DfBoardList>
+        </DfPanel>
+      )}
+      {done.length > 0 && (
+        <DfPanel label="COMPLETED">
+          <DfBoardList>
+            {done.slice(0, 5).map((a) => (
+              <DfBoardRow key={a.request_id} icon="check" title={a.title.toUpperCase()} aside={<DfPill tone="ok">COMPLETE</DfPill>} />
+            ))}
+          </DfBoardList>
+        </DfPanel>
       )}
       <div className="df-actions">
         <DfCta tone="outline" label="BACK TO OVERVIEW" onClick={onOverview} />
       </div>
-      <DfTrust text="SAFE. SECURE. ON TRACK." />
+      <DfTrust text="YOUR INFORMATION IS SECURE." />
     </>
   );
 }
 
-const RECORD_FILTERS: ClientRecordCategory[] = ['ALL', 'DOMAIN', 'EMAIL', 'SECURITY', 'PAYMENTS', 'PROJECT'];
+const RECORD_TABS: ClientRecordCategory[] = ['ALL', 'DOMAIN', 'EMAIL', 'SECURITY', 'PAYMENTS'];
+
+const RECORD_ICON: Record<ClientRecordRow['category'], DfIconName> = {
+  DOMAIN: 'domain',
+  EMAIL: 'email',
+  SECURITY: 'security',
+  PAYMENTS: 'receipt',
+  PROJECT: 'roadmap',
+};
+
+const SETTLED_STATUS = new Set(['ACTIVE', 'VERIFIED', 'COMPLETE', 'CONFIGURED', 'PROTECTED']);
+
+export function recordStatusTone(status: string): 'ok' | 'neutral' {
+  return SETTLED_STATUS.has(status) ? 'ok' : 'neutral';
+}
+
+function shortDate(iso: string | null | undefined): string | null {
+  if (!iso) return null;
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return null;
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
+}
 
 export function RecordsLibrary({
   payload,
@@ -316,34 +541,117 @@ export function RecordsLibrary({
   const [filter, setFilter] = useState<ClientRecordCategory>('ALL');
   const rows = buildClientRecords(payload);
   const shown = filter === 'ALL' ? rows : rows.filter((r) => r.category === filter);
+  const tabs = RECORD_TABS.map((id) => ({
+    id,
+    label: id,
+    count: id === 'ALL' ? rows.length : rows.filter((r) => r.category === id).length,
+  }));
   return (
     <>
-      <DfRail index="—" label="MY RECORDS" />
-      <DfHeadline lines={['YOUR', 'RECORDS']} />
-      <DfLede>VERIFIED PROJECT AND OWNERSHIP RECORDS SITE 00 HAS ON FILE. NO DOCUMENT IS SHOWN UNLESS IT EXISTS IN YOUR PROJECT.</DfLede>
-      <div className="df-chips" role="tablist" aria-label="RECORD CATEGORIES">
-        {RECORD_FILTERS.map((f) => (
-          <button key={f} type="button" role="tab" aria-selected={filter === f} className={`df-chip${filter === f ? ' df-chip--on' : ''}`} onClick={() => setFilter(f)}>
-            {f}
-          </button>
-        ))}
-      </div>
-      {!shown.length && <p className="df-section__note">NO RECORDS IN THIS CATEGORY YET.</p>}
-      <ul className="df-specs">
-        {shown.map((r) => (
-          <li key={r.id}>
-            <button type="button" className="df-specs__rowbtn" onClick={() => onOpen(r.id)}>
-              <SpecRow icon="document" label={r.title} sub={r.category} value={r.status} wide />
-            </button>
-          </li>
-        ))}
-      </ul>
+      <DfRail index="13A" label="VIEW MY RECORDS" />
+      <DfHeadline lines={['YOUR', 'RECORDS', 'ALL IN ONE PLACE']} />
+      <DfLede>
+        ACCESS AND REVIEW THE VERIFIED RECORDS FOR YOUR DIGITAL FOUNDATION. ONLY RECORDS THAT EXIST IN YOUR PROJECT ARE SHOWN.
+        CREDENTIALS AND SECRETS NEVER APPEAR HERE.
+      </DfLede>
+      <DfTabs tabs={tabs} value={filter} onChange={setFilter} label="RECORD CATEGORIES" />
+      {shown.length ? (
+        <DfPanel>
+          <DfBoardList label="RECORDS">
+            {shown.map((r) => (
+              <DfBoardRow
+                key={r.id}
+                rowId={r.id}
+                icon={RECORD_ICON[r.category]}
+                title={r.title}
+                sub={r.subject ? <DfMachine>{r.subject}</DfMachine> : r.summary}
+                meta={r.subject ? r.summary : shortDate(r.date) ?? undefined}
+                aside={<DfPill tone={recordStatusTone(r.status)}>{r.status}</DfPill>}
+                onOpen={() => onOpen(r.id)}
+              />
+            ))}
+          </DfBoardList>
+        </DfPanel>
+      ) : (
+        <p className="df-section__note">NO RECORDS IN THIS CATEGORY YET. SITE 00 ADDS THEM AS EACH PART OF YOUR FOUNDATION IS VERIFIED.</p>
+      )}
       <div className="df-actions">
-        <DfCta tone="outline" label="BACK TO OVERVIEW" onClick={onOverview} />
+        <DfCta label="DOWNLOAD ALL RECORDS" disabled action="download-all-records" />
       </div>
-      <DfTrust text="SAFE. SECURE. ON TRACK." />
+      <DfHonestNote>RECORD DOWNLOADS OPEN WHEN SITE 00 PUBLISHES YOUR RECORD DOCUMENTS.</DfHonestNote>
+      <div className="df-actions">
+        <DfCta tone="text" label="BACK TO OVERVIEW" onClick={onOverview} />
+      </div>
+      <DfTrust text="SECURE. YOUR INFORMATION." />
     </>
   );
+}
+
+type RecordDetailTab = 'OVERVIEW' | 'DOCUMENTS' | 'SETTINGS' | 'HISTORY';
+
+const RECORD_STAGE: Partial<Record<ClientRecordRow['category'], ProjectStageCode[]>> = {
+  DOMAIN: ['02_DOMAIN'],
+  EMAIL: ['03_PROFESSIONAL_EMAIL'],
+  SECURITY: ['04_DNS_SECURITY'],
+};
+
+function recordDetailRows(row: ClientRecordRow, payload: ClientDigitalFoundationPayload): DfKvRow[] {
+  const o = payload.ownership_record;
+  const out: DfKvRow[] = [];
+  const push = (label: string, value: ReactNode | null | undefined, tone?: DfKvRow['tone']) => {
+    if (value === null || value === undefined || value === '') return;
+    out.push({ label, value, tone });
+  };
+  switch (row.category) {
+    case 'DOMAIN':
+      push('DOMAIN', o?.domain ? <DfMachine>{o.domain}</DfMachine> : null);
+      push('REGISTRAR', o?.registrar?.toUpperCase());
+      push('RENEWAL DATE', shortDate(o?.renewal_date));
+      push('DNS', o?.dns_status?.replace(/_/g, ' ').toUpperCase());
+      push('STATUS', row.status, recordStatusTone(row.status) === 'ok' ? 'ok' : undefined);
+      break;
+    case 'EMAIL':
+      push('MAILBOX', o?.primary_mailbox ? <DfMachine>{o.primary_mailbox}</DfMachine> : null);
+      push('PROVIDER', o?.email_provider?.toUpperCase());
+      push('ALIASES', o?.aliases.length ? <DfMachine>{o.aliases.join(', ')}</DfMachine> : null);
+      push('STATUS', row.status, 'ok');
+      break;
+    case 'SECURITY':
+      push('DNS', o?.dns_status?.replace(/_/g, ' ').toUpperCase());
+      push('EMAIL SECURITY', o?.security_status?.replace(/_/g, ' ').toUpperCase());
+      push('COVERAGE', 'SPF, DKIM, DMARC');
+      break;
+    case 'PAYMENTS':
+      push('QUOTE', payload.quote ? `V${payload.quote.quote_version}` : null);
+      push('AMOUNT', payload.quote ? formatMoney(payload.quote.subtotal_minor, payload.quote.currency) : null);
+      push('ACCEPTED', shortDate(payload.acceptance?.accepted_at));
+      push('STATUS', row.status, 'ok');
+      break;
+    case 'PROJECT':
+      push('PROGRESS', row.summary);
+      push('STATUS', row.status, recordStatusTone(row.status) === 'ok' ? 'ok' : undefined);
+      break;
+  }
+  push('OWNER', (o?.owner ?? o?.business)?.toUpperCase());
+  push('ACCESS MODEL', o?.administrative_access_model?.toUpperCase());
+  return out;
+}
+
+function recordHistory(row: ClientRecordRow, payload: ClientDigitalFoundationPayload): { label: string; date: string }[] {
+  const codes = RECORD_STAGE[row.category];
+  const out: { label: string; date: string }[] = [];
+  if (row.category === 'PAYMENTS' && payload.acceptance?.accepted_at) {
+    out.push({ label: 'QUOTE ACCEPTED', date: payload.acceptance.accepted_at });
+  }
+  for (const s of payload.stages) {
+    if (codes && !codes.includes(s.stage_code)) continue;
+    if (!codes && row.category !== 'PROJECT') continue;
+    out.push({ label: `${stageLabel(s.stage_code).toUpperCase()} · ${STAGE_STATUS[s.status] ?? s.status}`, date: s.updated_at });
+  }
+  if (payload.artifact.completed_at && (row.category === 'PROJECT' || codes)) {
+    out.push({ label: 'FOUNDATION VERIFIED COMPLETE', date: payload.artifact.completed_at });
+  }
+  return out.sort((a, b) => b.date.localeCompare(a.date));
 }
 
 export function RecordDetail({
@@ -355,30 +663,98 @@ export function RecordDetail({
   recordId: string;
   onBack: () => void;
 }) {
+  const [tab, setTab] = useState<RecordDetailTab>('OVERVIEW');
   const row = buildClientRecords(payload).find((r) => r.id === recordId);
-  const o = payload.ownership_record;
+  const business = payload.artifact.intake.business_name || payload.lead.business_name || payload.ownership_record?.business || null;
+  if (!row) {
+    return (
+      <>
+        <DfBackLink label="VIEW MY RECORDS" onClick={onBack} />
+        <DfHeadline lines={['RECORD', 'NOT FOUND']} />
+        <DfLede>THIS RECORD IS NOT AVAILABLE ON YOUR PROJECT. RETURN TO YOUR RECORDS TO SEE WHAT SITE 00 HAS ON FILE.</DfLede>
+        <DfTrust text="SECURE. VERIFIED. YOURS." />
+      </>
+    );
+  }
+  const history = recordHistory(row, payload);
   return (
     <>
-      <DfRail index="—" label="RECORD DETAIL" />
-      <DfHeadline lines={row ? [row.title] : ['RECORD', 'NOT FOUND']} />
-      {!row && <p className="df-section__note">THIS RECORD IS NOT AVAILABLE.</p>}
-      {row && (
-        <ul className="df-specs">
-          <SpecRow icon="document" label={row.status} sub="STATUS" wide />
-          <SpecRow icon="layers" label={row.summary} sub="SUMMARY" wide />
-          {row.date && <SpecRow icon="clock" label={row.date} sub="RELEVANT DATE" wide />}
-        </ul>
+      <DfBackLink label="VIEW MY RECORDS" onClick={onBack} />
+      <DfIdCard
+        icon={RECORD_ICON[row.category]}
+        title={row.title}
+        sub={row.subject ? <DfMachine>{row.subject}</DfMachine> : row.summary}
+        aside={<DfPill tone={recordStatusTone(row.status)}>{row.status}</DfPill>}
+      />
+      <DfTabs
+        tabs={[
+          { id: 'OVERVIEW', label: 'OVERVIEW' },
+          { id: 'DOCUMENTS', label: 'DOCUMENTS' },
+          { id: 'SETTINGS', label: 'SETTINGS' },
+          { id: 'HISTORY', label: 'HISTORY' },
+        ]}
+        value={tab}
+        onChange={setTab}
+        label="RECORD SECTIONS"
+      />
+      {tab === 'OVERVIEW' && (
+        <>
+          <div className="df-panel df-recordhero" aria-hidden="true">
+            <DfThresholdHero />
+            <span className="df-recordhero__name">{(business ?? row.title).toUpperCase()}</span>
+            {row.subject && (
+              <span className="df-recordhero__sub">
+                <DfMachine>{row.subject}</DfMachine>
+              </span>
+            )}
+          </div>
+          <DfPanel label="RECORD DETAILS">
+            <DfKv rows={recordDetailRows(row, payload)} />
+          </DfPanel>
+        </>
       )}
-      {row?.category === 'DOMAIN' && o?.domain && (
-        <p className="df-section__note">OWNERSHIP AND RENEWAL DETAILS ARE MANAGED BY SITE 00. CREDENTIALS ARE NEVER SHOWN HERE.</p>
+      {tab === 'DOCUMENTS' && (
+        <DfPanel label="DOCUMENTS">
+          <p className="df-panel__body df-section__note">
+            NO DOCUMENTS ARE ON FILE FOR THIS RECORD YET. SITE 00 ADDS THEM HERE WHEN THEY EXIST — NOTHING IS GENERATED FOR DISPLAY.
+          </p>
+        </DfPanel>
+      )}
+      {tab === 'SETTINGS' && (
+        <DfPanel label="SETTINGS">
+          <DfKv
+            rows={[
+              { label: 'MANAGED BY', value: 'SITE 00' },
+              ...(payload.ownership_record?.administrative_access_model
+                ? [{ label: 'ACCESS MODEL', value: payload.ownership_record.administrative_access_model.toUpperCase() }]
+                : []),
+              { label: 'CREDENTIALS', value: 'NEVER SHOWN HERE' },
+            ]}
+          />
+        </DfPanel>
+      )}
+      {tab === 'HISTORY' && (
+        <DfPanel label="HISTORY">
+          {history.length ? (
+            <DfBoardList>
+              {history.map((h) => (
+                <DfBoardRow key={`${h.label}-${h.date}`} icon="time" title={h.label} aside={shortDate(h.date)} />
+              ))}
+            </DfBoardList>
+          ) : (
+            <p className="df-panel__body df-section__note">NO DATED EVENTS FOR THIS RECORD YET.</p>
+          )}
+        </DfPanel>
       )}
       <div className="df-actions">
-        <DfCta tone="outline" label="BACK TO RECORDS" onClick={onBack} />
+        <DfCta label="DOWNLOAD RECORD" disabled action="download-record" />
       </div>
-      <DfTrust text="SAFE. SECURE. ON TRACK." />
+      <DfHonestNote>DOWNLOAD OPENS WHEN SITE 00 PUBLISHES A DOCUMENT FOR THIS RECORD.</DfHonestNote>
+      <DfTrust text="SECURE. VERIFIED. YOURS." />
     </>
   );
 }
+
 
 export type CommunicationPrefs = {
   marketing_opt_in: boolean;

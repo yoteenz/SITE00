@@ -1,56 +1,32 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { SITE00_ROUTES } from '../../../config/routes';
-import { foundationAdminApi, type PipelineRow } from '../../services/foundationAdminApi';
+import { useNavigate } from 'react-router-dom';
+import { DfLoading, DfSystemPanel } from '../../../foundation-client/shell';
+import { foundationAdminApi, type FoundationPipelineView } from '../../services/foundationAdminApi';
+import { FounderPipelineBoard } from './boards/FounderBoards';
+import { founderBoardPath } from './boards/founderBoardRoutes';
 
+/** Board 13 — foundation pipeline (admin, founder session). */
 export default function FoundationPipelinePage() {
-  const [rows, setRows] = useState<PipelineRow[]>([]);
+  const navigate = useNavigate();
+  const [view, setView] = useState<FoundationPipelineView | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     foundationAdminApi
       .pipeline()
-      .then((j) => setRows(j.rows ?? []))
+      .then(setView)
       .catch((e) => setError(e instanceof Error ? e.message : String(e)));
   }, []);
 
+  if (error) {
+    return <DfSystemPanel index="13" label="FOUNDATION PIPELINE" lines={["WE COULDN'T", 'LOAD THIS']} body={error.toUpperCase()} />;
+  }
+  if (!view) return <DfLoading />;
   return (
-    <div className="site00-admin-page">
-      <header>
-        <h1>Foundation pipeline (P13)</h1>
-        <p>
-          <Link to={SITE00_ROUTES.digitalFoundationAdmin}>← All artifacts</Link>
-        </p>
-      </header>
-      {error && <p>{error}</p>}
-      <table className="site00-admin-table">
-        <thead>
-          <tr>
-            <th>Business</th>
-            <th>Payment</th>
-            <th>Stage</th>
-            <th>Next action</th>
-            <th>Blocker</th>
-            <th />
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((r) => (
-            <tr key={r.artifact_id}>
-              <td>{r.business_name ?? '—'}</td>
-              <td>{r.payment_state}</td>
-              <td>{r.current_stage ?? '—'}</td>
-              <td>{r.next_action ?? '—'}</td>
-              <td>{r.blocker ?? '—'}</td>
-              <td>
-                <Link to={SITE00_ROUTES.digitalFoundationProjectCommand.replace(':id', r.artifact_id)}>Command</Link>
-                {' · '}
-                <Link to={SITE00_ROUTES.digitalFoundationWorkbench.replace(':id', r.artifact_id)}>Workbench</Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <FounderPipelineBoard
+      rows={view.rows}
+      attention={view.attention}
+      onOpenProject={(id) => navigate(founderBoardPath('14', id))}
+    />
   );
 }

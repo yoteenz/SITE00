@@ -16,7 +16,17 @@
         : true;
   if (!shouldBoot) return;
 
-  var projectRef = 'hyycomvcaqxxvyrfupes';
+  function readSupabaseProjectRef() {
+    try {
+      var meta = document.querySelector('meta[name="site00-supabase-project-ref"]');
+      if (meta && meta.getAttribute('content')) return meta.getAttribute('content').trim();
+    } catch (e) {
+      /* ignore */
+    }
+    return 'hyycomvcaqxxvyrfupes';
+  }
+
+  var projectRef = readSupabaseProjectRef();
   var storageBase =
     'https://' + projectRef + '.supabase.co/storage/v1/object/public/live-preview/site00/';
   var isWide = window.matchMedia('(min-width: 768px)').matches;

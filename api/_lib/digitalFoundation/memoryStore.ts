@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import type {
   ApprovalRecord,
   ArtifactEvent,
@@ -12,6 +13,7 @@ import type {
   ReferralSource,
 } from '../../../shared/site00-digital-foundation/types.js';
 import type { BuildReadinessAssessment } from '../../../shared/site00-digital-foundation/types.js';
+import type { FoundationBuilderHandoffRecord } from '../../../shared/site00-digital-foundation/builderHandoff.js';
 import { seedReferralSources } from '../../../shared/site00-digital-foundation/referralSources.js';
 import { defaultDigitalFoundationCommercialConfig } from '../../../shared/site00-digital-foundation/commercialConfig.js';
 import type { CommunicationConsentRecord, CommunicationSendIntent } from '../../../shared/site00-digital-foundation/communications/types.js';
@@ -63,6 +65,17 @@ export type DfMemoryState = {
   sendIntents: Map<string, CommunicationSendIntent>;
   communicationConsents: Map<string, CommunicationConsentRecord>;
   projectMessages: Map<string, ProjectMessage[]>;
+  builderHandoffs: Map<string, FoundationBuilderHandoffRecord>;
+  /** Founder step-by-step live email journey (staging test desk). */
+  emailJourneySessions: Map<
+    string,
+    {
+      test_run_id: string;
+      contact_email: string;
+      completed_steps: string[];
+      started_at: string;
+    }
+  >;
 };
 
 let state: DfMemoryState | null = null;
@@ -98,6 +111,8 @@ export function getDfMemoryState(): DfMemoryState {
       sendIntents: new Map(),
       communicationConsents: new Map(),
       projectMessages: new Map(),
+      builderHandoffs: new Map(),
+      emailJourneySessions: new Map(),
     };
     if (isCloudMobilePreviewDev()) {
       mergePreviewSnapshotFromDisk(state);
@@ -115,10 +130,15 @@ export function resetDigitalFoundationMemoryStore(): void {
   state = null;
 }
 
+function hashPublicTokenForIndex(token: string): string {
+  return createHash('sha256').update(token, 'utf8').digest('hex');
+}
+
 export function memSaveArtifact(a: DigitalFoundationArtifact): void {
   const s = getDfMemoryState();
   s.artifacts.set(a.artifact_id, a);
   s.artifactsByToken.set(a.public_token, a.artifact_id);
+  s.artifactsByToken.set(hashPublicTokenForIndex(a.public_token), a.artifact_id);
   afterDfMutation();
 }
 
@@ -130,7 +150,8 @@ export function memGetArtifactByToken(token: string): DigitalFoundationArtifact 
   if (isCloudMobilePreviewDev()) {
     mergePreviewSnapshotFromDisk(getDfMemoryState());
   }
-  const id = getDfMemoryState().artifactsByToken.get(token);
+  const map = getDfMemoryState().artifactsByToken;
+  const id = map.get(token) ?? map.get(hashPublicTokenForIndex(token));
   return id ? memGetArtifact(id) : undefined;
 }
 
