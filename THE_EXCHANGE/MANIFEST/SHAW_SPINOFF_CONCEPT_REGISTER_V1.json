@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "1.0.0",
+  "expandedIpSlug": "shaw",
+  "parentProperty": "the-exchange",
+  "status": "PROVISIONAL",
+  "title": "SHAW",
+  "loglineStatus": "PROVISIONAL",
+  "logline": "Potential prequel/spinoff following Gideon Shaw's formative professional life before and during integration with the Lockwood / Exchange world.",
+  "creativeCompass": {
+    "note": "References are tonal benchmarks only — not plot canon.",
+    "references": [
+      "Character-driven espionage/action with resourcefulness and wit",
+      "Extraordinary competence and professional reputation"
+    ]
+  },
+  "proposedScope": [
+    "Military service",
+    "Executive protection career",
+    "Professional relationships",
+    "Personal history and romance (unspecified)",
+    "Circumstances leading to Richard Lockwood"
+  ],
+  "lockedFacts": [],
+  "founderApprovalStatus": "PENDING_REVIEW",
+  "relatedDocuments": [
+    "THE_EXCHANGE/FOUNDER_CANON/FOUNDER_CANON_V1_1_DELTAS.md",
+    "THE_EXCHANGE/MANIFEST/CHARACTER_VISUAL_REGISTRY_V1.json"
+  ]
+}

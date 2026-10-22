@@ -4,3 +4,4 @@ export * from './opusModel.js';
 export * from './contentHash.js';
 export * from './seedOrientation.js';
 export * from './memoryStore.js';
+export * from './characterVisualRegistry.js';

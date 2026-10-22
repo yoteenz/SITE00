@@ -1,0 +1,58 @@
+{
+  "propertySlug": "the-exchange",
+  "generatedAt": "2026-10-22",
+  "prStack": {
+    "fictionCanonInfrastructure": "https://github.com/yoteenz/SITE00/pull/1685",
+    "founderBibleIngest": "https://github.com/yoteenz/SITE00/pull/1686",
+    "canonVisualOpusPrep": "draft — this sprint branch"
+  },
+  "mergeStatus": {
+    "1685": "OPEN_DRAFT",
+    "1686": "OPEN_DRAFT"
+  },
+  "sources": [
+    {
+      "id": "master-bible-v1",
+      "path": "THE_EXCHANGE/FOUNDER_SOURCE/THE_EXCHANGE_MASTER_BIBLE_V1/",
+      "role": "SERIES_BIBLE_V1",
+      "approvalStatus": "WORKING_CONCEPT_DEFAULT",
+      "fictionCanonStableIds": "founder-*-v1"
+    },
+    {
+      "id": "founder-canon-v1-1-deltas",
+      "path": "THE_EXCHANGE/FOUNDER_CANON/FOUNDER_CANON_V1_1_DELTAS.md",
+      "role": "LATEST_FOUNDER_DELTAS",
+      "approvalStatus": "PROVISIONAL"
+    },
+    {
+      "id": "character-visual-handoff-oct22",
+      "path": "THE_EXCHANGE/FOUNDER_SOURCE/CHARACTER_VISUAL_HANDOFF_OCT22_2026/",
+      "role": "CHARACTER_VISUALS",
+      "approvalStatus": "MIXED_LOCKED_AND_PROVISIONAL"
+    },
+    {
+      "id": "character-visual-registry",
+      "path": "THE_EXCHANGE/MANIFEST/CHARACTER_VISUAL_REGISTRY_V1.json",
+      "role": "VISUAL_REGISTRY",
+      "approvalStatus": "DOCUMENTATION"
+    },
+    {
+      "id": "episode-slate",
+      "path": "THE_EXCHANGE/FOUNDER_SOURCE/THE_EXCHANGE_MASTER_BIBLE_V1/episode_slate.json",
+      "role": "EPISODE_STRUCTURE",
+      "approvalStatus": "WORKING_CONCEPT"
+    },
+    {
+      "id": "engine-audit",
+      "path": "docs/site00/the-exchange/engine-audit/",
+      "role": "INFRASTRUCTURE_AUDIT",
+      "approvalStatus": "REFERENCE"
+    },
+    {
+      "id": "founder-bible-ingest-deliverables",
+      "path": "docs/site00/the-exchange/founder-bible-ingest-v1/",
+      "role": "INGEST_VALIDATION",
+      "approvalStatus": "REFERENCE"
+    }
+  ]
+}

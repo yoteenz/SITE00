@@ -1,0 +1,22 @@
+{
+  "sprint": "P0.THE-EXCHANGE.CANON-VISUAL-CONSOLIDATION.OPUS-EVALUATION-PREP1",
+  "evaluationMode": "RIGOROUS_CRITIQUE",
+  "evaluatorRole": "Independent creative evaluator — not unapproved creative authority",
+  "paidExecutionAuthorized": false,
+  "inputPackageRoot": "docs/site00/the-exchange/opus-evaluation-prep-v1/",
+  "classificationLegend": {
+    "APPROVED_CANON": "Explicit founder-approved fact in fiction-canon or verified promotion",
+    "PROVISIONAL": "Working direction, deltas, or illustrative slate",
+    "SUPERSEDED": "Historical direction replaced (e.g., Sloane Mercer)",
+    "UNKNOWN": "Requires founder decision — do not infer"
+  },
+  "requiredOutputSections": "See shared/site00-fiction-canon/types.ts FICTION_EVALUATION_OUTPUT_SECTIONS",
+  "citationRequirement": "Cite stable document ids, bible section filenames, or registry paths for each major claim",
+  "prohibited": [
+    "Generic praise without evidence",
+    "Automatic approval ratings",
+    "Rewriting as if canon",
+    "Inventing missing mysteries",
+    "Treating image sheet text as biography"
+  ]
+}
