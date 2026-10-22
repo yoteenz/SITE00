@@ -122,3 +122,187 @@ describe('spatial feel paths — distinct creative resolution', () => {
     expect(new Set(sigs).size).toBe(3);
   });
 });
+
+/* ───────────── sprint acceptance A–O (source level) ───────────── */
+
+import { readFileSync } from 'node:fs';
+import { BUILDER_SAMPLES } from '../builder-experience/samples';
+import { EXPERIENCES } from '../builder-experience/registry';
+import { effectiveCapabilities, toEstimateConfig } from '../builder-experience';
+import { parseBuilderSpatialDraft, spatialStateFromEnvelope } from '../builder-experience/spatialStudio/intakeDraft';
+import { estimateProject } from '../../studioos/estimation';
+import type { CapabilityId, ExperienceDepth } from '../builder-experience/types';
+import { designDirectionNote } from './designResolution';
+import { resolvePageValue } from './pageValueIntelligence';
+import { featuresView, pagesView } from './blueprintTabsModel';
+
+const row = (s: BuilderSelection, key: string) => resolveDesignDetails(s).find((d) => d.key === key)!;
+const CREATIVE = ['TYPOGRAPHY', 'COLOR_DIRECTION', 'IMAGE_WORLD', 'MOTION', 'COMPOSITION'] as const;
+
+/** Configurations A / B / C as a client reaches them in the builder: ADVANCED (editorial structure) with three feels. */
+const spatialEditorial = (feelVibe: 'IMMERSIVE' | 'BOLD' | 'EDITORIAL') =>
+  snapshotFromSpatialState(
+    { ...emptySpatialState(), placePath: 'ADVANCED', feelVibe, workModules: ['PAGES', 'SHOP'], pace: 'STANDARD', room: 'BLUEPRINT' },
+    { computeEstimate: false },
+  ).selection;
+const SPATIAL = { A: spatialEditorial('IMMERSIVE'), B: spatialEditorial('BOLD'), C: spatialEditorial('EDITORIAL') };
+
+describe('A — structure and aesthetic are separate', () => {
+  it('changing the creative direction leaves the structure row alone, and changing structure leaves the creative rows alone', () => {
+    const base = sel({ build: 'SITE', structure: 'EDITORIAL', expression: { primary: 'POP_EDITORIAL', secondary: null, likedParts: [], edition: 'FULL' } });
+    const otherLook = sel({ ...base, expression: { ...base.expression, primary: 'SOFT_ORGANIC' } });
+    expect(row(otherLook, 'STRUCTURE')).toEqual(row(base, 'STRUCTURE'));
+    const otherStructure = sel({ ...base, structure: 'COMMERCE' });
+    for (const key of ['TYPOGRAPHY', 'COLOR_DIRECTION', 'IMAGE_WORLD', 'MOTION'] as const) expect(row(otherStructure, key)).toEqual(row(base, key));
+  });
+});
+
+describe('B — three editorial configurations generate different design details', () => {
+  it('differs on every creative dimension, value and explanation, in the real builder flow', () => {
+    for (const s of Object.values(SPATIAL)) expect(row(s, 'STRUCTURE').value).toBe('EDITORIAL');
+    for (const key of CREATIVE) {
+      expect(new Set(Object.values(SPATIAL).map((s) => row(s, key).value)).size, key).toBe(3);
+      expect(new Set(Object.values(SPATIAL).map((s) => row(s, key).fitNote)).size, key).toBe(3);
+    }
+  });
+
+  it('explains each value from what that value is, not with one sentence per dimension', () => {
+    expect(row(SPATIAL.A, 'COLOR_DIRECTION').fitNote).toContain('A DARK ROOM WITH ONE LIGHT');
+    expect(row(SPATIAL.B, 'COLOR_DIRECTION').fitNote).toContain('A MAGAZINE THAT SHOUTS');
+    expect(row(SPATIAL.C, 'COLOR_DIRECTION').fitNote).toContain('SUN ON SANDSTONE');
+    expect(row(SPATIAL.C, 'COMPOSITION').fitNote).toContain('LEAD STORY → INDEX → STORY → READ NEXT');
+  });
+});
+
+describe('C / F — explicit choices override recommendations, and a changed tunable changes the Blueprint', () => {
+  it('shows the explicit value as the client’s own and keeps the other rows as recommendations', () => {
+    const recommended = SPATIAL.C;
+    const tuned = { ...recommended, type: 'MONO_SYSTEMIC' as const };
+    expect(row(recommended, 'TYPOGRAPHY').value).toBe('EDITORIAL SERIF');
+    expect(row(tuned, 'TYPOGRAPHY')).toMatchObject({ value: 'MONO / SYSTEMIC', provenanceLabel: 'YOUR SELECTION' });
+    expect(row(tuned, 'TYPOGRAPHY').fitNote).not.toBe(row(recommended, 'TYPOGRAPHY').fitNote);
+    expect(row(tuned, 'COLOR_DIRECTION')).toEqual(row(recommended, 'COLOR_DIRECTION'));
+  });
+});
+
+describe('D — brand-sourced values are labelled as the brand’s', () => {
+  it('reads colour from an established brand only when no colour was chosen', () => {
+    const ready = sel({ ...SPATIAL.C, brand: 'READY' });
+    expect(row(ready, 'COLOR_DIRECTION')).toMatchObject({ value: 'YOUR BRAND COLOURS', provenanceLabel: 'FROM YOUR BRAND' });
+    const chosen = sel({ ...ready, color: 'HIGH_CONTRAST_MONO' });
+    expect(row(chosen, 'COLOR_DIRECTION')).toMatchObject({ value: 'HIGH-CONTRAST MONOCHROME', provenanceLabel: 'YOUR SELECTION' });
+    expect(row(SPATIAL.C, 'COLOR_DIRECTION').provenanceLabel).toBe('OUR RECOMMENDATION');
+  });
+});
+
+describe('E — undecided fields are not invented', () => {
+  it('leaves a custom direction’s open dimensions open instead of filling a default', () => {
+    const custom = snapshotFromSpatialState(
+      { ...emptySpatialState(), placePath: 'CUSTOM', feelVibe: 'MODERN', workModules: ['PAGES'], pace: 'STANDARD', room: 'BLUEPRINT' },
+      { computeEstimate: false },
+    ).selection;
+    for (const key of ['TYPOGRAPHY', 'COLOR_DIRECTION', 'IMAGE_WORLD', 'MOTION'] as const) {
+      expect(row(custom, key)).toMatchObject({ value: null, provenanceLabel: 'TO BE REFINED', display: 'SET WITH YOU IN YOUR CUSTOM DIRECTION' });
+    }
+    expect(row(sel({}), 'STRUCTURE')).toMatchObject({ value: null, provenanceLabel: 'TO BE REFINED' });
+  });
+
+  it('never shows machine strings, and writes everything in upper case', () => {
+    const all = [...Object.values(SPATIAL), ...Object.values(BUILDER_SAMPLES)];
+    for (const s of all) {
+      const shown = resolveDesignDetails(s).flatMap((d) => [d.label, d.display, d.provenanceLabel, d.fitNote, d.context ?? '']);
+      shown.push(designDirectionNote(s));
+      for (const text of shown) {
+        expect(text).toBe(text.toUpperCase());
+        expect(text).not.toMatch(/SYSTEM_DEFAULT|CLIENT_SELECTED|UNDECIDED|[A-Z]+_[A-Z]+|FULL EDITION|FROM SYSTEM/);
+      }
+    }
+  });
+});
+
+const everyCapability = sel({
+  build: 'SITE',
+  structure: 'COMMERCE',
+  capabilities: ['SELL', 'BOOK', 'MEMBERSHIP', 'COMMUNITY', 'TEAM_ROLES', 'MARKETPLACE', 'DASHBOARD', 'DATA_PORTAL', 'DOCUMENTS', 'SEARCH', 'MEASURE', 'EMAIL', 'NOTIFICATIONS', 'LIVE_UPDATES'],
+});
+const value = (s: BuilderSelection, id: (typeof EXPERIENCES)[number]['id'], depth: ExperienceDepth = 'FULL') => resolvePageValue(s, { id, depth });
+const withCaps = (caps: CapabilityId[]) => sel({ build: 'SITE', structure: 'EDITORIAL', capabilities: caps });
+
+describe('G / H — page purposes are distinct and depth is page-specific', () => {
+  it('gives every page its own purpose, value and depth contents', () => {
+    const ids = EXPERIENCES.map((e) => e.id);
+    for (const field of ['purpose', 'whyItMatters', 'depthProvides'] as const) {
+      expect(new Set(ids.map((id) => value(everyCapability, id)[field])).size, field).toBe(ids.length);
+    }
+  });
+
+  it('lets each depth include more of that page, and never falls back to the generic depth sentence', () => {
+    for (const { id } of EXPERIENCES) {
+      const [e, f, x] = (['ESSENTIAL', 'FULL', 'EXTENSIVE'] as const).map((d) => value(everyCapability, id, d).depthProvides);
+      expect(f.startsWith(e) && x.startsWith(f) && f !== e && x !== f, id).toBe(true);
+      expect(x).not.toMatch(/EVERY STATE AND SUB-VIEW|MAIN VIEWS PLUS/);
+    }
+  });
+});
+
+describe('I / J — feature dependencies change the copy, and unsupported features are not promised', () => {
+  const cases: { page: (typeof EXPERIENCES)[number]['id']; base: CapabilityId[]; add: CapabilityId; promise: RegExp }[] = [
+    { page: 'SHOP', base: ['SELL'], add: 'SEARCH', promise: /SEARCH AND FILTERING/ },
+    { page: 'ACCOUNT', base: ['ACCOUNTS'], add: 'SELL', promise: /ORDER HISTORY/ },
+    { page: 'CONTACT', base: [], add: 'BOOK', promise: /BOOKING/ },
+    { page: 'DASHBOARD', base: ['DASHBOARD'], add: 'MEASURE', promise: /INSIGHT/ },
+    { page: 'RECORDS', base: ['DATA_PORTAL'], add: 'DOCUMENTS', promise: /DOCUMENTS/ },
+  ];
+  for (const c of cases) {
+    it(`${c.page}: ${c.add} changes what is promised`, () => {
+      const without = value(withCaps(c.base), c.page);
+      const withIt = value(withCaps([...c.base, c.add]), c.page);
+      expect(without.depthProvides).not.toMatch(c.promise);
+      expect(withIt.depthProvides).toMatch(c.promise);
+      expect(without.limitation).toMatch(/^NOT IN THIS BUILD:/);
+      expect(withIt.featuresNote).not.toBe(without.featuresNote);
+    });
+  }
+
+  it('names only features the build has, by the names the FEATURES tab uses', () => {
+    for (const s of [...Object.values(SPATIAL), ...Object.values(BUILDER_SAMPLES)]) {
+      const names = new Set(featuresView(s).items.map((i) => i.verb));
+      for (const g of pagesView(s).groups) {
+        for (const p of g.pages) {
+          const named = p.featuresNote?.replace('RUNS ON THESE FEATURES: ', '').split(' · ') ?? [];
+          for (const name of named) expect(names, `${p.id}: ${name}`).toContain(name);
+        }
+      }
+    }
+  });
+});
+
+describe('K — legacy saved configurations still resolve', () => {
+  it('reads every legacy builder sample and a pre-feel spatial draft without inventing values', () => {
+    for (const s of Object.values(BUILDER_SAMPLES)) {
+      expect(() => resolveDesignDetails(s)).not.toThrow();
+      expect(() => pagesView(s)).not.toThrow();
+    }
+    expect(row(BUILDER_SAMPLES.CUSTOM_COMMERCE, 'MOTION')).toMatchObject({ value: 'CINEMATIC', provenanceLabel: 'YOUR SELECTION' });
+    expect(row(BUILDER_SAMPLES.ADVANCED_EDITORIAL, 'TYPOGRAPHY').provenanceLabel).toBe('YOUR SELECTION');
+    const envelope = parseBuilderSpatialDraft({ schemaVersion: 'builder-spatial-v1', spatialStudio: { placePath: 'ADVANCED', room: 'WORK' } });
+    const legacy = snapshotFromSpatialState(spatialStateFromEnvelope(envelope!), { computeEstimate: false }).selection;
+    for (const key of CREATIVE) expect(row(legacy, key).value, key).toBeNull();
+  });
+});
+
+describe('L — estimates stay source-grounded', () => {
+  it('reading the design and page copy changes nothing the estimator reads', () => {
+    for (const s of [...Object.values(SPATIAL), ...Object.values(BUILDER_SAMPLES)]) {
+      const before = JSON.stringify(estimateProject(toEstimateConfig(s)));
+      const frozen = structuredClone(s);
+      resolveDesignDetails(s);
+      pagesView(s);
+      expect(s).toEqual(frozen);
+      expect(JSON.stringify(estimateProject(toEstimateConfig(s)))).toBe(before);
+    }
+    for (const file of ['./designResolution.ts', './pageValueIntelligence.ts']) {
+      expect(readFileSync(new URL(file, import.meta.url), 'utf8')).not.toMatch(/studioos\/estimation|estimateProject|toEstimateConfig/);
+    }
+  });
+});

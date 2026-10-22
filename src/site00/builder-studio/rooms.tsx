@@ -1,24 +1,32 @@
 /** Room controls for 01 PLACE · 02 FEEL · 03 WORK · 04 PACE. */
 import { useMemo, useState } from 'react';
 import { BsBody } from './bldrBody';
-import { EXPERIENCE_BY_ID, builderEstimateView, builderNotices, chosenExperiences, deriveBuildLevel } from '../builder-experience';
+import { builderEstimateView } from '../builder-experience';
 import type { BuilderSelection } from '../builder-experience';
 import { compose } from './buildObject/composition';
 import { BuildThumbnail } from './buildObject/BuildObjectStage';
 import {
+  CartIcon,
   CheckIcon,
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  ChevronSmallRightIcon,
   ExpeditedIcon,
   FlexibleIcon,
+  HomeIcon,
+  LayersIcon,
   MobileIcon,
+  PeopleIcon,
+  PersonIcon,
   PlusIcon,
   StandardIcon,
   WebsiteIcon,
 } from './icons';
-import { CORE_INCLUDED, FEEL_BY_ID, FEEL_OPTIONS, PACE_OPTIONS, PATH_OPTIONS, WORK_MODULES, moduleLevelCheck } from './studioModel';
-import type { CoreIncludedId, PacePreferenceId, PlacePathId, SpatialBuilderState, WorkModuleId } from './studioModel';
+import { coreIncludedView } from './blueprintTabsModel';
+import type { PageGroupKey } from './blueprintTabsModel';
+import { FEEL_BY_ID, FEEL_OPTIONS, PACE_OPTIONS, PATH_OPTIONS, WORK_MODULES, moduleLevelCheck } from './studioModel';
+import type { PacePreferenceId, PlacePathId, SpatialBuilderState, WorkModuleId } from './studioModel';
 
 export type RoomProps = {
   state: SpatialBuilderState;
@@ -193,18 +201,20 @@ export function WorkStageToggles({ state, toggle, pending }: RoomProps & { toggl
   );
 }
 
-const CORE_ICONS: Record<CoreIncludedId, typeof WebsiteIcon> = {
-  WEBSITE: WebsiteIcon,
-  MOBILE: MobileIcon,
+const GROUP_ICONS: Record<PageGroupKey, typeof WebsiteIcon> = {
+  FRONT_DOOR: HomeIcon,
+  STORY_OFFER: CartIcon,
+  CLIENT_SPACE: PersonIcon,
+  TEAM_ACCESS: PeopleIcon,
 };
 
 export function WorkControls(props: RoomProps & { pending: PendingRaise; keep: () => void; dismiss: () => void }) {
   const { state, selection, pending, keep, dismiss } = props;
-  const [open, setOpen] = useState(false);
+  // Opening the panel or a group is local view state only: it never writes to the session.
+  const [open, setOpen] = useState(true);
   const world = state.placePath === 'WORLD';
-  const { level } = deriveBuildLevel(selection);
-  const pages = useMemo(() => (world ? [] : chosenExperiences(selection, level).map((c) => EXPERIENCE_BY_ID[c.id].label)), [selection, level, world]);
-  const comesWith = builderNotices(selection).filter((n) => n.kind === 'COMES_WITH');
+  const view = useMemo(() => coreIncludedView(selection), [selection]);
+  const { pages } = view;
   return (
     <>
       {pending ? (
@@ -222,38 +232,109 @@ export function WorkControls(props: RoomProps & { pending: PendingRaise; keep: (
           </div>
         </div>
       ) : null}
-      <div className="bs-core">
-        <button type="button" className="bs-core__head" aria-expanded={open} onClick={() => setOpen((v) => !v)}>
-          <span>{world ? 'CORE INCLUDED' : 'CORE PAGES INCLUDED'}</span>
-          <ChevronDownIcon size={11} className={open ? 'is-open' : undefined} />
+      <section className={`bs-core${open ? ' is-open' : ''}`} aria-label={world ? 'CORE INCLUDED' : 'CORE PAGES INCLUDED'}>
+        <button type="button" className="bs-core__head" aria-expanded={open} aria-controls="bs-core-body" onClick={() => setOpen((v) => !v)}>
+          <span className="bs-core__title">{world ? 'CORE INCLUDED' : 'CORE PAGES INCLUDED'}</span>
+          {!open ? <span className="bs-core__summary">{world ? 'PLACES SHAPED AT BLUEPRINT REVIEW' : view.summary}</span> : null}
+          <ChevronDownIcon size={12} className={open ? 'is-open' : undefined} />
         </button>
-        <ul className="bs-core__tiles">
-          {CORE_INCLUDED.map((item) => {
-            const IconCmp = CORE_ICONS[item.id];
-            return (
-              <li key={item.id} className="bs-core__tile" title={item.plain}>
-                <IconCmp size={24} />
-                <span>{world ? item.worldLabel : item.label}</span>
-              </li>
-            );
-          })}
-        </ul>
         {open ? (
-          <div className="bs-core__detail">
-            {pages.length ? <p><strong>PAGES</strong> {pages.join(' · ').toUpperCase()}</p> : <p><strong>PLACES</strong> SHAPED WITH YOU AT BLUEPRINT REVIEW</p>}
-            <p>
-              <strong>ADDED</strong>{' '}
-              {state.workModules.length ? state.workModules.map((id) => WORK_MODULES.find((m) => m.id === id)!.label).join(' · ') : 'NOTHING YET'}
-            </p>
+          <div className="bs-core__body" id="bs-core-body">
+            <ul className="bs-core__metrics">
+              {world ? (
+                <li className="bs-core__metric bs-core__metric--wide">
+                  <span className="bs-core__metric-value">AT REVIEW</span>
+                  <span className="bs-core__metric-label">PLACES</span>
+                </li>
+              ) : (
+                <>
+                  <li className="bs-core__metric">
+                    <span className="bs-core__metric-value">{pages.total}</span>
+                    <span className="bs-core__metric-label">{pages.total === 1 ? 'PAGE' : 'PAGES'}</span>
+                  </li>
+                  <li className="bs-core__metric">
+                    <span className="bs-core__metric-value">{pages.coreGroups}</span>
+                    <span className="bs-core__metric-label">{pages.coreGroups === 1 ? 'GROUP' : 'GROUPS'}</span>
+                  </li>
+                  <li className="bs-core__metric">
+                    <span className="bs-core__metric-value">{pages.privatePages}</span>
+                    <span className="bs-core__metric-label">PRIVATE</span>
+                  </li>
+                </>
+              )}
+              <li className="bs-core__metric bs-core__metric--delivery" title={view.delivery.viewportPlain}>
+                <WebsiteIcon size={26} />
+                <span className="bs-core__metric-label bs-core__metric-label--ink">{view.delivery.build}</span>
+              </li>
+              <li className="bs-core__metric bs-core__metric--delivery" title={view.delivery.viewportPlain}>
+                <MobileIcon size={26} />
+                <span className="bs-core__metric-label bs-core__metric-label--ink">{view.delivery.viewport}</span>
+              </li>
+            </ul>
+            {pages.groups.length ? (
+              <>
+                <h3 className="bs-core__section">PAGE GROUPS</h3>
+                <ul className="bs-core__groups">
+                  {pages.groups.map((group) => {
+                    const GroupIcon = GROUP_ICONS[group.key];
+                    return (
+                      <li key={group.key}>
+                        <details className="bs-core__group">
+                          <summary aria-label={`${group.title}: ${group.pages.length} ${group.pages.length === 1 ? 'PAGE' : 'PAGES'}${group.private ? ', PRIVATE' : ''}`}>
+                            <span className="bs-core__group-icon">
+                              <GroupIcon size={20} />
+                            </span>
+                            <span className="bs-core__group-title">{group.title}</span>
+                            <span className="bs-core__group-pages">{group.pages.map((p) => p.label).join(', ')}</span>
+                            <ChevronSmallRightIcon size={9} />
+                          </summary>
+                          <ul className="bs-core__group-list">
+                            {group.pages.map((page) => (
+                              <li key={page.id}>
+                                <span className="bs-core__page-name">{page.label}</span>
+                                <span className="bs-core__page-purpose">
+                                  <BsBody>{page.plain}</BsBody>
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </details>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </>
+            ) : null}
+            {view.features.length ? (
+              <>
+                <h3 className="bs-core__section">INCLUDED WITH THIS SELECTION</h3>
+                <ul className="bs-core__features">
+                  {view.features.map((f) => (
+                    <li
+                      key={f.id}
+                      className={`bs-core__feature${f.chosen ? '' : ' is-included'}`}
+                      title={f.includedWith ?? undefined}
+                      aria-label={f.includedWith ? `${f.verb}, ${f.includedWith}` : f.verb}
+                    >
+                      {f.verb}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
           </div>
         ) : null}
-      </div>
-      {comesWith.length ? (
-        <p className="bs-note" aria-live="polite">
-          {comesWith.map((n) => `+ ${n.message.split(':')[0].toUpperCase()}`).join('  ·  ')}
-        </p>
-      ) : null}
-      {state.workModules.length === 0 ? <p className="bs-note">CHOOSE AT LEAST ONE CAPABILITY TO CONTINUE.</p> : null}
+      </section>
+      {state.workModules.length ? (
+        <aside className="bs-core__footer" aria-live="polite">
+          <LayersIcon size={22} />
+          <p>
+            <BsBody>{view.footer}</BsBody>
+          </p>
+        </aside>
+      ) : (
+        <p className="bs-note">CHOOSE AT LEAST ONE CAPABILITY TO CONTINUE.</p>
+      )}
     </>
   );
 }

@@ -1,6 +1,10 @@
 /**
  * Deterministic design resolution for Blueprint STRUCTURE tab — separates experience structure,
  * creative expression, and SITE 00 recommendations with traceable provenance.
+ *
+ * Every explanation is read from the registry entry of the value that resolved (what that type, colour, image world
+ * or motion actually is), so two clients with the same structure but different creative choices read different
+ * reasons. Nothing here describes the client's brand beyond what the selection states.
  */
 import {
   COLOR_DIRECTIONS,
@@ -14,6 +18,9 @@ import type { BuilderSelection, ColorDirectionId, ImageWorldId, MotionCharacterI
 import { effectiveMotion, expressionInfluences } from '../builder-experience/rules';
 
 const up = (value: string) => value.toUpperCase();
+/** Registry copy is sentence case with a closing stop; the Blueprint shows it in upper case, one stop per sentence. */
+const sentence = (value: string) => up(value.trim().replace(/\.?$/, '.'));
+const clause = (value: string) => up(value.trim().replace(/\.$/, ''));
 
 export type DesignProvenance =
   | 'CLIENT_SELECTED'
@@ -34,12 +41,17 @@ export type DesignDetailKey =
 export type ResolvedDesignDetail = {
   key: DesignDetailKey;
   label: string;
+  /** The resolved direction, or null while it is still to be decided (never filled in with a guess). */
   value: string | null;
+  /** What the screen shows for the value: the value itself, or how an open value gets decided. */
+  display: string;
   provenance: DesignProvenance;
   /** Client-facing provenance line (upper case). */
   provenanceLabel: string;
-  /** Compact fit note (upper case). */
+  /** Short practical explanation: what this direction is and what it does for the build (upper case). */
   fitNote: string;
+  /** Optional in-place detail (upper case), or null when there is nothing more that is true to say. */
+  context: string | null;
 };
 
 function provenanceLabel(provenance: DesignProvenance): string {
@@ -57,163 +69,184 @@ function provenanceLabel(provenance: DesignProvenance): string {
   }
 }
 
-function labelOf<T extends { id: string; label: string }>(list: readonly T[], id: string | null): string | null {
-  if (!id) return null;
-  return list.find((item) => item.id === id)?.label ?? null;
-}
-
 function primarySystem(selection: BuilderSelection) {
   const primary = selection.expression.primary;
   return primary && primary !== 'CUSTOM' ? EXPRESSION_BY_ID[primary] : null;
 }
 
+function primaryStructure(selection: BuilderSelection) {
+  return selection.structure ? STRUCTURE_BY_ID[selection.structure] : null;
+}
+
+/** How an open value gets decided, in the client's terms. */
+function openValue(selection: BuilderSelection): string {
+  return selection.expression.primary === 'CUSTOM' ? 'SET WITH YOU IN YOUR CUSTOM DIRECTION' : 'SET WITH YOU AT BLUEPRINT REVIEW';
+}
+
+function detail(
+  selection: BuilderSelection,
+  key: DesignDetailKey,
+  label: string,
+  value: string | null,
+  provenance: DesignProvenance,
+  fitNote: string,
+  context: string | null,
+): ResolvedDesignDetail {
+  return { key, label, value, display: value ?? openValue(selection), provenance, provenanceLabel: provenanceLabel(provenance), fitNote, context };
+}
+
 function resolveStructure(selection: BuilderSelection): ResolvedDesignDetail {
-  const primary = selection.structure ? STRUCTURE_BY_ID[selection.structure] : null;
+  const primary = primaryStructure(selection);
   const second = selection.structureSecondary ? STRUCTURE_BY_ID[selection.structureSecondary] : null;
-  const value = primary ? up(second ? `${primary.label} + ${second.label}` : primary.label) : null;
-  const provenance: DesignProvenance = value ? 'CLIENT_SELECTED' : 'UNDECIDED';
-  const fitNote = primary
-    ? up(`ORGANIZES HOW PEOPLE MOVE THROUGH ${value}${second ? '' : ''} — NOT THE FULL VISUAL IDENTITY ON ITS OWN.`)
-    : 'CHOOSE A STRUCTURAL GRAMMAR IN THE BUILDER TO SEE HOW YOUR PLACE IS ORGANIZED.';
-  return { key: 'STRUCTURE', label: 'STRUCTURE', value, provenance, provenanceLabel: provenanceLabel(provenance), fitNote };
+  if (!primary) {
+    return detail(selection, 'STRUCTURE', 'STRUCTURE', null, 'UNDECIDED', 'HOW PEOPLE MOVE THROUGH YOUR PLACE IS SHAPED WITH YOU BEFORE ITS LOOK IS SET.', null);
+  }
+  const value = up(second ? `${primary.label} + ${second.label}` : primary.label);
+  return detail(
+    selection,
+    'STRUCTURE',
+    'STRUCTURE',
+    value,
+    'CLIENT_SELECTED',
+    sentence(primary.behavior),
+    second ? `${up(second.label)} LEADS ITS OWN PART: ${sentence(second.behavior)}` : null,
+  );
 }
 
 type TunableDim = 'type' | 'color' | 'imageWorld' | 'motion';
 
-function resolveTunable(
-  selection: BuilderSelection,
-  dim: TunableDim,
-  key: DesignDetailKey,
-  label: string,
-  list: readonly { id: string; label: string }[],
-  defaultKey: 'type' | 'color' | 'imageWorld' | 'motion',
-): ResolvedDesignDetail {
-  const system = primarySystem(selection);
+/** The id a tunable resolves to, and where it came from. Open stays open: no system, no explicit choice, no value. */
+function resolveTunableId(selection: BuilderSelection, dim: TunableDim): { id: string | null; provenance: DesignProvenance } {
   const raw = selection[dim];
-  const isDefault = raw === 'SYSTEM_DEFAULT';
-  const resolvedId = isDefault
-    ? dim === 'motion'
-      ? effectiveMotion(selection)
-      : (system?.defaults[defaultKey] as string | undefined) ?? null
-    : raw;
-  const value = labelOf(list, resolvedId)?.toUpperCase() ?? null;
-
-  let provenance: DesignProvenance = 'UNDECIDED';
-  if (!isDefault && raw) {
-    provenance = 'CLIENT_SELECTED';
-  } else if (dim === 'color' && isDefault && selection.brand === 'READY') {
-    provenance = 'CLIENT_BRAND_SOURCE';
-  } else if (isDefault && system) {
-    provenance = 'SITE00_RECOMMENDED';
-  } else if (!isDefault) {
-    provenance = 'CLIENT_SELECTED';
-  }
-
-  // Spatial IMMERSIVE path sets image/motion explicitly in mapping — treat as client direction via feel.
-  if (
-    isDefault &&
-    dim === 'imageWorld' &&
-    selection.imageWorld === 'SPATIAL_3D' &&
-    selection.expression.primary === 'CINEMATIC_LUXURY'
-  ) {
-    provenance = 'CLIENT_SELECTED';
-  }
-  if (isDefault && dim === 'motion' && selection.motion === 'CINEMATIC' && selection.expression.primary === 'CINEMATIC_LUXURY') {
-    provenance = 'CLIENT_SELECTED';
-  }
-
-  const fitNote = fitNoteForDim(dim, selection, resolvedId as string | null, system?.label ?? null);
-  return { key, label, value, provenance, provenanceLabel: provenanceLabel(provenance), fitNote };
+  if (raw !== 'SYSTEM_DEFAULT') return { id: raw, provenance: 'CLIENT_SELECTED' };
+  if (dim === 'color' && selection.brand === 'READY') return { id: 'CUSTOM_BRAND_LED', provenance: 'CLIENT_BRAND_SOURCE' };
+  const system = primarySystem(selection);
+  if (!system) return { id: null, provenance: 'UNDECIDED' };
+  return { id: dim === 'motion' ? effectiveMotion(selection) : system.defaults[dim], provenance: 'SITE00_RECOMMENDED' };
 }
 
-function fitNoteForDim(
-  dim: TunableDim,
-  selection: BuilderSelection,
-  resolvedId: string | null,
-  systemLabel: string | null,
-): string {
-  const structure = selection.structure ? STRUCTURE_BY_ID[selection.structure].label.toUpperCase() : 'YOUR BUILD';
-  switch (dim) {
-    case 'type':
-      return resolvedId
-        ? `TYPE HIERARCHY SUPPORTS ${structure} WITHOUT REPLACING ITS STRUCTURAL ROLE.`
-        : 'TYPOGRAPHY IS SET WITH YOU ONCE STRUCTURE AND DIRECTION ARE CLEAR.';
-    case 'color':
-      if (selection.brand === 'READY') return 'PALETTE FOLLOWS YOUR ESTABLISHED BRAND WITH CONTRAST CHECKED FOR THE WEB.';
-      if (selection.brand === 'IN_PROGRESS') return 'COLOUR EVOLVES WITH YOUR BRAND AS IT SETTLES — WE KEEP IT COHERENT WITH THE STRUCTURE.';
-      return systemLabel
-        ? `COLOUR RELATIONSHIPS SUGGESTED FROM YOUR ${systemLabel.toUpperCase()} DIRECTION AND ${structure}.`
-        : 'COLOUR DIRECTION IS CHOSEN WITH YOU AT BLUEPRINT REVIEW.';
-    case 'imageWorld':
-      return resolvedId
-        ? `IMAGERY STYLE SUPPORTS ${structure} — WHAT PEOPLE SEE, NOT HOW PAGES ARE NAMED.`
-        : 'IMAGE TREATMENT IS REFINED WITH YOUR CONTENT AND BRAND.';
-    case 'motion':
-      return resolvedId
-        ? `MOTION CHARACTER MATCHES INTERACTION DENSITY FOR ${structure}.`
-        : 'MOTION IS CALIBRATED TO YOUR PACE AND ACCESSIBILITY NEEDS.';
-    default:
-      return '';
+function resolveTypography(selection: BuilderSelection): ResolvedDesignDetail {
+  const { id, provenance } = resolveTunableId(selection, 'type');
+  const entry = TYPE_DIRECTIONS.find((t) => t.id === id) ?? null;
+  const system = primarySystem(selection);
+  if (!entry) {
+    return detail(selection, 'TYPOGRAPHY', 'TYPOGRAPHY', null, 'UNDECIDED', 'THE TYPE VOICE IS CHOSEN ONCE YOUR CONTENT AND DIRECTION ARE CLEAR.', null);
   }
+  // The system's own typesetting notes only describe its default face; an explicit choice is described by itself.
+  const context = system && provenance === 'SITE00_RECOMMENDED' ? `SET AS ${up(system.label)} SETS IT: ${sentence(system.typography)}` : null;
+  return detail(selection, 'TYPOGRAPHY', 'TYPOGRAPHY', up(entry.label), provenance, `${sentence(entry.speaks)} ${sentence(entry.inContext)}`, context);
+}
+
+function resolveColor(selection: BuilderSelection): ResolvedDesignDetail {
+  const { id, provenance } = resolveTunableId(selection, 'color');
+  const entry = COLOR_DIRECTIONS.find((c) => c.id === id) ?? null;
+  if (!entry) {
+    return detail(selection, 'COLOR_DIRECTION', 'COLOR DIRECTION', null, 'UNDECIDED', 'COLOUR IS CHOSEN WITH YOU, WITH CONTRAST CHECKED FOR READING AND KEY ACTIONS.', null);
+  }
+  const r = entry.relationship;
+  const ground = r.background === r.surface ? clause(r.background) : `${clause(r.background)} AND ${clause(r.surface)}`;
+  const fitNote =
+    entry.id === 'CUSTOM_BRAND_LED'
+      ? 'LED BY THE BRAND YOU ALREADY HAVE, WITH CONTRAST CHECKED FOR READING AND KEY ACTIONS.'
+      : `${sentence(entry.feels)} ${ground}, WITH ${clause(r.accent)} AS THE ACCENT.`;
+  const context =
+    entry.id === 'CUSTOM_BRAND_LED'
+      ? null
+      : selection.brand === 'IN_PROGRESS'
+        ? 'THE FINAL PALETTE IS SET AGAINST YOUR BRAND AS IT TAKES SHAPE.'
+        : selection.brand === 'READY'
+          ? 'YOU CHOSE THIS OVER YOUR BRAND COLOURS. WE CHECK IT SITS WELL BESIDE YOUR BRAND.'
+          : null;
+  return detail(selection, 'COLOR_DIRECTION', 'COLOR DIRECTION', up(entry.label), provenance, fitNote, context);
+}
+
+function resolveImageWorld(selection: BuilderSelection): ResolvedDesignDetail {
+  const { id, provenance } = resolveTunableId(selection, 'imageWorld');
+  const entry = IMAGE_WORLDS.find((w) => w.id === id) ?? null;
+  if (!entry) {
+    return detail(selection, 'IMAGE_WORLD', 'IMAGE WORLD', null, 'UNDECIDED', 'THE KIND OF IMAGERY IS DECIDED WITH YOUR CONTENT AND WHAT YOU ALREADY HAVE.', null);
+  }
+  return detail(selection, 'IMAGE_WORLD', 'IMAGE WORLD', up(entry.label), provenance, sentence(entry.people_see), `WHERE IT COMES FROM: ${sentence(entry.sourcing)}`);
+}
+
+function resolveMotion(selection: BuilderSelection): ResolvedDesignDetail {
+  const { id, provenance } = resolveTunableId(selection, 'motion');
+  const entry = MOTION_CHARACTERS.find((m) => m.id === id) ?? null;
+  if (!entry) {
+    return detail(selection, 'MOTION', 'MOTION', null, 'UNDECIDED', 'HOW MUCH THINGS MOVE IS SET WITH YOU ONCE YOUR DIRECTION IS CLEAR.', null);
+  }
+  return detail(selection, 'MOTION', 'MOTION', up(entry.label), provenance, sentence(entry.behaves), `FOR EXAMPLE: ${sentence(entry.demo)}`);
 }
 
 function resolveComposition(selection: BuilderSelection): ResolvedDesignDetail {
   const system = primarySystem(selection);
+  const structure = primaryStructure(selection);
+  if (selection.expression.primary === 'CUSTOM') {
+    return detail(selection, 'COMPOSITION', 'COMPOSITION', 'YOUR CUSTOM DIRECTION', 'CLIENT_SELECTED', 'LAYOUT RHYTHM IS DESIGNED FOR THIS PROJECT, FROM THE DIRECTION YOU DESCRIBE.', null);
+  }
+  if (!system) {
+    return detail(selection, 'COMPOSITION', 'COMPOSITION', null, 'UNDECIDED', 'LAYOUT RHYTHM IS SHAPED ONCE YOUR STRUCTURE AND CONTENT PRIORITIES ARE SET.', null);
+  }
+  const pacing = structure ? ` IT PACES YOUR ${up(structure.label)} PATH: ${sentence(structure.compositionLogic)}` : '';
   const influences = expressionInfluences(selection);
-  const value = system ? up(system.composition) : selection.expression.primary === 'CUSTOM' ? 'CUSTOM CREATIVE DIRECTION' : null;
-  const provenance: DesignProvenance = selection.expression.primary === 'CUSTOM' ? 'CLIENT_SELECTED' : system ? 'SITE00_RECOMMENDED' : 'UNDECIDED';
-  const influenceNote =
-    influences.length > 0
-      ? ` BLENDS INFLUENCE FROM ${influences.map((id) => EXPRESSION_BY_ID[id].label.toUpperCase()).join(' · ')}.`
-      : '';
-  return {
-    key: 'COMPOSITION',
-    label: 'COMPOSITION',
-    value,
-    provenance,
-    provenanceLabel: provenanceLabel(provenance),
-    fitNote: value
-      ? `HOW TYPE, SPACE AND FOCAL POINTS ARE ARRANGED ON EACH PAGE.${influenceNote}`
-      : 'COMPOSITION IS SHAPED WITH YOU ONCE STRUCTURE AND CONTENT PRIORITIES ARE SET.',
-  };
+  const blend = influences.length ? ` WITH A TOUCH OF ${influences.map((i) => up(EXPRESSION_BY_ID[i].label)).join(' AND ')}.` : '';
+  return detail(
+    selection,
+    'COMPOSITION',
+    'COMPOSITION',
+    clause(system.composition),
+    'SITE00_RECOMMENDED',
+    `${sentence(system.spacing)}${pacing}`,
+    `${sentence(system.objectLanguage)}${blend}`,
+  );
 }
 
+/** How people find their way: the structure's navigation, moving with the motion resolved above. */
 function resolveInteraction(selection: BuilderSelection): ResolvedDesignDetail {
-  const system = primarySystem(selection);
-  const motion = effectiveMotion(selection);
-  const motionLabel = labelOf(MOTION_CHARACTERS, motion);
-  const value = system ? up(system.motionCharacter) : motionLabel ? up(motionLabel) : null;
-  const provenance: DesignProvenance =
-    selection.motion !== 'SYSTEM_DEFAULT' ? 'CLIENT_SELECTED' : system ? 'SITE00_RECOMMENDED' : 'UNDECIDED';
-  return {
-    key: 'INTERACTION_CHARACTER',
-    label: 'INTERACTION CHARACTER',
-    value,
-    provenance,
-    provenanceLabel: provenanceLabel(provenance),
-    fitNote: value
-      ? 'HOW TRANSITIONS AND FEEDBACK FEEL WHEN PEOPLE MOVE THROUGH YOUR PAGES.'
-      : 'INTERACTION CHARACTER IS CALIBRATED WITH YOUR TEAM AND ACCESSIBILITY NEEDS.',
-  };
+  const structure = primaryStructure(selection);
+  if (!structure) {
+    return detail(selection, 'INTERACTION_CHARACTER', 'INTERACTION CHARACTER', null, 'UNDECIDED', 'HOW PEOPLE FIND THEIR WAY FOLLOWS THE STRUCTURE YOU SETTLE ON.', null);
+  }
+  const motion = MOTION_CHARACTERS.find((m) => m.id === resolveTunableId(selection, 'motion').id);
+  return detail(
+    selection,
+    'INTERACTION_CHARACTER',
+    'INTERACTION CHARACTER',
+    clause(structure.navigationCharacter),
+    'SITE00_RECOMMENDED',
+    motion
+      ? `HOW PEOPLE FIND THEIR WAY THROUGH ${up(structure.label)} PAGES, MOVING WITH THE ${up(motion.label)} MOTION ABOVE.`
+      : `HOW PEOPLE FIND THEIR WAY THROUGH ${up(structure.label)} PAGES.`,
+    null,
+  );
 }
 
 /** Full design-details row set for the STRUCTURE tab (structure is separate from aesthetic dimensions). */
 export function resolveDesignDetails(selection: BuilderSelection): ResolvedDesignDetail[] {
   return [
     resolveStructure(selection),
-    resolveTunable(selection, 'type', 'TYPOGRAPHY', 'TYPOGRAPHY', TYPE_DIRECTIONS, 'type'),
-    resolveTunable(selection, 'color', 'COLOR_DIRECTION', 'COLOR DIRECTION', COLOR_DIRECTIONS, 'color'),
-    resolveTunable(selection, 'imageWorld', 'IMAGE_WORLD', 'IMAGE WORLD', IMAGE_WORLDS, 'imageWorld'),
-    resolveTunable(selection, 'motion', 'MOTION', 'MOTION', MOTION_CHARACTERS, 'motion'),
+    resolveTypography(selection),
+    resolveColor(selection),
+    resolveImageWorld(selection),
+    resolveMotion(selection),
     resolveComposition(selection),
     resolveInteraction(selection),
   ];
 }
 
+/** One line that frames the rows: what structure decides, what the rest decides, and where the recommendations come from. */
+export function designDirectionNote(selection: BuilderSelection): string {
+  const lead = 'STRUCTURE DECIDES HOW PEOPLE MOVE THROUGH YOUR PLACE. THE REST DECIDES HOW IT LOOKS AND FEELS.';
+  const system = primarySystem(selection);
+  if (selection.expression.primary === 'CUSTOM') return `${lead} WHAT IS STILL OPEN IS SET WITH YOU IN YOUR CUSTOM DIRECTION.`;
+  if (!system) return `${lead} EACH PART IS SET WITH YOU AT BLUEPRINT REVIEW.`;
+  return `${lead} OUR RECOMMENDATIONS FOLLOW YOUR ${up(system.label)} DIRECTION AND CAN STILL CHANGE AT BLUEPRINT REVIEW.`;
+}
+
 /** True when two selections would show identical creative expression rows (regression guard). */
 export function creativeExpressionSignature(selection: BuilderSelection): string {
-  const dims = resolveDesignDetails(selection).filter((d) => d.key !== 'STRUCTURE');
-  return dims.map((d) => `${d.key}:${d.value ?? '-'}:${d.provenance}`).join('|');
+  const dims = resolveDesignDetails(selection).filter((d) => d.key !== 'STRUCTURE' && d.key !== 'INTERACTION_CHARACTER');
+  return dims.map((d) => `${d.key}:${d.value ?? '-'}:${d.provenance}:${d.fitNote}`).join('|');
 }
 
 export type DesignConflict = {
