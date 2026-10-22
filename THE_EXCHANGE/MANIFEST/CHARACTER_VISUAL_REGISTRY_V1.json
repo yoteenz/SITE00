@@ -1,0 +1,179 @@
+{
+  "schemaVersion": "1.0.0",
+  "propertySlug": "the-exchange",
+  "packageId": "CHARACTER_VISUAL_HANDOFF_OCT22_2026",
+  "preparedAt": "2026-10-22",
+  "note": "Visual approval statuses reflect founder handoff README and sprint reconciliation. No fabricated approval timestamps.",
+  "characters": [
+    {
+      "characterId": "sloane-lockwood",
+      "canonicalName": "Sloane Lockwood",
+      "assets": [
+        {
+          "assetId": "sloane-facial-identity-sheet-oct22",
+          "sourceAssetPath": "THE_EXCHANGE/FOUNDER_SOURCE/CHARACTER_VISUAL_HANDOFF_OCT22_2026/assets/sloane_facial_identity_sheet.jpeg",
+          "runtimePublicPath": "/site00/projects/the-exchange/visual_refs/characters/sloane_facial_identity_sheet.jpeg",
+          "assetType": "FACIAL_IDENTITY_SHEET",
+          "sha256": "6785be3ac2cdd765af0df82dbeca939da69a42cf81c1dae9eace52c77721c785",
+          "dimensions": { "width": 1122, "height": 1402 },
+          "visualApprovalStatus": "FACIAL_IDENTITY_LOCKED",
+          "supersedesRuntimePaths": [
+            "/site00/projects/the-exchange/visual_refs/sloane_lockwood_facial_identity_sheet.jpg"
+          ]
+        },
+        {
+          "assetId": "sloane-face-lock-board-oct22",
+          "sourceAssetPath": "THE_EXCHANGE/FOUNDER_SOURCE/CHARACTER_VISUAL_HANDOFF_OCT22_2026/assets/sloane_face_lock_board.jpeg",
+          "runtimePublicPath": "/site00/projects/the-exchange/visual_refs/characters/sloane_face_lock_board.jpeg",
+          "assetType": "FACE_LOCK_EDITORIAL_BOARD",
+          "sha256": "56c16faff86cfd67305c3d398a2b1f7febb8b4e71b15b959b1e205c90aabb9dc",
+          "dimensions": { "width": 1122, "height": 1402 },
+          "visualApprovalStatus": "FACIAL_IDENTITY_LOCKED",
+          "supersedesRuntimePaths": [
+            "/site00/projects/the-exchange/visual_refs/sloane_lockwood_face_lock_editorial_board.jpg"
+          ]
+        }
+      ],
+      "approvedAppearanceDetails": [
+        "Founder-selected facial identity — no redesign or replacement",
+        "Maintain identity across ages, styling, expressions, environments"
+      ],
+      "provisionalAppearanceDetails": [
+        "Mid-to-late 30s age band remains working suggestion per Series Bible character doc, not locked"
+      ],
+      "relatedCanonicalDocuments": [
+        "founder-character-and-family-v1",
+        "founder-package-readme-v1"
+      ],
+      "knownInconsistencies": [
+        "Prior bible compact package used .jpg paths; Oct22 handoff uses .jpeg — same identity intent, different encode"
+      ],
+      "lastFounderApprovalEvidence": "THE_EXCHANGE/FOUNDER_SOURCE/CHARACTER_VISUAL_HANDOFF_OCT22_2026/README.txt — Sloane facial identity LOCKED",
+      "continuityNotes": "Do not derive biography from AI-generated text on boards."
+    },
+    {
+      "characterId": "gideon-shaw",
+      "canonicalName": "Gideon Shaw",
+      "founderApprovedAgeRange": "42-45",
+      "assets": [
+        {
+          "assetId": "gideon-executive-portrait-founder-approved",
+          "sourceAssetPath": "THE_EXCHANGE/FOUNDER_SOURCE/GIDEON_EXECUTIVE_PORTRAIT_FOUNDER_APPROVED/gideon_executive_portrait_founder_original.jpg",
+          "runtimePublicPath": "/site00/projects/the-exchange/visual_refs/characters/gideon_executive_portrait_founder_approved.jpg",
+          "assetType": "EXECUTIVE_PORTRAIT",
+          "label": "Executive Gideon — canonical facial identity lock",
+          "sha256": "2c40f8cafb3e58977a264f6f5ddb3d0a09d26bfe8bd4c43d41a2c332515a9f61",
+          "dimensions": { "width": 371, "height": 501 },
+          "visualApprovalStatus": "FACIAL_IDENTITY_LOCKED",
+          "primaryCanonicalFaceReference": true
+        },
+        {
+          "assetId": "gideon-character-sheet-oct22",
+          "sourceAssetPath": "THE_EXCHANGE/FOUNDER_SOURCE/CHARACTER_VISUAL_HANDOFF_OCT22_2026/assets/gideon_character_sheet.jpeg",
+          "runtimePublicPath": "/site00/projects/the-exchange/visual_refs/characters/gideon_character_sheet.jpeg",
+          "assetType": "CHARACTER_SHEET",
+          "sha256": "087d0f83afbb4d4119f632dd4c4f3c633f10902a7fdceec9247aeced5279b509",
+          "dimensions": { "width": 1122, "height": 1402 },
+          "visualApprovalStatus": "FACIAL_IDENTITY_LOCKED",
+          "primaryCanonicalFaceReference": false,
+          "imageTextNotCanon": ["late 30s to early 40s age on sheet — SUPERSEDED by founder age 42–45"]
+        }
+      ],
+      "approvedAppearanceDetails": [
+        "Black man; warm brown complexion",
+        "Bald, completely clean-shaven",
+        "Chiseled features; strong jaw",
+        "Very tall; powerful broad-shouldered athletic build",
+        "Disciplined executive-security presence",
+        "Age approximately 42–45 (founder-approved Oct 2026 follow-up)"
+      ],
+      "provisionalAppearanceDetails": [
+        "Former military and executive-protection specialist — role narrative PROVISIONAL until fiction-canon promotion"
+      ],
+      "relatedCanonicalDocuments": [
+        "GIDEON_CHARACTER_AND_RELATIONSHIP_NUANCE_V1.md",
+        "FOUNDER_CANON/FOUNDER_CANON_V1_1_DELTAS.md"
+      ],
+      "knownInconsistencies": [
+        "Family/service chronology vs Nadine (+8–10y vs Sloane) still requires reconciliation — age range itself is founder-set"
+      ],
+      "lastFounderApprovalEvidence": "Founder follow-up sprint P0.THE-EXCHANGE.GIDEON-CANON-ASSET-LOCK.UPDATE1 — Executive Gideon portrait attached; face locked; age 42–45",
+      "continuityNotes": "No alternate casting exploration active. Platonic protector/liaison/confidant to Sloane; historical tie to Richard and Vivienne. Do not derive biography from AI overlay text on sheets."
+    },
+    {
+      "characterId": "richard-lockwood",
+      "canonicalName": "Richard Lockwood",
+      "assets": [
+        {
+          "assetId": "richard-refinement-v1-oct22",
+          "sourceAssetPath": "THE_EXCHANGE/FOUNDER_SOURCE/CHARACTER_VISUAL_HANDOFF_OCT22_2026/assets/richard_refinement_v1.jpeg",
+          "runtimePublicPath": "/site00/projects/the-exchange/visual_refs/characters/richard_refinement_v1.jpeg",
+          "assetType": "CASTING_REFINEMENT",
+          "sha256": "340f35e84775d300a6b995126ad09a3602f19d4845c9c2605e8d65b4f9e88948",
+          "dimensions": { "width": 1145, "height": 1374 },
+          "visualApprovalStatus": "FOUNDER_REFINEMENT_PROVISIONAL"
+        }
+      ],
+      "approvedAppearanceDetails": [
+        "Father of Nadine and Sloane",
+        "Former Exchange facilitator; retired",
+        "Charismatic, influential, highly perceptive — narrative traits from character bible (WORKING_CONCEPT)"
+      ],
+      "provisionalAppearanceDetails": ["Facial identity lock not explicitly confirmed in handoff README"],
+      "relatedCanonicalDocuments": ["founder-character-and-family-v1"],
+      "knownInconsistencies": ["Character bible lists father name as OPEN; visual refinement precedes formal name lock"],
+      "lastFounderApprovalEvidence": "README — refinement supplied; verify lock status from approved canon",
+      "continuityNotes": "Latest visual refinement Oct 2026; do not infer lock without founder promotion."
+    },
+    {
+      "characterId": "vivienne-lockwood",
+      "canonicalName": "Vivienne Lockwood",
+      "assets": [
+        {
+          "assetId": "vivienne-refinement-v1-oct22",
+          "sourceAssetPath": "THE_EXCHANGE/FOUNDER_SOURCE/CHARACTER_VISUAL_HANDOFF_OCT22_2026/assets/vivienne_refinement_v1.jpeg",
+          "runtimePublicPath": "/site00/projects/the-exchange/visual_refs/characters/vivienne_refinement_v1.jpeg",
+          "assetType": "CASTING_REFINEMENT",
+          "sha256": "c12ea2d7026ed2d90df3d6f4044f6a54d3d3801ab27599d3ba2883e8bb27637c",
+          "dimensions": { "width": 1145, "height": 1374 },
+          "visualApprovalStatus": "FOUNDER_REFINEMENT_PROVISIONAL"
+        }
+      ],
+      "approvedAppearanceDetails": [
+        "Mother of Nadine and Sloane",
+        "Intellectual, visionary technologist",
+        "Died late 40s to early 50s; Sloane ~23 at time — PROVISIONAL chronology from sprint reconciliation, verify against bible UNRESOLVED death mechanics"
+      ],
+      "provisionalAppearanceDetails": ["Full facial approval not inferred per handoff README"],
+      "relatedCanonicalDocuments": ["founder-character-and-family-v1", "founder-family-history-v1"],
+      "knownInconsistencies": ["Bible uses 'mother' with name OPEN; Vivienne name from founder development direction Oct 2026 — promote explicitly before APPROVED_CANON"],
+      "lastFounderApprovalEvidence": "README — refinement; do not infer locked face",
+      "continuityNotes": "Flashback/deceased portrayal only; preserve UNRESOLVED final exchange."
+    },
+    {
+      "characterId": "nadine-lockwood",
+      "canonicalName": "Nadine Lockwood",
+      "assets": [
+        {
+          "assetId": "nadine-refinement-v1-oct22",
+          "sourceAssetPath": "THE_EXCHANGE/FOUNDER_SOURCE/CHARACTER_VISUAL_HANDOFF_OCT22_2026/assets/nadine_refinement_v1.jpeg",
+          "runtimePublicPath": "/site00/projects/the-exchange/visual_refs/characters/nadine_refinement_v1.jpeg",
+          "assetType": "CASTING_REFINEMENT",
+          "sha256": "b64b03ba1f88ced132e8c70f28efc72f4f3a6f7c124a7a2d50e57eed7dddf2e4",
+          "dimensions": { "width": 1145, "height": 1374 },
+          "visualApprovalStatus": "FOUNDER_REFINEMENT_PROVISIONAL"
+        }
+      ],
+      "approvedAppearanceDetails": [
+        "Loc'd updo — approved hairstyle direction per handoff README",
+        "Older sister to Sloane by approximately 8–10 years (sprint reconciliation; bible says older, exact gap OPEN)",
+        "Mature, sophisticated, operationally formidable"
+      ],
+      "provisionalAppearanceDetails": ["Exact facial identity lock not confirmed in README"],
+      "relatedCanonicalDocuments": ["founder-character-and-family-v1"],
+      "knownInconsistencies": ["Age gap vs Sloane mid/late 30s and Gideon slightly older than Nadine needs chronology table"],
+      "lastFounderApprovalEvidence": "README — loc'd updo agreed; face lock not stated",
+      "continuityNotes": "Sister interpretive differences on family history preserved in bible."
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "propertySlug": "the-exchange",
+  "generatedAt": "2026-10-22",
+  "lastEnriched": "2026-10-22",
+  "supplementSprint": "P0.THE-EXCHANGE.CREATIVE-CANON-NUANCE.OPUS-PREP-SUPPLEMENT1",
+  "prStack": {
+    "fictionCanonInfrastructure": "https://github.com/yoteenz/SITE00/pull/1685",
+    "founderBibleIngest": "https://github.com/yoteenz/SITE00/pull/1686",
+    "canonVisualOpusPrep": "https://github.com/yoteenz/SITE00/pull/1687"
+  },
+  "mergeStatus": {
+    "1685": "OPEN_DRAFT",
+    "1686": "OPEN_DRAFT",
+    "1687": "OPEN_DRAFT"
+  },
+  "sources": [
+    {
+      "id": "master-bible-v1",
+      "path": "THE_EXCHANGE/FOUNDER_SOURCE/THE_EXCHANGE_MASTER_BIBLE_V1/",
+      "role": "SERIES_BIBLE_V1",
+      "approvalStatus": "WORKING_CONCEPT_DEFAULT"
+    },
+    {
+      "id": "founder-canon-v1-1-deltas",
+      "path": "THE_EXCHANGE/FOUNDER_CANON/FOUNDER_CANON_V1_1_DELTAS.md",
+      "role": "LATEST_FOUNDER_DELTAS",
+      "approvalStatus": "PROVISIONAL"
+    },
+    {
+      "id": "manifest-creative-addenda",
+      "path": "THE_EXCHANGE/MANIFEST/",
+      "role": "CREATIVE_NUANCE_SUPPLEMENT",
+      "approvalStatus": "FOUNDER_SUPPORTED_AND_PROVISIONAL_MIX",
+      "files": [
+        "EXCHANGE_INVITATION_CULTURE_ADDENDUM_V1.md",
+        "EXCHANGE_NIGHTS_SOCIAL_EXPERIENCE_ADDENDUM_V1.md",
+        "SLOANE_NARRATION_AND_FREEZE_FRAME_GRAMMAR_V1.md",
+        "GIDEON_CHARACTER_AND_RELATIONSHIP_NUANCE_V1.md",
+        "GIDEON_PILOT_APPEARANCE_INTEGRATION_V1.md",
+        "SHAW_SPINOFF_IDENTITY_ADDENDUM_V1.md",
+        "RECURRING_GUEST_UNIVERSE_PRINCIPLES_V1.md",
+        "NARRATION_RESTRAINT_AND_TONE_GUIDELINES_V1.md",
+        "CANON_APPROVAL_MATRIX_V1.json"
+      ]
+    },
+    {
+      "id": "gideon-executive-portrait",
+      "path": "THE_EXCHANGE/FOUNDER_SOURCE/GIDEON_EXECUTIVE_PORTRAIT_FOUNDER_APPROVED/gideon_executive_portrait_founder_original.jpg",
+      "role": "GIDEON_CANONICAL_FACE_LOCK",
+      "approvalStatus": "APPROVED_CANON"
+    },
+    {
+      "id": "character-visual-registry",
+      "path": "THE_EXCHANGE/MANIFEST/CHARACTER_VISUAL_REGISTRY_V1.json",
+      "role": "VISUAL_REGISTRY"
+    },
+    {
+      "id": "episode-slate",
+      "path": "THE_EXCHANGE/FOUNDER_SOURCE/THE_EXCHANGE_MASTER_BIBLE_V1/episode_slate.json",
+      "role": "EPISODE_STRUCTURE",
+      "approvalStatus": "WORKING_CONCEPT"
+    },
+    {
+      "id": "opus-evaluation-prep",
+      "path": "docs/site00/the-exchange/opus-evaluation-prep-v1/",
+      "role": "OPUS_INPUT_PACKAGE"
+    }
+  ]
+}

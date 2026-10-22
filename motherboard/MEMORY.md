@@ -16616,6 +16616,33 @@ Summary of the whole conversation in this chat.
 
 ---
 
+## 2026-10-22 — THE EXCHANGE Opus prep creative nuance supplement
+
+- **Sprint:** `P0.THE-EXCHANGE.CREATIVE-CANON-NUANCE.OPUS-PREP-SUPPLEMENT1` — enriched manifest addenda (invitation culture, legendary parties, Sloane VO/freeze-frame, Gideon nuance, SHAW, recurring universe, tone); `CANON_APPROVAL_MATRIX_V1.json`; Opus brief criteria A–N. No Opus run, no canon promotion. **PR #1687** branch updated.
+
+---
+
+## 2026-10-22 — THE EXCHANGE canon visual consolidation & Opus prep (draft)
+
+- **Sprint:** `P0.THE-EXCHANGE.CANON-VISUAL-CONSOLIDATION.OPUS-EVALUATION-PREP1` — ingested **6** character JPEGs (Oct22 handoff); `CHARACTER_VISUAL_REGISTRY_V1.json`; V1.1 **PROVISIONAL** deltas (Gideon Shaw, Exchange Nights, narration, SHAW); Opus prep package + paste prompt. **No Opus run, no image gen, no bible/pilot rewrite, no merge.**
+- **Locked faces:** Sloane (2), Gideon (1); refinements provisional for Richard, Vivienne, Nadine; Gideon sheet age text flagged CC-001; Executive Gideon portrait **missing in repo**.
+- **Branch:** `cursor/the-exchange-canon-visual-opus-prep-8aec` on #1686 stack.
+- **Tests:** `theExchangeCharacterVisualRegistry.test.ts` (4 pass).
+
+---
+
+## 2026-10-22 — THE EXCHANGE founder bible V1 ingest (draft)
+
+- **Sprint:** `P0.THE-EXCHANGE.FOUNDER-BIBLE-INGEST-CANON-VALIDATION-AND-OPUS-READINESS1` — ingested founder ZIP into fiction canon (`founder-bible-v1` source ids), superseded orientation seed, registered Sloane JPEG refs under `public/site00/projects/the-exchange/visual_refs/`, Opus **dry-run preview only** (no paid Opus). **No merge.**
+- **Source:** `THE_EXCHANGE/FOUNDER_SOURCE/THE_EXCHANGE_MASTER_BIBLE_V1/` (15 files; visuals JPEG not PNG in compact package). Manifest SHA mismatch on `00_READ_ME.md` after package update — WARN, not blocking.
+- **Branch:** `cursor/the-exchange-founder-bible-ingest-8aec` builds on PR #1685 fiction-canon stack.
+- **Persistence:** `LOCAL_INGEST_VALIDATED`; Supabase fiction tables not present in agent env → memory fallback; production persistence **not** validated.
+- **Tests:** `theExchangeFounderBibleIngest.test.ts` + prior fiction canon tests (15 pass).
+- **Deliverables:** `docs/site00/the-exchange/founder-bible-ingest-v1/*.json`
+- **Founder next:** Review draft PR; apply Supabase migration when ready; promote selected records to `FOUNDER_APPROVED` / `APPROVED_CANON`; authorize separate sprint for paid Opus critique.
+
+---
+
 ## 2026-10-21 — THE EXCHANGE property registration & Opus bible ingest (draft)
 
 - **Sprint:** `P0.THE-EXCHANGE.PROPERTY-REGISTRATION-AND-OPUS-BIBLE-INGEST1` — register isolated fiction property **`the-exchange`**, durable canon persistence, founder ingestion contract, fiction-specific Opus **`evaluateFictionPremise`** (dry-run only). **No paid Opus, no media gen, no merge** (founder draft PR).

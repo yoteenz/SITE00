@@ -1,0 +1,94 @@
+{
+  "registerVersion": "1.0.1",
+  "lastUpdatedSprint": "P0.THE-EXCHANGE.GIDEON-CANON-ASSET-LOCK.UPDATE1",
+  "conflicts": [
+    {
+      "id": "CC-001",
+      "topic": "Gideon Shaw age range",
+      "severity": "RESOLVED",
+      "evidence": [
+        "gideon_character_sheet.jpeg text suggested late 30s–early 40s (rejected)",
+        "Founder decision Oct 2026: Gideon Shaw approximately 42–45 years old"
+      ],
+      "resolution": "FOUNDER_APPROVED_AGE_42_45",
+      "action": "Do not use sheet age text; use registry founderApprovedAgeRange"
+    },
+    {
+      "id": "CC-001B",
+      "topic": "Gideon Lockwood family chronology",
+      "severity": "REQUIRES_FOUNDER_DECISION",
+      "evidence": [
+        "Slightly older than Nadine; long military/EP career per character direction",
+        "Nadine ~8–10 years older than Sloane; Sloane mid/late 30s working band in bible"
+      ],
+      "resolution": "CHRONOLOGY_RECONCILIATION_OPEN",
+      "action": "Opus may evaluate timeline coherence around approved age 42–45 — do not reopen age range itself"
+    },
+    {
+      "id": "CC-002",
+      "topic": "Mother formal name",
+      "severity": "REQUIRES_FOUNDER_DECISION",
+      "evidence": [
+        "04_CHARACTER_AND_FAMILY.md: mother name OPEN",
+        "Visual registry uses Vivienne Lockwood from Oct 2026 founder direction"
+      ],
+      "resolution": "UNKNOWN",
+      "action": "Confirm Vivienne as APPROVED_CANON name or retain OPEN until promoted"
+    },
+    {
+      "id": "CC-003",
+      "topic": "Father formal name",
+      "severity": "REQUIRES_FOUNDER_DECISION",
+      "evidence": [
+        "04_CHARACTER_AND_FAMILY.md: father name OPEN",
+        "Visual registry uses Richard Lockwood from Oct 2026 refinement package"
+      ],
+      "resolution": "UNKNOWN",
+      "action": "Confirm Richard as APPROVED_CANON name"
+    },
+    {
+      "id": "CC-004",
+      "topic": "Pilot vs Gideon three-beat proposal",
+      "severity": "INFORMATIONAL",
+      "evidence": [
+        "episode_slate E01 outlines social gathering access plot",
+        "V1.1 deltas propose Gideon visitor/access/request beats — not in slate JSON"
+      ],
+      "resolution": "ADDITIVE_PROVISIONAL",
+      "action": "Founder merge decision before screenplay; do not replace E01 without approval"
+    },
+    {
+      "id": "CC-005",
+      "topic": "Sloane visual path supersession",
+      "severity": "INFORMATIONAL",
+      "evidence": [
+        "Bible compact package .jpg under visual_refs/",
+        "Oct22 handoff .jpeg under visual_refs/characters/"
+      ],
+      "resolution": "OCT22_HANDOFF_AUTHORitative_FOR_IDENTITY",
+      "action": "Registry lists both; locked identity follows Oct22 assets"
+    },
+    {
+      "id": "CC-006",
+      "topic": "Executive Gideon cropped portrait",
+      "severity": "RESOLVED",
+      "evidence": [
+        "Previously missing from repository",
+        "Founder supplied gideon_executive_portrait_founder_original.jpg Oct 2026"
+      ],
+      "resolution": "INGESTED_CANONICAL_FACE_REFERENCE",
+      "action": "Primary lock: /site00/projects/the-exchange/visual_refs/characters/gideon_executive_portrait_founder_approved.jpg"
+    },
+    {
+      "id": "CC-007",
+      "topic": "Exchange institution vs Exchange Nights",
+      "severity": "INFORMATIONAL",
+      "evidence": [
+        "03_EXCHANGE_INSTITUTION.md institution scope",
+        "EXCHANGE_NIGHTS_ADDENDUM_V1.md provisional gatherings layer"
+      ],
+      "resolution": "SUBSET_RELATIONSHIP_DOCUMENTED",
+      "action": "Ensure Opus treats nights as expression, not whole institution"
+    }
+  ]
+}
