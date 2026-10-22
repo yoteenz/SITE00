@@ -69,6 +69,7 @@ import site00SolDesignBenchHandler from '../api/site00/sol-design-bench.js';
 import site00OpusNativeHandler from '../api/site00/opus-native.js';
 import site00OpusDesignShellHandler from '../api/site00/opus-design-shell.js';
 import site00TwinTestADesignBenchHandler from '../api/site00/twin-test-a-design-bench.js';
+import site00FictionCanonHandler from '../api/site00/fiction-canon.js';
 import captureAuthBootstrapHandler from '../api/capture-auth-bootstrap.js';
 
 /** Express path → Vercel-style default export handler */
@@ -142,5 +143,6 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/site00/opus-native', handler: site00OpusNativeHandler },
   { path: '/api/site00/opus-design-shell', handler: site00OpusDesignShellHandler },
   { path: '/api/site00/twin-test-a-design-bench', handler: site00TwinTestADesignBenchHandler },
+  { path: '/api/site00/fiction-canon', handler: site00FictionCanonHandler },
   { path: '/api/capture-auth-bootstrap', handler: captureAuthBootstrapHandler },
 ];

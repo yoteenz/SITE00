@@ -53,6 +53,18 @@ export const FOUNDER_PROJECTS: FounderProjectDefinition[] = [
     currentSystem: 'EVOLVE',
     description: 'TRUCKING AND LOGISTICS MANAGED BRAND — CORE SERVICE OPERATIONS ACTIVE; SOCIAL MARKETING DEFERRED BY OWNER.',
   },
+  {
+    slug: 'the-exchange',
+    name: 'THE EXCHANGE',
+    displayName: 'THE EXCHANGE',
+    organizationSlug: 'the-exchange',
+    classification: 'SERIALIZED_FICTION',
+    currentSystem: 'FICTION_CANON',
+    description:
+      'Independent serialized fiction property — isolated from NDXBOOK resident canon and Expression Entry 002. NDXBOOK infrastructure reusable for future production only.',
+    boundaryNote:
+      'Creative canon is project-scoped. Do not merge with ndxbook lore, Studio World fiction, or unrelated client projects.',
+  },
 ];
 
 export const FOUNDER_PROJECT_SLUGS = FOUNDER_PROJECTS.map((p) => p.slug);

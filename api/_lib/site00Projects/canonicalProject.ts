@@ -50,6 +50,7 @@ const SLUG_OVERRIDES: Record<string, ProjectExperienceClass> = {
   'all-in-one-enterprises': 'SITE',
   'studio-world': 'SITE',
   'astral-world': 'WORLD',
+  'the-exchange': 'SITE',
 };
 
 function normalizeStatus(value: string | null | undefined): Site00ProjectStatus {

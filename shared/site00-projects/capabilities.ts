@@ -42,6 +42,8 @@ export const PROJECT_CAPABILITIES = [
   'ASSET_VAULT',
   'WORLD_FORMATION',
   'PRODUCTION_HANDOFF',
+  'FICTION_CANON',
+  'FICTION_OPUS_EVALUATION',
 ] as const;
 
 export type ProjectCapability = (typeof PROJECT_CAPABILITIES)[number];
@@ -119,12 +121,21 @@ export const DEFAULT_FOUNDER_CAPABILITIES: readonly ProjectCapability[] = [
   'BRAND_INTELLIGENCE',
 ];
 
+/** THE EXCHANGE — serialized fiction; no NDXBOOK methodology surfaces. */
+export const THE_EXCHANGE_CAPABILITIES: readonly ProjectCapability[] = [
+  ...BASE_CAPABILITIES,
+  'PROJECT_INTELLIGENCE',
+  'FICTION_CANON',
+  'FICTION_OPUS_EVALUATION',
+];
+
 const CAPABILITY_BY_SLUG: Record<string, readonly ProjectCapability[]> = {
   ndxbook: NDXBOOK_METHODOLOGY_CAPABILITIES,
   'astral-world': ASTRAL_WORLD_CAPABILITIES,
   'frontal-slayer': DEFAULT_FOUNDER_CAPABILITIES,
   'studio-world': [...DEFAULT_FOUNDER_CAPABILITIES, 'STUDIO_WORLD_EXECUTION'],
   'all-in-one-enterprises': DEFAULT_FOUNDER_CAPABILITIES,
+  'the-exchange': THE_EXCHANGE_CAPABILITIES,
 };
 
 export function getCapabilitiesForSlug(slug: string): ProjectCapability[] {
@@ -185,6 +196,8 @@ export function capabilityForAction(action: string): ProjectCapability | null {
   if (action.startsWith('canon_promote')) return 'JUDGMENTS';
   if (action.startsWith('project_bible')) return 'PROJECT_INTELLIGENCE';
   if (action.startsWith('world_hierarchy')) return 'PROJECT_INTELLIGENCE';
+  if (action.startsWith('fiction_canon')) return 'FICTION_CANON';
+  if (action.startsWith('fiction_opus')) return 'FICTION_OPUS_EVALUATION';
   return null;
 }
 

@@ -1,6 +1,11 @@
 /** SITE 00 founder project index — shared types */
 
-export type Site00FounderProjectSlug = 'frontal-slayer' | 'studio-world' | 'ndxbook' | 'all-in-one-enterprises';
+export type Site00FounderProjectSlug =
+  | 'frontal-slayer'
+  | 'studio-world'
+  | 'ndxbook'
+  | 'all-in-one-enterprises'
+  | 'the-exchange';
 
 /** Registered client projects beyond founder index (P0.B). */
 export type Site00ClientProjectSlug = 'astral-world';
