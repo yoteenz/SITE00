@@ -1,0 +1,202 @@
+[
+ {
+  "id": "FD-R01",
+  "decision": "Compensation type",
+  "options": "PERCENT of basis \u00b7 FIXED fee per qualifying client \u00b7 PARTNER-SPECIFIC structure",
+  "why": "Shapes the commission engine inputs, terms editor (RO-05) and every calculation breakdown.",
+  "until_decided": "Engine computes nothing; ledger shows TRACKED / NOT YET ELIGIBLE only.",
+  "repo_today": "Commission rules null in invitationSystem (commission_rules: null); no rate anywhere in repo.",
+  "blocks": "Phase 6",
+  "status": "OPEN"
+ },
+ {
+  "id": "FD-R02",
+  "decision": "Commission basis",
+  "options": "Collected SITE 00 service revenue net of pass-through costs (domain registration, third-party licences), taxes and processor fees \u00b7 gross collected \u00b7 a fixed list of DF line items",
+  "why": "Determines what a refund or pass-through does to the commission; must be integer minor units.",
+  "until_decided": "Basis shown as NOT SET; no amount derived.",
+  "repo_today": "Payments store minor units (base_price_minor 50000) but the Stripe webhook does not persist amount or line items.",
+  "blocks": "Phase 6",
+  "status": "OPEN"
+ },
+ {
+  "id": "FD-R03",
+  "decision": "Rate or amount",
+  "options": "A number the founder sets per terms version (no default proposed)",
+  "why": "The only value that turns an eligible basis into money.",
+  "until_decided": "Field empty; RO-05 cannot save without it.",
+  "repo_today": "None. The reference image's 15% is illustrative and NOT adopted.",
+  "blocks": "Phase 6",
+  "status": "OPEN"
+ },
+ {
+  "id": "FD-R04",
+  "decision": "Eligibility trigger",
+  "options": "Verified first payment \u00b7 verified payment after refund window closes \u00b7 DF delivered + paid",
+  "why": "Separates CONVERTED from ELIGIBLE; drives NOT YET ELIGIBLE \u2192 ELIGIBLE.",
+  "until_decided": "Converted clients stay NOT YET ELIGIBLE.",
+  "repo_today": "commissionStatusFromPaymentEvidence exists but is unused; no payment\u2192commission wiring.",
+  "blocks": "Phase 6",
+  "status": "OPEN"
+ },
+ {
+  "id": "FD-R05",
+  "decision": "Payout timing and minimum",
+  "options": "Monthly batch \u00b7 on approval \u00b7 threshold before payout (amount TBD)",
+  "why": "Controls SCHEDULED dates and the payout workspace grouping.",
+  "until_decided": "Payouts are recorded ad hoc only; no schedule generated.",
+  "repo_today": "payout_live:false; no payout entities exist.",
+  "blocks": "Phase 8",
+  "status": "OPEN"
+ },
+ {
+  "id": "FD-R06",
+  "decision": "Refund, chargeback and clawback rule",
+  "options": "Reverse in full \u00b7 reverse pro-rata \u00b7 net against next payout \u00b7 no clawback after N days",
+  "why": "Defines ADJUSTED vs REVERSED and payout netting.",
+  "until_decided": "Refund evidence marks the commission DISPUTED for manual review.",
+  "repo_today": "Refund matching likely broken; no dispute (chargeback) handling in webhooks.",
+  "blocks": "Phase 6",
+  "status": "OPEN"
+ },
+ {
+  "id": "FD-R07",
+  "decision": "Attribution window",
+  "options": "Length of time a valid link/QR touch can attribute a later DF artifact (no default proposed)",
+  "why": "Drives the window check in the attribution resolver and edge cases E03/E04.",
+  "until_decided": "Only same-session, server-held attribution is recorded; later returns are UNATTRIBUTED unless corrected (RO-19).",
+  "repo_today": "Draft policy says 90 days (PENDING_FOUNDER, not enforced). The reference image's 30-day cookie is NOT adopted.",
+  "blocks": "Phase 4",
+  "status": "OPEN"
+ },
+ {
+  "id": "FD-R08",
+  "decision": "Touch model with multiple partners",
+  "options": "First valid touch \u00b7 last valid touch \u00b7 manual review on collision",
+  "why": "Edge cases E05/E06; whether a second partner can displace the first.",
+  "until_decided": "Collision creates an ATTRIBUTION EXCEPTION (RO-18) for manual review.",
+  "repo_today": "Draft policy: collision MANUAL_REVIEW; no first/last-touch rule.",
+  "blocks": "Phase 4",
+  "status": "OPEN"
+ },
+ {
+  "id": "FD-R09",
+  "decision": "Existing client, self-referral and related parties",
+  "options": "Existing client never attributes \u00b7 preserve prior attribution \u00b7 partner referring itself or its owners is disqualified \u00b7 family/related-party rules",
+  "why": "Prevents paying for clients SITE 00 already had and for self-dealing.",
+  "until_decided": "Existing-client and self-referral matches are DISQUALIFIED pending review.",
+  "repo_today": "Draft policy: existing client PRESERVE_PRIOR, self-referral DISQUALIFY (not enforced).",
+  "blocks": "Phase 4",
+  "status": "OPEN"
+ },
+ {
+  "id": "FD-R10",
+  "decision": "Payee documentation, tax and caps",
+  "options": "W-9 / 1099 collection before first payout \u00b7 per-partner annual cap \u00b7 none",
+  "why": "US payouts to non-employees usually require payee tax documentation; caps limit exposure.",
+  "until_decided": "Payout recording is blocked for a partner without a documented payee record (proposal).",
+  "repo_today": "No payee or tax entities exist.",
+  "blocks": "Phase 8",
+  "status": "OPEN"
+ },
+ {
+  "id": "FD-R11",
+  "decision": "What partners may see about referred clients",
+  "options": "Masked initials + industry \u00b7 business name after client consent \u00b7 nothing beyond counts",
+  "why": "Partner portal privacy; client confidentiality.",
+  "until_decided": "Portal specimens use masked labels (F\u2022\u2022\u2022\u2022 & E\u2022\u2022\u2022\u2022).",
+  "repo_today": "No partner-facing surface exists.",
+  "blocks": "Phase 10",
+  "status": "OPEN"
+ },
+ {
+  "id": "FD-R12",
+  "decision": "Partner portal access method",
+  "options": "Supabase magic link with a PARTNER role \u00b7 invitation-code activation \u00b7 founder-issued credential",
+  "why": "Authentication model for the portal; QR possession is never authentication.",
+  "until_decided": "Portal not built; partners receive statements from the founder.",
+  "repo_today": "Supabase user login exists without a partner role; site00_access_credentials has an unlinked PARTNER_ACCESS type.",
+  "blocks": "Phase 10",
+  "status": "OPEN"
+ },
+ {
+  "id": "FD-R13",
+  "decision": "Card copy",
+  "options": "Headline, service line and back-side call to action wording",
+  "why": "Printed copy cannot be corrected after a run.",
+  "until_decided": "Specimen copy is labelled PROPOSED.",
+  "repo_today": "INVITATION 001 artwork exists for the AIO office batch (System B).",
+  "blocks": "Phase 11",
+  "status": "OPEN"
+ },
+ {
+  "id": "FD-R14",
+  "decision": "Card territory, stock and finish",
+  "options": "Territory A / B / C \u00b7 stock (e.g. 16 pt / 32 pt) \u00b7 finish (matte, soft-touch, foil, edge paint)",
+  "why": "Determines print cost, lead time and visual signature.",
+  "until_decided": "All three territories stay CONCEPT; print export blocked.",
+  "repo_today": "None beyond the INVITATION 001 batch record.",
+  "blocks": "Phase 11",
+  "status": "OPEN"
+ },
+ {
+  "id": "FD-R15",
+  "decision": "Digital share mechanism",
+  "options": "System share sheet (Web Share API) \u00b7 copy link \u00b7 download PNG \u00b7 email from the partner's own client",
+  "why": "What a partner can do from a phone without SITE 00 sending anything.",
+  "until_decided": "Copy link and download only in specimens; nothing is sent by SITE 00.",
+  "repo_today": "None.",
+  "blocks": "Phase 9",
+  "status": "OPEN"
+ },
+ {
+  "id": "FD-R16",
+  "decision": "Payout execution",
+  "options": "Record-only (founder pays outside SITE 00) \u00b7 payout provider integration later",
+  "why": "RECORD PAYMENT \u2260 SEND PAYMENT; a provider would add credentials and compliance scope.",
+  "until_decided": "SEND is unavailable everywhere; RECORD PAYMENT creates an audit record only.",
+  "repo_today": "No payout provider; payout_live:false.",
+  "blocks": "Phase 8",
+  "status": "OPEN"
+ },
+ {
+  "id": "FD-R17",
+  "decision": "AIO agreement and activation",
+  "options": "Approve AIO terms and sign \u00b7 keep AIO planned \u00b7 retire the ACTIVE fixture",
+  "why": "AIO is the first planned partner; the repository fixture marks it ACTIVE with agreement_version null.",
+  "until_decided": "AIO is shown PLANNED \u00b7 NOT ACTIVE; fixture conflict surfaced on the partner page.",
+  "repo_today": "aioInvitation001.ts: status ACTIVE, agreement_version null, code aio-office-inv001, batch AIO-OFFICE-BATCH-001.",
+  "blocks": "Phase 3",
+  "status": "OPEN"
+ },
+ {
+  "id": "FD-R18",
+  "decision": "Correction and approval authority",
+  "options": "Founder only \u00b7 founder + second reviewer above a threshold \u00b7 who may record a payment vs approve it",
+  "why": "Separation of duties and the audit trail for manual attribution changes.",
+  "until_decided": "Founder is the only actor; every correction requires a reason and creates an event.",
+  "repo_today": "Admin email allowlist only (adminAuth.ts); preview bypasses exist.",
+  "blocks": "Phase 7",
+  "status": "OPEN"
+ },
+ {
+  "id": "FD-R19",
+  "decision": "Suspended / terminated partner obligations",
+  "options": "Honour earned commissions \u00b7 honour approved only \u00b7 forfeit on termination for cause",
+  "why": "What happens to TRACKED and ELIGIBLE rows when a partner is suspended or terminated.",
+  "until_decided": "Status change dialog explains the effect; no automatic forfeiture.",
+  "repo_today": "ReferralPartner statuses DRAFT / ACTIVE / PAUSED / TERMINATED (in memory).",
+  "blocks": "Phase 3",
+  "status": "OPEN"
+ },
+ {
+  "id": "FD-R20",
+  "decision": "Destination index and placement",
+  "options": "REFERRALS as 06 (SYSTEM 07) \u00b7 as 05 per reference image \u00b7 inside OPERATIONS",
+  "why": "Navigation numbering appears in the sidebar, rail, menu drawer and page header.",
+  "until_decided": "Specimens use 06 REFERRALS \u00b7 07 SYSTEM; mobile bottom bar unchanged.",
+  "repo_today": "Founder workspace nav has six destinations; the reference shows 05 REFERRALS.",
+  "blocks": "Phase 1",
+  "status": "OPEN"
+ }
+]

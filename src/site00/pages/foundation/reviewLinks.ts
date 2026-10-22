@@ -6,15 +6,28 @@ export function reviewAnchorForView(view: DfView): string {
   return `df-r-${view}`;
 }
 
-/** Scroll to a screen on the review page without leaving `/foundation/review`. */
+/** Map hash anchors to canonical review entries (legacy BLDR ids stay addressable). */
+export function normalizeReviewAnchor(anchorId: string): string {
+  if (anchorId.startsWith('df-r-bldr-')) return anchorId;
+  return anchorId;
+}
+
+/** Select a screen on `/foundation/review` (hash + event; scroll within the active zone gallery). */
+export function navigateToReviewAnchor(anchorId: string): void {
+  if (typeof window === 'undefined') return;
+  window.history.replaceState(null, '', `${SITE00_ROUTES.digitalFoundationReview}#${anchorId}`);
+  window.dispatchEvent(new CustomEvent('df-review-nav', { detail: { anchorId } }));
+  requestAnimationFrame(() => {
+    const el =
+      document.getElementById(anchorId) ??
+      document.querySelector<HTMLElement>(`[data-review-gallery-section="${anchorId}"]`);
+    el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+}
+
+/** @deprecated Prefer navigateToReviewAnchor — kept for in-flow CTAs that only need hash sync. */
 export function scrollToReviewAnchor(anchorId: string): void {
-  if (typeof document === 'undefined') return;
-  const el = document.getElementById(anchorId);
-  if (!el) return;
-  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  if (typeof window !== 'undefined') {
-    window.history.replaceState(null, '', `${SITE00_ROUTES.digitalFoundationReview}#${anchorId}`);
-  }
+  navigateToReviewAnchor(anchorId);
 }
 
 /** Absolute address for one screen on `/foundation/review`. */

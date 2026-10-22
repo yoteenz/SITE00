@@ -4,7 +4,15 @@ import { createQuoteDraft, type SelectedAddonInput, validateSelectionRemovable }
 import { inferBuildRecommendation, recommendFromIntake } from '../../../shared/site00-digital-foundation/recommendationEngine.js';
 import { isLaunchGateCheckoutBlocked, LAUNCH_GATE_CHECKOUT_ERROR } from '../../../shared/site00-digital-foundation/launchGate.js';
 import { resolveArtifactSurface, resolveArtifactSurfaceForClient } from '../../../shared/site00-digital-foundation/surface.js';
+import {
+  assessFoundationCreditEligibility,
+  buildFoundationBuilderDeepLink,
+  normalizeBuildPathPreference,
+  type FoundationBuilderHandoffRecord,
+  type FoundationBuildPathPreference,
+} from '../../../shared/site00-digital-foundation/builderHandoff.js';
 import { initialProjectStages } from '../../../shared/site00-digital-foundation/projectStages.js';
+import { validateContactPhoneForCompletion } from '../../../shared/site00-digital-foundation/contactPhone.js';
 import { findReferralByKind } from '../../../shared/site00-digital-foundation/referralSources.js';
 import {
   DIGITAL_FOUNDATION_SERVICE_ID,
@@ -43,16 +51,30 @@ import {
   toClientArtifactPayload,
   type ClientCommunicationPreferences,
 } from '../../../shared/site00-digital-foundation/clientProjection.js';
-import { persistArtifactGraph } from './persistence/supabaseStore.js';
+import { isSupabaseDfPersistenceEnabled, persistArtifactGraph } from './persistence/supabaseStore.js';
+import { DfPersistenceError } from './persistence/dfPersistenceError.js';
 
 function nowIso(): string {
   return new Date().toISOString();
 }
 
 function schedulePersist(artifactId: string): void {
+  if (!isSupabaseDfPersistenceEnabled()) return;
   void persistArtifactGraph(artifactId).catch((err) => {
-    console.error('[digital-foundation] persist failed', artifactId, err);
+    const code = err instanceof DfPersistenceError ? err.code : 'SAVE_FAILED';
+    console.error('[digital-foundation] persist failed', artifactId, code, err);
   });
+}
+
+/** Create artifact in memory and require durable Supabase commit when persistence is enabled. */
+export async function createArtifactForLeadDurable(
+  input: Parameters<typeof createArtifactForLead>[0],
+): Promise<DigitalFoundationArtifact> {
+  const artifact = createArtifactForLead(input);
+  if (isSupabaseDfPersistenceEnabled()) {
+    await persistArtifactGraph(artifact.artifact_id);
+  }
+  return artifact;
 }
 
 function newPublicToken(): string {
@@ -175,6 +197,17 @@ export function createArtifactForLead(input: {
   return artifact;
 }
 
+export function findArtifactIdByContactEmail(email: string): string | null {
+  const normalized = email.trim().toLowerCase();
+  if (!normalized) return null;
+  for (const a of mem.getDfMemoryState().artifacts.values()) {
+    const lead = mem.memGetLead(a.lead_id);
+    const em = a.intake.current_email?.toLowerCase() ?? lead?.contact_email?.toLowerCase() ?? '';
+    if (em === normalized) return a.artifact_id;
+  }
+  return null;
+}
+
 export function openArtifactByToken(token: string): DigitalFoundationArtifact {
   const a = mem.memGetArtifactByToken(token);
   if (!a) throw new Error('ARTIFACT_NOT_FOUND');
@@ -241,6 +274,11 @@ function ensureIntakePath(artifact: DigitalFoundationArtifact): void {
 export function completeIntake(artifactId: string): DigitalFoundationArtifact {
   const a = mem.memGetArtifact(artifactId);
   if (!a) throw new Error('ARTIFACT_NOT_FOUND');
+  if (a.intake_state === 'COMPLETE') return a;
+  const phoneCheck = validateContactPhoneForCompletion(a.intake.phone ?? '');
+  if (!phoneCheck.ok) {
+    throw new Error(phoneCheck.code === 'MISSING' ? 'CONTACT_PHONE_REQUIRED' : 'CONTACT_PHONE_INVALID');
+  }
   ensureIntakePath(a);
   a.intake_state = 'COMPLETE';
   transitionArtifact(a, 'INTAKE_COMPLETE');
@@ -783,6 +821,105 @@ export function captureBuildInterest(
   return a;
 }
 
+const HANDOFF_TTL_MS = 30 * 60 * 1000;
+
+function activeHandoffForArtifact(artifactId: string, now = Date.now()): FoundationBuilderHandoffRecord | null {
+  const s = mem.getDfMemoryState();
+  for (const h of s.builderHandoffs.values()) {
+    if (h.artifact_id !== artifactId || h.consumed_at) continue;
+    if (new Date(h.expires_at).getTime() < now) continue;
+    return h;
+  }
+  return null;
+}
+
+export function createFoundationBuilderHandoff(
+  artifactId: string,
+  opts?: { build_path_preference?: FoundationBuildPathPreference | null },
+): {
+  handoff: FoundationBuilderHandoffRecord;
+  deep_link_path: string;
+  credit_verified: boolean;
+  credit_amount_minor: number | null;
+  credit_currency: string | null;
+  credit_expires_at: string | null;
+  builder_credit_consumption: 'PENDING_BUILDER_INTEGRATION';
+} {
+  const a = mem.memGetArtifact(artifactId);
+  if (!a) throw new Error('ARTIFACT_NOT_FOUND');
+  const payload = getArtifactPayload(artifactId);
+  const eligibility = assessFoundationCreditEligibility({
+    completion_state: a.completion_state,
+    credit: payload.credit,
+  });
+  if (!eligibility.ok) throw new Error(`HANDOFF_${eligibility.code}`);
+
+  const existing = activeHandoffForArtifact(artifactId);
+  if (existing) {
+    return {
+      handoff: existing,
+      deep_link_path: buildFoundationBuilderDeepLink(existing.handoff_id),
+      credit_verified: true,
+      credit_amount_minor: eligibility.credit.amount_minor,
+      credit_currency: eligibility.credit.currency,
+      credit_expires_at: eligibility.credit.expires_at,
+      builder_credit_consumption: 'PENDING_BUILDER_INTEGRATION',
+    };
+  }
+
+  const pref =
+    opts?.build_path_preference ??
+    normalizeBuildPathPreference(null, a.build_recommendation);
+  const now = nowIso();
+  const handoff: FoundationBuilderHandoffRecord = {
+    handoff_id: `dfh_${randomBytes(16).toString('hex')}`,
+    artifact_id: artifactId,
+    credit_id: eligibility.credit.credit_id,
+    build_path_preference: pref,
+    created_at: now,
+    expires_at: new Date(Date.now() + HANDOFF_TTL_MS).toISOString(),
+    consumed_at: null,
+    consumed_by: null,
+  };
+  mem.getDfMemoryState().builderHandoffs.set(handoff.handoff_id, handoff);
+  logEvent(artifactId, 'BUILD_HANDOFF_CREATED', 'CLIENT', {
+    handoff_id: handoff.handoff_id,
+    credit_id: handoff.credit_id,
+    build_path_preference: handoff.build_path_preference,
+  });
+  return {
+    handoff,
+    deep_link_path: buildFoundationBuilderDeepLink(handoff.handoff_id),
+    credit_verified: true,
+    credit_amount_minor: eligibility.credit.amount_minor,
+    credit_currency: eligibility.credit.currency,
+    credit_expires_at: eligibility.credit.expires_at,
+    builder_credit_consumption: 'PENDING_BUILDER_INTEGRATION',
+  };
+}
+
+/** Server-side verification for the general builder (consumer not wired in Phase 1). */
+export function verifyFoundationBuilderHandoff(handoffId: string): {
+  ok: true;
+  handoff: FoundationBuilderHandoffRecord;
+  credit: FoundationBuildCredit;
+} {
+  const handoff = mem.getDfMemoryState().builderHandoffs.get(handoffId);
+  if (!handoff) throw new Error('HANDOFF_NOT_FOUND');
+  if (handoff.consumed_at) throw new Error('HANDOFF_ALREADY_CONSUMED');
+  if (new Date(handoff.expires_at).getTime() < Date.now()) throw new Error('HANDOFF_EXPIRED');
+  const a = mem.memGetArtifact(handoff.artifact_id);
+  if (!a || a.completion_state !== 'COMPLETE') throw new Error('HANDOFF_ARTIFACT_INVALID');
+  const credit = mem.getDfMemoryState().credits.get(handoff.credit_id);
+  if (!credit) throw new Error('CREDIT_NOT_FOUND');
+  const eligibility = assessFoundationCreditEligibility({
+    completion_state: a.completion_state,
+    credit,
+  });
+  if (!eligibility.ok) throw new Error(`HANDOFF_${eligibility.code}`);
+  return { ok: true, handoff, credit: eligibility.credit };
+}
+
 export function applyManualQuoteAdjustment(artifactId: string, adjustmentMinor: number): DigitalFoundationQuote {
   const a = mem.memGetArtifact(artifactId);
   if (!a?.quote_id) throw new Error('QUOTE_NOT_FOUND');
@@ -811,8 +948,7 @@ export function getArtifactPayloadByToken(token: string): DigitalFoundationArtif
   return getArtifactPayload(artifact.artifact_id);
 }
 
-export function getClientArtifactPayloadByToken(token: string) {
-  const internal = getArtifactPayloadByToken(token);
+function buildClientPayloadFromInternal(internal: ReturnType<typeof getArtifactPayload>) {
   const s = mem.getDfMemoryState();
   const clock = s.readinessClock.get(internal.artifact.artifact_id);
   const timeline_readiness = computeReadinessState({
@@ -825,6 +961,14 @@ export function getClientArtifactPayloadByToken(token: string) {
     projected_max_days: internal.quote?.projected_max_days ?? null,
   });
   return toClientArtifactPayload(internal, timeline_readiness, getCommunicationPreferencesForArtifact(internal.artifact.artifact_id));
+}
+
+export function getClientArtifactPayloadByToken(token: string) {
+  return buildClientPayloadFromInternal(getArtifactPayloadByToken(token));
+}
+
+export function getClientArtifactPayloadByArtifactId(artifactId: string) {
+  return buildClientPayloadFromInternal(getArtifactPayload(artifactId));
 }
 
 export function getCommunicationPreferencesForArtifact(artifactId: string): ClientCommunicationPreferences {
@@ -903,7 +1047,7 @@ export function getArtifactPayload(artifactId: string): DigitalFoundationArtifac
     build_readiness: s.buildReadiness.get(artifactId) ?? null,
     credit: artifact.foundation_credit_id ? s.credits.get(artifact.foundation_credit_id) ?? null : null,
     events: s.events.filter((e) => e.artifact_id === artifactId).slice(-50),
-    surface: resolveArtifactSurfaceForClient(artifact),
+    surface: resolveArtifactSurfaceForClient(artifact, quote),
     operations_summary:
       artifact.payment_state === 'PAID'
         ? {
@@ -955,7 +1099,11 @@ export async function materializeFixtureScenario(
     referral_kind: scenario.referral_kind ?? 'DIRECT',
     business_name: scenario.intake.business_name ?? `Fixture ${scenario.id}`,
   });
-  updateIntake(artifact.artifact_id, scenario.intake, true);
+  updateIntake(
+    artifact.artifact_id,
+    { phone: scenario.intake.phone ?? '901-555-0100', ...scenario.intake },
+    true,
+  );
 
   if (scenario.extra_addon_selections?.length) {
     updateQuoteSelections(artifact.artifact_id, scenario.extra_addon_selections, 'FOUNDER');

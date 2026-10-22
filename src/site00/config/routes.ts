@@ -42,8 +42,9 @@ export const SITE00_ROUTES = {
   existingLocationCaseComplete: '/existing-location/case/:caseId/complete',
   existingLocationAdmin: '/admin/site00/existing-location',
   /** IDNTY — Digital Foundation personalized artifact (opaque token) */
+  digitalFoundationReturn: '/foundation/return',
   digitalFoundationArtifact: '/foundation/:token',
-  /** All Digital Foundation screens plus the following BLDR studio, on one review page. */
+  /** Fixture-backed IDNTY Digital Foundation review index (registry — not public /bldr/studio). */
   digitalFoundationReview: '/foundation/review',
   /** Physical invitation entry (opaque code, partner attribution). */
   invitationEntry: '/invite/:code',
@@ -52,8 +53,13 @@ export const SITE00_ROUTES = {
   digitalFoundationPipeline: '/admin/site00/foundation/pipeline',
   digitalFoundationProjectCommand: '/admin/site00/foundation/:id/command',
   digitalFoundationWorkbench: '/admin/site00/foundation/:id/workbench',
+  digitalFoundationRunbook: '/admin/site00/foundation/:id/runbook',
+  digitalFoundationRunbookTasks: '/admin/site00/foundation/:id/runbook/tasks',
+  digitalFoundationRunbookTask: '/admin/site00/foundation/:id/runbook/tasks/:taskId',
   digitalFoundationCommunications: '/admin/site00/foundation/communications',
   digitalFoundationReadiness: '/admin/site00/foundation-readiness',
+  digitalFoundationFounderWorkspace: '/admin/site00/founder-workspace',
+  digitalFoundationFounderWorkspaceOverview: '/admin/site00/founder-workspace/overview',
   invitationAdmin: '/admin/site00/invitation',
   assts: '/assts',
   asstsBatch: '/assts/batches/:batchId',

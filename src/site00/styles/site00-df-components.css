@@ -44,6 +44,11 @@
   --df-tooltip-bg: #1c1c1b;
   --df-label-size: 10px;
   --df-control-text: 10px;
+  --df-input-value-size: 14px;
+  --df-input-touch-size: 16px;
+  --df-focus-ring: 2px solid var(--df-red);
+  --df-check-edge: #8f8d88;
+  --df-check-border: 1.5px solid var(--df-check-edge);
 }
 
 body.df-scroll-locked {
@@ -281,11 +286,33 @@ body.df-scroll-locked .df-root {
 }
 
 .df-field__label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   font-size: var(--df-label-size);
   font-weight: 700;
   letter-spacing: 0.18em;
   line-height: 1.2;
   color: var(--df-ink);
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.df-field__label-main {
+  display: inline;
+}
+
+.df-field__required {
+  color: var(--df-red);
+  font-weight: 700;
+}
+
+.df-field__optional {
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  line-height: 1.2;
+  color: var(--df-muted);
   text-transform: uppercase;
 }
 
@@ -302,18 +329,31 @@ body.df-scroll-locked .df-root {
 
 .df-input {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   height: var(--df-control-h);
   padding: 0 14px;
   border: 1px solid var(--df-control-border);
   border-radius: var(--df-radius-sm);
   background: var(--df-surface);
-  /* User-entered values keep their own casing; only chrome copy is uppercase. */
-  font-size: 14px;
+  font-size: var(--df-input-value-size);
   letter-spacing: 0.01em;
   color: var(--df-ink);
+  text-transform: uppercase;
   appearance: none;
   -webkit-appearance: none;
   transition: border-color 120ms ease;
+}
+
+@media (pointer: coarse) {
+  .df-input,
+  .df-select__trigger {
+    font-size: var(--df-input-touch-size);
+  }
+}
+
+.df-input[type='password'] {
+  text-transform: none;
 }
 
 .df-input::placeholder {
@@ -331,6 +371,12 @@ body.df-scroll-locked .df-root {
 .df-input:focus {
   border-color: var(--df-red);
   outline: none;
+}
+
+.df-input:focus-visible {
+  border-color: var(--df-red);
+  outline: var(--df-focus-ring);
+  outline-offset: 0;
 }
 
 .df-input:disabled {
@@ -363,17 +409,21 @@ body.df-scroll-locked .df-root {
 .df-field__error,
 .df-field__hint {
   margin: -2px 0 0;
+  max-width: 100%;
   font-size: 8.5px;
   font-weight: 700;
   letter-spacing: 0.16em;
   line-height: 1.5;
   color: var(--df-red);
   text-transform: uppercase;
+  text-wrap: pretty;
+  overflow-wrap: break-word;
 }
 
 .df-field__hint {
   font-weight: 500;
   color: var(--df-muted);
+  text-align: center;
 }
 
 /* ─── DF SELECT (U03) ──────────────────────────────────────────────────────────────────────── */
@@ -496,7 +546,7 @@ body.df-scroll-locked .df-root {
 .df-select__option {
   display: flex;
   align-items: center;
-  min-height: 38px;
+  min-height: 40px;
   padding: 0 14px;
   font-size: var(--df-control-text);
   font-weight: 500;
@@ -516,9 +566,19 @@ body.df-scroll-locked .df-root {
 }
 
 .df-select__option--selected {
-  background: #ebeae6;
+  background: var(--df-surface);
   color: var(--df-ink);
   font-weight: 700;
+  box-shadow: inset 3px 0 0 var(--df-red);
+}
+
+.df-select__option--selected::before {
+  content: '';
+  flex: 0 0 auto;
+  width: 6px;
+  height: 6px;
+  margin-right: 10px;
+  background: var(--df-red);
 }
 
 .df-select__option[aria-disabled='true'] {
@@ -535,7 +595,7 @@ body.df-scroll-locked .df-root {
   justify-content: center;
   width: 20px;
   height: 20px;
-  border: 1px solid var(--df-control-border-strong);
+  border: var(--df-check-border);
   border-radius: 2px;
   background: var(--df-surface);
   color: #fff;
@@ -553,15 +613,37 @@ body.df-scroll-locked .df-root {
   vector-effect: non-scaling-stroke;
 }
 
-.df-check--on {
-  border-color: var(--df-red);
+/* System B (FD-3): red period inside an ink-edged box for optional choices. */
+.df-check--on:not(.df-check--locked) {
+  border-color: var(--df-ink);
+  background: var(--df-surface);
+  color: var(--df-ink);
+}
+
+.df-check--on:not(.df-check--locked)::after {
+  content: '';
+  width: 8px;
+  height: 8px;
   background: var(--df-red);
 }
 
-/* Included core services: checked and not removable. Ink, not red, so “included” never reads as a choice. */
+.df-check--on:not(.df-check--locked) svg {
+  display: none;
+}
+
+.df-addon__checkbtn {
+  display: inline-flex;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+/* Included core services: checked and not removable. Ink fill + white check. */
 .df-check--locked.df-check--on {
   border-color: var(--df-ink);
   background: var(--df-ink);
+  color: #fff;
 }
 
 .df-check--disabled,
@@ -1651,6 +1733,63 @@ div.df-srow__main {
   color: var(--df-disabled-ink);
 }
 
+/* ─── DF CHIPS (record filters, segmented tabs — NF-02) ─────────────────────────────────────── */
+
+.df-chips {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  max-width: 100%;
+  margin-top: 14px;
+  padding-bottom: 4px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.df-chip {
+  flex: 0 0 auto;
+  min-height: 36px;
+  min-width: 0;
+  padding: 0 14px;
+  border: 1px solid var(--df-control-border);
+  border-radius: var(--df-radius-sm);
+  background: var(--df-surface);
+  color: var(--df-ink);
+  font-family: var(--df-text);
+  font-size: var(--df-label-size);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 120ms ease, color 120ms ease, background-color 120ms ease;
+}
+
+.df-chip:hover:not(:disabled) {
+  border-color: var(--df-control-border-strong);
+}
+
+.df-chip:focus-visible {
+  border-color: var(--df-red);
+  outline: var(--df-focus-ring);
+  outline-offset: 0;
+}
+
+.df-chip--on {
+  border-color: var(--df-red);
+  background: #fffafa;
+  color: var(--df-red);
+}
+
+.df-chip--on:focus-visible {
+  outline: var(--df-focus-ring);
+}
+
 /* ─── DF EMPTY STATE (U13) ─────────────────────────────────────────────────────────────────── */
 
 .df-empty {
@@ -1701,6 +1840,148 @@ div.df-srow__main {
   margin-top: 6px;
 }
 
+/* ─── IDNTY selection sheet (Phase 2 — FD-1 / FD-6) ─────────────────────────────────────────── */
+
+.idnty-sel-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+
+.idnty-sel-sheet--on {
+  pointer-events: auto;
+}
+
+.idnty-sel-sheet__backdrop {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--df-scrim);
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.idnty-sel-sheet--on .idnty-sel-sheet__backdrop {
+  opacity: 1;
+}
+
+.idnty-sel-sheet__panel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  max-height: min(88dvh, 640px);
+  margin-top: auto;
+  border-top: 2px solid var(--df-red);
+  border-radius: 0;
+  background: var(--df-surface);
+  transform: translate3d(0, 100%, 0);
+  transition: transform 220ms var(--df-ease);
+}
+
+.idnty-sel-sheet--on .idnty-sel-sheet__panel {
+  transform: translate3d(0, 0, 0);
+}
+
+.idnty-sel-sheet__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--df-control-border);
+}
+
+.idnty-sel-sheet__title {
+  margin: 0;
+  font-family: var(--df-display);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.idnty-sel-sheet__cancel {
+  min-height: 44px;
+  padding: 0 8px;
+  border: 0;
+  background: none;
+  color: var(--df-red);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.idnty-sel-sheet__list {
+  margin: 0;
+  padding: 0 0 calc(12px + env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  list-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.idnty-sel-sheet__option {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 16px;
+  border: 0;
+  border-bottom: 1px solid #eeede9;
+  background: var(--df-surface);
+  color: var(--df-ink);
+  font-family: var(--df-text);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 1.25;
+  text-align: left;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.idnty-sel-sheet__option:disabled {
+  color: var(--df-disabled-ink);
+  cursor: not-allowed;
+}
+
+.idnty-sel-sheet__option--selected {
+  font-weight: 700;
+  box-shadow: inset 3px 0 0 var(--df-red);
+}
+
+.idnty-sel-sheet__option--selected .idnty-sel-sheet__option-label::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 10px;
+  vertical-align: middle;
+  background: var(--df-red);
+}
+
+.idnty-sel-sheet__option-label {
+  display: inline;
+}
+
+@media (min-width: 601px) {
+  .idnty-sel-sheet {
+    display: none;
+  }
+}
+
 /* ─── Reduced motion ───────────────────────────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
@@ -1714,7 +1995,9 @@ div.df-srow__main {
   .df-bsheet__backdrop,
   .df-modal__panel,
   .df-modal__backdrop,
-  .df-srow__chev {
+  .df-srow__chev,
+  .idnty-sel-sheet__panel,
+  .idnty-sel-sheet__backdrop {
     transition: none;
   }
 

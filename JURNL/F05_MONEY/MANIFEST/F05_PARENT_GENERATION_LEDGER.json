@@ -165,9 +165,79 @@
       },
       "receiptId": "rcpt_1791809560793_5g3vmj6",
       "createdAt": "2026-10-12T12:52:40.793Z"
+    },
+    {
+      "requestId": "f05-parent-dry",
+      "authorizationId": "sauth_2345bcee1ef9a7629afa5a5d",
+      "projectId": "JURNL",
+      "familyId": "F05",
+      "visualId": "F05.00",
+      "generationClass": "SCREEN_PARENT",
+      "provider": "OpenArt",
+      "model": "gpt-image-2-5-sunburst",
+      "estimatedCredits": 315,
+      "actualCredits": 315,
+      "spendKind": "PRODUCTIVE",
+      "status": "COMPLETED",
+      "referenceAuthorityId": "F03.00_LIVE_STRUCTURE",
+      "metadata": {
+        "uiOccupancy": {
+          "primary_ui_zone": "Left rail, below the top chrome and above the nav.",
+          "secondary_ui_zone": "Left rail, under the signal.",
+          "environment_focal_zone": "The open cabinet on the right.",
+          "protected_negative_space": "Left half. Quiet plaster or stone. Low edge.",
+          "occlusion_allowed_zone": "Future sheets cover the lower half. Not built.",
+          "drawer_overlay_zone": "Lower sheet. No plate of its own.",
+          "text_density_zone": "Left rail. Short lines.",
+          "screen_exposure_class": "ENVIRONMENT_DEPENDENT",
+          "occupancy_file": "/workspace/JURNL/F05_MONEY/MANIFEST/F05_PLATE_OCCUPANCY.json"
+        }
+      },
+      "receiptId": "rcpt_1792535798424_d9mpga1",
+      "createdAt": "2026-10-20T22:36:38.424Z"
+    },
+    {
+      "requestId": "f05-idem-1",
+      "authorizationId": "sauth_9c57a974923564cf79877e29",
+      "projectId": "JURNL",
+      "familyId": "F05",
+      "visualId": "F05.00",
+      "generationClass": "SCREEN_PARENT",
+      "provider": "OpenArt",
+      "model": "gpt-image-2-5-sunburst",
+      "estimatedCredits": null,
+      "actualCredits": 0,
+      "spendKind": "FAILED",
+      "status": "BLOCKED",
+      "referenceAuthorityId": null,
+      "metadata": {
+        "blockedReason": "INVALID_GENERATION_MODE"
+      },
+      "receiptId": "rcpt_1792535798427_xqyplh9",
+      "createdAt": "2026-10-20T22:36:38.427Z"
+    },
+    {
+      "requestId": "f05-idem-2",
+      "authorizationId": "sauth_9c57a974923564cf79877e29",
+      "projectId": "JURNL",
+      "familyId": "F05",
+      "visualId": "F05.00",
+      "generationClass": "SCREEN_PARENT",
+      "provider": "OpenArt",
+      "model": "gpt-image-2-5-sunburst",
+      "estimatedCredits": null,
+      "actualCredits": 0,
+      "spendKind": "FAILED",
+      "status": "BLOCKED",
+      "referenceAuthorityId": null,
+      "metadata": {
+        "blockedReason": "INVALID_GENERATION_MODE"
+      },
+      "receiptId": "rcpt_1792535798428_c6wm53u",
+      "createdAt": "2026-10-20T22:36:38.428Z"
     }
   ],
-  "last_gateway_receipt_at": "2026-10-12T12:52:40.793Z",
+  "last_gateway_receipt_at": "2026-10-20T22:36:38.428Z",
   "gateway_lineage": [
     {
       "requestId": "f05-parent-dry",
@@ -214,7 +284,30 @@
       "createdAt": "2026-10-12T12:52:40.788Z",
       "costReceiptId": "rcpt_1791809560787_yyfwxqo",
       "spendAuthorizationId": "sauth_9eeaab7cdf9f83d38714912d"
+    },
+    {
+      "requestId": "f05-parent-dry",
+      "receiptId": "rcpt_1792535798424_d9mpga1",
+      "projectId": "JURNL",
+      "familyId": "F05",
+      "visualId": "F05.00",
+      "screenId": "F05.00",
+      "assetId": null,
+      "generationClass": "SCREEN_PARENT",
+      "role": "FULL_PAGE_AUTHORITY",
+      "parentAuthorityId": null,
+      "referenceAuthorityId": "F03.00_LIVE_STRUCTURE",
+      "plateAuthorityId": "F03.00_LIVE_STRUCTURE",
+      "provider": "OpenArt",
+      "model": "gpt-image-2-5-sunburst",
+      "generationMode": "REFERENCE_GUIDED",
+      "outputPath": "/workspace/src/projects/jurnl/families/F03_TODAY/REFERENCES/F03.00_LIVE_STRUCTURE.jpg",
+      "outputAssetId": null,
+      "status": "DRY_RUN",
+      "createdAt": "2026-10-20T22:36:38.425Z",
+      "costReceiptId": "rcpt_1792535798424_d9mpga1",
+      "spendAuthorizationId": "sauth_2345bcee1ef9a7629afa5a5d"
     }
   ],
-  "last_gateway_lineage_at": "2026-10-12T12:52:40.788Z"
+  "last_gateway_lineage_at": "2026-10-20T22:36:38.425Z"
 }

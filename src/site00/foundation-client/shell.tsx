@@ -1,4 +1,5 @@
 /** Digital Foundation client shell (DF-C01..C09, C26, C45..C48). Presentation only. */
+import './foundationDfStyles';
 import { CorrespondenceDisplayLine, displayLineEndsWithSplitMark } from '../../../shared/site00-correspondence-studio/reactProse.js';
 import { useEffect, useRef, useState, type ComponentProps, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
@@ -55,16 +56,24 @@ export function DfRail({ index, label }: { index: string; label: string }) {
   );
 }
 
+/** Strip a trailing `.` on the last line so copy does not duplicate the system red terminal mark. */
+export function normalizeDfHeadlineLine(line: string, isLast: boolean): string {
+  if (!isLast || displayLineEndsWithSplitMark(line)) return line;
+  const trimmed = line.trimEnd();
+  return trimmed.endsWith('.') ? trimmed.slice(0, -1) : line;
+}
+
 /** Condensed uppercase headline; the red terminal period is part of the system, not punctuation. */
 export function DfHeadline({ lines, id }: { lines: string[]; id?: string }) {
   return (
     <h1 className="df-headline" id={id}>
       {lines.map((line, i) => {
         const isLast = i === lines.length - 1;
-        const terminalMark = displayLineEndsWithSplitMark(line);
+        const displayLine = normalizeDfHeadlineLine(line, isLast);
+        const terminalMark = displayLineEndsWithSplitMark(displayLine);
         return (
           <span key={i} className="df-headline__line">
-            <CorrespondenceDisplayLine line={line} />
+            <CorrespondenceDisplayLine line={displayLine} />
             {isLast && !terminalMark ? <span className="df-headline__period">.</span> : null}
           </span>
         );
@@ -177,7 +186,7 @@ function prefersReducedMotion(): boolean {
 }
 
 /** Right-side navigation drawer (DF-C48). Portaled to `body`, so it carries its own `df-drawer` scope. */
-function DfDrawer({ open, onClose, children }: { open: boolean; onClose: () => void; children: ReactNode }) {
+export function DfDrawer({ open, onClose, children }: { open: boolean; onClose: () => void; children: ReactNode }) {
   const [mounted, setMounted] = useState(open);
   const hostRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -329,7 +338,7 @@ export function DfMenu({
       <nav id="df-menu" className="df-drawer__nav" aria-label="DIGITAL FOUNDATION">
         <ol className="df-drawer__steps">
           {steps.map((s) => {
-            const enabled = s.state === 'current' || s.state === 'open';
+            const enabled = s.state === 'current' || s.state === 'done' || s.state === 'open';
             const status = STEP_STATUS[s.state];
             return (
               <li key={s.view}>
@@ -438,6 +447,8 @@ export function DfFrame({
   menuOpen,
   children,
   state,
+  screenClassName,
+  footerCode,
 }: {
   view: DfView | null;
   object: DfObjectKind;
@@ -446,16 +457,21 @@ export function DfFrame({
   children: ReactNode;
   /** Exposed for QA and assistive tech; never drives logic. */
   state?: string;
+  /** Extra classes on `.df-screen` (e.g. compact mobile session layout). */
+  screenClassName?: string;
+  /** Footer index for screens outside the client view set (founder boards). */
+  footerCode?: string;
 }) {
   const meta = view ? DF_VIEW_META[view] : null;
+  const screenClass = ['df-screen', `df-screen--${object}`, screenClassName].filter(Boolean).join(' ');
   return (
-    <div className={`df-screen df-screen--${object}`} data-view={view ?? 'SYSTEM'} data-state={state}>
+    <div className={screenClass} data-view={view ?? 'SYSTEM'} data-state={state}>
       <ObjectSlot kind={object} variant={view} />
       <DfHeader onMenu={onMenu} menuOpen={menuOpen} />
       <div className="df-screen__grid">
         <main className="df-screen__main">{children}</main>
       </div>
-      <DfFooter code={meta ? meta.footer : '000'} />
+      <DfFooter code={footerCode ?? (meta ? meta.footer : '000')} />
     </div>
   );
 }
