@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "1.0.0",
+  "propertySlug": "the-exchange",
+  "supplementSprint": "P0.THE-EXCHANGE.CREATIVE-CANON-NUANCE.OPUS-PREP-SUPPLEMENT1",
+  "classificationDefinitions": {
+    "APPROVED_CANON": "Explicit founder promotion in fiction-canon or verified locked fact",
+    "FOUNDER_SUPPORTED_DIRECTION": "Enthusiastic founder creative direction in supplement; not every implementation detail approved",
+    "PROVISIONAL_CONCEPT": "Working proposal, slate, or illustrative beat",
+    "OPEN_CREATIVE_QUESTION": "Deliberately undecided; do not infer",
+    "SUPERSEDED": "Replaced by later founder decision",
+    "UNKNOWN_NEEDS_VERIFICATION": "Evidence missing or conflicting"
+  },
+  "topics": [
+    {
+      "topic": "Exchange institution vs Exchange Nights",
+      "classification": "FOUNDER_SUPPORTED_DIRECTION",
+      "source": "EXCHANGE_INVITATION_CULTURE_ADDENDUM_V1.md"
+    },
+    {
+      "topic": "Invitation culture and pathways",
+      "classification": "FOUNDER_SUPPORTED_DIRECTION",
+      "source": "EXCHANGE_INVITATION_CULTURE_ADDENDUM_V1.md"
+    },
+    {
+      "topic": "Legendary party social experience",
+      "classification": "FOUNDER_SUPPORTED_DIRECTION",
+      "source": "EXCHANGE_NIGHTS_SOCIAL_EXPERIENCE_ADDENDUM_V1.md"
+    },
+    {
+      "topic": "Event category names (Grand / Private / Unannounced)",
+      "classification": "PROVISIONAL_CONCEPT",
+      "source": "EXCHANGE_NIGHTS_SOCIAL_EXPERIENCE_ADDENDUM_V1.md"
+    },
+    {
+      "topic": "Selective Sloane narration",
+      "classification": "PROVISIONAL_CONCEPT",
+      "source": "SLOANE_NARRATION_AND_FREEZE_FRAME_GRAMMAR_V1.md"
+    },
+    {
+      "topic": "Freeze-frame introductions",
+      "classification": "PROVISIONAL_CONCEPT",
+      "source": "SLOANE_NARRATION_AND_FREEZE_FRAME_GRAMMAR_V1.md"
+    },
+    {
+      "topic": "Gideon Shaw character direction",
+      "classification": "FOUNDER_SUPPORTED_DIRECTION",
+      "source": "GIDEON_CHARACTER_AND_RELATIONSHIP_NUANCE_V1.md"
+    },
+    {
+      "topic": "Gideon E1 three appearances",
+      "classification": "PROVISIONAL_CONCEPT",
+      "source": "GIDEON_PILOT_APPEARANCE_INTEGRATION_V1.md"
+    },
+    {
+      "topic": "Gideon / future partner friendship arc",
+      "classification": "PROVISIONAL_CONCEPT",
+      "source": "GIDEON_CHARACTER_AND_RELATIONSHIP_NUANCE_V1.md"
+    },
+    {
+      "topic": "Gideon age chronology",
+      "classification": "OPEN_CREATIVE_QUESTION",
+      "source": "11_CONTINUITY_CONFLICT_REGISTER.json CC-001"
+    },
+    {
+      "topic": "SHAW spinoff",
+      "classification": "PROVISIONAL_CONCEPT",
+      "source": "SHAW_SPINOFF_IDENTITY_ADDENDUM_V1.md"
+    },
+    {
+      "topic": "Recurring guest universe",
+      "classification": "FOUNDER_SUPPORTED_DIRECTION",
+      "source": "RECURRING_GUEST_UNIVERSE_PRINCIPLES_V1.md"
+    },
+    {
+      "topic": "Master Bible V1 markdown body",
+      "classification": "PROVISIONAL_CONCEPT",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/THE_EXCHANGE_MASTER_BIBLE_V1/",
+      "note": "Default WORKING_CONCEPT unless promoted"
+    },
+    {
+      "topic": "Sloane facial identity",
+      "classification": "APPROVED_CANON",
+      "source": "CHARACTER_VISUAL_REGISTRY_V1.json",
+      "evidence": "Oct 2026 handoff README — LOCKED"
+    },
+    {
+      "topic": "Gideon facial identity",
+      "classification": "APPROVED_CANON",
+      "source": "CHARACTER_VISUAL_REGISTRY_V1.json",
+      "evidence": "Oct 2026 handoff README — LOCKED; exclude sheet age text"
+    }
+  ]
+}

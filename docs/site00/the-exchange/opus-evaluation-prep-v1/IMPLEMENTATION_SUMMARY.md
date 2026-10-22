@@ -6,6 +6,7 @@
 
 ## Done
 
+- **Supplement sprint:** Manifest addenda for invitation culture, legendary Exchange Nights, Sloane narration/freeze-frame grammar, Gideon nuance + E1 integration, SHAW identity, recurring-guest universe, tone guidelines, canon approval matrix; Opus brief criteria A–N.  
 - Ingested **6/6** character visual assets (Oct 22 handoff ZIP) to public + founder archive paths.  
 - Published `CHARACTER_VISUAL_REGISTRY_V1.json` with approval statuses and continuity notes.  
 - Recorded **V1.1 deltas** (Gideon, Exchange Nights, narration, pilot beats, SHAW) as **PROVISIONAL** without rewriting Master Bible V1.  

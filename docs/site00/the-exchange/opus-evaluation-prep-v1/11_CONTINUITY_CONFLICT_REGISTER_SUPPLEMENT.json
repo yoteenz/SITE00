@@ -1,0 +1,18 @@
+{
+  "supplementSprint": "P0.THE-EXCHANGE.CREATIVE-CANON-NUANCE.OPUS-PREP-SUPPLEMENT1",
+  "additionalNotes": [
+    {
+      "id": "CC-S01",
+      "topic": "Grand Exchange as E01 opening vs slate wording",
+      "severity": "INFORMATIONAL",
+      "note": "Social experience addendum proposes Grand Exchange as candidate E01 setting; slate describes colorful social gathering without locking event name."
+    },
+    {
+      "id": "CC-S02",
+      "topic": "Narration reliability vs character bible Sloane traits",
+      "severity": "INFORMATIONAL",
+      "note": "Subjective VO may show bias or error; must not contradict deliberate UNRESOLVED family mysteries."
+    }
+  ],
+  "unchangedCritical": ["CC-001 Gideon age", "CC-006 missing Executive Gideon portrait"]
+}

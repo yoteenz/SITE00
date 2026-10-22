@@ -1,22 +1,43 @@
 {
   "sprint": "P0.THE-EXCHANGE.CANON-VISUAL-CONSOLIDATION.OPUS-EVALUATION-PREP1",
+  "supplementSprint": "P0.THE-EXCHANGE.CREATIVE-CANON-NUANCE.OPUS-PREP-SUPPLEMENT1",
   "evaluationMode": "RIGOROUS_CRITIQUE",
   "evaluatorRole": "Independent creative evaluator — not unapproved creative authority",
   "paidExecutionAuthorized": false,
   "inputPackageRoot": "docs/site00/the-exchange/opus-evaluation-prep-v1/",
+  "manifestAddendaRoot": "THE_EXCHANGE/MANIFEST/",
   "classificationLegend": {
     "APPROVED_CANON": "Explicit founder-approved fact in fiction-canon or verified promotion",
-    "PROVISIONAL": "Working direction, deltas, or illustrative slate",
+    "FOUNDER_SUPPORTED_DIRECTION": "Founder creative direction; not every detail approved",
+    "PROVISIONAL_CONCEPT": "Working proposal, slate, or illustrative beat",
+    "OPEN_CREATIVE_QUESTION": "Deliberately undecided — do not infer",
     "SUPERSEDED": "Historical direction replaced (e.g., Sloane Mercer)",
-    "UNKNOWN": "Requires founder decision — do not infer"
+    "UNKNOWN_NEEDS_VERIFICATION": "Missing evidence or conflict unresolved"
+  },
+  "enrichedExaminationCriteria": {
+    "A": "Invitation culture — desirable, distinctive, believable",
+    "B": "Exchange Nights vs institution — enhance or distract from broader purpose",
+    "C": "Parties — sufficient glamour, fun, social chemistry, entertainment",
+    "D": "Sloane narration — intimacy and character recognition",
+    "E": "Freeze-frame — sophisticated vs gimmicky",
+    "F": "Narration cadence vs dramatic pacing",
+    "G": "Subjective narration — meaningful character development",
+    "H": "Gideon — organic Episode 1 integration",
+    "I": "Gideon — family history and professional authority credibility",
+    "J": "Gideon — protectiveness and future partner friendship avoid possessive/stereotype",
+    "K": "Recurring guests — enrich parent series without distracting from Sloane",
+    "L": "Spinoffs — sufficiently independent identities",
+    "M": "THE EXCHANGE remains emotional/creative center of developing universe",
+    "N": "Ten-episode × three-part structure supports these devices"
   },
   "requiredOutputSections": "See shared/site00-fiction-canon/types.ts FICTION_EVALUATION_OUTPUT_SECTIONS",
-  "citationRequirement": "Cite stable document ids, bible section filenames, or registry paths for each major claim",
+  "citationRequirement": "Cite stable document ids, bible section filenames, manifest addendum paths, or registry paths for each major claim",
   "prohibited": [
     "Generic praise without evidence",
     "Automatic approval ratings",
     "Rewriting as if canon",
     "Inventing missing mysteries",
-    "Treating image sheet text as biography"
+    "Treating image sheet text as biography",
+    "Unilateral canon alteration"
   ]
 }

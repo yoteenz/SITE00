@@ -18,9 +18,13 @@ Property: **THE EXCHANGE** (`the-exchange`) — independent IP; **not** NDXBOOK 
 Label every substantive claim:
 
 - **APPROVED CANON** — explicit founder-approved fact  
-- **PROVISIONAL** — working concept, slate, or V1.1 delta  
+- **FOUNDER-SUPPORTED DIRECTION** — founder creative intent in manifest addenda; not every detail approved  
+- **PROVISIONAL CONCEPT** — working proposal, slate, illustrative beat  
+- **OPEN CREATIVE QUESTION** — undecided; do not infer  
 - **SUPERSEDED** — replaced direction (e.g., Sloane Mercer)  
 - **UNKNOWN / REQUIRES FOUNDER DECISION** — do not infer  
+
+See `THE_EXCHANGE/MANIFEST/CANON_APPROVAL_MATRIX_V1.json`.
 
 **Never** treat AI image typography, character sheet metadata, or assistant drafts as biography.
 
@@ -31,15 +35,42 @@ Label every substantive claim:
 1. `THE_EXCHANGE/FOUNDER_SOURCE/THE_EXCHANGE_MASTER_BIBLE_V1/` — Series Bible V1 (markdown + `episode_slate.json`)  
 2. `THE_EXCHANGE/FOUNDER_CANON/FOUNDER_CANON_V1_1_DELTAS.md` — latest provisional developments  
 3. `THE_EXCHANGE/MANIFEST/CHARACTER_VISUAL_REGISTRY_V1.json` — visual approval statuses  
-4. `THE_EXCHANGE/MANIFEST/EXCHANGE_NIGHTS_ADDENDUM_V1.md` — provisional  
-5. `THE_EXCHANGE/MANIFEST/NARRATION_AND_FREEZE_FRAME_LANGUAGE_V1.md` — provisional  
-6. `THE_EXCHANGE/MANIFEST/SHAW_SPINOFF_CONCEPT_REGISTER_V1.json` — provisional  
-7. `docs/site00/the-exchange/opus-evaluation-prep-v1/11_CONTINUITY_CONFLICT_REGISTER.json`  
-8. Fiction-canon assembled context (if API ingest completed): stable ids `founder-*-v1`
+4. **Manifest creative addenda (supplement sprint):**  
+   - `EXCHANGE_INVITATION_CULTURE_ADDENDUM_V1.md`  
+   - `EXCHANGE_NIGHTS_ADDENDUM_V1.md` + `EXCHANGE_NIGHTS_SOCIAL_EXPERIENCE_ADDENDUM_V1.md`  
+   - `SLOANE_NARRATION_AND_FREEZE_FRAME_GRAMMAR_V1.md`  
+   - `NARRATION_RESTRAINT_AND_TONE_GUIDELINES_V1.md`  
+   - `GIDEON_CHARACTER_AND_RELATIONSHIP_NUANCE_V1.md`  
+   - `GIDEON_PILOT_APPEARANCE_INTEGRATION_V1.md`  
+   - `SHAW_SPINOFF_IDENTITY_ADDENDUM_V1.md` + `SHAW_SPINOFF_CONCEPT_REGISTER_V1.json`  
+   - `RECURRING_GUEST_UNIVERSE_PRINCIPLES_V1.md`  
+   - `CANON_APPROVAL_MATRIX_V1.json`  
+5. `docs/site00/the-exchange/opus-evaluation-prep-v1/13_OPUS_EVALUATION_BRIEF.json` — criteria A–N  
+6. `docs/site00/the-exchange/opus-evaluation-prep-v1/11_CONTINUITY_CONFLICT_REGISTER.json` (+ supplement JSON)  
+7. Fiction-canon assembled context (if API ingest completed): stable ids `founder-*-v1`
 
 Cite filenames, stable ids, or registry paths when critiquing.
 
 ---
+
+## Mandatory enriched examination (criteria A–N)
+
+From `13_OPUS_EVALUATION_BRIEF.json` — provide **evidence-based** answers, not generic praise:
+
+A. Invitation culture — desirable, distinctive, believable  
+B. Exchange Nights vs institution purpose  
+C. Parties — glamour, fun, chemistry, entertainment  
+D. Sloane narration — intimacy and recognition  
+E. Freeze-frame — sophisticated vs gimmicky  
+F. Narration cadence vs pacing  
+G. Subjective narration — character development  
+H. Gideon Episode 1 integration  
+I. Gideon family/professional credibility  
+J. Gideon protectiveness / partner friendship — avoid possessive stereotype  
+K. Recurring guests — enrich without distracting from Sloane  
+L. Spinoff independent identity  
+M. THE EXCHANGE as universe center  
+N. Ten × three-part structure supports devices  
 
 ## Evaluate (18 dimensions)
 

@@ -18,6 +18,11 @@
 - Private Exchanges  
 - Rare unannounced gatherings  
 
+## Enriched supplements (same sprint family)
+
+- `EXCHANGE_INVITATION_CULTURE_ADDENDUM_V1.md` — pathways, selection philosophy  
+- `EXCHANGE_NIGHTS_SOCIAL_EXPERIENCE_ADDENDUM_V1.md` — legendary-party principle, Sloane-as-host, category detail  
+
 ## Source
 
 Reconciled from founder sprint direction Oct 2026; not present as standalone section in Master Bible V1 markdown. Does not override `03_EXCHANGE_INSTITUTION.md` until founder merges/adds.

@@ -2,6 +2,8 @@
 
 **Institution:** `03_EXCHANGE_INSTITUTION.md` + `02_WORLD_AND_CULTURE.md`
 
-**Provisional gatherings layer:** `THE_EXCHANGE/MANIFEST/EXCHANGE_NIGHTS_ADDENDUM_V1.md` (subset of institution; not the whole Exchange)
+**Invitation culture (supplement):** `EXCHANGE_INVITATION_CULTURE_ADDENDUM_V1.md`
+
+**Exchange Nights:** `EXCHANGE_NIGHTS_ADDENDUM_V1.md` + `EXCHANGE_NIGHTS_SOCIAL_EXPERIENCE_ADDENDUM_V1.md` (expression of institution, not replacement)
 
 **Technology:** `06_SPECULATIVE_TECHNOLOGY.md` (candidates pending review)
