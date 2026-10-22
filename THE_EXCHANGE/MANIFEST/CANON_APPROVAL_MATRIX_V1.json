@@ -57,9 +57,15 @@
       "source": "GIDEON_CHARACTER_AND_RELATIONSHIP_NUANCE_V1.md"
     },
     {
-      "topic": "Gideon age chronology",
+      "topic": "Gideon Shaw age range 42–45",
+      "classification": "APPROVED_CANON",
+      "source": "CHARACTER_VISUAL_REGISTRY_V1.json",
+      "evidence": "P0.THE-EXCHANGE.GIDEON-CANON-ASSET-LOCK.UPDATE1"
+    },
+    {
+      "topic": "Gideon Lockwood family chronology",
       "classification": "OPEN_CREATIVE_QUESTION",
-      "source": "11_CONTINUITY_CONFLICT_REGISTER.json CC-001"
+      "source": "11_CONTINUITY_CONFLICT_REGISTER.json CC-001B"
     },
     {
       "topic": "SHAW spinoff",

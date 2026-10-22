@@ -11,7 +11,7 @@
 - Published `CHARACTER_VISUAL_REGISTRY_V1.json` with approval statuses and continuity notes.  
 - Recorded **V1.1 deltas** (Gideon, Exchange Nights, narration, pilot beats, SHAW) as **PROVISIONAL** without rewriting Master Bible V1.  
 - Built Opus evaluation prep folder (01–13) + paste-ready Opus prompt.  
-- Continuity conflict register (7 items) including Gideon age and missing Executive Gideon portrait.  
+- Continuity conflict register; **Gideon asset lock update:** Executive portrait ingested, age **42–45** approved (CC-001/006 resolved; CC-001B chronology open).  
 - Tests: registry hash + file integrity (6 assets).
 
 ## Not done (by authorization)

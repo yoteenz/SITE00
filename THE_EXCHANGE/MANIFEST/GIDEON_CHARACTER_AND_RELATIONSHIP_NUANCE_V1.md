@@ -1,7 +1,9 @@
 # Gideon Shaw — character and relationship nuance
 
 **Classification:** FOUNDER-SUPPORTED DIRECTION / PROVISIONAL CONCEPT (promote per field)  
-**Visual:** Facial identity LOCKED (`CHARACTER_VISUAL_REGISTRY_V1.json`); sheet age text **REJECTED** — see continuity CC-001.
+**Visual:** Facial identity LOCKED — primary reference **Executive Gideon** portrait (`gideon_executive_portrait_founder_approved.jpg`); Oct22 character sheet retained; sheet age text **superseded**.
+
+**Age (founder-approved):** approximately **42–45 years old** (Oct 2026 follow-up). Chronology vs Nadine/Sloane family timeline: see **CC-001B** — age range itself is not open.
 
 ## Professional and personal significance
 
@@ -11,7 +13,7 @@ Exceptional competence coexists with warmth, dry humor, discipline, charisma, an
 
 ## Lockwood family relationships
 
-Deep history with the family. Relationship with **Nadine** has a different generational quality than with Sloane. Slightly older than Nadine; established professional and personal history (**exact chronology:** OPEN CREATIVE QUESTION).
+Deep history with the family. Relationship with **Nadine** has a different generational quality than with Sloane. Slightly older than Nadine; established professional and personal history (**family timeline reconciliation:** OPEN CREATIVE QUESTION **CC-001B**; Gideon age **42–45** is set).
 
 Sloane: uncle-like intimate; bond **entirely platonic**. Loyalty is conscious choice — not property inherited from Richard. Respects Sloane's authority, autonomy, judgment, and personal life. Protectiveness must **not** erase her independence.
 

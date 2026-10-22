@@ -54,7 +54,19 @@
     {
       "characterId": "gideon-shaw",
       "canonicalName": "Gideon Shaw",
+      "founderApprovedAgeRange": "42-45",
       "assets": [
+        {
+          "assetId": "gideon-executive-portrait-founder-approved",
+          "sourceAssetPath": "THE_EXCHANGE/FOUNDER_SOURCE/GIDEON_EXECUTIVE_PORTRAIT_FOUNDER_APPROVED/gideon_executive_portrait_founder_original.jpg",
+          "runtimePublicPath": "/site00/projects/the-exchange/visual_refs/characters/gideon_executive_portrait_founder_approved.jpg",
+          "assetType": "EXECUTIVE_PORTRAIT",
+          "label": "Executive Gideon — canonical facial identity lock",
+          "sha256": "2c40f8cafb3e58977a264f6f5ddb3d0a09d26bfe8bd4c43d41a2c332515a9f61",
+          "dimensions": { "width": 371, "height": 501 },
+          "visualApprovalStatus": "FACIAL_IDENTITY_LOCKED",
+          "primaryCanonicalFaceReference": true
+        },
         {
           "assetId": "gideon-character-sheet-oct22",
           "sourceAssetPath": "THE_EXCHANGE/FOUNDER_SOURCE/CHARACTER_VISUAL_HANDOFF_OCT22_2026/assets/gideon_character_sheet.jpeg",
@@ -63,26 +75,30 @@
           "sha256": "087d0f83afbb4d4119f632dd4c4f3c633f10902a7fdceec9247aeced5279b509",
           "dimensions": { "width": 1122, "height": 1402 },
           "visualApprovalStatus": "FACIAL_IDENTITY_LOCKED",
-          "imageTextNotCanon": ["late 30s to early 40s age on sheet — REJECT for canon"]
+          "primaryCanonicalFaceReference": false,
+          "imageTextNotCanon": ["late 30s to early 40s age on sheet — SUPERSEDED by founder age 42–45"]
         }
       ],
       "approvedAppearanceDetails": [
+        "Black man; warm brown complexion",
         "Bald, completely clean-shaven",
-        "Warm brown complexion",
-        "Strong sculpted facial structure",
-        "Exceptionally tall and physically imposing"
+        "Chiseled features; strong jaw",
+        "Very tall; powerful broad-shouldered athletic build",
+        "Disciplined executive-security presence",
+        "Age approximately 42–45 (founder-approved Oct 2026 follow-up)"
       ],
       "provisionalAppearanceDetails": [
-        "Exact age pending chronology validation (slightly older than Nadine)",
-        "Former military and executive-protection specialist — role direction PROVISIONAL until founder canon promotion"
+        "Former military and executive-protection specialist — role narrative PROVISIONAL until fiction-canon promotion"
       ],
-      "relatedCanonicalDocuments": ["founder-canon-v1-1-deltas-gideon-shaw"],
+      "relatedCanonicalDocuments": [
+        "GIDEON_CHARACTER_AND_RELATIONSHIP_NUANCE_V1.md",
+        "FOUNDER_CANON/FOUNDER_CANON_V1_1_DELTAS.md"
+      ],
       "knownInconsistencies": [
-        "Character sheet age metadata conflicts with Nadine/Sloane age gap and long career timeline",
-        "Original cropped Executive Gideon portrait not located in repository — MISSING_EVIDENCE"
+        "Family/service chronology vs Nadine (+8–10y vs Sloane) still requires reconciliation — age range itself is founder-set"
       ],
-      "lastFounderApprovalEvidence": "CHARACTER_VISUAL_HANDOFF_OCT22_2026 README — Gideon facial identity LOCKED; text metadata not authoritative",
-      "continuityNotes": "Platonic protector/liaison/confidant to Sloane; historical tie to Richard and Vivienne."
+      "lastFounderApprovalEvidence": "Founder follow-up sprint P0.THE-EXCHANGE.GIDEON-CANON-ASSET-LOCK.UPDATE1 — Executive Gideon portrait attached; face locked; age 42–45",
+      "continuityNotes": "No alternate casting exploration active. Platonic protector/liaison/confidant to Sloane; historical tie to Richard and Vivienne. Do not derive biography from AI overlay text on sheets."
     },
     {
       "characterId": "richard-lockwood",

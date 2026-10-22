@@ -7,12 +7,15 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 describe('THE EXCHANGE character visual registry Oct 2026', () => {
-  it('loads registry with five characters and six assets', () => {
+  it('loads registry with five characters and seven assets including Executive Gideon', () => {
     const reg = loadCharacterVisualRegistry();
     expect(reg.propertySlug).toBe('the-exchange');
     expect(reg.characters).toHaveLength(5);
     const assets = reg.characters.flatMap((c) => c.assets);
-    expect(assets).toHaveLength(6);
+    expect(assets).toHaveLength(7);
+    const gideon = reg.characters.find((c) => c.characterId === 'gideon-shaw')!;
+    expect(gideon.assets.some((a) => a.runtimePublicPath.includes('gideon_executive_portrait'))).toBe(true);
+    expect((gideon as { founderApprovedAgeRange?: string }).founderApprovedAgeRange).toBe('42-45');
   });
 
   it('validates public asset integrity and hashes', () => {

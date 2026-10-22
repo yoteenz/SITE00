@@ -14,5 +14,9 @@
       "note": "Subjective VO may show bias or error; must not contradict deliberate UNRESOLVED family mysteries."
     }
   ],
-  "unchangedCritical": ["CC-001 Gideon age", "CC-006 missing Executive Gideon portrait"]
+  "gideonAssetLockUpdate": {
+    "sprint": "P0.THE-EXCHANGE.GIDEON-CANON-ASSET-LOCK.UPDATE1",
+    "resolved": ["CC-001 age range → 42–45", "CC-006 Executive Gideon portrait ingested"],
+    "stillOpen": ["CC-001B family chronology reconciliation"]
+  }
 }

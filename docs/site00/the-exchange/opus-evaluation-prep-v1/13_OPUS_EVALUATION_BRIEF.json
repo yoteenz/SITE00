@@ -1,6 +1,9 @@
 {
   "sprint": "P0.THE-EXCHANGE.CANON-VISUAL-CONSOLIDATION.OPUS-EVALUATION-PREP1",
   "supplementSprint": "P0.THE-EXCHANGE.CREATIVE-CANON-NUANCE.OPUS-PREP-SUPPLEMENT1",
+  "gideonAssetLockSprint": "P0.THE-EXCHANGE.GIDEON-CANON-ASSET-LOCK.UPDATE1",
+  "gideonApprovedAgeRange": "42-45",
+  "gideonPrimaryPortrait": "/site00/projects/the-exchange/visual_refs/characters/gideon_executive_portrait_founder_approved.jpg",
   "evaluationMode": "RIGOROUS_CRITIQUE",
   "evaluatorRole": "Independent creative evaluator — not unapproved creative authority",
   "paidExecutionAuthorized": false,

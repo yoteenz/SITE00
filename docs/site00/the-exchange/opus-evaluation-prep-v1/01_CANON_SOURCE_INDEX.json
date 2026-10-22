@@ -44,6 +44,12 @@
       ]
     },
     {
+      "id": "gideon-executive-portrait",
+      "path": "THE_EXCHANGE/FOUNDER_SOURCE/GIDEON_EXECUTIVE_PORTRAIT_FOUNDER_APPROVED/gideon_executive_portrait_founder_original.jpg",
+      "role": "GIDEON_CANONICAL_FACE_LOCK",
+      "approvalStatus": "APPROVED_CANON"
+    },
+    {
       "id": "character-visual-registry",
       "path": "THE_EXCHANGE/MANIFEST/CHARACTER_VISUAL_REGISTRY_V1.json",
       "role": "VISUAL_REGISTRY"

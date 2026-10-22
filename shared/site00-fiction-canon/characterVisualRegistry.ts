@@ -48,8 +48,8 @@ export function validateCharacterVisualRegistry(registryPath = DEFAULT_REGISTRY_
     }
   }
 
-  if (assetCount !== 6) {
-    errors.push(`Expected 6 ingested visual assets, found ${assetCount}`);
+  if (assetCount < 6) {
+    errors.push(`Expected at least 6 ingested visual assets, found ${assetCount}`);
   }
 
   return { ok: errors.length === 0, assetCount, errors };

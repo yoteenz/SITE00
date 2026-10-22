@@ -117,7 +117,7 @@ For each recommendation:
 - No generic praise; no "perfect 10" scoring.  
 - Do **not** resolve UNRESOLVED family mysteries (mother's final exchange, death mechanism).  
 - Do **not** invent romantic partner identity.  
-- Flag **Gideon age sheet text** as rejected; use chronology conflicts in register CC-001.  
+- **Gideon age:** founder-approved **42–45** (not open). Evaluate **family chronology coherence** around that age (CC-001B), not sheet overlay text. Primary face reference: `gideon_executive_portrait_founder_approved.jpg`.  
 - Distinguish **WORKING_CONCEPT** episode slate from approved screenplays.  
 - Opus remains evaluator only — proposals are not canon.
 

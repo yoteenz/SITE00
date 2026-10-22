@@ -1,16 +1,28 @@
 {
-  "registerVersion": "1.0.0",
+  "registerVersion": "1.0.1",
+  "lastUpdatedSprint": "P0.THE-EXCHANGE.GIDEON-CANON-ASSET-LOCK.UPDATE1",
   "conflicts": [
     {
       "id": "CC-001",
-      "topic": "Gideon Shaw age",
+      "topic": "Gideon Shaw age range",
+      "severity": "RESOLVED",
+      "evidence": [
+        "gideon_character_sheet.jpeg text suggested late 30s–early 40s (rejected)",
+        "Founder decision Oct 2026: Gideon Shaw approximately 42–45 years old"
+      ],
+      "resolution": "FOUNDER_APPROVED_AGE_42_45",
+      "action": "Do not use sheet age text; use registry founderApprovedAgeRange"
+    },
+    {
+      "id": "CC-001B",
+      "topic": "Gideon Lockwood family chronology",
       "severity": "REQUIRES_FOUNDER_DECISION",
       "evidence": [
-        "gideon_character_sheet.jpeg text suggests late 30s–early 40s",
-        "FOUNDER_CANON_V1_1_DELTAS: slightly older than Nadine; long military/EP career"
+        "Slightly older than Nadine; long military/EP career per character direction",
+        "Nadine ~8–10 years older than Sloane; Sloane mid/late 30s working band in bible"
       ],
-      "resolution": "UNKNOWN",
-      "action": "Do not promote sheet age text; validate timeline with Nadine (+8–10y vs Sloane) and Sloane age band"
+      "resolution": "CHRONOLOGY_RECONCILIATION_OPEN",
+      "action": "Opus may evaluate timeline coherence around approved age 42–45 — do not reopen age range itself"
     },
     {
       "id": "CC-002",
@@ -59,10 +71,13 @@
     {
       "id": "CC-006",
       "topic": "Executive Gideon cropped portrait",
-      "severity": "MISSING_EVIDENCE",
-      "evidence": ["Handoff README references prior Executive Gideon asset"],
-      "resolution": "NOT_IN_REPOSITORY",
-      "action": "Founder re-supply if still required for provenance chain"
+      "severity": "RESOLVED",
+      "evidence": [
+        "Previously missing from repository",
+        "Founder supplied gideon_executive_portrait_founder_original.jpg Oct 2026"
+      ],
+      "resolution": "INGESTED_CANONICAL_FACE_REFERENCE",
+      "action": "Primary lock: /site00/projects/the-exchange/visual_refs/characters/gideon_executive_portrait_founder_approved.jpg"
     },
     {
       "id": "CC-007",

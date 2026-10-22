@@ -9,7 +9,7 @@
 | Character ID | Narrative status | Visual status |
 | --- | --- | --- |
 | sloane-lockwood | Name/face selected; traits WORKING_CONCEPT | FACIAL_IDENTITY_LOCKED (2 assets) |
-| gideon-shaw | PROVISIONAL delta | FACIAL_IDENTITY_LOCKED; sheet age text rejected |
+| gideon-shaw | Age **42–45** APPROVED; role direction PROVISIONAL | FACIAL_IDENTITY_LOCKED — Executive portrait + character sheet |
 | richard-lockwood | Father; name OPEN in bible / Richard in registry | FOUNDER_REFINEMENT_PROVISIONAL |
 | vivienne-lockwood | Mother deceased; name OPEN in bible | FOUNDER_REFINEMENT_PROVISIONAL |
 | nadine-lockwood | Sister; name working | FOUNDER_REFINEMENT_PROVISIONAL; loc'd updo approved |
