@@ -16654,6 +16654,17 @@ Summary of the whole conversation in this chat.
 
 ---
 
+## 2026-10-22 — THE EXCHANGE canon PR stack consolidation (merged to main)
+
+- **Sprint:** `P0.THE-EXCHANGE.CANON-PR-STACK-CONSOLIDATION.OPUS-HANDOFF1` — verified dependency stack (#1685 → #1686 → #1687), merged all three to `main`; no paid Opus.
+- **Merge SHAs:** #1685 `e55298d3e`, #1686 `67f71726b`, #1687 `e0ed3a2ba`; tip `e0ed3a2ba` (+ follow-up test fix for 7 visual assets).
+- **Strategy:** #1687 contained full commit stack; sequential merges avoided duplicate application; #1686/#1687 became redundant diffs after #1685 landed.
+- **Gideon:** Executive portrait ingested; age 42–45; CC-001/CC-006 resolved; CC-001B chronology open.
+- **Opus handoff:** `docs/site00/the-exchange/opus-evaluation-prep-v1/` + `OPUS_EVALUATION_PROMPT.md`; `OPUS_READY` for inputs only; execution requires separate founder authorization.
+- **Validation:** THE EXCHANGE vitest suite + typecheck on `main`; fixed `assetCount` expectation 6→7 post-Gideon portrait.
+
+---
+
 ## 2026-10-15 — Staging auth redirect and founder login
 
 - **Sprint:** P0.SITE00.IDNTY.STAGING-AUTH-REDIRECT-AND-FOUNDER-LOGIN-RECOVERY1. Staging only. No production writes. No merge.
