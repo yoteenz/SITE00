@@ -16597,6 +16597,325 @@ Summary of the whole conversation in this chat.
 
 ---
 
+## 2026-10-14 — P0 Founder staging deployment1 (IDNTY)
+
+- **Sprint:** P0.SITE00.IDNTY.FOUNDER-STAGING-DEPLOYMENT1 — isolated staging for DF founder test; **no merge #1642**, **no prod Railway/GoDaddy**, **no email sent**.
+- **Audit:** No Railway staging service, no Supabase branch/project for staging; production Supabase `hyycomvcaqxxvyrfupes` already has `site00_df_*` rows — **staging must not write there**.
+- **Delivered:** `docs/site00/idnty/FOUNDER_STAGING_DEPLOYMENT_MANIFEST.md`, `scripts/staging/*`, FNDATN dispatch `siteOrigin` = `SITE00_PUBLIC_APP_ORIGIN` for staging invitation URLs.
+- **Tests:** 61+ targeted vitest pass on branch; local `founder-invitation-preview.mjs` dry-run with staging origin.
+- **Blocked:** Founder must create Railway **duplicate** service on PR branch + staging Supabase project + staging SPA host before live staging URLs.
+
+---
+
+## 2026-10-15 — P0 Railway staging SPA build recovery (carefree-luck)
+
+- **Sprint:** P0.SITE00.IDNTY.RAILWAY-STAGING-SPA-BUILD-RECOVERY1 — fix `carefree-luck` staging frontend build on branch `cursor/idnty-founder-readiness-e2e-be3b`.
+- **Root cause:** `scripts/staging/build-founder-staging-spa.sh` ran `zip` after successful `npm run build`; Railway build image has no `zip(1)` → exit **127**, failed deploy despite good `dist/`.
+- **Fix:** Require `dist/index.html`; skip ZIP by default; optional `STAGING_SPA_PACKAGE_ZIP=1` when `zip` installed (local artifact). Docs/README updated. Commit `5d06fe32`.
+- **Verify (local):** build exit 0 without zip; bundle inlines staging API + staging Supabase; no service_role; `npx serve -s` returns 200 for `/` and deep `/admin/site00/foundation-readiness`. Staging URL health **UNVERIFIED** from agent (404 before push).
+
+---
+
+## 2026-10-15 — Staging auth redirect (cherry-pick onto founder staging branch)
+
+- **Sprint:** P0.SITE00.IDNTY.STAGING-AUTH-REDIRECT-AND-FOUNDER-LOGIN-RECOVERY1 / DEPLOYMENT-RECOVERY2. Staging only. No merge to `main`. PR #1647 remains a receipt; deploy path is **`cursor/idnty-founder-readiness-e2e-be3b`** (Railway `carefree-luck` SPA + `reliable-creation-staging` API).
+- **Root cause:** signup omitted `emailRedirectTo`; GoTrue falls back to Site URL (`localhost:3000` on new projects). Founder corrected Supabase staging dashboard Site URL + allowlist for `https://carefree-luck-staging.up.railway.app`.
+- **Code:** cherry-pick `70d83ecb` onto founder staging branch — `site00AuthRedirect.ts`, sign-in/create-account actions, recovery hash handling. **Not live until Railway redeploys** the staging branch SHA.
+- **Login:** E2E password login **not verified** without founder credentials; bundle grep is the deploy gate.
+
+---
+
+## 2026-10-15 — P0 Staging foundation config & persistence readiness1 (IDNTY)
+
+- **Sprint:** P0.SITE00.IDNTY.STAGING-FOUNDATION-CONFIG-AND-PERSISTENCE-READINESS1 — staging-only forensic audit; **no merge**, **no Railway redeploy**, **no E2E send/payment**, **no Anthony**.
+- **Branch:** `cursor/staging-foundation-config-readiness-be3b` from `cursor/idnty-founder-readiness-e2e-be3b`.
+- **Live staging:** API `a3ac68d526cc`, Supabase host `soocqbyjkxeubfjnuwvf`, `persistSupabaseEnv` false, transactional send false. SPA HTTP 200, bundle `index.CqHB0fcH.js`.
+- **Code:** `stagingEnvConfig.ts`, readiness report groups env aliases + `unverified` + `staging_identities`; health diagnostics add persistence store, public origin, Stripe key mode (prefix only); readiness workspace styled summary table; audit doc `docs/site00/idnty/STAGING_FOUNDATION_READINESS_AUDIT.md`; prepared migration `20261015120000_site00_df_project_messages_rls.sql` (not applied remotely).
+- **Schema:** Staging DB has core DF tables; remote migrations missing repo `20261010103000` history entry; `site00_df_project_messages` RLS off.
+- **Founder actions (ordered):** approve apply RLS migration on staging Supabase; set `SITE00_PUBLIC_APP_ORIGIN` + `SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1` on Railway API after approval; redeploy API; sign in on staging; authorize synthetic E2E.
+- **Tests:** vitest stagingEnvConfig + founderReadinessE2e + runtime diagnostics (17 pass on changed files).
+
+---
+
+## 2026-10-15 — P0 Staging security deployment E2E unblock1 (IDNTY)
+
+- **Sprint:** P0.SITE00.IDNTY.STAGING-SECURITY-DEPLOYMENT-AND-E2E-UNBLOCK1 — no remote migration, no deploy, no merge, no E2E send/payment.
+- **Branch:** `cursor/staging-security-e2e-unblock-be3b` (extends #1648 readiness work).
+- **DB forensics (staging soocqbyjkxeubfjnuwvf):** `site00_df_project_messages` exists; migration `20261010103000` not in history (schema drift); RLS OFF on messages vs ON on sibling tables; live API health shows **persistSupabaseEnv true** and transactional send **false**.
+- **RLS migration:** strengthened `20261015120000_site00_df_project_messages_rls.sql` (enable RLS + revoke row privs from anon/authenticated; no permissive policies). Migration SQL tests + PostgREST probe (`stagingDatabaseSecurityProbe.ts`) wired into async readiness report.
+- **Docs:** `STAGING_E2E_ACTIVATION_APPROVAL.md` — approval gate + post-approval deploy order.
+- **Tests:** 22 pass (RLS migration, probe mocks, founder readiness, staging env, runtime diagnostics).
+
+---
+
+## 2026-10-15 — P0 Founder synthetic intake unblock1 (IDNTY)
+
+- **“Not authorized” UI:** Full **email/payment E2E** gate (hardcoded), not login failure. Brief sign-in flash → readiness = Supabase **session restore** + valid admin session on `/admin/*` (Railway staging is **not** preview auth bypass).
+- **Readiness copy:** Removed stale RLS/deploy #1648 instructions via `stagingReadinessRuntime.ts`; API report now sets `founder_login_verified`, `synthetic_intake_ready`, `remote_migration_applied` from live probes + authenticated readiness call.
+- **Mobile styling:** `FoundationReadinessPage` wrapped in `Site00AdminShell` + readiness-specific admin CSS.
+- **Branch:** `cursor/founder-synthetic-intake-unblock-be3b` · PR **#1650** merged into `cursor/idnty-founder-readiness-e2e-be3b`.
+- **Railway SPA asset routing deploy (2026-10-16):** P0 RAILWAY-SPA-ASSET-ROUTING-DEPLOY1 — **#1652 merged** to `cursor/idnty-founder-readiness-e2e-be3b` @ **3f8ba7aa**; carefree-luck deploy **success** (`index.CryF1DHM.js`) but **Start Command still `npx serve -s`** (agent has no Railway API) → live missing `/assets/*.js` still **200 text/html**. Added repo **`railway-spa.toml`** (`npm run start:spa`). Founder must set carefree-luck Start Command or config-as-code path → redeploy. Live mobile readiness **renders** (not blank); Create test client **visible**. — root cause: `npx serve dist -s` / Hikari SPA fallback serves **index.html** for missing `/assets/*.js`. Fix: `server/site00SpaStaticServer.ts` + `npm run start:spa` (404 plain text for missing assets; deep links → shell; immutable cache on hashed assets). Branch `cursor/railway-spa-asset-routing-be3b` draft PR — **Railway carefree-luck start command must change** from `npx serve` to `npm run start:spa`. Not deployed without approval.
+- **Staging blank screen hotfix deploy (2026-10-16):** P0 STAGING-BLANK-SCREEN-HOTFIX-DEPLOY1 — merged **#1651** → `cursor/idnty-founder-readiness-e2e-be3b` @ **`e2b762bf`**. Railway **carefree-luck** SPA live: `index.BlkyswjU.js` + `FoundationReadinessPage.Dkfb9Mf0.js` (hotfix strings present). Live mobile browser: readiness **renders** (not blank); Create test client **visible**; unauth → sign-in. API **reliable-creation** health @ `e2b762bf`, persist ON. Railway still returns **index.html** for missing `/assets/*.js` (Hikari SPA fallback); client chunk-reload + error boundary mitigates.
+- **Staging deploy (2026-10-16):** Sprint P0 FOUNDER-READINESS-1650-STAGING-DEPLOY1 — git integration **`27eaece5`** (+ chore redeploy trigger **`42eecb30`**). Live **API** `reliable-creation-staging` health **`27eaece5a3ea`** (`site00-v272-27eaece`); **SPA** `carefree-luck-staging` bundle `index.BeTEYOgF.js` + lazy `FoundationReadinessPage.jQftkypu.js` (Synthetic intake / Email/payment E2E labels, Site00AdminShell). Persist ON · Supabase `soocqbyjkxeubfjnuwvf` · transactional send OFF · public origin carefree-luck. Readiness + create-test-client **401** without Bearer. Production API unchanged (`80292bb2`). No merge to `main`.
+
+---
+
+## 2026-10-16 — P0 Staging white screen runtime recovery1 (IDNTY)
+
+- **Sprint:** P0.SITE00.IDNTY.STAGING-WHITE-SCREEN-RUNTIME-RECOVERY1 — forensic + surgical repair on Railway **carefree-luck** staging only; no `main`, no IDNTY business-logic changes.
+- **Live forensics:** Staging HTML build `mvb3kwqd`; `#1652` asset routing **live** (missing `/assets/*.js` → **404** `text/plain`; hashed bundles **200**). Playwright iPhone profile: `/`, `/origin/sign-in`, `/admin/site00/foundation-readiness` mount React (`data-site00-app-mounted=1`); no `pageerror` on happy path. Simulated **OriginPage chunk abort** on current staging → **empty body (white)** — root cause class **F** (React/lazy gap) + **D** (null suspense fallback), not broken SPA fallback anymore.
+- **Fix (branch `cursor/staging-white-screen-runtime-be3b`):** `Site00WorldRouteSuspenseFallback` (visible `#f5f5f3` “Loading SITE 00…” instead of `null` after cinematic gate); `Site00WorldRouteErrorBoundary` + `lazyWithChunkRecovery` for `Site00OriginPage`; admin `LoadingScreen` no longer unmounts to blank on 12s timeout; `site00-assts-loader-boot.js` reads `meta[name=site00-supabase-project-ref]` injected at Vite build from `VITE_SUPABASE_URL`.
+- **Status:** **IMPLEMENTED — LIVE VERIFICATION PENDING** until Railway redeploys carefree-luck from integration branch and founder re-checks iPhone Safari post-loader.
+
+---
+
+## 2026-10-16 — P0 Artifact initialization crash recovery (IDNTY staging)
+
+- **Symptom:** After PR #1653 error boundary, iPhone Safari showed `undefined is not an object (evaluating 't.artifact.artifact_id')` / `Cannot read properties of undefined (reading 'artifact_id')` on staging.
+- **Root cause:** `src/site00/foundation-client/api.ts` used relative `/api/site00/digital-foundation-artifact`. On Railway **carefree-luck** (static SPA only), browser fetches hit the SPA host → **200 text/html** → `{}` treated as payload → `useIntakeDraft` / `resolveDfRoute` dereferenced missing `artifact`.
+- **Fix (branch `cursor/artifact-init-crash-recovery-be3b`):** Route DF client fetches through `site00ApiUrl()` (`VITE_API_BASE` → **reliable-creation-staging**); reject non-JSON and invalid payloads (`INVALID_API_RESPONSE`, `INVALID_PAYLOAD`); hook/model guards; regression tests `tests/foundationClientArtifactApi.test.ts`.
+- **Repro:** `https://carefree-luck-staging.up.railway.app/foundation/not-a-real-token` before fix → world error boundary; after fix locally → DF “WE COULDN'T LOAD THIS” recoverable panel (no throw).
+- **Deploy:** Staging SPA redeploy required; `npm run start:spa` unchanged.
+
+---
+
+## 2026-10-19 — DF intake P02 phone format + P03 domain uncheck (IDNTY staging)
+
+- **P02:** US phone field formats as `901-236-2647` while typing (`phoneFormat.ts`); saved intake phones normalized in `draftFromPayload`.
+- **P03:** DOMAIN service row toggles off — clears `domainPath` and related fields when the checkbox row is tapped again (was only opening/closing panel while radio selection kept row checked).
+- **Branch:** `cursor/df-intake-phone-domain-toggle-be3b` → `cursor/idnty-founder-readiness-e2e-be3b`. Redeploy **carefree-luck** after merge.
+
+---
+
+## 2026-10-19 — P0 Form control authority audit1 (IDNTY)
+
+- **Sprint:** `P0.SITE00.IDNTY.FORM-CONTROL-AUTHORITY-AUDIT1` — read-only; no UI changes.
+- **Package:** `docs/site00/idnty/form-control-authority-audit1/` (inventory, gap matrix, Opus brief, migration plan, coverage report + founder P02/P03 evidence JPGs).
+- **Headline finding:** P02 Business Type uses native `<select>` (iOS open UI = CLASS A P1); repo already has unused `DfSelect` in `components.tsx`. Portal comm prefs use unstyled native checkboxes (CLASS B P1).
+- **Counts:** 52 inventoried control instances, 16 families, 17 native form tags in `foundation-client`.
+
+---
+
+## 2026-10-19 — P0 Persistent artifact & intake recovery (IDNTY staging)
+
+- **Symptom:** Synthetic `/foundation/:token` worked until refresh/restart; dashboard client vanished; link → “ISN'T ACTIVE”.
+- **Root cause:** Supabase upserts ignored errors; referral_source FK failed (random in-memory UUIDs never seeded in DB); artifacts only in Railway memory. Staging DB had **0** DF rows — original founder test artifact **not recoverable**.
+- **Fix:** Stable `DF_REFERRAL_SOURCE_ID`, seed referral rows on persist, `DfPersistenceError` + `createArtifactForLeadDurable`, await persist on test-client create, 404 when Supabase miss, reset rehydrates from DB. Report: `docs/site00/idnty/PERSISTENT_ARTIFACT_RECOVERY_REPORT.md`. Migration service_role policies applied staging `soocqbyjkxeubfjnuwvf`.
+
+---
+
+## 2026-10-19 — IDNTY form control Phase 1 implementation (Composer)
+
+- **Sprint:** `P0.SITE00.IDNTY.FORM-CONTROL-IMPLEMENTATION.COMPOSER-PHASE1` on integration branch `cursor/idnty-founder-readiness-e2e-be3b`; authority Opus2 `c5a773381` / PR #1658 (docs only, not blind-merged); persistence #1657 preserved.
+- **Shipped:** `DfField` required `*` + optional `OPTIONAL`; P02 unified on `DfField` (CONTACT NUMBER label/hint, phone still optional); native select chevron → `df-native-select__chev` (C-1); component tokens + coarse-pointer 16px inputs (NF-01); `.df-chip` styles (NF-02); checkbox edge token `#8f8d88` (NF-06 prep); tests `tests/dfFormControlPhase1.test.ts`; docs `docs/site00/idnty/form-control-implementation-phase1/`.
+- **Not in Phase 1:** Business Type sheet, System B checkboxes, phone required, progression/save/API changes. PR left unmerged per sprint.
+- **Verify:** Playwright iPhone profile on workspace Vite `:5175` → business name input 16px; screenshots `/opt/cursor/artifacts/df-phase1-visual/`.
+
+---
+
+## 2026-10-19 — IDNTY form control Phase 2 selector (Composer)
+
+- **Sprint:** `P0.SITE00.IDNTY.FORM-CONTROL-IMPLEMENTATION.COMPOSER-PHASE2` on `cursor/idnty-founder-readiness-e2e-be3b` after Phase 1 merge #1659 (`76396baf`).
+- **Shipped:** `IdntySelect` + mobile `IdntySelectionSheet` (FD-1 / FD-6); P02 Business Type behind `VITE_DF_CUSTOM_INDUSTRY_SELECT` (preview dev `=1`); desktop reuses `DfSelect`; legacy industry row; tests `tests/idntySelectPhase2.test.ts`; docs `docs/site00/idnty/form-control-implementation-phase2/`.
+- **Flag:** Production builds still default native select until founder sets `VITE_DF_CUSTOM_INDUSTRY_SELECT=1` at build.
+- **Evidence:** `/opt/cursor/artifacts/df-phase2-visual/` (mobile sheet + desktop listbox).
+
+---
+
+## 2026-10-19 — IDNTY form control consolidated A (Phases 3–5)
+
+- **Sprint:** `P0.SITE00.IDNTY.FORM-CONTROL-IMPLEMENTATION.COMPOSER-CONSOLIDATED-A` on integration after #1660.
+- **Shipped:** System B checkbox CSS + `DfCheckMark` on P03/P04/P05; required CONTACT NUMBER with `libphonenumber-js` validation; `completeIntake` server guard; synthetic/fixture test phones; docs `form-control-implementation-consolidated-a/`.
+- **Grandfather:** already-`COMPLETE` intakes skip re-validation on `completeIntake`.
+
+---
+
+## 2026-10-19 — IDNTY Founder Workspace full authority implementation (Composer1, slice 1)
+
+- **Sprint:** `P0.SITE00.IDNTY.FOUNDER-WORKSPACE.FULL-AUTHORITY-IMPLEMENTATION.COMPOSER1` on `cursor/founder-workspace-full-authority-implementation-composer1-be3b` → integration `cursor/idnty-founder-readiness-e2e-be3b`.
+- **Shipped (React):** `src/site00/admin/founder-workspace/` — shell (sidebar 01–07, tablet rail, mobile bottom + menu Referrals), overlay host + CREATE_CLIENT, seven pages, Opus2-oriented CSS, list API `intake_state` for G-01; `/foundation-readiness` → workspace System; auth return → `/founder-workspace/overview`.
+- **Docs on branch:** Opus1/2/3 + policy lock trees; implementation pack `founder-workspace-full-authority-implementation-composer1/` (partial deliverables).
+- **Policy:** Referrals commissions/payouts/print remain blocked UI; AIO not auto-active.
+- **Verify:** `tests/idntyFounderWorkspaceImplementation.test.ts` (9); `npm run build` pass. Staging E2E + full overlay parity **not** complete.
+
+---
+
+## 2026-10-19 — IDNTY Founder Workspace implementation slice 2 (completion pass)
+
+- **Continuation:** PR **#1665** on `cursor/founder-workspace-full-authority-implementation-composer1-be3b` (not merged).
+- **Shipped:** Canonical OL-01…20 + RO-01…20 overlay bodies/triggers; enhanced host (geometry, dirty confirm); shell ⌘K search; operations/reviews/correspondence/referrals/system depth; `foundationAdminApi` task/quote/message actions; screenshot script + 28 PNGs (unauthenticated limitation documented).
+- **Tests:** workspace vitest 16; intake regressions 24; build pass.
+- **Honest gates:** PR **not** merge-ready — Opus pixel signoff, authenticated E2E, commission backend still open.
+
+---
+
+## 2026-10-19 — IDNTY Founder Workspace slice 3 (authenticated acceptance + defect closure)
+
+- **Sprint:** `P0.SITE00.IDNTY.FOUNDER-WORKSPACE.AUTHENTICATED-VISUAL-ACCEPTANCE-AND-DEFECT-CLOSURE.COMPOSER1` on PR **#1665** (draft, not merged).
+- **Fixes:** Five-column registry (`FoundationsRegistry` + container CSS); shared `RegistryFilterProvider` for OL-07/toolbar; referral activity timeline from real attributed list rows (no fake `/api/admin/referrals/events`).
+- **Docs:** acceptance pack under `founder-workspace-full-authority-implementation-composer1/` including `FINAL_ACCEPTANCE_REPORT.md`.
+- **Verify:** vitest 22 workspace + 24 intake; build pass. Authenticated React capture still **BLOCKED** (no founder session in cloud VM).
+
+---
+
+## 2026-10-19 — Founder Workspace tunnel review pin (Composer1)
+
+- **Sprint:** Single-branch tunnel review for PR **#1665** — pin `origin/cursor/founder-workspace-full-authority-implementation-composer1-be3b` @ `b8f0bcf0` on canonical Cloudflare tunnel → `:5174` via `serve-site00-preview-from-pin-ref.sh` (worktree `/tmp/site00-preview-main`, `PREVIEW_AUTHORITY=PINNED`).
+- **Public URL:** canonical tunnel hostname (Cloud Secrets) — smoke 200, `main.tsx?v=dev-local`, lineage SHA matches review branch.
+- **Docs:** `docs/site00/idnty/founder-workspace-tunnel-review-composer1/`. Revert: `serve-site00-preview-from-main.sh`. No Railway/staging/production changes; no merge.
+
+---
+
+## 2026-10-20 — Recovery2 merge + approved referral card assets (Composer)
+
+- **Merge:** Founder-approved PR **#1668** → `cursor/idnty-founder-readiness-e2e-be3b` @ `d9431c63`.
+- **Card assets:** Founder JPEGs → `public/site00/idnty/referral-card/aio/`; `FounderCard` uses `<img>` for AIO only via `referralCardAssets.ts`.
+- **Follow-up:** Draft PR on `cursor/idnty-approved-referral-card-assets-be3b` — **not merged** until founder confirms artwork on tunnel.
+- **Safety:** Referral link MISSING, `REFERRAL_CARD_PRINT_READY=false`, AIO not auto-active.
+
+---
+
+## 2026-10-20 — Recovery2 PR reconciliation + tunnel repin (Composer)
+
+- **Problem:** PR **#1665** merged at `8761463e` before Opus Recovery2 (`0095c8b3`, `cfa83e9b7` on implementation branch).
+- **Review branch:** `cursor/founder-workspace-opus-recovery2-review-be3b` — cherry-pick Recovery2 onto integration `d68038a8`; founder-workspace tree **identical** to `cfa83e9b7`.
+- **Draft PR:** **#1668** → `cursor/idnty-founder-readiness-e2e-be3b` — **NOT MERGED**.
+- **Tunnel:** pinned to review branch head (`a34e3c07`+); worktree `/tmp/site00-preview-main`; workspace route smoke 200.
+- **Docs:** `docs/site00/idnty/founder-workspace-recovery2-pr-and-tunnel-repin1/`. Tests: workspace 41/41, build + typecheck pass.
+
+---
+
+## 2026-10-20 — Living portal one-pass completion (draft, Composer continue)
+
+- **Branch:** `cursor/idnty-living-portal-one-pass-completion1-be3b` off integration (`d9431c63` post–Recovery2 merge); **draft PR only** (not merged to integration/main).
+- **Authority:** Ingested LOCK1 pack from `origin/claude/client-foundation-living-portal-authority-8d42xk` under `docs/site00/idnty/client-foundation-digital-access-authority-lock1/`; public assets at `public/site00/idnty/foundation/*` + `public/foundation-manifest.webmanifest`.
+- **Client:** `FoundationClient` mounts full `ProjectPortal` (OVERVIEW–COMM_PREFS); `P03IntakeSubmitted` for `INTAKE_SUBMITTED`; PWA head tags via `useFoundationPwaHead`; `/foundation/return` route + reentry UI.
+- **G-02:** `clientQuoteGate.ts` — quote/recommendation redacted and surface capped until `founder_commercial_ready`.
+- **G-09/G-12:** `digital-foundation-session` API (httpOnly cookie, email+code reentry in memory); token hash index + migration `20261020120000_site00_df_public_token_hash.sql`.
+- **Tests:** `digitalFoundationClientQuoteGate`, `digitalFoundationSession`, portal/launch gate phone fixes; build pass.
+- **Open:** Full email send for reentry, token URL replaceState after exchange, staging 24-step E2E, Supabase migration apply on Railway.
+
+---
+
+## 2026-10-20 — DF crown text-only responsive reflow (P0, draft PR #1671)
+
+- **Sprint:** `P0.SITE00.IDNTY.FOUNDATION-BUILDER.TEXT-ONLY-RESPONSIVE-REFLOW-RECOVERY1` on `cursor/idnty-living-portal-one-pass-completion1-be3b` — **draft PR #1671**, not merged.
+- **Fix:** `site00-df-client.css` — `--df-crown-text-max` on `.df-screen--crown` for headline/lede/rail; review nav wrap + ellipsis; `.df-review .df-screen--crown .df-lede` no longer forces 310px over artwork band. **No** `.df-object--crown` geometry changes.
+- **Tests:** `tests/digitalFoundationCrownTextReflow.test.ts`; Playwright geometry at 390px on `/foundation/review` (P04–P07 family).
+
+---
+
+## 2026-10-20 — DF global typographic reflow (follow-up, draft PR #1671)
+
+- **Sprint:** `P0.SITE00.IDNTY.FOUNDATION-BUILDER.GLOBAL-TYPOGRAPHIC-REFLOW-AND-OPTICAL-BALANCE1` on same branch — extends crown text recovery; **not merged**.
+- **Fix:** `site00-df-client.css` + `site00-df-components.css` — `text-wrap: balance` (headlines, section/row titles), `text-wrap: pretty` (lede, subs, acks, hints), `min-width: 0` on card text columns; parent `--df-crown-text-max` unchanged; `.df-object--crown` untouched.
+- **Tests:** `tests/digitalFoundationTypographicReflow.test.ts`; Playwright orphan audit + screenshots under `/opt/cursor/artifacts/df-typography-after/`.
+
+---
+
+## 2026-10-20 — DF review coverage + runtime recovery (draft PR #1671)
+
+- **Sprint:** `P0.SITE00.IDNTY.COMPLETE-ARTIFACT-REVIEW.RUNTIME-AND-COVERAGE-RECOVERY1` on `cursor/idnty-living-portal-one-pass-completion1-be3b` @ `0805858d` — **draft PR #1671**, not merged.
+- **502 / loading root cause:** Tunnel was serving **vite preview (CI dist)** without `/api/dev/site00-digital-foundation-preview-bootstrap` → recommendation stuck loading; origin down → Cloudflare 502. Fix: pinned restart uses **dev Vite + local API**; offline `reviewFixtureSnapshots.json` fallback.
+- **Registry v2:** `2026-10-20-coverage1` — **89** entries (founder routes, 40 overlays, client lifecycle, gaps labeled NOT IMPLEMENTED). Nav: search, group chips, prev/next, `SHOW REGISTRY (89)`.
+- **Matrix:** `docs/site00/idnty/df-review-coverage-recovery1/DF_REVIEW_COVERAGE_MATRIX.json`. Tests: registry completeness + **public tunnel** Playwright acceptance.
+
+---
+
+## 2026-10-20 — DF review registry + builder ownership lock (draft PR #1671)
+
+- **Sprint:** `COMPLETE-REVIEW-REGISTRY-AND-BUILDER-OWNERSHIP-LOCK1` on `cursor/idnty-living-portal-one-pass-completion1-be3b` — **draft PR #1671**, not merged.
+- **Registry:** `digitalFoundationReviewRegistry.ts` (`2026-10-20-lock1`) — groups intake, P03 foundation builder, portal, post-intake, complete, deprecated public BLDR anchors; forbids `BuilderStudio` / `/bldr/studio/` on review page.
+- **Review page:** Removed BLDR iframes; `LegacyPublicBuilderRedirect` for `#df-r-bldr-*`; added ROADMAP/STAGE/NEEDS_YOU/RECORDS/COMM_PREFS, post-intake, complete (`M_COMPLETE_CREDIT`), client return link; grouped collapsible nav + provenance strip.
+- **Tests:** `digitalFoundationReviewBuilderOwnership.test.ts`; updated `digitalFoundationReviewLinks.test.ts`. Playwright smoke on workspace `:5175` — zero iframes, blocked BLDR panel.
+
+---
+
+## 2026-10-20 — DF crown optical text composition refinement (draft PR #1671)
+
+- **Sprint:** `P0.SITE00.IDNTY.FOUNDATION-BUILDER.OPUS-OPTICAL-TEXT-COMPOSITION-REFINEMENT1` on the same branch — **not merged, not deployed**.
+- **Fix:** `site00-df-client.css` — crown roles stop one gap short of where the locked SVG is *drawn* (rail → stone side x 52, headline → beam x 24, lede → glass pane x 36) via `--df-crown-art-w` (meet width in the locked box); ≥1100px roles take the 520px column (lede 440px); review frames keep phone values; rail rule shrinks before a label reaches the art. P01 lede keeps "TYPICALLY {days} BUSINESS DAYS." together (inline-block, max-width 100%). **No** artwork, font-size or copy changes.
+- **Evidence:** `docs/site00/idnty/df-optical-text-composition-refinement1/` (React before/after side-by-sides, 114-capture geometry JSON, 200% zoom); harness `scripts/site00/df-crown-text-qa/`.
+- **Tests:** `digitalFoundationCrownTextReflow.test.ts` and `digitalFoundationTypographicReflow.test.ts` assert the new contract. `digitalFoundationClientBoard0102` (10 × `CONTACT_PHONE_REQUIRED`) fails with or without this change.
+
+---
+
+## 2026-10-20 — DF canonical review preview restoration (draft PR #1671)
+
+- **Sprint:** `P0.SITE00.IDNTY.MICROPRODUCT-REVIEW.CANONICAL-PAGE-RESTORATION-AND-TRUE-PREVIEW1` on `cursor/idnty-living-portal-one-pass-completion1-be3b` — **draft PR #1671**, not merged, no production deploy.
+- **Builder forensics:** Verified IDNTY builder = `EntryIntake.tsx#P03Configure` (3 manifest states); BLDR iframes removed @ `2693662b` — `digitalFoundationBuilderManifest.ts` + tests lock ownership; legacy `#df-r-bldr-*` stay blocked panels, not “foundation builder.”
+- **Review UX:** Single `#df-review-stage` + `DigitalFoundationReviewPreviewHost` (hash nav); client portal 4-tab host; founder workspace embedded via `MemoryRouter` + `FounderWorkspaceApp` (simulated cloud-preview admin). Registry `2026-10-20-canonical-preview1` (~92 entries) with honest preview status labels in nav.
+- **Evidence:** Playwright mobile/desktop captures under `/opt/cursor/artifacts/df-review-canonical/`; tunnel must run **dev Vite :5174** + `SITE00_CLOUD_MOBILE_PREVIEW=1` (clear `.vite` cache if strip UI persists).
+
+---
+
+## 2026-10-20 — Split display ? cap alignment (draft PR #1671)
+
+- **Ask:** Custom split `?` (black stem + red dot) on builder/display headlines was taller than adjacent uppercase — cap-align to text.
+- **Fix:** `correspondence-display-split--question` in `reactProse.tsx`; CSS in `site00-correspondence-fonts.css` plus `.df-headline` / `.bs-headline` overrides; email `html.ts` inline height matched. Commit `55f89597` on `cursor/idnty-living-portal-one-pass-completion1-be3b`.
+
+---
+
+## 2026-10-20 — DF review gallery restoration (draft PR #1671)
+
+- **Sprint:** `COMPLETE-ARTIFACT-REVIEW.CANONICAL-GALLERY-RESTORATION-AND-REGRESSION-LOCK1` — regression was single-screen `DigitalFoundationReviewPreviewHost` only (`7f0841be`); restored **continuous vertical gallery** (`DigitalFoundationReviewGallery` + lazy sections + error boundaries). Registry jump scrolls to `#anchor` and resets group filter to ALL; does not unmount siblings.
+- **Registry:** `2026-10-20-gallery-restoration1`; tests `digitalFoundationReviewGalleryRegression.test.ts`. Tunnel SHA `80936230`; Playwright evidence `/opt/cursor/artifacts/df-review-gallery-restoration/`.
+
+## 2026-10-20 — DF review founder/portal gallery mount fix (draft PR #1671)
+
+- **Founder BROKEN panels:** nested `MemoryRouter` inside site `BrowserRouter` on `/foundation/review`. Fix: inline render founder pages (`DigitalFoundationReviewFounderHost`) with `RegistryFilterProvider` + `OverlayProvider`; `ClientRecordPage` accepts optional `reviewArtifactId`.
+- **Visibility:** `gallerySectionEagerMount` mounts builder, client portal, and founder groups without scroll; hash/registry nav forces section mount. Bootstrap keeps offline fixtures when live mint fails; seeds preview memory via GET bootstrap.
+- **Ship:** `8199a7cd` on `cursor/idnty-living-portal-one-pass-completion1-be3b`; test `digitalFoundationReviewFounderHost.test.ts`.
+
+## 2026-10-20 — BLDR PLACE horizontal strip (draft PR #1673)
+
+- **Ask:** PLACE room cards match FEEL — horizontal strip, title + descriptor above, cards show label only.
+- **Fix:** `PlaceControls` in `builder-studio/rooms.tsx` uses `bs-strip` + shared caption; `PATH_BY_ID` in `studioModel.ts`. Test `bldrPlaceControlsLayout.test.ts`.
+
+## 2026-10-20 — DF review intake vs website builder zones (draft PR #1673)
+
+- **Founder correction:** P03 “build your foundation” (incl. domain/email expanded) = **Foundation intake** tab. **Builder** tab = hybrid website builder only (PLACE, FEEL, WORK, PACE, BLUEPRINT sample iframes).
+- **Registry:** P03 family → group `INTAKE`; `df-r-bldr-*` → `FOUNDATION_BUILDER`. Client portal pages render as standalone `StageChrome` per anchor (not repeated tab shell). `digitalFoundationReviewZones.test.ts` locks separation.
+- **Manifest:** `digitalFoundationBuilderManifest.ts` lists five studio rooms; `intakeConfiguratorAnchorIds()` for P03 surfaces.
+
+## 2026-10-20 — DF canonical lifecycle recovery (draft PR #1673)
+
+- **Sprint:** `P0.SITE00.IDNTY.CANONICAL-LIFECYCLE.ORIGINAL-VISUAL-AUTHORITY-RECOVERY-AND-END-TO-END-RESTORATION1` — forensics matrix `docs/site00/idnty/canonical-lifecycle-restoration1/LIFECYCLE_RECONCILIATION_MATRIX.json`; review zones split into intake · builder · **pre-activation queue** · **living portal** · **completion & threshold** · founder ops.
+- **Screen 10:** `df-r-needs-you-approval` + `J_SIGNATURE_APPROVAL` fixture; P10 headline “WE NEED YOUR APPROVAL” + signature preview block for `APPROVE_SIGNATURE`.
+- **Screens 11–15C:** registry anchors for complete (11), records (13A/detail), founder pipeline/command/execution/runbook; founder host maps to `FoundationsPage` / `ClientRecordPage` / `OperationsPage`. 12A = registry gap (digital location product).
+- **Tests:** `dfClientLifecycleRouting.test.ts`, `digitalFoundationLifecycleRecovery.test.ts`. Evidence `/opt/cursor/artifacts/df-lifecycle-recovery/`. **Not merged** per sprint directive.
+
+## 2026-10-20 — DF review zone-scoped continuous gallery (draft PR #1671)
+
+- **Founder ask:** Top zone pills (intake · builder · client · founder); **one zone mounted at a time**, but **all screens in that zone scroll on one page** — not single-screen stage, not all 92 sections at once.
+- **Fix:** `DigitalFoundationReviewGallery` maps `galleryEntriesFilteredByZone` → `DigitalFoundationReviewGallerySection` (lazy IO + first-3 eager per zone). Zone pill CSS (`.df-review__zone-bar`). `navigateToReviewAnchor` scrolls to section id. Copy kicker `CONTINUOUS GALLERY`.
+- **Tests:** `digitalFoundationReviewGalleryRegression.test.ts` (zone eager contract), `digitalFoundationReviewLinks.test.ts`. Evidence `/opt/cursor/artifacts/df-review-zone-gallery/`.
+
+## 2026-10-20 — BLDR five-tab isolated preview (PR #1672)
+
+- **Sprint:** `P0.SITE00.BUILDER.OPUS-FIVE-TAB-PREVIEW-AND-SAFE-INTEGRATION1` — worktree `/tmp/site00-builder-preview-bldr1672` @ `5dd77ff1`; Vite **:5176**; quick tunnel URL in `/tmp/site00-builder-preview-url.txt` (foundation **site00.fsbw-dev.com** on **:5174** unchanged).
+- **Scripts:** `run-site00-builder-preview-server.sh`, `run-site00-builder-preview-tunnel.sh`, `bldr-five-tab-preview-capture.mjs`. Evidence `/opt/cursor/artifacts/bldr-five-tab-preview/`. **#1672 not merged.**
+
+## 2026-10-20 — Merge base into living portal branch
+
+- **Merge:** `origin/cursor/idnty-founder-readiness-e2e-be3b` (includes merged #1671 + #1669 AIO referral card assets) into `cursor/idnty-living-portal-one-pass-completion1-be3b`. DF review conflicts resolved in favor of living-portal lifecycle/zone work; referral artwork from base retained via auto-merge.
+
+## 2026-10-20 — DF Phase 1 source recovery + builder handoff (draft PR #1671)
+
+- **Sprint:** `P0.SITE00.IDNTY.PHASE1.CANONICAL-SOURCE-RECOVERY-AND-PAID-TO-BUILDER-LIFECYCLE-INTEGRATION1` — functional recovery only; no Opus visuals; **do not merge / no production deploy**.
+- **Routing fix:** `resolveDfRoute` no longer returns `kind: 'complete'`; COMPLETE/BUILD_UPSELL surfaces keep the living portal (`OVERVIEW`, `ROADMAP`, `NEEDS_YOU`, `RECORDS`) plus view `COMPLETE` for Board 11/12 milestone inside `FoundationClient`.
+- **Builder handoff:** `shared/site00-digital-foundation/builderHandoff.ts`, API `create-builder-handoff`, opaque `dfHandoff` deep link to `/bldr/studio/blueprint`; credit verified server-side; consumer `PENDING_BUILDER_INTEGRATION` (PR #1672 untouched).
+- **Docs:** `docs/site00/idnty/canonical-lifecycle-restoration1/` — lifecycle contract, handoff contract, screen matrix, Phase 2 Opus brief, Phase 1 test evidence.
+- **Tests:** `tests/digitalFoundationLifecyclePhase1.test.ts`; evidence `/opt/cursor/artifacts/df-phase1-portal/`. Branch `cursor/idnty-living-portal-one-pass-completion1-be3b`.
+
+## 2026-10-20 — DF Phase 2 board screens 10–15C (draft PR, branch `cursor/idnty-living-portal-one-pass-completion1-be3b`)
+
+- **Sprint:** `P0.SITE00.IDNTY.PHASE2.OPUS-ORIGINAL-SCREEN-VISUAL-AUTHORITY-RECOVERY-AND-IMPLEMENTATION1`. Four founder boards in `docs/site00/idnty/canonical-lifecycle-restoration1/boards/` are the visual authority. **Not merged, no production deploy.** PR #1675 was closed by the founder; a new draft PR was opened on the same branch.
+- **Client:** P10 (approval is the primary row), P11 `FoundationMilestone.tsx#P11FoundationComplete`, P12 `#P12DigitalLocation` (new portal view `LOCATION`), 13A `RecordsLibrary` and `RecordDetail` in `ProjectPortal.tsx`. Board kit `src/site00/foundation-client/boardKit.tsx` + `src/site00/styles/site00-df-boards.css`. Credit display `shared/site00-digital-foundation/creditPresentation.ts` (AVAILABLE / PENDING VERIFICATION / REDEEMED / EXPIRED / NOT ELIGIBLE, derived from the Phase 1 eligibility).
+- **Founder:** 13/14/15/15A/15B/15C in `src/site00/admin/pages/foundation/boards/FounderBoards.tsx` with routes under `/admin/site00/foundation/*`. New read-only `getRunbookView` + `GET ?action=runbook`. RUN VERIFICATION and record downloads stay disabled (no contracts).
+- **Review gallery:** `DfReviewInertProvider` makes every action inert; founder boards use engine-generated `generated/reviewFounderSnapshots.json`; explicit `PORTAL_ANCHOR_VIEW` map ended duplicate overview previews; 12A owned by `SITE00_DIGITAL_LOCATION` (catalog only).
+- **Gotchas:** the local API bundles each endpoint with its own memory store (sync via the snapshot file; call the pipeline GET before admin reads). Run capture dev servers with a private `SITE00_DF_PREVIEW_SNAPSHOT_PATH` so the :5174 tunnel state is not shared. `.df-check` is the checkbox component — the 15C checklist uses `.df-vcheck`.
+- **Docs/evidence:** `PHASE3_COMPOSER_INTEGRATION_HANDOFF.md`, `FOUNDER_REVIEW_PACK.md`; captures `scripts/df-phase2-capture.mjs` → `/opt/cursor/artifacts/df-phase2/`. Tests `tests/digitalFoundationPhase2*.test.ts`.
 ## 2026-10-20 — Builder creative intelligence (PR #1672)
 
 - **Sprint:** P0.SITE00.BUILDER.CREATIVE-INTELLIGENCE-AND-PAGE-VALUE-DEPTH-RECOVERY1 — fix hardcoded client design resolution and generic FULL DEPTH page copy on five-tab Blueprint; **no IDNTY / no merge / PR #1672 stays draft**.
@@ -16672,3 +16991,17 @@ Summary of the whole conversation in this chat.
 - **Staging Auth:** one user, email confirmed, matches the default founder admin address, last sign-in is the confirmation click (2026-10-15 00:51 UTC). No recovery email has been sent. Production passwords are not this project's passwords.
 - **Code:** signup and password reset now send `https://<browser-origin>/origin/sign-in?returnTo=...` and refuse to invent `localhost:3000`. Recovery hash shows a new-password form and does not bounce away before the password is saved. Draft branch `cursor/staging-auth-redirect-be3b`. Not deployed.
 - **Dashboard (manual):** Site URL and redirect allowlist must be the carefree-luck origin. Until that is saved, new confirmation links still fall back to localhost.
+
+## 2026-10-21 — DF living portal branch synced with main + tunnel pinned for Phase 2 review
+
+- **Founder ask:** "restart tunnel" → the restart remounted `preview/tunnel` (= main `b5654bd`), which has never had the DF review work (#1671/#1673 merged into `cursor/idnty-founder-readiness-e2e-be3b`, not main), so the review zone tabs and Phase 2 screens disappeared. Founder wanted the screens on the up-to-date tunnel, not stale code.
+- **Fix:** merged `origin/main` into `cursor/idnty-living-portal-one-pass-completion1-be3b` (builder files take main's #1672/#1674/#1678 versions; founder-readiness files keep this branch's later evolution of #1642; MEMORY union). Pinned the canonical tunnel to the branch head with `serve-site00-preview-from-pin-ref.sh <sha>` (`PREVIEW_AUTHORITY=PINNED`). Revert with `serve-site00-preview-from-main.sh`.
+- **Gotcha:** a VM reboot / `post-merge-preview-tunnel-refresh.sh` drops the pin and remounts main. While this DF work is unmerged, re-pin to the branch head after any tunnel restart.
+- **Review gallery:** client portal entries now say "LOADING REVIEW FIXTURE…" until the bootstrap bundle arrives (about 3s over the tunnel) instead of "NOT LOADED".
+
+## 2026-10-21 — IDNTY Phase 3 integration branch (Composer)
+
+- **Sprint:** `P0.SITE00.IDNTY.PHASE3.COMPOSER-CANONICAL-LIFECYCLE-INTEGRATION-PERSISTENCE-AND-STAGING-E2E1`. Merged Phase 2 branch `afd34cfe` into `cursor/idnty-phase3-composer-integration-b71a` from `main` `b5654bd` with **zero merge conflicts**. **Not merged to main** — founder approval required (Gate T).
+- **Docs:** `PHASE3_GIT_INTEGRATION_AUDIT.md`, `PHASE3_COMPOSER_FINAL_REPORT.md` (gate matrix). Staging health (2026-10-21): persistence ON on Railway API, transactional send OFF, public origin matches carefree-luck SPA.
+- **Tests:** Reconciled `digitalFoundationClientBoard0102.test.ts` for `CONTACT_PHONE_REQUIRED` and G-02 quote withholding (`markQuoteCommerciallyReady` / internal quote for manual-review assertions). `digitalFoundation*` suite: 202 pass, 2 env-dependent fails (tunnel acceptance, review builder iframe guard).
+- **Still blocked for live E2E:** Resend send flag, founder staging login session, Stripe test mode confirmation in health, RUN VERIFICATION + record download contracts (unchanged from Phase 2 handoff). PR #1680 remains open; Phase 3 draft PR carries merge-ready integration.

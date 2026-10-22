@@ -22,8 +22,8 @@ export function resolveSite00ClientApiBase(): string {
       // Production `vite preview` / GoDaddy builds keep Railway (import.meta.env.DEV is false).
       const previewLocalApi =
         typeof import.meta !== 'undefined' &&
-        import.meta.env?.DEV === true &&
-        import.meta.env?.VITE_SITE00_PREVIEW_LOCAL_API === '1';
+        import.meta.env?.VITE_SITE00_PREVIEW_LOCAL_API === '1' &&
+        (import.meta.env?.DEV === true || import.meta.env?.VITE_SITE00_CLOUD_PREVIEW === '1');
       if (previewLocalApi) {
         return window.location.origin.replace(/\/$/, '');
       }

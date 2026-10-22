@@ -7,6 +7,8 @@ import { SITE00_ROUTES } from '../site00/config/routes';
 import { AsstsRouteSuspense } from '../site00/assts/components/AsstsRouteSuspense';
 import { AsstsColdStartGate } from '../site00/assts/components/AsstsColdStartGate';
 import { Site00RouteLoadingFallback } from '../site00/components/loader/Site00RouteLoadingFallback';
+import { Site00WorldRouteErrorBoundary } from '../site00/components/loader/Site00WorldRouteErrorBoundary';
+import { lazyWithChunkRecovery } from '../utils/lazyWithChunkRecovery';
 import { Site00WorldColdStartGate } from '../site00/components/loader/Site00WorldColdStartGate';
 import { Site00OriginRouteShell } from '../site00/components/shell/Site00OriginRouteShell';
 import { Site00AccountRouteGuard } from '../site00/components/guards/Site00AccountRouteGuard';
@@ -68,7 +70,10 @@ import '../site00/astral-world/styles/astral-world.css';
 import '../site00/styles/site00-twin-test-a.css';
 import '../site00/styles/site00-invitation.css';
 
-const Site00OriginPage = lazy(() => import('../site00/pages/OriginPage'));
+const Site00OriginPage = lazyWithChunkRecovery(
+  () => import('../site00/pages/OriginPage'),
+  'Site00OriginPage',
+);
 const JurnlF01ParentAssemblyPage = lazy(
   () => import('../site00/pages/jurnl/JurnlF01ParentAssemblyPage'),
 );
@@ -87,6 +92,9 @@ const DigitalFoundationArtifactPage = lazy(
 );
 const DigitalFoundationReviewPage = lazy(
   () => import('../site00/pages/foundation/DigitalFoundationReviewPage'),
+);
+const DigitalFoundationReturnPage = lazy(
+  () => import('../site00/pages/foundation/DigitalFoundationReturnPage'),
 );
 const InvitationEntryPage = lazy(() => import('../site00/pages/invitation/InvitationEntryPage'));
 const Site00SignInPage = lazy(() => import('../site00/pages/Site00SignInPage'));
@@ -434,7 +442,11 @@ const EvolvePricingPage = lazy(() => import('../site00/pages/evolve/EvolvePricin
 const LoaderPreviewPage = lazy(() => import('../site00/pages/LoaderPreviewPage'));
 
 function Site00Suspense({ children }: { children: ReactNode }) {
-  return <Suspense fallback={<Site00RouteLoadingFallback />}>{children}</Suspense>;
+  return (
+    <Site00WorldRouteErrorBoundary>
+      <Suspense fallback={<Site00RouteLoadingFallback />}>{children}</Suspense>
+    </Site00WorldRouteErrorBoundary>
+  );
 }
 
 function Site00ComposerDraftPageRoutes(path: string, Page: React.LazyExoticComponent<() => JSX.Element>, auth = false) {
@@ -2414,6 +2426,18 @@ export function Site00Routes() {
             <Site00Suspense>
               <DigitalFoundationReviewPage />
             </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.digitalFoundationReturn}
+        element={
+          <Site00Layout>
+            <Site00PublicRouteShell>
+              <Site00Suspense>
+                <DigitalFoundationReturnPage />
+              </Site00Suspense>
+            </Site00PublicRouteShell>
           </Site00Layout>
         }
       />

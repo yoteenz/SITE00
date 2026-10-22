@@ -5,8 +5,10 @@ import {
   acceptQuote,
   createArtifactForLead,
   getClientArtifactPayloadByToken,
+  markQuoteCommerciallyReady,
   updateIntake,
 } from '../api/_lib/digitalFoundation/service.js';
+import { completeIntakeWithContactPhone } from './helpers/dfTestContactPhone.js';
 import { simulateStripeCheckoutCompleted } from '../api/_lib/digitalFoundation/payment/webhookHandler.js';
 import { buildDfMenu, DF_DISCLOSURES, portalViewsForPayload, resolveDfRoute } from '../src/site00/foundation-client/model';
 
@@ -14,11 +16,15 @@ beforeEach(() => resetDigitalFoundationMemoryStore());
 
 function paidPayload() {
   const a = createArtifactForLead({ referral_kind: 'DIRECT', business_name: 'Portal Co' });
-  updateIntake(
-    a.artifact_id,
-    { business_name: 'Portal Co', contact_name: 'Sam', current_email: 'sam@portal.co', team_size: 1, needs: ['NEED_DOMAIN'] },
-    true,
-  );
+  updateIntake(a.artifact_id, {
+    business_name: 'Portal Co',
+    contact_name: 'Sam',
+    current_email: 'sam@portal.co',
+    team_size: 1,
+    needs: ['NEED_DOMAIN'],
+  });
+  completeIntakeWithContactPhone(a.artifact_id);
+  markQuoteCommerciallyReady(a.artifact_id);
   acceptQuote({ artifact_id: a.artifact_id, disclosures: [...DF_DISCLOSURES] });
   return a;
 }

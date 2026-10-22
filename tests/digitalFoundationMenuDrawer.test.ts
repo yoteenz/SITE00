@@ -32,7 +32,14 @@ function quoted() {
   const l = link();
   updateIntake(
     l.id,
-    { business_name: 'Menu Test LLC', contact_name: 'Ana', current_email: 'a@example.com', team_size: 1, needs: ['NEED_DOMAIN'] },
+    {
+      business_name: 'Menu Test LLC',
+      contact_name: 'Ana',
+      current_email: 'a@example.com',
+      phone: '901-555-0100',
+      team_size: 1,
+      needs: ['NEED_DOMAIN'],
+    },
     true,
   );
   return l;
@@ -72,7 +79,7 @@ describe('menu drawer follows the server surface', () => {
 
   it('prospect: intake open, recommendation onward locked, no client destinations', () => {
     const { menu } = menuFor(link().payload());
-    expect(stepStates(menu)).toBe('01:current 02:open 03:open 04:locked 05:locked 06:locked');
+    expect(stepStates(menu)).toBe('01:current 02:locked 03:locked 04:locked 05:locked 06:locked');
     expect(openDestinations(menu)).toEqual([]);
     expect(menu.destinations.map((d) => d.status)).toEqual([
       'AFTER PAYMENT',
@@ -88,7 +95,7 @@ describe('menu drawer follows the server surface', () => {
     const l = quoted();
     acceptQuote({ artifact_id: l.id, disclosures: [...DF_DISCLOSURES] });
     const { menu } = menuFor(l.payload());
-    expect(stepStates(menu)).toBe('01:done 02:done 03:done 04:open 05:current 06:locked');
+    expect(stepStates(menu)).toBe('01:done 02:done 03:done 04:done 05:current 06:locked');
     expect(openDestinations(menu)).toEqual([]);
   });
 
@@ -114,11 +121,12 @@ describe('menu drawer follows the server surface', () => {
     expect(menu.steps.find((s) => s.view === 'P06')!.state).toBe('current');
   });
 
-  it('only steps inside the server views are navigable, and the active item is the current view', () => {
+  it('only completed steps and the current step are navigable; future surface steps stay locked', () => {
     const views: DfView[] = ['P04', 'P05'];
     const menu = buildDfMenu(views, 'P04');
-    const navigable = menu.steps.filter((s) => s.state === 'open' || s.state === 'current').map((s) => s.view);
-    expect(navigable).toEqual(views);
+    const navigable = menu.steps.filter((s) => s.state === 'done' || s.state === 'current').map((s) => s.view);
+    expect(navigable).toEqual(['P01', 'P02', 'P03', 'P04']);
+    expect(menu.steps.find((s) => s.view === 'P05')!.state).toBe('locked');
     expect(menu.steps.filter((s) => s.state === 'current').map((s) => s.view)).toEqual(['P04']);
     expect(buildDfMenu(['P06', 'OVERVIEW'], 'OVERVIEW').destinations.find((d) => d.id === 'overview')!.current).toBe(true);
   });

@@ -6,8 +6,13 @@ import fs from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import esbuild from 'esbuild';
+import { createRequire } from 'node:module';
 import { loadEnv } from 'vite';
+
+// Use Vite's own esbuild. A bare `import 'esbuild'` resolves to the hoisted esbuild 0.14.x pulled in by
+// @vercel/node, which cannot parse TypeScript 4.9 `satisfies` (e.g. shared/site00-correspondence-studio/fndatn01/cards.ts)
+// and surfaced in the founder workspace as "Build failed with 1 error … Expected ';' but found 'satisfies'".
+const esbuild = createRequire(createRequire(import.meta.url).resolve('vite/package.json'))('esbuild');
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const API_CACHE_DIR = path.join(ROOT, 'node_modules/.cache/site00-vite-local-api');
@@ -27,6 +32,7 @@ const LOCAL_API_ROUTES = [
   { path: '/api/site00/project-technical-intelligence', file: 'api/site00/project-technical-intelligence.ts' },
   { path: '/api/site00/marketing-engagements', file: 'api/site00/marketing-engagements.ts' },
   { path: '/api/site00/digital-foundation-artifact', file: 'api/site00/digital-foundation-artifact.ts' },
+  { path: '/api/site00/digital-foundation-session', file: 'api/site00/digital-foundation-session.ts' },
   { path: '/api/site00/digital-foundation-stripe-webhook', file: 'api/site00/digital-foundation-stripe-webhook.ts' },
   { path: '/api/site00/digital-foundation-resend-webhook', file: 'api/site00/digital-foundation-resend-webhook.ts' },
   { path: '/api/admin/site00-foundation', file: 'api/admin/site00-foundation.ts' },
@@ -147,15 +153,20 @@ async function bundleApiHandler(file) {
   const srcPath = path.join(ROOT, file);
   fs.mkdirSync(API_CACHE_DIR, { recursive: true });
   const outPath = path.join(API_CACHE_DIR, file.replace(/\//g, '__').replace(/\.ts$/, '.mjs'));
-  const srcMtime = fs.statSync(srcPath).mtimeMs;
+  const metaPath = `${outPath}.inputs.json`;
+  // Rebuild when the handler or any module it bundles changed (not only the entry file).
+  const inputs = fs.existsSync(metaPath) ? JSON.parse(fs.readFileSync(metaPath, 'utf8')) : [file];
+  const srcMtime = Math.max(...inputs.map((f) => (fs.existsSync(path.join(ROOT, f)) ? fs.statSync(path.join(ROOT, f)).mtimeMs : Infinity)));
   if (!fs.existsSync(outPath) || fs.statSync(outPath).mtimeMs < srcMtime) {
-    await esbuild.build({
+    const result = await esbuild.build({
       entryPoints: [srcPath],
       outfile: outPath,
       format: 'esm',
       platform: 'node',
       target: 'es2022',
       bundle: true,
+      metafile: true,
+      absWorkingDir: ROOT,
       logLevel: 'silent',
       plugins: [
         {
@@ -169,8 +180,10 @@ async function bundleApiHandler(file) {
         },
       ],
     });
+    fs.writeFileSync(metaPath, JSON.stringify(Object.keys(result.metafile.inputs)));
   }
-  return (await import(pathToFileURL(outPath).href)).default;
+  // Query string = bundle mtime so a rebuilt handler is re-imported instead of served from the ESM cache.
+  return (await import(`${pathToFileURL(outPath).href}?v=${fs.statSync(outPath).mtimeMs}`)).default;
 }
 
 export function site00LocalApiPlugin() {
@@ -191,58 +204,65 @@ export function site00LocalApiPlugin() {
 
   const routeByPath = new Map(LOCAL_API_ROUTES.map((r) => [r.path, r.file]));
 
+  function mountLocalApi(server) {
+    applyServerEnv();
+
+    server.middlewares.use(async (req, res, next) => {
+      const rawUrl = req.url ?? '';
+      const pathname = rawUrl.split('?')[0] ?? '';
+      const file = routeByPath.get(pathname);
+      if (!file) return next();
+
+      applyServerEnv();
+
+      try {
+        const handler = await loadHandler(file);
+        const parsed = new URL(rawUrl, 'http://127.0.0.1');
+        const query = Object.fromEntries(parsed.searchParams.entries());
+        let body = '';
+        if (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') {
+          body = await readRequestBody(req);
+        }
+
+        const vercelReq = {
+          method: req.method,
+          url: rawUrl,
+          query,
+          headers: req.headers,
+          body: body.trim()
+            ? (() => {
+                try {
+                  return JSON.parse(body);
+                } catch {
+                  return body;
+                }
+              })()
+            : undefined,
+        };
+
+        await handler(vercelReq, createVercelResponseAdapter(res));
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err);
+        if (!res.headersSent) {
+          res.statusCode = 500;
+          res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        }
+        res.end(JSON.stringify({ error: message, code: 'LOCAL_API_ERROR' }));
+      }
+    });
+
+    console.log(
+      `[vite] Local API: ${LOCAL_API_ROUTES.map((r) => r.path).join(', ')} served on this preview server.`,
+    );
+  }
+
   return {
     name: 'site00-local-api',
     configureServer(server) {
-      applyServerEnv();
-
-      server.middlewares.use(async (req, res, next) => {
-        const rawUrl = req.url ?? '';
-        const pathname = rawUrl.split('?')[0] ?? '';
-        const file = routeByPath.get(pathname);
-        if (!file) return next();
-
-        applyServerEnv();
-
-        try {
-          const handler = await loadHandler(file);
-          const parsed = new URL(rawUrl, 'http://127.0.0.1');
-          const query = Object.fromEntries(parsed.searchParams.entries());
-          let body = '';
-          if (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') {
-            body = await readRequestBody(req);
-          }
-
-          const vercelReq = {
-            method: req.method,
-            url: rawUrl,
-            query,
-            headers: req.headers,
-            body: body.trim()
-              ? (() => {
-                  try {
-                    return JSON.parse(body);
-                  } catch {
-                    return body;
-                  }
-                })()
-              : undefined,
-          };
-
-          await handler(vercelReq, createVercelResponseAdapter(res));
-        } catch (err) {
-          const message = err instanceof Error ? err.message : String(err);
-          if (!res.headersSent) {
-            res.statusCode = 500;
-            res.setHeader('Content-Type', 'application/json; charset=utf-8');
-          }
-          res.end(JSON.stringify({ error: message, code: 'LOCAL_API_ERROR' }));
-        }
-      });
-
-      console.log(
-        `[vite] Local API: ${LOCAL_API_ROUTES.map((r) => r.path).join(', ')} served on this dev server.`,
-      );
+      mountLocalApi(server);
+    },
+    configurePreviewServer(server) {
+      mountLocalApi(server);
     },
   };
 }

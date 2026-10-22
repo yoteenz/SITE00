@@ -21,6 +21,7 @@ import {
   type CheckoutParam,
   type VerifyPhase,
 } from '../model';
+import { DfCheckMark } from '../components';
 import { DfAlert, DfCta, DfHeadline, DfLede, DfRail, DfSheet, DfTrust } from '../shell';
 import { IncludedList, ThirdPartySheet } from './Recommendation';
 
@@ -353,9 +354,7 @@ export function P05Review({
               checked={shownAcks[i]}
               onChange={(e) => setAcks((prev) => prev.map((v, j) => (j === i ? e.target.checked : v)))}
             />
-            <span className="df-check" aria-hidden="true">
-              {shownAcks[i] && <DfIcon name="check" />}
-            </span>
+            <DfCheckMark checked={shownAcks[i]} />
             <span className="df-ack__text">{d}</span>
           </label>
         ))}

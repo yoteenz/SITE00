@@ -1,0 +1,424 @@
+/* Board chrome only (titles, captions, status chips, annotation). Never part of the product.
+   Component rendering comes from the live DF stylesheets + proposal.css. */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: #e9e8e4;
+}
+
+body {
+  font-family: 'Saira Semi Condensed', 'Arial Narrow', Arial, sans-serif;
+  color: #0c0c0c;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+#board {
+  display: inline-block;
+  min-width: 1480px;
+  padding: 56px 64px 64px;
+  background: #fbfaf8;
+}
+
+.bd-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: end;
+  gap: 32px;
+  padding-bottom: 22px;
+  border-bottom: 2px solid #0c0c0c;
+}
+
+.bd-num {
+  font-family: 'SITE 00 Display', 'Arial Narrow', sans-serif;
+  font-size: 92px;
+  font-weight: 900;
+  line-height: 0.78;
+  color: #ce1017;
+}
+
+.bd-kicker {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: #75736e;
+}
+
+.bd-title {
+  margin: 10px 0 0;
+  font-family: 'SITE 00 Display', 'Arial Narrow', sans-serif;
+  font-size: 46px;
+  font-weight: 900;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.bd-title i {
+  display: inline-block;
+  width: 0.15em;
+  height: 0.15em;
+  margin-left: 0.04em;
+  background: #ce1017;
+}
+
+.bd-meta {
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.8;
+  letter-spacing: 0.18em;
+  text-align: right;
+  color: #2f2f2e;
+}
+
+.bd-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 0;
+}
+
+.bd-sub {
+  margin: 14px 0 0;
+  max-width: 1100px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0.06em;
+  color: #2f2f2e;
+}
+
+/* Status chips */
+.st {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px 3px;
+  border: 1px solid currentColor;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.st--locked {
+  border-color: #0c0c0c;
+  background: #0c0c0c;
+  color: #fff;
+}
+
+.st--implemented {
+  color: #0c0c0c;
+}
+
+.st--proposed {
+  color: #ce1017;
+}
+
+.st--alt {
+  border-style: dashed;
+  color: #75736e;
+}
+
+.st--constraint {
+  border-color: #d3d1cc;
+  background: #efeeeb;
+  color: #2f2f2e;
+}
+
+.st--decision {
+  border-color: #ce1017;
+  background: #ce1017;
+  color: #fff;
+}
+
+.st--unresolved {
+  border-style: dotted;
+  color: #0c0c0c;
+}
+
+.st--rec {
+  border-color: #ce1017;
+  background: #fff5f5;
+  color: #b30f17;
+}
+
+/* Sections */
+.bd-section {
+  margin-top: 44px;
+}
+
+.bd-h2 {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 18px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+}
+
+.bd-h2 b {
+  font-family: 'SITE 00 Display', 'Arial Narrow', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #ce1017;
+}
+
+.bd-h2 .bd-rule {
+  flex: 1 1 auto;
+  height: 1px;
+  background: #c9c7c2;
+}
+
+.bd-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 28px;
+}
+
+.bd-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* A captioned frame */
+.bd-frame {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min-content;
+}
+
+.bd-cap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 22px;
+}
+
+.bd-cap__t {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.bd-cap__t em {
+  font-style: normal;
+  color: #ce1017;
+}
+
+.bd-note {
+  max-width: 100%;
+  font-size: 10.5px;
+  font-weight: 500;
+  line-height: 1.55;
+  letter-spacing: 0.04em;
+  color: #2f2f2e;
+}
+
+.bd-note b {
+  font-weight: 700;
+  color: #0c0c0c;
+}
+
+.bd-note--muted {
+  color: #75736e;
+}
+
+/* Device stage: the real DF page background, a hairline device edge and a size label. */
+.bd-device {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #0c0c0c;
+  background: #f3f2ef;
+}
+
+.bd-device__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 26px;
+  padding: 0 12px;
+  border-bottom: 1px solid #dcdad5;
+  background: #fff;
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: #75736e;
+}
+
+.bd-device__bar b {
+  color: #0c0c0c;
+}
+
+.bd-device__body {
+  position: relative;
+  padding: 0 26px;
+}
+
+.bd-device__body--flush {
+  padding: 0;
+}
+
+/* Grey schematic block standing in for system UI we do not draw (keyboard, Safari toolbar). */
+.bd-system {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid #c9c7c2;
+  background: repeating-linear-gradient(135deg, #d9d8d4 0 6px, #d2d1cd 6px 12px);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: #5d5b57;
+}
+
+.bd-safari {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border-top: 1px solid #c9c7c2;
+  background: #ecebe8;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: #5d5b57;
+}
+
+/* Spec table */
+.bd-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+}
+
+.bd-table th {
+  padding: 8px 10px;
+  border-bottom: 1px solid #0c0c0c;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.bd-table td {
+  padding: 9px 10px;
+  border-bottom: 1px solid #dcdad5;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.bd-table td:first-child {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.bd-table .r {
+  color: #ce1017;
+  font-weight: 700;
+}
+
+/* Decision callout */
+.bd-decision {
+  display: flex;
+  gap: 16px;
+  padding: 16px 18px;
+  border: 1px solid #ce1017;
+  border-left-width: 4px;
+  background: #fff;
+}
+
+.bd-decision__k {
+  font-family: 'SITE 00 Display', 'Arial Narrow', sans-serif;
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 0.85;
+  color: #ce1017;
+}
+
+.bd-decision__q {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+}
+
+.bd-decision__o {
+  margin-top: 6px;
+  font-size: 10.5px;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  color: #2f2f2e;
+}
+
+.bd-foot {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 48px;
+  padding-top: 14px;
+  border-top: 1px solid #c9c7c2;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: #75736e;
+}
+
+.bd-foot b {
+  color: #ce1017;
+}
+
+/* Swatches */
+.bd-swatch {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 128px;
+}
+
+.bd-swatch__chip {
+  height: 56px;
+  border: 1px solid #dcdad5;
+}
+
+.bd-swatch__k {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.bd-swatch__v {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: #75736e;
+}
+
+.bd-panel {
+  padding: 18px 20px;
+  border: 1px solid #dcdad5;
+  background: #fff;
+}
+
+.bd-arrow {
+  align-self: center;
+  font-size: 22px;
+  color: #c9c7c2;
+}

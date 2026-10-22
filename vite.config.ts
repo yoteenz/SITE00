@@ -32,12 +32,14 @@ export default defineConfig(({ mode, command }) => {
     process.env.GITHUB_SHA ||
     (mode === 'development' ? 'dev-local' : Date.now().toString(36));
 
+  const cloudMobilePreviewFlag =
+    process.env.SITE00_CLOUD_MOBILE_PREVIEW === '1' ||
+    process.env.SITE00_CLOUD_MOBILE_PREVIEW === 'true';
   const cloudMobilePreview =
-    command === 'serve' &&
-    (process.env.SITE00_CLOUD_MOBILE_PREVIEW === '1' ||
-      process.env.SITE00_CLOUD_MOBILE_PREVIEW === 'true');
+    cloudMobilePreviewFlag && (command === 'serve' || command === 'build');
   const cloudPreviewDevLocalApi =
-    cloudMobilePreview && command === 'serve' && mode === 'development';
+    cloudMobilePreviewFlag &&
+    ((command === 'serve' && mode === 'development') || command === 'build');
 
   /** HMR dev only — never transform dist/index.html during `vite preview` (would serve /src/main.tsx). */
   const cloudPreviewDevServer =
@@ -84,6 +86,8 @@ export default defineConfig(({ mode, command }) => {
   }
 
   function indexBuildStampPlugin(stamp: string) {
+    const supabaseUrl = (env.VITE_SUPABASE_URL || process.env.VITE_SUPABASE_URL || '').trim();
+    const supabaseProjectRef = supabaseUrl.match(/https?:\/\/([^.]+)\./)?.[1] ?? '';
     return {
       name: 'site00-index-build-stamp',
       transformIndexHtml: {
@@ -100,6 +104,12 @@ export default defineConfig(({ mode, command }) => {
               'src="/site00-assts-loader-boot.js?v=environment-v2"',
               `src="/site00-assts-loader-boot.js?v=${stamp}"`,
             );
+          if (supabaseProjectRef && !next.includes('name="site00-supabase-project-ref"')) {
+            next = next.replace(
+              '</head>',
+              `    <meta name="site00-supabase-project-ref" content="${supabaseProjectRef}" />\n  </head>`,
+            );
+          }
           if (cloudMobilePreview) {
             const previewMeta =
               `<meta name="site00-cloud-preview" content="1" />` +
