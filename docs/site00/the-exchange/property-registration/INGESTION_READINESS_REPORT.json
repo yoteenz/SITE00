@@ -1,0 +1,61 @@
+{
+  "sprint": "P0.THE-EXCHANGE.PROPERTY-REGISTRATION-AND-OPUS-BIBLE-INGEST1",
+  "propertySlug": "the-exchange",
+  "overallStatus": "AWAITING_FOUNDER_SOURCE",
+  "seedOnly": true,
+  "notes": [
+    "Orientation seed from sprint brief is registered as WORKING_CONCEPT / UNRESOLVED — not APPROVED_CANON.",
+    "Complete development history of THE EXCHANGE has not been ingested.",
+    "Do not run Opus creative review until founder-approved bible documents are imported."
+  ],
+  "documentTypesRequiredForFullBible": [
+    "SERIES_BIBLE",
+    "WORLD_BIBLE",
+    "CHARACTER_BIBLE",
+    "FAMILY_HISTORY",
+    "INSTITUTION_BIBLE",
+    "TECHNOLOGY_BIBLE",
+    "NARRATIVE_METHODOLOGY",
+    "SEASON_ARCHITECTURE",
+    "EPISODE_CONCEPT",
+    "CONTINUITY_LEDGER",
+    "AUDIENCE_KNOWLEDGE",
+    "VISUAL_IDENTITY_REFERENCE"
+  ],
+  "presentInOrientationSeed": [
+    "SERIES_BIBLE",
+    "WORLD_BIBLE",
+    "CHARACTER_BIBLE",
+    "FAMILY_HISTORY",
+    "INSTITUTION_BIBLE",
+    "TECHNOLOGY_BIBLE",
+    "NARRATIVE_METHODOLOGY",
+    "SEASON_ARCHITECTURE",
+    "VISUAL_IDENTITY_REFERENCE"
+  ],
+  "missingForFullBible": [
+    "EPISODE_CONCEPT",
+    "CONTINUITY_LEDGER",
+    "AUDIENCE_KNOWLEDGE"
+  ],
+  "opusMinimumContextTypes": [
+    "SERIES_BIBLE",
+    "WORLD_BIBLE",
+    "CHARACTER_BIBLE",
+    "INSTITUTION_BIBLE",
+    "NARRATIVE_METHODOLOGY",
+    "SEASON_ARCHITECTURE"
+  ],
+  "opusExecutionReadiness": {
+    "contextAssemblyAfterSeed": true,
+    "paidExecutionAuthorizedThisSprint": false,
+    "blockers": [
+      "No FOUNDER_APPROVED APPROVED_CANON documents",
+      "Founder complete bible not supplied",
+      "SITE00_FICTION_OPUS_EXECUTION_AUTHORIZED not enabled for production review sprint"
+    ]
+  },
+  "visualReferenceStatus": {
+    "sloaneLockwood": "AWAITING_FOUNDER_ASSET"
+  }
+}

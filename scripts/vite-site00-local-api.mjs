@@ -56,6 +56,7 @@ const LOCAL_API_ROUTES = [
   { path: '/api/site00/twin-v3-forensic-ui-blueprint', file: 'api/site00/twin-v3-forensic-ui-blueprint.ts' },
   { path: '/api/site00/sol-design-bench', file: 'api/site00/sol-design-bench.ts' },
   { path: '/api/site00/twin-test-a-design-bench', file: 'api/site00/twin-test-a-design-bench.ts' },
+  { path: '/api/site00/fiction-canon', file: 'api/site00/fiction-canon.ts' },
   { path: '/api/admin/site00-marketing', file: 'api/admin/site00-marketing.ts' },
   { path: '/api/admin/site00-assts', file: 'api/admin/site00-assts.ts' },
   { path: '/api/admin/site00-production', file: 'api/admin/site00-production.ts' },
