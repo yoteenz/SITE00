@@ -1,0 +1,29 @@
+{
+  "readiness": {
+    "propertySlug": "the-exchange",
+    "overallStatus": "READY_FOR_OPUS_DRY_RUN",
+    "documentsPresent": [
+      "SERIES_BIBLE",
+      "WORLD_BIBLE",
+      "CHARACTER_BIBLE",
+      "FAMILY_HISTORY",
+      "INSTITUTION_BIBLE",
+      "TECHNOLOGY_BIBLE",
+      "NARRATIVE_METHODOLOGY",
+      "SEASON_ARCHITECTURE",
+      "EPISODE_CONCEPT",
+      "CONTINUITY_LEDGER",
+      "AUDIENCE_KNOWLEDGE",
+      "VISUAL_IDENTITY_REFERENCE",
+      "COMMERCIAL_STRATEGY",
+      "OPEN_QUESTIONS"
+    ],
+    "documentsMissing": [],
+    "seedOnly": false,
+    "notes": [
+      "Founder bible package V1 detected in active canon records.",
+      "No FOUNDER_APPROVED APPROVED_CANON documents yet."
+    ]
+  },
+  "missingSourceWarnings": []
+}

@@ -1,0 +1,55 @@
+{
+  "packageRoot": "/workspace/THE_EXCHANGE/FOUNDER_SOURCE/THE_EXCHANGE_MASTER_BIBLE_V1",
+  "fileCount": 15,
+  "expectedFileCount": 15,
+  "issues": [
+    {
+      "severity": "WARN",
+      "code": "SHA256_MISMATCH",
+      "message": "Hash mismatch for 00_READ_ME.md (package may have been updated after manifest)",
+      "file": "00_READ_ME.md"
+    }
+  ],
+  "sha256Verified": [
+    "01_SERIES_THESIS.md",
+    "02_WORLD_AND_CULTURE.md",
+    "03_EXCHANGE_INSTITUTION.md",
+    "04_CHARACTER_AND_FAMILY.md",
+    "05_HIDDEN_HISTORY_AND_REVELATIONS.md",
+    "06_SPECULATIVE_TECHNOLOGY.md",
+    "07_SEASON_ONE_AND_THIRTY_PARTS.md",
+    "08_STORY_AND_PRODUCTION_METHOD.md",
+    "09_COMMERCIAL_STRATEGY.md",
+    "10_OPEN_QUESTIONS_AND_OPUS_BRIEF.md",
+    "visual_refs/sloane_lockwood_face_lock_editorial_board.jpg",
+    "visual_refs/sloane_lockwood_facial_identity_sheet.jpg"
+  ],
+  "sha256Mismatch": [
+    {
+      "file": "00_READ_ME.md",
+      "expected": "2cc89b5a664cc8a4849fc8c2bce0f6e036976d73ae8faadc6d386af707fef58a",
+      "actual": "a0d6aa8d9b1d995eee7881c15af377675a46961b79d79971bf21888d0d7f6fb6"
+    }
+  ],
+  "missingFiles": [],
+  "episodeSlate": {
+    "episodeCount": 10,
+    "partCount": 30,
+    "partsPerEpisode": 3
+  },
+  "visualAssets": [
+    {
+      "file": "visual_refs/sloane_lockwood_facial_identity_sheet.jpg",
+      "bytes": 655814,
+      "sha256": "ae6a0f3394eef8bc33167927ed1579dc18cbcc04381db31d475832a6be9423df",
+      "readable": true
+    },
+    {
+      "file": "visual_refs/sloane_lockwood_face_lock_editorial_board.jpg",
+      "bytes": 707570,
+      "sha256": "1b1bae53622c726678327b920a2549e83bfbcaa2d352eae6229d326ce10f9407",
+      "readable": true
+    }
+  ],
+  "ok": true
+}

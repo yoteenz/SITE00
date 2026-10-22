@@ -1,0 +1,18 @@
+{
+  "sprint": "P0.THE-EXCHANGE.FOUNDER-BIBLE-INGEST-CANON-VALIDATION-AND-OPUS-READINESS1",
+  "archiveValid": true,
+  "episodes": 10,
+  "parts": 30,
+  "supersededOrientationSeed": 9,
+  "opusReadiness": "READY_FOR_DRY_RUN",
+  "persistence": {
+    "localIngestValidated": true,
+    "stagingPersistenceValidated": false,
+    "productionPersistenceValidated": false,
+    "storeMode": "memory-unless-supabase-tables",
+    "fictionTablesExist": false,
+    "notes": [
+      "Supabase fiction canon tables not present — writes fall back to memory store."
+    ]
+  }
+}

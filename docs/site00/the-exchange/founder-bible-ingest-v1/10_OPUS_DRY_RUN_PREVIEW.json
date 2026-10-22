@@ -1,0 +1,177 @@
+{
+  "propertySlug": "the-exchange",
+  "propertyId": "bce1f3d0-d670-4887-9f98-379fe9a8a4a3",
+  "approvedBibleVersionFingerprint": "5f0ee6c139613dba0e39e2381fa535e36fb0f76a262ed9ec7bb1694c3f40de92",
+  "sourceInventory": [
+    {
+      "stableIdentifier": "founder-package-readme-v1",
+      "documentType": "SOURCE_PACKAGE_README",
+      "canonStatus": "WORKING_CONCEPT",
+      "sourceId": "founder-bible-v1:00_READ_ME.md"
+    },
+    {
+      "stableIdentifier": "founder-series-thesis-v1",
+      "documentType": "SERIES_BIBLE",
+      "canonStatus": "WORKING_CONCEPT",
+      "sourceId": "founder-bible-v1:01_SERIES_THESIS.md"
+    },
+    {
+      "stableIdentifier": "founder-world-and-culture-v1",
+      "documentType": "WORLD_BIBLE",
+      "canonStatus": "WORKING_CONCEPT",
+      "sourceId": "founder-bible-v1:02_WORLD_AND_CULTURE.md"
+    },
+    {
+      "stableIdentifier": "founder-exchange-institution-v1",
+      "documentType": "INSTITUTION_BIBLE",
+      "canonStatus": "WORKING_CONCEPT",
+      "sourceId": "founder-bible-v1:03_EXCHANGE_INSTITUTION.md"
+    },
+    {
+      "stableIdentifier": "founder-character-and-family-v1",
+      "documentType": "CHARACTER_BIBLE",
+      "canonStatus": "WORKING_CONCEPT",
+      "sourceId": "founder-bible-v1:04_CHARACTER_AND_FAMILY.md"
+    },
+    {
+      "stableIdentifier": "founder-family-history-v1",
+      "documentType": "FAMILY_HISTORY",
+      "canonStatus": "WORKING_CONCEPT",
+      "sourceId": "founder-bible-v1:05_HIDDEN_HISTORY_AND_REVELATIONS.md"
+    },
+    {
+      "stableIdentifier": "founder-continuity-ledger-v1",
+      "documentType": "CONTINUITY_LEDGER",
+      "canonStatus": "WORKING_CONCEPT",
+      "sourceId": "founder-bible-v1:05_HIDDEN_HISTORY_AND_REVELATIONS.md"
+    },
+    {
+      "stableIdentifier": "founder-audience-knowledge-v1",
+      "documentType": "AUDIENCE_KNOWLEDGE",
+      "canonStatus": "WORKING_CONCEPT",
+      "sourceId": "founder-bible-v1:05_HIDDEN_HISTORY_AND_REVELATIONS.md"
+    },
+    {
+      "stableIdentifier": "founder-speculative-technology-v1",
+      "documentType": "TECHNOLOGY_BIBLE",
+      "canonStatus": "WORKING_CONCEPT",
+      "sourceId": "founder-bible-v1:06_SPECULATIVE_TECHNOLOGY.md"
+    },
+    {
+      "stableIdentifier": "founder-season-one-v1",
+      "documentType": "SEASON_ARCHITECTURE",
+      "canonStatus": "WORKING_CONCEPT",
+      "sourceId": "founder-bible-v1:07_SEASON_ONE_AND_THIRTY_PARTS.md"
+    },
+    {
+      "stableIdentifier": "founder-story-production-method-v1",
+      "documentType": "NARRATIVE_METHODOLOGY",
+      "canonStatus": "WORKING_CONCEPT",
+      "sourceId": "founder-bible-v1:08_STORY_AND_PRODUCTION_METHOD.md"
+    },
+    {
+      "stableIdentifier": "founder-commercial-strategy-v1",
+      "documentType": "COMMERCIAL_STRATEGY",
+      "canonStatus": "WORKING_CONCEPT",
+      "sourceId": "founder-bible-v1:09_COMMERCIAL_STRATEGY.md"
+    },
+    {
+      "stableIdentifier": "founder-open-questions-v1",
+      "documentType": "OPEN_QUESTIONS",
+      "canonStatus": "WORKING_CONCEPT",
+      "sourceId": "founder-bible-v1:10_OPEN_QUESTIONS_AND_OPUS_BRIEF.md"
+    },
+    {
+      "stableIdentifier": "founder-episode-slate-v1",
+      "documentType": "EPISODE_CONCEPT",
+      "canonStatus": "PROPOSED",
+      "sourceId": "founder-bible-v1:episode_slate.json"
+    },
+    {
+      "stableIdentifier": "visual-sloane-facial-identity-sheet-v1",
+      "documentType": "VISUAL_IDENTITY_REFERENCE",
+      "canonStatus": "WORKING_CONCEPT",
+      "sourceId": "founder-bible-v1:visual_refs/sloane_lockwood_facial_identity_sheet.jpg"
+    },
+    {
+      "stableIdentifier": "visual-sloane-face-lock-editorial-board-v1",
+      "documentType": "VISUAL_IDENTITY_REFERENCE",
+      "canonStatus": "WORKING_CONCEPT",
+      "sourceId": "founder-bible-v1:visual_refs/sloane_lockwood_face_lock_editorial_board.jpg"
+    }
+  ],
+  "coverageSummary": {
+    "presentTypes": [
+      "SOURCE_PACKAGE_README",
+      "SERIES_BIBLE",
+      "WORLD_BIBLE",
+      "INSTITUTION_BIBLE",
+      "CHARACTER_BIBLE",
+      "FAMILY_HISTORY",
+      "CONTINUITY_LEDGER",
+      "AUDIENCE_KNOWLEDGE",
+      "TECHNOLOGY_BIBLE",
+      "SEASON_ARCHITECTURE",
+      "NARRATIVE_METHODOLOGY",
+      "COMMERCIAL_STRATEGY",
+      "OPEN_QUESTIONS",
+      "EPISODE_CONCEPT",
+      "VISUAL_IDENTITY_REFERENCE"
+    ],
+    "missingTypes": [],
+    "founderPackageDetected": true,
+    "orientationSeedOnly": false
+  },
+  "contextPartition": {
+    "documentCount": 16,
+    "retrievalOmissions": [
+      "No FOUNDER_APPROVED APPROVED_CANON documents — assembly uses working/unresolved concepts only.",
+      "Family history unresolved mystery not present in active set."
+    ],
+    "incompleteContext": true,
+    "payloadByteEstimate": 69633
+  },
+  "evaluationDimensions": [
+    "Originality",
+    "Narrative coherence",
+    "Character psychology",
+    "Emotional depth",
+    "Family mythology",
+    "Alternate-history plausibility",
+    "Speculative technology consistency",
+    "Institutional credibility",
+    "Episodic originality",
+    "Three-part storytelling",
+    "Serialized reveal pacing",
+    "Humor and tonal range",
+    "Romance progression",
+    "Audience attachment",
+    "Long-term narrative sustainability",
+    "Production feasibility"
+  ],
+  "outputSchemaSections": [
+    "EXECUTIVE_ASSESSMENT",
+    "SERIES_STRENGTHS",
+    "NARRATIVE_WEAKNESSES",
+    "WORLD_CONSISTENCY_FINDINGS",
+    "CHARACTER_FINDINGS",
+    "FAMILY_MYSTERY_FINDINGS",
+    "EPISODE_ARCHITECTURE_FINDINGS",
+    "TECHNOLOGY_FINDINGS",
+    "THREE_PART_FORMAT_FINDINGS",
+    "AUDIENCE_EXPERIENCE_FINDINGS",
+    "PROPOSED_IMPROVEMENTS",
+    "ALTERNATIVE_DIRECTIONS",
+    "CANON_CONFLICTS",
+    "OPEN_CREATIVE_QUESTIONS",
+    "PRODUCTION_IMPLICATIONS"
+  ],
+  "missingSourceWarnings": [],
+  "execution": {
+    "paidImplementationStatus": "NOT_IMPLEMENTED_THIS_SPRINT",
+    "authorized": false,
+    "anthropicConfigured": false,
+    "modelResolved": "claude-opus-4-20250514"
+  },
+  "opusReadinessVerdict": "READY_FOR_DRY_RUN"
+}
