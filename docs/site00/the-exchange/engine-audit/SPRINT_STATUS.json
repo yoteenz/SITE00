@@ -1,0 +1,54 @@
+{
+  "SPRINT": "P0.NDXBOOK.THE-EXCHANGE.ENGINE-CAPABILITY-AUDIT-AND-REUSE-ASSESSMENT1",
+  "STATUS": "COMPLETE",
+  "REPOSITORY": "yoteenz/SITE00",
+  "BRANCH": "cursor/the-exchange-engine-audit-8aec",
+  "COMMIT": "TBD_AFTER_COMMIT",
+  "PR": "NOT_CREATED",
+  "ENGINE_READINESS": "PARTIALLY_READY",
+  "OPUS_INGESTION_READINESS": "BLOCKED",
+  "NARRATIVE_ENGINE": "TESTED (NDX entry model; in-memory)",
+  "WORLD_CANON_MEMORY": "PARTIAL (brand/identity; not fiction bible)",
+  "CHARACTER_CONSISTENCY": "TESTED (pipeline architecture; pre-casting gated)",
+  "VISUAL_PRODUCTION": "PRODUCTION_VALIDATED (NDX Entry 002 stills); video BLOCKED",
+  "KLING_INTEGRATION": "PARTIAL (fal-kling routing on main; Kling 4 unmerged)",
+  "MULTI_PROPERTY_ISOLATION": "PARTIAL (capabilities yes; content NDX-shaped)",
+  "MOST_REUSABLE_COMPONENTS": [
+    "shared/site00-projects/capabilities.ts + projectCapabilityGuard",
+    "shared/site00-production-guardrails/providerGateway",
+    "shared/site00-studio-world-production/characterContinuityPipeline",
+    "shared/site00-studio-world-production/filmProduction",
+    "api/_lib/site00ExpressionEngine/seniorCreativeJudgment + narrativeSynthesis (adapt inputs)",
+    "Expression founder judgment + storyboard gates (adapt stages)"
+  ],
+  "MAJOR_GAPS": [
+    "Fiction series/season/episode/part data model",
+    "Durable Expression canon (entryStore in-memory vs unused Supabase tables)",
+    "Screenplay ingest and scene breakdown",
+    "Three-part release assembly",
+    "Automated Kling dispatch on main",
+    "Engine-native Opus fiction critique route"
+  ],
+  "FIRST_BLOCKING_DEPENDENCY": "Project-isolated durable fiction canon store wired to APIs",
+  "MINIMUM_WORK_BEFORE_OPUS": "P0 items in 08_MINIMUM_REUSE_ROADMAP.md (slug + persistence + Opus adapter; no video)",
+  "MINIMUM_WORK_BEFORE_EPISODE_PRODUCTION": "P1 ontology + screenplay storage + continuity registry",
+  "RECOMMENDED_NEXT_SPRINT": "P0.THE-EXCHANGE.PROPERTY-REGISTRATION-AND-OPUS-BIBLE-INGEST1 (isolated slug, persist bible, single Anthropic evaluation pass — no generation)",
+  "EVIDENCE": [
+    "docs/site00/the-exchange/engine-audit/01_ENGINE_INVENTORY.md",
+    "docs/site00/the-exchange/engine-audit/02_CAPABILITY_MATRIX.md",
+    "docs/site00/the-exchange/engine-audit/03_END_TO_END_TRACE.md",
+    "api/_lib/site00ExpressionEngine/entryStore.ts",
+    "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/config.ts",
+    "api/_lib/site00ExpressionEngine/productionRouting.ts",
+    "shared/site00-studio-world-production/characterContinuityPipeline/preCastingMode.ts",
+    "supabase/migrations/20260907160000_site00_expression_engine_v0.sql",
+    "tests/site00ExpressionEngineSprintC10.test.ts",
+    "tests/filmProductionP0FILM1.test.ts"
+  ],
+  "FOUNDER_DECISION_REQUIRED": [
+    "Approve isolated project slug and namespace for THE EXCHANGE",
+    "Choose Opus vs Sonnet for first creative evaluation session",
+    "Authorize P0 persistence sprint before engine-hosted Opus review",
+    "Confirm whether to merge Kling 4 reference-integrity branch (#1683) before video planning"
+  ]
+}
