@@ -20,7 +20,7 @@ describe('THE EXCHANGE character visual registry Oct 2026', () => {
 
   it('validates public asset integrity and hashes', () => {
     const result = validateCharacterVisualRegistry();
-    expect(result.assetCount).toBe(6);
+    expect(result.assetCount).toBe(7);
     expect(result.ok).toBe(true);
     expect(result.errors).toHaveLength(0);
   });
