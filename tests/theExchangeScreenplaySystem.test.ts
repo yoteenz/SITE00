@@ -17,7 +17,7 @@ const ctx = { master, dialogue, assets, silentReleases };
 const doc = (id: string) => docs.find((d) => d.meta.identity.releaseId === id)!;
 const source = (id: string) => read(doc(id).sourcePath);
 const metaBlock = (id: string) => source(id).match(/^---\n[\s\S]*?\n---\n/)![0];
-const hard = (fs_: Array<{ severity: string; check: string }>, check?: string) => fs_.filter((f) => f.severity === 'HARD_CONFLICT' && (!check || f.check === check));
+const hard = <F extends { severity: string; check?: string }>(fs_: F[], check?: string) => fs_.filter((f) => f.severity === 'HARD_CONFLICT' && (!check || f.check === check));
 
 describe('THE EXCHANGE screenplay system', () => {
   it('character dialogue registry', () => {
