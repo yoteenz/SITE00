@@ -7,15 +7,15 @@
   "note": "Planning manifest. Nothing listed here has been generated, recorded or rendered.",
   "screenplay": {
     "path": "THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-01_DUSK.fountain",
-    "sha256": "3a2263664187e7b627f8afe5b60e052a46dff71ea42e19314d9add0a1a0c9020",
-    "version": 1
+    "sha256": "bf14febace441fde29823294ac5329656b7e31c8b933553573f88bdef443537e",
+    "version": 2
   },
   "runtime": {
     "targetSec": 45,
-    "estimatedSec": 41.5,
-    "ratio": 0.92,
+    "estimatedSec": 45.1,
+    "ratio": 1,
     "band": "ON_TARGET",
-    "shotListSec": 41.5
+    "shotListSec": 45.2
   },
   "characters": [
     {
@@ -112,12 +112,22 @@
     "music": [
       {
         "sceneId": "S1-01-SC01",
-        "cue": "Main title cue: a big band warming up somewhere out of sight. Music only; no dialogue in this release.",
+        "cue": "A big band warming up somewhere out of sight: loose trumpet, a walking bass, brushes. Music only; no dialogue and no narration in this release.",
+        "asset": null
+      },
+      {
+        "sceneId": "S1-01-SC06",
+        "cue": "The band thins to bass and brushes.",
+        "asset": null
+      },
+      {
+        "sceneId": "S1-01-SC06",
+        "cue": "The groove returns as the glass goes up.",
         "asset": null
       },
       {
         "sceneId": "S1-01-SC07",
-        "cue": "The band lands its first full chord as the ballroom comes into view.",
+        "cue": "The band lands its first full chord as the windows come into view, and lets it ring.",
         "asset": null
       }
     ],
@@ -125,6 +135,11 @@
       {
         "sceneId": "S1-01-SC01",
         "cue": "Street bed: a bus sighing, a door, distant laughter.",
+        "asset": null
+      },
+      {
+        "sceneId": "S1-01-SC06",
+        "cue": "No designed sound for the Ember. Only the street.",
         "asset": null
       }
     ]
@@ -136,10 +151,10 @@
     }
   ],
   "shots": {
-    "count": 11,
-    "generated": 10,
-    "estimatedUsd": 15.4,
-    "estimatedCredits": 2345,
+    "count": 19,
+    "generated": 18,
+    "estimatedUsd": 25.2,
+    "estimatedCredits": 3906,
     "actualCost": null
   },
   "providerExports": {
@@ -153,7 +168,7 @@
         "wardrobe": {},
         "props": {},
         "framing": "WIDE",
-        "blocking": "A street of brownstones and glass towers at dusk. Copper light on the stoops. Windows come on one by one, like a city putting on its earrings."
+        "blocking": "High on a glass tower the low sun burns copper. Down below, a street of brownstones. Windows come on one by one, like a city putting on its earrings."
       },
       {
         "shotId": "S1-01-SC02-SH01",
@@ -165,7 +180,31 @@
         "wardrobe": {},
         "props": {},
         "framing": "WIDE",
-        "blocking": "A tailor in shirtsleeves lowers the grille on his shop. Halfway down he stops, ducks under, and straightens the lapel on the mannequin in the window. Then he locks up and pats the glass goodnight."
+        "blocking": "A tailor in shirtsleeves hauls down the grille on his shop. Halfway, he stops."
+      },
+      {
+        "shotId": "S1-01-SC02-SH02",
+        "frame": "S1-01-SC02-SH02.start",
+        "setRef": "SET-CITY-DUSK › TAILOR'S SHOPFRONT",
+        "onScreen": [
+          "TAILOR"
+        ],
+        "wardrobe": {},
+        "props": {},
+        "framing": "MEDIUM",
+        "blocking": "Through the window, his hands straighten the lapel on the mannequin."
+      },
+      {
+        "shotId": "S1-01-SC02-SH03",
+        "frame": "S1-01-SC02-SH03.start",
+        "setRef": "SET-CITY-DUSK › TAILOR'S SHOPFRONT",
+        "onScreen": [
+          "TAILOR"
+        ],
+        "wardrobe": {},
+        "props": {},
+        "framing": "MEDIUM",
+        "blocking": "The grille comes down. He pats the glass goodnight."
       },
       {
         "shotId": "S1-01-SC03-SH01",
@@ -177,7 +216,31 @@
         "wardrobe": {},
         "props": {},
         "framing": "WIDE",
-        "blocking": "A teenager at the bus stop practises a dance step in the reflection of the shelter glass. Wrong. Wrong. Right. Nobody is watching, so he does it again for the pleasure of it."
+        "blocking": "A teenager at the bus stop tries a dance step in the shelter glass. Wrong."
+      },
+      {
+        "shotId": "S1-01-SC03-SH02",
+        "frame": "S1-01-SC03-SH02.start",
+        "setRef": "SET-CITY-DUSK › BUS STOP",
+        "onScreen": [
+          "TEENAGER"
+        ],
+        "wardrobe": {},
+        "props": {},
+        "framing": "MEDIUM",
+        "blocking": "Wrong again."
+      },
+      {
+        "shotId": "S1-01-SC03-SH03",
+        "frame": "S1-01-SC03-SH03.start",
+        "setRef": "SET-CITY-DUSK › BUS STOP",
+        "onScreen": [
+          "TEENAGER"
+        ],
+        "wardrobe": {},
+        "props": {},
+        "framing": "MEDIUM",
+        "blocking": "Right. He lands it on the beat and grins at his reflection. Nobody saw. Good."
       },
       {
         "shotId": "S1-01-SC04-SH01",
@@ -189,7 +252,31 @@
         "wardrobe": {},
         "props": {},
         "framing": "WIDE",
-        "blocking": "A grandmother hangs a jewel-green dress on her fire escape to air. She smooths the skirt with both hands and gives it a long look, as if the dress has a date tonight and she approves of him."
+        "blocking": "A jewel-green dress unfurls over a fire-escape rail."
+      },
+      {
+        "shotId": "S1-01-SC04-SH02",
+        "frame": "S1-01-SC04-SH02.start",
+        "setRef": "SET-CITY-DUSK › FIRE ESCAPE",
+        "onScreen": [
+          "GRANDMOTHER"
+        ],
+        "wardrobe": {},
+        "props": {},
+        "framing": "MEDIUM",
+        "blocking": "A grandmother smooths the skirt with both hands."
+      },
+      {
+        "shotId": "S1-01-SC04-SH03",
+        "frame": "S1-01-SC04-SH03.start",
+        "setRef": "SET-CITY-DUSK › FIRE ESCAPE",
+        "onScreen": [
+          "GRANDMOTHER"
+        ],
+        "wardrobe": {},
+        "props": {},
+        "framing": "MEDIUM",
+        "blocking": "She gives it a long look, as if the dress has a date tonight and she approves of him."
       },
       {
         "shotId": "S1-01-SC05-SH01",
@@ -201,15 +288,26 @@
         "wardrobe": {},
         "props": {},
         "framing": "WIDE",
-        "blocking": "Through an open balcony door, a woman dances alone in her kitchen. A wooden spoon for a partner. Completely unembarrassed."
+        "blocking": "Through an open balcony door, a woman dances alone in her kitchen, a wooden spoon for a partner. A glass of wine waits on the ledge."
+      },
+      {
+        "shotId": "S1-01-SC05-SH02",
+        "frame": "S1-01-SC05-SH02.start",
+        "setRef": "SET-CITY-DUSK › BALCONY KITCHEN",
+        "onScreen": [
+          "WOMAN ON THE BALCONY"
+        ],
+        "wardrobe": {},
+        "props": {},
+        "framing": "MEDIUM",
+        "blocking": "She spins the spoon. Completely unembarrassed."
       },
       {
         "shotId": "S1-01-SC06-SH01",
         "frame": "S1-01-SC06-SH01.start",
         "setRef": "SET-CITY-DUSK › NEIGHBOUR'S WINDOW",
         "onScreen": [
-          "NEIGHBOUR",
-          "WOMAN ON THE BALCONY"
+          "NEIGHBOUR"
         ],
         "wardrobe": {},
         "props": {},
@@ -220,21 +318,22 @@
         "shotId": "S1-01-SC06-SH02",
         "frame": "S1-01-SC06-SH02.start",
         "setRef": "SET-CITY-DUSK › NEIGHBOUR'S WINDOW",
-        "onScreen": [],
+        "onScreen": [
+          "NEIGHBOUR"
+        ],
         "wardrobe": {},
         "props": {
           "PR-NEIGHBOUR-PHONE": "raised toward the balcony"
         },
-        "framing": "EXTREME CLOSE-UP",
-        "blocking": ""
+        "framing": "MEDIUM",
+        "blocking": "His lens blooms copper. The music stops dead."
       },
       {
         "shotId": "S1-01-SC06-SH03",
         "frame": "S1-01-SC06-SH03.start",
         "setRef": "SET-CITY-DUSK › NEIGHBOUR'S WINDOW",
         "onScreen": [
-          "NEIGHBOUR",
-          "WOMAN ON THE BALCONY"
+          "NEIGHBOUR"
         ],
         "wardrobe": {},
         "props": {
@@ -248,15 +347,14 @@
         "frame": "S1-01-SC06-SH04.start",
         "setRef": "SET-CITY-DUSK › NEIGHBOUR'S WINDOW",
         "onScreen": [
-          "NEIGHBOUR",
-          "WOMAN ON THE BALCONY"
+          "NEIGHBOUR"
         ],
         "wardrobe": {},
         "props": {
           "PR-NEIGHBOUR-PHONE": "lowered"
         },
         "framing": "MEDIUM",
-        "blocking": "On her balcony, the woman has seen all of it. She raises her glass to him across the street, and keeps dancing."
+        "blocking": "On her balcony, the woman has seen all of it. She lifts her glass to him across the street and goes back to her dance. The band comes back in."
       },
       {
         "shotId": "S1-01-SC07-SH01",
@@ -268,14 +366,26 @@
           "PR-NEIGHBOUR-PHONE": "lowered"
         },
         "framing": "WIDE",
-        "blocking": "The camera rises over water towers and fire escapes, over the green dress and the woman's lit kitchen, toward a ballroom glowing like a jewellery box across the rooftops: Halcyon House."
+        "blocking": "The camera rises past her lit kitchen and the green dress on its rail, over water towers and fire escapes."
+      },
+      {
+        "shotId": "S1-01-SC07-SH02",
+        "frame": "S1-01-SC07-SH02.start",
+        "setRef": "SET-CITY-DUSK › ROOFTOPS",
+        "onScreen": [],
+        "wardrobe": {},
+        "props": {
+          "PR-NEIGHBOUR-PHONE": "lowered"
+        },
+        "framing": "MEDIUM",
+        "blocking": "Across the rooftops, the tall windows of a ballroom glow amber: Halcyon House."
       }
     ],
     "video": [
       {
         "shotId": "S1-01-SC01-SH01",
         "provider": "OPENART:kling-3-omni:image2video",
-        "durationSec": 5,
+        "durationSec": 4,
         "startFrameRef": "S1-01-SC01-SH01.start",
         "endFrameRef": null,
         "movement": "SLOW PUSH",
@@ -284,7 +394,7 @@
       {
         "shotId": "S1-01-SC02-SH01",
         "provider": "OPENART:kling-3-omni:image2video",
-        "durationSec": 5,
+        "durationSec": 2,
         "startFrameRef": "S1-01-SC02-SH01.start",
         "endFrameRef": null,
         "movement": "SLOW PUSH",
@@ -293,9 +403,31 @@
         ]
       },
       {
+        "shotId": "S1-01-SC02-SH02",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 2.3,
+        "startFrameRef": "S1-01-SC02-SH02.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "TAILOR: not in the asset registry."
+        ]
+      },
+      {
+        "shotId": "S1-01-SC02-SH03",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 1.5,
+        "startFrameRef": "S1-01-SC02-SH03.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "TAILOR: not in the asset registry."
+        ]
+      },
+      {
         "shotId": "S1-01-SC03-SH01",
         "provider": "OPENART:kling-3-omni:image2video",
-        "durationSec": 5,
+        "durationSec": 1.6,
         "startFrameRef": "S1-01-SC03-SH01.start",
         "endFrameRef": null,
         "movement": "SLOW PUSH",
@@ -304,9 +436,31 @@
         ]
       },
       {
+        "shotId": "S1-01-SC03-SH02",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 1.1,
+        "startFrameRef": "S1-01-SC03-SH02.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "TEENAGER: not in the asset registry."
+        ]
+      },
+      {
+        "shotId": "S1-01-SC03-SH03",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 2.9,
+        "startFrameRef": "S1-01-SC03-SH03.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "TEENAGER: not in the asset registry."
+        ]
+      },
+      {
         "shotId": "S1-01-SC04-SH01",
         "provider": "OPENART:kling-3-omni:image2video",
-        "durationSec": 5,
+        "durationSec": 2.5,
         "startFrameRef": "S1-01-SC04-SH01.start",
         "endFrameRef": null,
         "movement": "SLOW PUSH",
@@ -315,9 +469,31 @@
         ]
       },
       {
+        "shotId": "S1-01-SC04-SH02",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 1.5,
+        "startFrameRef": "S1-01-SC04-SH02.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GRANDMOTHER: not in the asset registry."
+        ]
+      },
+      {
+        "shotId": "S1-01-SC04-SH03",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 2.6,
+        "startFrameRef": "S1-01-SC04-SH03.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GRANDMOTHER: not in the asset registry."
+        ]
+      },
+      {
         "shotId": "S1-01-SC05-SH01",
         "provider": "OPENART:kling-3-omni:image2video",
-        "durationSec": 5,
+        "durationSec": 2.8,
         "startFrameRef": "S1-01-SC05-SH01.start",
         "endFrameRef": null,
         "movement": "SLOW PUSH",
@@ -326,64 +502,83 @@
         ]
       },
       {
+        "shotId": "S1-01-SC05-SH02",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 1.8,
+        "startFrameRef": "S1-01-SC05-SH02.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "WOMAN ON THE BALCONY: not in the asset registry."
+        ]
+      },
+      {
         "shotId": "S1-01-SC06-SH01",
         "provider": "OPENART:kling-3-omni:image2video",
-        "durationSec": 3,
+        "durationSec": 2,
         "startFrameRef": "S1-01-SC06-SH01.start",
         "endFrameRef": null,
         "movement": "SLOW PUSH",
         "constraints": [
-          "NEIGHBOUR: not in the asset registry.",
-          "WOMAN ON THE BALCONY: not in the asset registry."
+          "NEIGHBOUR: not in the asset registry."
         ]
       },
       {
         "shotId": "S1-01-SC06-SH02",
         "provider": "OPENART:kling-3-omni:image2video",
-        "durationSec": 1.5,
+        "durationSec": 1.8,
         "startFrameRef": "S1-01-SC06-SH02.start",
         "endFrameRef": null,
         "movement": "STATIC",
-        "constraints": []
+        "constraints": [
+          "NEIGHBOUR: not in the asset registry."
+        ]
       },
       {
         "shotId": "S1-01-SC06-SH03",
         "provider": "OPENART:kling-3-omni:image2video",
-        "durationSec": 1.5,
+        "durationSec": 2,
         "startFrameRef": "S1-01-SC06-SH03.start",
         "endFrameRef": null,
         "movement": "STATIC",
         "constraints": [
-          "NEIGHBOUR: not in the asset registry.",
-          "WOMAN ON THE BALCONY: not in the asset registry."
+          "NEIGHBOUR: not in the asset registry."
         ]
       },
       {
         "shotId": "S1-01-SC06-SH04",
         "provider": "OPENART:kling-3-omni:image2video",
-        "durationSec": 4,
+        "durationSec": 3,
         "startFrameRef": "S1-01-SC06-SH04.start",
         "endFrameRef": null,
         "movement": "STATIC",
         "constraints": [
-          "NEIGHBOUR: not in the asset registry.",
-          "WOMAN ON THE BALCONY: not in the asset registry."
+          "NEIGHBOUR: not in the asset registry."
         ]
       },
       {
         "shotId": "S1-01-SC07-SH01",
         "provider": "OPENART:kling-3-omni:image2video",
-        "durationSec": 6,
+        "durationSec": 3.5,
         "startFrameRef": "S1-01-SC07-SH01.start",
         "endFrameRef": null,
-        "movement": "RISING CRANE",
+        "movement": "RISING MOVE",
+        "constraints": []
+      },
+      {
+        "shotId": "S1-01-SC07-SH02",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 4.8,
+        "startFrameRef": "S1-01-SC07-SH02.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
         "constraints": []
       }
     ],
     "lipSync": [],
     "edit": {
       "format": "EXCHANGE_EDL_V1",
-      "totalSec": 41.5,
+      "totalSec": 45.2,
       "events": [
         {
           "event": 1,
@@ -391,7 +586,7 @@
           "sceneId": "S1-01-SC01",
           "type": "ESTABLISHING",
           "recordIn": 0,
-          "recordOut": 5,
+          "recordOut": 4,
           "dialogue": []
         },
         {
@@ -399,89 +594,161 @@
           "shotId": "S1-01-SC02-SH01",
           "sceneId": "S1-01-SC02",
           "type": "ESTABLISHING",
-          "recordIn": 5,
-          "recordOut": 10,
+          "recordIn": 4,
+          "recordOut": 6,
           "dialogue": []
         },
         {
           "event": 3,
-          "shotId": "S1-01-SC03-SH01",
-          "sceneId": "S1-01-SC03",
-          "type": "ESTABLISHING",
-          "recordIn": 10,
-          "recordOut": 15,
+          "shotId": "S1-01-SC02-SH02",
+          "sceneId": "S1-01-SC02",
+          "type": "ACTION",
+          "recordIn": 6,
+          "recordOut": 8.3,
           "dialogue": []
         },
         {
           "event": 4,
-          "shotId": "S1-01-SC04-SH01",
-          "sceneId": "S1-01-SC04",
-          "type": "ESTABLISHING",
-          "recordIn": 15,
-          "recordOut": 20,
+          "shotId": "S1-01-SC02-SH03",
+          "sceneId": "S1-01-SC02",
+          "type": "ACTION",
+          "recordIn": 8.3,
+          "recordOut": 9.8,
           "dialogue": []
         },
         {
           "event": 5,
-          "shotId": "S1-01-SC05-SH01",
-          "sceneId": "S1-01-SC05",
+          "shotId": "S1-01-SC03-SH01",
+          "sceneId": "S1-01-SC03",
           "type": "ESTABLISHING",
-          "recordIn": 20,
-          "recordOut": 25,
+          "recordIn": 9.8,
+          "recordOut": 11.4,
           "dialogue": []
         },
         {
           "event": 6,
-          "shotId": "S1-01-SC06-SH01",
-          "sceneId": "S1-01-SC06",
-          "type": "ESTABLISHING",
-          "recordIn": 25,
-          "recordOut": 28,
+          "shotId": "S1-01-SC03-SH02",
+          "sceneId": "S1-01-SC03",
+          "type": "ACTION",
+          "recordIn": 11.4,
+          "recordOut": 12.5,
           "dialogue": []
         },
         {
           "event": 7,
-          "shotId": "S1-01-SC06-SH02",
-          "sceneId": "S1-01-SC06",
-          "type": "INSERT",
-          "recordIn": 28,
-          "recordOut": 29.5,
+          "shotId": "S1-01-SC03-SH03",
+          "sceneId": "S1-01-SC03",
+          "type": "ACTION",
+          "recordIn": 12.5,
+          "recordOut": 15.4,
           "dialogue": []
         },
         {
           "event": 8,
-          "shotId": "S1-01-SC06-SH03",
-          "sceneId": "S1-01-SC06",
-          "type": "ACTION",
-          "recordIn": 29.5,
-          "recordOut": 31,
+          "shotId": "S1-01-SC04-SH01",
+          "sceneId": "S1-01-SC04",
+          "type": "ESTABLISHING",
+          "recordIn": 15.4,
+          "recordOut": 17.9,
           "dialogue": []
         },
         {
           "event": 9,
-          "shotId": "S1-01-SC06-SH04",
-          "sceneId": "S1-01-SC06",
+          "shotId": "S1-01-SC04-SH02",
+          "sceneId": "S1-01-SC04",
           "type": "ACTION",
-          "recordIn": 31,
-          "recordOut": 35,
+          "recordIn": 17.9,
+          "recordOut": 19.4,
           "dialogue": []
         },
         {
           "event": 10,
-          "shotId": "S1-01-SC07-SH01",
-          "sceneId": "S1-01-SC07",
-          "type": "ESTABLISHING",
-          "recordIn": 35,
-          "recordOut": 41,
+          "shotId": "S1-01-SC04-SH03",
+          "sceneId": "S1-01-SC04",
+          "type": "ACTION",
+          "recordIn": 19.4,
+          "recordOut": 22,
           "dialogue": []
         },
         {
           "event": 11,
+          "shotId": "S1-01-SC05-SH01",
+          "sceneId": "S1-01-SC05",
+          "type": "ESTABLISHING",
+          "recordIn": 22,
+          "recordOut": 24.8,
+          "dialogue": []
+        },
+        {
+          "event": 12,
+          "shotId": "S1-01-SC05-SH02",
+          "sceneId": "S1-01-SC05",
+          "type": "ACTION",
+          "recordIn": 24.8,
+          "recordOut": 26.6,
+          "dialogue": []
+        },
+        {
+          "event": 13,
+          "shotId": "S1-01-SC06-SH01",
+          "sceneId": "S1-01-SC06",
+          "type": "ESTABLISHING",
+          "recordIn": 26.6,
+          "recordOut": 28.6,
+          "dialogue": []
+        },
+        {
+          "event": 14,
+          "shotId": "S1-01-SC06-SH02",
+          "sceneId": "S1-01-SC06",
+          "type": "ACTION",
+          "recordIn": 28.6,
+          "recordOut": 30.4,
+          "dialogue": []
+        },
+        {
+          "event": 15,
+          "shotId": "S1-01-SC06-SH03",
+          "sceneId": "S1-01-SC06",
+          "type": "ACTION",
+          "recordIn": 30.4,
+          "recordOut": 32.4,
+          "dialogue": []
+        },
+        {
+          "event": 16,
+          "shotId": "S1-01-SC06-SH04",
+          "sceneId": "S1-01-SC06",
+          "type": "ACTION",
+          "recordIn": 32.4,
+          "recordOut": 35.4,
+          "dialogue": []
+        },
+        {
+          "event": 17,
+          "shotId": "S1-01-SC07-SH01",
+          "sceneId": "S1-01-SC07",
+          "type": "ESTABLISHING",
+          "recordIn": 35.4,
+          "recordOut": 38.9,
+          "dialogue": []
+        },
+        {
+          "event": 18,
           "shotId": "S1-01-SC07-SH02",
           "sceneId": "S1-01-SC07",
+          "type": "ACTION",
+          "recordIn": 38.9,
+          "recordOut": 43.7,
+          "dialogue": []
+        },
+        {
+          "event": 19,
+          "shotId": "S1-01-SC07-SH03",
+          "sceneId": "S1-01-SC07",
           "type": "TRANSITION",
-          "recordIn": 41,
-          "recordOut": 41.5,
+          "recordIn": 43.7,
+          "recordOut": 45.2,
           "dialogue": []
         }
       ],
@@ -489,13 +756,25 @@
         {
           "kind": "note",
           "tag": "MUSIC",
-          "value": "Main title cue: a big band warming up somewhere out of sight. Music only; no dialogue in this release.",
+          "value": "A big band warming up somewhere out of sight: loose trumpet, a walking bass, brushes. Music only; no dialogue and no narration in this release.",
           "sceneId": "S1-01-SC01"
         },
         {
           "kind": "note",
           "tag": "MUSIC",
-          "value": "The band lands its first full chord as the ballroom comes into view.",
+          "value": "The band thins to bass and brushes.",
+          "sceneId": "S1-01-SC06"
+        },
+        {
+          "kind": "note",
+          "tag": "MUSIC",
+          "value": "The groove returns as the glass goes up.",
+          "sceneId": "S1-01-SC06"
+        },
+        {
+          "kind": "note",
+          "tag": "MUSIC",
+          "value": "The band lands its first full chord as the windows come into view, and lets it ring.",
           "sceneId": "S1-01-SC07"
         },
         {
@@ -503,6 +782,12 @@
           "tag": "SFX",
           "value": "Street bed: a bus sighing, a door, distant laughter.",
           "sceneId": "S1-01-SC01"
+        },
+        {
+          "kind": "note",
+          "tag": "SFX",
+          "value": "No designed sound for the Ember. Only the street.",
+          "sceneId": "S1-01-SC06"
         }
       ]
     }

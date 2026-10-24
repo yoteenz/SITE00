@@ -199,8 +199,8 @@
           "status": "COMPLETE",
           "blockers": [],
           "artifact": "THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-01_DUSK.fountain",
-          "artifactSha256": "3a2263664187e7b627f8afe5b60e052a46dff71ea42e19314d9add0a1a0c9020",
-          "version": 1,
+          "artifactSha256": "bf14febace441fde29823294ac5329656b7e31c8b933553573f88bdef443537e",
+          "version": 2,
           "lineage": [
             "master:S1-01"
           ],
@@ -216,7 +216,7 @@
           "artifactSha256": null,
           "version": 1,
           "lineage": [
-            "3a2263664187e7b627f8afe5b60e052a46dff71ea42e19314d9add0a1a0c9020"
+            "bf14febace441fde29823294ac5329656b7e31c8b933553573f88bdef443537e"
           ],
           "estimatedCost": null,
           "actualCost": null
@@ -239,14 +239,14 @@
           "status": "DRAFT_PENDING_UPSTREAM",
           "blockers": [],
           "artifact": "THE_EXCHANGE/SEASON_1/SHOT_LISTS/S1-01.json",
-          "artifactSha256": "99985530d28732c07ef413f794f02625db12e2a30095c6e7c54f05b02dabff56",
+          "artifactSha256": "ed4b088f54b3c39b20ee70bb48c429a3663214fd107469593c6cc1d139a265cd",
           "version": 1,
           "lineage": [
-            "3a2263664187e7b627f8afe5b60e052a46dff71ea42e19314d9add0a1a0c9020"
+            "bf14febace441fde29823294ac5329656b7e31c8b933553573f88bdef443537e"
           ],
           "estimatedCost": {
-            "usd": 15.4,
-            "credits": 2345
+            "usd": 25.2,
+            "credits": 3906
           },
           "actualCost": null
         },

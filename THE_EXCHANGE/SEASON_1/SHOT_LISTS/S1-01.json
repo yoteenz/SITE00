@@ -6,43 +6,43 @@
   "note": "Planning document. No shot has been generated.",
   "screenplay": {
     "path": "THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-01_DUSK.fountain",
-    "sha256": "3a2263664187e7b627f8afe5b60e052a46dff71ea42e19314d9add0a1a0c9020",
-    "version": 1
+    "sha256": "bf14febace441fde29823294ac5329656b7e31c8b933553573f88bdef443537e",
+    "version": 2
   },
   "runtime": {
     "releaseId": "S1-01",
     "targetSec": 45,
-    "estimatedSec": 41.5,
-    "ratio": 0.92,
+    "estimatedSec": 45.1,
+    "ratio": 1,
     "band": "ON_TARGET",
     "scenes": [
       {
         "sceneId": "S1-01-SC01",
-        "estimatedSec": 5
+        "estimatedSec": 4
       },
       {
         "sceneId": "S1-01-SC02",
-        "estimatedSec": 5
+        "estimatedSec": 5.8
       },
       {
         "sceneId": "S1-01-SC03",
-        "estimatedSec": 5
+        "estimatedSec": 5.6
       },
       {
         "sceneId": "S1-01-SC04",
-        "estimatedSec": 5
+        "estimatedSec": 6.6
       },
       {
         "sceneId": "S1-01-SC05",
-        "estimatedSec": 5
+        "estimatedSec": 4.5
       },
       {
         "sceneId": "S1-01-SC06",
-        "estimatedSec": 10
+        "estimatedSec": 8.8
       },
       {
         "sceneId": "S1-01-SC07",
-        "estimatedSec": 6.5
+        "estimatedSec": 9.8
       }
     ],
     "model": {
@@ -64,11 +64,11 @@
     }
   },
   "totals": {
-    "shots": 11,
-    "durationSec": 41.5,
-    "usd": 15.4,
-    "credits": 2345,
-    "generatedShots": 10
+    "shots": 19,
+    "durationSec": 45.2,
+    "usd": 25.2,
+    "credits": 3906,
+    "generatedShots": 18
   },
   "warnings": [],
   "shots": [
@@ -76,13 +76,13 @@
       "releaseId": "S1-01",
       "sceneId": "S1-01-SC01",
       "type": "ESTABLISHING",
-      "purpose": "A street of brownstones and glass towers at dusk. Copper light on the stoops. Windows come on one by one, like a city putting on its earring",
+      "purpose": "High on a glass tower the low sun burns copper. Down below, a street of brownstones. Windows come on one by one, like a city putting on its ",
       "onScreen": [],
       "framing": "WIDE",
       "movement": "SLOW PUSH",
-      "blocking": "A street of brownstones and glass towers at dusk. Copper light on the stoops. Windows come on one by one, like a city putting on its earrings.",
+      "blocking": "High on a glass tower the low sun burns copper. Down below, a street of brownstones. Windows come on one by one, like a city putting on its earrings.",
       "dialogueRefs": [],
-      "durationSec": 5,
+      "durationSec": 4,
       "wardrobeState": {},
       "setRef": "SET-CITY-DUSK › STREET",
       "propState": {},
@@ -106,15 +106,15 @@
       "releaseId": "S1-01",
       "sceneId": "S1-01-SC02",
       "type": "ESTABLISHING",
-      "purpose": "A tailor in shirtsleeves lowers the grille on his shop. Halfway down he stops, ducks under, and straightens the lapel on the mannequin in th",
+      "purpose": "A tailor in shirtsleeves hauls down the grille on his shop. Halfway, he stops.",
       "onScreen": [
         "TAILOR"
       ],
       "framing": "WIDE",
       "movement": "SLOW PUSH",
-      "blocking": "A tailor in shirtsleeves lowers the grille on his shop. Halfway down he stops, ducks under, and straightens the lapel on the mannequin in the window. Then he locks up and pats the glass goodnight.",
+      "blocking": "A tailor in shirtsleeves hauls down the grille on his shop. Halfway, he stops.",
       "dialogueRefs": [],
-      "durationSec": 5,
+      "durationSec": 2,
       "wardrobeState": {},
       "setRef": "SET-CITY-DUSK › TAILOR'S SHOPFRONT",
       "propState": {},
@@ -138,17 +138,85 @@
     },
     {
       "releaseId": "S1-01",
+      "sceneId": "S1-01-SC02",
+      "type": "ACTION",
+      "purpose": "Through the window, his hands straighten the lapel on the mannequin.",
+      "onScreen": [
+        "TAILOR"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "Through the window, his hands straighten the lapel on the mannequin.",
+      "dialogueRefs": [],
+      "durationSec": 2.3,
+      "wardrobeState": {},
+      "setRef": "SET-CITY-DUSK › TAILOR'S SHOPFRONT",
+      "propState": {},
+      "movementConstraints": [
+        "TAILOR: not in the asset registry."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-01-SC02-SH02",
+      "order": 3,
+      "startFrameRef": "S1-01-SC02-SH02.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-01",
+      "sceneId": "S1-01-SC02",
+      "type": "ACTION",
+      "purpose": "The grille comes down. He pats the glass goodnight.",
+      "onScreen": [
+        "TAILOR"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "The grille comes down. He pats the glass goodnight.",
+      "dialogueRefs": [],
+      "durationSec": 1.5,
+      "wardrobeState": {},
+      "setRef": "SET-CITY-DUSK › TAILOR'S SHOPFRONT",
+      "propState": {},
+      "movementConstraints": [
+        "TAILOR: not in the asset registry."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-01-SC02-SH03",
+      "order": 4,
+      "startFrameRef": "S1-01-SC02-SH03.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-01",
       "sceneId": "S1-01-SC03",
       "type": "ESTABLISHING",
-      "purpose": "A teenager at the bus stop practises a dance step in the reflection of the shelter glass. Wrong. Wrong. Right. Nobody is watching, so he doe",
+      "purpose": "A teenager at the bus stop tries a dance step in the shelter glass. Wrong.",
       "onScreen": [
         "TEENAGER"
       ],
       "framing": "WIDE",
       "movement": "SLOW PUSH",
-      "blocking": "A teenager at the bus stop practises a dance step in the reflection of the shelter glass. Wrong. Wrong. Right. Nobody is watching, so he does it again for the pleasure of it.",
+      "blocking": "A teenager at the bus stop tries a dance step in the shelter glass. Wrong.",
       "dialogueRefs": [],
-      "durationSec": 5,
+      "durationSec": 1.6,
       "wardrobeState": {},
       "setRef": "SET-CITY-DUSK › BUS STOP",
       "propState": {},
@@ -160,8 +228,76 @@
       "approvalStatus": "NOT_SUBMITTED",
       "actualCost": null,
       "shotId": "S1-01-SC03-SH01",
-      "order": 3,
+      "order": 5,
       "startFrameRef": "S1-01-SC03-SH01.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-01",
+      "sceneId": "S1-01-SC03",
+      "type": "ACTION",
+      "purpose": "Wrong again.",
+      "onScreen": [
+        "TEENAGER"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "Wrong again.",
+      "dialogueRefs": [],
+      "durationSec": 1.1,
+      "wardrobeState": {},
+      "setRef": "SET-CITY-DUSK › BUS STOP",
+      "propState": {},
+      "movementConstraints": [
+        "TEENAGER: not in the asset registry."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-01-SC03-SH02",
+      "order": 6,
+      "startFrameRef": "S1-01-SC03-SH02.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-01",
+      "sceneId": "S1-01-SC03",
+      "type": "ACTION",
+      "purpose": "Right. He lands it on the beat and grins at his reflection. Nobody saw. Good.",
+      "onScreen": [
+        "TEENAGER"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "Right. He lands it on the beat and grins at his reflection. Nobody saw. Good.",
+      "dialogueRefs": [],
+      "durationSec": 2.9,
+      "wardrobeState": {},
+      "setRef": "SET-CITY-DUSK › BUS STOP",
+      "propState": {},
+      "movementConstraints": [
+        "TEENAGER: not in the asset registry."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-01-SC03-SH03",
+      "order": 7,
+      "startFrameRef": "S1-01-SC03-SH03.start",
       "endFrameRef": null,
       "generationProvider": "OPENART:kling-3-omni:image2video",
       "estimatedCost": {
@@ -174,15 +310,15 @@
       "releaseId": "S1-01",
       "sceneId": "S1-01-SC04",
       "type": "ESTABLISHING",
-      "purpose": "A grandmother hangs a jewel-green dress on her fire escape to air. She smooths the skirt with both hands and gives it a long look, as if the",
+      "purpose": "A jewel-green dress unfurls over a fire-escape rail.",
       "onScreen": [
         "GRANDMOTHER"
       ],
       "framing": "WIDE",
       "movement": "SLOW PUSH",
-      "blocking": "A grandmother hangs a jewel-green dress on her fire escape to air. She smooths the skirt with both hands and gives it a long look, as if the dress has a date tonight and she approves of him.",
+      "blocking": "A jewel-green dress unfurls over a fire-escape rail.",
       "dialogueRefs": [],
-      "durationSec": 5,
+      "durationSec": 2.5,
       "wardrobeState": {},
       "setRef": "SET-CITY-DUSK › FIRE ESCAPE",
       "propState": {},
@@ -194,8 +330,76 @@
       "approvalStatus": "NOT_SUBMITTED",
       "actualCost": null,
       "shotId": "S1-01-SC04-SH01",
-      "order": 4,
+      "order": 8,
       "startFrameRef": "S1-01-SC04-SH01.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-01",
+      "sceneId": "S1-01-SC04",
+      "type": "ACTION",
+      "purpose": "A grandmother smooths the skirt with both hands.",
+      "onScreen": [
+        "GRANDMOTHER"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "A grandmother smooths the skirt with both hands.",
+      "dialogueRefs": [],
+      "durationSec": 1.5,
+      "wardrobeState": {},
+      "setRef": "SET-CITY-DUSK › FIRE ESCAPE",
+      "propState": {},
+      "movementConstraints": [
+        "GRANDMOTHER: not in the asset registry."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-01-SC04-SH02",
+      "order": 9,
+      "startFrameRef": "S1-01-SC04-SH02.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-01",
+      "sceneId": "S1-01-SC04",
+      "type": "ACTION",
+      "purpose": "She gives it a long look, as if the dress has a date tonight and she approves of him.",
+      "onScreen": [
+        "GRANDMOTHER"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "She gives it a long look, as if the dress has a date tonight and she approves of him.",
+      "dialogueRefs": [],
+      "durationSec": 2.6,
+      "wardrobeState": {},
+      "setRef": "SET-CITY-DUSK › FIRE ESCAPE",
+      "propState": {},
+      "movementConstraints": [
+        "GRANDMOTHER: not in the asset registry."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-01-SC04-SH03",
+      "order": 10,
+      "startFrameRef": "S1-01-SC04-SH03.start",
       "endFrameRef": null,
       "generationProvider": "OPENART:kling-3-omni:image2video",
       "estimatedCost": {
@@ -208,15 +412,15 @@
       "releaseId": "S1-01",
       "sceneId": "S1-01-SC05",
       "type": "ESTABLISHING",
-      "purpose": "Through an open balcony door, a woman dances alone in her kitchen. A wooden spoon for a partner. Completely unembarrassed.",
+      "purpose": "Through an open balcony door, a woman dances alone in her kitchen, a wooden spoon for a partner. A glass of wine waits on the ledge.",
       "onScreen": [
         "WOMAN ON THE BALCONY"
       ],
       "framing": "WIDE",
       "movement": "SLOW PUSH",
-      "blocking": "Through an open balcony door, a woman dances alone in her kitchen. A wooden spoon for a partner. Completely unembarrassed.",
+      "blocking": "Through an open balcony door, a woman dances alone in her kitchen, a wooden spoon for a partner. A glass of wine waits on the ledge.",
       "dialogueRefs": [],
-      "durationSec": 5,
+      "durationSec": 2.8,
       "wardrobeState": {},
       "setRef": "SET-CITY-DUSK › BALCONY KITCHEN",
       "propState": {},
@@ -228,8 +432,42 @@
       "approvalStatus": "NOT_SUBMITTED",
       "actualCost": null,
       "shotId": "S1-01-SC05-SH01",
-      "order": 5,
+      "order": 11,
       "startFrameRef": "S1-01-SC05-SH01.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-01",
+      "sceneId": "S1-01-SC05",
+      "type": "ACTION",
+      "purpose": "She spins the spoon. Completely unembarrassed.",
+      "onScreen": [
+        "WOMAN ON THE BALCONY"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "She spins the spoon. Completely unembarrassed.",
+      "dialogueRefs": [],
+      "durationSec": 1.8,
+      "wardrobeState": {},
+      "setRef": "SET-CITY-DUSK › BALCONY KITCHEN",
+      "propState": {},
+      "movementConstraints": [
+        "WOMAN ON THE BALCONY: not in the asset registry."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-01-SC05-SH02",
+      "order": 12,
+      "startFrameRef": "S1-01-SC05-SH02.start",
       "endFrameRef": null,
       "generationProvider": "OPENART:kling-3-omni:image2video",
       "estimatedCost": {
@@ -244,27 +482,25 @@
       "type": "ESTABLISHING",
       "purpose": "Across the street, her neighbour lifts his phone toward her balcony.",
       "onScreen": [
-        "NEIGHBOUR",
-        "WOMAN ON THE BALCONY"
+        "NEIGHBOUR"
       ],
       "framing": "WIDE",
       "movement": "SLOW PUSH",
       "blocking": "Across the street, her neighbour lifts his phone toward her balcony.",
       "dialogueRefs": [],
-      "durationSec": 3,
+      "durationSec": 2,
       "wardrobeState": {},
       "setRef": "SET-CITY-DUSK › NEIGHBOUR'S WINDOW",
       "propState": {},
       "movementConstraints": [
-        "NEIGHBOUR: not in the asset registry.",
-        "WOMAN ON THE BALCONY: not in the asset registry."
+        "NEIGHBOUR: not in the asset registry."
       ],
-      "technicalComplexity": "MED",
+      "technicalComplexity": "LOW",
       "generationStatus": "NOT_STARTED",
       "approvalStatus": "NOT_SUBMITTED",
       "actualCost": null,
       "shotId": "S1-01-SC06-SH01",
-      "order": 6,
+      "order": 13,
       "startFrameRef": "S1-01-SC06-SH01.start",
       "endFrameRef": null,
       "generationProvider": "OPENART:kling-3-omni:image2video",
@@ -277,26 +513,30 @@
     {
       "releaseId": "S1-01",
       "sceneId": "S1-01-SC06",
-      "type": "INSERT",
-      "purpose": "The phone's lens glowing copper.",
-      "onScreen": [],
-      "framing": "EXTREME CLOSE-UP",
+      "type": "ACTION",
+      "purpose": "His lens blooms copper. The music stops dead.",
+      "onScreen": [
+        "NEIGHBOUR"
+      ],
+      "framing": "MEDIUM",
       "movement": "STATIC",
-      "blocking": "",
+      "blocking": "His lens blooms copper. The music stops dead.",
       "dialogueRefs": [],
-      "durationSec": 1.5,
+      "durationSec": 1.8,
       "wardrobeState": {},
       "setRef": "SET-CITY-DUSK › NEIGHBOUR'S WINDOW",
       "propState": {
         "PR-NEIGHBOUR-PHONE": "raised toward the balcony"
       },
-      "movementConstraints": [],
-      "technicalComplexity": "HIGH",
+      "movementConstraints": [
+        "NEIGHBOUR: not in the asset registry."
+      ],
+      "technicalComplexity": "LOW",
       "generationStatus": "NOT_STARTED",
       "approvalStatus": "NOT_SUBMITTED",
       "actualCost": null,
       "shotId": "S1-01-SC06-SH02",
-      "order": 7,
+      "order": 14,
       "startFrameRef": "S1-01-SC06-SH02.start",
       "endFrameRef": null,
       "generationProvider": "OPENART:kling-3-omni:image2video",
@@ -312,29 +552,27 @@
       "type": "ACTION",
       "purpose": "He lowers the phone, embarrassed.",
       "onScreen": [
-        "NEIGHBOUR",
-        "WOMAN ON THE BALCONY"
+        "NEIGHBOUR"
       ],
       "framing": "MEDIUM",
       "movement": "STATIC",
       "blocking": "He lowers the phone, embarrassed.",
       "dialogueRefs": [],
-      "durationSec": 1.5,
+      "durationSec": 2,
       "wardrobeState": {},
       "setRef": "SET-CITY-DUSK › NEIGHBOUR'S WINDOW",
       "propState": {
         "PR-NEIGHBOUR-PHONE": "raised toward the balcony"
       },
       "movementConstraints": [
-        "NEIGHBOUR: not in the asset registry.",
-        "WOMAN ON THE BALCONY: not in the asset registry."
+        "NEIGHBOUR: not in the asset registry."
       ],
-      "technicalComplexity": "MED",
+      "technicalComplexity": "HIGH",
       "generationStatus": "NOT_STARTED",
       "approvalStatus": "NOT_SUBMITTED",
       "actualCost": null,
       "shotId": "S1-01-SC06-SH03",
-      "order": 8,
+      "order": 15,
       "startFrameRef": "S1-01-SC06-SH03.start",
       "endFrameRef": null,
       "generationProvider": "OPENART:kling-3-omni:image2video",
@@ -348,31 +586,29 @@
       "releaseId": "S1-01",
       "sceneId": "S1-01-SC06",
       "type": "ACTION",
-      "purpose": "On her balcony, the woman has seen all of it. She raises her glass to him across the street, and keeps dancing.",
+      "purpose": "On her balcony, the woman has seen all of it. She lifts her glass to him across the street and goes back to her dance. The band comes back i",
       "onScreen": [
-        "NEIGHBOUR",
-        "WOMAN ON THE BALCONY"
+        "NEIGHBOUR"
       ],
       "framing": "MEDIUM",
       "movement": "STATIC",
-      "blocking": "On her balcony, the woman has seen all of it. She raises her glass to him across the street, and keeps dancing.",
+      "blocking": "On her balcony, the woman has seen all of it. She lifts her glass to him across the street and goes back to her dance. The band comes back in.",
       "dialogueRefs": [],
-      "durationSec": 4,
+      "durationSec": 3,
       "wardrobeState": {},
       "setRef": "SET-CITY-DUSK › NEIGHBOUR'S WINDOW",
       "propState": {
         "PR-NEIGHBOUR-PHONE": "lowered"
       },
       "movementConstraints": [
-        "NEIGHBOUR: not in the asset registry.",
-        "WOMAN ON THE BALCONY: not in the asset registry."
+        "NEIGHBOUR: not in the asset registry."
       ],
-      "technicalComplexity": "MED",
+      "technicalComplexity": "LOW",
       "generationStatus": "NOT_STARTED",
       "approvalStatus": "NOT_SUBMITTED",
       "actualCost": null,
       "shotId": "S1-01-SC06-SH04",
-      "order": 9,
+      "order": 16,
       "startFrameRef": "S1-01-SC06-SH04.start",
       "endFrameRef": null,
       "generationProvider": "OPENART:kling-3-omni:image2video",
@@ -386,13 +622,13 @@
       "releaseId": "S1-01",
       "sceneId": "S1-01-SC07",
       "type": "ESTABLISHING",
-      "purpose": "The camera rises over water towers and fire escapes, over the green dress and the woman's lit kitchen, toward a ballroom glowing like a jewe",
+      "purpose": "The camera rises past her lit kitchen and the green dress on its rail, over water towers and fire escapes.",
       "onScreen": [],
       "framing": "WIDE",
-      "movement": "RISING CRANE",
-      "blocking": "The camera rises over water towers and fire escapes, over the green dress and the woman's lit kitchen, toward a ballroom glowing like a jewellery box across the rooftops: Halcyon House.",
+      "movement": "RISING MOVE",
+      "blocking": "The camera rises past her lit kitchen and the green dress on its rail, over water towers and fire escapes.",
       "dialogueRefs": [],
-      "durationSec": 6,
+      "durationSec": 3.5,
       "wardrobeState": {},
       "setRef": "SET-CITY-DUSK › ROOFTOPS",
       "propState": {
@@ -404,14 +640,46 @@
       "approvalStatus": "NOT_SUBMITTED",
       "actualCost": null,
       "shotId": "S1-01-SC07-SH01",
-      "order": 10,
+      "order": 17,
       "startFrameRef": "S1-01-SC07-SH01.start",
       "endFrameRef": null,
       "generationProvider": "OPENART:kling-3-omni:image2video",
       "estimatedCost": {
-        "usd": 2.8,
-        "credits": 392,
-        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 2. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 10 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-01",
+      "sceneId": "S1-01-SC07",
+      "type": "ACTION",
+      "purpose": "Across the rooftops, the tall windows of a ballroom glow amber: Halcyon House.",
+      "onScreen": [],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "Across the rooftops, the tall windows of a ballroom glow amber: Halcyon House.",
+      "dialogueRefs": [],
+      "durationSec": 4.8,
+      "wardrobeState": {},
+      "setRef": "SET-CITY-DUSK › ROOFTOPS",
+      "propState": {
+        "PR-NEIGHBOUR-PHONE": "lowered"
+      },
+      "movementConstraints": [],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-01-SC07-SH02",
+      "order": 18,
+      "startFrameRef": "S1-01-SC07-SH02.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
       }
     },
     {
@@ -424,7 +692,7 @@
       "movement": "STATIC",
       "blocking": "",
       "dialogueRefs": [],
-      "durationSec": 0.5,
+      "durationSec": 1.5,
       "wardrobeState": {},
       "setRef": "SET-CITY-DUSK › ROOFTOPS",
       "propState": {
@@ -435,9 +703,9 @@
       "generationStatus": "NOT_STARTED",
       "approvalStatus": "NOT_SUBMITTED",
       "actualCost": null,
-      "shotId": "S1-01-SC07-SH02",
-      "order": 11,
-      "startFrameRef": "S1-01-SC07-SH02.start",
+      "shotId": "S1-01-SC07-SH03",
+      "order": 19,
+      "startFrameRef": "S1-01-SC07-SH03.start",
       "endFrameRef": null,
       "generationProvider": "EDIT:capcut-manifest",
       "estimatedCost": {

@@ -101,8 +101,8 @@ describe('THE EXCHANGE production pipeline', () => {
       usd += c.usd ?? 0;
       credits += c.credits ?? 0;
     }
-    expect(Math.round(usd * 100) / 100).toBe(178.22);
-    expect(credits).toBe(26236);
+    expect(Math.round(usd * 100) / 100).toBe(188.02);
+    expect(credits).toBe(27797);
   });
 
   it('approval transitions', () => {
