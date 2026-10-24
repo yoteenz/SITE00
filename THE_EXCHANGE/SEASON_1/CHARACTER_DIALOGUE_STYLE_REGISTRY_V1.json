@@ -1,0 +1,250 @@
+{
+  "schemaVersion": "1.0.0",
+  "propertySlug": "the-exchange",
+  "registryId": "THE_EXCHANGE.DIALOGUE_STYLE_REGISTRY.V1",
+  "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+  "sources": [
+    "THE_EXCHANGE/FOUNDER_SOURCE/THE_EXCHANGE_MASTER_BIBLE_V1/04_CHARACTER_AND_FAMILY.md",
+    "THE_EXCHANGE/MANIFEST/GIDEON_CHARACTER_AND_RELATIONSHIP_NUANCE_V1.md",
+    "THE_EXCHANGE/MANIFEST/SLOANE_NARRATION_AND_FREEZE_FRAME_GRAMMAR_V1.md",
+    "THE_EXCHANGE/MANIFEST/NARRATION_RESTRAINT_AND_TONE_GUIDELINES_V1.md",
+    "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+    "Founder sprint text 2026-10-23 §04 and §07"
+  ],
+  "globalRules": [
+    "Write people, not systems. A line explains the world only if a person in the scene would say it.",
+    "Established lines are anchors, not a quota. Use each where the master places it; never repeat one to prove personality.",
+    "Black American and queer creative vocabulary belongs to specific people in specific rooms. It is never a quota, a seasoning or a joke.",
+    "Characters may interrupt, trail off and be wrong. Variation is protected: no character speaks in a single register all season.",
+    "Silence is dialogue. Grief, intimacy, confrontation and decisive choices default to performance, not narration.",
+    "Sloane's voice-over is selective, subjective and may be wrong. It never repeats what the camera shows."
+  ],
+  "maxSignatureUsesPerRelease": 1,
+  "characters": [
+    {
+      "characterId": "sloane-lockwood",
+      "cue": "SLOANE",
+      "displayName": "Sloane Lockwood",
+      "age": 33,
+      "voiceIdentity": "Warm, quick and expensive-sounding without trying. Bright on top, precise underneath. She sounds like the best guest at the party who also happens to be running it.",
+      "linguisticPersonality": {
+        "vocabulary": "Exact, visual, a little old-fashioned when she is being fond (\"properly\", \"darling\" only for objects and plants). Names people's staff and remembers details.",
+        "phrasing": "Short declaratives; verdicts in one word (\"Brave.\"). Questions that are really invitations.",
+        "humor": "Self-deprecating about small things (ferns, directions), never about her judgment. Mischief and a little pettiness (dessert on someone else's tab).",
+        "rhythm": "Fast in public, slower and plainer in private. Jokes speed up when she is nervous.",
+        "avoid": ["Explaining the institution", "Therapy vocabulary", "Corporate networking language", "Sounding omniscient"]
+      },
+      "relationshipLanguage": {
+        "gideon-shaw": "Sibling-like shorthand; lets him finish her sentences; argues for the fun of it; never flirtation.",
+        "nadine-lockwood": "Defensive charm first, honesty late. Season arc: learns to say \"I need you\" plainly (S1-61).",
+        "richard-lockwood": "Daughterly delight, performs competence for him; hears praise as proof of usefulness.",
+        "kai-fontaine": "Formal and careful after the exclusion; the old ease leaks through when they talk about making things.",
+        "patrons": "Asks more than she tells. From S1-52 her first question is \"What do you want?\""
+      },
+      "emotionalPerformance": {
+        "amused": "Laughs with her whole face, then a dry one-liner.",
+        "afraid": "Gets brisk and organizes something.",
+        "angry": "Precise and quiet; sentences get shorter, never louder.",
+        "grieving": "Practical tasks and silence; voice-over withdraws.",
+        "lying": "Over-specific and charming; adds a detail nobody asked for.",
+        "vulnerable": "Plain words, no joke, looks away first."
+      },
+      "dialogueContinuity": {
+        "establishedLines": [
+          { "line": "If I can't dance in it, it's a costume.", "release": "S1-02" },
+          { "line": "I believe in you.", "release": "S1-02", "note": "to the fern" },
+          { "line": "I can get anyone into any room in this city. I can't keep a fern alive.", "release": "S1-02", "note": "voice-over" },
+          { "line": "Brave.", "release": "S1-04" },
+          { "line": "Every year I tell myself I'll stop deciding who gets what. Every year I'm very good at it.", "release": "S1-05", "note": "voice-over" },
+          { "line": "What do you want?", "release": "S1-52" }
+        ],
+        "recurringReferences": ["dessert first (Vivienne's habit, revealed later)", "the dying fern (pays off S1-84)", "the dance test for clothes (S1-62, S1-72)"]
+      },
+      "voiceAsset": { "provider": "ElevenLabs", "voiceId": null, "status": "NOT_VERIFIED", "note": "A recorded Sloane performance may exist from the Kai's Note screen test; no voice ID is registered in this repository." }
+    },
+    {
+      "characterId": "gideon-shaw",
+      "cue": "GIDEON",
+      "displayName": "Gideon Shaw",
+      "age": 44,
+      "voiceIdentity": "Low, unhurried, economical. Warmth arrives as dry understatement. Never raises his voice; does not need to.",
+      "linguisticPersonality": {
+        "vocabulary": "Plain words, precise nouns, no jargon or tactical talk in social rooms.",
+        "phrasing": "Statements, not threats. Corrections delivered as facts (\"Your hair's perfect. Stop touching it.\").",
+        "humor": "Deadpan; acts of care disguised as logistics (removing the cake plate).",
+        "rhythm": "Sparse. Lets a pause do the work.",
+        "avoid": ["Bodyguard menace", "Combat credentials as introduction", "Possessiveness", "Any romantic register with Sloane"]
+      },
+      "relationshipLanguage": {
+        "sloane-lockwood": "Uncle-like intimacy; can interrupt without ceremony; respects her authority even while advising.",
+        "richard-lockwood": "Former protégé's affection; learning to dance from him.",
+        "nadine-lockwood": "Peer generation; frank, a little more formal than with Sloane.",
+        "kai-fontaine": "Firm and decent: the door is closed, the man is not insulted.",
+        "royce-bell": "Courteous refusal; amused by him."
+      },
+      "emotionalPerformance": {
+        "amused": "One raised eyebrow, a shorter sentence.",
+        "afraid": "Stillness; checks exits without comment.",
+        "angry": "Fewer words, lower voice.",
+        "grieving": "Offers a handkerchief, not a speech (S1-49).",
+        "lying": "Rarely lies; declines to answer instead.",
+        "vulnerable": "Asks permission: \"Ask me.\""
+      },
+      "dialogueContinuity": {
+        "establishedLines": [
+          { "line": "Car's downstairs. Your hair's perfect. Stop touching it.", "release": "S1-02" },
+          { "line": "Not tonight, Kai.", "release": "S1-03" },
+          { "line": "There's a door for that, Royce. It isn't this one.", "release": "S1-03" },
+          { "line": "He can't ask. He has no standing. You know that.", "release": "S1-05" },
+          { "line": "Lead like you're not guarding the door.", "release": "S1-39" }
+        ],
+        "recurringReferences": ["has never once knocked", "same barber for eleven years (hybrid, provisional)", "learning to dance from Richard"]
+      },
+      "voiceAsset": { "provider": "ElevenLabs", "voiceId": null, "status": "NOT_VERIFIED", "note": "The Kai's Note screen test used uploaded audio for a lip-sync pass; its voice provenance is not verified here." }
+    },
+    {
+      "characterId": "kai-fontaine",
+      "cue": "KAI",
+      "displayName": "Kai Fontaine",
+      "age": 34,
+      "voiceIdentity": "Articulate, charming and personable, with a dry, sarcastic edge he can switch off for direct sincerity. Founder direction of 2026-10-23 supersedes the hybrid's 'exuberant' register where they conflict.",
+      "linguisticPersonality": {
+        "vocabulary": "Maker's precision (materials, tolerances, light) next to the social fluency of Black queer creative rooms. Specific, never performed.",
+        "phrasing": "Well-built sentences; a setup and a dry turn. Writes better than he speaks when he is hurt (the note).",
+        "humor": "Sarcasm aimed up, never down. Self-aware about his exile.",
+        "rhythm": "Measured; speeds up only when he is explaining how something works.",
+        "avoid": ["Exaggerated slang", "Comic relief", "Stereotype", "Inferring or fixing his sexuality from styling or speech", "Self-pity"]
+      },
+      "relationshipLanguage": {
+        "sloane-lockwood": "Accountable, not grovelling. Old shorthand surfaces and is checked.",
+        "celestine-rhodes": "Son-like devotion expressed as argument about the work.",
+        "gideon-shaw": "Respect; does not test the boundary.",
+        "neighbourhood-kids": "Patient teacher; the warmest version of him."
+      },
+      "emotionalPerformance": {
+        "amused": "A slow, private smile; one dry line.",
+        "afraid": "Gets very polite.",
+        "angry": "Sarcasm sharpens, then stops.",
+        "grieving": "Hands busy with work.",
+        "lying": "Does not; withholds instead.",
+        "vulnerable": "Says the true thing once, plainly, and does not repeat it."
+      },
+      "dialogueContinuity": {
+        "establishedLines": [
+          { "line": "Celestine has a vision she never built. She'll never ask. I'm asking.", "release": "S1-05", "note": "written note" },
+          { "line": "Now you're doing it again.", "release": "S1-32" }
+        ],
+        "recurringReferences": ["the lantern pavilion five years ago", "the civic licence four years ago", "teaches neighbourhood kids"]
+      },
+      "voiceAsset": { "provider": "ElevenLabs", "voiceId": null, "status": "NOT_VERIFIED", "note": "No Kai voice asset is registered." }
+    },
+    {
+      "characterId": "nadine-lockwood",
+      "cue": "NADINE",
+      "displayName": "Nadine Lockwood",
+      "age": 40,
+      "voiceIdentity": "Grounded, warm, outspoken. The voice of someone who runs a hospital and remembers every missed promise.",
+      "linguisticPersonality": {
+        "vocabulary": "Operational and direct; medical-administrative precision without jargon dumps.",
+        "phrasing": "Asks for exactness (\"Say it again, slower.\").",
+        "humor": "Older-sister teasing; laughs first when relief comes (S1-68).",
+        "rhythm": "Even and firm; slows to make a point land.",
+        "avoid": ["Villain or saint", "Only criticism", "Exposition about the family wound"]
+      },
+      "relationshipLanguage": {
+        "sloane-lockwood": "Protective and exasperated; wants to be told first.",
+        "richard-lockwood": "Loving with an edge of the unsaid.",
+        "gideon-shaw": "Peer warmth, shared history."
+      },
+      "emotionalPerformance": {
+        "amused": "Big laugh, quick to cover it.",
+        "afraid": "Takes charge of logistics.",
+        "angry": "States the facts in order.",
+        "grieving": "Stays busy for others.",
+        "lying": "Bad at it; goes quiet.",
+        "vulnerable": "Admits being last as a fact, not a complaint."
+      },
+      "dialogueContinuity": {
+        "establishedLines": [
+          { "line": "A surgeon told me.", "release": "S1-31" },
+          { "line": "Say it again, slower.", "release": "S1-61" },
+          { "line": "Everyone should send me first.", "release": "S1-63" }
+        ],
+        "recurringReferences": ["her hospital installed Kai's lights", "first sabbatical in a decade"]
+      },
+      "voiceAsset": { "provider": "ElevenLabs", "voiceId": null, "status": "NOT_VERIFIED", "note": "No Nadine voice asset is registered." }
+    },
+    {
+      "characterId": "richard-lockwood",
+      "cue": "RICHARD",
+      "displayName": "Richard Lockwood",
+      "age": 66,
+      "voiceIdentity": "Charismatic storyteller, funny and generous; love that is too visible to keep a secret.",
+      "linguisticPersonality": {
+        "vocabulary": "Old-school warmth; pet names; music and dance references.",
+        "phrasing": "Anecdotes that circle back; praise that lands as approval of usefulness (\"What would I do without you?\").",
+        "humor": "Big, joyful, a little performative.",
+        "rhythm": "Expansive; stops short when he is ashamed.",
+        "avoid": ["Villain", "All-knowing magical father", "Endless foreshadowing"]
+      },
+      "relationshipLanguage": {
+        "sloane-lockwood": "Doting and proud; learns to ask what she wants (S1-80).",
+        "nadine-lockwood": "Affectionate, avoids the hard conversation.",
+        "gideon-shaw": "Mentor and friend; dance teacher."
+      },
+      "emotionalPerformance": {
+        "amused": "Laughs before the punchline.",
+        "afraid": "Tells a story instead.",
+        "angry": "Rare; goes formal.",
+        "grieving": "Sunday breakfast, every week.",
+        "lying": "Cannot sustain it; confesses before he is asked.",
+        "vulnerable": "Two words where he would use fifty (\"Celie. Beautiful.\")."
+      },
+      "dialogueContinuity": {
+        "establishedLines": [
+          { "line": "My baby's coming home.", "release": "S1-55" },
+          { "line": "Like your mother. Like you.", "release": "S1-55" },
+          { "line": "Celie. Beautiful.", "release": "S1-77" }
+        ],
+        "recurringReferences": ["king of the Crescent Room", "Sunday breakfast since Vivienne died"]
+      },
+      "voiceAsset": { "provider": "ElevenLabs", "voiceId": null, "status": "NOT_VERIFIED", "note": "No Richard voice asset is registered." }
+    },
+    {
+      "characterId": "celestine-rhodes",
+      "cue": "CELESTINE",
+      "displayName": "Celestine Rhodes",
+      "age": 64,
+      "voiceIdentity": "Exacting, sardonic, elegant; generous to students, allergic to being managed.",
+      "linguisticPersonality": { "vocabulary": "A teacher's precision about light.", "phrasing": "Short verdicts with a sting.", "humor": "Dry and cutting.", "rhythm": "Deliberate.", "avoid": ["Villainy", "Explaining the Ember's origin before S1-58"] },
+      "relationshipLanguage": { "sloane-lockwood": "Cold courtesy; only through Kai until she is asked.", "kai-fontaine": "Exasperated maternal argument." },
+      "emotionalPerformance": { "amused": "A thin smile.", "afraid": "Refuses.", "angry": "Walks out.", "grieving": "Turns grief into a rule.", "lying": "Withholds.", "vulnerable": "Accepts being asked." },
+      "dialogueContinuity": { "establishedLines": [{ "line": "Your mother arranged things too.", "release": "S1-26" }], "recurringReferences": ["studio above the old glassworks"] },
+      "voiceAsset": { "provider": "ElevenLabs", "voiceId": null, "status": "NOT_VERIFIED", "note": "No Celestine voice asset is registered." }
+    },
+    {
+      "characterId": "royce-bell",
+      "cue": "ROYCE",
+      "displayName": "Royce Bell",
+      "age": 46,
+      "voiceIdentity": "Charming, funny, competitive; a showman with a defensible philosophy.",
+      "linguisticPersonality": { "vocabulary": "Club owner's sales patter; public-access ideals.", "phrasing": "Calls her \"Lockwood\".", "humor": "Delighted with himself.", "rhythm": "Quick and performative.", "avoid": ["Villainy", "Sneering"] },
+      "relationshipLanguage": { "sloane-lockwood": "Rival who admires her.", "gideon-shaw": "Keeps trying to hire him." },
+      "emotionalPerformance": { "amused": "Laughs at his own inference.", "afraid": "Gets louder.", "angry": "Turns it into a toast.", "grieving": "Not shown.", "lying": "Protects sources on principle instead of lying.", "vulnerable": "Admits he'll miss her deciding things." },
+      "dialogueContinuity": { "establishedLines": [{ "line": "You're settling your book, Lockwood. I can read a ledger too.", "release": "S1-43" }, { "line": "For what it's worth, I'll miss you deciding things. You were good at it.", "release": "S1-43" }], "recurringReferences": ["the Salon", "If it's worth doing, it's worth sharing (hybrid §8.2 motto)"] },
+      "voiceAsset": { "provider": "ElevenLabs", "voiceId": null, "status": "NOT_VERIFIED", "note": "No Royce voice asset is registered." }
+    },
+    {
+      "characterId": "tina-grandison",
+      "cue": "TINA",
+      "displayName": "Tina Grandison",
+      "age": null,
+      "voiceIdentity": "Fashion editor's fluency; friend-rival; almost shy when she wants something real.",
+      "linguisticPersonality": { "vocabulary": "Designers, cuts, silhouettes.", "phrasing": "Confident until she asks.", "humor": "Competitive teasing about shoulders.", "rhythm": "Fast.", "avoid": ["Patron-only function (NR-9)"] },
+      "relationshipLanguage": { "sloane-lockwood": "Friend first; patron second (NR-9).", "ophelia-grant": "Learns to be refused." },
+      "emotionalPerformance": { "amused": "Argues happily.", "afraid": "Overpays.", "angry": "Not shown.", "grieving": "Not shown.", "lying": "Not shown.", "vulnerable": "\"I want to meet her.\"" },
+      "dialogueContinuity": { "establishedLines": [{ "line": "I want to meet her. I'll put her on the cover.", "release": "S1-15" }], "recurringReferences": ["the Number 9 bus", "four thousand dollars of somebody's new collection"] },
+      "voiceAsset": { "provider": "ElevenLabs", "voiceId": null, "status": "NOT_VERIFIED", "note": "No Tina voice asset is registered. Age not in source." }
+    }
+  ]
+}

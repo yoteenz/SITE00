@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordId": "THE_EXCHANGE.PROVIDER_PRICE_QUOTES.V1",
+  "classification": "PRODUCTION_TEST_ONLY",
+  "note": "Read-only price quotes. No job was submitted. Prices change with configuration; re-quote before any approved spend.",
+  "retrievedAtUtc": "2026-10-24T02:24Z",
+  "fal": {
+    "fal-ai/kling-video/lipsync/audio-to-video": {
+      "unitPriceUsd": 0.014,
+      "unit": "units"
+    },
+    "fal-ai/kling-video/v2.1/master/image-to-video": {
+      "unitPriceUsd": 0.28,
+      "unit": "seconds"
+    },
+    "fal-ai/sync-lipsync/v2": {
+      "unitPriceUsd": 3,
+      "unit": "minutes"
+    },
+    "fal-ai/elevenlabs/tts/eleven-v3": {
+      "unitPriceUsd": 0.1,
+      "unit": "1000 characters",
+      "retrievedAtUtc": "2026-10-24T02:52Z",
+      "note": "ElevenLabs v3 through fal (endpoint registered in shared/site00-studio-world-production/embodiedCharacterVoice/voiceGenerationCapability.ts). No direct ElevenLabs credential on this VM."
+    }
+  },
+  "openart": {
+    "source": "openart_model_cost default-config quote",
+    "balanceCreditsAtQuote": 10154,
+    "quotes": [
+      {
+        "model": "kling-3-omni",
+        "mode": "image2video",
+        "config": {
+          "resolution": "std",
+          "duration": 5,
+          "generateSound": true
+        },
+        "totalCredits": 175
+      },
+      {
+        "model": "kling-v3",
+        "mode": "image2video",
+        "config": {
+          "resolution": "std",
+          "duration": 5,
+          "generateSound": true
+        },
+        "totalCredits": 175
+      },
+      {
+        "model": "gpt-image-2-5-sunburst",
+        "mode": "image2image",
+        "config": {
+          "resolutionTier": "2k",
+          "quality": "medium"
+        },
+        "totalCredits": 42
+      },
+      {
+        "model": "nano-banana-pro",
+        "mode": "image2image",
+        "config": {
+          "resolution": "1K"
+        },
+        "totalCredits": 40
+      }
+    ],
+    "unquoted": [
+      "kling-4-omni",
+      "kling-lipsync-v1"
+    ]
+  }
+}

@@ -1,0 +1,43 @@
+import path from 'node:path';
+
+const HISTORY = 'THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY';
+const RECONCILIATION = `${HISTORY}/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1`;
+const BASELINE = `${HISTORY}/THE_EXCHANGE_RECURRING_PATRON_EXCHANGE_ENGINE_V1`;
+const HYBRID = `${HISTORY}/THE_EXCHANGE_FOUNDER_VISION_HYBRID_SHOWRUNNER_V1`;
+const SEASON = 'THE_EXCHANGE/SEASON_1';
+
+export const EXCHANGE_PATHS = {
+  history: HISTORY,
+  historyArchives: `${HISTORY}/SOURCE_ARCHIVES.json`,
+  reconciliation: RECONCILIATION,
+  baseline: BASELINE,
+  hybrid: HYBRID,
+  optionACsv: `${RECONCILIATION}/04_EXPANDED_86_RELEASE_MAP.csv`,
+  optionBCsv: `${RECONCILIATION}/05_LEAN_RELEASE_MAP.csv`,
+  stressTest: `${RECONCILIATION}/11_VALIDATION_AND_STRESS_TEST.md`,
+  baselineCsv: `${BASELINE}/THE_EXCHANGE_RECURRING_PATRON_V1_REVISED_RELEASE_MAP.csv`,
+  hybridCsv: `${HYBRID}/THE_EXCHANGE_HYBRID_V1_RELEASE_MAP.csv`,
+  approvalMatrix: 'THE_EXCHANGE/MANIFEST/CANON_APPROVAL_MATRIX_V1.json',
+  visualRegistry: 'THE_EXCHANGE/MANIFEST/CHARACTER_VISUAL_REGISTRY_V1.json',
+  season: SEASON,
+  master: `${SEASON}/SEASON1_86_RELEASE_MASTER_V1.json`,
+  masterCsv: `${SEASON}/SEASON1_86_RELEASE_MASTER_V1.csv`,
+  ledger: `${SEASON}/CANON_PROMOTION_LEDGER_V1.json`,
+  dialogue: `${SEASON}/CHARACTER_DIALOGUE_STYLE_REGISTRY_V1.json`,
+  assets: `${SEASON}/PRODUCTION_ASSET_REGISTRY_V1.json`,
+  knowledge: `${SEASON}/KNOWLEDGE_AND_CONTINUITY_LEDGER_V1.json`,
+  stressRegression: `${SEASON}/STRUCTURAL_STRESS_TEST_REGRESSION_V1.json`,
+  providerCapabilities: `${SEASON}/PROVIDER_CAPABILITY_AUDIT_V1.json`,
+  backlogJson: `${SEASON}/SCREENPLAY_BACKLOG_V1.json`,
+  backlogCsv: `${SEASON}/SCREENPLAY_BACKLOG_V1.csv`,
+  approvals: `${SEASON}/APPROVAL_STATE_V1.json`,
+  pipelineState: `${SEASON}/PIPELINE_STATE_V1.json`,
+  continuityReport: `${SEASON}/CONTINUITY_VALIDATION_REPORT_V1.json`,
+  screenplays: `${SEASON}/SCREENPLAYS`,
+  shotLists: `${SEASON}/SHOT_LISTS`,
+  manifests: `${SEASON}/PRODUCTION_MANIFESTS`,
+} as const;
+
+export function repoPath(relative: string, root = process.cwd()): string {
+  return path.join(root, relative);
+}
