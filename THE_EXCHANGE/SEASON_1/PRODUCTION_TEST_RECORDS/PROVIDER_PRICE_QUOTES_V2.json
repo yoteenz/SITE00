@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "2.0.0",
+  "recordId": "THE_EXCHANGE.PROVIDER_PRICE_QUOTES.V2",
+  "classification": "PRODUCTION_PLANNING_QUOTE",
+  "note": "Read-only quotes. No job was submitted and no credit was spent. Each OpenArt figure is the cost of one job at exactly the config shown; prices are finalized at generation time, so re-quote before any authorized spend. V1 is kept unchanged.",
+  "retrievedAtUtc": "2026-10-24T14:47Z",
+  "supersedes": "PROVIDER_PRICE_QUOTES_V1.json (kept as history; V1 priced kling-3-omni with generated sound)",
+  "openart": {
+    "source": "openart_account_get and openart_model_cost (OpenArt MCP, read-only)",
+    "account": { "plan": "Wonder", "balanceCreditsAtQuote": 10031 },
+    "creditUsdRate": null,
+    "creditUsdRateNote": "No credit-to-dollar rate is published through the MCP. OpenArt costs are reported in credits only.",
+    "quotes": [
+      { "model": "kling-3-omni", "mode": "image2video", "config": { "videoCount": 1, "resolution": "std", "duration": 3, "generateSound": false }, "totalCredits": 75 },
+      { "model": "kling-3-omni", "mode": "image2video", "config": { "videoCount": 1, "resolution": "std", "duration": 5, "generateSound": false }, "totalCredits": 125 },
+      { "model": "kling-3-omni", "mode": "image2video", "config": { "videoCount": 1, "resolution": "pro", "duration": 3, "generateSound": false }, "totalCredits": 105 },
+      { "model": "kling-3-omni", "mode": "image2video", "config": { "videoCount": 1, "resolution": "pro", "duration": 4, "generateSound": false }, "totalCredits": 140 },
+      { "model": "kling-3-omni", "mode": "image2video", "config": { "videoCount": 1, "resolution": "pro", "duration": 5, "generateSound": false }, "totalCredits": 175 },
+      { "model": "kling-3-omni", "mode": "image2video", "config": { "videoCount": 1, "resolution": "pro", "duration": 6, "generateSound": false }, "totalCredits": 210 },
+      { "model": "nano-banana-pro", "mode": "image2image", "config": { "imageCount": 1, "resolution": "2K", "aspectRatio": "9:16" }, "totalCredits": 40 }
+    ],
+    "defaultConfigQuotes": [
+      { "model": "nano-banana-pro", "mode": "text2image", "totalCredits": 40 },
+      { "model": "nano-banana-pro", "mode": "image2image", "totalCredits": 40 },
+      { "model": "nano-banana-2", "mode": "image2image", "totalCredits": 20 },
+      { "model": "gpt-image-2-5-sunburst", "mode": "image2image", "totalCredits": 42 },
+      { "model": "kling-3-omni", "mode": "image2image", "totalCredits": 10 },
+      { "model": "kling-3-omni", "mode": "image2video", "totalCredits": 175 },
+      { "model": "kling-3-omni", "mode": "element2video", "totalCredits": 175 },
+      { "model": "kling-v3", "mode": "image2video", "totalCredits": 175 },
+      { "model": "veo3-1", "mode": "image2video", "totalCredits": 120 },
+      { "model": "veo3-1", "mode": "element2video", "totalCredits": 320 }
+    ],
+    "formFacts": {
+      "kling-3-omni image2video": "duration: integer 3–15 s; resolution std | pro | 4k; generateSound default true; startFrame required; endFrame optional; multiShot option; prompt up to 2,500 characters."
+    },
+    "unavailable": [
+      "kling-4-omni image2video: not offered through the OpenArt MCP model list at quote time (the Kai's Note test used it through the OpenArt web app).",
+      "Audio models: none on the OpenArt MCP."
+    ]
+  },
+  "fal": {
+    "source": "fal pricing API GET /v1/models/pricing (read-only, FAL_KEY present)",
+    "prices": {
+      "fal-ai/elevenlabs/sound-effects/v2": { "unitPriceUsd": 0.002, "unit": "seconds" },
+      "fal-ai/elevenlabs/sound-effects": { "unitPriceUsd": 0.002, "unit": "seconds" },
+      "fal-ai/elevenlabs/music": { "unitPriceUsd": 0.6, "unit": "minutes" },
+      "fal-ai/kling-video/v2.1/master/image-to-video": { "unitPriceUsd": 0.28, "unit": "seconds" },
+      "fal-ai/elevenlabs/tts/eleven-v3": { "unitPriceUsd": 0.1, "unit": "1000 characters", "quoteRef": "PROVIDER_PRICE_QUOTES_V1.json (2026-10-24T02:52Z)" }
+    },
+    "openQuestion": "Whether fal's ElevenLabs endpoints can address voices saved in the founder's own ElevenLabs workspace is not verified."
+  },
+  "elevenlabs": {
+    "directApi": "BLOCKED_NO_CREDENTIALS",
+    "note": "No ELEVENLABS_* credential in this environment. The founder's workspace plan, character quota and music terms are UNKNOWN from here.",
+    "connectorEvidence": "Voice IDs for Sloane, Gideon and Kai were verified through the founder's ChatGPT ElevenLabs connector on 2026-10-24 (founder sprint V2 §03). Not independently verified by this agent."
+  }
+}
