@@ -1,0 +1,2905 @@
+{
+  "schemaVersion": "1.0.0",
+  "stages": [
+    {
+      "id": "STORY_APPROVED",
+      "name": "Story approved",
+      "input": [
+        "Master release row"
+      ],
+      "output": "SEASON1_86_RELEASE_MASTER_V1.json row",
+      "approval": "STORY_STRUCTURE",
+      "spends": false,
+      "provider": null
+    },
+    {
+      "id": "SCREENPLAY_DRAFTED",
+      "name": "Screenplay drafted",
+      "input": [
+        "Approved master row",
+        "Dialogue registry",
+        "Asset registry"
+      ],
+      "output": "SCREENPLAYS/<release>.fountain",
+      "approval": null,
+      "spends": false,
+      "provider": "SCREENWRITING"
+    },
+    {
+      "id": "CONTINUITY_VALIDATED",
+      "name": "Continuity validated",
+      "input": [
+        "Screenplay",
+        "Master",
+        "Knowledge ledger",
+        "Registries"
+      ],
+      "output": "CONTINUITY_VALIDATION_REPORT_V1.json entries",
+      "approval": null,
+      "spends": false,
+      "provider": null
+    },
+    {
+      "id": "FOUNDER_SCRIPT_APPROVAL",
+      "name": "Founder script approval",
+      "input": [
+        "Validated screenplay (0 hard conflicts)"
+      ],
+      "output": "APPROVAL_STATE_V1.json SCREENPLAY record",
+      "approval": "SCREENPLAY",
+      "spends": false,
+      "provider": null
+    },
+    {
+      "id": "SHOT_LIST_GENERATED",
+      "name": "Shot list generated",
+      "input": [
+        "Approved screenplay",
+        "Asset registry",
+        "Price quotes"
+      ],
+      "output": "SHOT_LISTS/<release>.json",
+      "approval": "SHOT_PLAN",
+      "spends": false,
+      "provider": null
+    },
+    {
+      "id": "ASSETS_RESOLVED",
+      "name": "Assets resolved",
+      "input": [
+        "Approved shot list",
+        "Character, set, wardrobe and prop approvals"
+      ],
+      "output": "PRODUCTION_MANIFESTS/<release>.json assets",
+      "approval": null,
+      "spends": false,
+      "provider": null
+    },
+    {
+      "id": "VOICE_RECORDINGS_PREPARED",
+      "name": "Voice recordings prepared",
+      "input": [
+        "Approved screenplay lines",
+        "Approved character voices"
+      ],
+      "output": "Dialogue recordings keyed by line ID",
+      "approval": "CHARACTER_VOICE",
+      "spends": true,
+      "provider": "VOICE"
+    },
+    {
+      "id": "KEYFRAMES_GENERATED",
+      "name": "Keyframes generated",
+      "input": [
+        "Resolved assets",
+        "Shot start-frame specs"
+      ],
+      "output": "Start and end frames keyed by shot ID",
+      "approval": null,
+      "spends": true,
+      "provider": "IMAGE"
+    },
+    {
+      "id": "SHOT_ANIMATION",
+      "name": "Shot animation",
+      "input": [
+        "Approved keyframes",
+        "Shot specs ≤10 s"
+      ],
+      "output": "Video clips keyed by shot ID",
+      "approval": null,
+      "spends": true,
+      "provider": "VIDEO"
+    },
+    {
+      "id": "AUDIO_DRIVEN_LIP_SYNC",
+      "name": "Audio-driven lip-sync",
+      "input": [
+        "Dialogue clips",
+        "Approved recordings"
+      ],
+      "output": "Lip-synced clips keyed by shot ID",
+      "approval": null,
+      "spends": true,
+      "provider": "LIP_SYNC"
+    },
+    {
+      "id": "SCENE_ASSEMBLY",
+      "name": "Scene assembly",
+      "input": [
+        "All clips",
+        "Recordings",
+        "Music and effects cues"
+      ],
+      "output": "Edit decision list / CapCut manifest",
+      "approval": null,
+      "spends": false,
+      "provider": "EDITING"
+    },
+    {
+      "id": "CONTINUITY_QUALITY_REVIEW",
+      "name": "Continuity / quality review",
+      "input": [
+        "Assembled cut",
+        "Shot list",
+        "Continuity rules"
+      ],
+      "output": "GENERATED_VIDEO approval per shot",
+      "approval": "GENERATED_VIDEO",
+      "spends": false,
+      "provider": null
+    },
+    {
+      "id": "FOUNDER_FINAL_APPROVAL",
+      "name": "Founder final approval",
+      "input": [
+        "Reviewed cut"
+      ],
+      "output": "FINAL_EDIT approval",
+      "approval": "FINAL_EDIT",
+      "spends": false,
+      "provider": null
+    },
+    {
+      "id": "EXPORT_RELEASE_PACKAGE",
+      "name": "Export / release package",
+      "input": [
+        "Approved final edit"
+      ],
+      "output": "Release package (not published by this system)",
+      "approval": null,
+      "spends": false,
+      "provider": "EDITING"
+    }
+  ],
+  "spendAuthorizations": [],
+  "jobs": [],
+  "verifiedGenerationProviders": [],
+  "releases": [
+    {
+      "releaseId": "S1-01",
+      "currentStage": "FOUNDER_SCRIPT_APPROVAL",
+      "currentStatus": "AWAITING_APPROVAL",
+      "stages": [
+        {
+          "stage": "STORY_APPROVED",
+          "order": 1,
+          "status": "COMPLETE",
+          "blockers": [],
+          "artifact": "master:S1-01",
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "SCREENPLAY_DRAFTED",
+          "order": 2,
+          "status": "COMPLETE",
+          "blockers": [],
+          "artifact": "THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-01_DUSK.fountain",
+          "artifactSha256": "3a2263664187e7b627f8afe5b60e052a46dff71ea42e19314d9add0a1a0c9020",
+          "version": 1,
+          "lineage": [
+            "master:S1-01"
+          ],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "CONTINUITY_VALIDATED",
+          "order": 3,
+          "status": "COMPLETE",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [
+            "3a2263664187e7b627f8afe5b60e052a46dff71ea42e19314d9add0a1a0c9020"
+          ],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "FOUNDER_SCRIPT_APPROVAL",
+          "order": 4,
+          "status": "AWAITING_APPROVAL",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "SHOT_LIST_GENERATED",
+          "order": 5,
+          "status": "DRAFT_PENDING_UPSTREAM",
+          "blockers": [],
+          "artifact": "THE_EXCHANGE/SEASON_1/SHOT_LISTS/S1-01.json",
+          "artifactSha256": "99985530d28732c07ef413f794f02625db12e2a30095c6e7c54f05b02dabff56",
+          "version": 1,
+          "lineage": [
+            "3a2263664187e7b627f8afe5b60e052a46dff71ea42e19314d9add0a1a0c9020"
+          ],
+          "estimatedCost": {
+            "usd": 15.4,
+            "credits": 2345
+          },
+          "actualCost": null
+        },
+        {
+          "stage": "ASSETS_RESOLVED",
+          "order": 6,
+          "status": "BLOCKED",
+          "blockers": [
+            "UNREGISTERED GRANDMOTHER: not in the asset registry; needs casting and a face reference before generation",
+            "UNREGISTERED NEIGHBOUR: not in the asset registry; needs casting and a face reference before generation",
+            "UNREGISTERED TAILOR: not in the asset registry; needs casting and a face reference before generation",
+            "UNREGISTERED TEENAGER: not in the asset registry; needs casting and a face reference before generation",
+            "UNREGISTERED WOMAN ON THE BALCONY: not in the asset registry; needs casting and a face reference before generation",
+            "SET SET-CITY-DUSK: no approved establishing reference",
+            "PROP PR-NEIGHBOUR-PHONE: DESIGN_REQUIRED"
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "VOICE_RECORDINGS_PREPARED",
+          "order": 7,
+          "status": "BLOCKED",
+          "blockers": [
+            "VOICE provider generation not verified (ElevenLabs NOT_VERIFIED).",
+            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage.",
+            "CHARACTER_VOICE not approved for every speaking character."
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "KEYFRAMES_GENERATED",
+          "order": 8,
+          "status": "BLOCKED",
+          "blockers": [
+            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage."
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "SHOT_ANIMATION",
+          "order": 9,
+          "status": "BLOCKED",
+          "blockers": [
+            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage."
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "AUDIO_DRIVEN_LIP_SYNC",
+          "order": 10,
+          "status": "BLOCKED",
+          "blockers": [
+            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage."
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "SCENE_ASSEMBLY",
+          "order": 11,
+          "status": "NOT_STARTED",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "CONTINUITY_QUALITY_REVIEW",
+          "order": 12,
+          "status": "NOT_STARTED",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "FOUNDER_FINAL_APPROVAL",
+          "order": 13,
+          "status": "NOT_STARTED",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "EXPORT_RELEASE_PACKAGE",
+          "order": 14,
+          "status": "NOT_STARTED",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        }
+      ]
+    },
+    {
+      "releaseId": "S1-02",
+      "currentStage": "FOUNDER_SCRIPT_APPROVAL",
+      "currentStatus": "AWAITING_APPROVAL",
+      "stages": [
+        {
+          "stage": "STORY_APPROVED",
+          "order": 1,
+          "status": "COMPLETE",
+          "blockers": [],
+          "artifact": "master:S1-02",
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "SCREENPLAY_DRAFTED",
+          "order": 2,
+          "status": "COMPLETE",
+          "blockers": [],
+          "artifact": "THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-02_GETTING_READY.fountain",
+          "artifactSha256": "b7f982d2a0d181ac3e0bafc82ce94e087d71a8ebdcb67d2503bf0a7430488147",
+          "version": 1,
+          "lineage": [
+            "master:S1-02"
+          ],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "CONTINUITY_VALIDATED",
+          "order": 3,
+          "status": "COMPLETE",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [
+            "b7f982d2a0d181ac3e0bafc82ce94e087d71a8ebdcb67d2503bf0a7430488147"
+          ],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "FOUNDER_SCRIPT_APPROVAL",
+          "order": 4,
+          "status": "AWAITING_APPROVAL",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "SHOT_LIST_GENERATED",
+          "order": 5,
+          "status": "DRAFT_PENDING_UPSTREAM",
+          "blockers": [],
+          "artifact": "THE_EXCHANGE/SEASON_1/SHOT_LISTS/S1-02.json",
+          "artifactSha256": "7eda7bd16d80ca021e8113406747bb957e9c41331e43fdec229df38f36f5aeca",
+          "version": 1,
+          "lineage": [
+            "b7f982d2a0d181ac3e0bafc82ce94e087d71a8ebdcb67d2503bf0a7430488147"
+          ],
+          "estimatedCost": {
+            "usd": 27.26,
+            "credits": 4123
+          },
+          "actualCost": null
+        },
+        {
+          "stage": "ASSETS_RESOLVED",
+          "order": 6,
+          "status": "BLOCKED",
+          "blockers": [
+            "SET SET-SLOANE-APARTMENT: no approved establishing reference",
+            "WARDROBE WD-SLOANE-HOUSE-GE92: DESIGN_REQUIRED (U-4)",
+            "WARDROBE WD-SLOANE-PARTY-GE92: DESIGN_REQUIRED (U-4)",
+            "WARDROBE WD-GIDEON-SUIT: DESIGN_REQUIRED (U-4)",
+            "PROP PR-COCONUT-CAKE: DESIGN_REQUIRED",
+            "PROP PR-FERN: DESIGN_REQUIRED",
+            "PROP PR-SLOANE-NECKLACE: DESIGN_REQUIRED",
+            "PROP PR-SLOANE-CLUTCH: DESIGN_REQUIRED"
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "VOICE_RECORDINGS_PREPARED",
+          "order": 7,
+          "status": "BLOCKED",
+          "blockers": [
+            "GIDEON: no approved voice",
+            "SLOANE: no approved voice",
+            "VOICE provider generation not verified (ElevenLabs NOT_VERIFIED).",
+            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage.",
+            "CHARACTER_VOICE not approved for every speaking character."
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "KEYFRAMES_GENERATED",
+          "order": 8,
+          "status": "BLOCKED",
+          "blockers": [
+            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage."
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "SHOT_ANIMATION",
+          "order": 9,
+          "status": "BLOCKED",
+          "blockers": [
+            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage."
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "AUDIO_DRIVEN_LIP_SYNC",
+          "order": 10,
+          "status": "BLOCKED",
+          "blockers": [
+            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage."
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "SCENE_ASSEMBLY",
+          "order": 11,
+          "status": "NOT_STARTED",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "CONTINUITY_QUALITY_REVIEW",
+          "order": 12,
+          "status": "NOT_STARTED",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "FOUNDER_FINAL_APPROVAL",
+          "order": 13,
+          "status": "NOT_STARTED",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "EXPORT_RELEASE_PACKAGE",
+          "order": 14,
+          "status": "NOT_STARTED",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        }
+      ]
+    },
+    {
+      "releaseId": "S1-03",
+      "currentStage": "FOUNDER_SCRIPT_APPROVAL",
+      "currentStatus": "AWAITING_APPROVAL",
+      "stages": [
+        {
+          "stage": "STORY_APPROVED",
+          "order": 1,
+          "status": "COMPLETE",
+          "blockers": [],
+          "artifact": "master:S1-03",
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "SCREENPLAY_DRAFTED",
+          "order": 2,
+          "status": "COMPLETE",
+          "blockers": [],
+          "artifact": "THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-03_THE_DOOR.fountain",
+          "artifactSha256": "8431d71dfb32ab7fcc98b3657245a38bca4282851034a7fcafb1692cea38e8c6",
+          "version": 1,
+          "lineage": [
+            "master:S1-03"
+          ],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "CONTINUITY_VALIDATED",
+          "order": 3,
+          "status": "COMPLETE",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [
+            "8431d71dfb32ab7fcc98b3657245a38bca4282851034a7fcafb1692cea38e8c6"
+          ],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "FOUNDER_SCRIPT_APPROVAL",
+          "order": 4,
+          "status": "AWAITING_APPROVAL",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "SHOT_LIST_GENERATED",
+          "order": 5,
+          "status": "DRAFT_PENDING_UPSTREAM",
+          "blockers": [],
+          "artifact": "THE_EXCHANGE/SEASON_1/SHOT_LISTS/S1-03.json",
+          "artifactSha256": "f679ff6fc459be44d60372779b70cc543759d772e91c8c481c64847a572aea03",
+          "version": 1,
+          "lineage": [
+            "8431d71dfb32ab7fcc98b3657245a38bca4282851034a7fcafb1692cea38e8c6"
+          ],
+          "estimatedCost": {
+            "usd": 45.32,
+            "credits": 6475
+          },
+          "actualCost": null
+        },
+        {
+          "stage": "ASSETS_RESOLVED",
+          "order": 6,
+          "status": "BLOCKED",
+          "blockers": [
+            "CHARACTER_FACE KAI: no approved face asset",
+            "CHARACTER_FACE ROYCE: no approved face asset",
+            "SET SET-HALCYON-HOUSE: no approved establishing reference",
+            "WARDROBE WD-GIDEON-SUIT: DESIGN_REQUIRED (U-4)",
+            "WARDROBE WD-KAI-GE92: DESIGN_REQUIRED (U-4)",
+            "WARDROBE WD-ROYCE-GE92: DESIGN_REQUIRED (U-4, U-6)",
+            "PROP PR-KAI-NOTE: DESIGN_REQUIRED"
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "VOICE_RECORDINGS_PREPARED",
+          "order": 7,
+          "status": "BLOCKED",
+          "blockers": [
+            "GIDEON: no approved voice",
+            "KAI: no approved voice",
+            "ROYCE: no approved voice",
+            "SLOANE: no approved voice",
+            "VOICE provider generation not verified (ElevenLabs NOT_VERIFIED).",
+            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage.",
+            "CHARACTER_VOICE not approved for every speaking character."
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "KEYFRAMES_GENERATED",
+          "order": 8,
+          "status": "BLOCKED",
+          "blockers": [
+            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage."
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "SHOT_ANIMATION",
+          "order": 9,
+          "status": "BLOCKED",
+          "blockers": [
+            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage."
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "AUDIO_DRIVEN_LIP_SYNC",
+          "order": 10,
+          "status": "BLOCKED",
+          "blockers": [
+            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage."
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "SCENE_ASSEMBLY",
+          "order": 11,
+          "status": "NOT_STARTED",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "CONTINUITY_QUALITY_REVIEW",
+          "order": 12,
+          "status": "NOT_STARTED",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "FOUNDER_FINAL_APPROVAL",
+          "order": 13,
+          "status": "NOT_STARTED",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "EXPORT_RELEASE_PACKAGE",
+          "order": 14,
+          "status": "NOT_STARTED",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        }
+      ]
+    },
+    {
+      "releaseId": "S1-04",
+      "currentStage": "FOUNDER_SCRIPT_APPROVAL",
+      "currentStatus": "AWAITING_APPROVAL",
+      "stages": [
+        {
+          "stage": "STORY_APPROVED",
+          "order": 1,
+          "status": "COMPLETE",
+          "blockers": [],
+          "artifact": "master:S1-04",
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "SCREENPLAY_DRAFTED",
+          "order": 2,
+          "status": "COMPLETE",
+          "blockers": [],
+          "artifact": "THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-04_THE_HOST.fountain",
+          "artifactSha256": "73e943b347173e797f27cb2eaa33837a0f9d275476ba66c5ec67fe90cd23dad7",
+          "version": 1,
+          "lineage": [
+            "master:S1-04"
+          ],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "CONTINUITY_VALIDATED",
+          "order": 3,
+          "status": "COMPLETE",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [
+            "73e943b347173e797f27cb2eaa33837a0f9d275476ba66c5ec67fe90cd23dad7"
+          ],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "FOUNDER_SCRIPT_APPROVAL",
+          "order": 4,
+          "status": "AWAITING_APPROVAL",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "SHOT_LIST_GENERATED",
+          "order": 5,
+          "status": "DRAFT_PENDING_UPSTREAM",
+          "blockers": [],
+          "artifact": "THE_EXCHANGE/SEASON_1/SHOT_LISTS/S1-04.json",
+          "artifactSha256": "56660263c9e1219f9a9059eec8dab688f8e464f3c758217a09580286cedb5f32",
+          "version": 1,
+          "lineage": [
+            "73e943b347173e797f27cb2eaa33837a0f9d275476ba66c5ec67fe90cd23dad7"
+          ],
+          "estimatedCost": {
+            "usd": 44.48,
+            "credits": 6601
+          },
+          "actualCost": null
+        },
+        {
+          "stage": "ASSETS_RESOLVED",
+          "order": 6,
+          "status": "BLOCKED",
+          "blockers": [
+            "UNREGISTERED GUESTS: not in the asset registry; needs casting and a face reference before generation",
+            "UNREGISTERED MAN IN THE ORANGE JACKET: not in the asset registry; needs casting and a face reference before generation",
+            "UNREGISTERED PIANIST: not in the asset registry; needs casting and a face reference before generation",
+            "UNREGISTERED PRODUCER: not in the asset registry; needs casting and a face reference before generation",
+            "UNREGISTERED STRANGER: not in the asset registry; needs casting and a face reference before generation",
+            "SET SET-HALCYON-HOUSE: no approved establishing reference",
+            "WARDROBE WD-SLOANE-PARTY-GE92: DESIGN_REQUIRED (U-4)",
+            "WARDROBE WD-ORANGE-JACKET: DESIGN_REQUIRED (U-4)",
+            "WARDROBE WD-GIDEON-SUIT: DESIGN_REQUIRED (U-4)",
+            "PROP PR-KAI-NOTE: DESIGN_REQUIRED"
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "VOICE_RECORDINGS_PREPARED",
+          "order": 7,
+          "status": "BLOCKED",
+          "blockers": [
+            "GIDEON: no approved voice",
+            "PIANIST: no approved voice",
+            "PRODUCER: no approved voice",
+            "SLOANE: no approved voice",
+            "VOICE provider generation not verified (ElevenLabs NOT_VERIFIED).",
+            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage.",
+            "CHARACTER_VOICE not approved for every speaking character."
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "KEYFRAMES_GENERATED",
+          "order": 8,
+          "status": "BLOCKED",
+          "blockers": [
+            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage."
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "SHOT_ANIMATION",
+          "order": 9,
+          "status": "BLOCKED",
+          "blockers": [
+            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage."
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "AUDIO_DRIVEN_LIP_SYNC",
+          "order": 10,
+          "status": "BLOCKED",
+          "blockers": [
+            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage."
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "SCENE_ASSEMBLY",
+          "order": 11,
+          "status": "NOT_STARTED",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "CONTINUITY_QUALITY_REVIEW",
+          "order": 12,
+          "status": "NOT_STARTED",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "FOUNDER_FINAL_APPROVAL",
+          "order": 13,
+          "status": "NOT_STARTED",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "EXPORT_RELEASE_PACKAGE",
+          "order": 14,
+          "status": "NOT_STARTED",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        }
+      ]
+    },
+    {
+      "releaseId": "S1-05",
+      "currentStage": "FOUNDER_SCRIPT_APPROVAL",
+      "currentStatus": "AWAITING_APPROVAL",
+      "stages": [
+        {
+          "stage": "STORY_APPROVED",
+          "order": 1,
+          "status": "COMPLETE",
+          "blockers": [],
+          "artifact": "master:S1-05",
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "SCREENPLAY_DRAFTED",
+          "order": 2,
+          "status": "COMPLETE",
+          "blockers": [],
+          "artifact": "THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-05_UNUSUAL_REQUEST.fountain",
+          "artifactSha256": "0db6d6b21b6d3edb1a9331e687d29abb7a8e9d6f168e93855d43c261e951c743",
+          "version": 1,
+          "lineage": [
+            "master:S1-05"
+          ],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "CONTINUITY_VALIDATED",
+          "order": 3,
+          "status": "COMPLETE",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [
+            "0db6d6b21b6d3edb1a9331e687d29abb7a8e9d6f168e93855d43c261e951c743"
+          ],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "FOUNDER_SCRIPT_APPROVAL",
+          "order": 4,
+          "status": "AWAITING_APPROVAL",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "SHOT_LIST_GENERATED",
+          "order": 5,
+          "status": "DRAFT_PENDING_UPSTREAM",
+          "blockers": [],
+          "artifact": "THE_EXCHANGE/SEASON_1/SHOT_LISTS/S1-05.json",
+          "artifactSha256": "1054dff6bff127369010ba47d5d2512acb4ec734a487eaced2ee6de79074ec0f",
+          "version": 1,
+          "lineage": [
+            "0db6d6b21b6d3edb1a9331e687d29abb7a8e9d6f168e93855d43c261e951c743"
+          ],
+          "estimatedCost": {
+            "usd": 45.76,
+            "credits": 6692
+          },
+          "actualCost": null
+        },
+        {
+          "stage": "ASSETS_RESOLVED",
+          "order": 6,
+          "status": "BLOCKED",
+          "blockers": [
+            "SET SET-HALCYON-HOUSE: no approved establishing reference",
+            "WARDROBE WD-SLOANE-PARTY-GE92: DESIGN_REQUIRED (U-4)",
+            "WARDROBE WD-GIDEON-SUIT: DESIGN_REQUIRED (U-4)",
+            "PROP PR-SLOANE-CLUTCH: DESIGN_REQUIRED",
+            "PROP PR-KAI-NOTE: DESIGN_REQUIRED"
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "VOICE_RECORDINGS_PREPARED",
+          "order": 7,
+          "status": "BLOCKED",
+          "blockers": [
+            "GIDEON: no approved voice",
+            "SLOANE: no approved voice",
+            "VOICE provider generation not verified (ElevenLabs NOT_VERIFIED).",
+            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage.",
+            "CHARACTER_VOICE not approved for every speaking character."
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "KEYFRAMES_GENERATED",
+          "order": 8,
+          "status": "BLOCKED",
+          "blockers": [
+            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage."
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "SHOT_ANIMATION",
+          "order": 9,
+          "status": "BLOCKED",
+          "blockers": [
+            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage."
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "AUDIO_DRIVEN_LIP_SYNC",
+          "order": 10,
+          "status": "BLOCKED",
+          "blockers": [
+            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage."
+          ],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "SCENE_ASSEMBLY",
+          "order": 11,
+          "status": "NOT_STARTED",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "CONTINUITY_QUALITY_REVIEW",
+          "order": 12,
+          "status": "NOT_STARTED",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "FOUNDER_FINAL_APPROVAL",
+          "order": 13,
+          "status": "NOT_STARTED",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        },
+        {
+          "stage": "EXPORT_RELEASE_PACKAGE",
+          "order": 14,
+          "status": "NOT_STARTED",
+          "blockers": [],
+          "artifact": null,
+          "artifactSha256": null,
+          "version": 1,
+          "lineage": [],
+          "estimatedCost": null,
+          "actualCost": null
+        }
+      ]
+    },
+    {
+      "releaseId": "S1-06",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-07",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-08",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-09",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-10",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-11",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-12",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-13",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-14",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-15",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-16",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-17",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-18",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-19",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-20",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-21",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-22",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-23",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-24",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-25",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-26",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-27",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-28",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-29",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-30",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-31",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-32",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-33",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-34",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-35",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-36",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-37",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-38",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-39",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-40",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-41",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-42",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-43",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-44",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-45",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-46",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-47",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-48",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-49",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-50",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-51",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-52",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-53",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-54",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-55",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-56",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-57",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-58",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-59",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-60",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-61",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-62",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-63",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-64",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-65",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-66",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-67",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-68",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-69",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-70",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-71",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-72",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-73",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-74",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-75",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-76",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-77",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-78",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-79",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-80",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-81",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-82",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-83",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-84",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-85",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    },
+    {
+      "releaseId": "S1-86",
+      "currentStage": "SCREENPLAY_DRAFTED",
+      "currentStatus": "NOT_STARTED",
+      "stageStatuses": [
+        "1:COMPLETE",
+        "2:NOT_STARTED",
+        "3:NOT_STARTED",
+        "4:NOT_STARTED",
+        "5:NOT_STARTED",
+        "6:BLOCKED",
+        "7:BLOCKED",
+        "8:BLOCKED",
+        "9:BLOCKED",
+        "10:BLOCKED",
+        "11:NOT_STARTED",
+        "12:NOT_STARTED",
+        "13:NOT_STARTED",
+        "14:NOT_STARTED"
+      ]
+    }
+  ]
+}

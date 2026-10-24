@@ -1,0 +1,905 @@
+{
+  "schemaVersion": "1.0.0",
+  "releaseId": "S1-02",
+  "status": "DRAFT — FOUNDER REVIEW REQUIRED",
+  "classification": "PROVISIONAL_IMPLEMENTATION",
+  "note": "Planning document. No shot has been generated.",
+  "screenplay": {
+    "path": "THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-02_GETTING_READY.fountain",
+    "sha256": "b7f982d2a0d181ac3e0bafc82ce94e087d71a8ebdcb67d2503bf0a7430488147",
+    "version": 1
+  },
+  "runtime": {
+    "releaseId": "S1-02",
+    "targetSec": 70,
+    "estimatedSec": 65.6,
+    "ratio": 0.94,
+    "band": "ON_TARGET",
+    "scenes": [
+      {
+        "sceneId": "S1-02-SC01",
+        "estimatedSec": 56.9
+      },
+      {
+        "sceneId": "S1-02-SC02",
+        "estimatedSec": 8.7
+      }
+    ],
+    "model": {
+      "dialogueWordsPerSec": 2.5,
+      "actionWordsPerSec": 3.5,
+      "minActionSec": 1.5,
+      "beatSec": 1,
+      "pauseSec": 2,
+      "longPauseSec": 3,
+      "freezeSec": 2.5,
+      "insertSec": 1.5,
+      "reactionSec": 1.5,
+      "transitionSec": 0.5,
+      "pacing": {
+        "under": 0.85,
+        "over": 1.15,
+        "high": 1.3
+      }
+    }
+  },
+  "totals": {
+    "shots": 21,
+    "durationSec": 65.6,
+    "usd": 27.26,
+    "credits": 4123,
+    "generatedShots": 19
+  },
+  "warnings": [],
+  "shots": [
+    {
+      "releaseId": "S1-02",
+      "sceneId": "S1-02-SC01",
+      "type": "ESTABLISHING",
+      "purpose": "Three looks lie across the bed. SLOANE LOCKWOOD (33), hair already finished, holds the first against herself at the mirror, steps into it, a",
+      "onScreen": [
+        "SLOANE"
+      ],
+      "framing": "WIDE",
+      "movement": "SLOW PUSH",
+      "blocking": "Three looks lie across the bed. SLOANE LOCKWOOD (33), hair already finished, holds the first against herself at the mirror, steps into it, and spins. The skirt follows half a beat late, like it's being polite.",
+      "dialogueRefs": [],
+      "durationSec": 5,
+      "wardrobeState": {
+        "SLOANE": "WD-SLOANE-HOUSE-GE92"
+      },
+      "setRef": "SET-SLOANE-APARTMENT › BEDROOM",
+      "propState": {},
+      "movementConstraints": [
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-02-SC01-SH01",
+      "order": 1,
+      "startFrameRef": "S1-02-SC01-SH01.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-02",
+      "sceneId": "S1-02-SC01",
+      "type": "ACTION",
+      "purpose": "The second look. She spins. Nothing moves at all. She stops mid-turn and regards herself with real disappointment.",
+      "onScreen": [
+        "SLOANE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "The second look. She spins. Nothing moves at all. She stops mid-turn and regards herself with real disappointment.",
+      "dialogueRefs": [],
+      "durationSec": 4,
+      "wardrobeState": {
+        "SLOANE": "WD-SLOANE-HOUSE-GE92"
+      },
+      "setRef": "SET-SLOANE-APARTMENT › BEDROOM",
+      "propState": {},
+      "movementConstraints": [
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-02-SC01-SH02",
+      "order": 2,
+      "startFrameRef": "S1-02-SC01-SH02.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-02",
+      "sceneId": "S1-02-SC01",
+      "type": "DIALOGUE",
+      "purpose": "SLOANE: If I can't dance in it, it's a costume.",
+      "onScreen": [
+        "SLOANE"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-02-L001"
+      ],
+      "durationSec": 3.6,
+      "wardrobeState": {
+        "SLOANE": "WD-SLOANE-HOUSE-GE92"
+      },
+      "setRef": "SET-SLOANE-APARTMENT › BEDROOM",
+      "propState": {},
+      "movementConstraints": [
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1).",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-02-SC01-SH03",
+      "order": 3,
+      "startFrameRef": "S1-02-SC01-SH03.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 1.58,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-02",
+      "sceneId": "S1-02-SC01",
+      "type": "ACTION",
+      "purpose": "She drops it on top of the first and picks up the third.",
+      "onScreen": [
+        "SLOANE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "She drops it on top of the first and picks up the third.",
+      "dialogueRefs": [],
+      "durationSec": 2,
+      "wardrobeState": {
+        "SLOANE": "WD-SLOANE-HOUSE-GE92"
+      },
+      "setRef": "SET-SLOANE-APARTMENT › BEDROOM",
+      "propState": {},
+      "movementConstraints": [
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-02-SC01-SH04",
+      "order": 4,
+      "startFrameRef": "S1-02-SC01-SH04.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-02",
+      "sceneId": "S1-02-SC01",
+      "type": "ACTION",
+      "purpose": "Half-dressed in the third, a robe over her shoulders, she sits on the end of the bed with a slice of coconut cake. Her makeup brushes wait, ",
+      "onScreen": [
+        "SLOANE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "Half-dressed in the third, a robe over her shoulders, she sits on the end of the bed with a slice of coconut cake. Her makeup brushes wait, untouched, on the dresser.",
+      "dialogueRefs": [],
+      "durationSec": 5,
+      "wardrobeState": {
+        "SLOANE": "WD-SLOANE-HOUSE-GE92"
+      },
+      "setRef": "SET-SLOANE-APARTMENT › BEDROOM",
+      "propState": {},
+      "movementConstraints": [
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-02-SC01-SH05",
+      "order": 5,
+      "startFrameRef": "S1-02-SC01-SH05.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-02",
+      "sceneId": "S1-02-SC01",
+      "type": "ACTION",
+      "purpose": "On the windowsill, a fern in a handsome pot is dying with great dignity. A brown frond lets go and drops. Sloane leans toward it, fork still",
+      "onScreen": [
+        "SLOANE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "On the windowsill, a fern in a handsome pot is dying with great dignity. A brown frond lets go and drops. Sloane leans toward it, fork still in hand.",
+      "dialogueRefs": [],
+      "durationSec": 4,
+      "wardrobeState": {
+        "SLOANE": "WD-SLOANE-HOUSE-GE92"
+      },
+      "setRef": "SET-SLOANE-APARTMENT › BEDROOM",
+      "propState": {
+        "PR-COCONUT-CAKE": "on a plate in Sloane's hand"
+      },
+      "movementConstraints": [
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-02-SC01-SH06",
+      "order": 6,
+      "startFrameRef": "S1-02-SC01-SH06.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-02",
+      "sceneId": "S1-02-SC01",
+      "type": "DIALOGUE",
+      "purpose": "SLOANE: Sorry, darling. I believe in you.",
+      "onScreen": [
+        "SLOANE"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-02-L002"
+      ],
+      "durationSec": 2.4,
+      "wardrobeState": {
+        "SLOANE": "WD-SLOANE-HOUSE-GE92"
+      },
+      "setRef": "SET-SLOANE-APARTMENT › BEDROOM",
+      "propState": {
+        "PR-COCONUT-CAKE": "on a plate in Sloane's hand",
+        "PR-FERN": "windowsill, one frond fallen"
+      },
+      "movementConstraints": [
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1).",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-02-SC01-SH07",
+      "order": 7,
+      "startFrameRef": "S1-02-SC01-SH07.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 1.52,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-02",
+      "sceneId": "S1-02-SC01",
+      "type": "FREEZE_FRAME",
+      "purpose": "SLOANE LOCKWOOD.",
+      "onScreen": [
+        "SLOANE"
+      ],
+      "framing": "HOLD ON PREVIOUS FRAME",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-02-L003"
+      ],
+      "durationSec": 8.9,
+      "wardrobeState": {
+        "SLOANE": "WD-SLOANE-HOUSE-GE92"
+      },
+      "setRef": "SET-SLOANE-APARTMENT › BEDROOM",
+      "propState": {
+        "PR-COCONUT-CAKE": "on a plate in Sloane's hand",
+        "PR-FERN": "windowsill, one frond fallen"
+      },
+      "movementConstraints": [
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-02-SC01-SH08",
+      "order": 8,
+      "startFrameRef": "S1-02-SC01-SH08.start",
+      "endFrameRef": null,
+      "generationProvider": "EDIT:capcut-manifest",
+      "estimatedCost": {
+        "usd": 0,
+        "credits": 0,
+        "basis": "Edit-only: no generation."
+      }
+    },
+    {
+      "releaseId": "S1-02",
+      "sceneId": "S1-02-SC01",
+      "type": "ACTION",
+      "purpose": "Later. The robe is gone. She stands at the mirror in the third look, chin up, fighting the clasp of her necklace. The cake plate sits on the",
+      "onScreen": [
+        "SLOANE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "Later. The robe is gone. She stands at the mirror in the third look, chin up, fighting the clasp of her necklace. The cake plate sits on the dresser beside her.",
+      "dialogueRefs": [],
+      "durationSec": 4,
+      "wardrobeState": {
+        "SLOANE": "WD-SLOANE-HOUSE-GE92"
+      },
+      "setRef": "SET-SLOANE-APARTMENT › BEDROOM",
+      "propState": {
+        "PR-COCONUT-CAKE": "on a plate in Sloane's hand",
+        "PR-FERN": "windowsill, one frond fallen"
+      },
+      "movementConstraints": [
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-02-SC01-SH09",
+      "order": 9,
+      "startFrameRef": "S1-02-SC01-SH09.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-02",
+      "sceneId": "S1-02-SC01",
+      "type": "ACTION",
+      "purpose": "GIDEON SHAW (44) lets himself in with his own key and appears in the bedroom doorway. He takes in the clothes on the bed without comment.",
+      "onScreen": [
+        "GIDEON",
+        "SLOANE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "GIDEON SHAW (44) lets himself in with his own key and appears in the bedroom doorway. He takes in the clothes on the bed without comment.",
+      "dialogueRefs": [],
+      "durationSec": 3,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-SLOANE-APARTMENT › BEDROOM",
+      "propState": {
+        "PR-COCONUT-CAKE": "on the dresser, within reach",
+        "PR-FERN": "windowsill, one frond fallen"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-02-SC01-SH10",
+      "order": 10,
+      "startFrameRef": "S1-02-SC01-SH10.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-02",
+      "sceneId": "S1-02-SC01",
+      "type": "DIALOGUE",
+      "purpose": "SLOANE: You could knock.",
+      "onScreen": [
+        "SLOANE"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-02-L004"
+      ],
+      "durationSec": 1.2,
+      "wardrobeState": {
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-SLOANE-APARTMENT › BEDROOM",
+      "propState": {
+        "PR-COCONUT-CAKE": "on the dresser, within reach",
+        "PR-FERN": "windowsill, one frond fallen"
+      },
+      "movementConstraints": [
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1).",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-02-SC01-SH11",
+      "order": 11,
+      "startFrameRef": "S1-02-SC01-SH11.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 1.46,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-02",
+      "sceneId": "S1-02-SC01",
+      "type": "DIALOGUE",
+      "purpose": "GIDEON: I could.",
+      "onScreen": [
+        "GIDEON"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-02-L005"
+      ],
+      "durationSec": 0.8,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT"
+      },
+      "setRef": "SET-SLOANE-APARTMENT › BEDROOM",
+      "propState": {
+        "PR-COCONUT-CAKE": "on the dresser, within reach",
+        "PR-FERN": "windowsill, one frond fallen"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-02-SC01-SH12",
+      "order": 12,
+      "startFrameRef": "S1-02-SC01-SH12.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 1.44,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-02",
+      "sceneId": "S1-02-SC01",
+      "type": "ACTION",
+      "purpose": "He crosses to her, takes the two ends of the chain from her fingers, and fastens the clasp. She lowers her hands and lets him.",
+      "onScreen": [
+        "GIDEON",
+        "SLOANE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "He crosses to her, takes the two ends of the chain from her fingers, and fastens the clasp. She lowers her hands and lets him.",
+      "dialogueRefs": [],
+      "durationSec": 4,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-SLOANE-APARTMENT › BEDROOM",
+      "propState": {
+        "PR-COCONUT-CAKE": "on the dresser, within reach",
+        "PR-FERN": "windowsill, one frond fallen"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-02-SC01-SH13",
+      "order": 13,
+      "startFrameRef": "S1-02-SC01-SH13.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-02",
+      "sceneId": "S1-02-SC01",
+      "type": "ACTION",
+      "purpose": "She reaches for the cake. He lifts the plate out from under her fork and sets it on top of the wardrobe, out of her reach.",
+      "onScreen": [
+        "GIDEON",
+        "SLOANE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "She reaches for the cake. He lifts the plate out from under her fork and sets it on top of the wardrobe, out of her reach.",
+      "dialogueRefs": [],
+      "durationSec": 3,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-SLOANE-APARTMENT › BEDROOM",
+      "propState": {
+        "PR-COCONUT-CAKE": "on the dresser, within reach",
+        "PR-FERN": "windowsill, one frond fallen",
+        "PR-SLOANE-NECKLACE": "fastened by Gideon"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-02-SC01-SH14",
+      "order": 14,
+      "startFrameRef": "S1-02-SC01-SH14.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-02",
+      "sceneId": "S1-02-SC01",
+      "type": "DIALOGUE",
+      "purpose": "SLOANE: I wasn't finished.",
+      "onScreen": [
+        "SLOANE"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-02-L006"
+      ],
+      "durationSec": 1.2,
+      "wardrobeState": {
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-SLOANE-APARTMENT › BEDROOM",
+      "propState": {
+        "PR-COCONUT-CAKE": "on top of the wardrobe, out of reach",
+        "PR-FERN": "windowsill, one frond fallen",
+        "PR-SLOANE-NECKLACE": "fastened by Gideon"
+      },
+      "movementConstraints": [
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1).",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-02-SC01-SH15",
+      "order": 15,
+      "startFrameRef": "S1-02-SC01-SH15.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 1.46,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-02",
+      "sceneId": "S1-02-SC01",
+      "type": "DIALOGUE",
+      "purpose": "GIDEON: You were.",
+      "onScreen": [
+        "GIDEON"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-02-L007"
+      ],
+      "durationSec": 0.8,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT"
+      },
+      "setRef": "SET-SLOANE-APARTMENT › BEDROOM",
+      "propState": {
+        "PR-COCONUT-CAKE": "on top of the wardrobe, out of reach",
+        "PR-FERN": "windowsill, one frond fallen",
+        "PR-SLOANE-NECKLACE": "fastened by Gideon"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-02-SC01-SH16",
+      "order": 16,
+      "startFrameRef": "S1-02-SC01-SH16.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 1.44,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-02",
+      "sceneId": "S1-02-SC01",
+      "type": "ACTION",
+      "purpose": "She sits at the dresser and does her makeup fast and well. Then she touches her hair. Then she touches it again.",
+      "onScreen": [
+        "GIDEON",
+        "SLOANE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "She sits at the dresser and does her makeup fast and well. Then she touches her hair. Then she touches it again.",
+      "dialogueRefs": [],
+      "durationSec": 4,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-SLOANE-APARTMENT › BEDROOM",
+      "propState": {
+        "PR-COCONUT-CAKE": "on top of the wardrobe, out of reach",
+        "PR-FERN": "windowsill, one frond fallen",
+        "PR-SLOANE-NECKLACE": "fastened by Gideon"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-02-SC01-SH17",
+      "order": 17,
+      "startFrameRef": "S1-02-SC01-SH17.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-02",
+      "sceneId": "S1-02-SC02",
+      "type": "ESTABLISHING",
+      "purpose": "Gideon holds the front door. Sloane sweeps past the hall table and scoops up her clutch, one hand still at her hair.",
+      "onScreen": [
+        "GIDEON",
+        "SLOANE"
+      ],
+      "framing": "WIDE",
+      "movement": "SLOW PUSH",
+      "blocking": "Gideon holds the front door. Sloane sweeps past the hall table and scoops up her clutch, one hand still at her hair.",
+      "dialogueRefs": [],
+      "durationSec": 3,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-SLOANE-APARTMENT › DOORWAY",
+      "propState": {
+        "PR-COCONUT-CAKE": "on top of the wardrobe, out of reach",
+        "PR-FERN": "windowsill, one frond fallen",
+        "PR-SLOANE-NECKLACE": "fastened by Gideon"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-02-SC02-SH01",
+      "order": 18,
+      "startFrameRef": "S1-02-SC02-SH01.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-02",
+      "sceneId": "S1-02-SC02",
+      "type": "DIALOGUE",
+      "purpose": "GIDEON: Car's downstairs. Your hair's perfect. Stop touching it.",
+      "onScreen": [
+        "GIDEON"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-02-L008"
+      ],
+      "durationSec": 3.2,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT"
+      },
+      "setRef": "SET-SLOANE-APARTMENT › DOORWAY",
+      "propState": {
+        "PR-COCONUT-CAKE": "on top of the wardrobe, out of reach",
+        "PR-FERN": "windowsill, one frond fallen",
+        "PR-SLOANE-NECKLACE": "fastened by Gideon",
+        "PR-SLOANE-CLUTCH": "in Sloane's hand"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-02-SC02-SH02",
+      "order": 19,
+      "startFrameRef": "S1-02-SC02-SH02.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 1.56,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-02",
+      "sceneId": "S1-02-SC02",
+      "type": "ACTION",
+      "purpose": "She takes her hand off her hair, grins at him, and goes.",
+      "onScreen": [
+        "GIDEON",
+        "SLOANE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "She takes her hand off her hair, grins at him, and goes.",
+      "dialogueRefs": [],
+      "durationSec": 2,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-SLOANE-APARTMENT › DOORWAY",
+      "propState": {
+        "PR-COCONUT-CAKE": "on top of the wardrobe, out of reach",
+        "PR-FERN": "windowsill, one frond fallen",
+        "PR-SLOANE-NECKLACE": "fastened by Gideon",
+        "PR-SLOANE-CLUTCH": "in Sloane's hand"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-02-SC02-SH03",
+      "order": 20,
+      "startFrameRef": "S1-02-SC02-SH03.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-02",
+      "sceneId": "S1-02-SC02",
+      "type": "TRANSITION",
+      "purpose": "CUT TO:",
+      "onScreen": [],
+      "framing": "N/A",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [],
+      "durationSec": 0.5,
+      "wardrobeState": {},
+      "setRef": "SET-SLOANE-APARTMENT › DOORWAY",
+      "propState": {
+        "PR-COCONUT-CAKE": "on top of the wardrobe, out of reach",
+        "PR-FERN": "windowsill, one frond fallen",
+        "PR-SLOANE-NECKLACE": "fastened by Gideon",
+        "PR-SLOANE-CLUTCH": "in Sloane's hand"
+      },
+      "movementConstraints": [],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-02-SC02-SH04",
+      "order": 21,
+      "startFrameRef": "S1-02-SC02-SH04.start",
+      "endFrameRef": null,
+      "generationProvider": "EDIT:capcut-manifest",
+      "estimatedCost": {
+        "usd": 0,
+        "credits": 0,
+        "basis": "Edit-only: no generation."
+      }
+    }
+  ]
+}

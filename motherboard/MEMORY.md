@@ -16672,3 +16672,19 @@ Summary of the whole conversation in this chat.
 - **Staging Auth:** one user, email confirmed, matches the default founder admin address, last sign-in is the confirmation click (2026-10-15 00:51 UTC). No recovery email has been sent. Production passwords are not this project's passwords.
 - **Code:** signup and password reset now send `https://<browser-origin>/origin/sign-in?returnTo=...` and refuse to invent `localhost:3000`. Recovery hash shows a new-password form and does not bounce away before the password is saved. Draft branch `cursor/staging-auth-redirect-be3b`. Not deployed.
 - **Dashboard (manual):** Site URL and redirect allowlist must be the carefree-luck origin. Until that is saved, new confirmation links still fall back to localhost.
+
+---
+
+## 2026-10-23 — THE EXCHANGE founder canon lock and screenplay architecture (draft PR)
+
+Full conversation: this chat consolidated the Exchange canon PR stack (merged #1685–#1687), then ran the challenge, extraction, founder-vision hybrid (74 releases, Plans A–C, FD-01–FD-20), recurring patron exchange engine (BASELINE V1, 86 releases) and Season 1 structural reconciliation sprints. Those packages were delivered as review ZIPs and are now archived byte-for-byte in the repo. This sprint promoted the founder's approved reconciliation decisions and built the screenplay-to-screen system.
+
+- **Sprint:** `P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1`. Founder authorization granted 2026-10-23. Branch `cursor/the-exchange-canon-lock-screenplay-8aec` from `main` `159c0fa9b`. PR not merged.
+- **Canon:** S-1 Hybrid H (Sloane stops deciding for everyone, keeps facilitating; S1-10/74/80 revised; S1-75 unchanged), S-2 Option A (86 releases, 127:40, baseline IDs and order kept; Option B 81 inactive fallback; Plan C superseded), S-3 N1 + N2 (S1-20, S1-40 Nights; no new releases; longest gap 19). NR-1–NR-11 in `THE_EXCHANGE/SEASON_1/CANON_PROMOTION_LEDGER_V1.json`. NR-8/NR-9 placements provisional (FC-02).
+- **History:** `THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/` holds the hybrid, BASELINE V1 and reconciliation packages with `MANIFEST_SHA256.txt` and `SOURCE_ARCHIVES.json`. Never edit them; the master test re-hashes every file.
+- **Engine:** `shared/site00-fiction-production/` (season master, promotion ledger, dialogue and asset registries, screenplay format + runtime model, shot planner, 15-check continuity engine, 9 approval domains, 14-stage pipeline, dispatch gate with 0 credits, provider audit with no verified provider). Generators: `scripts/the-exchange/build-season1-production.ts`, `render-canon-lock-docs.ts`; check: `check-screenplays.ts`. Both generators are idempotent.
+- **Drafts:** S1-01–S1-05 screenplays (`THE_EXCHANGE/SEASON_1/SCREENPLAYS/`), shot lists (116 shots) and manifests. All `DRAFT — FOUNDER REVIEW REQUIRED`; est. $178.22 / 26,236 OpenArt credits if ever generated. Nothing rendered.
+- **Deliverables:** `docs/site00/the-exchange/founder-canon-lock-v1/01`–`17`. Stress regression 24/8/0 (unchanged).
+- **Tests:** three new suites (25 tests); 47/47 Exchange tests pass; typecheck and build exit 0. Full suite has 74 pre-existing failures identical on `main`. The full run rewrites an Expression Engine JPEG and the JURNL F03/F05 ledgers; restore them with `git checkout --` and never commit them.
+- **Conventions:** Generated docs come from the renderer; edit the module, not the Markdown. Agents never grant approvals; the nine domains are founder-only. Review ZIPs go to Supabase bucket `founder-review-exports` with 7-day signed links, verified by download and `cmp`. Keep agent-written files small to avoid network faults.
+- **Founder next:** Review S1-01–S1-05 and rule on FC-01–FC-03, then `P1.THE-EXCHANGE.SCREENPLAY-BATCH-02-AND-VOICE-VERIFICATION.V1`.

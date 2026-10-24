@@ -1,0 +1,1449 @@
+{
+  "schemaVersion": "1.0.0",
+  "releaseId": "S1-05",
+  "title": "Unusual Request",
+  "status": "DRAFT — FOUNDER REVIEW REQUIRED",
+  "classification": "PROVISIONAL_IMPLEMENTATION",
+  "note": "Planning manifest. Nothing listed here has been generated, recorded or rendered.",
+  "screenplay": {
+    "path": "THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-05_UNUSUAL_REQUEST.fountain",
+    "sha256": "0db6d6b21b6d3edb1a9331e687d29abb7a8e9d6f168e93855d43c261e951c743",
+    "version": 1
+  },
+  "runtime": {
+    "targetSec": 105,
+    "estimatedSec": 91.9,
+    "ratio": 0.88,
+    "band": "ON_TARGET",
+    "shotListSec": 91.9
+  },
+  "characters": [
+    {
+      "cue": "GIDEON",
+      "speaks": true,
+      "faceRef": "gideon-shaw",
+      "voiceId": null,
+      "dialogueRegistry": true
+    },
+    {
+      "cue": "SLOANE",
+      "speaks": true,
+      "faceRef": "sloane-lockwood",
+      "voiceId": null,
+      "dialogueRegistry": true
+    }
+  ],
+  "sets": [
+    {
+      "heading": "INT. HALCYON HOUSE — BALCONY — NIGHT",
+      "setId": "SET-HALCYON-HOUSE",
+      "zone": "BALCONY",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION"
+    }
+  ],
+  "wardrobe": [
+    {
+      "wardrobeId": "WD-SLOANE-PARTY-GE92",
+      "status": "DESIGN_REQUIRED"
+    },
+    {
+      "wardrobeId": "WD-GIDEON-SUIT",
+      "status": "DESIGN_REQUIRED"
+    }
+  ],
+  "props": [
+    {
+      "propId": "PR-SLOANE-CLUTCH",
+      "status": "DESIGN_REQUIRED",
+      "handoffChain": []
+    },
+    {
+      "propId": "PR-KAI-NOTE",
+      "status": "DESIGN_REQUIRED",
+      "handoffChain": [
+        "KAI → GIDEON (S1-03)",
+        "GIDEON → SLOANE (S1-04/S1-05)",
+        "SLOANE → clutch (S1-05)"
+      ]
+    }
+  ],
+  "audio": {
+    "dialogue": [
+      {
+        "lineId": "S1-05-L001",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "Who brought it?",
+        "direction": null,
+        "characters": 15
+      },
+      {
+        "lineId": "S1-05-L002",
+        "cue": "GIDEON",
+        "voiceId": null,
+        "text": "Kai.",
+        "direction": null,
+        "characters": 4
+      },
+      {
+        "lineId": "S1-05-L003",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "He came here.",
+        "direction": null,
+        "characters": 13
+      },
+      {
+        "lineId": "S1-05-L004",
+        "cue": "GIDEON",
+        "voiceId": null,
+        "text": "Stayed on the steps. Didn't ask to come in.",
+        "direction": null,
+        "characters": 43
+      },
+      {
+        "lineId": "S1-05-L005",
+        "cue": "GIDEON",
+        "voiceId": null,
+        "text": "Good waistcoat.",
+        "direction": "beat",
+        "characters": 15
+      },
+      {
+        "lineId": "S1-05-L006",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "He would.",
+        "direction": "almost a smile, then not",
+        "characters": 9
+      },
+      {
+        "lineId": "S1-05-L007",
+        "cue": "GIDEON",
+        "voiceId": null,
+        "text": "He can't ask. He has no standing. You know that.",
+        "direction": "gently",
+        "characters": 48
+      },
+      {
+        "lineId": "S1-05-L008",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "I know.",
+        "direction": null,
+        "characters": 7
+      },
+      {
+        "lineId": "S1-05-L009",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "Every year I tell myself I'll stop deciding who gets what. Every year I'm very good at it.",
+        "direction": null,
+        "characters": 90
+      },
+      {
+        "lineId": "S1-05-L010",
+        "cue": "GIDEON",
+        "voiceId": null,
+        "text": "Want me to send it back?",
+        "direction": null,
+        "characters": 24
+      },
+      {
+        "lineId": "S1-05-L011",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "No.",
+        "direction": "a beat",
+        "characters": 3
+      },
+      {
+        "lineId": "S1-05-L012",
+        "cue": "GIDEON",
+        "voiceId": null,
+        "text": "Then I'll be downstairs.",
+        "direction": null,
+        "characters": 24
+      }
+    ],
+    "dialogueCharacters": 295,
+    "music": [
+      {
+        "sceneId": "S1-05-SC01",
+        "cue": "The house band below, warm and a little slower now.",
+        "asset": null
+      }
+    ],
+    "sfx": []
+  },
+  "effects": [],
+  "shots": {
+    "count": 27,
+    "generated": 26,
+    "estimatedUsd": 45.76,
+    "estimatedCredits": 6692,
+    "actualCost": null
+  },
+  "providerExports": {
+    "voice": [
+      {
+        "lineId": "S1-05-L001",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "Who brought it?",
+        "direction": null,
+        "characters": 15
+      },
+      {
+        "lineId": "S1-05-L002",
+        "cue": "GIDEON",
+        "voiceId": null,
+        "text": "Kai.",
+        "direction": null,
+        "characters": 4
+      },
+      {
+        "lineId": "S1-05-L003",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "He came here.",
+        "direction": null,
+        "characters": 13
+      },
+      {
+        "lineId": "S1-05-L004",
+        "cue": "GIDEON",
+        "voiceId": null,
+        "text": "Stayed on the steps. Didn't ask to come in.",
+        "direction": null,
+        "characters": 43
+      },
+      {
+        "lineId": "S1-05-L005",
+        "cue": "GIDEON",
+        "voiceId": null,
+        "text": "Good waistcoat.",
+        "direction": "beat",
+        "characters": 15
+      },
+      {
+        "lineId": "S1-05-L006",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "He would.",
+        "direction": "almost a smile, then not",
+        "characters": 9
+      },
+      {
+        "lineId": "S1-05-L007",
+        "cue": "GIDEON",
+        "voiceId": null,
+        "text": "He can't ask. He has no standing. You know that.",
+        "direction": "gently",
+        "characters": 48
+      },
+      {
+        "lineId": "S1-05-L008",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "I know.",
+        "direction": null,
+        "characters": 7
+      },
+      {
+        "lineId": "S1-05-L009",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "Every year I tell myself I'll stop deciding who gets what. Every year I'm very good at it.",
+        "direction": null,
+        "characters": 90
+      },
+      {
+        "lineId": "S1-05-L010",
+        "cue": "GIDEON",
+        "voiceId": null,
+        "text": "Want me to send it back?",
+        "direction": null,
+        "characters": 24
+      },
+      {
+        "lineId": "S1-05-L011",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "No.",
+        "direction": "a beat",
+        "characters": 3
+      },
+      {
+        "lineId": "S1-05-L012",
+        "cue": "GIDEON",
+        "voiceId": null,
+        "text": "Then I'll be downstairs.",
+        "direction": null,
+        "characters": 24
+      }
+    ],
+    "keyframes": [
+      {
+        "shotId": "S1-05-SC01-SH01",
+        "frame": "S1-05-SC01-SH01.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand"
+        },
+        "framing": "WIDE",
+        "blocking": "The balcony above the ballroom, near midnight. Below, the party has reached the hour when nobody wants to leave. Sloane stands alone at the rail with her clutch, watching it."
+      },
+      {
+        "shotId": "S1-05-SC01-SH02",
+        "frame": "S1-05-SC01-SH02.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "GIDEON",
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT",
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand"
+        },
+        "framing": "MEDIUM",
+        "blocking": "Gideon comes out through the balcony doors and joins her at the rail. He holds out the note. She doesn't take it yet."
+      },
+      {
+        "shotId": "S1-05-SC01-SH03",
+        "frame": "S1-05-SC01-SH03.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand"
+        },
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-05-SC01-SH04",
+        "frame": "S1-05-SC01-SH04.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "GIDEON"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand"
+        },
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-05-SC01-SH05",
+        "frame": "S1-05-SC01-SH05.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand"
+        },
+        "framing": "CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-05-SC01-SH06",
+        "frame": "S1-05-SC01-SH06.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand"
+        },
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-05-SC01-SH07",
+        "frame": "S1-05-SC01-SH07.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "GIDEON"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand"
+        },
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-05-SC01-SH08",
+        "frame": "S1-05-SC01-SH08.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand"
+        },
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-05-SC01-SH09",
+        "frame": "S1-05-SC01-SH09.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "GIDEON",
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT",
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand"
+        },
+        "framing": "MEDIUM",
+        "blocking": "She takes the note."
+      },
+      {
+        "shotId": "S1-05-SC01-SH10",
+        "frame": "S1-05-SC01-SH10.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "GIDEON",
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT",
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand",
+          "PR-KAI-NOTE": "GIDEON → SLOANE"
+        },
+        "framing": "MEDIUM",
+        "blocking": "She unfolds it and reads."
+      },
+      {
+        "shotId": "S1-05-SC01-SH11",
+        "frame": "S1-05-SC01-SH11.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [],
+        "wardrobe": {},
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand",
+          "PR-KAI-NOTE": "GIDEON → SLOANE"
+        },
+        "framing": "INSERT",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-05-SC01-SH12",
+        "frame": "S1-05-SC01-SH12.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "GIDEON",
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT",
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand",
+          "PR-KAI-NOTE": "GIDEON → SLOANE"
+        },
+        "framing": "MEDIUM",
+        "blocking": "Gideon watches her read it. He waits until she looks up."
+      },
+      {
+        "shotId": "S1-05-SC01-SH13",
+        "frame": "S1-05-SC01-SH13.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "GIDEON"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand",
+          "PR-KAI-NOTE": "GIDEON → SLOANE"
+        },
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-05-SC01-SH14",
+        "frame": "S1-05-SC01-SH14.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand",
+          "PR-KAI-NOTE": "GIDEON → SLOANE"
+        },
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-05-SC01-SH15",
+        "frame": "S1-05-SC01-SH15.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "GIDEON",
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT",
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand",
+          "PR-KAI-NOTE": "GIDEON → SLOANE"
+        },
+        "framing": "MEDIUM",
+        "blocking": "She reads it again. Slowly, all the way through, as if the second time it might say something different. Then she turns it over."
+      },
+      {
+        "shotId": "S1-05-SC01-SH16",
+        "frame": "S1-05-SC01-SH16.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [],
+        "wardrobe": {},
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand",
+          "PR-KAI-NOTE": "GIDEON → SLOANE"
+        },
+        "framing": "EXTREME CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-05-SC01-SH17",
+        "frame": "S1-05-SC01-SH17.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "GIDEON",
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT",
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand",
+          "PR-KAI-NOTE": "GIDEON → SLOANE"
+        },
+        "framing": "MEDIUM",
+        "blocking": "Nothing else. Just the three sentences, and his name nowhere on it."
+      },
+      {
+        "shotId": "S1-05-SC01-SH18",
+        "frame": "S1-05-SC01-SH18.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "GIDEON",
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT",
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand",
+          "PR-KAI-NOTE": "GIDEON → SLOANE"
+        },
+        "framing": "HIGH ANGLE",
+        "blocking": "Below, the room she built dances on: the pianist and the producer still arguing at the bar, the stranger with a new partner, the orange jacket in the middle of the floor."
+      },
+      {
+        "shotId": "S1-05-SC01-SH19",
+        "frame": "S1-05-SC01-SH18.end",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "GIDEON",
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT",
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand",
+          "PR-KAI-NOTE": "GIDEON → SLOANE"
+        },
+        "framing": "HIGH ANGLE",
+        "blocking": "Below, the room she built dances on: the pianist and the producer still arguing at the bar, the stranger with a new partner, the orange jacket in the middle of the floor."
+      },
+      {
+        "shotId": "S1-05-SC01-SH20",
+        "frame": "S1-05-SC01-SH20.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "GIDEON"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand",
+          "PR-KAI-NOTE": "GIDEON → SLOANE"
+        },
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-05-SC01-SH21",
+        "frame": "S1-05-SC01-SH21.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand",
+          "PR-KAI-NOTE": "GIDEON → SLOANE"
+        },
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-05-SC01-SH22",
+        "frame": "S1-05-SC01-SH22.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "GIDEON"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand",
+          "PR-KAI-NOTE": "GIDEON → SLOANE"
+        },
+        "framing": "CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-05-SC01-SH23",
+        "frame": "S1-05-SC01-SH23.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "GIDEON"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand",
+          "PR-KAI-NOTE": "GIDEON → SLOANE"
+        },
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-05-SC01-SH24",
+        "frame": "S1-05-SC01-SH24.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "GIDEON",
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT",
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand",
+          "PR-KAI-NOTE": "GIDEON → SLOANE"
+        },
+        "framing": "MEDIUM",
+        "blocking": "He leaves her the balcony."
+      },
+      {
+        "shotId": "S1-05-SC01-SH25",
+        "frame": "S1-05-SC01-SH25.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand",
+          "PR-KAI-NOTE": "GIDEON → SLOANE"
+        },
+        "framing": "MEDIUM",
+        "blocking": "Alone, Sloane folds the note along its creases, tucks it into her clutch, and snaps the clasp shut. She checks her face in the dark glass of the balcony door, finds the hostess again, and goes back down to the party."
+      },
+      {
+        "shotId": "S1-05-SC01-SH26",
+        "frame": "S1-05-SC01-SH26.start",
+        "setRef": "SET-HALCYON-HOUSE › BALCONY",
+        "onScreen": [
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {
+          "PR-SLOANE-CLUTCH": "in Sloane's hand",
+          "PR-KAI-NOTE": "SLOANE → CLUTCH"
+        },
+        "framing": "MEDIUM",
+        "blocking": "At the top of the stairs she stops for one breath. The music comes up to meet her. She goes down into it."
+      }
+    ],
+    "video": [
+      {
+        "shotId": "S1-05-SC01-SH01",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 6,
+        "startFrameRef": "S1-05-SC01-SH01.start",
+        "endFrameRef": null,
+        "movement": "HIGH ANGLE",
+        "constraints": [
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH02",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 5,
+        "startFrameRef": "S1-05-SC01-SH02.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH03",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 1.2,
+        "startFrameRef": "S1-05-SC01-SH03.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1).",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH04",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 0.4,
+        "startFrameRef": "S1-05-SC01-SH04.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH05",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 1.5,
+        "startFrameRef": "S1-05-SC01-SH05.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH06",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 1.2,
+        "startFrameRef": "S1-05-SC01-SH06.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1).",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH07",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 5.4,
+        "startFrameRef": "S1-05-SC01-SH07.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH08",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 0.8,
+        "startFrameRef": "S1-05-SC01-SH08.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1).",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH09",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 2,
+        "startFrameRef": "S1-05-SC01-SH09.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH10",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 3,
+        "startFrameRef": "S1-05-SC01-SH10.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH11",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 4.5,
+        "startFrameRef": "S1-05-SC01-SH11.start",
+        "endFrameRef": null,
+        "movement": "LOCKED OFF",
+        "constraints": []
+      },
+      {
+        "shotId": "S1-05-SC01-SH12",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 3,
+        "startFrameRef": "S1-05-SC01-SH12.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH13",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 4,
+        "startFrameRef": "S1-05-SC01-SH13.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH14",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 0.8,
+        "startFrameRef": "S1-05-SC01-SH14.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1).",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH15",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 6,
+        "startFrameRef": "S1-05-SC01-SH15.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH16",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 1.5,
+        "startFrameRef": "S1-05-SC01-SH16.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": []
+      },
+      {
+        "shotId": "S1-05-SC01-SH17",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 5,
+        "startFrameRef": "S1-05-SC01-SH17.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH18",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 9.1,
+        "startFrameRef": "S1-05-SC01-SH18.start",
+        "endFrameRef": "S1-05-SC01-SH18.end",
+        "movement": "OVER THE RAIL",
+        "constraints": [
+          "Part 1 of 2: generations stay ≤10 s and chain end frame to start frame.",
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH19",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 9.1,
+        "startFrameRef": "S1-05-SC01-SH18.end",
+        "endFrameRef": null,
+        "movement": "OVER THE RAIL",
+        "constraints": [
+          "Part 2 of 2: generations stay ≤10 s and chain end frame to start frame.",
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH20",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 2.4,
+        "startFrameRef": "S1-05-SC01-SH20.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH21",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 1.4,
+        "startFrameRef": "S1-05-SC01-SH21.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1).",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH22",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 1.5,
+        "startFrameRef": "S1-05-SC01-SH22.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH23",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 1.6,
+        "startFrameRef": "S1-05-SC01-SH23.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH24",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 3,
+        "startFrameRef": "S1-05-SC01-SH24.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH25",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 8,
+        "startFrameRef": "S1-05-SC01-SH25.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH26",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 4,
+        "startFrameRef": "S1-05-SC01-SH26.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      }
+    ],
+    "lipSync": [
+      {
+        "shotId": "S1-05-SC01-SH03",
+        "lineIds": [
+          "S1-05-L001"
+        ],
+        "onScreen": [
+          "SLOANE"
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH04",
+        "lineIds": [
+          "S1-05-L002"
+        ],
+        "onScreen": [
+          "GIDEON"
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH06",
+        "lineIds": [
+          "S1-05-L003"
+        ],
+        "onScreen": [
+          "SLOANE"
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH07",
+        "lineIds": [
+          "S1-05-L004",
+          "S1-05-L005"
+        ],
+        "onScreen": [
+          "GIDEON"
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH08",
+        "lineIds": [
+          "S1-05-L006"
+        ],
+        "onScreen": [
+          "SLOANE"
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH13",
+        "lineIds": [
+          "S1-05-L007"
+        ],
+        "onScreen": [
+          "GIDEON"
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH14",
+        "lineIds": [
+          "S1-05-L008"
+        ],
+        "onScreen": [
+          "SLOANE"
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH20",
+        "lineIds": [
+          "S1-05-L010"
+        ],
+        "onScreen": [
+          "GIDEON"
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH21",
+        "lineIds": [
+          "S1-05-L011"
+        ],
+        "onScreen": [
+          "SLOANE"
+        ]
+      },
+      {
+        "shotId": "S1-05-SC01-SH23",
+        "lineIds": [
+          "S1-05-L012"
+        ],
+        "onScreen": [
+          "GIDEON"
+        ]
+      }
+    ],
+    "edit": {
+      "format": "EXCHANGE_EDL_V1",
+      "totalSec": 91.9,
+      "events": [
+        {
+          "event": 1,
+          "shotId": "S1-05-SC01-SH01",
+          "sceneId": "S1-05-SC01",
+          "type": "ESTABLISHING",
+          "recordIn": 0,
+          "recordOut": 6,
+          "dialogue": []
+        },
+        {
+          "event": 2,
+          "shotId": "S1-05-SC01-SH02",
+          "sceneId": "S1-05-SC01",
+          "type": "ACTION",
+          "recordIn": 6,
+          "recordOut": 11,
+          "dialogue": []
+        },
+        {
+          "event": 3,
+          "shotId": "S1-05-SC01-SH03",
+          "sceneId": "S1-05-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 11,
+          "recordOut": 12.2,
+          "dialogue": [
+            "S1-05-L001"
+          ]
+        },
+        {
+          "event": 4,
+          "shotId": "S1-05-SC01-SH04",
+          "sceneId": "S1-05-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 12.2,
+          "recordOut": 12.6,
+          "dialogue": [
+            "S1-05-L002"
+          ]
+        },
+        {
+          "event": 5,
+          "shotId": "S1-05-SC01-SH05",
+          "sceneId": "S1-05-SC01",
+          "type": "REACTION",
+          "recordIn": 12.6,
+          "recordOut": 14.1,
+          "dialogue": []
+        },
+        {
+          "event": 6,
+          "shotId": "S1-05-SC01-SH06",
+          "sceneId": "S1-05-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 14.1,
+          "recordOut": 15.3,
+          "dialogue": [
+            "S1-05-L003"
+          ]
+        },
+        {
+          "event": 7,
+          "shotId": "S1-05-SC01-SH07",
+          "sceneId": "S1-05-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 15.3,
+          "recordOut": 20.7,
+          "dialogue": [
+            "S1-05-L004",
+            "S1-05-L005"
+          ]
+        },
+        {
+          "event": 8,
+          "shotId": "S1-05-SC01-SH08",
+          "sceneId": "S1-05-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 20.7,
+          "recordOut": 21.5,
+          "dialogue": [
+            "S1-05-L006"
+          ]
+        },
+        {
+          "event": 9,
+          "shotId": "S1-05-SC01-SH09",
+          "sceneId": "S1-05-SC01",
+          "type": "ACTION",
+          "recordIn": 21.5,
+          "recordOut": 23.5,
+          "dialogue": []
+        },
+        {
+          "event": 10,
+          "shotId": "S1-05-SC01-SH10",
+          "sceneId": "S1-05-SC01",
+          "type": "ACTION",
+          "recordIn": 23.5,
+          "recordOut": 26.5,
+          "dialogue": []
+        },
+        {
+          "event": 11,
+          "shotId": "S1-05-SC01-SH11",
+          "sceneId": "S1-05-SC01",
+          "type": "INSERT",
+          "recordIn": 26.5,
+          "recordOut": 31,
+          "dialogue": []
+        },
+        {
+          "event": 12,
+          "shotId": "S1-05-SC01-SH12",
+          "sceneId": "S1-05-SC01",
+          "type": "ACTION",
+          "recordIn": 31,
+          "recordOut": 34,
+          "dialogue": []
+        },
+        {
+          "event": 13,
+          "shotId": "S1-05-SC01-SH13",
+          "sceneId": "S1-05-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 34,
+          "recordOut": 38,
+          "dialogue": [
+            "S1-05-L007"
+          ]
+        },
+        {
+          "event": 14,
+          "shotId": "S1-05-SC01-SH14",
+          "sceneId": "S1-05-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 38,
+          "recordOut": 38.8,
+          "dialogue": [
+            "S1-05-L008"
+          ]
+        },
+        {
+          "event": 15,
+          "shotId": "S1-05-SC01-SH15",
+          "sceneId": "S1-05-SC01",
+          "type": "ACTION",
+          "recordIn": 38.8,
+          "recordOut": 44.8,
+          "dialogue": []
+        },
+        {
+          "event": 16,
+          "shotId": "S1-05-SC01-SH16",
+          "sceneId": "S1-05-SC01",
+          "type": "INSERT",
+          "recordIn": 44.8,
+          "recordOut": 46.3,
+          "dialogue": []
+        },
+        {
+          "event": 17,
+          "shotId": "S1-05-SC01-SH17",
+          "sceneId": "S1-05-SC01",
+          "type": "ACTION",
+          "recordIn": 46.3,
+          "recordOut": 51.3,
+          "dialogue": []
+        },
+        {
+          "event": 18,
+          "shotId": "S1-05-SC01-SH18",
+          "sceneId": "S1-05-SC01",
+          "type": "ACTION",
+          "recordIn": 51.3,
+          "recordOut": 60.4,
+          "dialogue": [
+            "S1-05-L009"
+          ]
+        },
+        {
+          "event": 19,
+          "shotId": "S1-05-SC01-SH19",
+          "sceneId": "S1-05-SC01",
+          "type": "ACTION",
+          "recordIn": 60.4,
+          "recordOut": 69.5,
+          "dialogue": [
+            "S1-05-L009"
+          ]
+        },
+        {
+          "event": 20,
+          "shotId": "S1-05-SC01-SH20",
+          "sceneId": "S1-05-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 69.5,
+          "recordOut": 71.9,
+          "dialogue": [
+            "S1-05-L010"
+          ]
+        },
+        {
+          "event": 21,
+          "shotId": "S1-05-SC01-SH21",
+          "sceneId": "S1-05-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 71.9,
+          "recordOut": 73.3,
+          "dialogue": [
+            "S1-05-L011"
+          ]
+        },
+        {
+          "event": 22,
+          "shotId": "S1-05-SC01-SH22",
+          "sceneId": "S1-05-SC01",
+          "type": "REACTION",
+          "recordIn": 73.3,
+          "recordOut": 74.8,
+          "dialogue": []
+        },
+        {
+          "event": 23,
+          "shotId": "S1-05-SC01-SH23",
+          "sceneId": "S1-05-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 74.8,
+          "recordOut": 76.4,
+          "dialogue": [
+            "S1-05-L012"
+          ]
+        },
+        {
+          "event": 24,
+          "shotId": "S1-05-SC01-SH24",
+          "sceneId": "S1-05-SC01",
+          "type": "ACTION",
+          "recordIn": 76.4,
+          "recordOut": 79.4,
+          "dialogue": []
+        },
+        {
+          "event": 25,
+          "shotId": "S1-05-SC01-SH25",
+          "sceneId": "S1-05-SC01",
+          "type": "ACTION",
+          "recordIn": 79.4,
+          "recordOut": 87.4,
+          "dialogue": []
+        },
+        {
+          "event": 26,
+          "shotId": "S1-05-SC01-SH26",
+          "sceneId": "S1-05-SC01",
+          "type": "ACTION",
+          "recordIn": 87.4,
+          "recordOut": 91.4,
+          "dialogue": []
+        },
+        {
+          "event": 27,
+          "shotId": "S1-05-SC01-SH27",
+          "sceneId": "S1-05-SC01",
+          "type": "TRANSITION",
+          "recordIn": 91.4,
+          "recordOut": 91.9,
+          "dialogue": []
+        }
+      ],
+      "audioCues": [
+        {
+          "kind": "note",
+          "tag": "MUSIC",
+          "value": "The house band below, warm and a little slower now.",
+          "sceneId": "S1-05-SC01"
+        }
+      ]
+    }
+  },
+  "blockers": [
+    {
+      "kind": "CHARACTER_VOICE",
+      "subject": "GIDEON",
+      "detail": "no approved voice"
+    },
+    {
+      "kind": "CHARACTER_VOICE",
+      "subject": "SLOANE",
+      "detail": "no approved voice"
+    },
+    {
+      "kind": "SET",
+      "subject": "SET-HALCYON-HOUSE",
+      "detail": "no approved establishing reference"
+    },
+    {
+      "kind": "WARDROBE",
+      "subject": "WD-SLOANE-PARTY-GE92",
+      "detail": "DESIGN_REQUIRED (U-4)"
+    },
+    {
+      "kind": "WARDROBE",
+      "subject": "WD-GIDEON-SUIT",
+      "detail": "DESIGN_REQUIRED (U-4)"
+    },
+    {
+      "kind": "PROP",
+      "subject": "PR-SLOANE-CLUTCH",
+      "detail": "DESIGN_REQUIRED"
+    },
+    {
+      "kind": "PROP",
+      "subject": "PR-KAI-NOTE",
+      "detail": "DESIGN_REQUIRED"
+    }
+  ]
+}

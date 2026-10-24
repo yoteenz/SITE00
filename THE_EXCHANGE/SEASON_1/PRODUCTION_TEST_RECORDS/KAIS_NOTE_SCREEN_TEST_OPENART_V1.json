@@ -1,0 +1,178 @@
+{
+  "schemaVersion": "1.0.0",
+  "propertySlug": "the-exchange",
+  "recordId": "THE_EXCHANGE.SCREEN_TEST.KAIS_NOTE.OPENART.V1",
+  "classification": "PRODUCTION_TEST_ONLY",
+  "canonStatus": "Outside canonical Season 1 unless separately approved (founder sprint text §11).",
+  "provider": "OpenArt",
+  "providerProject": {
+    "id": "JDK0WveKdptpT6L3pLzB",
+    "name": "Personal Project",
+    "isDefault": true
+  },
+  "retrievedVia": "openart_creation_list (read-only, mediaType=video, limit=10)",
+  "retrievedAtUtc": "2026-10-24T02:24Z",
+  "note": "Provider records copied verbatim from the API response. No asset was generated, downloaded or modified by this sprint. The lip-sync audio's origin (ElevenLabs or other) is not recorded by the provider and is not verified here.",
+  "referencePrinciples": {
+    "source": "Founder sprint text 2026-10-23 §11",
+    "principles": [
+      "A separate floor-level gown reveal",
+      "Correct penthouse dressing-suite geography",
+      "Gideon remaining near the doorway",
+      "A physically credible envelope handoff",
+      "Sloane returning toward the vanity",
+      "A separate event venue for Kai's phone call",
+      "Approved recorded voices",
+      "Natural pacing rather than rushed montage",
+      "Explicit character and prop continuity"
+    ]
+  },
+  "creations": [
+    {
+      "historyId": "PlVuFBQ34p4VkAJq0hxa",
+      "creationId": "EvTX2JZkVML6WND32oI8",
+      "model": "kling-4-omni",
+      "mode": "image2video",
+      "status": "completed",
+      "createdAtUtc": "2026-10-24T01:26:20Z",
+      "durationSec": 10.041667,
+      "resolution": "1080p",
+      "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-video/r70bB5cq1TcusCDgMpPY/a44ec43e11297928702dd9f142b90cc0-1e3a274d-ab15-4f98-a6fd-56b68fc2c668_1792805498643_a8cd9580.mp4",
+      "inputRefs": [
+        {
+          "field": "startFrame",
+          "type": "image",
+          "id": "upload-1792805167575-t6qdy95",
+          "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/8706CA30-7601-4EFA-B5B6-79C5B1B19E82_1792805167691_16d46aee.png"
+        }
+      ],
+      "promptHead": "THE EXCHANGE — KAI'S NOTE\nPrestige-drama cinematic sequence in vertical 9:16.\nPreserve the exact established identities, wardrobe, architecture, lighting, and s"
+    },
+    {
+      "historyId": "VOYcgKHwKELM9qCfxYK7",
+      "creationId": "setZY8KfsVi5h5RMpKX0",
+      "model": "kling-4-omni",
+      "mode": "image2video",
+      "status": "completed",
+      "createdAtUtc": "2026-10-24T01:25:59Z",
+      "durationSec": 10.041667,
+      "resolution": "1080p",
+      "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-video/r70bB5cq1TcusCDgMpPY/dd1c6783fdd98a15d703e589102be5e5-68085e0e-1cfd-4eac-b86e-4102e0ce444b_1792805507081_6a74f8ad.mp4",
+      "inputRefs": [
+        {
+          "field": "startFrame",
+          "type": "image",
+          "id": "upload-1792805126262-nv1ug7z",
+          "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/5960571B-9C87-420D-A64D-CC31E2857F4C_1792805126389_d9848b85.png"
+        }
+      ],
+      "promptHead": "THE EXCHANGE — KAI'S NOTE\nPrestige-drama cinematic sequence in vertical 9:16.\nPreserve the exact established identities, wardrobe, architecture, lighting, and s"
+    },
+    {
+      "historyId": "h0lMEkQCyi2yPgC5UxBk",
+      "creationId": "DarUCa8kCs4kGs6HPJ4j",
+      "model": "kling-4-omni",
+      "mode": "image2video",
+      "status": "completed",
+      "createdAtUtc": "2026-10-24T01:25:18Z",
+      "durationSec": 10.041667,
+      "resolution": "1080p",
+      "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-video/r70bB5cq1TcusCDgMpPY/88f896bdaed163482442ce1f2d302096-19555fd3-04ab-43ee-8dd4-bbaa716d0f99_1792805494779_a0b109f7.mp4",
+      "inputRefs": [
+        {
+          "field": "startFrame",
+          "type": "image",
+          "id": "Z2JcEArlF18NAAsbwQAH",
+          "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/B1BC6F75-AA7E-4F13-B068-EBBC5DFB928E_1792804093680_33ac6ac9.png"
+        }
+      ],
+      "promptHead": "THE EXCHANGE — KAI'S NOTE\nPrestige-drama cinematic sequence in vertical 9:16.\nPreserve the exact established identities, wardrobe, architecture, lighting, and s"
+    },
+    {
+      "historyId": "oCel1JzuyeR5cCyGC6dO",
+      "creationId": "QWHQYpxNzNikcDgGTm9m",
+      "model": "kling-4-omni",
+      "mode": "image2video",
+      "status": "completed",
+      "createdAtUtc": "2026-10-24T01:11:32Z",
+      "durationSec": 8.041667,
+      "resolution": "1080p",
+      "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-video/r70bB5cq1TcusCDgMpPY/6233a1718c987a430c01dbdafbc4f76b-b8eeb4bc-ea48-434d-a563-8f66c1a1e404_1792804519143_35aed178.mp4",
+      "inputRefs": [
+        {
+          "field": "startFrame",
+          "type": "image",
+          "id": "Z2JcEArlF18NAAsbwQAH",
+          "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/B1BC6F75-AA7E-4F13-B068-EBBC5DFB928E_1792804093680_33ac6ac9.png"
+        },
+        {
+          "field": "middleFrames",
+          "type": "image",
+          "id": "upload-1792803786577-7v2kbqw",
+          "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/5960571B-9C87-420D-A64D-CC31E2857F4C_1792803786686_022824d8.png"
+        },
+        {
+          "field": "endFrame",
+          "type": "image",
+          "id": "upload-1792803789370-mmv6abm",
+          "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/8706CA30-7601-4EFA-B5B6-79C5B1B19E82_1792803789494_e7881ee7.png"
+        }
+      ],
+      "promptHead": "Create a cinematic, photorealistic vertical 9:16 scene using the three attached frames as sequential keyframes for one continuous shot. Preserve the exact chara"
+    },
+    {
+      "historyId": "0scW8f3NNeTudFxlmX7U",
+      "creationId": "xBu6sNra0y8TRokqGh1c",
+      "model": "kling-lipsync-v1",
+      "mode": "lipSync",
+      "status": "completed",
+      "createdAtUtc": "2026-10-24T01:02:34Z",
+      "durationSec": 7.966667,
+      "resolution": null,
+      "outputUrl": "https://cdn.openart.ai/openart-ai/production/2026-10/create-video/r70bB5cq1TcusCDgMpPY/8ff71d831d6109da456d69a14e92dcab-04dfdd36-49ee-45eb-961d-4f1f016318bc_1792803923179_8673780f.mp4",
+      "inputRefs": [],
+      "promptHead": "Quiet warmth, subtle dry amusement. Natural lip sync to uploaded audio. Relaxed jaw, minimal head movement. No broad smiles. Preserve facial identity.",
+      "inputMedia": {
+        "video": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-video/r70bB5cq1TcusCDgMpPY/openart-bab6522d-a7e_1d08039f_1792793133520_1792803091850_d143548a.mp4",
+        "audio": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-audio/r70bB5cq1TcusCDgMpPY/openart-8a0e3f8b-585_24ac4260_1792802775996_1792803126562_24163f60.mp3",
+        "mode": "audio2video"
+      }
+    },
+    {
+      "historyId": "kRjXmF2yi5azvupS47v0",
+      "creationId": "Wge4rhOL9w389NcoFT96",
+      "model": "kling-lipsync-v1",
+      "mode": "lipSync",
+      "status": "failed",
+      "createdAtUtc": "2026-10-24T00:55:36Z",
+      "durationSec": null,
+      "resolution": null,
+      "outputUrl": "",
+      "inputRefs": [],
+      "promptHead": "Quiet warmth and subtle dry amusement. Natural mouth movements matching the uploaded audio. Relaxed jaw, minimal head movement, and a slight eyebrow lift. No br",
+      "inputMedia": {
+        "video": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-video/r70bB5cq1TcusCDgMpPY/openart-bab6522d-a7e_1d08039f_1792793133520_1792803091850_d143548a.mp4",
+        "audio": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-audio/r70bB5cq1TcusCDgMpPY/openart-8a0e3f8b-585_24ac4260_1792802775996_1792803126562_24163f60.mp3",
+        "mode": "audio2video"
+      }
+    },
+    {
+      "historyId": "Cn2OjANzdV790W6OSVqN",
+      "creationId": "D7MloaYGj8F2FSuqYdCc",
+      "model": "kling-lipsync-v1",
+      "mode": "lipSync",
+      "status": "failed",
+      "createdAtUtc": "2026-10-24T00:54:21Z",
+      "durationSec": null,
+      "resolution": null,
+      "outputUrl": "",
+      "inputRefs": [],
+      "promptHead": "Calm, grounded delivery with quiet warmth and subtle dry amusement. Maintain his existing gaze toward the person just off camera. Natural articulation matching ",
+      "inputMedia": {
+        "video": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-video/r70bB5cq1TcusCDgMpPY/openart-bab6522d-a7e_1d08039f_1792793133520_1792803091850_d143548a.mp4",
+        "audio": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-audio/r70bB5cq1TcusCDgMpPY/openart-8a0e3f8b-585_24ac4260_1792802775996_1792803126562_24163f60.mp3",
+        "mode": "audio2video"
+      }
+    }
+  ]
+}

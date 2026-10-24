@@ -8,7 +8,11 @@
     "PROVISIONAL_CONCEPT": "Working proposal, slate, or illustrative beat",
     "OPEN_CREATIVE_QUESTION": "Deliberately undecided; do not infer",
     "SUPERSEDED": "Replaced by later founder decision",
-    "UNKNOWN_NEEDS_VERIFICATION": "Evidence missing or conflicting"
+    "UNKNOWN_NEEDS_VERIFICATION": "Evidence missing or conflicting",
+    "APPROVED_DEVELOPMENT_DIRECTION": "Founder-approved direction for development; specific wording may still be refined at screenplay stage",
+    "PROVISIONAL_IMPLEMENTATION": "An agent's implementation of an approved direction; awaits founder confirmation",
+    "HISTORICAL_SUPERSEDED": "Preserved unchanged as history; no longer the active structure",
+    "PRODUCTION_TEST_ONLY": "Experimental production output; never canon unless separately approved"
   },
   "topics": [
     {
@@ -94,6 +98,195 @@
       "classification": "APPROVED_CANON",
       "source": "CHARACTER_VISUAL_REGISTRY_V1.json",
       "evidence": "Oct 2026 handoff README — LOCKED; exclude sheet age text"
+    },
+    {
+      "topic": "Season 1 — S-1 / NR-1 Hybrid H",
+      "classification": "APPROVED_CANON",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/02_SLOANE_STEP_BACK_ALTERNATIVES.md §6–7",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "ledgerEntry": "PL-S1"
+    },
+    {
+      "topic": "Season 1 — S-2 / NR-2 Option A",
+      "classification": "APPROVED_CANON",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/04_EXPANDED_86_RELEASE_MAP.csv",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "ledgerEntry": "PL-S2"
+    },
+    {
+      "topic": "Season 1 — S-2 / NR-2 Option B",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/05_LEAN_RELEASE_MAP.csv",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "ledgerEntry": "PL-S2-FB"
+    },
+    {
+      "topic": "Season 1 — BASELINE V1",
+      "classification": "HISTORICAL_SUPERSEDED",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_RECURRING_PATRON_EXCHANGE_ENGINE_V1/THE_EXCHANGE_RECURRING_PATRON_V1_REVISED_RELEASE_MAP.csv",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "ledgerEntry": "PL-S2-V1"
+    },
+    {
+      "topic": "Season 1 — S-3 / NR-4 N1 + N2",
+      "classification": "APPROVED_CANON",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/03_EXCHANGE_NIGHTS_REPAIR_OPTIONS.md",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "ledgerEntry": "PL-S3"
+    },
+    {
+      "topic": "Season 1 — NR-3 Ten patron scenarios",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/06_PATRON_SCENARIO_AUDIT.md",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "ledgerEntry": "PL-NR-3"
+    },
+    {
+      "topic": "Season 1 — NR-5 Disclosure setting",
+      "classification": "APPROVED_CANON",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/09_FOUNDER_DECISION_BOARD.md NR-5",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "ledgerEntry": "PL-NR-5"
+    },
+    {
+      "topic": "Season 1 — NR-6 Motive emphasis",
+      "classification": "APPROVED_CANON",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/02_SLOANE_STEP_BACK_ALTERNATIVES.md §8",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "ledgerEntry": "PL-NR-6"
+    },
+    {
+      "topic": "Season 1 — NR-7 Plan C",
+      "classification": "HISTORICAL_SUPERSEDED",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_FOUNDER_VISION_HYBRID_SHOWRUNNER_V1/THE_EXCHANGE_HYBRID_V1_FOUNDER_DECISION_BOARD.md FD-17",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "ledgerEntry": "PL-NR-7"
+    },
+    {
+      "topic": "Season 1 — NR-8 Two fashion beats",
+      "classification": "PROVISIONAL_IMPLEMENTATION",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/07_WONDER_FASHION_CULTURE_AUDIT.md §targeted improvements",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "ledgerEntry": "PL-NR-8"
+    },
+    {
+      "topic": "Season 1 — NR-9 Tina as friend",
+      "classification": "PROVISIONAL_IMPLEMENTATION",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/08_CHARACTER_LIFE_AND_RELATIONSHIPS.md",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "ledgerEntry": "PL-NR-9"
+    },
+    {
+      "topic": "Season 1 — NR-10 C-11 Category Is",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/06_PATRON_SCENARIO_AUDIT.md C-11",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "ledgerEntry": "PL-NR-10"
+    },
+    {
+      "topic": "Season 1 — NR-11 Reusable library",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/12_PRODUCTION_FEASIBILITY.md",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "ledgerEntry": "PL-NR-11"
+    },
+    {
+      "topic": "Season 1 — Principal ages",
+      "classification": "APPROVED_CANON",
+      "source": "Founder sprint text §04",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "ledgerEntry": "PL-C-AGES"
+    },
+    {
+      "topic": "Season 1 — Sloane",
+      "classification": "APPROVED_CANON",
+      "source": "Founder sprint text §04",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "ledgerEntry": "PL-C-SLOANE"
+    },
+    {
+      "topic": "Season 1 — Gideon Shaw",
+      "classification": "APPROVED_CANON",
+      "source": "Founder sprint text §04; GIDEON_CHARACTER_AND_RELATIONSHIP_NUANCE_V1.md",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "ledgerEntry": "PL-C-GIDEON"
+    },
+    {
+      "topic": "Season 1 — Nadine",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+      "source": "Founder sprint text §04; hybrid FD-14",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "ledgerEntry": "PL-C-NADINE"
+    },
+    {
+      "topic": "Season 1 — Richard",
+      "classification": "APPROVED_CANON",
+      "source": "Founder sprint text §04",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "ledgerEntry": "PL-C-RICHARD"
+    },
+    {
+      "topic": "Season 1 — Vivienne",
+      "classification": "APPROVED_CANON",
+      "source": "Founder sprint text §04",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "ledgerEntry": "PL-C-VIVIENNE"
+    },
+    {
+      "topic": "Season 1 — Kai Fontaine",
+      "classification": "APPROVED_CANON",
+      "source": "Founder sprint text §04",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "ledgerEntry": "PL-C-KAI"
+    },
+    {
+      "topic": "Season 1 — Kai appearance and voice",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+      "source": "Founder sprint text §04 (current creative direction)",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "ledgerEntry": "PL-C-KAI-LOOK"
+    },
+    {
+      "topic": "Season 1 — Screenplay architecture V1 (format, schema, runtime model)",
+      "classification": "PROVISIONAL_IMPLEMENTATION",
+      "source": "docs/site00/the-exchange/founder-canon-lock-v1/05_SEASON1_SCREENPLAY_ARCHITECTURE.md",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1"
+    },
+    {
+      "topic": "Season 1 — Screenplays S1-01 to S1-05 (DRAFT — FOUNDER REVIEW REQUIRED)",
+      "classification": "PROVISIONAL_IMPLEMENTATION",
+      "source": "THE_EXCHANGE/SEASON_1/SCREENPLAYS",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1"
+    },
+    {
+      "topic": "Season 1 — Kai's Note screen test (OpenArt)",
+      "classification": "PRODUCTION_TEST_ONLY",
+      "source": "THE_EXCHANGE/SEASON_1/PRODUCTION_TEST_RECORDS/KAIS_NOTE_SCREEN_TEST_OPENART_V1.json",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1"
+    },
+    {
+      "topic": "Season 1 — U-1: Vivienne's private truth: writers'-room truth, or kept unresolved?",
+      "classification": "OPEN_CREATIVE_QUESTION",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/09_FOUNDER_DECISION_BOARD.md",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1"
+    },
+    {
+      "topic": "Season 1 — U-2: Should one mid-season Night exist purely for joy, with no request attached?",
+      "classification": "OPEN_CREATIVE_QUESTION",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/09_FOUNDER_DECISION_BOARD.md",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1"
+    },
+    {
+      "topic": "Season 1 — U-3: Emmett Hale's identity (FD-09 approved the function only).",
+      "classification": "OPEN_CREATIVE_QUESTION",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/09_FOUNDER_DECISION_BOARD.md",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1"
+    },
+    {
+      "topic": "Season 1 — U-9: The Breach access route is gestured at in S1-83 and held for Season 2.",
+      "classification": "OPEN_CREATIVE_QUESTION",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/09_FOUNDER_DECISION_BOARD.md",
+      "promotedBy": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1"
     }
   ]
 }

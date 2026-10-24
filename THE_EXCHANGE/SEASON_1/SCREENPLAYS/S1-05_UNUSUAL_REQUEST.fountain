@@ -1,0 +1,168 @@
+---
+{
+  "identity": { "releaseId": "S1-05", "title": "Unusual Request", "arc": "1 — The Host", "version": 1, "approvalStatus": "DRAFT — FOUNDER REVIEW REQUIRED", "runtimeTarget": "1:45" },
+  "story": {
+    "narrativePurpose": "Inciting incident. A man she excluded asks, for someone else, for the one thing she can't easily give, and the season question opens: can she make this happen without deciding for everyone again?",
+    "previousContinuity": "S1-04: Gideon held up Kai's note in the ballroom: \"Not here.\" Same night, GE−92, near midnight.",
+    "openingHook": "Sloane reads Kai's note: \"Celestine has a vision she never built. She'll never ask. I'm asking.\"",
+    "sceneObjectives": {
+      "S1-05-SC01": "Sloane receives and reads the note; Gideon states the rule; she knows it and keeps the note anyway."
+    },
+    "characterMotivations": {
+      "SLOANE": "She wants to say yes and knows she isn't supposed to be able to.",
+      "GIDEON": "Name the rule so she can't pretend she didn't hear it, then let her decide."
+    },
+    "conflict": "The rules of standing against a request she can't stop rereading.",
+    "revelations": ["Kai came to the door.", "Celestine has a vision she never built."],
+    "emotionalTurningPoint": "\"I know.\" She reads it again anyway.",
+    "endingHook": "She keeps the note."
+  },
+  "performance": {
+    "speechNotes": {
+      "SLOANE": "Private register: slower and plainer than in the ballroom. \"I know.\" is not resignation; she is already thinking.",
+      "GIDEON": "Gentle and exact. He states the rule because he respects her, not to stop her."
+    },
+    "subtext": "She is very good at deciding who gets what, and she is tired of being good at it.",
+    "pacing": "Slow. Let the note sit in her hands. The party below sets the tempo.",
+    "silence": "The second reading plays without words."
+  },
+  "visual": {
+    "intention": "A balcony above the party, the ballroom glowing below. Near midnight; the city behind her.",
+    "keyImages": ["The note unfolded in Sloane's hands", "The room she built dancing on below", "The note folded into the clutch"],
+    "requiredReveals": ["The note's text, legible on screen"],
+    "continuityRules": ["The note goes into Sloane's clutch.", "Party look and necklace unchanged since S1-02.", "Her plan for a new tradition is not named before S1-08."]
+  },
+  "production": {
+    "characters": ["SLOANE", "GIDEON"],
+    "locations": ["SET-HALCYON-HOUSE"],
+    "wardrobe": { "SLOANE": "WD-SLOANE-PARTY-GE92", "GIDEON": "WD-GIDEON-SUIT" },
+    "props": ["PR-KAI-NOTE", "PR-SLOANE-CLUTCH"],
+    "effects": [],
+    "crowd": "The party visible below the balcony.",
+    "shotComplexity": "MED",
+    "technical": ["Balcony set with the ballroom crowd visible below", "Legible insert of the note"]
+  },
+  "continuity": {
+    "factsIntroduced": ["Kai has no standing to ask.", "Celestine has a vision she never built."],
+    "factsCarried": ["Kai's note (S1-03, S1-04)", "The clutch (S1-02)"],
+    "openQuestions": ["The note's paper and Kai's handwriting are not designed."],
+    "payoffDependencies": ["S1-08: Sloane's notebook and the petition."],
+    "canonReferences": ["Master S1-05", "KF-01: the plan is unnamed until S1-08", "KF-07: her role in the exclusion is unstated until S1-13", "Gideon platonic"]
+  },
+  "editorial": {
+    "pacingRisk": "Medium. The release is quiet by design; the voice-over must land over the crowd shot, not after it.",
+    "retentionHook": "Who is Celestine, and what will Sloane do?",
+    "endingTransition": "She folds the note into her clutch and goes back down to host."
+  }
+}
+---
+INT. HALCYON HOUSE — BALCONY — NIGHT
+
+[[SHOT: WIDE — HIGH ANGLE]]
+[[ENTER: SLOANE]]
+[[WARDROBE: SLOANE: WD-SLOANE-PARTY-GE92]]
+[[PROP: PR-SLOANE-CLUTCH: in Sloane's hand]]
+
+The balcony above the ballroom, near midnight. Below, the party has reached the hour when nobody wants to leave. Sloane stands alone at the rail with her clutch, watching it.
+
+[[TIME: 6]]
+[[MUSIC: The house band below, warm and a little slower now.]]
+[[ENTER: GIDEON]]
+[[WARDROBE: GIDEON: WD-GIDEON-SUIT]]
+
+Gideon comes out through the balcony doors and joins her at the rail. He holds out the note. She doesn't take it yet.
+
+[[TIME: 5]]
+
+SLOANE
+Who brought it?
+
+GIDEON
+Kai.
+
+[[REACTION: SLOANE — Very still.]]
+
+SLOANE
+He came here.
+
+GIDEON
+Stayed on the steps. Didn't ask to come in.
+(beat)
+Good waistcoat.
+
+SLOANE
+(almost a smile, then not)
+He would.
+
+She takes the note.
+
+[[TIME: 2]]
+[[HANDOFF: PR-KAI-NOTE: GIDEON → SLOANE]]
+
+She unfolds it and reads.
+
+[[TIME: 3]]
+[[SHOT: INSERT — LOCKED OFF]]
+[[INSERT: The note in Kai's hand: "Celestine has a vision she never built. She'll never ask. I'm asking."]]
+[[HOLD: 3]]
+
+Gideon watches her read it. He waits until she looks up.
+
+[[TIME: 3]]
+
+GIDEON
+(gently)
+He can't ask. He has no standing. You know that.
+
+SLOANE
+I know.
+
+She reads it again. Slowly, all the way through, as if the second time it might say something different. Then she turns it over.
+
+[[TIME: 6]]
+[[INSERT: The back of the note: blank.]]
+
+Nothing else. Just the three sentences, and his name nowhere on it.
+
+[[TIME: 3]]
+[[HOLD: 2]]
+
+[[SHOT: HIGH ANGLE — OVER THE RAIL]]
+
+Below, the room she built dances on: the pianist and the producer still arguing at the bar, the stranger with a new partner, the orange jacket in the middle of the floor.
+
+[[TIME: 9]]
+
+SLOANE (V.O.)
+Every year I tell myself I'll stop deciding who gets what. Every year I'm very good at it.
+
+[[HOLD: 2]]
+
+GIDEON
+Want me to send it back?
+
+SLOANE
+(a beat)
+No.
+
+[[REACTION: GIDEON — He studies her; he expected that answer.]]
+
+GIDEON
+Then I'll be downstairs.
+
+He leaves her the balcony.
+
+[[TIME: 3]]
+[[EXIT: GIDEON]]
+
+Alone, Sloane folds the note along its creases, tucks it into her clutch, and snaps the clasp shut. She checks her face in the dark glass of the balcony door, finds the hostess again, and goes back down to the party.
+
+[[TIME: 8]]
+[[HANDOFF: PR-KAI-NOTE: SLOANE → CLUTCH]]
+
+At the top of the stairs she stops for one breath. The music comes up to meet her. She goes down into it.
+
+[[TIME: 4]]
+[[EXIT: SLOANE]]
+
+CUT TO BLACK.

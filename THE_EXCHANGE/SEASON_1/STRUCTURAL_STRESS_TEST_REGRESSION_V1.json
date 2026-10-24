@@ -1,0 +1,273 @@
+{
+  "schemaVersion": "1.0.0",
+  "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/11_VALIDATION_AND_STRESS_TEST.md",
+  "prior": {
+    "PASS": 24,
+    "PARTIAL": 8,
+    "FAIL": 0
+  },
+  "current": {
+    "PASS": 24,
+    "PARTIAL": 8,
+    "FAIL": 0
+  },
+  "upgrades": [],
+  "rows": [
+    {
+      "id": "T01",
+      "question": "Can a new viewer understand what The Exchange is by the end of Arc 1?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "Editorial verdict carried from the reconciliation stress test; no approved change affects it."
+    },
+    {
+      "id": "T02",
+      "question": "Is the central mystery comprehensible without overexplaining?",
+      "verdict": "PARTIAL",
+      "current": "PARTIAL",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "Unchanged. The first five screenplays add no mystery strand; the load is judged again when Arc 1 is fully scripted."
+    },
+    {
+      "id": "T03",
+      "question": "Does Sloane drive the season?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "Editorial verdict carried from the reconciliation stress test; no approved change affects it."
+    },
+    {
+      "id": "T04",
+      "question": "Does Hybrid H leave her an active facilitator?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "COMPUTED",
+      "evidence": "S1-80 \"The impossible ones. I still want the impossible ones.\"; S1-83 \"Show her in\"."
+    },
+    {
+      "id": "T05",
+      "question": "Do the ten requests differ in shape?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "COMPUTED",
+      "evidence": "10 patron scenarios carried in the master."
+    },
+    {
+      "id": "T06",
+      "question": "Are the two new Nights distinct from each other and from the Grand Exchange?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "Editorial verdict carried from the reconciliation stress test; no approved change affects it."
+    },
+    {
+      "id": "T07",
+      "question": "Does every arc end on a hook?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "Editorial verdict carried from the reconciliation stress test; no approved change affects it."
+    },
+    {
+      "id": "T08",
+      "question": "Does Option A's runtime increase hurt momentum?",
+      "verdict": "PARTIAL",
+      "current": "PARTIAL",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "The founder accepted the +1:50 with Option A (S-2). Momentum risk in Arc 3 is unchanged until an edit exists."
+    },
+    {
+      "id": "T09",
+      "question": "Are the Exchange's rules consistent?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "Editorial verdict carried from the reconciliation stress test; no approved change affects it."
+    },
+    {
+      "id": "T10",
+      "question": "Is it plausible that The Exchange borrows the Crescent Room and the Riverside Pavilion?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "Editorial verdict carried from the reconciliation stress test; no approved change affects it."
+    },
+    {
+      "id": "T11",
+      "question": "Do patrons arrive through varied, legitimate routes?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "Editorial verdict carried from the reconciliation stress test; no approved change affects it."
+    },
+    {
+      "id": "T12",
+      "question": "Is consent handled without becoming a lecture?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "Editorial verdict carried from the reconciliation stress test; no approved change affects it."
+    },
+    {
+      "id": "T13",
+      "question": "Is Black cultural specificity rich without stereotype?",
+      "verdict": "PARTIAL",
+      "current": "PARTIAL",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "The dialogue registry now forbids slang quotas, comic relief and stereotype for every voice. Still needs a cultural review of finished scripts."
+    },
+    {
+      "id": "T14",
+      "question": "Do the new Nights have a lineage rather than a generic party?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "Editorial verdict carried from the reconciliation stress test; no approved change affects it."
+    },
+    {
+      "id": "T15",
+      "question": "Is the season funny?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "Editorial verdict carried from the reconciliation stress test; no approved change affects it."
+    },
+    {
+      "id": "T16",
+      "question": "Is warmth protected against trauma?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "Editorial verdict carried from the reconciliation stress test; no approved change affects it."
+    },
+    {
+      "id": "T17",
+      "question": "Does every arc have a fashion moment?",
+      "verdict": "PARTIAL",
+      "current": "PARTIAL",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "NR-8 beats are now in the master as PROVISIONAL_IMPLEMENTATION (S1-43, S1-81). Stays PARTIAL until the founder confirms the placements (FC-02) and the looks are designed (U-4)."
+    },
+    {
+      "id": "T18",
+      "question": "Are the principals' styles specified?",
+      "verdict": "PARTIAL",
+      "current": "PARTIAL",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "Kai's style direction is founder-approved. Nadine's, Gideon's and Richard's styles are still unspecified (U-4)."
+    },
+    {
+      "id": "T19",
+      "question": "Do Sloane and Nadine have an arc with a payoff?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "COMPUTED",
+      "evidence": "S1-31, S1-61 and S1-74 lines present."
+    },
+    {
+      "id": "T20",
+      "question": "Does Gideon stay platonic, independent and 44?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "COMPUTED",
+      "evidence": "Platonic check hard conflicts: 0; Gideon 44."
+    },
+    {
+      "id": "T21",
+      "question": "Does the Emmett romance have presence without being forced?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "Editorial verdict carried from the reconciliation stress test; no approved change affects it."
+    },
+    {
+      "id": "T22",
+      "question": "Does every arc before the finale contain an Exchange-hosted gathering?",
+      "verdict": "PARTIAL",
+      "current": "PARTIAL",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "Unchanged. Arc 5 still has no Exchange-hosted gathering beyond the rehearsal."
+    },
+    {
+      "id": "T23",
+      "question": "Is the longest run without a Night acceptable?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "COMPUTED",
+      "evidence": "Longest run without a Night: 19 (S1-21–S1-39)."
+    },
+    {
+      "id": "T24",
+      "question": "Does the breach chain stay fair play under N2?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "COMPUTED",
+      "evidence": "Richard and Bunny at S1-20; chain paid off in S1-54 and S1-55."
+    },
+    {
+      "id": "T25",
+      "question": "Does any change leak a mystery early?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "COMPUTED",
+      "evidence": "Knowledge-ledger leaks: 0."
+    },
+    {
+      "id": "T26",
+      "question": "Does every arc have a signature visual?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "Editorial verdict carried from the reconciliation stress test; no approved change affects it."
+    },
+    {
+      "id": "T27",
+      "question": "Is spectacle over-concentrated in the finale?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "Editorial verdict carried from the reconciliation stress test; no approved change affects it."
+    },
+    {
+      "id": "T28",
+      "question": "Can the HIGH and VERY HIGH releases be produced convincingly with the current workflow?",
+      "verdict": "PARTIAL",
+      "current": "PARTIAL",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "The Kai's Note screen test is recorded as PRODUCTION_TEST_ONLY. Crowds, partner dancing and multi-speaker lip-sync are still untested."
+    },
+    {
+      "id": "T29",
+      "question": "Does Option B reduce the burden meaningfully?",
+      "verdict": "PARTIAL",
+      "current": "PARTIAL",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "Option B is now an inactive, pre-cleared fallback. The 4 per cent burden reduction is unchanged."
+    },
+    {
+      "id": "T30",
+      "question": "Are the timeline, weekdays, ages and wardrobe days consistent?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "COMPUTED",
+      "evidence": "Age, chronology and wardrobe hard conflicts: 0; fictional days monotone."
+    },
+    {
+      "id": "T31",
+      "question": "Does Season 1 end with an active, renewable series?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "COMPUTED",
+      "evidence": "S1-83 keeps \"Show her in\"."
+    },
+    {
+      "id": "T32",
+      "question": "Does Hybrid H create Season 2 material rather than spend it?",
+      "verdict": "PASS",
+      "current": "PASS",
+      "method": "EDITORIAL_CARRIED",
+      "evidence": "Editorial verdict carried from the reconciliation stress test; no approved change affects it."
+    }
+  ]
+}

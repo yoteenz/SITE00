@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "1.0.0",
+  "propertySlug": "the-exchange",
+  "recordedBySprint": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+  "immutability": "Each folder is an extracted archive. Files must match the folder's MANIFEST_SHA256.txt byte for byte. Never edit, rename or regenerate them; record any later change as a new versioned record elsewhere.",
+  "archives": [
+    {
+      "folder": "THE_EXCHANGE_FOUNDER_VISION_HYBRID_SHOWRUNNER_V1",
+      "archiveFile": "THE_EXCHANGE_FOUNDER_VISION_HYBRID_SHOWRUNNER_V1_b266.zip",
+      "archiveSha256": "af268397d3c193a50622b65ae0c4d0c45946c579e544297cdb7c0d7040e5394f",
+      "fileCount": 9,
+      "role": "The 74-release hybrid Season 1 proposal (LL-01 to LL-74), its FD-01 to FD-20 decision board and the writers'-room truth.",
+      "classification": "HISTORICAL_SUPERSEDED",
+      "supersededBy": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json"
+    },
+    {
+      "folder": "THE_EXCHANGE_RECURRING_PATRON_EXCHANGE_ENGINE_V1",
+      "archiveFile": "THE_EXCHANGE_RECURRING_PATRON_EXCHANGE_ENGINE_V1.zip",
+      "archiveSha256": "4005391ce5e625cdab3c2a55c2a737ef81539b71746f7743d0b571fc1274499c",
+      "fileCount": 10,
+      "role": "BASELINE V1: the original 86-release map (S1-01 to S1-86) with the ten recurring patron scenarios.",
+      "classification": "HISTORICAL_SUPERSEDED",
+      "supersededBy": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json"
+    },
+    {
+      "folder": "THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1",
+      "archiveFile": "THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1.zip",
+      "archiveSha256": "997fae39e74171bd2891ccebc2852bfdfb1bba4bd9bb673e3171ddb937548c27",
+      "fileCount": 17,
+      "role": "The reconciliation package the founder approved on 2026-10-23. Option A (04) is the primary evidence for the 86-release master; Option B (05) is the 81-release production fallback.",
+      "classification": "SOURCE_OF_APPROVED_RECOMMENDATIONS",
+      "founderApproval": {
+        "date": "2026-10-23",
+        "sprint": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+        "scope": "S-1 Hybrid H, S-2 Option A, S-3 N1 + N2, NR-1 to NR-11"
+      }
+    }
+  ]
+}

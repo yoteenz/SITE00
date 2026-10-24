@@ -1,0 +1,475 @@
+{
+  "schemaVersion": "1.0.0",
+  "propertySlug": "the-exchange",
+  "ledgerId": "THE_EXCHANGE.S1.CANON_PROMOTION_LEDGER.V1",
+  "founderApproval": {
+    "date": "2026-10-23",
+    "sprint": "P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+    "authority": "FOUNDER AUTHORIZATION: GRANTED — OCTOBER 23, 2026",
+    "scope": [
+      "S-1 Hybrid H",
+      "S-2 Option A (86)",
+      "S-3 N1 + N2",
+      "NR-1",
+      "NR-2",
+      "NR-3",
+      "NR-4",
+      "NR-5",
+      "NR-6",
+      "NR-7",
+      "NR-8",
+      "NR-9",
+      "NR-10",
+      "NR-11"
+    ]
+  },
+  "rule": "Every entry traces to a source document, the founder approval, an implementation change and a validation result. Founder approval of a direction does not answer questions the source leaves open.",
+  "seasonDecisions": [
+    {
+      "entryId": "PL-S1",
+      "subject": "S-1 / NR-1 Hybrid H",
+      "decision": "Sloane stops deciding for everyone else and keeps her love of facilitating. She does not retire or abandon The Exchange. Her arc: being needed is not the same as being loved. S1-75 Living Legacy mechanics unchanged.",
+      "classification": "APPROVED_CANON",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/02_SLOANE_STEP_BACK_ALTERNATIVES.md §6–7",
+      "founderApproval": "2026-10-23 P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "implementation": [
+        "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json S1-10, S1-74, S1-80 (REVISED_S1_DEPENDENT); S1-75 UNCHANGED"
+      ],
+      "validation": [
+        "tests/theExchangeSeason1Master.test.ts › Hybrid H continuity"
+      ]
+    },
+    {
+      "entryId": "PL-S2",
+      "subject": "S-2 / NR-2 Option A",
+      "decision": "86 releases, IDs S1-01..S1-86 in established order, runtime target 127:40: the authoritative development master.",
+      "classification": "APPROVED_CANON",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/04_EXPANDED_86_RELEASE_MAP.csv",
+      "founderApproval": "2026-10-23 P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "implementation": [
+        "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+        "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.csv"
+      ],
+      "validation": [
+        "tests/theExchangeSeason1Master.test.ts › 86-release master integrity",
+        "tests/theExchangeSeason1Master.test.ts › canonical promotion"
+      ]
+    },
+    {
+      "entryId": "PL-S2-FB",
+      "subject": "S-2 / NR-2 Option B",
+      "decision": "81-release lean map kept as a pre-cleared production fallback only. No merge is active; each needs separate founder activation after production testing.",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/05_LEAN_RELEASE_MAP.csv",
+      "founderApproval": "2026-10-23 P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "implementation": [
+        "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json fallback",
+        "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/05_LEAN_RELEASE_MAP.csv"
+      ],
+      "validation": [
+        "tests/theExchangeSeason1Master.test.ts › 81-release fallback preservation"
+      ]
+    },
+    {
+      "entryId": "PL-S2-V1",
+      "subject": "BASELINE V1",
+      "decision": "The original 86-release map is immutable historical evidence.",
+      "classification": "HISTORICAL_SUPERSEDED",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_RECURRING_PATRON_EXCHANGE_ENGINE_V1/THE_EXCHANGE_RECURRING_PATRON_V1_REVISED_RELEASE_MAP.csv",
+      "founderApproval": "2026-10-23 P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "implementation": [
+        "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/SOURCE_ARCHIVES.json"
+      ],
+      "validation": [
+        "tests/theExchangeSeason1Master.test.ts › historical version preservation"
+      ]
+    },
+    {
+      "entryId": "PL-S3",
+      "subject": "S-3 / NR-4 N1 + N2",
+      "decision": "Nights integrated into existing releases: S1-20 Nineteen Eighty-Six, S1-40 The Breakfast Dance. No release added. Longest run without a Night: 19.",
+      "classification": "APPROVED_CANON",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/03_EXCHANGE_NIGHTS_REPAIR_OPTIONS.md",
+      "founderApproval": "2026-10-23 P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "implementation": [
+        "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json S1-12, S1-20, S1-37, S1-40"
+      ],
+      "validation": [
+        "tests/theExchangeSeason1Master.test.ts › approved Nights placement"
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "entryId": "PL-NR-3",
+      "subject": "NR-3 Ten patron scenarios",
+      "decision": "All ten retained. Revisions adopted: PX-04 discreet family (S1-62, S1-64, S1-72), PX-05 Nineteen Eighty-Six (S1-12, S1-20), PX-07 The Breakfast Dance (S1-37, S1-40), PX-08 hat stories (S1-51), PX-01 sponsorship line (S1-45). Original payoffs kept.",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/06_PATRON_SCENARIO_AUDIT.md",
+      "founderApproval": "2026-10-23 P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "implementation": [
+        "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json"
+      ],
+      "validation": [
+        "tests/theExchangeSeason1Master.test.ts › recurring patron scenario retention"
+      ]
+    },
+    {
+      "entryId": "PL-NR-5",
+      "subject": "NR-5 Disclosure setting",
+      "decision": "Richard's disclosure happens at a Night Sloane hosted (S1-20). The chain is unchanged: Royce's inference + Richard → Bunny → Marcus.",
+      "classification": "APPROVED_CANON",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/09_FOUNDER_DECISION_BOARD.md NR-5",
+      "founderApproval": "2026-10-23 P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "implementation": [
+        "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json S1-20, S1-54, S1-55"
+      ],
+      "validation": [
+        "tests/theExchangeSeason1Master.test.ts › Hybrid H continuity"
+      ],
+      "notes": "The founder named all four links; causal mechanics may not change without source-supported authorization."
+    },
+    {
+      "entryId": "PL-NR-6",
+      "subject": "NR-6 Motive emphasis",
+      "decision": "FD-02 leads with the loved-or-useful question. The weight of her word and her mother's withdrawal stay as compatible elements.",
+      "classification": "APPROVED_CANON",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/02_SLOANE_STEP_BACK_ALTERNATIVES.md §8",
+      "founderApproval": "2026-10-23 P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "implementation": [
+        "THE_EXCHANGE/SEASON_1/CHARACTER_DIALOGUE_STYLE_REGISTRY_V1.json"
+      ],
+      "validation": [
+        "tests/theExchangeScreenplaySystem.test.ts › character dialogue registry"
+      ]
+    },
+    {
+      "entryId": "PL-NR-7",
+      "subject": "NR-7 Plan C",
+      "decision": "The 74-release architecture with Plans A, B and C (FD-17) is superseded as the active structure and archived.",
+      "classification": "HISTORICAL_SUPERSEDED",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_FOUNDER_VISION_HYBRID_SHOWRUNNER_V1/THE_EXCHANGE_HYBRID_V1_FOUNDER_DECISION_BOARD.md FD-17",
+      "founderApproval": "2026-10-23 P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "implementation": [
+        "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json history",
+        "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/SOURCE_ARCHIVES.json"
+      ],
+      "validation": [
+        "tests/theExchangeSeason1Master.test.ts › superseded Plan C status"
+      ]
+    },
+    {
+      "entryId": "PL-NR-8",
+      "subject": "NR-8 Two fashion beats",
+      "decision": "S1-43: a Duel look worn as armour. S1-81: Tina in Ophelia's coat (S1-81 chosen over S1-82 on continuity evidence). No release added.",
+      "classification": "PROVISIONAL_IMPLEMENTATION",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/07_WONDER_FASHION_CULTURE_AUDIT.md §targeted improvements",
+      "founderApproval": "2026-10-23 P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "implementation": [
+        "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json approvedAmendments S1-43, S1-81"
+      ],
+      "validation": [
+        "tests/theExchangeSeason1Master.test.ts › 86-release master integrity"
+      ],
+      "notes": "Direction approved; exact placement and wording are this sprint's implementation and await founder confirmation. Designs wait on U-4."
+    },
+    {
+      "entryId": "PL-NR-9",
+      "subject": "NR-9 Tina as friend",
+      "decision": "Shown in S1-81 through one request-free message, not exposition.",
+      "classification": "PROVISIONAL_IMPLEMENTATION",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/08_CHARACTER_LIFE_AND_RELATIONSHIPS.md",
+      "founderApproval": "2026-10-23 P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "implementation": [
+        "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json approvedAmendments S1-81"
+      ],
+      "validation": [
+        "tests/theExchangeSeason1Master.test.ts › 86-release master integrity"
+      ]
+    },
+    {
+      "entryId": "PL-NR-10",
+      "subject": "NR-10 C-11 Category Is",
+      "decision": "Held for Season 2. Not placed in Season 1.",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/06_PATRON_SCENARIO_AUDIT.md C-11",
+      "founderApproval": "2026-10-23 P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "implementation": [
+        "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json (absent by design)"
+      ],
+      "validation": [
+        "tests/theExchangeSeason1Master.test.ts › recurring patron scenario retention"
+      ]
+    },
+    {
+      "entryId": "PL-NR-11",
+      "subject": "NR-11 Reusable library",
+      "decision": "Reusable set, wardrobe and prop library is a prerequisite for scaled screenplay production.",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+      "source": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_SEASON1_STRUCTURAL_RECONCILIATION_V1/12_PRODUCTION_FEASIBILITY.md",
+      "founderApproval": "2026-10-23 P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "implementation": [
+        "THE_EXCHANGE/SEASON_1/PRODUCTION_ASSET_REGISTRY_V1.json"
+      ],
+      "validation": [
+        "tests/theExchangeProductionPipeline.test.ts › asset reference validation"
+      ]
+    }
+  ],
+  "characterDecisions": [
+    {
+      "entryId": "PL-C-AGES",
+      "subject": "Principal ages",
+      "decision": "Sloane 33, Gideon 44, Nadine 40, Richard 66, Kai 34. Vivienne died ten years ago at 55.",
+      "classification": "APPROVED_CANON",
+      "source": "Founder sprint text §04",
+      "founderApproval": "2026-10-23 P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "implementation": [
+        "THE_EXCHANGE/SEASON_1/CHARACTER_DIALOGUE_STYLE_REGISTRY_V1.json",
+        "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json"
+      ],
+      "validation": [
+        "tests/theExchangeSeason1Master.test.ts › canonical promotion"
+      ]
+    },
+    {
+      "entryId": "PL-C-SLOANE",
+      "subject": "Sloane",
+      "decision": "Resumed leadership at 28. Loves impossible requests. Season 1 is about agency, intimacy, receiving care and no longer deciding for everyone; not retirement or defeat.",
+      "classification": "APPROVED_CANON",
+      "source": "Founder sprint text §04",
+      "founderApproval": "2026-10-23 P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "implementation": [
+        "THE_EXCHANGE/SEASON_1/CHARACTER_DIALOGUE_STYLE_REGISTRY_V1.json"
+      ],
+      "validation": [
+        "tests/theExchangeScreenplaySystem.test.ts › character dialogue registry"
+      ]
+    },
+    {
+      "entryId": "PL-C-GIDEON",
+      "subject": "Gideon Shaw",
+      "decision": "Platonic with Sloane. Independent life and future; the overseas choice (S1-85) is his own. Facial identity lock unchanged.",
+      "classification": "APPROVED_CANON",
+      "source": "Founder sprint text §04; GIDEON_CHARACTER_AND_RELATIONSHIP_NUANCE_V1.md",
+      "founderApproval": "2026-10-23 P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "implementation": [
+        "THE_EXCHANGE/SEASON_1/CHARACTER_DIALOGUE_STYLE_REGISTRY_V1.json",
+        "THE_EXCHANGE/SEASON_1/PRODUCTION_ASSET_REGISTRY_V1.json"
+      ],
+      "validation": [
+        "tests/theExchangeScreenplaySystem.test.ts › character dialogue registry"
+      ]
+    },
+    {
+      "entryId": "PL-C-NADINE",
+      "subject": "Nadine",
+      "decision": "Arc: included rather than told last. Hospital COO, sabbatical trajectory and family dynamics preserved as written in the master.",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+      "source": "Founder sprint text §04; hybrid FD-14",
+      "founderApproval": "2026-10-23 P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "implementation": [
+        "THE_EXCHANGE/SEASON_1/CHARACTER_DIALOGUE_STYLE_REGISTRY_V1.json"
+      ],
+      "validation": [
+        "tests/theExchangeScreenplaySystem.test.ts › character dialogue registry"
+      ],
+      "notes": "Partner and children's names in the hybrid remain provisional."
+    },
+    {
+      "entryId": "PL-C-RICHARD",
+      "subject": "Richard",
+      "decision": "Loving father with human flaws; the disclosure never makes him a villain.",
+      "classification": "APPROVED_CANON",
+      "source": "Founder sprint text §04",
+      "founderApproval": "2026-10-23 P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "implementation": [
+        "THE_EXCHANGE/SEASON_1/CHARACTER_DIALOGUE_STYLE_REGISTRY_V1.json"
+      ],
+      "validation": [
+        "tests/theExchangeScreenplaySystem.test.ts › character dialogue registry"
+      ]
+    },
+    {
+      "entryId": "PL-C-VIVIENNE",
+      "subject": "Vivienne",
+      "decision": "Ember and final-exchange mysteries preserved, with writers'-room truth kept distinct from audience knowledge. Her private truth stays open (U-1).",
+      "classification": "APPROVED_CANON",
+      "source": "Founder sprint text §04",
+      "founderApproval": "2026-10-23 P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "implementation": [
+        "THE_EXCHANGE/SEASON_1/KNOWLEDGE_AND_CONTINUITY_LEDGER_V1.json"
+      ],
+      "validation": [
+        "tests/theExchangeSeason1Master.test.ts › canonical promotion"
+      ]
+    },
+    {
+      "entryId": "PL-C-KAI",
+      "subject": "Kai Fontaine",
+      "decision": "Excluded former collaborator; plot function, history with Sloane and emotional accountability preserved.",
+      "classification": "APPROVED_CANON",
+      "source": "Founder sprint text §04",
+      "founderApproval": "2026-10-23 P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "implementation": [
+        "THE_EXCHANGE/SEASON_1/CHARACTER_DIALOGUE_STYLE_REGISTRY_V1.json"
+      ],
+      "validation": [
+        "tests/theExchangeScreenplaySystem.test.ts › character dialogue registry"
+      ]
+    },
+    {
+      "entryId": "PL-C-KAI-LOOK",
+      "subject": "Kai appearance and voice",
+      "decision": "Light-skinned Black man, about 5'10\", hazel-green eyes, braided-back locs with clean barbered edges and lineup, polished grooming, refined formal-casual tailoring, waistcoats, quiet-luxury jewelry, light facial hair. Intelligent, articulate, charming, dryly sarcastic, fluent in Black queer creative culture, capable of direct sincerity. Never reduced to slang, comic relief or stereotype.",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+      "source": "Founder sprint text §04 (current creative direction)",
+      "founderApproval": "2026-10-23 P0.THE-EXCHANGE.OPUS.FOUNDER-CANON-LOCK-AND-SCREENPLAY-ARCHITECTURE.V1",
+      "implementation": [
+        "THE_EXCHANGE/SEASON_1/PRODUCTION_ASSET_REGISTRY_V1.json",
+        "THE_EXCHANGE/SEASON_1/CHARACTER_DIALOGUE_STYLE_REGISTRY_V1.json"
+      ],
+      "validation": [
+        "tests/theExchangeProductionPipeline.test.ts › asset reference validation",
+        "tests/theExchangeScreenplaySystem.test.ts › character dialogue registry"
+      ],
+      "notes": "No facial identity asset exists. His sexuality is not inferred or fixed from styling or speech."
+    }
+  ],
+  "hybridDecisionStatus": [
+    {
+      "id": "FD-01",
+      "subject": "Season 1 spine",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+      "note": "Carried by the approved master"
+    },
+    {
+      "id": "FD-02",
+      "subject": "Sloane's motive",
+      "classification": "APPROVED_CANON",
+      "note": "With the NR-6 emphasis"
+    },
+    {
+      "id": "FD-03",
+      "subject": "Living Legacy mechanics",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+      "note": "S1-75 preserved by founder instruction"
+    },
+    {
+      "id": "FD-04",
+      "subject": "Celestine and Kai; Kai excluded",
+      "classification": "APPROVED_CANON",
+      "note": "Founder §04 names Kai the excluded collaborator"
+    },
+    {
+      "id": "FD-05",
+      "subject": "Ember backstory",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+      "note": "In the master (S1-17, S1-26, S1-58); the hybrid called this the founder's call: confirm (FC-01)"
+    },
+    {
+      "id": "FD-06",
+      "subject": "Vivienne's private truth",
+      "classification": "OPEN_CREATIVE_QUESTION",
+      "note": "U-1"
+    },
+    {
+      "id": "FD-07",
+      "subject": "Cause of death: aneurysm",
+      "classification": "OPEN_CREATIVE_QUESTION",
+      "note": "Not in the master; not ruled"
+    },
+    {
+      "id": "FD-08",
+      "subject": "Breach chain",
+      "classification": "APPROVED_CANON",
+      "note": "NR-5"
+    },
+    {
+      "id": "FD-09",
+      "subject": "Emmett Hale",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+      "note": "Function only; identity open (U-3)"
+    },
+    {
+      "id": "FD-10",
+      "subject": "Unsealing beat and notice rule",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+      "note": "In the master (S1-27, S1-48, S1-52)"
+    },
+    {
+      "id": "FD-11",
+      "subject": "Kai by Threshold; reinstatement denied",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+      "note": "In the master (S1-60, S1-61)"
+    },
+    {
+      "id": "FD-12",
+      "subject": "The Quiet Years",
+      "classification": "OPEN_CREATIVE_QUESTION",
+      "note": "\"Resumed at 28\" is canon (PL-C-SLOANE); \"led at 23, stepped back\" is not in the master and not ruled"
+    },
+    {
+      "id": "FD-13",
+      "subject": "Richard not behind the Ember",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+      "note": "Consistent with PL-C-RICHARD"
+    },
+    {
+      "id": "FD-14",
+      "subject": "Nadine: COO, Kai's lights, sabbatical",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+      "note": "PL-C-NADINE"
+    },
+    {
+      "id": "FD-15",
+      "subject": "Gideon at 27; his mother; offer abroad",
+      "classification": "OPEN_CREATIVE_QUESTION",
+      "note": "Offer abroad and his own choice are canon (PL-C-GIDEON); \"joined at 27\" is not in the master; CC-001B stays open"
+    },
+    {
+      "id": "FD-16",
+      "subject": "Audience reads two lines",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+      "note": "In the master (S1-86)"
+    },
+    {
+      "id": "FD-17",
+      "subject": "74 releases, Plan C",
+      "classification": "HISTORICAL_SUPERSEDED",
+      "note": "NR-7"
+    },
+    {
+      "id": "FD-18",
+      "subject": "Face locks",
+      "classification": "OPEN_CREATIVE_QUESTION",
+      "note": "Production dependency; extend to recurring patrons (U-6)"
+    },
+    {
+      "id": "FD-19",
+      "subject": "Name clearance",
+      "classification": "OPEN_CREATIVE_QUESTION",
+      "note": "Production dependency; extend to post-hybrid names (U-7)"
+    },
+    {
+      "id": "FD-20",
+      "subject": "Narration budget and freeze-frames",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+      "note": "Used as written in the master; approval matrix keeps the device PROVISIONAL_CONCEPT"
+    }
+  ],
+  "founderConfirmationsRequested": [
+    {
+      "id": "FC-01",
+      "item": "FD-05 Ember backstory rewrites world history; the hybrid marked it the founder's call."
+    },
+    {
+      "id": "FC-02",
+      "item": "NR-8 and NR-9 placements in S1-43 and S1-81."
+    },
+    {
+      "id": "FC-03",
+      "item": "FD-07, FD-12 (led at 23) and FD-15 (joined at 27) are not in the master and remain unruled."
+    }
+  ]
+}
