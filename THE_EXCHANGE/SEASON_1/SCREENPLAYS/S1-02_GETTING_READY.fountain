@@ -1,0 +1,156 @@
+---
+{
+  "identity": { "releaseId": "S1-02", "title": "Getting Ready", "arc": "1 — The Host", "version": 1, "approvalStatus": "DRAFT — FOUNDER REVIEW REQUIRED", "runtimeTarget": "1:10" },
+  "story": {
+    "narrativePurpose": "Attachment first: Sloane is funny, glamorous and a little absurd before she is powerful. Gideon arrives as family, not security.",
+    "previousContinuity": "S1-01 rose toward Halcyon House at dusk. Same evening, GE−92.",
+    "openingHook": "Three looks lie across the bed. She spins in each one; two of them don't move with her.",
+    "sceneObjectives": {
+      "S1-02-SC01": "Plant the dance test, dessert first and the dying fern; introduce Sloane; Gideon lets himself in and takes care of her by taking things away.",
+      "S1-02-SC02": "Out the door with the party look locked."
+    },
+    "characterMotivations": { "SLOANE": "Wants to feel like herself before she walks into a room she runs.", "GIDEON": "Wants her on time and unbothered, and shows it through logistics." },
+    "conflict": "Comic and small: the clothes, the cake, the clock.",
+    "revelations": [],
+    "emotionalTurningPoint": "Gideon fastens the clasp without being asked; she lets him.",
+    "endingHook": "The car is downstairs. The party is waiting."
+  },
+  "performance": {
+    "speechNotes": {
+      "SLOANE": "Fast and bright with the clothes; tender and absurd with the fern. The voice-over is dry, a little proud of the joke.",
+      "GIDEON": "Low and unhurried. Every line is a fact. Care disguised as logistics."
+    },
+    "subtext": "She is the most capable person in the city and cannot keep a plant alive. He has known her long enough not to knock.",
+    "pacing": "Quick changes, then a breath with the fern, then the freeze.",
+    "silence": "The clasp is fastened without a word."
+  },
+  "visual": {
+    "intention": "Warm, lived-in bedroom light; the mess of getting ready. Mirror work for the spins.",
+    "keyImages": ["Three looks on the bed", "A spin that moves", "Cake before makeup", "The fern dropping a frond", "Freeze-frame on Sloane"],
+    "requiredReveals": ["The third look moves when she spins"],
+    "continuityRules": ["The party look and necklace are locked from here through S1-05.", "Hair is finished before Gideon arrives; makeup after the cake.", "The clutch leaves with her (pays off S1-05)."]
+  },
+  "production": {
+    "characters": ["SLOANE", "GIDEON"],
+    "locations": ["SET-SLOANE-APARTMENT"],
+    "wardrobe": { "SLOANE": "WD-SLOANE-HOUSE-GE92 then WD-SLOANE-PARTY-GE92 (designs pending U-4)", "GIDEON": "WD-GIDEON-SUIT (design pending U-4)" },
+    "props": ["PR-COCONUT-CAKE", "PR-FERN", "PR-SLOANE-NECKLACE", "PR-SLOANE-CLUTCH"],
+    "effects": ["Freeze-frame with on-screen title"],
+    "crowd": "None.",
+    "shotComplexity": "LOW",
+    "technical": ["Mirror shots", "Two quick wardrobe changes", "One freeze-frame title"]
+  },
+  "continuity": {
+    "factsIntroduced": ["Sloane's dance test for clothes", "Dessert first", "The dying fern", "Gideon has a key and does not knock"],
+    "factsCarried": [],
+    "openQuestions": ["U-4: the three looks, the necklace and Gideon's suit are not designed."],
+    "payoffDependencies": ["S1-03 has never once knocked", "S1-05 the clutch", "S1-62 and S1-72 the dance test", "S1-84 the plants"],
+    "canonReferences": ["Master S1-02", "Gideon platonic (APPROVED_CANON)", "Sloane 33, Gideon 44"]
+  },
+  "editorial": {
+    "pacingRisk": "Low. The voice-over can be trimmed by a beat if the fern lands.",
+    "retentionHook": "Who is she getting this dressed for?",
+    "endingTransition": "Gideon, at the door: \"Car's downstairs. Your hair's perfect. Stop touching it.\""
+  }
+}
+---
+INT. SLOANE'S APARTMENT — BEDROOM — EARLY EVENING
+
+[[ENTER: SLOANE]]
+[[WARDROBE: SLOANE: WD-SLOANE-HOUSE-GE92]]
+
+Three looks lie across the bed. SLOANE LOCKWOOD (33), hair already finished, holds the first against herself at the mirror, steps into it, and spins. The skirt follows half a beat late, like it's being polite.
+
+[[TIME: 5]]
+
+The second look. She spins. Nothing moves at all. She stops mid-turn and regards herself with real disappointment.
+
+[[TIME: 4]]
+
+SLOANE
+(to the mirror)
+If I can't dance in it, it's a costume.
+
+She drops it on top of the first and picks up the third.
+
+[[TIME: 2]]
+
+Half-dressed in the third, a robe over her shoulders, she sits on the end of the bed with a slice of coconut cake. Her makeup brushes wait, untouched, on the dresser.
+
+[[TIME: 5]]
+[[PROP: PR-COCONUT-CAKE: on a plate in Sloane's hand]]
+
+On the windowsill, a fern in a handsome pot is dying with great dignity. A brown frond lets go and drops. Sloane leans toward it, fork still in hand.
+
+[[TIME: 4]]
+[[PROP: PR-FERN: windowsill, one frond fallen]]
+
+SLOANE
+(softly, to the fern)
+Sorry, darling. I believe in you.
+
+[[FREEZE: SLOANE LOCKWOOD.]]
+
+SLOANE (V.O.)
+I can get anyone into any room in this city. I can't keep a fern alive.
+
+Later. The robe is gone. She stands at the mirror in the third look, chin up, fighting the clasp of her necklace. The cake plate sits on the dresser beside her.
+
+[[TIME: 4]]
+[[WARDROBE: SLOANE: WD-SLOANE-PARTY-GE92]]
+[[PROP: PR-COCONUT-CAKE: on the dresser, within reach]]
+[[SFX: A key in the front door. No knock.]]
+[[ENTER: GIDEON]]
+[[WARDROBE: GIDEON: WD-GIDEON-SUIT]]
+
+GIDEON SHAW (44) lets himself in with his own key and appears in the bedroom doorway. He takes in the clothes on the bed without comment.
+
+[[TIME: 3]]
+
+SLOANE
+(not turning around)
+You could knock.
+
+GIDEON
+I could.
+
+He crosses to her, takes the two ends of the chain from her fingers, and fastens the clasp. She lowers her hands and lets him.
+
+[[TIME: 4]]
+[[PROP: PR-SLOANE-NECKLACE: fastened by Gideon]]
+
+She reaches for the cake. He lifts the plate out from under her fork and sets it on top of the wardrobe, out of her reach.
+
+[[TIME: 3]]
+[[PROP: PR-COCONUT-CAKE: on top of the wardrobe, out of reach]]
+
+SLOANE
+I wasn't finished.
+
+GIDEON
+You were.
+
+She sits at the dresser and does her makeup fast and well. Then she touches her hair. Then she touches it again.
+
+[[TIME: 4]]
+[[EXIT: GIDEON]]
+[[EXIT: SLOANE]]
+
+INT. SLOANE'S APARTMENT — DOORWAY — EARLY EVENING
+
+[[ENTER: GIDEON]]
+[[ENTER: SLOANE]]
+
+Gideon holds the front door. Sloane sweeps past the hall table and scoops up her clutch, one hand still at her hair.
+
+[[TIME: 3]]
+[[PROP: PR-SLOANE-CLUTCH: in Sloane's hand]]
+
+GIDEON
+Car's downstairs. Your hair's perfect. Stop touching it.
+
+She takes her hand off her hair, grins at him, and goes.
+
+[[TIME: 2]]
+
+CUT TO:

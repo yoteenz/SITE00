@@ -27,7 +27,7 @@ export function buildProductionManifest(doc: ScreenplayDocument, screenplaySha25
   const sets = [...new Map(doc.scenes.map((s) => [`${s.location}|${s.subLocation ?? ''}`, s])).values()].map((s) => {
     const { set, zone } = resolveSet(assets, s.location, s.subLocation);
     if (!set) blockers.push({ kind: 'SET', subject: s.location, detail: 'unregistered location' });
-    else if (!set.establishingAngles.length) blockers.push({ kind: 'SET', subject: set.setId, detail: 'no approved establishing reference' });
+    else if (!set.establishingAngles?.length) blockers.push({ kind: 'SET', subject: set.setId, detail: 'no approved establishing reference' });
     return { heading: s.heading, setId: set?.setId ?? null, zone, classification: set?.classification ?? null };
   });
   const uniqueSets = [...new Map(sets.map((s) => [`${s.setId ?? s.heading}|${s.zone ?? ''}`, s])).values()];

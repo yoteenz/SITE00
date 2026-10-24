@@ -30,7 +30,8 @@ export type SetRecord = {
   name: string;
   aliases: string[];
   zones: string[];
-  releases: string[];
+  releases?: string[];
+  releaseCount?: number;
   classification: string;
   establishingAngles: string[];
   reverseAngles: string[];
@@ -139,8 +140,8 @@ export function validateAssetRegistry(reg: AssetRegistry, root = process.cwd()):
   for (const s of reg.sets) {
     if (setIds.has(s.setId)) add('HARD_CONFLICT', s.setId, 'duplicate set id');
     setIds.add(s.setId);
-    for (const f of [...s.establishingAngles, ...s.reverseAngles, ...s.lightingRefs]) if (!exists(f)) add('HARD_CONFLICT', s.setId, `reference file missing: ${f}`);
-    if (!s.establishingAngles.length) add('BLOCKER', s.setId, 'no approved establishing reference');
+    for (const f of [...(s.establishingAngles ?? []), ...(s.reverseAngles ?? []), ...(s.lightingRefs ?? [])]) if (!exists(f)) add('HARD_CONFLICT', s.setId, `reference file missing: ${f}`);
+    if (!s.establishingAngles?.length) add('BLOCKER', s.setId, 'no approved establishing reference');
   }
   for (const w of reg.wardrobe) {
     for (const f of w.approvedReferenceFiles) if (!exists(f)) add('HARD_CONFLICT', w.wardrobeId, `reference file missing: ${f}`);

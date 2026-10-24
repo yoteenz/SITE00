@@ -1,0 +1,183 @@
+---
+{
+  "identity": { "releaseId": "S1-03", "title": "The Door", "arc": "1 — The Host", "version": 1, "approvalStatus": "DRAFT — FOUNDER REVIEW REQUIRED", "runtimeTarget": "2:00" },
+  "story": {
+    "narrativePurpose": "Gideon's authority without menace. Introduce Kai and Royce in one move, and show that exclusion is real and has a human face.",
+    "previousContinuity": "S1-02: Gideon collected Sloane; the car took them to Halcyon House. Same night, GE−92, 9 p.m.",
+    "openingHook": "An unexpected visitor: Kai Fontaine waits at the foot of the steps.",
+    "sceneObjectives": {
+      "S1-03-SC01": "Kai, excluded and knowing it, gets a note to Gideon without asking to come in.",
+      "S1-03-SC02": "Royce tries the wrong door; Gideon closes it without raising his voice. Freeze-frame introductions."
+    },
+    "characterMotivations": {
+      "KAI": "Ask for someone else, since he has no standing to ask for himself. Keep his dignity.",
+      "GIDEON": "Hold the door without humiliating anyone at it.",
+      "ROYCE": "Get five minutes with Sloane by charm and speed; enjoy the attempt either way."
+    },
+    "conflict": "Two men at the door: one who knows he can't come in, one who assumes he can.",
+    "revelations": ["Kai is excluded.", "Royce wants Sloane's room."],
+    "emotionalTurningPoint": "Gideon takes the note after refusing the man.",
+    "endingHook": "What does the note say, and will Sloane read it?"
+  },
+  "performance": {
+    "speechNotes": {
+      "KAI": "Articulate, dry, self-aware; the sarcasm is aimed at his own situation and stops before self-pity. One plain line.",
+      "GIDEON": "Statements, not threats. Courteous to both men. Amused by Royce.",
+      "ROYCE": "Showman's charm. Calls her Lockwood. Delighted with himself even when refused.",
+      "SLOANE": "Voice-over only: affectionate, a little proprietary, quick."
+    },
+    "subtext": "Gideon refuses the man and accepts the message: the door is closed, the person is not insulted.",
+    "pacing": "Unhurried on the steps; quicker inside with Royce; two clean freezes.",
+    "silence": "Kai holds the note out and waits. Gideon decides without speaking."
+  },
+  "visual": {
+    "intention": "Gold-lit facade, arriving guests, one man standing apart at the foot of the steps. Inside, the foyer and the private stair.",
+    "keyImages": ["Kai alone at the foot of the steps", "The note pressed into Gideon's hand", "Gideon in Royce's path, hands at his sides", "Two freeze-frames"],
+    "requiredReveals": ["The folded note changes hands credibly"],
+    "continuityRules": ["Gideon keeps the note on his person from here to S1-04.", "Sloane is not seen; only the balcony light."]
+  },
+  "production": {
+    "characters": ["GIDEON", "KAI", "ROYCE", "SLOANE", "GUESTS", "ROYCE'S DATE"],
+    "locations": ["SET-HALCYON-HOUSE"],
+    "wardrobe": { "GIDEON": "WD-GIDEON-SUIT", "KAI": "WD-KAI-GE92 (founder style direction; design pending U-4)", "ROYCE": "WD-ROYCE-GE92 (design pending U-4)" },
+    "props": ["PR-KAI-NOTE"],
+    "effects": ["Two freeze-frames with on-screen titles"],
+    "crowd": "Arriving guests on the steps and in the foyer.",
+    "shotComplexity": "HIGH",
+    "technical": ["Exterior steps at night", "Arriving crowd", "Two freeze-frames", "No approved face asset for Kai or Royce"]
+  },
+  "continuity": {
+    "factsIntroduced": ["Kai is excluded and knows it.", "Gideon has never once knocked.", "Royce runs the most popular room in the city."],
+    "factsCarried": ["Gideon does not knock (S1-02)."],
+    "openQuestions": ["U-6: no face lock for Royce or the patrons.", "Kai has no approved face asset; founder style direction only."],
+    "payoffDependencies": ["S1-04: Gideon holds up the note.", "S1-05: Sloane reads it.", "S1-09: Royce comes back through the proper door."],
+    "canonReferences": ["Master S1-03", "Kai 34, Gideon 44", "KF-07: Sloane's personal role in the exclusion is not stated before S1-13", "KF-08: the note's content is not revealed before S1-05"]
+  },
+  "editorial": {
+    "pacingRisk": "Medium. The crowd and two freezes make this the longest scene in the batch.",
+    "retentionHook": "A note nobody has read yet.",
+    "endingTransition": "Gideon pockets the note and glances up at the balcony."
+  }
+}
+---
+EXT. HALCYON HOUSE — FRONT STEPS — NIGHT
+
+Halcyon House at nine o'clock: a restored 1920s Black-owned hotel, every window lit. Guests climb the front steps in pairs and threes, dressed for the best night of the year. Music spills out each time the door opens.
+
+[[TIME: 6]]
+[[MUSIC: The band inside, muffled by the door; it swells each time the door opens.]]
+[[ENTER: GIDEON]]
+[[WARDROBE: GIDEON: WD-GIDEON-SUIT]]
+
+At the top of the steps, GIDEON SHAW greets a couple by name and holds the door. Over their shoulders, something at the bottom of the steps stops him.
+
+[[TIME: 4]]
+[[ENTER: KAI]]
+[[WARDROBE: KAI: WD-KAI-GE92]]
+
+At the foot of the steps, apart from the line, KAI FONTAINE (34) waits with his hands in his pockets. Tailored waistcoat, locs braided back, lineup sharp. A man dressed for a door he knows will not open.
+
+[[TIME: 5]]
+
+Gideon says a quiet word to the doorman and walks down the steps. He doesn't hurry.
+
+[[TIME: 4]]
+
+KAI
+(as Gideon reaches the bottom step)
+Before you say it—
+
+GIDEON
+Not tonight, Kai.
+
+KAI
+And there it is.
+(beat)
+I'm not asking to come in. I know where I stand. Out here, apparently, in a very good waistcoat.
+
+[[REACTION: GIDEON — The smallest flicker of a smile, gone at once.]]
+
+Kai takes a folded note from inside his waistcoat and holds it out. Gideon doesn't take it. Kai doesn't lower it.
+
+[[TIME: 4]]
+[[INSERT: The folded note between them, held steady.]]
+
+KAI
+It isn't for me. That's the only reason I'm standing here.
+
+[[HOLD: 1.5]]
+
+Gideon takes it. Kai keeps his fingers on the note a second longer than he needs to, pressing it into Gideon's palm, then lets go.
+
+[[TIME: 4]]
+[[HANDOFF: PR-KAI-NOTE: KAI → GIDEON]]
+
+GIDEON
+Go home, Kai.
+
+KAI
+(a small, dry smile)
+Working on it.
+
+He turns and walks away down the street, past the line of arriving guests, and does not look back.
+
+[[TIME: 4]]
+[[EXIT: KAI]]
+
+INT. HALCYON HOUSE — DOOR — NIGHT
+
+[[ENTER: GIDEON]]
+[[ENTER: ROYCE]]
+[[WARDROBE: ROYCE: WD-ROYCE-GE92]]
+
+The foyer: coats, laughter, the ballroom roaring beyond a pair of doors. A private staircase curves up toward the balcony. Gideon comes in from the steps with the note still in his hand.
+
+[[TIME: 5]]
+
+ROYCE BELL (46), somebody's plus-one and dressed to be noticed, peels away from his date at the coat check and heads straight for the staircase, two steps at a time.
+
+[[TIME: 4]]
+
+Gideon is simply there, on the second step, in his path. He doesn't touch him. His hands stay at his sides.
+
+[[TIME: 3]]
+
+ROYCE
+(all charm)
+Gideon Shaw. I was hoping it'd be you. Five minutes with Lockwood. She'll thank you for it.
+
+GIDEON
+There's a door for that, Royce. It isn't this one.
+
+[[FREEZE: GIDEON SHAW: My father's right hand. My left. Has never once knocked.]]
+
+SLOANE (V.O.)
+My father's right hand. My left. Has never once knocked.
+
+[[FREEZE: ROYCE BELL: Runs the most popular room in the city. Would like mine.]]
+
+SLOANE (V.O.)
+Runs the most popular room in the city. Would like mine.
+
+Motion resumes. Royce laughs, genuinely delighted, and steps back down.
+
+[[TIME: 3]]
+
+ROYCE
+Worth a try.
+(lifting a glass from a passing tray)
+When you get tired of standing on her stairs, mine are wider.
+
+He goes back to his date and raises the glass to Gideon across the foyer.
+
+[[TIME: 3]]
+[[EXIT: ROYCE]]
+
+[[SHOT: MEDIUM — SLOW PUSH]]
+
+Alone at the foot of the staircase, Gideon looks at the note. He slips it into his inside jacket pocket, then glances up the stairs toward the balcony, where the light and the music are.
+
+[[TIME: 5]]
+[[PROP: PR-KAI-NOTE: Gideon's inside jacket pocket]]
+
+CUT TO:

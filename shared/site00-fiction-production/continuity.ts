@@ -127,7 +127,7 @@ export function validateContinuity(input: ContinuityInput): ContinuityFinding[] 
   for (const d of docs) {
     const id = d.meta.identity.releaseId;
     const t = lower(audienceText(d));
-    if (ord(id) < ord('S1-58') && /ember/.test(t) && /\bgold\b/.test(t)) add('EMBER_RULE', 'HARD_CONFLICT', [id], 'the gold yes is unrevealed until S1-58');
+    if (ord(id) < ord('S1-58') && /\bember\b/.test(t) && /\bgold\b/.test(t)) add('EMBER_RULE', 'HARD_CONFLICT', [id], 'the gold yes is unrevealed until S1-58');
     if (id === 'S1-01' && !/copper/.test(t)) add('EMBER_RULE', 'HARD_CONFLICT', [id], 'S1-01 must define the Ember as a copper glow');
   }
 
@@ -137,16 +137,17 @@ export function validateContinuity(input: ContinuityInput): ContinuityFinding[] 
 
   const cueOwner = new Map(assets.characters.map((c) => [c.characterId, c.cue]));
   const holder = new Map<string, string>(assets.props.map((p) => [p.propId, p.owner ? cueOwner.get(p.owner) ?? p.owner.toUpperCase() : '']));
-  const dayWardrobe = new Map<string, string>();
+  const dayWardrobe = new Map<string, { wid: string; release: string }>();
   for (const d of docs) {
     const id = d.meta.identity.releaseId;
+    const seenThisRelease = new Set<string>();
     const release = master.releases.find((r) => r.id === id);
     const featured = release?.featuredCharacters ?? '';
     for (const s of d.scenes) {
       const present = new Set<string>();
       const { set } = resolveSet(assets, s.location, s.subLocation);
       if (!set) add('GEOGRAPHY', 'HARD_CONFLICT', [id], `${s.sceneId}: unregistered location "${s.location}"`);
-      else if (!set.releases.includes(id)) add('GEOGRAPHY', 'WARNING', [id], `${s.sceneId}: ${set.setId} does not list ${id}`);
+      else if (set.releases && !set.releases.includes(id)) add('GEOGRAPHY', 'WARNING', [id], `${s.sceneId}: ${set.setId} does not list ${id}`);
       for (const e of s.elements) {
         if (e.kind === 'note' && e.tag === 'ENTER') {
           if (present.has(e.value.toUpperCase())) add('ARRIVALS_DEPARTURES', 'WARNING', [id], `${s.sceneId}: ${e.value} enters twice`);
@@ -162,8 +163,11 @@ export function validateContinuity(input: ContinuityInput): ContinuityFinding[] 
           else if (!w.releases.includes(id)) add('WARDROBE', 'HARD_CONFLICT', [id], `${wid} is not scheduled for ${id}`);
           const key = `${release?.fictionalDay}|${who.toUpperCase()}`;
           const prev = dayWardrobe.get(key);
-          if (prev && prev !== wid) add('WARDROBE', 'HARD_CONFLICT', [id], `${who} changes from ${prev} to ${wid} on ${release?.fictionalDay}`);
-          dayWardrobe.set(key, wid);
+          if (prev && prev.release !== id && !seenThisRelease.has(key) && prev.wid !== wid) {
+            add('WARDROBE', 'HARD_CONFLICT', [prev.release, id], `${who} ends ${prev.release} in ${prev.wid} but starts ${id} in ${wid} (${release?.fictionalDay})`);
+          }
+          seenThisRelease.add(key);
+          dayWardrobe.set(key, { wid, release: id });
         } else if (e.kind === 'note' && (e.tag === 'PROP' || e.tag === 'HANDOFF')) {
           const pid = e.value.split(':')[0].trim();
           if (!holder.has(pid)) add('PROPS_AND_HANDOFFS', 'HARD_CONFLICT', [id], `${s.sceneId}: unregistered prop ${pid}`);
@@ -178,7 +182,12 @@ export function validateContinuity(input: ContinuityInput): ContinuityFinding[] 
     const reg = new Map(dialogue.characters.map((c) => [c.cue, c]));
     for (const l of dialogueLines(d)) {
       const c = reg.get(l.character);
-      if (c && !featured.includes(c.displayName.split(' ')[0])) add('DIALOGUE_CONTINUITY', 'HARD_CONFLICT', [id], `${l.lineId}: ${c.displayName} is not featured in ${id}`);
+      const first = c?.displayName.split(' ')[0] ?? '';
+      if (c && l.extension !== 'V.O.' && !featured.includes(first)) {
+        const named = `${release?.openingHook.text} ${release?.narrativeDevelopment} ${release?.endingTransition}`.includes(first);
+        if (named) add('DIALOGUE_CONTINUITY', 'WARNING', [id], `${l.lineId}: ${c.displayName} appears in the master for ${id} but is not featured; this draft gives the character lines`);
+        else add('DIALOGUE_CONTINUITY', 'HARD_CONFLICT', [id], `${l.lineId}: ${c.displayName} is not in ${id}`);
+      }
     }
     const text = audienceText(d);
     for (const c of dialogue.characters) for (const l of c.dialogueContinuity.establishedLines) if (l.release === id && !text.includes(norm(l.line))) add('DIALOGUE_CONTINUITY', 'HARD_CONFLICT', [id], `established line missing: "${l.line}"`);

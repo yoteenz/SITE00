@@ -108,7 +108,7 @@ export function planShots(doc: ScreenplayDocument, assets: AssetRegistry, quotes
 
     scene.elements.forEach((e, i) => {
       if (e.kind === 'action') {
-        const type: ShotType = i === 0 && locationChanged ? 'ESTABLISHING' : 'ACTION';
+        const type: ShotType = drafts.length === 0 && locationChanged ? 'ESTABLISHING' : 'ACTION';
         push(type, e.text.split('\n')[0].slice(0, 140), elementSec(e), [...present].sort(), { blocking: e.text });
       } else if (e.kind === 'transition') {
         push('TRANSITION', e.text, RUNTIME_MODEL.transitionSec, []);
@@ -187,7 +187,7 @@ export function planShots(doc: ScreenplayDocument, assets: AssetRegistry, quotes
         }
       }
     });
-    if (scene.elements[0]?.kind !== 'action') warnings.push(`${scene.sceneId}: opens without an establishing action paragraph`);
+    if (scene.elements.find((e) => e.kind !== 'note')?.kind !== 'action') warnings.push(`${scene.sceneId}: opens without an establishing action paragraph`);
 
     let n = 0;
     for (const d of drafts) {

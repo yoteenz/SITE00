@@ -1,0 +1,168 @@
+---
+{
+  "identity": { "releaseId": "S1-04", "title": "The Host", "arc": "1 — The Host", "version": 1, "approvalStatus": "DRAFT — FOUNDER REVIEW REQUIRED", "runtimeTarget": "1:30" },
+  "story": {
+    "narrativePurpose": "Show Sloane's gift, the party people dream about, and plant the weight of her word: one offhand verdict moves a market.",
+    "previousContinuity": "S1-03: Gideon pocketed Kai's note. Same night, GE−92.",
+    "openingHook": "Sloane in her element. She brings together a retired jazz pianist and a young producer who has been sampling his records without knowing he's alive.",
+    "sceneObjectives": {
+      "S1-04-SC01": "Sloane makes a connection, dances a chorus with a stranger, says one word that moves a market, and is handed the note."
+    },
+    "characterMotivations": {
+      "SLOANE": "Make the right people meet and watch what happens. Have fun doing it.",
+      "PIANIST": "Enjoy being discovered alive, and defend his chord.",
+      "PRODUCER": "Survive meeting his hero and defend his edit.",
+      "GIDEON": "Deliver the note without making a scene of it."
+    },
+    "conflict": "Joyful on the surface; underneath, her word lands harder than she means it to.",
+    "revelations": ["Two guests check the label after one word from her."],
+    "emotionalTurningPoint": "Sloane sees the guests reading the label and her smile holds a fraction too long.",
+    "endingHook": "Gideon holds up the note: who is it from?"
+  },
+  "performance": {
+    "speechNotes": {
+      "SLOANE": "Fast, warm, mischievous in public. \"Brave.\" is light and passing, not a judgment she stops to deliver.",
+      "PIANIST": "Unhurried, amused, a lifetime of being right about chords.",
+      "PRODUCER": "Starstruck, then stubborn.",
+      "GIDEON": "Three words. Quiet enough that only she hears."
+    },
+    "subtext": "Everyone in the room watches what she likes.",
+    "pacing": "Fast introduction, a full breath of dancing, the passing word, then the stop when the note appears.",
+    "silence": "The label-check plays without dialogue."
+  },
+  "visual": {
+    "intention": "Emerald walls, a brass bandstand, a crowded floor: the legendary party. The camera travels with Sloane through the crowd.",
+    "keyImages": ["Pianist and producer arguing, delighted", "Sloane dancing with a stranger", "The orange jacket", "Two guests reading the label", "The note held up between Gideon's fingers"],
+    "requiredReveals": ["The weight of her word"],
+    "continuityRules": ["Sloane's party look from S1-02.", "The orange jacket pays off in S1-06 and S1-28.", "The note stays with Gideon until the balcony (S1-05)."]
+  },
+  "production": {
+    "characters": ["SLOANE", "GIDEON", "PIANIST", "PRODUCER", "STRANGER", "MAN IN THE ORANGE JACKET", "GUESTS", "HOUSE BAND"],
+    "locations": ["SET-HALCYON-HOUSE"],
+    "wardrobe": { "SLOANE": "WD-SLOANE-PARTY-GE92", "GIDEON": "WD-GIDEON-SUIT", "MAN IN THE ORANGE JACKET": "WD-ORANGE-JACKET" },
+    "props": ["PR-KAI-NOTE"],
+    "effects": [],
+    "crowd": "A full dance floor, a house band and guests at every distance.",
+    "shotComplexity": "VERY HIGH",
+    "technical": ["Crowd", "Partner dancing", "Live band", "Choreography", "Multi-speaker lip-sync"]
+  },
+  "continuity": {
+    "factsIntroduced": ["Sloane's offhand verdicts move markets."],
+    "factsCarried": ["Gideon holds Kai's note (S1-03)."],
+    "openQuestions": ["U-4: the orange jacket and Sloane's look are not designed.", "The pianist, producer and stranger are uncast and unnamed by design."],
+    "payoffDependencies": ["S1-06: the tailor loses two clients because of \"Brave.\"", "S1-05: the note."],
+    "canonReferences": ["Master S1-04", "Legendary-party principle"]
+  },
+  "editorial": {
+    "pacingRisk": "High. A full chorus at dance tempo runs 30–45 seconds; this draft gives it 24 with two cuts. The founder decides whether to protect an unbroken chorus.",
+    "retentionHook": "The note.",
+    "endingTransition": "Gideon appears at her elbow and holds up the note."
+  }
+}
+---
+INT. HALCYON HOUSE — BALLROOM — NIGHT
+
+[[SHOT: WIDE — TRAVELLING]]
+
+The ballroom: emerald walls, a brass bandstand, a floor so crowded the dancers move like one animal. The HOUSE BAND is in full swing.
+
+[[TIME: 5]]
+[[MUSIC: House band, full swing; carries the whole release.]]
+[[ENTER: SLOANE]]
+[[WARDROBE: SLOANE: WD-SLOANE-PARTY-GE92]]
+
+Sloane moves through it like weather: a hand on a shoulder, a name remembered, a drink rescued, never quite stopping. She has a YOUNG PRODUCER by the elbow and is steering him toward the bar.
+
+[[TIME: 5]]
+[[ENTER: PRODUCER]]
+[[ENTER: PIANIST]]
+
+SLOANE
+That piano loop you've built three albums on?
+
+PRODUCER
+Yeah?
+
+She turns him to face a RETIRED JAZZ PIANIST holding court at the end of the bar.
+
+[[TIME: 2]]
+
+SLOANE
+He's alive. Say hello.
+
+[[REACTION: PRODUCER — Frozen, starstruck.]]
+
+The pianist offers his hand, enjoying this enormously.
+
+PIANIST
+You cut the ninth out of my chord.
+
+PRODUCER
+It was crowding the bass.
+
+PIANIST
+It was holding the bass up.
+
+PRODUCER
+Then why does my version work?
+
+PIANIST
+Because you kept the eleventh. Sit down. I'll show you.
+
+They lean in, already arguing, both delighted. Sloane backs away, leaving them to it.
+
+[[TIME: 3]]
+[[REACTION: SLOANE — Watching them argue about one chord, completely happy.]]
+[[EXIT: PRODUCER]]
+[[EXIT: PIANIST]]
+[[ENTER: STRANGER]]
+
+The band kicks into something faster. A STRANGER offers his hand. Sloane takes it without asking his name.
+
+[[TIME: 3]]
+[[SHOT: MEDIUM WIDE — CIRCLING]]
+
+They dance a full chorus. She's good, really good, and so is he. The floor opens a little around them without anyone deciding to. On the last bar he spins her out, and she comes back on the beat.
+
+[[TIME: 24]]
+[[EXIT: STRANGER]]
+[[ENTER: MAN IN THE ORANGE JACKET]]
+[[WARDROBE: MAN IN THE ORANGE JACKET: WD-ORANGE-JACKET]]
+
+Flushed and laughing, Sloane comes off the floor and passes a MAN IN A BOLD ORANGE JACKET. She doesn't stop.
+
+[[TIME: 3]]
+
+SLOANE
+(lightly, passing)
+Brave.
+
+[[ENTER: GUESTS]]
+
+Behind her, two GUESTS immediately lean in to read the label inside his collar. The man in the jacket stands very still and lets them.
+
+[[TIME: 4]]
+[[INSERT: Fingers turning back an orange collar to find the label.]]
+
+Sloane glances back and sees it. Her smile holds a fraction too long.
+
+[[TIME: 3]]
+[[ENTER: GIDEON]]
+[[WARDROBE: GIDEON: WD-GIDEON-SUIT]]
+
+Gideon is at her elbow, the way he always is, and holds up the folded note between two fingers.
+
+[[TIME: 3]]
+[[PROP: PR-KAI-NOTE: held up between Gideon's fingers]]
+
+SLOANE
+Who's it from?
+
+GIDEON
+Not here.
+
+She looks at the note, then at him, and the party noise seems to drop a little.
+
+[[TIME: 3]]
+
+CUT TO:
