@@ -4,6 +4,11 @@
   "status": "DRAFT — FOUNDER REVIEW REQUIRED",
   "classification": "PROVISIONAL_IMPLEMENTATION",
   "note": "Planning document. No shot has been generated.",
+  "supersededBy": {
+    "path": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/SHOT_LIST_V1.json",
+    "packet": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+    "note": "Kept for history. The frame-accurate directorial plan replaces this auto-planned list for production and costing."
+  },
   "screenplay": {
     "path": "THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-01_DUSK.fountain",
     "sha256": "bf14febace441fde29823294ac5329656b7e31c8b933553573f88bdef443537e",

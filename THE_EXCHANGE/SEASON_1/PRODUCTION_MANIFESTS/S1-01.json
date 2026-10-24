@@ -828,5 +828,10 @@
       "subject": "PR-NEIGHBOUR-PHONE",
       "detail": "DESIGN_REQUIRED"
     }
-  ]
+  ],
+  "supersededBy": {
+    "path": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/SHOT_LIST_V1.json",
+    "packet": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+    "note": "Kept for history. The frame-accurate directorial plan replaces this auto-planned list for production and costing."
+  }
 }

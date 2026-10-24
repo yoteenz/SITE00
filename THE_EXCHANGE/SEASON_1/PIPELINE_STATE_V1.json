@@ -238,15 +238,15 @@
           "order": 5,
           "status": "DRAFT_PENDING_UPSTREAM",
           "blockers": [],
-          "artifact": "THE_EXCHANGE/SEASON_1/SHOT_LISTS/S1-01.json",
-          "artifactSha256": "ed4b088f54b3c39b20ee70bb48c429a3663214fd107469593c6cc1d139a265cd",
+          "artifact": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/SHOT_LIST_V1.json",
+          "artifactSha256": "d4e68302d11077f03578eac5006c4e5779fd28f12e1f7e0244a266176486e445",
           "version": 1,
           "lineage": [
             "bf14febace441fde29823294ac5329656b7e31c8b933553573f88bdef443537e"
           ],
           "estimatedCost": {
-            "usd": 25.2,
-            "credits": 3906
+            "usd": 1.48,
+            "credits": 3400
           },
           "actualCost": null
         },

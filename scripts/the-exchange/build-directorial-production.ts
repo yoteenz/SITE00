@@ -46,3 +46,42 @@ json(`${P.season}/FUTURE_PRODUCTION_DEPENDENCIES_V1.json`, {
   census,
   byRelease: X.futureDependencies(graph, master),
 });
+
+const D = X.Directorial;
+const kbProblems = D.validateKnowledgeBase();
+if (kbProblems.length) throw new Error(`knowledge base: ${kbProblems.join('; ')}`);
+json(`${P.season}/PRODUCTION_KNOWLEDGE_BASE_V1.json`, { schemaVersion: D.DIRECTORIAL_SCHEMA_VERSION, version: D.KNOWLEDGE_BASE_VERSION, rule: 'Recommendations cite recorded outcomes and founder decisions; nothing here is model training.', entries: D.PRODUCTION_KNOWLEDGE });
+
+const activePath = `${P.season}/ACTIVE_PRODUCTION_V1.json`;
+const releaseIds = master.releases.map((r) => r.id);
+const active: X.Directorial.ActiveProduction = fs.existsSync(X.repoPath(activePath, root)) ? JSON.parse(read(activePath)) : D.initialActiveProduction(releaseIds, ACTIVE);
+if (active.activeUnit !== ACTIVE || active.units.filter((u) => u.status === 'ACTIVE').length !== 1) throw new Error(`active production: expected exactly ${ACTIVE} active, found ${active.activeUnit}`);
+json(activePath, active);
+
+const approved = X.approvedAssetIds(cast);
+for (const unitId of Object.keys(X.DIRECTED_SCENES)) {
+  const b = X.directedSceneBundle(unitId, root);
+  const { plan } = b.direction;
+  const people = census.filter((p) => p.releases.includes(plan.releaseId));
+  const packet = D.buildScenePacket(b.direction, {
+    review: b.review,
+    budget: b.budget,
+    approvedAssets: approved,
+    cast: { people, rule: 'Scene-scoped inhabitants get performance direction and no permanent package (sprint V2 §28).', registryCharacters: cast.characters.filter((c) => people.some((p) => p.registryId === c.characterId)) },
+    assets: { sets: assets.sets.filter((s) => b.assetRefs.sets.includes(s.setId)), props: assets.props.filter((p) => b.assetRefs.props.includes(p.propId)), approvedAssetIds: [...approved].sort() },
+    screenplayText: read(plan.screenplay.path),
+    overview: b.overview,
+  });
+  if (packet.validation.errors) throw new Error(`${unitId} packet: ${packet.validation.findings.filter((f) => f.severity === 'ERROR').map((f) => `${f.code} ${f.subject}`).join('; ')}`);
+  const out = (file: string) => X.scenePath(unitId, file);
+  json(out(X.SCENE_FILES.packet), packet);
+  json(out(X.SCENE_FILES.timeline), { schemaVersion: D.DIRECTORIAL_SCHEMA_VERSION, unitId, fps: plan.fps, durationFrames: plan.durationFrames, events: D.deriveTimelineEvents(plan), editJoins: D.editJoins(plan) });
+  json(out(X.SCENE_FILES.multitrack), D.buildMultitrack(plan));
+  json(out(X.SCENE_FILES.shotList), b.shotList);
+  write(out(X.SCENE_FILES.shotListCsv), b.shotListCsv);
+  json(out(X.SCENE_FILES.keyframes), { schemaVersion: D.DIRECTORIAL_SCHEMA_VERSION, unitId, counts: D.keyframeCounts(plan), productionOrder: D.keyframeProductionOrder(plan), keyframes: packet.sections['4_SHOT_STORYBOARD'].keyframes });
+  write(out(X.SCENE_FILES.cueSheet), b.cueSheetCsv);
+  json(out(X.SCENE_FILES.budget), b.budget);
+  json(out(X.SCENE_FILES.review), b.review);
+  console.log(`${unitId}: ${plan.shots.length} shots, ${packet.validation.errors} errors, ${packet.validation.warnings} warnings, ${packet.validation.advisories} advisories, ${b.budget.estimated.credits} credits estimated`);
+}

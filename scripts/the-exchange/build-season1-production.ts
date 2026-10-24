@@ -30,7 +30,7 @@ const docs = X.loadScreenplays(root);
 const silentReleases = master.releases.filter((r) => X.silentRelease(master, r.id)).map((r) => r.id);
 const continuity = X.validateContinuity({ master, dialogue, assets, screenplays: docs });
 
-type Built = { doc: X.ScreenplayDocument; sha256: string; findings: X.ScreenplayFinding[]; runtime: X.RuntimeEstimate; plan: X.ShotPlan; manifest: X.ProductionManifest; shotPath: string };
+type Built = { doc: X.ScreenplayDocument; sha256: string; findings: X.ScreenplayFinding[]; runtime: X.RuntimeEstimate; plan: X.ShotPlan; manifest: X.ProductionManifest; shotPath: string; directed: X.DirectedSceneBundle | null };
 const built = new Map<string, Built>();
 for (const doc of docs) {
   const id = doc.meta.identity.releaseId;
@@ -38,6 +38,11 @@ for (const doc of docs) {
   const findings = X.validateScreenplay(doc, { master, dialogue, assets, silentReleases });
   const runtime = X.estimateRuntime(doc);
   const plan = X.planShots(doc, assets, quotes);
+  const directed = X.DIRECTED_SCENES[id] ? X.directedSceneBundle(id, root) : null;
+  if (directed && directed.direction.plan.screenplay.version !== doc.meta.identity.version) throw new Error(`${id}: directorial plan follows screenplay v${directed.direction.plan.screenplay.version}; the file is v${doc.meta.identity.version}`);
+  const supersededBy = directed
+    ? { path: X.scenePath(id, X.SCENE_FILES.shotList), packet: X.scenePath(id, X.SCENE_FILES.packet), note: 'Kept for history. The frame-accurate directorial plan replaces this auto-planned list for production and costing.' }
+    : undefined;
   const shotPath = `${P.shotLists}/${id}.json`;
   json(shotPath, {
     schemaVersion: X.FICTION_PRODUCTION_SCHEMA_VERSION,
@@ -45,6 +50,7 @@ for (const doc of docs) {
     status: X.DRAFT_STATUS,
     classification: 'PROVISIONAL_IMPLEMENTATION',
     note: 'Planning document. No shot has been generated.',
+    ...(supersededBy ? { supersededBy } : {}),
     screenplay: { path: doc.sourcePath, sha256, version: doc.meta.identity.version },
     runtime,
     totals: { shots: plan.shots.length, durationSec: plan.totalSec, ...X.summarizeCost(plan) },
@@ -52,8 +58,8 @@ for (const doc of docs) {
     shots: plan.shots,
   });
   const manifest = X.buildProductionManifest(doc, sha256, plan, assets, dialogue);
-  json(`${P.manifests}/${id}.json`, manifest);
-  built.set(id, { doc, sha256, findings, runtime, plan, manifest, shotPath });
+  json(`${P.manifests}/${id}.json`, supersededBy ? { ...manifest, supersededBy } : manifest);
+  built.set(id, { doc, sha256, findings, runtime, plan, manifest, shotPath, directed });
 }
 
 const priorBook: X.ApprovalBook | null = fs.existsSync(X.repoPath(P.approvals, root)) ? JSON.parse(read(P.approvals)) : null;
@@ -116,7 +122,11 @@ const pipelineReleases = master.releases.map((r) => {
     approval: (d) => (d === 'CHARACTER_VOICE' ? speakers.flatMap((cue) => (cueToId.has(cue) ? states(d, cueToId.get(cue)!) : ['NOT_SUBMITTED' as const])) : states(d, r.id)),
     screenplay: b ? { path: b.doc.sourcePath, sha256: b.sha256, version: b.doc.meta.identity.version } : null,
     hardFindings: hard,
-    shotList: b ? { path: b.shotPath, sha256: sha(read(b.shotPath)), screenplaySha256: b.sha256, estimatedCost: { usd: b.manifest.shots.estimatedUsd, credits: b.manifest.shots.estimatedCredits } } : null,
+    shotList: !b
+      ? null
+      : b.directed
+        ? { path: X.scenePath(r.id, X.SCENE_FILES.shotList), sha256: sha(X.serializeJson(b.directed.shotList)), screenplaySha256: b.sha256, estimatedCost: { usd: b.directed.budget.estimated.usd, credits: b.directed.budget.estimated.credits } }
+        : { path: b.shotPath, sha256: sha(read(b.shotPath)), screenplaySha256: b.sha256, estimatedCost: { usd: b.manifest.shots.estimatedUsd, credits: b.manifest.shots.estimatedCredits } },
     assetBlockers: [...new Set(assetBlockers)],
     voiceBlockers: b ? [...b.manifest.blockers.filter((x) => x.kind === 'CHARACTER_VOICE').map((x) => `${x.subject}: ${x.detail}`), 'VOICE takes: ElevenLabs direct access BLOCKED_NO_CREDENTIALS in this environment; takes are recorded in the founder workspace and imported.'] : [],
     spendAuthorized: () => false,

@@ -76,7 +76,9 @@ describe('THE EXCHANGE production pipeline', () => {
       const id = d.meta.identity.releaseId;
       const plan = X.planShots(d, assets, quotes);
       const m = manifestOf(id);
-      expect(readJson(`${P.manifests}/${id}.json`)).toEqual(JSON.parse(JSON.stringify(m)));
+      const { supersededBy, ...committed } = readJson<X.ProductionManifest & { supersededBy?: { path: string } }>(`${P.manifests}/${id}.json`);
+      expect(committed).toEqual(JSON.parse(JSON.stringify(m)));
+      expect(supersededBy?.path ?? null).toBe(X.DIRECTED_SCENES[id] ? X.scenePath(id, X.SCENE_FILES.shotList) : null);
       expect(m.status).toBe(X.DRAFT_STATUS);
       expect(m.shots.count).toBe(plan.shots.length);
       expect(m.shots.actualCost).toBeNull();
