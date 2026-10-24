@@ -8,8 +8,9 @@ import { BACKGROUND_GROUPS, MEMORY_INVENTORY } from './memoryInventory.js';
 import { PRIORITIES, SECOND_TIER } from './priorities.js';
 import { PROPOSALS } from './proposals/index.js';
 import { RELEASE_JUDGMENTS } from './releases.js';
-import { AUDIT_SOURCES, S101_PACKET, SCENE_INDEX } from './sources.js';
+import { AUDIT_SOURCES, S101_PACKET, SCENE_INDEX, SOURCE_DISCREPANCIES } from './sources.js';
 import { EXISTING_TECHNOLOGY } from './technology.js';
+import { WORLD_DENSITY, type WorldLayer } from './world.js';
 import {
   AUDIT_BASELINE_RELEASES,
   AUDIT_BASELINE_RUNTIME_SEC,
@@ -37,6 +38,7 @@ export type AuditData = {
   secondTier: string[];
   memory: MemoryMoment[];
   groups: BackgroundGroup[];
+  world: WorldLayer[];
 };
 
 export const AUDIT_DATA: AuditData = {
@@ -48,6 +50,7 @@ export const AUDIT_DATA: AuditData = {
   secondTier: SECOND_TIER,
   memory: MEMORY_INVENTORY,
   groups: BACKGROUND_GROUPS,
+  world: WORLD_DENSITY,
 };
 
 type IndexRelease = {
@@ -80,7 +83,7 @@ const actionable = (p: Proposal) => p.board === 'APPROVE' || p.board === 'REVISE
 
 /** Read-only checks over the audit records against the canon they cite. An empty `errors` list is a pass. */
 export function validateAudit(root = process.cwd(), data: AuditData = AUDIT_DATA): AuditCheck[] {
-  const { proposals: PROPOSALS, inventions: INVENTION_CANDIDATES, technology: EXISTING_TECHNOLOGY, judgments: RELEASE_JUDGMENTS, priorities: PRIORITIES, secondTier: SECOND_TIER, memory: MEMORY_INVENTORY, groups: BACKGROUND_GROUPS } = data;
+  const { proposals: PROPOSALS, inventions: INVENTION_CANDIDATES, technology: EXISTING_TECHNOLOGY, judgments: RELEASE_JUDGMENTS, priorities: PRIORITIES, secondTier: SECOND_TIER, memory: MEMORY_INVENTORY, groups: BACKGROUND_GROUPS, world: WORLD_DENSITY } = data;
   const read = (rel: string) => fs.readFileSync(repoPath(rel, root), 'utf8');
   const master = JSON.parse(read(EXCHANGE_PATHS.master)) as SeasonMaster;
   const index = (JSON.parse(read(SCENE_INDEX)) as { releases: IndexRelease[] }).releases;
@@ -103,12 +106,13 @@ export function validateAudit(root = process.cwd(), data: AuditData = AUDIT_DATA
   const checks: AuditCheck[] = [];
   const check = (id: string, title: string, checked: number, errors: string[]) => checks.push({ id, title, checked, errors });
 
-  check(
-    'SOURCES',
-    'Every source the audit cites exists in the repository',
-    AUDIT_SOURCES.length,
-    AUDIT_SOURCES.filter((s) => !fs.existsSync(repoPath(s.path, root))).map((s) => `${s.id}: missing ${s.path}`),
-  );
+  check('SOURCES', 'Every source the audit cites exists, and every recorded disagreement between sources is quoted verbatim from both', AUDIT_SOURCES.length + SOURCE_DISCREPANCIES.length, [
+    ...AUDIT_SOURCES.filter((s) => !fs.existsSync(repoPath(s.path, root))).map((s) => `${s.id}: missing ${s.path}`),
+    ...SOURCE_DISCREPANCIES.flatMap((d) => [
+      ...[d.a, d.b].filter((side) => !fileText(side.file).includes(side.quote)).map((side) => `${d.id}: "${side.quote}" not in ${side.file}`),
+      ...d.proposals.filter((id) => !byId.has(id)).map((id) => `${d.id}: unknown ${id}`),
+    ]),
+  ]);
 
   const runtime = master.releases.reduce((n, r) => n + r.runtimeTargetSec, 0);
   check('MASTER_LOCK', 'The master still has 86 releases and 7,660 s', 1, [
@@ -194,6 +198,7 @@ export function validateAudit(root = process.cwd(), data: AuditData = AUDIT_DATA
       if (p.board !== 'REJECT') e('E must be rejected');
     }
     if (p.category !== 'E' && p.violates?.length) e('only rejected proposals carry violations');
+    if (p.board === 'REJECT' && !p.rejectReason) e('a rejected proposal needs a reason');
     for (const v of p.violates ?? []) if (!(VIOLATIONS as readonly string[]).includes(v)) e(`unknown violation ${v}`);
     if (p.releaseCountDelta && p.category !== 'B') e('only B may change the release count');
     const live = p.category === 'A' || p.category === 'B' || p.category === 'C';
@@ -370,15 +375,26 @@ export function validateAudit(root = process.cwd(), data: AuditData = AUDIT_DATA
   }
   for (const pr of PRIORITIES) {
     if (!pr.why) prioErrors.push(`${pr.id}: no justification`);
-    for (const d of SCORE_DIMENSIONS) if (!['HIGH', 'MEDIUM', 'LOW'].includes(pr.scores[d])) prioErrors.push(`${pr.id}: no ${d}`);
+    for (const d of SCORE_DIMENSIONS) {
+      if (!['HIGH', 'MEDIUM', 'LOW'].includes(pr.scores[d]?.rating)) prioErrors.push(`${pr.id}: no ${d} rating`);
+      if (!pr.scores[d]?.reason) prioErrors.push(`${pr.id}: no written reason for ${d}`);
+    }
   }
   for (const p of PROPOSALS.filter(actionable)) if (!ranked.includes(p.id)) prioErrors.push(`${p.id} is recommended but unranked`);
-  check('PRIORITIES', 'Twelve or fewer priorities, each scored on all ten dimensions in words, covering every recommendation once', PRIORITIES.length, [...new Set(prioErrors)]);
+  check('PRIORITIES', 'Twelve or fewer priorities, each rated in words with a written reason on all ten dimensions, covering every recommendation once', PRIORITIES.length, [...new Set(prioErrors)]);
 
   const invQuoteErrors: string[] = [];
-  const inventoryQuotes = [...MEMORY_INVENTORY.map((m) => ({ id: `memory ${m.releaseId}`, releaseId: m.releaseId, quote: m.quote })), ...BACKGROUND_GROUPS.flatMap((g) => g.appearances.map((a) => ({ id: g.id, ...a })))];
+  const inventoryQuotes = [
+    ...MEMORY_INVENTORY.map((m) => ({ id: `memory ${m.releaseId}`, releaseId: m.releaseId, quote: m.quote })),
+    ...BACKGROUND_GROUPS.flatMap((g) => g.appearances.map((a) => ({ id: g.id, ...a }))),
+    ...WORLD_DENSITY.flatMap((w) => w.appearances.map((a) => ({ id: w.id, ...a }))),
+  ];
   for (const q of inventoryQuotes) if (!text.get(q.releaseId)?.includes(q.quote)) invQuoteErrors.push(`${q.id} → ${q.releaseId}: quote not found "${q.quote}"`);
-  check('INVENTORY_QUOTES', 'The memory inventory and background groups quote the master verbatim', inventoryQuotes.length, invQuoteErrors);
+  for (const w of WORLD_DENSITY) {
+    for (const id of w.additions) if (!byId.get(id) || byId.get(id)!.board === 'REJECT') invQuoteErrors.push(`${w.id}: addition ${id} is unknown or rejected`);
+    for (const id of w.rejected) if (byId.get(id)?.board !== 'REJECT') invQuoteErrors.push(`${w.id}: ${id} is listed as rejected but is not`);
+  }
+  check('INVENTORY_QUOTES', 'The memory inventory, background groups and world-density table quote the master verbatim and name real proposals', inventoryQuotes.length, invQuoteErrors);
 
   const rtErrors: string[] = [];
   for (const p of PROPOSALS) {

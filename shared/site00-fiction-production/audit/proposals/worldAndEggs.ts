@@ -339,6 +339,7 @@ export const WORLD_AND_EGG_PROPOSALS: Proposal[] = [
       downstream: 'None.',
     },
     founderDecision: 'Not recommended. "The Crescent Room\'s Saturday closer" already says it.',
+    rejectReason: 'S1-82 already says the song has spread ("The Crescent Room\'s Saturday closer"). Four seconds and a new location add nothing the line does not.',
   },
   {
     id: 'W-08',
@@ -403,6 +404,7 @@ export const WORLD_AND_EGG_PROPOSALS: Proposal[] = [
       downstream: 'Every cross-reference after S1-62.',
     },
     founderDecision: 'Not recommended. Decide U-2; if yes, prefer a replacement over an addition. Doc 11 carries the gap with density inside existing releases instead.',
+    rejectReason: 'It breaks the approved 86-release, 127:40 structure and renumbers every later release. Density inside existing releases (deliverable 11) answers the gap without that cost, and U-2 stays the founder\'s decision.',
     blockedBy: ['U-2'],
     releaseCountDelta: 1,
   },

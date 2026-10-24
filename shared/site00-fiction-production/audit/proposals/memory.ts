@@ -688,6 +688,7 @@ export const MEMORY_PROPOSALS: Proposal[] = [
       downstream: 'A young-Kai face lock becomes a Season 1 dependency.',
     },
     founderDecision: 'Not recommended. Keep Kai\'s account spoken.',
+    rejectReason: 'Eight seconds the locked runtime does not have and a new face lock (Kai at 24), in a release whose power is Sloane recognising her mother\'s phrasing. Kai\'s three lines already carry it.',
     memory: {
       mode: 'VISUAL_MEMORY',
       memoryType: 'HUMAN_MEMORY',

@@ -37,6 +37,8 @@ export type AuditSource = {
   role: string;
 };
 
+export type SourceDiscrepancy = { id: string; issue: string; a: { file: string; quote: string }; b: { file: string; quote: string }; resolution: string; proposals: string[] };
+
 /** A pointer into the source. `quote` must appear verbatim in the release text (or in `file` when given). */
 export type Citation = { releaseId: string; sceneId: string; beat?: number; quote?: string; file?: string };
 
@@ -282,4 +284,7 @@ export const SCORE_DIMENSIONS = [
 ] as const;
 export type ScoreDimension = (typeof SCORE_DIMENSIONS)[number];
 
-export type Priority = { id: string; title: string; proposals: string[]; why: string; scores: Record<ScoreDimension, string> };
+/** Section 22: a rating in words and the written reason for it. */
+export type Score = { rating: 'HIGH' | 'MEDIUM' | 'LOW'; reason: string };
+
+export type Priority = { id: string; title: string; proposals: string[]; why: string; scores: Record<ScoreDimension, Score> };

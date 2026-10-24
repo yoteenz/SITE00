@@ -7,4 +7,5 @@ export * from './proposals/index.js';
 export * from './memoryInventory.js';
 export * from './releases.js';
 export * from './priorities.js';
+export * from './world.js';
 export * from './validate.js';
