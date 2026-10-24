@@ -37,7 +37,7 @@
 
 ## Change footprint
 
-- One existing file modified: the canon approval matrix (additive).
+- Two existing files modified, both by appending only: the canon approval matrix, and `motherboard/MEMORY.md` (one sprint entry, per repository convention).
 - Everything else is new: history snapshots, the production module, Season 1 data, five draft screenplays, three scripts, three test suites and these deliverables.
 - Not touched: facial master assets, the visual registry, the Bible, `src/`, `api/`, `server/`, other projects. No deployment, no publication, no paid generation.
 
