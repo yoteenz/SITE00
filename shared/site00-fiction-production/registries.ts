@@ -13,8 +13,20 @@ export type DialogueCharacter = {
   relationshipLanguage: Record<string, unknown>;
   emotionalPerformance: Record<string, string>;
   dialogueContinuity: { establishedLines: EstablishedLine[]; recurringReferences?: string[]; signaturePhrases?: string[]; [k: string]: unknown };
-  voiceAsset: { provider: string; voiceId: string | null; status: string };
+  voiceAsset: VoiceLink & { voiceId: string | null };
 };
+
+/** Connector-derived evidence: the founder's workspace confirmed the voice, this environment did not. */
+export type VoiceEvidence = { source: string; date: string; composerIndependentVerification: string; founderDirective?: string; castEdit?: string; verifiedThrough?: string };
+export type VoiceLink = { provider: string; status: string; evidence?: VoiceEvidence; note?: string };
+
+/** A voice id is acceptable when verified here, or connector-verified with recorded evidence. */
+export function voiceLinkProblem(voiceId: string | null, link: VoiceLink): string | null {
+  if (!voiceId) return null;
+  if (link.status === 'VERIFIED') return null;
+  if (link.status === 'CONNECTOR_VERIFIED') return link.evidence?.source?.trim() && link.evidence.date?.trim() && link.evidence.composerIndependentVerification?.trim() ? null : 'CONNECTOR_VERIFIED voice id without source, date and verification scope';
+  return 'voice id present without verification';
+}
 
 export type DialogueRegistry = {
   schemaVersion: string;
@@ -67,7 +79,7 @@ export type AssetCharacter = {
   characterId: string;
   cue: string;
   visualRegistryRef: string | null;
-  voice: { provider: string; voiceAssetId: string | null; status: string };
+  voice: VoiceLink & { voiceAssetId: string | null };
   [k: string]: unknown;
 };
 
@@ -111,7 +123,8 @@ export function validateDialogueRegistry(reg: DialogueRegistry): RegistryFinding
       if (!RELEASE_ID.test(l.release)) add('HARD_CONFLICT', `established line cites unknown release ${l.release}`);
       if (!l.line.trim()) add('HARD_CONFLICT', 'empty established line');
     }
-    if (c.voiceAsset?.voiceId && c.voiceAsset.status !== 'VERIFIED') add('HARD_CONFLICT', 'voiceId present without verification');
+    const voiceProblem = c.voiceAsset ? voiceLinkProblem(c.voiceAsset.voiceId, c.voiceAsset) : null;
+    if (voiceProblem) add('HARD_CONFLICT', voiceProblem);
     if (!c.voiceAsset?.voiceId) add('BLOCKER', 'no verified voice asset (CHARACTER_VOICE approval cannot start)');
   }
   return out;
@@ -134,7 +147,8 @@ export function validateAssetRegistry(reg: AssetRegistry, root = process.cwd()):
   for (const c of reg.characters) {
     if (c.visualRegistryRef && !visualIds.has(c.visualRegistryRef)) add('HARD_CONFLICT', c.characterId, `visualRegistryRef ${c.visualRegistryRef} not in CHARACTER_VISUAL_REGISTRY_V1`);
     if (!c.visualRegistryRef) add('BLOCKER', c.characterId, 'no approved facial identity asset');
-    if (c.voice.voiceAssetId && c.voice.status !== 'VERIFIED') add('HARD_CONFLICT', c.characterId, 'voice id present without verification');
+    const voiceProblem = voiceLinkProblem(c.voice.voiceAssetId, c.voice);
+    if (voiceProblem) add('HARD_CONFLICT', c.characterId, voiceProblem);
     if (!c.voice.voiceAssetId) add('BLOCKER', c.characterId, 'voice asset missing');
   }
   const setIds = new Set<string>();

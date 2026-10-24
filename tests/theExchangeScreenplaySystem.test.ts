@@ -34,7 +34,21 @@ describe('THE EXCHANGE screenplay system', () => {
     const avoid = (kai.linguisticPersonality.avoid as string[]).join(' | ');
     for (const term of [/slang/i, /comic relief/i, /stereotype/i, /sexuality/i]) expect(avoid).toMatch(term);
     expect(dialogue.globalRules.join(' ')).toContain('never a quota');
-    for (const c of dialogue.characters) expect(c.voiceAsset.voiceId, c.cue).toBeNull();
+    const linked: Record<string, string> = { SLOANE: 'sLyuEdbnawgNCsS8wQQK', GIDEON: '41wdZQ488o8wXI20MrNC', KAI: 'U22Zv2xBsGGfhZWk4aSy' };
+    for (const c of dialogue.characters) {
+      expect(c.voiceAsset.voiceId, c.cue).toBe(linked[c.cue] ?? null);
+      if (linked[c.cue]) {
+        expect(c.voiceAsset.status).toBe('CONNECTOR_VERIFIED');
+        expect(c.voiceAsset.evidence?.source).toBe('ChatGPT ElevenLabs connector verification');
+        expect(c.voiceAsset.evidence?.composerIndependentVerification).toMatch(/^NOT_PERFORMED/);
+      }
+    }
+    const stripped = structuredClone(dialogue);
+    delete stripped.characters.find((c) => c.cue === 'KAI')!.voiceAsset.evidence;
+    expect(hard(X.validateDialogueRegistry(stripped)).map((f) => f.detail)).toEqual(['CONNECTOR_VERIFIED voice id without source, date and verification scope']);
+    const unverified = structuredClone(dialogue);
+    unverified.characters.find((c) => c.cue === 'NADINE')!.voiceAsset.voiceId = 'made-up';
+    expect(hard(X.validateDialogueRegistry(unverified)).map((f) => f.detail)).toEqual(['voice id present without verification']);
   });
 
   it('screenplay schema', () => {

@@ -18,3 +18,5 @@ export * from './manifest.js';
 export * from './backlog.js';
 export * from './stressRegression.js';
 export * from './exports.js';
+export * from './castRegistry.js';
+export * as Directorial from './directorial/index.js';

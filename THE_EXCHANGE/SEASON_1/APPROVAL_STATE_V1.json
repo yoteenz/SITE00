@@ -5190,32 +5190,56 @@
     {
       "subjectId": "sloane-lockwood",
       "domain": "CHARACTER_VOICE",
-      "state": "NOT_SUBMITTED",
+      "state": "APPROVED",
       "version": 1,
-      "actor": null,
-      "decidedAt": null,
-      "note": "No verified voice.",
-      "history": []
+      "actor": "founder",
+      "decidedAt": "2026-10-24",
+      "note": "Voice identity sLyuEdbnawgNCsS8wQQK: the founder's existing ElevenLabs voice, verified through the ChatGPT connector (sprint V2 §03, §19). Identity only; no take or performance is approved.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-24",
+          "note": "Voice identity sLyuEdbnawgNCsS8wQQK: the founder's existing ElevenLabs voice, verified through the ChatGPT connector (sprint V2 §03, §19). Identity only; no take or performance is approved."
+        }
+      ]
     },
     {
       "subjectId": "gideon-shaw",
       "domain": "CHARACTER_VOICE",
-      "state": "NOT_SUBMITTED",
+      "state": "APPROVED",
       "version": 1,
-      "actor": null,
-      "decidedAt": null,
-      "note": "No verified voice.",
-      "history": []
+      "actor": "founder",
+      "decidedAt": "2026-10-24",
+      "note": "Voice identity 41wdZQ488o8wXI20MrNC: the founder's existing ElevenLabs voice, verified through the ChatGPT connector (sprint V2 §03, §19). Identity only; no take or performance is approved.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-24",
+          "note": "Voice identity 41wdZQ488o8wXI20MrNC: the founder's existing ElevenLabs voice, verified through the ChatGPT connector (sprint V2 §03, §19). Identity only; no take or performance is approved."
+        }
+      ]
     },
     {
       "subjectId": "kai-fontaine",
       "domain": "CHARACTER_VOICE",
-      "state": "NOT_SUBMITTED",
+      "state": "APPROVED",
       "version": 1,
-      "actor": null,
-      "decidedAt": null,
-      "note": "No verified voice.",
-      "history": []
+      "actor": "founder",
+      "decidedAt": "2026-10-24",
+      "note": "Voice identity U22Zv2xBsGGfhZWk4aSy: the founder's existing ElevenLabs voice, verified through the ChatGPT connector (sprint V2 §03, §19). Identity only; no take or performance is approved.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-24",
+          "note": "Voice identity U22Zv2xBsGGfhZWk4aSy: the founder's existing ElevenLabs voice, verified through the ChatGPT connector (sprint V2 §03, §19). Identity only; no take or performance is approved."
+        }
+      ]
     },
     {
       "subjectId": "nadine-lockwood",
@@ -5224,7 +5248,7 @@
       "version": 1,
       "actor": null,
       "decidedAt": null,
-      "note": "No verified voice.",
+      "note": "No voice linked.",
       "history": []
     },
     {
@@ -5234,7 +5258,7 @@
       "version": 1,
       "actor": null,
       "decidedAt": null,
-      "note": "No verified voice.",
+      "note": "No voice linked.",
       "history": []
     },
     {
@@ -5244,7 +5268,7 @@
       "version": 1,
       "actor": null,
       "decidedAt": null,
-      "note": "No verified voice.",
+      "note": "No voice linked.",
       "history": []
     },
     {
@@ -5254,7 +5278,7 @@
       "version": 1,
       "actor": null,
       "decidedAt": null,
-      "note": "No verified voice.",
+      "note": "No voice linked.",
       "history": []
     },
     {
@@ -5264,7 +5288,7 @@
       "version": 1,
       "actor": null,
       "decidedAt": null,
-      "note": "No verified voice.",
+      "note": "No voice linked.",
       "history": []
     },
     {

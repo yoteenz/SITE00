@@ -22,14 +22,14 @@
       "cue": "GIDEON",
       "speaks": true,
       "faceRef": "gideon-shaw",
-      "voiceId": null,
+      "voiceId": "41wdZQ488o8wXI20MrNC",
       "dialogueRegistry": true
     },
     {
       "cue": "SLOANE",
       "speaks": true,
       "faceRef": "sloane-lockwood",
-      "voiceId": null,
+      "voiceId": "sLyuEdbnawgNCsS8wQQK",
       "dialogueRegistry": true
     }
   ],
@@ -92,7 +92,7 @@
       {
         "lineId": "S1-02-L001",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "If I can't dance in it, it's a costume.",
         "direction": "to the mirror",
         "characters": 39
@@ -100,7 +100,7 @@
       {
         "lineId": "S1-02-L002",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "Sorry, darling. I believe in you.",
         "direction": "softly, to the fern",
         "characters": 33
@@ -108,7 +108,7 @@
       {
         "lineId": "S1-02-L003",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "I can get anyone into any room in this city. I can't keep a fern alive.",
         "direction": null,
         "characters": 71
@@ -116,7 +116,7 @@
       {
         "lineId": "S1-02-L004",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "You could knock.",
         "direction": "not turning around",
         "characters": 16
@@ -124,7 +124,7 @@
       {
         "lineId": "S1-02-L005",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "I could.",
         "direction": null,
         "characters": 8
@@ -132,7 +132,7 @@
       {
         "lineId": "S1-02-L006",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "I wasn't finished.",
         "direction": null,
         "characters": 18
@@ -140,7 +140,7 @@
       {
         "lineId": "S1-02-L007",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "You were.",
         "direction": null,
         "characters": 9
@@ -148,7 +148,7 @@
       {
         "lineId": "S1-02-L008",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "Car's downstairs. Your hair's perfect. Stop touching it.",
         "direction": null,
         "characters": 56
@@ -177,7 +177,7 @@
       {
         "lineId": "S1-02-L001",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "If I can't dance in it, it's a costume.",
         "direction": "to the mirror",
         "characters": 39
@@ -185,7 +185,7 @@
       {
         "lineId": "S1-02-L002",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "Sorry, darling. I believe in you.",
         "direction": "softly, to the fern",
         "characters": 33
@@ -193,7 +193,7 @@
       {
         "lineId": "S1-02-L003",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "I can get anyone into any room in this city. I can't keep a fern alive.",
         "direction": null,
         "characters": 71
@@ -201,7 +201,7 @@
       {
         "lineId": "S1-02-L004",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "You could knock.",
         "direction": "not turning around",
         "characters": 16
@@ -209,7 +209,7 @@
       {
         "lineId": "S1-02-L005",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "I could.",
         "direction": null,
         "characters": 8
@@ -217,7 +217,7 @@
       {
         "lineId": "S1-02-L006",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "I wasn't finished.",
         "direction": null,
         "characters": 18
@@ -225,7 +225,7 @@
       {
         "lineId": "S1-02-L007",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "You were.",
         "direction": null,
         "characters": 9
@@ -233,7 +233,7 @@
       {
         "lineId": "S1-02-L008",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "Car's downstairs. Your hair's perfect. Stop touching it.",
         "direction": null,
         "characters": 56
@@ -1082,12 +1082,12 @@
     {
       "kind": "CHARACTER_VOICE",
       "subject": "GIDEON",
-      "detail": "no approved voice"
+      "detail": "voice identity linked (CONNECTOR_VERIFIED); no approved recorded take"
     },
     {
       "kind": "CHARACTER_VOICE",
       "subject": "SLOANE",
-      "detail": "no approved voice"
+      "detail": "voice identity linked (CONNECTOR_VERIFIED); no approved recorded take"
     },
     {
       "kind": "SET",

@@ -60,7 +60,7 @@
         ],
         "recurringReferences": ["dessert first (Vivienne's habit, revealed later)", "the dying fern (pays off S1-84)", "the dance test for clothes (S1-62, S1-72)"]
       },
-      "voiceAsset": { "provider": "ElevenLabs", "voiceId": null, "status": "NOT_VERIFIED", "note": "A recorded Sloane performance may exist from the Kai's Note screen test; no voice ID is registered in this repository." }
+      "voiceAsset": { "provider": "ElevenLabs", "voiceId": "sLyuEdbnawgNCsS8wQQK", "status": "CONNECTOR_VERIFIED", "evidence": { "source": "ChatGPT ElevenLabs connector verification", "date": "2026-10-24", "verifiedThrough": "Founder's connected ElevenLabs workspace", "composerIndependentVerification": "NOT_PERFORMED: no ElevenLabs credential in this environment", "founderDirective": "Founder sprint V2 §03", "castEdit": "CE-0001" }, "note": "The founder's existing ElevenLabs voice, linked by id. Not recreated; its identity is unchanged. This links the voice identity only: no take, line reading or performance is approved." }
     },
     {
       "characterId": "gideon-shaw",
@@ -100,7 +100,7 @@
         ],
         "recurringReferences": ["has never once knocked", "same barber for eleven years (hybrid, provisional)", "learning to dance from Richard"]
       },
-      "voiceAsset": { "provider": "ElevenLabs", "voiceId": null, "status": "NOT_VERIFIED", "note": "The Kai's Note screen test used uploaded audio for a lip-sync pass; its voice provenance is not verified here." }
+      "voiceAsset": { "provider": "ElevenLabs", "voiceId": "41wdZQ488o8wXI20MrNC", "status": "CONNECTOR_VERIFIED", "evidence": { "source": "ChatGPT ElevenLabs connector verification", "date": "2026-10-24", "verifiedThrough": "Founder's connected ElevenLabs workspace", "composerIndependentVerification": "NOT_PERFORMED: no ElevenLabs credential in this environment", "founderDirective": "Founder sprint V2 §03", "castEdit": "CE-0002" }, "note": "The founder's existing ElevenLabs voice, linked by id. Not recreated; its identity is unchanged. This links the voice identity only: no take, line reading or performance is approved. The Kai's Note lip-sync audio provenance is still unverified." }
     },
     {
       "characterId": "kai-fontaine",
@@ -136,7 +136,7 @@
         ],
         "recurringReferences": ["the lantern pavilion five years ago", "the civic licence four years ago", "teaches neighbourhood kids"]
       },
-      "voiceAsset": { "provider": "ElevenLabs", "voiceId": null, "status": "NOT_VERIFIED", "note": "No Kai voice asset is registered." }
+      "voiceAsset": { "provider": "ElevenLabs", "voiceId": "U22Zv2xBsGGfhZWk4aSy", "status": "CONNECTOR_VERIFIED", "evidence": { "source": "ChatGPT ElevenLabs connector verification", "date": "2026-10-24", "verifiedThrough": "Founder's connected ElevenLabs workspace", "composerIndependentVerification": "NOT_PERFORMED: no ElevenLabs credential in this environment", "founderDirective": "Founder sprint V2 §03", "castEdit": "CE-0003" }, "note": "The founder's existing ElevenLabs voice, linked by id. Not recreated; its identity is unchanged. This links the voice identity only: no take, line reading or performance is approved." }
     },
     {
       "characterId": "nadine-lockwood",

@@ -275,7 +275,7 @@
           "order": 7,
           "status": "BLOCKED",
           "blockers": [
-            "VOICE provider generation not verified (ElevenLabs NOT_VERIFIED).",
+            "VOICE takes: ElevenLabs direct access BLOCKED_NO_CREDENTIALS in this environment; takes are recorded in the founder workspace and imported.",
             "UNAUTHORIZED_SPEND: no founder spend authorization for this stage.",
             "CHARACTER_VOICE not approved for every speaking character."
           ],
@@ -478,11 +478,10 @@
           "order": 7,
           "status": "BLOCKED",
           "blockers": [
-            "GIDEON: no approved voice",
-            "SLOANE: no approved voice",
-            "VOICE provider generation not verified (ElevenLabs NOT_VERIFIED).",
-            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage.",
-            "CHARACTER_VOICE not approved for every speaking character."
+            "GIDEON: voice identity linked (CONNECTOR_VERIFIED); no approved recorded take",
+            "SLOANE: voice identity linked (CONNECTOR_VERIFIED); no approved recorded take",
+            "VOICE takes: ElevenLabs direct access BLOCKED_NO_CREDENTIALS in this environment; takes are recorded in the founder workspace and imported.",
+            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage."
           ],
           "artifact": null,
           "artifactSha256": null,
@@ -682,11 +681,11 @@
           "order": 7,
           "status": "BLOCKED",
           "blockers": [
-            "GIDEON: no approved voice",
-            "KAI: no approved voice",
-            "ROYCE: no approved voice",
-            "SLOANE: no approved voice",
-            "VOICE provider generation not verified (ElevenLabs NOT_VERIFIED).",
+            "GIDEON: voice identity linked (CONNECTOR_VERIFIED); no approved recorded take",
+            "KAI: voice identity linked (CONNECTOR_VERIFIED); no approved recorded take",
+            "ROYCE: no voice linked",
+            "SLOANE: voice identity linked (CONNECTOR_VERIFIED); no approved recorded take",
+            "VOICE takes: ElevenLabs direct access BLOCKED_NO_CREDENTIALS in this environment; takes are recorded in the founder workspace and imported.",
             "UNAUTHORIZED_SPEND: no founder spend authorization for this stage.",
             "CHARACTER_VOICE not approved for every speaking character."
           ],
@@ -891,11 +890,11 @@
           "order": 7,
           "status": "BLOCKED",
           "blockers": [
-            "GIDEON: no approved voice",
-            "PIANIST: no approved voice",
-            "PRODUCER: no approved voice",
-            "SLOANE: no approved voice",
-            "VOICE provider generation not verified (ElevenLabs NOT_VERIFIED).",
+            "GIDEON: voice identity linked (CONNECTOR_VERIFIED); no approved recorded take",
+            "PIANIST: no voice linked",
+            "PRODUCER: no voice linked",
+            "SLOANE: voice identity linked (CONNECTOR_VERIFIED); no approved recorded take",
+            "VOICE takes: ElevenLabs direct access BLOCKED_NO_CREDENTIALS in this environment; takes are recorded in the founder workspace and imported.",
             "UNAUTHORIZED_SPEND: no founder spend authorization for this stage.",
             "CHARACTER_VOICE not approved for every speaking character."
           ],
@@ -1095,11 +1094,10 @@
           "order": 7,
           "status": "BLOCKED",
           "blockers": [
-            "GIDEON: no approved voice",
-            "SLOANE: no approved voice",
-            "VOICE provider generation not verified (ElevenLabs NOT_VERIFIED).",
-            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage.",
-            "CHARACTER_VOICE not approved for every speaking character."
+            "GIDEON: voice identity linked (CONNECTOR_VERIFIED); no approved recorded take",
+            "SLOANE: voice identity linked (CONNECTOR_VERIFIED); no approved recorded take",
+            "VOICE takes: ElevenLabs direct access BLOCKED_NO_CREDENTIALS in this environment; takes are recorded in the founder workspace and imported.",
+            "UNAUTHORIZED_SPEND: no founder spend authorization for this stage."
           ],
           "artifact": null,
           "artifactSha256": null,

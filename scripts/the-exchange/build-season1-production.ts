@@ -81,7 +81,10 @@ for (const c of assets.characters) {
   else if (v.includes('FOUNDER_REFINEMENT_PROVISIONAL')) seed(c.characterId, 'CHARACTER_VISUAL_IDENTITY', 'IN_REVIEW', null, null, 'FOUNDER_REFINEMENT_PROVISIONAL in CHARACTER_VISUAL_REGISTRY_V1.');
   else seed(c.characterId, 'CHARACTER_VISUAL_IDENTITY', 'NOT_SUBMITTED', null, null, 'No face asset.');
 }
-for (const c of dialogue.characters) seed(c.characterId, 'CHARACTER_VOICE', 'NOT_SUBMITTED', null, null, 'No verified voice.');
+for (const c of dialogue.characters) {
+  if (c.voiceAsset.voiceId && c.voiceAsset.status === 'CONNECTOR_VERIFIED') seed(c.characterId, 'CHARACTER_VOICE', 'APPROVED', X.FOUNDER_ACTOR, '2026-10-24', `Voice identity ${c.voiceAsset.voiceId}: the founder's existing ElevenLabs voice, verified through the ChatGPT connector (sprint V2 §03, §19). Identity only; no take or performance is approved.`);
+  else seed(c.characterId, 'CHARACTER_VOICE', 'NOT_SUBMITTED', null, null, 'No voice linked.');
+}
 for (const s of assets.sets) seed(s.setId, 'SET', 'NOT_SUBMITTED', null, null, 'No approved reference.');
 for (const w of assets.wardrobe) seed(w.wardrobeId, 'WARDROBE', 'NOT_SUBMITTED', null, null, `${w.status}${w.dependency ? ` (${w.dependency})` : ''}`);
 const key = (r: X.ApprovalRecord) => `${r.domain}|${r.subjectId}`;
@@ -115,7 +118,7 @@ const pipelineReleases = master.releases.map((r) => {
     hardFindings: hard,
     shotList: b ? { path: b.shotPath, sha256: sha(read(b.shotPath)), screenplaySha256: b.sha256, estimatedCost: { usd: b.manifest.shots.estimatedUsd, credits: b.manifest.shots.estimatedCredits } } : null,
     assetBlockers: [...new Set(assetBlockers)],
-    voiceBlockers: b ? [...b.manifest.blockers.filter((x) => x.kind === 'CHARACTER_VOICE').map((x) => `${x.subject}: ${x.detail}`), 'VOICE provider generation not verified (ElevenLabs NOT_VERIFIED).'] : [],
+    voiceBlockers: b ? [...b.manifest.blockers.filter((x) => x.kind === 'CHARACTER_VOICE').map((x) => `${x.subject}: ${x.detail}`), 'VOICE takes: ElevenLabs direct access BLOCKED_NO_CREDENTIALS in this environment; takes are recorded in the founder workspace and imported.'] : [],
     spendAuthorized: () => false,
     failures: {},
   };
