@@ -1,0 +1,30 @@
+{
+  "sprint": "P0.SITE00.IDNTY.PHASE3B.STAGING-DEPLOYMENT-AND-LIVE-FOUNDER-E2E-ACTIVATION1",
+  "status": "NOT_RUN",
+  "reason": "Staging API/SPA not deployed to e907a6331; transactional send remained off; no founder-authenticated live run",
+  "authorized_tester_email": "kateenaarmstrong@gmail.com",
+  "staging_api_sha_observed": "34d9afa0de28",
+  "expected_integration_sha": "e907a6331ee703967f7618c45f4c1b775337de80",
+  "transactional_send_flag_at_audit": false,
+  "test_run_id": null,
+  "test_project_id": null,
+  "test_client_route": null,
+  "emails_expected_lifecycle": 5,
+  "templates": [
+    "personal-foundation-invitation",
+    "intake-completed",
+    "quote-ready",
+    "payment-confirmed",
+    "foundation-complete"
+  ],
+  "messages": [],
+  "delivery_summary": {
+    "emails_sent": 0,
+    "emails_provider_accepted": 0,
+    "emails_delivered": 0,
+    "emails_failed": 0,
+    "emails_duplicated": 0
+  },
+  "audit_script": "scripts/staging/df-staging-deployment-audit.mjs",
+  "audited_at": "2026-10-24T14:55:18.865Z"
+}
