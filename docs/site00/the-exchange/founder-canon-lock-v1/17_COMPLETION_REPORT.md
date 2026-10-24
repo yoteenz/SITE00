@@ -9,7 +9,7 @@ Status words: **COMPLETE** (done and verified by a command), **PARTIAL** (done i
 | REPOSITORY | `yoteenz/SITE00` |
 | BRANCH | `cursor/the-exchange-canon-lock-screenplay-8aec`, from `main` at `159c0fa9b` |
 | COMMIT SHA | The head of the pull request. A report cannot name the commit that contains it; the session close records the final SHA. |
-| PR LINK OR NUMBER | Recorded in the session close. The pull request targets `main` and is not merged. |
+| PR LINK OR NUMBER | [#1690](https://github.com/yoteenz/SITE00/pull/1690), targeting `main`. Not merged. |
 | BUILD STATUS | COMPLETE. `npm run build` exit 0; 470 JS assets checked. |
 | TEST STATUS | COMPLETE for this sprint: 47 of 47 Exchange tests pass, 25 of them new. The full suite has 74 failures in 56 other files; the same 74 fail on `main`. See `16_TEST_AND_BUILD_REPORT.md`. |
 | SOURCE AUDIT RESULT | COMPLETE. All sources found and hash-verified. One pre-existing Bible hash mismatch (`00_READ_ME.md`) is reported, not repaired. See `01_FOUNDATION_AND_SOURCE_AUDIT.md`. |
