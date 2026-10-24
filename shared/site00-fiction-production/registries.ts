@@ -8,7 +8,7 @@ export type DialogueCharacter = {
   cue: string;
   displayName: string;
   age: number | null;
-  voiceIdentity: Record<string, unknown>;
+  voiceIdentity: string | Record<string, unknown>;
   linguisticPersonality: Record<string, unknown>;
   relationshipLanguage: Record<string, unknown>;
   emotionalPerformance: Record<string, string>;
@@ -102,7 +102,8 @@ export function validateDialogueRegistry(reg: DialogueRegistry): RegistryFinding
     if (!c.cue || c.cue !== c.cue.toUpperCase()) add('HARD_CONFLICT', `cue must be upper case: ${c.cue}`);
     if (cues.has(c.cue)) add('HARD_CONFLICT', `duplicate cue ${c.cue}`);
     cues.add(c.cue);
-    for (const section of ['voiceIdentity', 'linguisticPersonality', 'relationshipLanguage', 'emotionalPerformance', 'dialogueContinuity'] as const) {
+    if (typeof c.voiceIdentity === 'string' ? !c.voiceIdentity.trim() : !c.voiceIdentity || typeof c.voiceIdentity !== 'object') add('HARD_CONFLICT', 'missing voiceIdentity');
+    for (const section of ['linguisticPersonality', 'relationshipLanguage', 'emotionalPerformance', 'dialogueContinuity'] as const) {
       if (!c[section] || typeof c[section] !== 'object') add('HARD_CONFLICT', `missing ${section}`);
     }
     for (const e of EMOTIONS) if (!c.emotionalPerformance?.[e]) add('WARNING', `emotionalPerformance.${e} not written`);
