@@ -1,36 +1,36 @@
 ---
 {
-  "identity": { "releaseId": "S1-01", "title": "Dusk", "arc": "1 — The Host", "version": 1, "approvalStatus": "DRAFT — FOUNDER REVIEW REQUIRED", "runtimeTarget": "0:45" },
+  "identity": { "releaseId": "S1-01", "title": "Dusk", "arc": "1 — The Host", "version": 2, "approvalStatus": "DRAFT — FOUNDER REVIEW REQUIRED", "runtimeTarget": "0:45" },
   "story": {
     "narrativePurpose": "Introduce the world before anyone in it: a city that dresses for the night and an everyday courtesy, the Ember, that lets people be seen without being captured.",
-    "previousContinuity": "None. Series opener.",
+    "previousContinuity": "None. Series opener. Same night as S1-03 (GE−92): the band warming up is Halcyon House's.",
     "openingHook": "The city dresses for the night: a tailor locks up, a teenager practises a dance step, a grandmother airs a jewel-green dress.",
     "sceneObjectives": {
       "S1-01-SC01": "Establish the street and the hour.",
       "S1-01-SC02": "A tailor finishes the day with care.",
-      "S1-01-SC03": "A teenager rehearses joy in private.",
+      "S1-01-SC03": "A teenager rehearses joy in private and finally lands it.",
       "S1-01-SC04": "A grandmother gets a dress ready for a night out.",
       "S1-01-SC05": "A woman dances alone, unembarrassed.",
-      "S1-01-SC06": "The Ember: a neighbour's phone glows copper and he lowers it.",
-      "S1-01-SC07": "Rise toward Halcyon House."
+      "S1-01-SC06": "The Ember: a neighbour's phone glows copper, he lowers it, and she answers with a raised glass.",
+      "S1-01-SC07": "Rise toward the lit windows of Halcyon House."
     },
-    "characterMotivations": { "WOMAN ON THE BALCONY": "Dancing for herself.", "NEIGHBOUR": "A reflex to record, then shame." },
+    "characterMotivations": { "TAILOR": "Leave the work looking right.", "TEENAGER": "Get the step right for himself.", "GRANDMOTHER": "Have the dress ready for tonight.", "WOMAN ON THE BALCONY": "Dancing for herself.", "NEIGHBOUR": "A reflex to record, then shame." },
     "conflict": "Small and human: the urge to capture a stranger's joy against the city's habit of letting it be.",
     "revelations": ["The Ember's copper glow means no."],
     "emotionalTurningPoint": "The neighbour lowers the phone; she raises a glass instead of closing the curtain.",
-    "endingHook": "A lit ballroom across the rooftops: where is everyone going?"
+    "endingHook": "Lit ballroom windows across the rooftops: where is everyone going?"
   },
   "performance": {
-    "speechNotes": { "ALL": "No dialogue. Music only." },
+    "speechNotes": { "ALL": "No dialogue and no narration. Music and the street only." },
     "subtext": "Being seen is not being captured.",
-    "pacing": "Unhurried vignettes of about five seconds each, then a longer rise.",
-    "silence": "The whole release is wordless; the street sound sits under the music."
+    "pacing": "Vignettes of four to seven seconds in varied rhythm; the Ember beat slows down; then one long rise.",
+    "silence": "The whole release is wordless. The music stops dead when the lens turns copper and returns when she raises her glass."
   },
   "visual": {
-    "intention": "Warm dusk, copper light on stone and glass. Every vignette is someone getting ready.",
-    "keyImages": ["Jewel-green dress on a fire escape", "Copper glow on a phone lens", "A raised glass across the street", "Halcyon House lit like a jewellery box"],
+    "intention": "Warm dusk turning blue: copper light on stone and glass. Every vignette is someone getting ready.",
+    "keyImages": ["Jewel-green dress on a fire escape", "Copper glow on a phone lens", "A raised glass across the street", "Lit ballroom windows across the rooftops"],
     "requiredReveals": ["The Ember's copper glow"],
-    "continuityRules": ["The Ember's copper look defined here holds for the season.", "No principal appears."]
+    "continuityRules": ["The Ember's copper look defined here holds for the season.", "No principal appears.", "The glass is on her ledge before she raises it.", "Halcyon House shows only as lit windows until its exterior is approved."]
   },
   "production": {
     "characters": ["TAILOR", "TEENAGER", "GRANDMOTHER", "WOMAN ON THE BALCONY", "NEIGHBOUR"],
@@ -38,21 +38,21 @@
     "wardrobe": { "GRANDMOTHER": "Jewel-green dress on the fire escape (not registered; design needed, U-4)" },
     "props": ["PR-NEIGHBOUR-PHONE"],
     "effects": ["Ember copper glow on a phone lens"],
-    "crowd": "Several extras on the street.",
+    "crowd": "A few passers-by on the street; no crowd.",
     "shotComplexity": "MED",
-    "technical": ["One light effect", "A rising crane-style move over rooftops", "Music cue"]
+    "technical": ["One light effect", "A rising move over rooftops", "Music cue with a hard stop and a return"]
   },
   "continuity": {
     "factsIntroduced": ["The Ember is a copper glow on a lens and means no."],
     "factsCarried": [],
-    "openQuestions": ["U-4: wardrobe design for the jewel-green dress and the extras."],
+    "openQuestions": ["U-4: wardrobe design for the jewel-green dress and the inhabitants.", "Halcyon House exterior has no approved design."],
     "payoffDependencies": ["S1-58: the Ember's origin."],
-    "canonReferences": ["Master S1-01", "KF-06 (Ember origin unrevealed until S1-58)"]
+    "canonReferences": ["Master S1-01", "KF-06 (Ember origin unrevealed until S1-58)", "Hybrid Writers Room Truth §6 (Ember, proposed)"]
   },
   "editorial": {
-    "pacingRisk": "Low. Vignettes can lose a second each without harm.",
-    "retentionHook": "The copper glow and the lit ballroom.",
-    "endingTransition": "The camera rises over rooftops toward a lit ballroom: Halcyon House."
+    "pacingRisk": "Low. The vignettes vary in length so the street never settles into a metronome.",
+    "retentionHook": "The copper glow, the silence, and the lit ballroom.",
+    "endingTransition": "The camera rises over rooftops toward the lit windows of a ballroom: Halcyon House."
   }
 }
 ---
@@ -60,72 +60,114 @@ FADE IN:
 
 EXT. CITY STREET — STREET — DUSK
 
-A street of brownstones and glass towers at dusk. Copper light on the stoops. Windows come on one by one, like a city putting on its earrings.
+High on a glass tower the low sun burns copper. Down below, a street of brownstones. Windows come on one by one, like a city putting on its earrings.
 
-[[TIME: 5]]
-[[MUSIC: Main title cue: a big band warming up somewhere out of sight. Music only; no dialogue in this release.]]
+[[TIME: 4]]
+[[MUSIC: A big band warming up somewhere out of sight: loose trumpet, a walking bass, brushes. Music only; no dialogue and no narration in this release.]]
 [[SFX: Street bed: a bus sighing, a door, distant laughter.]]
 
 EXT. CITY STREET — TAILOR'S SHOPFRONT — DUSK
 
 [[ENTER: TAILOR]]
 
-A tailor in shirtsleeves lowers the grille on his shop. Halfway down he stops, ducks under, and straightens the lapel on the mannequin in the window. Then he locks up and pats the glass goodnight.
+A tailor in shirtsleeves hauls down the grille on his shop. Halfway, he stops.
 
-[[TIME: 5]]
+[[TIME: 2]]
+
+Through the window, his hands straighten the lapel on the mannequin.
+
+[[TIME: 2.25]]
+
+The grille comes down. He pats the glass goodnight.
+
+[[TIME: 1.5]]
 [[EXIT: TAILOR]]
 
 EXT. CITY STREET — BUS STOP — DUSK
 
 [[ENTER: TEENAGER]]
 
-A teenager at the bus stop practises a dance step in the reflection of the shelter glass. Wrong. Wrong. Right. Nobody is watching, so he does it again for the pleasure of it.
+A teenager at the bus stop tries a dance step in the shelter glass. Wrong.
 
-[[TIME: 5]]
+[[TIME: 1.625]]
+
+Wrong again.
+
+[[TIME: 1.125]]
+
+Right. He lands it on the beat and grins at his reflection. Nobody saw. Good.
+
+[[TIME: 2.875]]
+[[EXIT: TEENAGER]]
 
 EXT. CITY STREET — FIRE ESCAPE — DUSK
 
 [[ENTER: GRANDMOTHER]]
 
-A grandmother hangs a jewel-green dress on her fire escape to air. She smooths the skirt with both hands and gives it a long look, as if the dress has a date tonight and she approves of him.
+A jewel-green dress unfurls over a fire-escape rail.
 
-[[TIME: 5]]
+[[TIME: 2.5]]
+
+A grandmother smooths the skirt with both hands.
+
+[[TIME: 1.5]]
+
+She gives it a long look, as if the dress has a date tonight and she approves of him.
+
+[[TIME: 2.625]]
+[[EXIT: GRANDMOTHER]]
 
 EXT. CITY STREET — BALCONY KITCHEN — DUSK
 
 [[ENTER: WOMAN ON THE BALCONY]]
 
-Through an open balcony door, a woman dances alone in her kitchen. A wooden spoon for a partner. Completely unembarrassed.
+Through an open balcony door, a woman dances alone in her kitchen, a wooden spoon for a partner. A glass of wine waits on the ledge.
 
-[[TIME: 5]]
+[[TIME: 2.75]]
+
+She spins the spoon. Completely unembarrassed.
+
+[[TIME: 1.75]]
 
 EXT. CITY STREET — NEIGHBOUR'S WINDOW — DUSK
 
 [[ENTER: NEIGHBOUR]]
-[[ENTER: WOMAN ON THE BALCONY]]
 
 Across the street, her neighbour lifts his phone toward her balcony.
 
-[[TIME: 3]]
+[[TIME: 2]]
 [[PROP: PR-NEIGHBOUR-PHONE: raised toward the balcony]]
+[[MUSIC: The band thins to bass and brushes.]]
+
+His lens blooms copper. The music stops dead.
+
+[[TIME: 1.75]]
 [[VFX: The lens blooms copper: the Ember, the city's everyday no.]]
-[[INSERT: The phone's lens glowing copper.]]
+[[SFX: No designed sound for the Ember. Only the street.]]
 
 He lowers the phone, embarrassed.
 
+[[TIME: 2]]
 [[PROP: PR-NEIGHBOUR-PHONE: lowered]]
 
-On her balcony, the woman has seen all of it. She raises her glass to him across the street, and keeps dancing.
+On her balcony, the woman has seen all of it. She lifts her glass to him across the street and goes back to her dance. The band comes back in.
 
-[[TIME: 4]]
+[[TIME: 3]]
+[[MUSIC: The groove returns as the glass goes up.]]
 
 EXT. CITY STREET — ROOFTOPS — DUSK
 
-[[SHOT: WIDE — RISING CRANE]]
+[[SHOT: WIDE — RISING MOVE]]
 
-The camera rises over water towers and fire escapes, over the green dress and the woman's lit kitchen, toward a ballroom glowing like a jewellery box across the rooftops: Halcyon House.
+The camera rises past her lit kitchen and the green dress on its rail, over water towers and fire escapes.
 
-[[TIME: 6]]
-[[MUSIC: The band lands its first full chord as the ballroom comes into view.]]
+[[TIME: 3.5]]
+
+Across the rooftops, the tall windows of a ballroom glow amber: Halcyon House.
+
+[[TIME: 4.75]]
+[[MUSIC: The band lands its first full chord as the windows come into view, and lets it ring.]]
 
 CUT TO BLACK.
+
+[[HOLD: 1]]

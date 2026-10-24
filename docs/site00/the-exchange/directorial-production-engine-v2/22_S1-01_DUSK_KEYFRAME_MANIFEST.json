@@ -1,0 +1,860 @@
+{
+  "schemaVersion": "2.0.0",
+  "unitId": "S1-01",
+  "counts": {
+    "total": 22,
+    "essential": 22,
+    "generate": 20,
+    "reuse": 0,
+    "extract": 2,
+    "notNeeded": 0,
+    "imagesToGenerate": 29,
+    "blocked": 22,
+    "byKind": {
+      "ENVIRONMENT_REFERENCE": 3,
+      "WARDROBE_REFERENCE": 1,
+      "PROP_REFERENCE": 1,
+      "START_FRAME": 17
+    }
+  },
+  "productionOrder": [
+    "KF-ENV-CITY-DUSK-A",
+    "KF-ENV-CITY-DUSK-B",
+    "KF-ENV-HALCYON-EXT",
+    "KF-WD-GREEN-DRESS",
+    "KF-EMBER-LOOK",
+    "KF-SF-SH02",
+    "KF-SF-SH03",
+    "KF-SF-SH04",
+    "KF-SF-SH05",
+    "KF-SF-SH06",
+    "KF-SF-SH07",
+    "KF-SF-SH08",
+    "KF-SF-SH09",
+    "KF-SF-SH10",
+    "KF-SF-SH11",
+    "KF-SF-SH12",
+    "KF-SF-SH13",
+    "KF-SF-SH14",
+    "KF-SF-SH15",
+    "KF-SF-SH16",
+    "KF-SF-SH17",
+    "KF-SF-SH18"
+  ],
+  "keyframes": [
+    {
+      "essential": true,
+      "derivesFrom": [],
+      "candidates": 2,
+      "reusableBeyondUnit": [
+        "Any release on SET-CITY-DUSK"
+      ],
+      "blockedBy": [
+        "FD-S101-08"
+      ],
+      "keyframeId": "KF-ENV-CITY-DUSK-A",
+      "kind": "ENVIRONMENT_REFERENCE",
+      "title": "North side of the street at golden hour (also the SH01 start frame)",
+      "usedBy": [
+        "S1-01-SH01"
+      ],
+      "source": "GENERATE",
+      "noReferenceJustification": "SET-CITY-DUSK has no approved establishing angle. The founder chooses how the street is seeded: a founder-supplied photograph or a look-development frame (FD-S101-08).",
+      "spec": {
+        "characterPlacement": "Nobody featured",
+        "expression": "None",
+        "wardrobe": "None",
+        "lighting": "LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east",
+        "architecture": "East-west brownstone street; glass tower at the west end of the north side; tailor shop, fire escapes and a fourth-floor balcony on the north side",
+        "propOwnership": "None",
+        "visible": [
+          "glass tower (copper reflection)",
+          "brownstone stoops",
+          "street lamps",
+          "tailor shop grille",
+          "third-floor fire-escape rail",
+          "fourth-floor balcony ledge"
+        ],
+        "hidden": [
+          "Halcyon House",
+          "any principal",
+          "any readable signage brand"
+        ],
+        "cameraAngle": "High, looking east along the street",
+        "shotScale": "Wide"
+      },
+      "output": null,
+      "effectiveBlockers": [
+        "FD-S101-08"
+      ]
+    },
+    {
+      "essential": true,
+      "derivesFrom": [
+        "KF-ENV-CITY-DUSK-A"
+      ],
+      "candidates": 1,
+      "reusableBeyondUnit": [
+        "Any release on SET-CITY-DUSK"
+      ],
+      "blockedBy": [],
+      "keyframeId": "KF-ENV-CITY-DUSK-B",
+      "kind": "ENVIRONMENT_REFERENCE",
+      "title": "South side of the street: bus shelter and the neighbour's window",
+      "usedBy": [],
+      "source": "GENERATE",
+      "spec": {
+        "characterPlacement": "Nobody featured",
+        "expression": "None",
+        "wardrobe": "None",
+        "lighting": "LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east; frames that derive from it set their own state",
+        "architecture": "East-west brownstone street; glass tower at the west end of the north side; bus shelter and a second-floor window with a reading lamp on the south side",
+        "propOwnership": "None",
+        "visible": [
+          "bus shelter glass",
+          "neighbour's window frame",
+          "street lamps"
+        ],
+        "hidden": [
+          "the glass tower",
+          "Halcyon House"
+        ],
+        "cameraAngle": "Eye level from the north pavement looking south",
+        "shotScale": "Wide"
+      },
+      "output": null,
+      "effectiveBlockers": [
+        "KF-ENV-CITY-DUSK-A: FD-S101-08"
+      ]
+    },
+    {
+      "essential": true,
+      "derivesFrom": [
+        "KF-ENV-CITY-DUSK-A"
+      ],
+      "candidates": 2,
+      "reusableBeyondUnit": [
+        "S1-02 to S1-05 arrivals, once an exterior is approved"
+      ],
+      "blockedBy": [
+        "FD-S101-04"
+      ],
+      "keyframeId": "KF-ENV-HALCYON-EXT",
+      "kind": "ENVIRONMENT_REFERENCE",
+      "title": "Halcyon House ballroom windows across the rooftops (SH18 end frame)",
+      "usedBy": [
+        "S1-01-SH18"
+      ],
+      "source": "GENERATE",
+      "spec": {
+        "characterPlacement": "Nobody featured",
+        "expression": "None",
+        "wardrobe": "None",
+        "lighting": "LS-BLUE-HOUR: blue sky, warm practical windows, street lamps on; no gold anywhere; tall ballroom windows glow amber",
+        "architecture": "Water towers and roofs in silhouette; one row of tall arched or rectangular ballroom windows lit on the far side (window shape is a founder choice)",
+        "propOwnership": "None",
+        "visible": [
+          "water towers",
+          "Halcyon House ballroom windows"
+        ],
+        "hidden": [
+          "facade detail",
+          "roofline silhouette of the hotel",
+          "signage",
+          "front steps and door"
+        ],
+        "cameraAngle": "Level across the rooftops, looking east",
+        "shotScale": "Wide"
+      },
+      "output": null,
+      "effectiveBlockers": [
+        "FD-S101-04",
+        "KF-ENV-CITY-DUSK-A: FD-S101-08"
+      ]
+    },
+    {
+      "essential": true,
+      "derivesFrom": [],
+      "candidates": 2,
+      "reusableBeyondUnit": [],
+      "blockedBy": [
+        "FD-S101-05"
+      ],
+      "keyframeId": "KF-WD-GREEN-DRESS",
+      "kind": "WARDROBE_REFERENCE",
+      "title": "The grandmother's jewel-green dress",
+      "usedBy": [],
+      "source": "GENERATE",
+      "noReferenceJustification": "No wardrobe design exists (U-4). The founder approves the design before any frame uses it (FD-S101-05).",
+      "spec": {
+        "characterPlacement": "Nobody featured",
+        "expression": "None",
+        "wardrobe": "The jewel-green dress (design pending, U-4)",
+        "lighting": "LS-LAST-LIGHT: sun just below the roofline, warm bounce off brick, first interior lamps",
+        "architecture": "Neutral brick behind",
+        "propOwnership": "None",
+        "visible": [
+          "the whole dress",
+          "neckline",
+          "hem"
+        ],
+        "hidden": [
+          "a wearer"
+        ],
+        "cameraAngle": "Straight on, dress hanging",
+        "shotScale": "Full length of the dress"
+      },
+      "output": null,
+      "effectiveBlockers": [
+        "FD-S101-05"
+      ]
+    },
+    {
+      "essential": true,
+      "derivesFrom": [],
+      "candidates": 2,
+      "reusableBeyondUnit": [
+        "Every release that shows the Ember; S1-58 adds the gold state"
+      ],
+      "blockedBy": [
+        "FD-S101-03"
+      ],
+      "keyframeId": "KF-EMBER-LOOK",
+      "kind": "PROP_REFERENCE",
+      "title": "The Ember on the neighbour's phone lens",
+      "usedBy": [],
+      "source": "GENERATE",
+      "noReferenceJustification": "No approved visual reference for the Ember exists; the source fixes only its function and colour (soft copper glow, capture declined). The founder approves the look (FD-S101-03).",
+      "spec": {
+        "characterPlacement": "Nobody featured",
+        "expression": "None",
+        "wardrobe": "None",
+        "lighting": "LS-BLUE-HOUR: blue sky, warm practical windows, street lamps on; no gold anywhere; the copper glow is the brightest thing in frame",
+        "architecture": "None",
+        "propOwnership": "Neighbour's phone (PR-NEIGHBOUR-PHONE, design required)",
+        "visible": [
+          "lens ring",
+          "soft copper glow"
+        ],
+        "hidden": [
+          "any gold tone",
+          "any logo"
+        ],
+        "cameraAngle": "Front three-quarter on a phone camera lens",
+        "shotScale": "Extreme close"
+      },
+      "output": null,
+      "effectiveBlockers": [
+        "FD-S101-03"
+      ]
+    },
+    {
+      "essential": true,
+      "derivesFrom": [
+        "KF-ENV-CITY-DUSK-A"
+      ],
+      "candidates": 2,
+      "reusableBeyondUnit": [],
+      "blockedBy": [],
+      "keyframeId": "KF-SF-SH02",
+      "kind": "START_FRAME",
+      "title": "Tailor reaching for the grille",
+      "usedBy": [
+        "S1-01-SH02"
+      ],
+      "source": "GENERATE",
+      "spec": {
+        "characterPlacement": "Tailor frame left, arms up to the grille",
+        "expression": "Focused, end-of-day calm",
+        "wardrobe": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)",
+        "lighting": "LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east",
+        "architecture": "Shopfront, grille up, mannequin in the window",
+        "propOwnership": "Grille up",
+        "visible": [
+          "tailor shop grille",
+          "mannequin in the window"
+        ],
+        "hidden": [
+          "the bus stop"
+        ],
+        "cameraAngle": "Eye level, three-quarter front from west of the door",
+        "shotScale": "Medium full"
+      },
+      "output": null,
+      "effectiveBlockers": [
+        "KF-ENV-CITY-DUSK-A: FD-S101-08"
+      ]
+    },
+    {
+      "essential": true,
+      "derivesFrom": [
+        "KF-SF-SH02"
+      ],
+      "candidates": 1,
+      "reusableBeyondUnit": [],
+      "blockedBy": [],
+      "keyframeId": "KF-SF-SH03",
+      "kind": "START_FRAME",
+      "title": "Hands on the lapel through the window",
+      "usedBy": [
+        "S1-01-SH03"
+      ],
+      "source": "GENERATE",
+      "spec": {
+        "characterPlacement": "Hands entering frame left",
+        "expression": "Face cropped",
+        "wardrobe": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)",
+        "lighting": "LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east",
+        "architecture": "Window glass with street reflection, grille half down at top of frame",
+        "propOwnership": "Grille half down",
+        "visible": [
+          "mannequin in the window",
+          "tailor shop grille"
+        ],
+        "hidden": [],
+        "cameraAngle": "Chest height through the window glass",
+        "shotScale": "Medium close"
+      },
+      "output": null,
+      "effectiveBlockers": [
+        "KF-SF-SH02: KF-ENV-CITY-DUSK-A: FD-S101-08"
+      ]
+    },
+    {
+      "essential": true,
+      "derivesFrom": [
+        "KF-SF-SH02"
+      ],
+      "candidates": 1,
+      "reusableBeyondUnit": [],
+      "blockedBy": [],
+      "keyframeId": "KF-SF-SH04",
+      "kind": "START_FRAME",
+      "title": "Side-on shopfront, grille half down",
+      "usedBy": [
+        "S1-01-SH04"
+      ],
+      "source": "GENERATE",
+      "spec": {
+        "characterPlacement": "Tailor frame right, hand on the grille",
+        "expression": "Satisfied",
+        "wardrobe": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)",
+        "lighting": "LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east",
+        "architecture": "Shopfront along frame",
+        "propOwnership": "Grille half down",
+        "visible": [
+          "tailor shop grille"
+        ],
+        "hidden": [],
+        "cameraAngle": "Eye level, side-on from the west",
+        "shotScale": "Medium"
+      },
+      "output": null,
+      "effectiveBlockers": [
+        "KF-SF-SH02: KF-ENV-CITY-DUSK-A: FD-S101-08"
+      ]
+    },
+    {
+      "essential": true,
+      "derivesFrom": [
+        "KF-ENV-CITY-DUSK-B"
+      ],
+      "candidates": 2,
+      "reusableBeyondUnit": [],
+      "blockedBy": [],
+      "keyframeId": "KF-SF-SH05",
+      "kind": "START_FRAME",
+      "title": "Teenager and his reflection at the shelter",
+      "usedBy": [
+        "S1-01-SH05"
+      ],
+      "source": "GENERATE",
+      "spec": {
+        "characterPlacement": "Teenager frame right, reflection frame left",
+        "expression": "Concentrating",
+        "wardrobe": "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)",
+        "lighting": "LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east",
+        "architecture": "Bus shelter glass and the street behind it",
+        "propOwnership": "None",
+        "visible": [
+          "bus shelter glass"
+        ],
+        "hidden": [
+          "other people waiting"
+        ],
+        "cameraAngle": "Waist height behind his shoulder toward the shelter glass",
+        "shotScale": "Medium full"
+      },
+      "output": null,
+      "effectiveBlockers": [
+        "KF-ENV-CITY-DUSK-B: KF-ENV-CITY-DUSK-A: FD-S101-08"
+      ]
+    },
+    {
+      "essential": true,
+      "derivesFrom": [
+        "KF-SF-SH05"
+      ],
+      "candidates": 1,
+      "reusableBeyondUnit": [],
+      "blockedBy": [],
+      "keyframeId": "KF-SF-SH06",
+      "kind": "START_FRAME",
+      "title": "Sneakers on the kerb",
+      "usedBy": [
+        "S1-01-SH06"
+      ],
+      "source": "GENERATE",
+      "spec": {
+        "characterPlacement": "Feet centre",
+        "expression": "None",
+        "wardrobe": "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)",
+        "lighting": "LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east",
+        "architecture": "Kerb and pavement",
+        "propOwnership": "None",
+        "visible": [
+          "sneakers",
+          "kerb"
+        ],
+        "hidden": [
+          "his face"
+        ],
+        "cameraAngle": "Ground level, side-on",
+        "shotScale": "Insert"
+      },
+      "output": null,
+      "effectiveBlockers": [
+        "KF-SF-SH05: KF-ENV-CITY-DUSK-B: KF-ENV-CITY-DUSK-A: FD-S101-08"
+      ]
+    },
+    {
+      "essential": true,
+      "derivesFrom": [],
+      "candidates": 0,
+      "reusableBeyondUnit": [],
+      "blockedBy": [],
+      "keyframeId": "KF-SF-SH07",
+      "kind": "START_FRAME",
+      "title": "Landing take starts where the first attempt ended",
+      "usedBy": [
+        "S1-01-SH07"
+      ],
+      "source": "EXTRACT_FROM_APPROVED_FOOTAGE",
+      "spec": null,
+      "extractFrom": {
+        "shotId": "S1-01-SH05",
+        "position": "LAST_FRAME"
+      },
+      "output": null,
+      "effectiveBlockers": [
+        "S1-01-SH05 via KF-SF-SH05: KF-ENV-CITY-DUSK-B: KF-ENV-CITY-DUSK-A: FD-S101-08"
+      ]
+    },
+    {
+      "essential": true,
+      "derivesFrom": [
+        "KF-ENV-CITY-DUSK-A",
+        "KF-WD-GREEN-DRESS"
+      ],
+      "candidates": 1,
+      "reusableBeyondUnit": [],
+      "blockedBy": [],
+      "keyframeId": "KF-SF-SH08",
+      "kind": "START_FRAME",
+      "title": "Dress held above the fire-escape rail",
+      "usedBy": [
+        "S1-01-SH08"
+      ],
+      "source": "GENERATE",
+      "spec": {
+        "characterPlacement": "Grandmother's arms and the top of her head above the rail",
+        "expression": "Not readable",
+        "wardrobe": "The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (scene-scoped)",
+        "lighting": "LS-LAST-LIGHT: sun just below the roofline, warm bounce off brick, first interior lamps",
+        "architecture": "Brownstone brick, third-floor fire escape",
+        "propOwnership": "Dress in her hands, folded",
+        "visible": [
+          "third-floor fire-escape rail",
+          "the dress"
+        ],
+        "hidden": [],
+        "cameraAngle": "Street level looking up at the third floor",
+        "shotScale": "Medium wide"
+      },
+      "output": null,
+      "effectiveBlockers": [
+        "KF-ENV-CITY-DUSK-A: FD-S101-08",
+        "KF-WD-GREEN-DRESS: FD-S101-05"
+      ]
+    },
+    {
+      "essential": true,
+      "derivesFrom": [
+        "KF-SF-SH08",
+        "KF-WD-GREEN-DRESS"
+      ],
+      "candidates": 1,
+      "reusableBeyondUnit": [],
+      "blockedBy": [],
+      "keyframeId": "KF-SF-SH09",
+      "kind": "START_FRAME",
+      "title": "Hands on the hanging skirt",
+      "usedBy": [
+        "S1-01-SH09"
+      ],
+      "source": "GENERATE",
+      "spec": {
+        "characterPlacement": "Hands entering frame left",
+        "expression": "None",
+        "wardrobe": "The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (scene-scoped)",
+        "lighting": "LS-LAST-LIGHT: sun just below the roofline, warm bounce off brick, first interior lamps",
+        "architecture": "Fire-escape rail",
+        "propOwnership": "Dress hanging on the rail",
+        "visible": [
+          "third-floor fire-escape rail",
+          "skirt"
+        ],
+        "hidden": [
+          "her face"
+        ],
+        "cameraAngle": "Rail height, side-on along the rail",
+        "shotScale": "Close"
+      },
+      "output": null,
+      "effectiveBlockers": [
+        "KF-SF-SH08: KF-ENV-CITY-DUSK-A: FD-S101-08",
+        "KF-SF-SH08: KF-WD-GREEN-DRESS: FD-S101-05",
+        "KF-WD-GREEN-DRESS: FD-S101-05"
+      ]
+    },
+    {
+      "essential": true,
+      "derivesFrom": [
+        "KF-SF-SH08",
+        "KF-WD-GREEN-DRESS"
+      ],
+      "candidates": 2,
+      "reusableBeyondUnit": [],
+      "blockedBy": [],
+      "keyframeId": "KF-SF-SH10",
+      "kind": "START_FRAME",
+      "title": "Grandmother's look at the dress",
+      "usedBy": [
+        "S1-01-SH10"
+      ],
+      "source": "GENERATE",
+      "spec": {
+        "characterPlacement": "Face frame right, dress soft frame left",
+        "expression": "Quiet approval with a trace of mischief",
+        "wardrobe": "The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (scene-scoped)",
+        "lighting": "LS-LAST-LIGHT: sun just below the roofline, warm bounce off brick, first interior lamps",
+        "architecture": "Fire escape, window behind her",
+        "propOwnership": "Dress hanging on the rail",
+        "visible": [
+          "third-floor fire-escape rail"
+        ],
+        "hidden": [],
+        "cameraAngle": "Her eye level, three-quarter front",
+        "shotScale": "Medium close"
+      },
+      "output": null,
+      "effectiveBlockers": [
+        "KF-SF-SH08: KF-ENV-CITY-DUSK-A: FD-S101-08",
+        "KF-SF-SH08: KF-WD-GREEN-DRESS: FD-S101-05",
+        "KF-WD-GREEN-DRESS: FD-S101-05"
+      ]
+    },
+    {
+      "essential": true,
+      "derivesFrom": [
+        "KF-ENV-CITY-DUSK-A"
+      ],
+      "candidates": 2,
+      "reusableBeyondUnit": [],
+      "blockedBy": [],
+      "keyframeId": "KF-SF-SH11",
+      "kind": "START_FRAME",
+      "title": "Woman dancing through the balcony door, glass on the ledge",
+      "usedBy": [
+        "S1-01-SH11"
+      ],
+      "source": "GENERATE",
+      "spec": {
+        "characterPlacement": "Woman right of centre inside the door frame",
+        "expression": "Eyes half closed, pleased",
+        "wardrobe": "Woman on the balcony: soft at-home dress, bare feet, hair loosely up (scene-scoped)",
+        "lighting": "LS-LAST-LIGHT: sun just below the roofline, warm bounce off brick, first interior lamps",
+        "architecture": "Fourth-floor balcony on a converted brownstone, open door, small kitchen",
+        "propOwnership": "Glass on the ledge; spoon in her right hand",
+        "visible": [
+          "fourth-floor balcony ledge",
+          "open balcony door",
+          "wine glass",
+          "wooden spoon"
+        ],
+        "hidden": [],
+        "cameraAngle": "Balcony height from outside, straight into the kitchen",
+        "shotScale": "Medium wide"
+      },
+      "output": null,
+      "effectiveBlockers": [
+        "KF-ENV-CITY-DUSK-A: FD-S101-08"
+      ]
+    },
+    {
+      "essential": true,
+      "derivesFrom": [
+        "KF-SF-SH11"
+      ],
+      "candidates": 1,
+      "reusableBeyondUnit": [],
+      "blockedBy": [],
+      "keyframeId": "KF-SF-SH12",
+      "kind": "START_FRAME",
+      "title": "Woman mid-twirl",
+      "usedBy": [
+        "S1-01-SH12"
+      ],
+      "source": "GENERATE",
+      "spec": {
+        "characterPlacement": "Face centre",
+        "expression": "Laughing to herself",
+        "wardrobe": "Woman on the balcony: soft at-home dress, bare feet, hair loosely up (scene-scoped)",
+        "lighting": "LS-LAST-LIGHT: sun just below the roofline, warm bounce off brick, first interior lamps",
+        "architecture": "Kitchen interior, door frame edge",
+        "propOwnership": "Spoon in her right hand",
+        "visible": [
+          "wooden spoon"
+        ],
+        "hidden": [
+          "wine glass"
+        ],
+        "cameraAngle": "Her eye level, three-quarter front",
+        "shotScale": "Medium close"
+      },
+      "output": null,
+      "effectiveBlockers": [
+        "KF-SF-SH11: KF-ENV-CITY-DUSK-A: FD-S101-08"
+      ]
+    },
+    {
+      "essential": true,
+      "derivesFrom": [
+        "KF-ENV-CITY-DUSK-B"
+      ],
+      "candidates": 2,
+      "reusableBeyondUnit": [],
+      "blockedBy": [],
+      "keyframeId": "KF-SF-SH13",
+      "kind": "START_FRAME",
+      "title": "Neighbour at his window, phone at his side",
+      "usedBy": [
+        "S1-01-SH13"
+      ],
+      "source": "GENERATE",
+      "spec": {
+        "characterPlacement": "Neighbour frame right, looking screen left",
+        "expression": "Idle amusement",
+        "wardrobe": "Neighbour: plain t-shirt, reading lamp behind him (scene-scoped)",
+        "lighting": "LS-BLUE-HOUR: blue sky, warm practical windows, street lamps on; no gold anywhere",
+        "architecture": "Second-floor window, reading lamp behind",
+        "propOwnership": "Phone in his hand, lowered",
+        "visible": [
+          "neighbour's window frame",
+          "phone"
+        ],
+        "hidden": [
+          "her balcony"
+        ],
+        "cameraAngle": "His eye level from outside the window, three-quarter front",
+        "shotScale": "Medium"
+      },
+      "output": null,
+      "effectiveBlockers": [
+        "KF-ENV-CITY-DUSK-B: KF-ENV-CITY-DUSK-A: FD-S101-08"
+      ]
+    },
+    {
+      "essential": true,
+      "derivesFrom": [
+        "KF-SF-SH13",
+        "KF-EMBER-LOOK"
+      ],
+      "candidates": 1,
+      "reusableBeyondUnit": [],
+      "blockedBy": [],
+      "keyframeId": "KF-SF-SH14",
+      "kind": "START_FRAME",
+      "title": "Phone lens before the bloom",
+      "usedBy": [
+        "S1-01-SH14"
+      ],
+      "source": "GENERATE",
+      "spec": {
+        "characterPlacement": "Fingers soft at frame edge",
+        "expression": "None",
+        "wardrobe": "None",
+        "lighting": "LS-BLUE-HOUR: blue sky, warm practical windows, street lamps on; no gold anywhere",
+        "architecture": "None",
+        "propOwnership": "Neighbour's phone, raised",
+        "visible": [
+          "lens ring"
+        ],
+        "hidden": [
+          "his face",
+          "any logo"
+        ],
+        "cameraAngle": "Front three-quarter on the lens",
+        "shotScale": "Extreme close"
+      },
+      "output": null,
+      "effectiveBlockers": [
+        "KF-SF-SH13: KF-ENV-CITY-DUSK-B: KF-ENV-CITY-DUSK-A: FD-S101-08",
+        "KF-EMBER-LOOK: FD-S101-03"
+      ]
+    },
+    {
+      "essential": true,
+      "derivesFrom": [
+        "KF-SF-SH13"
+      ],
+      "candidates": 1,
+      "reusableBeyondUnit": [],
+      "blockedBy": [],
+      "keyframeId": "KF-SF-SH15",
+      "kind": "START_FRAME",
+      "title": "Neighbour, phone raised, lens copper",
+      "usedBy": [
+        "S1-01-SH15"
+      ],
+      "source": "GENERATE",
+      "spec": {
+        "characterPlacement": "Face frame right",
+        "expression": "Caught out",
+        "wardrobe": "Neighbour: plain t-shirt, reading lamp behind him (scene-scoped)",
+        "lighting": "LS-BLUE-HOUR: blue sky, warm practical windows, street lamps on; no gold anywhere",
+        "architecture": "Window frame",
+        "propOwnership": "Phone raised, copper glow at frame edge",
+        "visible": [
+          "neighbour's window frame"
+        ],
+        "hidden": [
+          "her balcony"
+        ],
+        "cameraAngle": "His eye level, three-quarter front, tighter than SH13",
+        "shotScale": "Medium close"
+      },
+      "output": null,
+      "effectiveBlockers": [
+        "KF-SF-SH13: KF-ENV-CITY-DUSK-B: KF-ENV-CITY-DUSK-A: FD-S101-08"
+      ]
+    },
+    {
+      "essential": true,
+      "derivesFrom": [
+        "KF-SF-SH11",
+        "KF-ENV-CITY-DUSK-A"
+      ],
+      "candidates": 1,
+      "reusableBeyondUnit": [],
+      "blockedBy": [],
+      "keyframeId": "KF-SF-SH16",
+      "kind": "START_FRAME",
+      "title": "Her balcony from his window",
+      "usedBy": [
+        "S1-01-SH16"
+      ],
+      "source": "GENERATE",
+      "spec": {
+        "characterPlacement": "Woman at the ledge, centre",
+        "expression": "Amused, generous",
+        "wardrobe": "Woman on the balcony: soft at-home dress, bare feet, hair loosely up (scene-scoped)",
+        "lighting": "LS-BLUE-HOUR: blue sky, warm practical windows, street lamps on; no gold anywhere",
+        "architecture": "Balcony, open door, lit kitchen",
+        "propOwnership": "Glass in her left hand at the ledge; spoon in her right",
+        "visible": [
+          "fourth-floor balcony ledge",
+          "open balcony door",
+          "wine glass"
+        ],
+        "hidden": [],
+        "cameraAngle": "Across the street from his window height, slightly up",
+        "shotScale": "Medium wide"
+      },
+      "output": null,
+      "effectiveBlockers": [
+        "KF-SF-SH11: KF-ENV-CITY-DUSK-A: FD-S101-08",
+        "KF-ENV-CITY-DUSK-A: FD-S101-08"
+      ]
+    },
+    {
+      "essential": true,
+      "derivesFrom": [
+        "KF-ENV-CITY-DUSK-A",
+        "KF-SF-SH11",
+        "KF-SF-SH08"
+      ],
+      "candidates": 1,
+      "reusableBeyondUnit": [],
+      "blockedBy": [],
+      "keyframeId": "KF-SF-SH17",
+      "kind": "START_FRAME",
+      "title": "Start of the rise: kitchen and dress",
+      "usedBy": [
+        "S1-01-SH17"
+      ],
+      "source": "GENERATE",
+      "spec": {
+        "characterPlacement": "Woman small in her kitchen, frame left",
+        "expression": "Not readable",
+        "wardrobe": "Woman on the balcony: soft at-home dress, bare feet, hair loosely up (scene-scoped); The jewel-green dress (design pending, U-4)",
+        "lighting": "LS-BLUE-HOUR: blue sky, warm practical windows, street lamps on; no gold anywhere",
+        "architecture": "North side facades, fire escapes, balcony",
+        "propOwnership": "Dress hanging on the rail",
+        "visible": [
+          "fourth-floor balcony ledge",
+          "third-floor fire-escape rail",
+          "water towers"
+        ],
+        "hidden": [
+          "Halcyon House"
+        ],
+        "cameraAngle": "Level at the fourth floor",
+        "shotScale": "Wide"
+      },
+      "output": null,
+      "effectiveBlockers": [
+        "KF-ENV-CITY-DUSK-A: FD-S101-08",
+        "KF-SF-SH11: KF-ENV-CITY-DUSK-A: FD-S101-08",
+        "KF-SF-SH08: KF-ENV-CITY-DUSK-A: FD-S101-08",
+        "KF-SF-SH08: KF-WD-GREEN-DRESS: FD-S101-05"
+      ]
+    },
+    {
+      "essential": true,
+      "derivesFrom": [],
+      "candidates": 0,
+      "reusableBeyondUnit": [],
+      "blockedBy": [],
+      "keyframeId": "KF-SF-SH18",
+      "kind": "START_FRAME",
+      "title": "Rise continues from the last frame of SH17",
+      "usedBy": [
+        "S1-01-SH18"
+      ],
+      "source": "EXTRACT_FROM_APPROVED_FOOTAGE",
+      "spec": null,
+      "extractFrom": {
+        "shotId": "S1-01-SH17",
+        "position": "LAST_FRAME"
+      },
+      "output": null,
+      "effectiveBlockers": [
+        "S1-01-SH17 via KF-SF-SH17: KF-ENV-CITY-DUSK-A: FD-S101-08",
+        "S1-01-SH17 via KF-SF-SH17: KF-SF-SH11: KF-ENV-CITY-DUSK-A: FD-S101-08",
+        "S1-01-SH17 via KF-SF-SH17: KF-SF-SH08: KF-ENV-CITY-DUSK-A: FD-S101-08",
+        "S1-01-SH17 via KF-SF-SH17: KF-SF-SH08: KF-WD-GREEN-DRESS: FD-S101-05"
+      ]
+    }
+  ]
+}

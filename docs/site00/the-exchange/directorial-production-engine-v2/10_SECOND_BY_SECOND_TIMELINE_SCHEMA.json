@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "site00:the-exchange:timeline-event-v2",
+  "title": "Second-by-second timeline event",
+  "type": "object",
+  "description": "One picture event with everything audible and required under it. Times are HH:MM:SS.mmm on the master clock; frames are authoritative.",
+  "required": [
+    "eventId",
+    "sceneId",
+    "start",
+    "end",
+    "duration",
+    "narrativeBeat",
+    "visibleAction",
+    "characterPosition",
+    "cameraPosition",
+    "cameraMovement",
+    "dialogue",
+    "audioSource",
+    "musicState",
+    "soundEffects",
+    "propState",
+    "editTransition",
+    "keyframeRequirement",
+    "productionAssetRequirement",
+    "continuityNotes"
+  ],
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sceneId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "start": {
+      "type": "string",
+      "pattern": "^\\d{2}:\\d{2}:\\d{2}\\.\\d{3}$"
+    },
+    "end": {
+      "type": "string",
+      "pattern": "^\\d{2}:\\d{2}:\\d{2}\\.\\d{3}$"
+    },
+    "duration": {
+      "type": "string",
+      "pattern": "^\\d{2}:\\d{2}:\\d{2}\\.\\d{3}$"
+    },
+    "narrativeBeat": {
+      "type": "string",
+      "minLength": 1
+    },
+    "visibleAction": {
+      "type": "string",
+      "minLength": 1
+    },
+    "characterPosition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cameraPosition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cameraMovement": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dialogue": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "audioSource": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "musicState": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "soundEffects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "propState": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "editTransition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "keyframeRequirement": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "productionAssetRequirement": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "continuityNotes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "startFrame": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "endFrame": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "frames": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "coverage": {
+      "enum": [
+        "VISIBLE_SPEAKER",
+        "OFFSCREEN_SPEAKER",
+        "LISTENER_REACTION",
+        "OBJECT_INSERT",
+        "ENVIRONMENT_INSERT",
+        "SILENT_ACTION",
+        "ESTABLISHING",
+        "TRANSITION"
+      ]
+    },
+    "lipSync": {
+      "enum": [
+        "NONE",
+        "REQUIRED"
+      ]
+    }
+  },
+  "sprintFieldMap": {
+    "EVENT ID": "eventId",
+    "SCENE ID": "sceneId",
+    "START TIMECODE": "start",
+    "END TIMECODE": "end",
+    "DURATION": "duration",
+    "NARRATIVE BEAT": "narrativeBeat",
+    "VISIBLE ACTION": "visibleAction",
+    "CHARACTER POSITION": "characterPosition",
+    "CAMERA POSITION": "cameraPosition",
+    "CAMERA MOVEMENT": "cameraMovement",
+    "DIALOGUE": "dialogue",
+    "AUDIO SOURCE": "audioSource",
+    "MUSIC STATE": "musicState",
+    "SOUND EFFECTS": "soundEffects",
+    "PROP STATE": "propState",
+    "EDIT TRANSITION": "editTransition",
+    "KEYFRAME REQUIREMENT": "keyframeRequirement",
+    "PRODUCTION ASSET REQUIREMENT": "productionAssetRequirement",
+    "CONTINUITY NOTES": "continuityNotes"
+  },
+  "rules": [
+    "Events are derived from the plan; nobody types a timecode by hand.",
+    "Picture events tile the unit from 00:00:00.000 to its end with no gap; an overlay sits inside one VIDEO_A take.",
+    "Simultaneous tracks are never summed: the unit runtime is the picture sequence length."
+  ]
+}

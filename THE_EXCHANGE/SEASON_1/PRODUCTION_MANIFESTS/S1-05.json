@@ -22,14 +22,14 @@
       "cue": "GIDEON",
       "speaks": true,
       "faceRef": "gideon-shaw",
-      "voiceId": null,
+      "voiceId": "41wdZQ488o8wXI20MrNC",
       "dialogueRegistry": true
     },
     {
       "cue": "SLOANE",
       "speaks": true,
       "faceRef": "sloane-lockwood",
-      "voiceId": null,
+      "voiceId": "sLyuEdbnawgNCsS8wQQK",
       "dialogueRegistry": true
     }
   ],
@@ -72,7 +72,7 @@
       {
         "lineId": "S1-05-L001",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "Who brought it?",
         "direction": null,
         "characters": 15
@@ -80,7 +80,7 @@
       {
         "lineId": "S1-05-L002",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "Kai.",
         "direction": null,
         "characters": 4
@@ -88,7 +88,7 @@
       {
         "lineId": "S1-05-L003",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "He came here.",
         "direction": null,
         "characters": 13
@@ -96,7 +96,7 @@
       {
         "lineId": "S1-05-L004",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "Stayed on the steps. Didn't ask to come in.",
         "direction": null,
         "characters": 43
@@ -104,7 +104,7 @@
       {
         "lineId": "S1-05-L005",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "Good waistcoat.",
         "direction": "beat",
         "characters": 15
@@ -112,7 +112,7 @@
       {
         "lineId": "S1-05-L006",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "He would.",
         "direction": "almost a smile, then not",
         "characters": 9
@@ -120,7 +120,7 @@
       {
         "lineId": "S1-05-L007",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "He can't ask. He has no standing. You know that.",
         "direction": "gently",
         "characters": 48
@@ -128,7 +128,7 @@
       {
         "lineId": "S1-05-L008",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "I know.",
         "direction": null,
         "characters": 7
@@ -136,7 +136,7 @@
       {
         "lineId": "S1-05-L009",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "Every year I tell myself I'll stop deciding who gets what. Every year I'm very good at it.",
         "direction": null,
         "characters": 90
@@ -144,7 +144,7 @@
       {
         "lineId": "S1-05-L010",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "Want me to send it back?",
         "direction": null,
         "characters": 24
@@ -152,7 +152,7 @@
       {
         "lineId": "S1-05-L011",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "No.",
         "direction": "a beat",
         "characters": 3
@@ -160,7 +160,7 @@
       {
         "lineId": "S1-05-L012",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "Then I'll be downstairs.",
         "direction": null,
         "characters": 24
@@ -189,7 +189,7 @@
       {
         "lineId": "S1-05-L001",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "Who brought it?",
         "direction": null,
         "characters": 15
@@ -197,7 +197,7 @@
       {
         "lineId": "S1-05-L002",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "Kai.",
         "direction": null,
         "characters": 4
@@ -205,7 +205,7 @@
       {
         "lineId": "S1-05-L003",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "He came here.",
         "direction": null,
         "characters": 13
@@ -213,7 +213,7 @@
       {
         "lineId": "S1-05-L004",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "Stayed on the steps. Didn't ask to come in.",
         "direction": null,
         "characters": 43
@@ -221,7 +221,7 @@
       {
         "lineId": "S1-05-L005",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "Good waistcoat.",
         "direction": "beat",
         "characters": 15
@@ -229,7 +229,7 @@
       {
         "lineId": "S1-05-L006",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "He would.",
         "direction": "almost a smile, then not",
         "characters": 9
@@ -237,7 +237,7 @@
       {
         "lineId": "S1-05-L007",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "He can't ask. He has no standing. You know that.",
         "direction": "gently",
         "characters": 48
@@ -245,7 +245,7 @@
       {
         "lineId": "S1-05-L008",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "I know.",
         "direction": null,
         "characters": 7
@@ -253,7 +253,7 @@
       {
         "lineId": "S1-05-L009",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "Every year I tell myself I'll stop deciding who gets what. Every year I'm very good at it.",
         "direction": null,
         "characters": 90
@@ -261,7 +261,7 @@
       {
         "lineId": "S1-05-L010",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "Want me to send it back?",
         "direction": null,
         "characters": 24
@@ -269,7 +269,7 @@
       {
         "lineId": "S1-05-L011",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "No.",
         "direction": "a beat",
         "characters": 3
@@ -277,7 +277,7 @@
       {
         "lineId": "S1-05-L012",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "Then I'll be downstairs.",
         "direction": null,
         "characters": 24
@@ -1413,12 +1413,12 @@
     {
       "kind": "CHARACTER_VOICE",
       "subject": "GIDEON",
-      "detail": "no approved voice"
+      "detail": "voice identity linked (CONNECTOR_VERIFIED); no approved recorded take"
     },
     {
       "kind": "CHARACTER_VOICE",
       "subject": "SLOANE",
-      "detail": "no approved voice"
+      "detail": "voice identity linked (CONNECTOR_VERIFIED); no approved recorded take"
     },
     {
       "kind": "SET",

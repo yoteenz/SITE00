@@ -1,0 +1,2370 @@
+{
+  "schemaVersion": "2.0.0",
+  "activeReleaseId": "S1-01",
+  "rule": "Future needs are tracked silently and reach the founder only when their release enters active production.",
+  "jit": {
+    "activeReleaseId": "S1-01",
+    "needed": [
+      {
+        "personId": "scene:S1-01:grandmother",
+        "name": "GRANDMOTHER",
+        "tier": "SCENE_SCOPED",
+        "existing": "none",
+        "gaps": [
+          "scene-scoped look (designed inside the scene packet)"
+        ],
+        "steps": [
+          "IDENTIFY",
+          "CHECK_EXISTING",
+          "FIND_GAPS",
+          "GENERATE_ONLY_NEEDED",
+          "FOUNDER_APPROVAL",
+          "LOCK",
+          "REUSE"
+        ]
+      },
+      {
+        "personId": "scene:S1-01:neighbour",
+        "name": "NEIGHBOUR",
+        "tier": "SCENE_SCOPED",
+        "existing": "none",
+        "gaps": [
+          "scene-scoped look (designed inside the scene packet)"
+        ],
+        "steps": [
+          "IDENTIFY",
+          "CHECK_EXISTING",
+          "FIND_GAPS",
+          "GENERATE_ONLY_NEEDED",
+          "FOUNDER_APPROVAL",
+          "LOCK",
+          "REUSE"
+        ]
+      },
+      {
+        "personId": "scene:S1-01:tailor",
+        "name": "TAILOR",
+        "tier": "SCENE_SCOPED",
+        "existing": "none",
+        "gaps": [
+          "scene-scoped look (designed inside the scene packet)"
+        ],
+        "steps": [
+          "IDENTIFY",
+          "CHECK_EXISTING",
+          "FIND_GAPS",
+          "GENERATE_ONLY_NEEDED",
+          "FOUNDER_APPROVAL",
+          "LOCK",
+          "REUSE"
+        ]
+      },
+      {
+        "personId": "scene:S1-01:teenager",
+        "name": "TEENAGER",
+        "tier": "SCENE_SCOPED",
+        "existing": "none",
+        "gaps": [
+          "scene-scoped look (designed inside the scene packet)"
+        ],
+        "steps": [
+          "IDENTIFY",
+          "CHECK_EXISTING",
+          "FIND_GAPS",
+          "GENERATE_ONLY_NEEDED",
+          "FOUNDER_APPROVAL",
+          "LOCK",
+          "REUSE"
+        ]
+      },
+      {
+        "personId": "scene:S1-01:woman on the balcony",
+        "name": "WOMAN ON THE BALCONY",
+        "tier": "SCENE_SCOPED",
+        "existing": "none",
+        "gaps": [
+          "scene-scoped look (designed inside the scene packet)"
+        ],
+        "steps": [
+          "IDENTIFY",
+          "CHECK_EXISTING",
+          "FIND_GAPS",
+          "GENERATE_ONLY_NEEDED",
+          "FOUNDER_APPROVAL",
+          "LOCK",
+          "REUSE"
+        ]
+      }
+    ],
+    "deferred": [
+      {
+        "personId": "gideon-shaw",
+        "name": "Gideon",
+        "tier": "REGISTERED",
+        "trigger": "S1-02 enters active production",
+        "releases": 26
+      },
+      {
+        "personId": "sloane-lockwood",
+        "name": "Sloane",
+        "tier": "REGISTERED",
+        "trigger": "S1-02 enters active production",
+        "releases": 57
+      },
+      {
+        "personId": "kai-fontaine",
+        "name": "Kai",
+        "tier": "REGISTERED",
+        "trigger": "S1-03 enters active production",
+        "releases": 12
+      },
+      {
+        "personId": "royce-bell",
+        "name": "Royce",
+        "tier": "REGISTERED",
+        "trigger": "S1-03 enters active production",
+        "releases": 7
+      },
+      {
+        "personId": "person:wendell",
+        "name": "Wendell Ames",
+        "tier": "SINGLE_RELEASE",
+        "trigger": "S1-06 enters active production",
+        "releases": 1
+      },
+      {
+        "personId": "tina-grandison",
+        "name": "Tina",
+        "tier": "REGISTERED",
+        "trigger": "S1-06 enters active production",
+        "releases": 5
+      },
+      {
+        "personId": "nadine-lockwood",
+        "name": "Nadine",
+        "tier": "REGISTERED",
+        "trigger": "S1-07 enters active production",
+        "releases": 14
+      },
+      {
+        "personId": "person:andre",
+        "name": "Andre",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-07 enters active production",
+        "releases": 3
+      },
+      {
+        "personId": "person:imara",
+        "name": "Imara",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-07 enters active production",
+        "releases": 2
+      },
+      {
+        "personId": "person:jalen",
+        "name": "Jalen",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-07 enters active production",
+        "releases": 2
+      },
+      {
+        "personId": "richard-lockwood",
+        "name": "Richard",
+        "tier": "REGISTERED",
+        "trigger": "S1-07 enters active production",
+        "releases": 11
+      },
+      {
+        "personId": "person:ada",
+        "name": "Ada Whitfield",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-08 enters active production",
+        "releases": 10
+      },
+      {
+        "personId": "person:clarence",
+        "name": "Clarence Moody",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-09 enters active production",
+        "releases": 6
+      },
+      {
+        "personId": "celestine-rhodes",
+        "name": "Celestine",
+        "tier": "REGISTERED",
+        "trigger": "S1-11 enters active production",
+        "releases": 12
+      },
+      {
+        "personId": "person:mavis",
+        "name": "Mavis Odom",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-12 enters active production",
+        "releases": 5
+      },
+      {
+        "personId": "person:mr. daniels",
+        "name": "Mr. Daniels",
+        "tier": "SINGLE_RELEASE",
+        "trigger": "S1-12 enters active production",
+        "releases": 1
+      },
+      {
+        "personId": "person:clementine",
+        "name": "Clementine Hollis",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-16 enters active production",
+        "releases": 4
+      },
+      {
+        "personId": "person:dara",
+        "name": "Dara",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-16 enters active production",
+        "releases": 2
+      },
+      {
+        "personId": "person:femi",
+        "name": "Femi Adeyemi",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-17 enters active production",
+        "releases": 4
+      },
+      {
+        "personId": "person:rashid",
+        "name": "Rashid Bello",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-17 enters active production",
+        "releases": 5
+      },
+      {
+        "personId": "person:lorna",
+        "name": "Lorna Shaw",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-18 enters active production",
+        "releases": 2
+      },
+      {
+        "personId": "person:cyrus",
+        "name": "Cyrus Wainwright",
+        "tier": "SINGLE_RELEASE",
+        "trigger": "S1-19 enters active production",
+        "releases": 1
+      },
+      {
+        "personId": "person:bunny",
+        "name": "Bunny Okafor",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-20 enters active production",
+        "releases": 4
+      },
+      {
+        "personId": "person:noelle",
+        "name": "Noelle Baptiste",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-20 enters active production",
+        "releases": 4
+      },
+      {
+        "personId": "person:honora",
+        "name": "Honora Vance",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-23 enters active production",
+        "releases": 6
+      },
+      {
+        "personId": "person:inez",
+        "name": "Inez Carter",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-25 enters active production",
+        "releases": 5
+      },
+      {
+        "personId": "person:talia",
+        "name": "Talia Carter",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-25 enters active production",
+        "releases": 2
+      },
+      {
+        "personId": "person:marcus",
+        "name": "Marcus Okafor",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-28 enters active production",
+        "releases": 5
+      },
+      {
+        "personId": "person:dr. akers",
+        "name": "Dr. Akers",
+        "tier": "SINGLE_RELEASE",
+        "trigger": "S1-30 enters active production",
+        "releases": 1
+      },
+      {
+        "personId": "person:tad",
+        "name": "Tad Monroe",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-33 enters active production",
+        "releases": 3
+      },
+      {
+        "personId": "person:yaz",
+        "name": "Yaz Adebayo",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-33 enters active production",
+        "releases": 3
+      },
+      {
+        "personId": "person:ophelia",
+        "name": "Ophelia Grant",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-34 enters active production",
+        "releases": 2
+      },
+      {
+        "personId": "person:dee",
+        "name": "Dee Whitlock",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-37 enters active production",
+        "releases": 4
+      },
+      {
+        "personId": "person:zuri",
+        "name": "Zuri Bankole",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-37 enters active production",
+        "releases": 4
+      },
+      {
+        "personId": "person:emmett",
+        "name": "Emmett Hale",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-41 enters active production",
+        "releases": 5
+      },
+      {
+        "personId": "person:bea",
+        "name": "Bea",
+        "tier": "SINGLE_RELEASE",
+        "trigger": "S1-42 enters active production",
+        "releases": 1
+      },
+      {
+        "personId": "person:abena",
+        "name": "Abena Mensah",
+        "tier": "SINGLE_RELEASE",
+        "trigger": "S1-47 enters active production",
+        "releases": 1
+      },
+      {
+        "personId": "person:renée",
+        "name": "Renée Coker",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-47 enters active production",
+        "releases": 2
+      },
+      {
+        "personId": "person:delphine",
+        "name": "Delphine Rowe",
+        "tier": "RECURRING_UNREGISTERED",
+        "trigger": "S1-62 enters active production",
+        "releases": 3
+      },
+      {
+        "personId": "person:grace",
+        "name": "Grace Okafor",
+        "tier": "SINGLE_RELEASE",
+        "trigger": "S1-64 enters active production",
+        "releases": 1
+      }
+    ],
+    "deferredSceneScoped": 69
+  },
+  "census": [
+    {
+      "personId": "scene:S1-01:grandmother",
+      "name": "GRANDMOTHER",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-01"
+      ],
+      "firstRelease": "S1-01",
+      "mentions": [
+        "screenplay S1-01: PRODUCTION.characters"
+      ]
+    },
+    {
+      "personId": "scene:S1-01:neighbour",
+      "name": "NEIGHBOUR",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-01"
+      ],
+      "firstRelease": "S1-01",
+      "mentions": [
+        "screenplay S1-01: PRODUCTION.characters"
+      ]
+    },
+    {
+      "personId": "scene:S1-01:tailor",
+      "name": "TAILOR",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-01"
+      ],
+      "firstRelease": "S1-01",
+      "mentions": [
+        "screenplay S1-01: PRODUCTION.characters"
+      ]
+    },
+    {
+      "personId": "scene:S1-01:teenager",
+      "name": "TEENAGER",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-01"
+      ],
+      "firstRelease": "S1-01",
+      "mentions": [
+        "screenplay S1-01: PRODUCTION.characters"
+      ]
+    },
+    {
+      "personId": "scene:S1-01:woman on the balcony",
+      "name": "WOMAN ON THE BALCONY",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-01"
+      ],
+      "firstRelease": "S1-01",
+      "mentions": [
+        "screenplay S1-01: PRODUCTION.characters"
+      ]
+    },
+    {
+      "personId": "gideon-shaw",
+      "name": "Gideon",
+      "tier": "REGISTERED",
+      "registryId": "gideon-shaw",
+      "releases": [
+        "S1-02",
+        "S1-03",
+        "S1-04",
+        "S1-05",
+        "S1-09",
+        "S1-10",
+        "S1-18",
+        "S1-19",
+        "S1-21",
+        "S1-24",
+        "S1-29",
+        "S1-33",
+        "S1-37",
+        "S1-39",
+        "S1-40",
+        "S1-45",
+        "S1-47",
+        "S1-49",
+        "S1-50",
+        "S1-62",
+        "S1-67",
+        "S1-68",
+        "S1-71",
+        "S1-72",
+        "S1-83",
+        "S1-85"
+      ],
+      "firstRelease": "S1-02",
+      "mentions": [
+        "Gideon",
+        "screenplay S1-02",
+        "screenplay S1-03",
+        "screenplay S1-04",
+        "screenplay S1-05"
+      ]
+    },
+    {
+      "personId": "sloane-lockwood",
+      "name": "Sloane",
+      "tier": "REGISTERED",
+      "registryId": "sloane-lockwood",
+      "releases": [
+        "S1-02",
+        "S1-03",
+        "S1-04",
+        "S1-05",
+        "S1-06",
+        "S1-07",
+        "S1-08",
+        "S1-09",
+        "S1-10",
+        "S1-11",
+        "S1-12",
+        "S1-13",
+        "S1-14",
+        "S1-15",
+        "S1-16",
+        "S1-18",
+        "S1-19",
+        "S1-20",
+        "S1-24",
+        "S1-26",
+        "S1-27",
+        "S1-28",
+        "S1-29",
+        "S1-31",
+        "S1-32",
+        "S1-33",
+        "S1-36",
+        "S1-37",
+        "S1-38",
+        "S1-40",
+        "S1-41",
+        "S1-43",
+        "S1-44",
+        "S1-47",
+        "S1-48",
+        "S1-49",
+        "S1-50",
+        "S1-51",
+        "S1-52",
+        "S1-55",
+        "S1-56",
+        "S1-57",
+        "S1-60",
+        "S1-61",
+        "S1-62",
+        "S1-64",
+        "S1-65",
+        "S1-66",
+        "S1-68",
+        "S1-72",
+        "S1-73",
+        "S1-75",
+        "S1-78",
+        "S1-80",
+        "S1-83",
+        "S1-84",
+        "S1-85"
+      ],
+      "firstRelease": "S1-02",
+      "mentions": [
+        "Sloane",
+        "Sloane (at the gate)",
+        "screenplay S1-02",
+        "screenplay S1-03",
+        "screenplay S1-04",
+        "screenplay S1-05"
+      ]
+    },
+    {
+      "personId": "kai-fontaine",
+      "name": "Kai",
+      "tier": "REGISTERED",
+      "registryId": "kai-fontaine",
+      "releases": [
+        "S1-03",
+        "S1-13",
+        "S1-22",
+        "S1-23",
+        "S1-28",
+        "S1-32",
+        "S1-46",
+        "S1-56",
+        "S1-60",
+        "S1-67",
+        "S1-72",
+        "S1-76"
+      ],
+      "firstRelease": "S1-03",
+      "mentions": [
+        "Kai Fontaine",
+        "Kai",
+        "Kai (at the bar)",
+        "screenplay S1-03"
+      ]
+    },
+    {
+      "personId": "royce-bell",
+      "name": "Royce",
+      "tier": "REGISTERED",
+      "registryId": "royce-bell",
+      "releases": [
+        "S1-03",
+        "S1-09",
+        "S1-28",
+        "S1-43",
+        "S1-45",
+        "S1-72",
+        "S1-75"
+      ],
+      "firstRelease": "S1-03",
+      "mentions": [
+        "Royce Bell",
+        "Royce",
+        "screenplay S1-03"
+      ]
+    },
+    {
+      "personId": "scene:S1-03:guests",
+      "name": "GUESTS",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-03"
+      ],
+      "firstRelease": "S1-03",
+      "mentions": [
+        "screenplay S1-03: PRODUCTION.characters"
+      ]
+    },
+    {
+      "personId": "scene:S1-03:royce's date",
+      "name": "ROYCE'S DATE",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-03"
+      ],
+      "firstRelease": "S1-03",
+      "mentions": [
+        "screenplay S1-03: PRODUCTION.characters"
+      ]
+    },
+    {
+      "personId": "scene:S1-04:guests",
+      "name": "GUESTS",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-04"
+      ],
+      "firstRelease": "S1-04",
+      "mentions": [
+        "screenplay S1-04: PRODUCTION.characters"
+      ]
+    },
+    {
+      "personId": "scene:S1-04:house band",
+      "name": "HOUSE BAND",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-04"
+      ],
+      "firstRelease": "S1-04",
+      "mentions": [
+        "screenplay S1-04: PRODUCTION.characters"
+      ]
+    },
+    {
+      "personId": "scene:S1-04:man in the orange jacket",
+      "name": "MAN IN THE ORANGE JACKET",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-04"
+      ],
+      "firstRelease": "S1-04",
+      "mentions": [
+        "screenplay S1-04: PRODUCTION.characters"
+      ]
+    },
+    {
+      "personId": "scene:S1-04:pianist",
+      "name": "PIANIST",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-04"
+      ],
+      "firstRelease": "S1-04",
+      "mentions": [
+        "screenplay S1-04: PRODUCTION.characters"
+      ]
+    },
+    {
+      "personId": "scene:S1-04:producer",
+      "name": "PRODUCER",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-04"
+      ],
+      "firstRelease": "S1-04",
+      "mentions": [
+        "screenplay S1-04: PRODUCTION.characters"
+      ]
+    },
+    {
+      "personId": "scene:S1-04:stranger",
+      "name": "STRANGER",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-04"
+      ],
+      "firstRelease": "S1-04",
+      "mentions": [
+        "screenplay S1-04: PRODUCTION.characters"
+      ]
+    },
+    {
+      "personId": "person:wendell",
+      "name": "Wendell Ames",
+      "tier": "SINGLE_RELEASE",
+      "registryId": null,
+      "releases": [
+        "S1-06"
+      ],
+      "firstRelease": "S1-06",
+      "mentions": [
+        "Wendell Ames (on the phone)"
+      ]
+    },
+    {
+      "personId": "tina-grandison",
+      "name": "Tina",
+      "tier": "REGISTERED",
+      "registryId": "tina-grandison",
+      "releases": [
+        "S1-06",
+        "S1-15",
+        "S1-34",
+        "S1-62",
+        "S1-72"
+      ],
+      "firstRelease": "S1-06",
+      "mentions": [
+        "Tina Grandison (a message)",
+        "Tina Grandison",
+        "Tina"
+      ]
+    },
+    {
+      "personId": "nadine-lockwood",
+      "name": "Nadine",
+      "tier": "REGISTERED",
+      "registryId": "nadine-lockwood",
+      "releases": [
+        "S1-07",
+        "S1-18",
+        "S1-20",
+        "S1-24",
+        "S1-30",
+        "S1-31",
+        "S1-46",
+        "S1-53",
+        "S1-61",
+        "S1-63",
+        "S1-66",
+        "S1-75",
+        "S1-80",
+        "S1-85"
+      ],
+      "firstRelease": "S1-07",
+      "mentions": [
+        "Nadine",
+        "Nadine (passing)"
+      ]
+    },
+    {
+      "personId": "person:andre",
+      "name": "Andre",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-07",
+        "S1-53",
+        "S1-80"
+      ],
+      "firstRelease": "S1-07",
+      "mentions": [
+        "Andre"
+      ]
+    },
+    {
+      "personId": "person:imara",
+      "name": "Imara",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-07",
+        "S1-80"
+      ],
+      "firstRelease": "S1-07",
+      "mentions": [
+        "Imara (15)",
+        "Imara"
+      ]
+    },
+    {
+      "personId": "person:jalen",
+      "name": "Jalen",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-07",
+        "S1-80"
+      ],
+      "firstRelease": "S1-07",
+      "mentions": [
+        "Jalen (11)",
+        "Jalen"
+      ]
+    },
+    {
+      "personId": "richard-lockwood",
+      "name": "Richard",
+      "tier": "REGISTERED",
+      "registryId": "richard-lockwood",
+      "releases": [
+        "S1-07",
+        "S1-14",
+        "S1-20",
+        "S1-39",
+        "S1-54",
+        "S1-55",
+        "S1-57",
+        "S1-58",
+        "S1-66",
+        "S1-71",
+        "S1-80"
+      ],
+      "firstRelease": "S1-07",
+      "mentions": [
+        "Richard",
+        "Richard (telling)"
+      ]
+    },
+    {
+      "personId": "person:ada",
+      "name": "Ada Whitfield",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-08",
+        "S1-13",
+        "S1-20",
+        "S1-24",
+        "S1-27",
+        "S1-36",
+        "S1-52",
+        "S1-60",
+        "S1-67",
+        "S1-83"
+      ],
+      "firstRelease": "S1-08",
+      "mentions": [
+        "Ada Whitfield",
+        "Ada"
+      ]
+    },
+    {
+      "personId": "person:clarence",
+      "name": "Clarence Moody",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-09",
+        "S1-17",
+        "S1-35",
+        "S1-38",
+        "S1-74",
+        "S1-82"
+      ],
+      "firstRelease": "S1-09",
+      "mentions": [
+        "Clarence Moody",
+        "Clarence Moody (all in passing)",
+        "Clarence Moody (74)",
+        "Clarence"
+      ]
+    },
+    {
+      "personId": "scene:S1-09:the crescent room orchestra",
+      "name": "the Crescent Room Orchestra",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-09"
+      ],
+      "firstRelease": "S1-09",
+      "mentions": [
+        "the Crescent Room Orchestra"
+      ]
+    },
+    {
+      "personId": "celestine-rhodes",
+      "name": "Celestine",
+      "tier": "REGISTERED",
+      "registryId": "celestine-rhodes",
+      "releases": [
+        "S1-11",
+        "S1-26",
+        "S1-46",
+        "S1-48",
+        "S1-61",
+        "S1-65",
+        "S1-67",
+        "S1-72",
+        "S1-76",
+        "S1-78",
+        "S1-82",
+        "S1-86"
+      ],
+      "firstRelease": "S1-11",
+      "mentions": [
+        "Celestine (seen through glass)",
+        "Celestine Rhodes",
+        "Celestine"
+      ]
+    },
+    {
+      "personId": "scene:S1-11:a courier",
+      "name": "a courier",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-11"
+      ],
+      "firstRelease": "S1-11",
+      "mentions": [
+        "a courier"
+      ]
+    },
+    {
+      "personId": "person:mavis",
+      "name": "Mavis Odom",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-12",
+        "S1-20",
+        "S1-51",
+        "S1-69",
+        "S1-72"
+      ],
+      "firstRelease": "S1-12",
+      "mentions": [
+        "Mavis Odom (79)",
+        "Mavis Odom",
+        "Mavis Odom (80 today)"
+      ]
+    },
+    {
+      "personId": "person:mr. daniels",
+      "name": "Mr. Daniels",
+      "tier": "SINGLE_RELEASE",
+      "registryId": null,
+      "releases": [
+        "S1-12"
+      ],
+      "firstRelease": "S1-12",
+      "mentions": [
+        "Mr. Daniels"
+      ]
+    },
+    {
+      "personId": "scene:S1-12:a fruit seller",
+      "name": "a fruit seller",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-12"
+      ],
+      "firstRelease": "S1-12",
+      "mentions": [
+        "a fruit seller"
+      ]
+    },
+    {
+      "personId": "scene:S1-12:a jazz club owner and longtime sponsor",
+      "name": "a jazz club owner and longtime sponsor",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-12"
+      ],
+      "firstRelease": "S1-12",
+      "mentions": [
+        "a jazz club owner and longtime sponsor (on the phone)"
+      ]
+    },
+    {
+      "personId": "scene:S1-15:a vintage dealer",
+      "name": "a vintage dealer",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-15"
+      ],
+      "firstRelease": "S1-15",
+      "mentions": [
+        "a vintage dealer"
+      ]
+    },
+    {
+      "personId": "person:clementine",
+      "name": "Clementine Hollis",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-16",
+        "S1-38",
+        "S1-73",
+        "S1-82"
+      ],
+      "firstRelease": "S1-16",
+      "mentions": [
+        "Clementine Hollis (80)",
+        "Clementine"
+      ]
+    },
+    {
+      "personId": "person:dara",
+      "name": "Dara",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-16",
+        "S1-73"
+      ],
+      "firstRelease": "S1-16",
+      "mentions": [
+        "Clementine's great-niece Dara (the nominator)",
+        "Dara"
+      ]
+    },
+    {
+      "personId": "person:femi",
+      "name": "Femi Adeyemi",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-17",
+        "S1-38",
+        "S1-73",
+        "S1-82"
+      ],
+      "firstRelease": "S1-17",
+      "mentions": [
+        "Femi Adeyemi",
+        "Femi"
+      ]
+    },
+    {
+      "personId": "person:rashid",
+      "name": "Rashid Bello",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-17",
+        "S1-25",
+        "S1-38",
+        "S1-70",
+        "S1-82"
+      ],
+      "firstRelease": "S1-17",
+      "mentions": [
+        "Rashid Bello",
+        "Rashid Bello (31)",
+        "Rashid"
+      ]
+    },
+    {
+      "personId": "scene:S1-17:exchange couriers",
+      "name": "Exchange couriers",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-17"
+      ],
+      "firstRelease": "S1-17",
+      "mentions": [
+        "Exchange couriers"
+      ]
+    },
+    {
+      "personId": "person:lorna",
+      "name": "Lorna Shaw",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-18",
+        "S1-24"
+      ],
+      "firstRelease": "S1-18",
+      "mentions": [
+        "Lorna Shaw (70)",
+        "Lorna Shaw"
+      ]
+    },
+    {
+      "personId": "scene:S1-18:night-shift nurses",
+      "name": "night-shift nurses",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-18"
+      ],
+      "firstRelease": "S1-18",
+      "mentions": [
+        "night-shift nurses"
+      ]
+    },
+    {
+      "personId": "person:cyrus",
+      "name": "Cyrus Wainwright",
+      "tier": "SINGLE_RELEASE",
+      "registryId": null,
+      "releases": [
+        "S1-19"
+      ],
+      "firstRelease": "S1-19",
+      "mentions": [
+        "Cyrus Wainwright"
+      ]
+    },
+    {
+      "personId": "person:bunny",
+      "name": "Bunny Okafor",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-20",
+        "S1-54",
+        "S1-62",
+        "S1-64"
+      ],
+      "firstRelease": "S1-20",
+      "mentions": [
+        "Bunny Okafor",
+        "Bunny Okafor (on the phone)"
+      ]
+    },
+    {
+      "personId": "person:noelle",
+      "name": "Noelle Baptiste",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-20",
+        "S1-35",
+        "S1-74",
+        "S1-82"
+      ],
+      "firstRelease": "S1-20",
+      "mentions": [
+        "Noelle Baptiste (16, glimpsed)",
+        "Noelle Baptiste (16)",
+        "Noelle"
+      ]
+    },
+    {
+      "personId": "scene:S1-20:clarence moody and the crescent room orchestra",
+      "name": "Clarence Moody and the Crescent Room Orchestra",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-20"
+      ],
+      "firstRelease": "S1-20",
+      "mentions": [
+        "Clarence Moody and the Crescent Room Orchestra"
+      ]
+    },
+    {
+      "personId": "scene:S1-20:market stallholders and church choir",
+      "name": "market stallholders and church choir",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-20"
+      ],
+      "firstRelease": "S1-20",
+      "mentions": [
+        "market stallholders and church choir (Mavis's guests)"
+      ]
+    },
+    {
+      "personId": "scene:S1-21:his partner",
+      "name": "his partner",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-21"
+      ],
+      "firstRelease": "S1-21",
+      "mentions": [
+        "his partner (unseen face, provisional)"
+      ]
+    },
+    {
+      "personId": "scene:S1-22:four neighbourhood kids",
+      "name": "four neighbourhood kids",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-22"
+      ],
+      "firstRelease": "S1-22",
+      "mentions": [
+        "four neighbourhood kids"
+      ]
+    },
+    {
+      "personId": "person:honora",
+      "name": "Honora Vance",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-23",
+        "S1-36",
+        "S1-37",
+        "S1-40",
+        "S1-63",
+        "S1-72"
+      ],
+      "firstRelease": "S1-23",
+      "mentions": [
+        "Honora Vance (behind a door)",
+        "Honora Vance",
+        "Honora Vance (by referral card)",
+        "Honora"
+      ]
+    },
+    {
+      "personId": "scene:S1-24:church members",
+      "name": "church members",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-24"
+      ],
+      "firstRelease": "S1-24",
+      "mentions": [
+        "church members"
+      ]
+    },
+    {
+      "personId": "scene:S1-24:her deacon partner",
+      "name": "her deacon partner",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-24"
+      ],
+      "firstRelease": "S1-24",
+      "mentions": [
+        "her deacon partner"
+      ]
+    },
+    {
+      "personId": "person:inez",
+      "name": "Inez Carter",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-25",
+        "S1-34",
+        "S1-38",
+        "S1-70",
+        "S1-82"
+      ],
+      "firstRelease": "S1-25",
+      "mentions": [
+        "Inez Carter (70)",
+        "Inez Carter (in passing)",
+        "Inez"
+      ]
+    },
+    {
+      "personId": "person:talia",
+      "name": "Talia Carter",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-25",
+        "S1-70"
+      ],
+      "firstRelease": "S1-25",
+      "mentions": [
+        "Talia Carter (19)",
+        "Talia"
+      ]
+    },
+    {
+      "personId": "scene:S1-26:students",
+      "name": "students",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-26"
+      ],
+      "firstRelease": "S1-26",
+      "mentions": [
+        "students"
+      ]
+    },
+    {
+      "personId": "person:marcus",
+      "name": "Marcus Okafor",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-28",
+        "S1-45",
+        "S1-47",
+        "S1-64",
+        "S1-81"
+      ],
+      "firstRelease": "S1-28",
+      "mentions": [
+        "Marcus Okafor",
+        "Marcus Okafor (through the window)"
+      ]
+    },
+    {
+      "personId": "scene:S1-28:clarence moody and the crescent room orchestra",
+      "name": "Clarence Moody and the Crescent Room Orchestra",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-28"
+      ],
+      "firstRelease": "S1-28",
+      "mentions": [
+        "Clarence Moody and the Crescent Room Orchestra"
+      ]
+    },
+    {
+      "personId": "scene:S1-28:salon members",
+      "name": "Salon members",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-28"
+      ],
+      "firstRelease": "S1-28",
+      "mentions": [
+        "Salon members"
+      ]
+    },
+    {
+      "personId": "person:dr. akers",
+      "name": "Dr. Akers",
+      "tier": "SINGLE_RELEASE",
+      "registryId": null,
+      "releases": [
+        "S1-30"
+      ],
+      "firstRelease": "S1-30",
+      "mentions": [
+        "Dr. Akers (a chief of surgery)"
+      ]
+    },
+    {
+      "personId": "scene:S1-30:hospital staff",
+      "name": "hospital staff",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-30"
+      ],
+      "firstRelease": "S1-30",
+      "mentions": [
+        "hospital staff"
+      ]
+    },
+    {
+      "personId": "person:tad",
+      "name": "Tad Monroe",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-33",
+        "S1-50",
+        "S1-74"
+      ],
+      "firstRelease": "S1-33",
+      "mentions": [
+        "Tad Monroe",
+        "Tad Monroe (52)"
+      ]
+    },
+    {
+      "personId": "person:yaz",
+      "name": "Yaz Adebayo",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-33",
+        "S1-50",
+        "S1-74"
+      ],
+      "firstRelease": "S1-33",
+      "mentions": [
+        "Yaz Adebayo",
+        "Yaz Adebayo (38)"
+      ]
+    },
+    {
+      "personId": "scene:S1-33:night listeners",
+      "name": "night listeners",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-33"
+      ],
+      "firstRelease": "S1-33",
+      "mentions": [
+        "night listeners"
+      ]
+    },
+    {
+      "personId": "person:ophelia",
+      "name": "Ophelia Grant",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-34",
+        "S1-69"
+      ],
+      "firstRelease": "S1-34",
+      "mentions": [
+        "Ophelia Grant (61)",
+        "Ophelia Grant"
+      ]
+    },
+    {
+      "personId": "scene:S1-34:the sewing circle",
+      "name": "the sewing circle",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-34"
+      ],
+      "firstRelease": "S1-34",
+      "mentions": [
+        "the sewing circle"
+      ]
+    },
+    {
+      "personId": "person:dee",
+      "name": "Dee Whitlock",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-37",
+        "S1-40",
+        "S1-69",
+        "S1-74"
+      ],
+      "firstRelease": "S1-37",
+      "mentions": [
+        "Dee Whitlock (58)",
+        "Dee Whitlock"
+      ]
+    },
+    {
+      "personId": "person:zuri",
+      "name": "Zuri Bankole",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-37",
+        "S1-40",
+        "S1-69",
+        "S1-74"
+      ],
+      "firstRelease": "S1-37",
+      "mentions": [
+        "Zuri Bankole (19)",
+        "Zuri Bankole"
+      ]
+    },
+    {
+      "personId": "scene:S1-40:dee's 1985 relay teammates",
+      "name": "Dee's 1985 relay teammates",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-40"
+      ],
+      "firstRelease": "S1-40",
+      "mentions": [
+        "Dee's 1985 relay teammates"
+      ]
+    },
+    {
+      "personId": "scene:S1-40:guests",
+      "name": "guests",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-40"
+      ],
+      "firstRelease": "S1-40",
+      "mentions": [
+        "guests"
+      ]
+    },
+    {
+      "personId": "scene:S1-40:night-shift nurses",
+      "name": "night-shift nurses",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-40"
+      ],
+      "firstRelease": "S1-40",
+      "mentions": [
+        "night-shift nurses"
+      ]
+    },
+    {
+      "personId": "scene:S1-40:the house band",
+      "name": "the house band",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-40"
+      ],
+      "firstRelease": "S1-40",
+      "mentions": [
+        "the house band"
+      ]
+    },
+    {
+      "personId": "scene:S1-40:zuri's teammates",
+      "name": "Zuri's teammates",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-40"
+      ],
+      "firstRelease": "S1-40",
+      "mentions": [
+        "Zuri's teammates"
+      ]
+    },
+    {
+      "personId": "person:emmett",
+      "name": "Emmett Hale",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-41",
+        "S1-42",
+        "S1-65",
+        "S1-72",
+        "S1-84"
+      ],
+      "firstRelease": "S1-41",
+      "mentions": [
+        "Emmett Hale",
+        "Emmett"
+      ]
+    },
+    {
+      "personId": "person:bea",
+      "name": "Bea",
+      "tier": "SINGLE_RELEASE",
+      "registryId": null,
+      "releases": [
+        "S1-42"
+      ],
+      "firstRelease": "S1-42",
+      "mentions": [
+        "Bea (15)"
+      ]
+    },
+    {
+      "personId": "scene:S1-45:the barber",
+      "name": "the barber",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-45"
+      ],
+      "firstRelease": "S1-45",
+      "mentions": [
+        "the barber"
+      ]
+    },
+    {
+      "personId": "scene:S1-46:a child and her mother",
+      "name": "a child and her mother",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-46"
+      ],
+      "firstRelease": "S1-46",
+      "mentions": [
+        "a child and her mother"
+      ]
+    },
+    {
+      "personId": "person:abena",
+      "name": "Abena Mensah",
+      "tier": "SINGLE_RELEASE",
+      "registryId": null,
+      "releases": [
+        "S1-47"
+      ],
+      "firstRelease": "S1-47",
+      "mentions": [
+        "Abena Mensah (a recorded Interval message)"
+      ]
+    },
+    {
+      "personId": "person:renée",
+      "name": "Renée Coker",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-47",
+        "S1-81"
+      ],
+      "firstRelease": "S1-47",
+      "mentions": [
+        "Renée Coker"
+      ]
+    },
+    {
+      "personId": "scene:S1-47:a string trio",
+      "name": "a string trio",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-47"
+      ],
+      "firstRelease": "S1-47",
+      "mentions": [
+        "a string trio"
+      ]
+    },
+    {
+      "personId": "scene:S1-50:a dj",
+      "name": "a DJ",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-50"
+      ],
+      "firstRelease": "S1-50",
+      "mentions": [
+        "a DJ"
+      ]
+    },
+    {
+      "personId": "scene:S1-50:unannounced exchange guests",
+      "name": "Unannounced Exchange guests",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-50"
+      ],
+      "firstRelease": "S1-50",
+      "mentions": [
+        "Unannounced Exchange guests"
+      ]
+    },
+    {
+      "personId": "scene:S1-51:a drumline",
+      "name": "a drumline",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-51"
+      ],
+      "firstRelease": "S1-51",
+      "mentions": [
+        "a drumline"
+      ]
+    },
+    {
+      "personId": "scene:S1-51:neighbours",
+      "name": "neighbours",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-51"
+      ],
+      "firstRelease": "S1-51",
+      "mentions": [
+        "neighbours"
+      ]
+    },
+    {
+      "personId": "scene:S1-51:vendors",
+      "name": "vendors",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-51"
+      ],
+      "firstRelease": "S1-51",
+      "mentions": [
+        "vendors"
+      ]
+    },
+    {
+      "personId": "scene:S1-58:vivienne and celestine in memory",
+      "name": "Vivienne and Celestine in memory",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-58"
+      ],
+      "firstRelease": "S1-58",
+      "mentions": [
+        "Vivienne (34) and Celestine (33) in memory"
+      ]
+    },
+    {
+      "personId": "scene:S1-59:neighbourhood kids",
+      "name": "neighbourhood kids",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-59"
+      ],
+      "firstRelease": "S1-59",
+      "mentions": [
+        "neighbourhood kids"
+      ]
+    },
+    {
+      "personId": "scene:S1-59:residents",
+      "name": "residents",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-59"
+      ],
+      "firstRelease": "S1-59",
+      "mentions": [
+        "residents"
+      ]
+    },
+    {
+      "personId": "scene:S1-59:riggers",
+      "name": "Riggers",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-59"
+      ],
+      "firstRelease": "S1-59",
+      "mentions": [
+        "Riggers"
+      ]
+    },
+    {
+      "personId": "person:delphine",
+      "name": "Delphine Rowe",
+      "tier": "RECURRING_UNREGISTERED",
+      "registryId": null,
+      "releases": [
+        "S1-62",
+        "S1-64",
+        "S1-72"
+      ],
+      "firstRelease": "S1-62",
+      "mentions": [
+        "Delphine Rowe (31)",
+        "Delphine Rowe (as \"Della\")",
+        "Delphine Rowe (unrecognized)"
+      ]
+    },
+    {
+      "personId": "scene:S1-63:a mother and child",
+      "name": "a mother and child",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-63"
+      ],
+      "firstRelease": "S1-63",
+      "mentions": [
+        "a mother and child"
+      ]
+    },
+    {
+      "personId": "person:grace",
+      "name": "Grace Okafor",
+      "tier": "SINGLE_RELEASE",
+      "registryId": null,
+      "releases": [
+        "S1-64"
+      ],
+      "firstRelease": "S1-64",
+      "mentions": [
+        "Grace Okafor"
+      ]
+    },
+    {
+      "personId": "scene:S1-64:the okafor family",
+      "name": "the Okafor family",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-64"
+      ],
+      "firstRelease": "S1-64",
+      "mentions": [
+        "the Okafor family"
+      ]
+    },
+    {
+      "personId": "scene:S1-66:nurses",
+      "name": "nurses",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-66"
+      ],
+      "firstRelease": "S1-66",
+      "mentions": [
+        "nurses"
+      ]
+    },
+    {
+      "personId": "scene:S1-67:the makers",
+      "name": "the makers",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-67"
+      ],
+      "firstRelease": "S1-67",
+      "mentions": [
+        "the makers"
+      ]
+    },
+    {
+      "personId": "scene:S1-69:couriers",
+      "name": "Couriers",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-69"
+      ],
+      "firstRelease": "S1-69",
+      "mentions": [
+        "Couriers"
+      ]
+    },
+    {
+      "personId": "scene:S1-69:invited guests",
+      "name": "invited guests",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-69"
+      ],
+      "firstRelease": "S1-69",
+      "mentions": [
+        "invited guests"
+      ]
+    },
+    {
+      "personId": "scene:S1-69:strangers",
+      "name": "strangers",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-69"
+      ],
+      "firstRelease": "S1-69",
+      "mentions": [
+        "strangers"
+      ]
+    },
+    {
+      "personId": "scene:S1-72:gideon's mother lorna shaw",
+      "name": "Gideon's mother Lorna Shaw",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-72"
+      ],
+      "firstRelease": "S1-72",
+      "mentions": [
+        "Gideon's mother Lorna Shaw"
+      ]
+    },
+    {
+      "personId": "scene:S1-72:guests",
+      "name": "guests",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-72"
+      ],
+      "firstRelease": "S1-72",
+      "mentions": [
+        "guests"
+      ]
+    },
+    {
+      "personId": "scene:S1-72:nadine and family",
+      "name": "Nadine and family",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-72"
+      ],
+      "firstRelease": "S1-72",
+      "mentions": [
+        "Nadine and family"
+      ]
+    },
+    {
+      "personId": "scene:S1-73:guests",
+      "name": "guests",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-73"
+      ],
+      "firstRelease": "S1-73",
+      "mentions": [
+        "guests"
+      ]
+    },
+    {
+      "personId": "scene:S1-74:dancers",
+      "name": "dancers",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-74"
+      ],
+      "firstRelease": "S1-74",
+      "mentions": [
+        "dancers (including Gideon and his mother, and Talia in the gown)"
+      ]
+    },
+    {
+      "personId": "scene:S1-74:the crescent room orchestra",
+      "name": "the Crescent Room Orchestra",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-74"
+      ],
+      "firstRelease": "S1-74",
+      "mentions": [
+        "the Crescent Room Orchestra"
+      ]
+    },
+    {
+      "personId": "scene:S1-75:the room",
+      "name": "the room",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-75"
+      ],
+      "firstRelease": "S1-75",
+      "mentions": [
+        "the room"
+      ]
+    },
+    {
+      "personId": "scene:S1-77:all principals",
+      "name": "All principals",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-77"
+      ],
+      "firstRelease": "S1-77",
+      "mentions": [
+        "All principals"
+      ]
+    },
+    {
+      "personId": "scene:S1-77:guests",
+      "name": "guests",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-77"
+      ],
+      "firstRelease": "S1-77",
+      "mentions": [
+        "guests"
+      ]
+    },
+    {
+      "personId": "scene:S1-77:the city across the river",
+      "name": "the city across the river",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-77"
+      ],
+      "firstRelease": "S1-77",
+      "mentions": [
+        "the city across the river"
+      ]
+    },
+    {
+      "personId": "scene:S1-79:emmett and gideon",
+      "name": "Emmett and Gideon",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-79"
+      ],
+      "firstRelease": "S1-79",
+      "mentions": [
+        "Emmett and Gideon"
+      ]
+    },
+    {
+      "personId": "scene:S1-79:honora and kai",
+      "name": "Honora and Kai",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-79"
+      ],
+      "firstRelease": "S1-79",
+      "mentions": [
+        "Honora and Kai"
+      ]
+    },
+    {
+      "personId": "scene:S1-79:sloane and emmett",
+      "name": "Sloane and Emmett",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-79"
+      ],
+      "firstRelease": "S1-79",
+      "mentions": [
+        "Sloane and Emmett"
+      ]
+    },
+    {
+      "personId": "scene:S1-80:gideon and his mother",
+      "name": "Gideon and his mother",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-80"
+      ],
+      "firstRelease": "S1-80",
+      "mentions": [
+        "Gideon and his mother"
+      ]
+    },
+    {
+      "personId": "scene:S1-81:city residents",
+      "name": "City residents",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-81"
+      ],
+      "firstRelease": "S1-81",
+      "mentions": [
+        "City residents"
+      ]
+    },
+    {
+      "personId": "scene:S1-81:tad monroe and yaz adebayo",
+      "name": "Tad Monroe and Yaz Adebayo",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-81"
+      ],
+      "firstRelease": "S1-81",
+      "mentions": [
+        "Tad Monroe and Yaz Adebayo (voices)"
+      ]
+    },
+    {
+      "personId": "scene:S1-83:the four makers",
+      "name": "The four makers",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-83"
+      ],
+      "firstRelease": "S1-83",
+      "mentions": [
+        "The four makers"
+      ]
+    },
+    {
+      "personId": "scene:S1-86:vivienne's handwriting",
+      "name": "Vivienne's handwriting",
+      "tier": "SCENE_SCOPED",
+      "registryId": null,
+      "releases": [
+        "S1-86"
+      ],
+      "firstRelease": "S1-86",
+      "mentions": [
+        "Vivienne's handwriting"
+      ]
+    }
+  ],
+  "byRelease": [
+    {
+      "releaseId": "S1-02",
+      "trigger": "S1-02 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "gideon-shaw (PERSON Gideon)",
+        "sloane-lockwood (PERSON Sloane)",
+        "WD-SLOANE-PARTY-GE92 (WARDROBE The third of three looks on the bed: the one that moves when she spins.)",
+        "WD-SLOANE-HOUSE-GE92 (WARDROBE Half-dressed state before the party look is fastened (robe over the third look).)",
+        "WD-GIDEON-SUIT (WARDROBE One suit language for the season.)",
+        "PR-SLOANE-NECKLACE (PROP Sloane's necklace)",
+        "PR-COCONUT-CAKE (PROP A slice of coconut cake on a plate)",
+        "PR-FERN (PROP The dying fern)",
+        "PR-SLOANE-CLUTCH (PROP Sloane's clutch)"
+      ]
+    },
+    {
+      "releaseId": "S1-03",
+      "trigger": "S1-03 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "kai-fontaine (PERSON Kai)",
+        "royce-bell (PERSON Royce)",
+        "WD-KAI-GE92 (WARDROBE Formal-casual: tailored waistcoat, quiet-luxury jewelry; dressed for a door he knows will not open.)",
+        "WD-ROYCE-GE92 (WARDROBE A plus-one dressed to be noticed.)",
+        "PR-KAI-NOTE (PROP Kai's folded note)"
+      ]
+    },
+    {
+      "releaseId": "S1-04",
+      "trigger": "S1-04 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "WD-ORANGE-JACKET (WARDROBE A bold orange jacket by Wendell Ames, Ferry Street.)"
+      ]
+    },
+    {
+      "releaseId": "S1-06",
+      "trigger": "S1-06 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "person:wendell (PERSON Wendell Ames)",
+        "tina-grandison (PERSON Tina)"
+      ]
+    },
+    {
+      "releaseId": "S1-07",
+      "trigger": "S1-07 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "nadine-lockwood (PERSON Nadine)",
+        "person:andre (PERSON Andre)",
+        "person:imara (PERSON Imara)",
+        "person:jalen (PERSON Jalen)",
+        "richard-lockwood (PERSON Richard)"
+      ]
+    },
+    {
+      "releaseId": "S1-08",
+      "trigger": "S1-08 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "person:ada (PERSON Ada Whitfield)"
+      ]
+    },
+    {
+      "releaseId": "S1-09",
+      "trigger": "S1-09 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "person:clarence (PERSON Clarence Moody)"
+      ]
+    },
+    {
+      "releaseId": "S1-11",
+      "trigger": "S1-11 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "celestine-rhodes (PERSON Celestine)"
+      ]
+    },
+    {
+      "releaseId": "S1-12",
+      "trigger": "S1-12 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "person:mavis (PERSON Mavis Odom)",
+        "person:mr. daniels (PERSON Mr. Daniels)"
+      ]
+    },
+    {
+      "releaseId": "S1-16",
+      "trigger": "S1-16 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "person:clementine (PERSON Clementine Hollis)",
+        "person:dara (PERSON Dara)"
+      ]
+    },
+    {
+      "releaseId": "S1-17",
+      "trigger": "S1-17 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "person:femi (PERSON Femi Adeyemi)",
+        "person:rashid (PERSON Rashid Bello)"
+      ]
+    },
+    {
+      "releaseId": "S1-18",
+      "trigger": "S1-18 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "person:lorna (PERSON Lorna Shaw)"
+      ]
+    },
+    {
+      "releaseId": "S1-19",
+      "trigger": "S1-19 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "person:cyrus (PERSON Cyrus Wainwright)"
+      ]
+    },
+    {
+      "releaseId": "S1-20",
+      "trigger": "S1-20 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "person:bunny (PERSON Bunny Okafor)",
+        "person:noelle (PERSON Noelle Baptiste)"
+      ]
+    },
+    {
+      "releaseId": "S1-23",
+      "trigger": "S1-23 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "person:honora (PERSON Honora Vance)"
+      ]
+    },
+    {
+      "releaseId": "S1-25",
+      "trigger": "S1-25 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "person:inez (PERSON Inez Carter)",
+        "person:talia (PERSON Talia Carter)"
+      ]
+    },
+    {
+      "releaseId": "S1-28",
+      "trigger": "S1-28 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "person:marcus (PERSON Marcus Okafor)"
+      ]
+    },
+    {
+      "releaseId": "S1-30",
+      "trigger": "S1-30 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "person:dr. akers (PERSON Dr. Akers)"
+      ]
+    },
+    {
+      "releaseId": "S1-33",
+      "trigger": "S1-33 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "person:tad (PERSON Tad Monroe)",
+        "person:yaz (PERSON Yaz Adebayo)"
+      ]
+    },
+    {
+      "releaseId": "S1-34",
+      "trigger": "S1-34 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "person:ophelia (PERSON Ophelia Grant)"
+      ]
+    },
+    {
+      "releaseId": "S1-37",
+      "trigger": "S1-37 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "person:dee (PERSON Dee Whitlock)",
+        "person:zuri (PERSON Zuri Bankole)"
+      ]
+    },
+    {
+      "releaseId": "S1-40",
+      "trigger": "S1-40 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "SET-RIVERSIDE-PAVILION (SET Riverside Pavilion and river track)"
+      ]
+    },
+    {
+      "releaseId": "S1-41",
+      "trigger": "S1-41 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "person:emmett (PERSON Emmett Hale)"
+      ]
+    },
+    {
+      "releaseId": "S1-42",
+      "trigger": "S1-42 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "person:bea (PERSON Bea)"
+      ]
+    },
+    {
+      "releaseId": "S1-47",
+      "trigger": "S1-47 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "person:abena (PERSON Abena Mensah)",
+        "person:renée (PERSON Renée Coker)"
+      ]
+    },
+    {
+      "releaseId": "S1-62",
+      "trigger": "S1-62 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "person:delphine (PERSON Delphine Rowe)"
+      ]
+    },
+    {
+      "releaseId": "S1-64",
+      "trigger": "S1-64 enters active production",
+      "founderAttention": "NOT REQUESTED",
+      "needs": [
+        "person:grace (PERSON Grace Okafor)"
+      ]
+    }
+  ]
+}

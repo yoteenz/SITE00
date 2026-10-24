@@ -1,0 +1,273 @@
+{
+  "unitId": "S1-01",
+  "quotedAtUtc": "2026-10-24T14:47Z",
+  "balanceCreditsAtQuote": 10031,
+  "creditUsdRate": null,
+  "lines": [
+    {
+      "lineId": "B-01",
+      "category": "NEW_REFERENCE_IMAGES",
+      "description": "KF-ENV-CITY-DUSK-A ×2, KF-ENV-CITY-DUSK-B ×1, KF-ENV-HALCYON-EXT ×2, KF-WD-GREEN-DRESS ×2, KF-EMBER-LOOK ×2",
+      "jobs": 9,
+      "routeId": "OA-NBP-I2I-2K-REF",
+      "credits": 360,
+      "usd": null,
+      "status": "QUOTED",
+      "basis": "nano-banana-pro image2image 2K 9:16 = 40 credits per image"
+    },
+    {
+      "lineId": "B-02",
+      "category": "NEW_KEYFRAMES",
+      "description": "KF-SF-SH02 ×2, KF-SF-SH03 ×1, KF-SF-SH04 ×1, KF-SF-SH05 ×2, KF-SF-SH06 ×1, KF-SF-SH08 ×1, KF-SF-SH09 ×1, KF-SF-SH10 ×2, KF-SF-SH11 ×2, KF-SF-SH12 ×1, KF-SF-SH13 ×2, KF-SF-SH14 ×1, KF-SF-SH15 ×1, KF-SF-SH16 ×1, KF-SF-SH17 ×1",
+      "jobs": 20,
+      "routeId": "OA-NBP-I2I-2K",
+      "credits": 800,
+      "usd": null,
+      "status": "QUOTED",
+      "basis": "nano-banana-pro image2image 2K 9:16 = 40 credits per image; extracted frames cost nothing"
+    },
+    {
+      "lineId": "B-03",
+      "category": "VIDEO_GENERATION",
+      "description": "18 image-to-video jobs, 64 s requested for 43.5 s on screen",
+      "jobs": 18,
+      "routeId": "OA-K3O-I2V-PRO",
+      "credits": 2240,
+      "usd": null,
+      "status": "QUOTED",
+      "basis": "kling-3-omni image2video pro, sound off, exact quotes for 3, 4, 5 and 6 s (35 credits per second)"
+    },
+    {
+      "lineId": "B-04",
+      "category": "LIP_SYNC",
+      "description": "No visible speaking mouth",
+      "jobs": 0,
+      "routeId": null,
+      "credits": 0,
+      "usd": 0,
+      "status": "NOT_REQUIRED",
+      "basis": "Wordless release"
+    },
+    {
+      "lineId": "B-05",
+      "category": "DIALOGUE_GENERATION",
+      "description": "No dialogue",
+      "jobs": 0,
+      "routeId": null,
+      "credits": null,
+      "usd": 0,
+      "status": "NOT_REQUIRED",
+      "basis": "Do not invent narration"
+    },
+    {
+      "lineId": "B-06",
+      "category": "SOUND_EFFECTS",
+      "description": "12 designed or generated layers, 67 s total, two takes each",
+      "jobs": 24,
+      "routeId": "FAL-EL-SFX",
+      "credits": null,
+      "usd": 0.27,
+      "status": "QUOTED",
+      "basis": "fal ElevenLabs sound effects $0.002 per second"
+    },
+    {
+      "lineId": "B-07",
+      "category": "MUSIC_GENERATION",
+      "description": "3 cues, 40.2 s; generated route at three takes, or a commissioned score",
+      "jobs": 9,
+      "routeId": "FAL-EL-MUSIC",
+      "credits": null,
+      "usd": 1.21,
+      "status": "QUOTED",
+      "basis": "fal ElevenLabs music $0.6 per minute. Commissioned score: UNKNOWN."
+    },
+    {
+      "lineId": "B-08",
+      "category": "UPSCALING",
+      "description": "Not planned: pro output is delivered at 1080 × 1920",
+      "jobs": 0,
+      "routeId": null,
+      "credits": 0,
+      "usd": 0,
+      "status": "NOT_REQUIRED",
+      "basis": "No upscale route quoted"
+    },
+    {
+      "lineId": "B-09",
+      "category": "ASSEMBLY",
+      "description": "Conform, mix and grade from the multitrack manifest",
+      "jobs": 1,
+      "routeId": "MANUAL-EDIT",
+      "credits": null,
+      "usd": null,
+      "status": "UNKNOWN",
+      "basis": "Founder tools and time"
+    }
+  ],
+  "estimated": {
+    "credits": 3400,
+    "usd": 1.48,
+    "unknownLines": [
+      "B-09"
+    ]
+  },
+  "revisions": {
+    "policy": "Expected: one retake for half of the high-risk shots and a quarter of the keyframe images. Ceiling: one retake for every high-risk shot and half of the images.",
+    "highRiskShots": [
+      "S1-01-SH02",
+      "S1-01-SH04",
+      "S1-01-SH05",
+      "S1-01-SH06",
+      "S1-01-SH07",
+      "S1-01-SH08",
+      "S1-01-SH09",
+      "S1-01-SH11",
+      "S1-01-SH12",
+      "S1-01-SH13",
+      "S1-01-SH14",
+      "S1-01-SH16",
+      "S1-01-SH17",
+      "S1-01-SH18"
+    ],
+    "expectedCredits": 1178,
+    "ceilingCredits": 2315
+  },
+  "expectedTotalCredits": 4578,
+  "ceilingCredits": 5715,
+  "ledger": {
+    "authorizedCredits": 0,
+    "actualCredits": 0,
+    "refundedCredits": 0,
+    "regenerationCredits": 0,
+    "authorizedUsd": 0,
+    "actualUsd": 0
+  },
+  "perShot": [
+    {
+      "shotId": "S1-01-SH01",
+      "screenSec": 4,
+      "generationSec": 5,
+      "credits": 175,
+      "highRisk": false
+    },
+    {
+      "shotId": "S1-01-SH02",
+      "screenSec": 2,
+      "generationSec": 3,
+      "credits": 105,
+      "highRisk": true
+    },
+    {
+      "shotId": "S1-01-SH03",
+      "screenSec": 2.25,
+      "generationSec": 3,
+      "credits": 105,
+      "highRisk": false
+    },
+    {
+      "shotId": "S1-01-SH04",
+      "screenSec": 1.5,
+      "generationSec": 3,
+      "credits": 105,
+      "highRisk": true
+    },
+    {
+      "shotId": "S1-01-SH05",
+      "screenSec": 1.625,
+      "generationSec": 3,
+      "credits": 105,
+      "highRisk": true
+    },
+    {
+      "shotId": "S1-01-SH06",
+      "screenSec": 1.125,
+      "generationSec": 3,
+      "credits": 105,
+      "highRisk": true
+    },
+    {
+      "shotId": "S1-01-SH07",
+      "screenSec": 2.875,
+      "generationSec": 4,
+      "credits": 140,
+      "highRisk": true
+    },
+    {
+      "shotId": "S1-01-SH08",
+      "screenSec": 2.5,
+      "generationSec": 3,
+      "credits": 105,
+      "highRisk": true
+    },
+    {
+      "shotId": "S1-01-SH09",
+      "screenSec": 1.5,
+      "generationSec": 3,
+      "credits": 105,
+      "highRisk": true
+    },
+    {
+      "shotId": "S1-01-SH10",
+      "screenSec": 2.625,
+      "generationSec": 4,
+      "credits": 140,
+      "highRisk": false
+    },
+    {
+      "shotId": "S1-01-SH11",
+      "screenSec": 2.75,
+      "generationSec": 4,
+      "credits": 140,
+      "highRisk": true
+    },
+    {
+      "shotId": "S1-01-SH12",
+      "screenSec": 1.75,
+      "generationSec": 3,
+      "credits": 105,
+      "highRisk": true
+    },
+    {
+      "shotId": "S1-01-SH13",
+      "screenSec": 2,
+      "generationSec": 3,
+      "credits": 105,
+      "highRisk": true
+    },
+    {
+      "shotId": "S1-01-SH14",
+      "screenSec": 1.75,
+      "generationSec": 3,
+      "credits": 105,
+      "highRisk": true
+    },
+    {
+      "shotId": "S1-01-SH15",
+      "screenSec": 2,
+      "generationSec": 3,
+      "credits": 105,
+      "highRisk": false
+    },
+    {
+      "shotId": "S1-01-SH16",
+      "screenSec": 3,
+      "generationSec": 4,
+      "credits": 140,
+      "highRisk": true
+    },
+    {
+      "shotId": "S1-01-SH17",
+      "screenSec": 3.5,
+      "generationSec": 4,
+      "credits": 140,
+      "highRisk": true
+    },
+    {
+      "shotId": "S1-01-SH18",
+      "screenSec": 4.75,
+      "generationSec": 6,
+      "credits": 210,
+      "highRisk": true
+    }
+  ]
+}

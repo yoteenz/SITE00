@@ -1,0 +1,322 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "site00:the-exchange:camera-keyframe-v2",
+  "title": "Shot design and keyframe direction",
+  "type": "object",
+  "properties": {
+    "shot": {
+      "type": "object",
+      "required": [
+        "shotId",
+        "sceneId",
+        "beatId",
+        "intendedScreenTime",
+        "generationDuration",
+        "priority",
+        "purpose",
+        "subject",
+        "framing",
+        "cameraHeight",
+        "cameraAngle",
+        "lensIntent",
+        "focalLength",
+        "depthOfField",
+        "cameraMovement",
+        "movementSpeed",
+        "cameraDirection",
+        "composition",
+        "screenDirection",
+        "eyeline",
+        "blocking",
+        "performance",
+        "landmarks",
+        "lighting",
+        "wardrobe",
+        "propState",
+        "dialogueVisibility",
+        "lipSync",
+        "startFrame",
+        "endFrame",
+        "referenceAssets",
+        "editTransition",
+        "continuityRisk",
+        "generationModel",
+        "expectedCost",
+        "founderApprovalStatus"
+      ],
+      "properties": {
+        "shotId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sceneId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "beatId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "intendedScreenTime": {
+          "type": "string",
+          "minLength": 1
+        },
+        "generationDuration": {
+          "type": "string",
+          "minLength": 1
+        },
+        "priority": {
+          "type": "string",
+          "minLength": 1
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1
+        },
+        "subject": {
+          "type": "string",
+          "minLength": 1
+        },
+        "framing": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cameraHeight": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cameraAngle": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lensIntent": {
+          "type": "string",
+          "minLength": 1
+        },
+        "focalLength": {
+          "type": "string",
+          "minLength": 1
+        },
+        "depthOfField": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cameraMovement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "movementSpeed": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cameraDirection": {
+          "type": "string",
+          "minLength": 1
+        },
+        "composition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "screenDirection": {
+          "type": "string",
+          "minLength": 1
+        },
+        "eyeline": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blocking": {
+          "type": "string",
+          "minLength": 1
+        },
+        "performance": {
+          "type": "string",
+          "minLength": 1
+        },
+        "landmarks": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lighting": {
+          "type": "string",
+          "minLength": 1
+        },
+        "wardrobe": {
+          "type": "string",
+          "minLength": 1
+        },
+        "propState": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dialogueVisibility": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lipSync": {
+          "type": "string",
+          "minLength": 1
+        },
+        "startFrame": {
+          "type": "string",
+          "minLength": 1
+        },
+        "endFrame": {
+          "type": "string",
+          "minLength": 1
+        },
+        "referenceAssets": {
+          "type": "string",
+          "minLength": 1
+        },
+        "editTransition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "continuityRisk": {
+          "type": "string",
+          "minLength": 1
+        },
+        "generationModel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expectedCost": {
+          "type": "string",
+          "minLength": 1
+        },
+        "founderApprovalStatus": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "sprintFieldMap": {
+        "SHOT ID": "shotId",
+        "SCENE ID": "sceneId",
+        "STORY BEAT ID": "beatId",
+        "INTENDED SCREEN TIME": "intendedScreenTime",
+        "GENERATION DURATION": "generationDuration",
+        "SHOT PRIORITY": "priority",
+        "SHOT PURPOSE": "purpose",
+        "SUBJECT": "subject",
+        "FRAMING": "framing",
+        "CAMERA HEIGHT": "cameraHeight",
+        "CAMERA ANGLE": "cameraAngle",
+        "LENS INTENT": "lensIntent",
+        "FOCAL-LENGTH RECOMMENDATION": "focalLength",
+        "DEPTH OF FIELD": "depthOfField",
+        "CAMERA MOVEMENT": "cameraMovement",
+        "MOVEMENT SPEED": "movementSpeed",
+        "CAMERA DIRECTION": "cameraDirection",
+        "COMPOSITION": "composition",
+        "SCREEN DIRECTION": "screenDirection",
+        "EYELINE": "eyeline",
+        "CHARACTER BLOCKING": "blocking",
+        "ACTOR PERFORMANCE": "performance",
+        "ENVIRONMENT LANDMARKS": "landmarks",
+        "LIGHTING": "lighting",
+        "WARDROBE": "wardrobe",
+        "PROP STATE": "propState",
+        "DIALOGUE VISIBILITY": "dialogueVisibility",
+        "LIP-SYNC REQUIREMENT": "lipSync",
+        "START FRAME": "startFrame",
+        "END FRAME": "endFrame",
+        "REFERENCE ASSETS": "referenceAssets",
+        "EDIT TRANSITION": "editTransition",
+        "CONTINUITY RISK": "continuityRisk",
+        "GENERATION MODEL": "generationModel",
+        "EXPECTED COST": "expectedCost",
+        "FOUNDER APPROVAL STATUS": "founderApprovalStatus"
+      }
+    },
+    "why": {
+      "type": "object",
+      "required": [
+        "framing",
+        "distance",
+        "angle",
+        "movement",
+        "moment",
+        "duration"
+      ],
+      "description": "Every shot answers why this framing, distance, angle, movement, moment and duration."
+    },
+    "keyframe": {
+      "type": "object",
+      "required": [
+        "keyframeId",
+        "kind",
+        "title",
+        "usedBy",
+        "source",
+        "essential",
+        "derivesFrom",
+        "spec",
+        "candidates",
+        "blockedBy",
+        "output"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "START_FRAME",
+            "END_FRAME",
+            "CHARACTER_REFERENCE",
+            "ENVIRONMENT_REFERENCE",
+            "WARDROBE_REFERENCE",
+            "PROP_REFERENCE",
+            "CONTINUITY_FRAME"
+          ]
+        },
+        "source": {
+          "enum": [
+            "GENERATE",
+            "REUSE_APPROVED",
+            "EXTRACT_FROM_APPROVED_FOOTAGE",
+            "NOT_NEEDED"
+          ]
+        },
+        "spec": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "cameraAngle",
+            "shotScale",
+            "characterPlacement",
+            "expression",
+            "wardrobe",
+            "lighting",
+            "architecture",
+            "propOwnership",
+            "visible",
+            "hidden"
+          ],
+          "sprintFieldMap": {
+            "EXACT CAMERA ANGLE": "cameraAngle",
+            "SHOT SCALE": "shotScale",
+            "CHARACTER PLACEMENT": "characterPlacement",
+            "EXPRESSION": "expression",
+            "WARDROBE": "wardrobe",
+            "LIGHTING": "lighting",
+            "ARCHITECTURE": "architecture",
+            "PROP OWNERSHIP": "propOwnership",
+            "VISIBLE ELEMENTS": "visible",
+            "HIDDEN ELEMENTS": "hidden"
+          }
+        },
+        "output": {
+          "type": "null",
+          "description": "Stays null until a provider job returns a real asset with its id and hash."
+        }
+      }
+    }
+  },
+  "rules": [
+    "A generated keyframe names its references or records why it has none.",
+    "A reused keyframe names an approved asset.",
+    "An extracted keyframe names its source shot and frame position.",
+    "No new keyframe for every shot by default."
+  ]
+}

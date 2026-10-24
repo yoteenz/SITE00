@@ -1,0 +1,3231 @@
+{
+  "schemaVersion": "2.0.0",
+  "graphId": "THE_EXCHANGE.SEASON1_SCENE_DEPENDENCY_GRAPH.V1",
+  "activeReleaseId": "S1-01",
+  "nodes": [
+    {
+      "id": "S1-01",
+      "kind": "RELEASE",
+      "label": "Dusk"
+    },
+    {
+      "id": "S1-02",
+      "kind": "RELEASE",
+      "label": "Getting Ready"
+    },
+    {
+      "id": "S1-03",
+      "kind": "RELEASE",
+      "label": "The Door"
+    },
+    {
+      "id": "S1-04",
+      "kind": "RELEASE",
+      "label": "The Host"
+    },
+    {
+      "id": "S1-05",
+      "kind": "RELEASE",
+      "label": "Unusual Request"
+    },
+    {
+      "id": "S1-06",
+      "kind": "RELEASE",
+      "label": "Morning After"
+    },
+    {
+      "id": "S1-07",
+      "kind": "RELEASE",
+      "label": "Sunday at Richard's"
+    },
+    {
+      "id": "S1-08",
+      "kind": "RELEASE",
+      "label": "The Ledger"
+    },
+    {
+      "id": "S1-09",
+      "kind": "RELEASE",
+      "label": "Through the Door"
+    },
+    {
+      "id": "S1-10",
+      "kind": "RELEASE",
+      "label": "First Person"
+    },
+    {
+      "id": "S1-11",
+      "kind": "RELEASE",
+      "label": "Unopened"
+    },
+    {
+      "id": "S1-12",
+      "kind": "RELEASE",
+      "label": "Paused"
+    },
+    {
+      "id": "S1-13",
+      "kind": "RELEASE",
+      "label": "Standing"
+    },
+    {
+      "id": "S1-14",
+      "kind": "RELEASE",
+      "label": "Sunday Breakfast"
+    },
+    {
+      "id": "S1-15",
+      "kind": "RELEASE",
+      "label": "Hand-Rolled"
+    },
+    {
+      "id": "S1-16",
+      "kind": "RELEASE",
+      "label": "Ezekiel's Menu"
+    },
+    {
+      "id": "S1-17",
+      "kind": "RELEASE",
+      "label": "Makers' Terms"
+    },
+    {
+      "id": "S1-18",
+      "kind": "RELEASE",
+      "label": "Undefeated"
+    },
+    {
+      "id": "S1-19",
+      "kind": "RELEASE",
+      "label": "The Coat"
+    },
+    {
+      "id": "S1-20",
+      "kind": "RELEASE",
+      "label": "Nineteen Eighty-Six"
+    },
+    {
+      "id": "S1-21",
+      "kind": "RELEASE",
+      "label": "Date Night"
+    },
+    {
+      "id": "S1-22",
+      "kind": "RELEASE",
+      "label": "Kai's Workshop"
+    },
+    {
+      "id": "S1-23",
+      "kind": "RELEASE",
+      "label": "Three Doors Left"
+    },
+    {
+      "id": "S1-24",
+      "kind": "RELEASE",
+      "label": "Spades"
+    },
+    {
+      "id": "S1-25",
+      "kind": "RELEASE",
+      "label": "The 1981 Sketch"
+    },
+    {
+      "id": "S1-26",
+      "kind": "RELEASE",
+      "label": "The Lost State"
+    },
+    {
+      "id": "S1-27",
+      "kind": "RELEASE",
+      "label": "Unsealing"
+    },
+    {
+      "id": "S1-28",
+      "kind": "RELEASE",
+      "label": "The Salon"
+    },
+    {
+      "id": "S1-29",
+      "kind": "RELEASE",
+      "label": "Who Told You"
+    },
+    {
+      "id": "S1-30",
+      "kind": "RELEASE",
+      "label": "From Outside"
+    },
+    {
+      "id": "S1-31",
+      "kind": "RELEASE",
+      "label": "First, Last"
+    },
+    {
+      "id": "S1-32",
+      "kind": "RELEASE",
+      "label": "Again"
+    },
+    {
+      "id": "S1-33",
+      "kind": "RELEASE",
+      "label": "Both Stations"
+    },
+    {
+      "id": "S1-34",
+      "kind": "RELEASE",
+      "label": "The Number 9"
+    },
+    {
+      "id": "S1-35",
+      "kind": "RELEASE",
+      "label": "Noelle's Song"
+    },
+    {
+      "id": "S1-36",
+      "kind": "RELEASE",
+      "label": "Objection"
+    },
+    {
+      "id": "S1-37",
+      "kind": "RELEASE",
+      "label": "Lane Four"
+    },
+    {
+      "id": "S1-38",
+      "kind": "RELEASE",
+      "label": "Makers Waver"
+    },
+    {
+      "id": "S1-39",
+      "kind": "RELEASE",
+      "label": "Lead Like You're Not Guarding the Door"
+    },
+    {
+      "id": "S1-40",
+      "kind": "RELEASE",
+      "label": "The Breakfast Dance"
+    },
+    {
+      "id": "S1-41",
+      "kind": "RELEASE",
+      "label": "First Design"
+    },
+    {
+      "id": "S1-42",
+      "kind": "RELEASE",
+      "label": "Fire Escape"
+    },
+    {
+      "id": "S1-43",
+      "kind": "RELEASE",
+      "label": "The Duel"
+    },
+    {
+      "id": "S1-44",
+      "kind": "RELEASE",
+      "label": "Two Names"
+    },
+    {
+      "id": "S1-45",
+      "kind": "RELEASE",
+      "label": "The Chair Next to Gideon"
+    },
+    {
+      "id": "S1-46",
+      "kind": "RELEASE",
+      "label": "The Ward"
+    },
+    {
+      "id": "S1-47",
+      "kind": "RELEASE",
+      "label": "Sunset"
+    },
+    {
+      "id": "S1-48",
+      "kind": "RELEASE",
+      "label": "Notice"
+    },
+    {
+      "id": "S1-49",
+      "kind": "RELEASE",
+      "label": "Ask Me"
+    },
+    {
+      "id": "S1-50",
+      "kind": "RELEASE",
+      "label": "The Hush"
+    },
+    {
+      "id": "S1-51",
+      "kind": "RELEASE",
+      "label": "Market Day"
+    },
+    {
+      "id": "S1-52",
+      "kind": "RELEASE",
+      "label": "What Do You Want"
+    },
+    {
+      "id": "S1-53",
+      "kind": "RELEASE",
+      "label": "Kitchen, After Ten"
+    },
+    {
+      "id": "S1-54",
+      "kind": "RELEASE",
+      "label": "Bunny"
+    },
+    {
+      "id": "S1-55",
+      "kind": "RELEASE",
+      "label": "My Baby's Coming Home"
+    },
+    {
+      "id": "S1-56",
+      "kind": "RELEASE",
+      "label": "Properly"
+    },
+    {
+      "id": "S1-57",
+      "kind": "RELEASE",
+      "label": "C. R."
+    },
+    {
+      "id": "S1-58",
+      "kind": "RELEASE",
+      "label": "The Garage"
+    },
+    {
+      "id": "S1-59",
+      "kind": "RELEASE",
+      "label": "Ferry Street"
+    },
+    {
+      "id": "S1-60",
+      "kind": "RELEASE",
+      "label": "Denied"
+    },
+    {
+      "id": "S1-61",
+      "kind": "RELEASE",
+      "label": "Threshold"
+    },
+    {
+      "id": "S1-62",
+      "kind": "RELEASE",
+      "label": "A Night Off"
+    },
+    {
+      "id": "S1-63",
+      "kind": "RELEASE",
+      "label": "The Judge on the Ward"
+    },
+    {
+      "id": "S1-64",
+      "kind": "RELEASE",
+      "label": "Potato Salad"
+    },
+    {
+      "id": "S1-65",
+      "kind": "RELEASE",
+      "label": "Second Design"
+    },
+    {
+      "id": "S1-66",
+      "kind": "RELEASE",
+      "label": "Knee"
+    },
+    {
+      "id": "S1-67",
+      "kind": "RELEASE",
+      "label": "Without Her"
+    },
+    {
+      "id": "S1-68",
+      "kind": "RELEASE",
+      "label": "Breakfast"
+    },
+    {
+      "id": "S1-69",
+      "kind": "RELEASE",
+      "label": "Keys"
+    },
+    {
+      "id": "S1-70",
+      "kind": "RELEASE",
+      "label": "Pinning"
+    },
+    {
+      "id": "S1-71",
+      "kind": "RELEASE",
+      "label": "Shorter"
+    },
+    {
+      "id": "S1-72",
+      "kind": "RELEASE",
+      "label": "Arrivals"
+    },
+    {
+      "id": "S1-73",
+      "kind": "RELEASE",
+      "label": "Ezekiel's Supper"
+    },
+    {
+      "id": "S1-74",
+      "kind": "RELEASE",
+      "label": "Noelle's Song"
+    },
+    {
+      "id": "S1-75",
+      "kind": "RELEASE",
+      "label": "On the Record"
+    },
+    {
+      "id": "S1-76",
+      "kind": "RELEASE",
+      "label": "Almost"
+    },
+    {
+      "id": "S1-77",
+      "kind": "RELEASE",
+      "label": "The Yes"
+    },
+    {
+      "id": "S1-78",
+      "kind": "RELEASE",
+      "label": "The Rest Is Mine"
+    },
+    {
+      "id": "S1-79",
+      "kind": "RELEASE",
+      "label": "Afterparty"
+    },
+    {
+      "id": "S1-80",
+      "kind": "RELEASE",
+      "label": "Pie"
+    },
+    {
+      "id": "S1-81",
+      "kind": "RELEASE",
+      "label": "Gold on the River"
+    },
+    {
+      "id": "S1-82",
+      "kind": "RELEASE",
+      "label": "Public, If They Say So"
+    },
+    {
+      "id": "S1-83",
+      "kind": "RELEASE",
+      "label": "The Makers' Table"
+    },
+    {
+      "id": "S1-84",
+      "kind": "RELEASE",
+      "label": "A Plant"
+    },
+    {
+      "id": "S1-85",
+      "kind": "RELEASE",
+      "label": "Offer"
+    },
+    {
+      "id": "S1-86",
+      "kind": "RELEASE",
+      "label": "The Seal"
+    },
+    {
+      "id": "KF-01",
+      "kind": "FACT",
+      "label": "Sloane has spent a year designing a new tradition, the Living Legacy."
+    },
+    {
+      "id": "KF-02",
+      "kind": "FACT",
+      "label": "Vivienne's final ledger entry is a sponsored commission, sealed and then withdrawn by her, nineteen days before she died."
+    },
+    {
+      "id": "KF-03",
+      "kind": "FACT",
+      "label": "Sloane decides this Grand Exchange is her last as the one who decides. She keeps hosting and taking impossible requests (Hybrid H)."
+    },
+    {
+      "id": "KF-04",
+      "kind": "FACT",
+      "label": "The leak chain: Royce's inference rests on Marcus, who overheard Bunny, who heard it from Richard."
+    },
+    {
+      "id": "KF-05",
+      "kind": "FACT",
+      "label": "Kai's anonymous commission ten years ago, at 24, was written by Vivienne for Celestine, then withdrawn."
+    },
+    {
+      "id": "KF-06",
+      "kind": "FACT",
+      "label": "Vivienne and Celestine designed the Ember together (copper no, gold yes); Vivienne gave it away and only the no was adopted."
+    },
+    {
+      "id": "KF-07",
+      "kind": "FACT",
+      "label": "Sloane personally excluded Kai."
+    },
+    {
+      "id": "KF-08",
+      "kind": "FACT",
+      "label": "Celestine has a vision she never built, and will never ask for it."
+    },
+    {
+      "id": "KF-09",
+      "kind": "FACT",
+      "label": "Vivienne's private truth behind the sealed envelope (U-1)."
+    },
+    {
+      "id": "KF-10",
+      "kind": "FACT",
+      "label": "Emmett Hale's identity (U-3). FD-09 approved his function only."
+    },
+    {
+      "id": "gideon-shaw",
+      "kind": "PERSON",
+      "label": "Gideon"
+    },
+    {
+      "id": "sloane-lockwood",
+      "kind": "PERSON",
+      "label": "Sloane"
+    },
+    {
+      "id": "kai-fontaine",
+      "kind": "PERSON",
+      "label": "Kai"
+    },
+    {
+      "id": "royce-bell",
+      "kind": "PERSON",
+      "label": "Royce"
+    },
+    {
+      "id": "person:wendell",
+      "kind": "PERSON",
+      "label": "Wendell Ames"
+    },
+    {
+      "id": "tina-grandison",
+      "kind": "PERSON",
+      "label": "Tina"
+    },
+    {
+      "id": "nadine-lockwood",
+      "kind": "PERSON",
+      "label": "Nadine"
+    },
+    {
+      "id": "person:andre",
+      "kind": "PERSON",
+      "label": "Andre"
+    },
+    {
+      "id": "person:imara",
+      "kind": "PERSON",
+      "label": "Imara"
+    },
+    {
+      "id": "person:jalen",
+      "kind": "PERSON",
+      "label": "Jalen"
+    },
+    {
+      "id": "richard-lockwood",
+      "kind": "PERSON",
+      "label": "Richard"
+    },
+    {
+      "id": "person:ada",
+      "kind": "PERSON",
+      "label": "Ada Whitfield"
+    },
+    {
+      "id": "person:clarence",
+      "kind": "PERSON",
+      "label": "Clarence Moody"
+    },
+    {
+      "id": "celestine-rhodes",
+      "kind": "PERSON",
+      "label": "Celestine"
+    },
+    {
+      "id": "person:mavis",
+      "kind": "PERSON",
+      "label": "Mavis Odom"
+    },
+    {
+      "id": "person:mr. daniels",
+      "kind": "PERSON",
+      "label": "Mr. Daniels"
+    },
+    {
+      "id": "person:clementine",
+      "kind": "PERSON",
+      "label": "Clementine Hollis"
+    },
+    {
+      "id": "person:dara",
+      "kind": "PERSON",
+      "label": "Dara"
+    },
+    {
+      "id": "person:femi",
+      "kind": "PERSON",
+      "label": "Femi Adeyemi"
+    },
+    {
+      "id": "person:rashid",
+      "kind": "PERSON",
+      "label": "Rashid Bello"
+    },
+    {
+      "id": "person:lorna",
+      "kind": "PERSON",
+      "label": "Lorna Shaw"
+    },
+    {
+      "id": "person:cyrus",
+      "kind": "PERSON",
+      "label": "Cyrus Wainwright"
+    },
+    {
+      "id": "person:bunny",
+      "kind": "PERSON",
+      "label": "Bunny Okafor"
+    },
+    {
+      "id": "person:noelle",
+      "kind": "PERSON",
+      "label": "Noelle Baptiste"
+    },
+    {
+      "id": "person:honora",
+      "kind": "PERSON",
+      "label": "Honora Vance"
+    },
+    {
+      "id": "person:inez",
+      "kind": "PERSON",
+      "label": "Inez Carter"
+    },
+    {
+      "id": "person:talia",
+      "kind": "PERSON",
+      "label": "Talia Carter"
+    },
+    {
+      "id": "person:marcus",
+      "kind": "PERSON",
+      "label": "Marcus Okafor"
+    },
+    {
+      "id": "person:dr. akers",
+      "kind": "PERSON",
+      "label": "Dr. Akers"
+    },
+    {
+      "id": "person:tad",
+      "kind": "PERSON",
+      "label": "Tad Monroe"
+    },
+    {
+      "id": "person:yaz",
+      "kind": "PERSON",
+      "label": "Yaz Adebayo"
+    },
+    {
+      "id": "person:ophelia",
+      "kind": "PERSON",
+      "label": "Ophelia Grant"
+    },
+    {
+      "id": "person:dee",
+      "kind": "PERSON",
+      "label": "Dee Whitlock"
+    },
+    {
+      "id": "person:zuri",
+      "kind": "PERSON",
+      "label": "Zuri Bankole"
+    },
+    {
+      "id": "person:emmett",
+      "kind": "PERSON",
+      "label": "Emmett Hale"
+    },
+    {
+      "id": "person:bea",
+      "kind": "PERSON",
+      "label": "Bea"
+    },
+    {
+      "id": "person:abena",
+      "kind": "PERSON",
+      "label": "Abena Mensah"
+    },
+    {
+      "id": "person:renée",
+      "kind": "PERSON",
+      "label": "Renée Coker"
+    },
+    {
+      "id": "person:delphine",
+      "kind": "PERSON",
+      "label": "Delphine Rowe"
+    },
+    {
+      "id": "person:grace",
+      "kind": "PERSON",
+      "label": "Grace Okafor"
+    },
+    {
+      "id": "SET-CITY-DUSK",
+      "kind": "SET",
+      "label": "Brownstone street at dusk"
+    },
+    {
+      "id": "SET-RIVERSIDE-PAVILION",
+      "kind": "SET",
+      "label": "Riverside Pavilion and river track"
+    },
+    {
+      "id": "WD-SLOANE-PARTY-GE92",
+      "kind": "WARDROBE",
+      "label": "The third of three looks on the bed: the one that moves when she spins."
+    },
+    {
+      "id": "WD-SLOANE-HOUSE-GE92",
+      "kind": "WARDROBE",
+      "label": "Half-dressed state before the party look is fastened (robe over the third look)."
+    },
+    {
+      "id": "WD-GIDEON-SUIT",
+      "kind": "WARDROBE",
+      "label": "One suit language for the season."
+    },
+    {
+      "id": "WD-KAI-GE92",
+      "kind": "WARDROBE",
+      "label": "Formal-casual: tailored waistcoat, quiet-luxury jewelry; dressed for a door he knows will not open."
+    },
+    {
+      "id": "WD-ROYCE-GE92",
+      "kind": "WARDROBE",
+      "label": "A plus-one dressed to be noticed."
+    },
+    {
+      "id": "WD-ORANGE-JACKET",
+      "kind": "WARDROBE",
+      "label": "A bold orange jacket by Wendell Ames, Ferry Street."
+    },
+    {
+      "id": "PR-KAI-NOTE",
+      "kind": "PROP",
+      "label": "Kai's folded note"
+    },
+    {
+      "id": "PR-SLOANE-NECKLACE",
+      "kind": "PROP",
+      "label": "Sloane's necklace"
+    },
+    {
+      "id": "PR-COCONUT-CAKE",
+      "kind": "PROP",
+      "label": "A slice of coconut cake on a plate"
+    },
+    {
+      "id": "PR-FERN",
+      "kind": "PROP",
+      "label": "The dying fern"
+    },
+    {
+      "id": "PR-SLOANE-CLUTCH",
+      "kind": "PROP",
+      "label": "Sloane's clutch"
+    },
+    {
+      "id": "PR-NEIGHBOUR-PHONE",
+      "kind": "PROP",
+      "label": "The neighbour's phone"
+    }
+  ],
+  "edges": [
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-01",
+      "to": "S1-58",
+      "source": "master S1-01.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-02",
+      "to": "S1-03",
+      "source": "master S1-02.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-02",
+      "to": "S1-05",
+      "source": "master S1-02.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-02",
+      "to": "S1-62",
+      "source": "master S1-02.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-02",
+      "to": "S1-72",
+      "source": "master S1-02.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-02",
+      "to": "S1-84",
+      "source": "master S1-02.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-02",
+      "to": "S1-03",
+      "source": "master S1-02.nightDependencies"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-02",
+      "to": "S1-05",
+      "source": "master S1-02.nightDependencies"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-02",
+      "to": "S1-72",
+      "source": "master S1-02.nightDependencies"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-03",
+      "to": "S1-05",
+      "source": "master S1-03.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-03",
+      "to": "S1-09",
+      "source": "master S1-03.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-03",
+      "to": "S1-05",
+      "source": "master S1-03.nightDependencies"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-04",
+      "to": "S1-06",
+      "source": "master S1-04.paysOffIn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-05",
+      "to": "S1-03",
+      "source": "master S1-05.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-05",
+      "to": "S1-08",
+      "source": "master S1-05.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-05",
+      "to": "S1-03",
+      "source": "master S1-05.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-06",
+      "to": "S1-04",
+      "source": "master S1-06.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-06",
+      "to": "S1-15",
+      "source": "master S1-06.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-06",
+      "to": "S1-28",
+      "source": "master S1-06.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-06",
+      "to": "S1-04",
+      "source": "master S1-06.nightDependencies"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-07",
+      "to": "S1-57",
+      "source": "master S1-07.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-08",
+      "to": "S1-27",
+      "source": "master S1-08.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-08",
+      "to": "S1-56",
+      "source": "master S1-08.paysOffIn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-09",
+      "to": "S1-03",
+      "source": "master S1-09.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-09",
+      "to": "S1-12",
+      "source": "master S1-09.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-09",
+      "to": "S1-28",
+      "source": "master S1-09.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-09",
+      "to": "S1-35",
+      "source": "master S1-09.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-09",
+      "to": "S1-74",
+      "source": "master S1-09.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-09",
+      "to": "S1-03",
+      "source": "master S1-09.nightDependencies"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-09",
+      "to": "S1-74",
+      "source": "master S1-09.nightDependencies"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-10",
+      "to": "S1-49",
+      "source": "master S1-10.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-10",
+      "to": "S1-75",
+      "source": "master S1-10.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-10",
+      "to": "S1-75",
+      "source": "master S1-10.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-11",
+      "to": "S1-05",
+      "source": "master S1-11.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-11",
+      "to": "S1-08",
+      "source": "master S1-11.dependsOn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-11",
+      "to": "S1-05",
+      "source": "master S1-11.nightDependencies"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-12",
+      "to": "S1-43",
+      "source": "master S1-12.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-12",
+      "to": "S1-20",
+      "source": "master S1-12.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-12",
+      "to": "S1-20",
+      "source": "master S1-12.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-13",
+      "to": "S1-05",
+      "source": "master S1-13.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-13",
+      "to": "S1-08",
+      "source": "master S1-13.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-13",
+      "to": "S1-32",
+      "source": "master S1-13.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-13",
+      "to": "S1-56",
+      "source": "master S1-13.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-13",
+      "to": "S1-05",
+      "source": "master S1-13.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-14",
+      "to": "S1-10",
+      "source": "master S1-14.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-14",
+      "to": "S1-55",
+      "source": "master S1-14.paysOffIn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-15",
+      "to": "S1-06",
+      "source": "master S1-15.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-15",
+      "to": "S1-34",
+      "source": "master S1-15.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-15",
+      "to": "S1-72",
+      "source": "master S1-15.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-15",
+      "to": "S1-72",
+      "source": "master S1-15.nightDependencies"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-16",
+      "to": "S1-73",
+      "source": "master S1-16.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-16",
+      "to": "S1-73",
+      "source": "master S1-16.nightDependencies"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-17",
+      "to": "S1-38",
+      "source": "master S1-17.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-17",
+      "to": "S1-43",
+      "source": "master S1-17.paysOffIn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-18",
+      "to": "S1-07",
+      "source": "master S1-18.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-18",
+      "to": "S1-24",
+      "source": "master S1-18.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-18",
+      "to": "S1-61",
+      "source": "master S1-18.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-19",
+      "to": "S1-62",
+      "source": "master S1-19.paysOffIn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-20",
+      "to": "S1-12",
+      "source": "master S1-20.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-20",
+      "to": "S1-14",
+      "source": "master S1-20.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-20",
+      "to": "S1-54",
+      "source": "master S1-20.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-20",
+      "to": "S1-55",
+      "source": "master S1-20.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-20",
+      "to": "S1-21",
+      "source": "master S1-20.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-20",
+      "to": "S1-35",
+      "source": "master S1-20.paysOffIn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-21",
+      "to": "S1-20",
+      "source": "master S1-21.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-21",
+      "to": "S1-49",
+      "source": "master S1-21.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-21",
+      "to": "S1-20",
+      "source": "master S1-21.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-22",
+      "to": "S1-13",
+      "source": "master S1-22.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-23",
+      "to": "S1-36",
+      "source": "master S1-23.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-23",
+      "to": "S1-63",
+      "source": "master S1-23.paysOffIn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-24",
+      "to": "S1-18",
+      "source": "master S1-24.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-24",
+      "to": "S1-85",
+      "source": "master S1-24.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-25",
+      "to": "S1-70",
+      "source": "master S1-25.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-25",
+      "to": "S1-82",
+      "source": "master S1-25.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-25",
+      "to": "S1-70",
+      "source": "master S1-25.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-26",
+      "to": "S1-11",
+      "source": "master S1-26.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-26",
+      "to": "S1-58",
+      "source": "master S1-26.paysOffIn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-27",
+      "to": "S1-08",
+      "source": "master S1-27.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-27",
+      "to": "S1-48",
+      "source": "master S1-27.paysOffIn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-28",
+      "to": "S1-10",
+      "source": "master S1-28.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-28",
+      "to": "S1-14",
+      "source": "master S1-28.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-28",
+      "to": "S1-09",
+      "source": "master S1-28.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-28",
+      "to": "S1-06",
+      "source": "master S1-28.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-29",
+      "to": "S1-13",
+      "source": "master S1-29.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-29",
+      "to": "S1-28",
+      "source": "master S1-29.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-30",
+      "to": "S1-28",
+      "source": "master S1-30.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-31",
+      "to": "S1-10",
+      "source": "master S1-31.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-31",
+      "to": "S1-14",
+      "source": "master S1-31.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-31",
+      "to": "S1-30",
+      "source": "master S1-31.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-32",
+      "to": "S1-29",
+      "source": "master S1-32.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-33",
+      "to": "S1-09",
+      "source": "master S1-33.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-33",
+      "to": "S1-28",
+      "source": "master S1-33.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-33",
+      "to": "S1-50",
+      "source": "master S1-33.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-33",
+      "to": "S1-81",
+      "source": "master S1-33.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-33",
+      "to": "S1-50",
+      "source": "master S1-33.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-34",
+      "to": "S1-15",
+      "source": "master S1-34.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-34",
+      "to": "S1-25",
+      "source": "master S1-34.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-35",
+      "to": "S1-20",
+      "source": "master S1-35.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-35",
+      "to": "S1-74",
+      "source": "master S1-35.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-35",
+      "to": "S1-20",
+      "source": "master S1-35.nightDependencies"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-35",
+      "to": "S1-74",
+      "source": "master S1-35.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-36",
+      "to": "S1-13",
+      "source": "master S1-36.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-36",
+      "to": "S1-23",
+      "source": "master S1-36.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-37",
+      "to": "S1-36",
+      "source": "master S1-37.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-37",
+      "to": "S1-23",
+      "source": "master S1-37.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-37",
+      "to": "S1-40",
+      "source": "master S1-37.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-37",
+      "to": "S1-69",
+      "source": "master S1-37.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-37",
+      "to": "S1-74",
+      "source": "master S1-37.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-37",
+      "to": "S1-40",
+      "source": "master S1-37.nightDependencies"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-37",
+      "to": "S1-69",
+      "source": "master S1-37.nightDependencies"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-37",
+      "to": "S1-74",
+      "source": "master S1-37.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-38",
+      "to": "S1-17",
+      "source": "master S1-38.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-38",
+      "to": "S1-28",
+      "source": "master S1-38.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-39",
+      "to": "S1-10",
+      "source": "master S1-39.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-39",
+      "to": "S1-66",
+      "source": "master S1-39.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-39",
+      "to": "S1-74",
+      "source": "master S1-39.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-39",
+      "to": "S1-74",
+      "source": "master S1-39.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-40",
+      "to": "S1-37",
+      "source": "master S1-40.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-40",
+      "to": "S1-63",
+      "source": "master S1-40.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-41",
+      "to": "S1-65",
+      "source": "master S1-41.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-41",
+      "to": "S1-77",
+      "source": "master S1-41.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-41",
+      "to": "S1-77",
+      "source": "master S1-41.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-43",
+      "to": "S1-12",
+      "source": "master S1-43.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-43",
+      "to": "S1-13",
+      "source": "master S1-43.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-43",
+      "to": "S1-17",
+      "source": "master S1-43.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-43",
+      "to": "S1-28",
+      "source": "master S1-43.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-44",
+      "to": "S1-43",
+      "source": "master S1-44.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-44",
+      "to": "S1-07",
+      "source": "master S1-44.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-45",
+      "to": "S1-28",
+      "source": "master S1-45.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-45",
+      "to": "S1-09",
+      "source": "master S1-45.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-45",
+      "to": "S1-47",
+      "source": "master S1-45.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-45",
+      "to": "S1-54",
+      "source": "master S1-45.paysOffIn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-46",
+      "to": "S1-30",
+      "source": "master S1-46.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-47",
+      "to": "S1-45",
+      "source": "master S1-47.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-47",
+      "to": "S1-28",
+      "source": "master S1-47.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-47",
+      "to": "S1-52",
+      "source": "master S1-47.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-47",
+      "to": "S1-54",
+      "source": "master S1-47.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-47",
+      "to": "S1-81",
+      "source": "master S1-47.paysOffIn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-48",
+      "to": "S1-27",
+      "source": "master S1-48.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-48",
+      "to": "S1-46",
+      "source": "master S1-48.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-49",
+      "to": "S1-10",
+      "source": "master S1-49.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-49",
+      "to": "S1-21",
+      "source": "master S1-49.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-49",
+      "to": "S1-44",
+      "source": "master S1-49.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-50",
+      "to": "S1-33",
+      "source": "master S1-50.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-50",
+      "to": "S1-49",
+      "source": "master S1-50.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-50",
+      "to": "S1-74",
+      "source": "master S1-50.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-50",
+      "to": "S1-81",
+      "source": "master S1-50.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-50",
+      "to": "S1-74",
+      "source": "master S1-50.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-51",
+      "to": "S1-12",
+      "source": "master S1-51.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-51",
+      "to": "S1-20",
+      "source": "master S1-51.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-51",
+      "to": "S1-69",
+      "source": "master S1-51.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-51",
+      "to": "S1-72",
+      "source": "master S1-51.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-51",
+      "to": "S1-20",
+      "source": "master S1-51.nightDependencies"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-51",
+      "to": "S1-69",
+      "source": "master S1-51.nightDependencies"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-51",
+      "to": "S1-72",
+      "source": "master S1-51.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-52",
+      "to": "S1-27",
+      "source": "master S1-52.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-52",
+      "to": "S1-48",
+      "source": "master S1-52.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-53",
+      "to": "S1-39",
+      "source": "master S1-53.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-54",
+      "to": "S1-14",
+      "source": "master S1-54.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-54",
+      "to": "S1-20",
+      "source": "master S1-54.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-54",
+      "to": "S1-28",
+      "source": "master S1-54.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-54",
+      "to": "S1-47",
+      "source": "master S1-54.dependsOn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-54",
+      "to": "S1-20",
+      "source": "master S1-54.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-55",
+      "to": "S1-14",
+      "source": "master S1-55.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-55",
+      "to": "S1-20",
+      "source": "master S1-55.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-55",
+      "to": "S1-49",
+      "source": "master S1-55.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-55",
+      "to": "S1-54",
+      "source": "master S1-55.dependsOn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-55",
+      "to": "S1-20",
+      "source": "master S1-55.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-56",
+      "to": "S1-08",
+      "source": "master S1-56.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-56",
+      "to": "S1-13",
+      "source": "master S1-56.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-56",
+      "to": "S1-32",
+      "source": "master S1-56.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-56",
+      "to": "S1-55",
+      "source": "master S1-56.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-57",
+      "to": "S1-07",
+      "source": "master S1-57.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-57",
+      "to": "S1-56",
+      "source": "master S1-57.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-58",
+      "to": "S1-01",
+      "source": "master S1-58.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-58",
+      "to": "S1-26",
+      "source": "master S1-58.dependsOn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-58",
+      "to": "S1-01",
+      "source": "master S1-58.nightDependencies"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-59",
+      "to": "S1-76",
+      "source": "master S1-59.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-59",
+      "to": "S1-77",
+      "source": "master S1-59.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-59",
+      "to": "S1-76",
+      "source": "master S1-59.nightDependencies"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-59",
+      "to": "S1-77",
+      "source": "master S1-59.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-60",
+      "to": "S1-13",
+      "source": "master S1-60.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-60",
+      "to": "S1-36",
+      "source": "master S1-60.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-61",
+      "to": "S1-52",
+      "source": "master S1-61.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-61",
+      "to": "S1-60",
+      "source": "master S1-61.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-62",
+      "to": "S1-19",
+      "source": "master S1-62.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-62",
+      "to": "S1-15",
+      "source": "master S1-62.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-62",
+      "to": "S1-52",
+      "source": "master S1-62.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-62",
+      "to": "S1-54",
+      "source": "master S1-62.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-62",
+      "to": "S1-64",
+      "source": "master S1-62.paysOffIn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-62",
+      "to": "S1-72",
+      "source": "master S1-62.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-62",
+      "to": "S1-72",
+      "source": "master S1-62.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-63",
+      "to": "S1-36",
+      "source": "master S1-63.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-63",
+      "to": "S1-46",
+      "source": "master S1-63.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-63",
+      "to": "S1-61",
+      "source": "master S1-63.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-64",
+      "to": "S1-62",
+      "source": "master S1-64.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-64",
+      "to": "S1-54",
+      "source": "master S1-64.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-64",
+      "to": "S1-47",
+      "source": "master S1-64.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-64",
+      "to": "S1-72",
+      "source": "master S1-64.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-64",
+      "to": "S1-72",
+      "source": "master S1-64.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-65",
+      "to": "S1-41",
+      "source": "master S1-65.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-65",
+      "to": "S1-61",
+      "source": "master S1-65.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-66",
+      "to": "S1-53",
+      "source": "master S1-66.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-66",
+      "to": "S1-65",
+      "source": "master S1-66.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-67",
+      "to": "S1-61",
+      "source": "master S1-67.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-67",
+      "to": "S1-63",
+      "source": "master S1-67.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-67",
+      "to": "S1-66",
+      "source": "master S1-67.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-69",
+      "to": "S1-17",
+      "source": "master S1-69.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-69",
+      "to": "S1-34",
+      "source": "master S1-69.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-69",
+      "to": "S1-50",
+      "source": "master S1-69.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-69",
+      "to": "S1-40",
+      "source": "master S1-69.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-69",
+      "to": "S1-51",
+      "source": "master S1-69.dependsOn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-69",
+      "to": "S1-50",
+      "source": "master S1-69.nightDependencies"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-69",
+      "to": "S1-40",
+      "source": "master S1-69.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-70",
+      "to": "S1-25",
+      "source": "master S1-70.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-71",
+      "to": "S1-58",
+      "source": "master S1-71.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-71",
+      "to": "S1-66",
+      "source": "master S1-71.dependsOn"
+    },
+    {
+      "type": "PAYS_OFF",
+      "from": "S1-71",
+      "to": "S1-77",
+      "source": "master S1-71.paysOffIn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-71",
+      "to": "S1-77",
+      "source": "master S1-71.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-72",
+      "to": "S1-34",
+      "source": "master S1-72.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-72",
+      "to": "S1-64",
+      "source": "master S1-72.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-72",
+      "to": "S1-51",
+      "source": "master S1-72.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-73",
+      "to": "S1-16",
+      "source": "master S1-73.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-73",
+      "to": "S1-38",
+      "source": "master S1-73.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-74",
+      "to": "S1-35",
+      "source": "master S1-74.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-74",
+      "to": "S1-39",
+      "source": "master S1-74.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-74",
+      "to": "S1-70",
+      "source": "master S1-74.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-74",
+      "to": "S1-40",
+      "source": "master S1-74.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-74",
+      "to": "S1-50",
+      "source": "master S1-74.dependsOn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-74",
+      "to": "S1-70",
+      "source": "master S1-74.nightDependencies"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-74",
+      "to": "S1-40",
+      "source": "master S1-74.nightDependencies"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-74",
+      "to": "S1-50",
+      "source": "master S1-74.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-75",
+      "to": "S1-28",
+      "source": "master S1-75.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-75",
+      "to": "S1-31",
+      "source": "master S1-75.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-75",
+      "to": "S1-43",
+      "source": "master S1-75.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-75",
+      "to": "S1-10",
+      "source": "master S1-75.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-75",
+      "to": "S1-12",
+      "source": "master S1-75.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-75",
+      "to": "S1-18",
+      "source": "master S1-75.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-76",
+      "to": "S1-67",
+      "source": "master S1-76.dependsOn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-76",
+      "to": "S1-67",
+      "source": "master S1-76.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-77",
+      "to": "S1-58",
+      "source": "master S1-77.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-77",
+      "to": "S1-65",
+      "source": "master S1-77.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-77",
+      "to": "S1-71",
+      "source": "master S1-77.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-77",
+      "to": "S1-76",
+      "source": "master S1-77.dependsOn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-77",
+      "to": "S1-71",
+      "source": "master S1-77.nightDependencies"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-77",
+      "to": "S1-76",
+      "source": "master S1-77.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-78",
+      "to": "S1-08",
+      "source": "master S1-78.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-78",
+      "to": "S1-57",
+      "source": "master S1-78.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-79",
+      "to": "S1-36",
+      "source": "master S1-79.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-79",
+      "to": "S1-63",
+      "source": "master S1-79.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-79",
+      "to": "S1-65",
+      "source": "master S1-79.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-80",
+      "to": "S1-73",
+      "source": "master S1-80.dependsOn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-80",
+      "to": "S1-73",
+      "source": "master S1-80.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-81",
+      "to": "S1-77",
+      "source": "master S1-81.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-81",
+      "to": "S1-50",
+      "source": "master S1-81.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-81",
+      "to": "S1-47",
+      "source": "master S1-81.dependsOn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-81",
+      "to": "S1-77",
+      "source": "master S1-81.nightDependencies"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-81",
+      "to": "S1-50",
+      "source": "master S1-81.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-82",
+      "to": "S1-73",
+      "source": "master S1-82.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-82",
+      "to": "S1-74",
+      "source": "master S1-82.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-82",
+      "to": "S1-77",
+      "source": "master S1-82.dependsOn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-82",
+      "to": "S1-73",
+      "source": "master S1-82.nightDependencies"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-82",
+      "to": "S1-74",
+      "source": "master S1-82.nightDependencies"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-82",
+      "to": "S1-77",
+      "source": "master S1-82.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-83",
+      "to": "S1-17",
+      "source": "master S1-83.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-83",
+      "to": "S1-75",
+      "source": "master S1-83.dependsOn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-83",
+      "to": "S1-75",
+      "source": "master S1-83.nightDependencies"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-84",
+      "to": "S1-02",
+      "source": "master S1-84.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-84",
+      "to": "S1-41",
+      "source": "master S1-84.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-85",
+      "to": "S1-53",
+      "source": "master S1-85.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-85",
+      "to": "S1-66",
+      "source": "master S1-85.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-85",
+      "to": "S1-24",
+      "source": "master S1-85.dependsOn"
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "S1-86",
+      "to": "S1-78",
+      "source": "master S1-86.dependsOn"
+    },
+    {
+      "type": "SAME_NIGHT",
+      "from": "S1-86",
+      "to": "S1-78",
+      "source": "master S1-86.nightDependencies"
+    },
+    {
+      "type": "FACT_REVEALED",
+      "from": "KF-01",
+      "to": "S1-08",
+      "source": "Master S1-05 continuity (\"revealed in S1-08\"); S1-08 narrative."
+    },
+    {
+      "type": "CHARACTER_LEARNS",
+      "from": "KF-01",
+      "to": "S1-01",
+      "source": "KF-01: Sloane (Her own plan; S1-05 alludes to it without naming it.)"
+    },
+    {
+      "type": "FACT_REVEALED",
+      "from": "KF-02",
+      "to": "S1-08",
+      "source": "Master S1-08."
+    },
+    {
+      "type": "CHARACTER_LEARNS",
+      "from": "KF-02",
+      "to": "S1-08",
+      "source": "KF-02: Sloane (A page she knows by heart.)"
+    },
+    {
+      "type": "FACT_REVEALED",
+      "from": "KF-03",
+      "to": "S1-10",
+      "source": "Founder approval S-1 Hybrid H (2026-10-23); master S1-10, S1-14, S1-31."
+    },
+    {
+      "type": "CHARACTER_LEARNS",
+      "from": "KF-03",
+      "to": "S1-10",
+      "source": "KF-03: Gideon (Told first, asked to keep it.)"
+    },
+    {
+      "type": "CHARACTER_LEARNS",
+      "from": "KF-03",
+      "to": "S1-14",
+      "source": "KF-03: Richard (Told at Sunday breakfast, asked to keep it.)"
+    },
+    {
+      "type": "CHARACTER_LEARNS",
+      "from": "KF-03",
+      "to": "S1-20",
+      "source": "KF-03: Bunny (Richard's happy whisper at Nineteen Eighty-Six.)"
+    },
+    {
+      "type": "CHARACTER_LEARNS",
+      "from": "KF-03",
+      "to": "S1-43",
+      "source": "KF-03: Royce (Inference plus an unnamed source.)"
+    },
+    {
+      "type": "CHARACTER_LEARNS",
+      "from": "KF-03",
+      "to": "S1-31",
+      "source": "KF-03: Nadine (From a surgeon, last.)"
+    },
+    {
+      "type": "FACT_REVEALED",
+      "from": "KF-04",
+      "to": "S1-54",
+      "source": "Founder approval NR-5 (chain unchanged; disclosure at a Night Sloane hosted, S1-20); master S1-54, S1-55."
+    },
+    {
+      "type": "CHARACTER_LEARNS",
+      "from": "KF-04",
+      "to": "S1-54",
+      "source": "KF-04: Bunny (Marcus's confession the night before.)"
+    },
+    {
+      "type": "CHARACTER_LEARNS",
+      "from": "KF-04",
+      "to": "S1-54",
+      "source": "KF-04: Richard (Bunny's visit.)"
+    },
+    {
+      "type": "CHARACTER_LEARNS",
+      "from": "KF-04",
+      "to": "S1-55",
+      "source": "KF-04: Sloane (Richard's confession.)"
+    },
+    {
+      "type": "FACT_REVEALED",
+      "from": "KF-05",
+      "to": "S1-56",
+      "source": "Master S1-13 (framed page, unexplained) and S1-56."
+    },
+    {
+      "type": "CHARACTER_LEARNS",
+      "from": "KF-05",
+      "to": "S1-56",
+      "source": "KF-05: Kai (Recognizes the phrasing once he meets Sloane; tells her here.)"
+    },
+    {
+      "type": "CHARACTER_LEARNS",
+      "from": "KF-05",
+      "to": "S1-56",
+      "source": "KF-05: Sloane (Reads her mother's phrasing on the framed page.)"
+    },
+    {
+      "type": "FACT_REVEALED",
+      "from": "KF-06",
+      "to": "S1-58",
+      "source": "Master S1-01 payoff and S1-58. Founder confirmation FC-01 requested for FD-05."
+    },
+    {
+      "type": "CHARACTER_LEARNS",
+      "from": "KF-06",
+      "to": "S1-01",
+      "source": "KF-06: Richard (Witnessed it; tells it in S1-58.)"
+    },
+    {
+      "type": "FACT_REVEALED",
+      "from": "KF-07",
+      "to": "S1-13",
+      "source": "Master S1-13 freeze-frame."
+    },
+    {
+      "type": "CHARACTER_LEARNS",
+      "from": "KF-07",
+      "to": "S1-01",
+      "source": "KF-07: Sloane (Her decision.)"
+    },
+    {
+      "type": "FACT_REVEALED",
+      "from": "KF-08",
+      "to": "S1-05",
+      "source": "Master S1-05."
+    },
+    {
+      "type": "CHARACTER_LEARNS",
+      "from": "KF-08",
+      "to": "S1-03",
+      "source": "KF-08: Kai (Writes the note.)"
+    },
+    {
+      "type": "CHARACTER_LEARNS",
+      "from": "KF-08",
+      "to": "S1-05",
+      "source": "KF-08: Sloane (Reads the note.)"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "gideon-shaw",
+      "to": "S1-02",
+      "source": "Gideon"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "gideon-shaw",
+      "to": "S1-02",
+      "source": "REGISTERED; appears in 26 release(s)",
+      "jitTrigger": "S1-02 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "sloane-lockwood",
+      "to": "S1-02",
+      "source": "Sloane"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "sloane-lockwood",
+      "to": "S1-02",
+      "source": "REGISTERED; appears in 57 release(s)",
+      "jitTrigger": "S1-02 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "kai-fontaine",
+      "to": "S1-03",
+      "source": "Kai Fontaine"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "kai-fontaine",
+      "to": "S1-03",
+      "source": "REGISTERED; appears in 12 release(s)",
+      "jitTrigger": "S1-03 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "royce-bell",
+      "to": "S1-03",
+      "source": "Royce Bell"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "royce-bell",
+      "to": "S1-03",
+      "source": "REGISTERED; appears in 7 release(s)",
+      "jitTrigger": "S1-03 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:wendell",
+      "to": "S1-06",
+      "source": "Wendell Ames (on the phone)"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:wendell",
+      "to": "S1-06",
+      "source": "SINGLE_RELEASE; appears in 1 release(s)",
+      "jitTrigger": "S1-06 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "tina-grandison",
+      "to": "S1-06",
+      "source": "Tina Grandison (a message)"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "tina-grandison",
+      "to": "S1-06",
+      "source": "REGISTERED; appears in 5 release(s)",
+      "jitTrigger": "S1-06 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "nadine-lockwood",
+      "to": "S1-07",
+      "source": "Nadine"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "nadine-lockwood",
+      "to": "S1-07",
+      "source": "REGISTERED; appears in 14 release(s)",
+      "jitTrigger": "S1-07 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:andre",
+      "to": "S1-07",
+      "source": "Andre"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:andre",
+      "to": "S1-07",
+      "source": "RECURRING_UNREGISTERED; appears in 3 release(s)",
+      "jitTrigger": "S1-07 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:imara",
+      "to": "S1-07",
+      "source": "Imara (15)"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:imara",
+      "to": "S1-07",
+      "source": "RECURRING_UNREGISTERED; appears in 2 release(s)",
+      "jitTrigger": "S1-07 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:jalen",
+      "to": "S1-07",
+      "source": "Jalen (11)"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:jalen",
+      "to": "S1-07",
+      "source": "RECURRING_UNREGISTERED; appears in 2 release(s)",
+      "jitTrigger": "S1-07 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "richard-lockwood",
+      "to": "S1-07",
+      "source": "Richard"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "richard-lockwood",
+      "to": "S1-07",
+      "source": "REGISTERED; appears in 11 release(s)",
+      "jitTrigger": "S1-07 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:ada",
+      "to": "S1-08",
+      "source": "Ada Whitfield"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:ada",
+      "to": "S1-08",
+      "source": "RECURRING_UNREGISTERED; appears in 10 release(s)",
+      "jitTrigger": "S1-08 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:clarence",
+      "to": "S1-09",
+      "source": "Clarence Moody"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:clarence",
+      "to": "S1-09",
+      "source": "RECURRING_UNREGISTERED; appears in 6 release(s)",
+      "jitTrigger": "S1-09 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "celestine-rhodes",
+      "to": "S1-11",
+      "source": "Celestine (seen through glass)"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "celestine-rhodes",
+      "to": "S1-11",
+      "source": "REGISTERED; appears in 12 release(s)",
+      "jitTrigger": "S1-11 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:mavis",
+      "to": "S1-12",
+      "source": "Mavis Odom (79)"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:mavis",
+      "to": "S1-12",
+      "source": "RECURRING_UNREGISTERED; appears in 5 release(s)",
+      "jitTrigger": "S1-12 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:mr. daniels",
+      "to": "S1-12",
+      "source": "Mr. Daniels"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:mr. daniels",
+      "to": "S1-12",
+      "source": "SINGLE_RELEASE; appears in 1 release(s)",
+      "jitTrigger": "S1-12 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:clementine",
+      "to": "S1-16",
+      "source": "Clementine Hollis (80)"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:clementine",
+      "to": "S1-16",
+      "source": "RECURRING_UNREGISTERED; appears in 4 release(s)",
+      "jitTrigger": "S1-16 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:dara",
+      "to": "S1-16",
+      "source": "Clementine's great-niece Dara (the nominator)"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:dara",
+      "to": "S1-16",
+      "source": "RECURRING_UNREGISTERED; appears in 2 release(s)",
+      "jitTrigger": "S1-16 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:femi",
+      "to": "S1-17",
+      "source": "Femi Adeyemi"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:femi",
+      "to": "S1-17",
+      "source": "RECURRING_UNREGISTERED; appears in 4 release(s)",
+      "jitTrigger": "S1-17 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:rashid",
+      "to": "S1-17",
+      "source": "Rashid Bello"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:rashid",
+      "to": "S1-17",
+      "source": "RECURRING_UNREGISTERED; appears in 5 release(s)",
+      "jitTrigger": "S1-17 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:lorna",
+      "to": "S1-18",
+      "source": "Lorna Shaw (70)"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:lorna",
+      "to": "S1-18",
+      "source": "RECURRING_UNREGISTERED; appears in 2 release(s)",
+      "jitTrigger": "S1-18 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:cyrus",
+      "to": "S1-19",
+      "source": "Cyrus Wainwright"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:cyrus",
+      "to": "S1-19",
+      "source": "SINGLE_RELEASE; appears in 1 release(s)",
+      "jitTrigger": "S1-19 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:bunny",
+      "to": "S1-20",
+      "source": "Bunny Okafor"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:bunny",
+      "to": "S1-20",
+      "source": "RECURRING_UNREGISTERED; appears in 4 release(s)",
+      "jitTrigger": "S1-20 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:noelle",
+      "to": "S1-20",
+      "source": "Noelle Baptiste (16, glimpsed)"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:noelle",
+      "to": "S1-20",
+      "source": "RECURRING_UNREGISTERED; appears in 4 release(s)",
+      "jitTrigger": "S1-20 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:honora",
+      "to": "S1-23",
+      "source": "Honora Vance (behind a door)"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:honora",
+      "to": "S1-23",
+      "source": "RECURRING_UNREGISTERED; appears in 6 release(s)",
+      "jitTrigger": "S1-23 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:inez",
+      "to": "S1-25",
+      "source": "Inez Carter (70)"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:inez",
+      "to": "S1-25",
+      "source": "RECURRING_UNREGISTERED; appears in 5 release(s)",
+      "jitTrigger": "S1-25 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:talia",
+      "to": "S1-25",
+      "source": "Talia Carter (19)"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:talia",
+      "to": "S1-25",
+      "source": "RECURRING_UNREGISTERED; appears in 2 release(s)",
+      "jitTrigger": "S1-25 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:marcus",
+      "to": "S1-28",
+      "source": "Marcus Okafor"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:marcus",
+      "to": "S1-28",
+      "source": "RECURRING_UNREGISTERED; appears in 5 release(s)",
+      "jitTrigger": "S1-28 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:dr. akers",
+      "to": "S1-30",
+      "source": "Dr. Akers (a chief of surgery)"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:dr. akers",
+      "to": "S1-30",
+      "source": "SINGLE_RELEASE; appears in 1 release(s)",
+      "jitTrigger": "S1-30 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:tad",
+      "to": "S1-33",
+      "source": "Tad Monroe"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:tad",
+      "to": "S1-33",
+      "source": "RECURRING_UNREGISTERED; appears in 3 release(s)",
+      "jitTrigger": "S1-33 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:yaz",
+      "to": "S1-33",
+      "source": "Yaz Adebayo"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:yaz",
+      "to": "S1-33",
+      "source": "RECURRING_UNREGISTERED; appears in 3 release(s)",
+      "jitTrigger": "S1-33 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:ophelia",
+      "to": "S1-34",
+      "source": "Ophelia Grant (61)"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:ophelia",
+      "to": "S1-34",
+      "source": "RECURRING_UNREGISTERED; appears in 2 release(s)",
+      "jitTrigger": "S1-34 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:dee",
+      "to": "S1-37",
+      "source": "Dee Whitlock (58)"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:dee",
+      "to": "S1-37",
+      "source": "RECURRING_UNREGISTERED; appears in 4 release(s)",
+      "jitTrigger": "S1-37 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:zuri",
+      "to": "S1-37",
+      "source": "Zuri Bankole (19)"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:zuri",
+      "to": "S1-37",
+      "source": "RECURRING_UNREGISTERED; appears in 4 release(s)",
+      "jitTrigger": "S1-37 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:emmett",
+      "to": "S1-41",
+      "source": "Emmett Hale"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:emmett",
+      "to": "S1-41",
+      "source": "RECURRING_UNREGISTERED; appears in 5 release(s)",
+      "jitTrigger": "S1-41 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:bea",
+      "to": "S1-42",
+      "source": "Bea (15)"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:bea",
+      "to": "S1-42",
+      "source": "SINGLE_RELEASE; appears in 1 release(s)",
+      "jitTrigger": "S1-42 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:abena",
+      "to": "S1-47",
+      "source": "Abena Mensah (a recorded Interval message)"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:abena",
+      "to": "S1-47",
+      "source": "SINGLE_RELEASE; appears in 1 release(s)",
+      "jitTrigger": "S1-47 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:renée",
+      "to": "S1-47",
+      "source": "Renée Coker"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:renée",
+      "to": "S1-47",
+      "source": "RECURRING_UNREGISTERED; appears in 2 release(s)",
+      "jitTrigger": "S1-47 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:delphine",
+      "to": "S1-62",
+      "source": "Delphine Rowe (31)"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:delphine",
+      "to": "S1-62",
+      "source": "RECURRING_UNREGISTERED; appears in 3 release(s)",
+      "jitTrigger": "S1-62 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "person:grace",
+      "to": "S1-64",
+      "source": "Grace Okafor"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "person:grace",
+      "to": "S1-64",
+      "source": "SINGLE_RELEASE; appears in 1 release(s)",
+      "jitTrigger": "S1-64 enters active production"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "SET-CITY-DUSK",
+      "to": "S1-01",
+      "source": "asset registry SET-CITY-DUSK.releases",
+      "jitTrigger": "S1-01 enters active production"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "SET-RIVERSIDE-PAVILION",
+      "to": "S1-40",
+      "source": "asset registry SET-RIVERSIDE-PAVILION.releases",
+      "jitTrigger": "S1-40 enters active production"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "WD-SLOANE-PARTY-GE92",
+      "to": "S1-02",
+      "source": "asset registry WD-SLOANE-PARTY-GE92.releases",
+      "jitTrigger": "S1-02 enters active production"
+    },
+    {
+      "type": "CONTINUITY_CARRY",
+      "from": "S1-02",
+      "to": "S1-03",
+      "source": "WD-SLOANE-PARTY-GE92 carries across releases"
+    },
+    {
+      "type": "CONTINUITY_CARRY",
+      "from": "S1-03",
+      "to": "S1-04",
+      "source": "WD-SLOANE-PARTY-GE92 carries across releases"
+    },
+    {
+      "type": "CONTINUITY_CARRY",
+      "from": "S1-04",
+      "to": "S1-05",
+      "source": "WD-SLOANE-PARTY-GE92 carries across releases"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "WD-SLOANE-HOUSE-GE92",
+      "to": "S1-02",
+      "source": "asset registry WD-SLOANE-HOUSE-GE92.releases",
+      "jitTrigger": "S1-02 enters active production"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "WD-GIDEON-SUIT",
+      "to": "S1-02",
+      "source": "asset registry WD-GIDEON-SUIT.releases",
+      "jitTrigger": "S1-02 enters active production"
+    },
+    {
+      "type": "CONTINUITY_CARRY",
+      "from": "S1-02",
+      "to": "S1-03",
+      "source": "WD-GIDEON-SUIT carries across releases"
+    },
+    {
+      "type": "CONTINUITY_CARRY",
+      "from": "S1-03",
+      "to": "S1-04",
+      "source": "WD-GIDEON-SUIT carries across releases"
+    },
+    {
+      "type": "CONTINUITY_CARRY",
+      "from": "S1-04",
+      "to": "S1-05",
+      "source": "WD-GIDEON-SUIT carries across releases"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "WD-KAI-GE92",
+      "to": "S1-03",
+      "source": "asset registry WD-KAI-GE92.releases",
+      "jitTrigger": "S1-03 enters active production"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "WD-ROYCE-GE92",
+      "to": "S1-03",
+      "source": "asset registry WD-ROYCE-GE92.releases",
+      "jitTrigger": "S1-03 enters active production"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "WD-ORANGE-JACKET",
+      "to": "S1-04",
+      "source": "asset registry WD-ORANGE-JACKET.releases",
+      "jitTrigger": "S1-04 enters active production"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "PR-KAI-NOTE",
+      "to": "S1-03",
+      "source": "asset registry PR-KAI-NOTE.releases",
+      "jitTrigger": "S1-03 enters active production"
+    },
+    {
+      "type": "CONTINUITY_CARRY",
+      "from": "S1-03",
+      "to": "S1-04",
+      "source": "PR-KAI-NOTE carries across releases"
+    },
+    {
+      "type": "CONTINUITY_CARRY",
+      "from": "S1-04",
+      "to": "S1-05",
+      "source": "PR-KAI-NOTE carries across releases"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "PR-SLOANE-NECKLACE",
+      "to": "S1-02",
+      "source": "asset registry PR-SLOANE-NECKLACE.releases",
+      "jitTrigger": "S1-02 enters active production"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "PR-COCONUT-CAKE",
+      "to": "S1-02",
+      "source": "asset registry PR-COCONUT-CAKE.releases",
+      "jitTrigger": "S1-02 enters active production"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "PR-FERN",
+      "to": "S1-02",
+      "source": "asset registry PR-FERN.releases",
+      "jitTrigger": "S1-02 enters active production"
+    },
+    {
+      "type": "CONTINUITY_CARRY",
+      "from": "S1-02",
+      "to": "S1-06",
+      "source": "PR-FERN carries across releases"
+    },
+    {
+      "type": "CONTINUITY_CARRY",
+      "from": "S1-06",
+      "to": "S1-84",
+      "source": "PR-FERN carries across releases"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "PR-SLOANE-CLUTCH",
+      "to": "S1-02",
+      "source": "asset registry PR-SLOANE-CLUTCH.releases",
+      "jitTrigger": "S1-02 enters active production"
+    },
+    {
+      "type": "CONTINUITY_CARRY",
+      "from": "S1-02",
+      "to": "S1-05",
+      "source": "PR-SLOANE-CLUTCH carries across releases"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "PR-NEIGHBOUR-PHONE",
+      "to": "S1-01",
+      "source": "asset registry PR-NEIGHBOUR-PHONE.releases",
+      "jitTrigger": "S1-01 enters active production"
+    }
+  ]
+}

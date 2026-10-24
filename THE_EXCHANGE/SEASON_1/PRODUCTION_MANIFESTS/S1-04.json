@@ -22,7 +22,7 @@
       "cue": "GIDEON",
       "speaks": true,
       "faceRef": "gideon-shaw",
-      "voiceId": null,
+      "voiceId": "41wdZQ488o8wXI20MrNC",
       "dialogueRegistry": true
     },
     {
@@ -57,7 +57,7 @@
       "cue": "SLOANE",
       "speaks": true,
       "faceRef": "sloane-lockwood",
-      "voiceId": null,
+      "voiceId": "sLyuEdbnawgNCsS8wQQK",
       "dialogueRegistry": true
     },
     {
@@ -106,7 +106,7 @@
       {
         "lineId": "S1-04-L001",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "That piano loop you've built three albums on?",
         "direction": null,
         "characters": 45
@@ -122,7 +122,7 @@
       {
         "lineId": "S1-04-L003",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "He's alive. Say hello.",
         "direction": null,
         "characters": 22
@@ -170,7 +170,7 @@
       {
         "lineId": "S1-04-L009",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "Brave.",
         "direction": "lightly, passing",
         "characters": 6
@@ -178,7 +178,7 @@
       {
         "lineId": "S1-04-L010",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "Who's it from?",
         "direction": null,
         "characters": 14
@@ -186,7 +186,7 @@
       {
         "lineId": "S1-04-L011",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "Not here.",
         "direction": null,
         "characters": 9
@@ -215,7 +215,7 @@
       {
         "lineId": "S1-04-L001",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "That piano loop you've built three albums on?",
         "direction": null,
         "characters": 45
@@ -231,7 +231,7 @@
       {
         "lineId": "S1-04-L003",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "He's alive. Say hello.",
         "direction": null,
         "characters": 22
@@ -279,7 +279,7 @@
       {
         "lineId": "S1-04-L009",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "Brave.",
         "direction": "lightly, passing",
         "characters": 6
@@ -287,7 +287,7 @@
       {
         "lineId": "S1-04-L010",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "Who's it from?",
         "direction": null,
         "characters": 14
@@ -295,7 +295,7 @@
       {
         "lineId": "S1-04-L011",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "Not here.",
         "direction": null,
         "characters": 9
@@ -1451,7 +1451,7 @@
     {
       "kind": "CHARACTER_VOICE",
       "subject": "GIDEON",
-      "detail": "no approved voice"
+      "detail": "voice identity linked (CONNECTOR_VERIFIED); no approved recorded take"
     },
     {
       "kind": "UNREGISTERED",
@@ -1471,7 +1471,7 @@
     {
       "kind": "CHARACTER_VOICE",
       "subject": "PIANIST",
-      "detail": "no approved voice"
+      "detail": "no voice linked"
     },
     {
       "kind": "UNREGISTERED",
@@ -1481,12 +1481,12 @@
     {
       "kind": "CHARACTER_VOICE",
       "subject": "PRODUCER",
-      "detail": "no approved voice"
+      "detail": "no voice linked"
     },
     {
       "kind": "CHARACTER_VOICE",
       "subject": "SLOANE",
-      "detail": "no approved voice"
+      "detail": "voice identity linked (CONNECTOR_VERIFIED); no approved recorded take"
     },
     {
       "kind": "UNREGISTERED",

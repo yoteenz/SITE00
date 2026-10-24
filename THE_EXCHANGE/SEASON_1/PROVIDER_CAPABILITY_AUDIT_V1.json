@@ -17,17 +17,17 @@
     {
       "role": "VOICE",
       "provider": "ElevenLabs",
-      "route": "Direct API: no credential on this VM. Through fal: fal-ai/elevenlabs/tts/eleven-v3 (FAL_KEY present).",
-      "integration": "NOT_VERIFIED",
+      "route": "Founder's ElevenLabs workspace (voices live there). Direct API: no credential on this VM. fal's ElevenLabs TTS runs on fal's account and cannot reach the founder's voices.",
+      "integration": "BLOCKED_NO_CREDENTIALS",
       "generationVerified": false,
       "adapterMode": "MANIFEST_EXPORT",
       "evidence": [
-        "No ELEVENLABS_* variable in the environment.",
-        "fal pricing API (read-only, 2026-10-24T02:52Z): fal-ai/elevenlabs/tts/eleven-v3 $0.10 per 1,000 characters.",
-        "No approved character voice exists; registries hold voiceId null."
+        "No ELEVENLABS_* variable in the environment (rechecked 2026-10-24T15:15Z).",
+        "Voice ids for Sloane, Gideon and Kai were verified through the ChatGPT ElevenLabs connector on 2026-10-24 (founder sprint V2 §03). That is connector-derived evidence from the founder workspace, not verification by this environment.",
+        "fal pricing API (read-only, 2026-10-24T02:52Z): fal-ai/elevenlabs/tts/eleven-v3 $0.10 per 1,000 characters."
       ],
-      "checkedAtUtc": "2026-10-24T02:52Z",
-      "nextStep": "Founder approves a voice per character (CHARACTER_VOICE), then a spend authorization for recordings."
+      "checkedAtUtc": "2026-10-24T15:15Z",
+      "nextStep": "Record takes in the founder workspace (or add an ElevenLabs credential to Cloud Agent secrets), then import each approved take with its file hash."
     },
     {
       "role": "IMAGE",

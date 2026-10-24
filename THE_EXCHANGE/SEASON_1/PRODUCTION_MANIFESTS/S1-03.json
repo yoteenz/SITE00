@@ -22,14 +22,14 @@
       "cue": "GIDEON",
       "speaks": true,
       "faceRef": "gideon-shaw",
-      "voiceId": null,
+      "voiceId": "41wdZQ488o8wXI20MrNC",
       "dialogueRegistry": true
     },
     {
       "cue": "KAI",
       "speaks": true,
       "faceRef": null,
-      "voiceId": null,
+      "voiceId": "U22Zv2xBsGGfhZWk4aSy",
       "dialogueRegistry": true
     },
     {
@@ -43,7 +43,7 @@
       "cue": "SLOANE",
       "speaks": true,
       "faceRef": "sloane-lockwood",
-      "voiceId": null,
+      "voiceId": "sLyuEdbnawgNCsS8wQQK",
       "dialogueRegistry": true
     }
   ],
@@ -91,7 +91,7 @@
       {
         "lineId": "S1-03-L001",
         "cue": "KAI",
-        "voiceId": null,
+        "voiceId": "U22Zv2xBsGGfhZWk4aSy",
         "text": "Before you say it—",
         "direction": "as Gideon reaches the bottom step",
         "characters": 18
@@ -99,7 +99,7 @@
       {
         "lineId": "S1-03-L002",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "Not tonight, Kai.",
         "direction": null,
         "characters": 17
@@ -107,7 +107,7 @@
       {
         "lineId": "S1-03-L003",
         "cue": "KAI",
-        "voiceId": null,
+        "voiceId": "U22Zv2xBsGGfhZWk4aSy",
         "text": "And there it is.",
         "direction": null,
         "characters": 16
@@ -115,7 +115,7 @@
       {
         "lineId": "S1-03-L004",
         "cue": "KAI",
-        "voiceId": null,
+        "voiceId": "U22Zv2xBsGGfhZWk4aSy",
         "text": "I'm not asking to come in. I know where I stand. Out here, apparently, in a very good waistcoat.",
         "direction": "beat",
         "characters": 96
@@ -123,7 +123,7 @@
       {
         "lineId": "S1-03-L005",
         "cue": "KAI",
-        "voiceId": null,
+        "voiceId": "U22Zv2xBsGGfhZWk4aSy",
         "text": "It isn't for me. That's the only reason I'm standing here.",
         "direction": null,
         "characters": 58
@@ -131,7 +131,7 @@
       {
         "lineId": "S1-03-L006",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "Go home, Kai.",
         "direction": null,
         "characters": 13
@@ -139,7 +139,7 @@
       {
         "lineId": "S1-03-L007",
         "cue": "KAI",
-        "voiceId": null,
+        "voiceId": "U22Zv2xBsGGfhZWk4aSy",
         "text": "Working on it.",
         "direction": "a small, dry smile",
         "characters": 14
@@ -155,7 +155,7 @@
       {
         "lineId": "S1-03-L009",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "There's a door for that, Royce. It isn't this one.",
         "direction": null,
         "characters": 50
@@ -163,7 +163,7 @@
       {
         "lineId": "S1-03-L010",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "My father's right hand. My left. Has never once knocked.",
         "direction": null,
         "characters": 56
@@ -171,7 +171,7 @@
       {
         "lineId": "S1-03-L011",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "Runs the most popular room in the city. Would like mine.",
         "direction": null,
         "characters": 56
@@ -216,7 +216,7 @@
       {
         "lineId": "S1-03-L001",
         "cue": "KAI",
-        "voiceId": null,
+        "voiceId": "U22Zv2xBsGGfhZWk4aSy",
         "text": "Before you say it—",
         "direction": "as Gideon reaches the bottom step",
         "characters": 18
@@ -224,7 +224,7 @@
       {
         "lineId": "S1-03-L002",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "Not tonight, Kai.",
         "direction": null,
         "characters": 17
@@ -232,7 +232,7 @@
       {
         "lineId": "S1-03-L003",
         "cue": "KAI",
-        "voiceId": null,
+        "voiceId": "U22Zv2xBsGGfhZWk4aSy",
         "text": "And there it is.",
         "direction": null,
         "characters": 16
@@ -240,7 +240,7 @@
       {
         "lineId": "S1-03-L004",
         "cue": "KAI",
-        "voiceId": null,
+        "voiceId": "U22Zv2xBsGGfhZWk4aSy",
         "text": "I'm not asking to come in. I know where I stand. Out here, apparently, in a very good waistcoat.",
         "direction": "beat",
         "characters": 96
@@ -248,7 +248,7 @@
       {
         "lineId": "S1-03-L005",
         "cue": "KAI",
-        "voiceId": null,
+        "voiceId": "U22Zv2xBsGGfhZWk4aSy",
         "text": "It isn't for me. That's the only reason I'm standing here.",
         "direction": null,
         "characters": 58
@@ -256,7 +256,7 @@
       {
         "lineId": "S1-03-L006",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "Go home, Kai.",
         "direction": null,
         "characters": 13
@@ -264,7 +264,7 @@
       {
         "lineId": "S1-03-L007",
         "cue": "KAI",
-        "voiceId": null,
+        "voiceId": "U22Zv2xBsGGfhZWk4aSy",
         "text": "Working on it.",
         "direction": "a small, dry smile",
         "characters": 14
@@ -280,7 +280,7 @@
       {
         "lineId": "S1-03-L009",
         "cue": "GIDEON",
-        "voiceId": null,
+        "voiceId": "41wdZQ488o8wXI20MrNC",
         "text": "There's a door for that, Royce. It isn't this one.",
         "direction": null,
         "characters": 50
@@ -288,7 +288,7 @@
       {
         "lineId": "S1-03-L010",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "My father's right hand. My left. Has never once knocked.",
         "direction": null,
         "characters": 56
@@ -296,7 +296,7 @@
       {
         "lineId": "S1-03-L011",
         "cue": "SLOANE",
-        "voiceId": null,
+        "voiceId": "sLyuEdbnawgNCsS8wQQK",
         "text": "Runs the most popular room in the city. Would like mine.",
         "direction": null,
         "characters": 56
@@ -1394,7 +1394,7 @@
     {
       "kind": "CHARACTER_VOICE",
       "subject": "GIDEON",
-      "detail": "no approved voice"
+      "detail": "voice identity linked (CONNECTOR_VERIFIED); no approved recorded take"
     },
     {
       "kind": "CHARACTER_FACE",
@@ -1404,7 +1404,7 @@
     {
       "kind": "CHARACTER_VOICE",
       "subject": "KAI",
-      "detail": "no approved voice"
+      "detail": "voice identity linked (CONNECTOR_VERIFIED); no approved recorded take"
     },
     {
       "kind": "CHARACTER_FACE",
@@ -1414,12 +1414,12 @@
     {
       "kind": "CHARACTER_VOICE",
       "subject": "ROYCE",
-      "detail": "no approved voice"
+      "detail": "no voice linked"
     },
     {
       "kind": "CHARACTER_VOICE",
       "subject": "SLOANE",
-      "detail": "no approved voice"
+      "detail": "voice identity linked (CONNECTOR_VERIFIED); no approved recorded take"
     },
     {
       "kind": "SET",

@@ -33,7 +33,8 @@ describe('THE EXCHANGE production pipeline', () => {
     expect(kai.visualRegistryRef).toBeNull();
     expect(kai.appearance).toContain('hazel-green');
     expect(kai.grooming).toContain('locs');
-    for (const c of assets.characters) expect(c.voice.voiceAssetId, c.cue).toBeNull();
+    for (const c of assets.characters) expect(c.voice.voiceAssetId, c.cue).toBe(dialogue.characters.find((d) => d.characterId === c.characterId)?.voiceAsset.voiceId ?? null);
+    expect(assets.characters.filter((c) => c.voice.status === 'CONNECTOR_VERIFIED').map((c) => c.cue)).toEqual(['SLOANE', 'GIDEON', 'KAI']);
 
     const broken = structuredClone(assets);
     broken.characters[0].visualRegistryRef = 'not-a-registered-face';
@@ -53,7 +54,9 @@ describe('THE EXCHANGE production pipeline', () => {
     for (const cue of new Set(X.dialogueLines(doc('S1-03')).map((l) => l.character))) expect(has('CHARACTER_VOICE', cue), cue).toBe(true);
     expect(has('PROP', 'PR-KAI-NOTE')).toBe(true);
     expect(m.blockers.some((b) => b.kind === 'WARDROBE')).toBe(true);
-    expect(m.audio.dialogue.every((r) => r.voiceId === null)).toBe(true);
+    for (const r of m.audio.dialogue) expect(r.voiceId, r.cue).toBe(X.cueIndex(dialogue).get(r.cue)?.voiceAsset.voiceId ?? null);
+    const take = m.blockers.find((b) => b.kind === 'CHARACTER_VOICE' && b.subject === 'KAI')!;
+    expect(take.detail).toBe('voice identity linked (CONNECTOR_VERIFIED); no approved recorded take');
     expect([...m.audio.music, ...m.audio.sfx].every((c) => c.asset === null)).toBe(true);
     const kaiShot = X.planShots(doc('S1-03'), assets, quotes).shots.find((s) => s.onScreen.includes('KAI'))!;
     expect(kaiShot.movementConstraints.join(' ')).toContain('no approved face asset — generation blocked');
@@ -73,7 +76,9 @@ describe('THE EXCHANGE production pipeline', () => {
       const id = d.meta.identity.releaseId;
       const plan = X.planShots(d, assets, quotes);
       const m = manifestOf(id);
-      expect(readJson(`${P.manifests}/${id}.json`)).toEqual(JSON.parse(JSON.stringify(m)));
+      const { supersededBy, ...committed } = readJson<X.ProductionManifest & { supersededBy?: { path: string } }>(`${P.manifests}/${id}.json`);
+      expect(committed).toEqual(JSON.parse(JSON.stringify(m)));
+      expect(supersededBy?.path ?? null).toBe(X.DIRECTED_SCENES[id] ? X.scenePath(id, X.SCENE_FILES.shotList) : null);
       expect(m.status).toBe(X.DRAFT_STATUS);
       expect(m.shots.count).toBe(plan.shots.length);
       expect(m.shots.actualCost).toBeNull();
@@ -98,8 +103,8 @@ describe('THE EXCHANGE production pipeline', () => {
       usd += c.usd ?? 0;
       credits += c.credits ?? 0;
     }
-    expect(Math.round(usd * 100) / 100).toBe(178.22);
-    expect(credits).toBe(26236);
+    expect(Math.round(usd * 100) / 100).toBe(188.02);
+    expect(credits).toBe(27797);
   });
 
   it('approval transitions', () => {
@@ -206,7 +211,8 @@ describe('THE EXCHANGE production pipeline', () => {
     const audit = readJson<{ audit: X.ProviderCapability[]; verifiedGenerationProviders: string[] }>(P.providerCapabilities);
     expect(audit.verifiedGenerationProviders).toEqual([]);
     expect(X.verifiedGenerationProviders()).toEqual([]);
-    expect(audit.audit.find((a) => a.role === 'VOICE')?.integration).toBe('NOT_VERIFIED');
+    expect(audit.audit.find((a) => a.role === 'VOICE')?.integration).toBe('BLOCKED_NO_CREDENTIALS');
+    expect(audit.audit.find((a) => a.role === 'VOICE')?.generationVerified).toBe(false);
     const blocked = [
       X.precheckProductionDispatch(job, ctx({ verifiedProviders: X.verifiedGenerationProviders() })),
       X.precheckProductionDispatch(job, ctx({ upstreamApproved: false })),

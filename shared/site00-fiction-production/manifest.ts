@@ -20,7 +20,8 @@ export function buildProductionManifest(doc: ScreenplayDocument, screenplaySha25
     if (!a) blockers.push({ kind: 'UNREGISTERED', subject: cue, detail: 'not in the asset registry; needs casting and a face reference before generation' });
     else if (!a.visualRegistryRef) blockers.push({ kind: 'CHARACTER_FACE', subject: cue, detail: 'no approved face asset' });
     const voiceId = d?.voiceAsset.voiceId ?? a?.voice.voiceAssetId ?? null;
-    if (speaking.includes(cue) && !voiceId) blockers.push({ kind: 'CHARACTER_VOICE', subject: cue, detail: 'no approved voice' });
+    if (speaking.includes(cue) && !voiceId) blockers.push({ kind: 'CHARACTER_VOICE', subject: cue, detail: 'no voice linked' });
+    else if (speaking.includes(cue)) blockers.push({ kind: 'CHARACTER_VOICE', subject: cue, detail: `voice identity linked (${d?.voiceAsset.status ?? a?.voice.status}); no approved recorded take` });
     return { cue, speaks: speaking.includes(cue), faceRef: a?.visualRegistryRef ?? null, voiceId, dialogueRegistry: Boolean(d) };
   });
 
