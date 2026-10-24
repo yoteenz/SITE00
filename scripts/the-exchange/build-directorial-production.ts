@@ -24,3 +24,25 @@ const castFindings = X.validateCastRegistry(cast, edits, dialogue, assets, root)
 const castHard = castFindings.filter((f) => f.severity === 'HARD_CONFLICT');
 if (castHard.length) throw new Error(`cast registry: ${castHard.map((f) => `${f.subject}: ${f.detail}`).join('; ')}`);
 json(X.CAST_REGISTRY_PATH, { ...cast, findings: castFindings });
+
+const ACTIVE = 'S1-01';
+const master = X.loadSeasonMaster(root);
+const screenplays = X.loadScreenplays(root);
+const index = X.buildSceneIndex({ master, screenplays, assets, approvals, activeReleaseId: ACTIVE });
+const indexHard = X.validateSceneIndex(index, master, screenplays, approvals).filter((f) => f.severity === 'HARD_CONFLICT');
+if (indexHard.length) throw new Error(`scene index: ${indexHard.map((f) => `${f.releaseId}: ${f.detail}`).join('; ')}`);
+json(`${P.season}/SEASON1_SCENE_INDEX_V1.json`, index);
+
+const census = X.buildCastCensus(master, screenplays, cast);
+const graph = X.buildDependencyGraph({ master, assets, census, activeReleaseId: ACTIVE });
+const graphHard = X.validateDependencyGraph(graph, master).filter((f) => f.severity === 'HARD_CONFLICT');
+if (graphHard.length) throw new Error(`dependency graph: ${graphHard.map((f) => `${f.edge}: ${f.detail}`).join('; ')}`);
+json(`${P.season}/SEASON1_SCENE_DEPENDENCY_GRAPH_V1.json`, graph);
+json(`${P.season}/FUTURE_PRODUCTION_DEPENDENCIES_V1.json`, {
+  schemaVersion: '2.0.0',
+  activeReleaseId: ACTIVE,
+  rule: 'Future needs are tracked silently and reach the founder only when their release enters active production.',
+  jit: X.jitPlan(ACTIVE, census, cast),
+  census,
+  byRelease: X.futureDependencies(graph, master),
+});

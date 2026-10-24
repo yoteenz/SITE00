@@ -19,4 +19,7 @@ export * from './backlog.js';
 export * from './stressRegression.js';
 export * from './exports.js';
 export * from './castRegistry.js';
+export * from './sceneIndex.js';
+export * from './jitCast.js';
+export * from './dependencyGraph.js';
 export * as Directorial from './directorial/index.js';
