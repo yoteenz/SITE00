@@ -16971,3 +16971,9 @@ Summary of the whole conversation in this chat.
 - **Runner:** `startAutomatedEmailJourneyRun` — one POST authorization, synthetic client, lifecycle through payment sim + staged ops completion, five FNDATN lifecycle Resend sends; gallery all FNDATN-01 templates. Desk: `/admin/site00/foundation-email-journey`.
 - **Fixes:** `stageFail` intent_ids bug; server transactional send flag (`SITE00_DF_TRANSACTIONAL_EMAIL_SEND` without VITE on API); runner marks project stages 02–06 COMPLETE before `foundation-complete` render.
 - **Live gates C/V:** still blocked until Railway allowlist + send flag + deploy branch to staging. Staging health gate PASS; deployed API sendFlag still false @ `34d9afa`. Unit proof: `tests/automatedEmailJourneyRunner.test.ts`.
+
+## 2026-10-24 — IDNTY Phase 3B staging deploy + live E2E activation (Composer)
+
+- **Sprint:** `P0.SITE00.IDNTY.PHASE3B.STAGING-DEPLOYMENT-AND-LIVE-FOUNDER-E2E-ACTIVATION1`. **No Railway deploy from agent** (no CLI/token). Live staging API **`34d9afa`**, SPA **`index.BA8UINWX.js`** — **not** E2E target **`e907a6331`**; SPA bundle lacks email journey route markers.
+- **Deliverables:** `STAGING_DEPLOYMENT_REPORT.md`, `AUTOMATED_E2E_LIVE_RUN_REPORT.md`, `EMAIL_DELIVERY_EVIDENCE.json`, portal/DB/gate/founder docs under `phase3b-staging-activation1/`; script `scripts/staging/df-staging-deployment-audit.mjs`.
+- **Live run:** NOT_RUN. Send flag off (correct pre-run). Staging Supabase RLS re-verified read-only (`soocqbyjkxeubfjnuwvf`). **Founder:** redeploy carefree-luck + reliable-creation to #1684 SHA, allowlist + one journey, disable send after — `FOUNDER_NEXT_ACTIONS.md`.
