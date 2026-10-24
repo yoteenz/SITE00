@@ -22,7 +22,7 @@ export const MUSIC: MusicCue[] = [
     relationToEditing: 'Free time lets the vignettes cut on action rather than on beats until the teenager finds the beat.',
     culturalReferences: 'The Halcyon House band (S1-03 same night); the restored 1920s Black-owned hotel tradition of live big band', rights: RIGHTS,
     hitPoints: [{ frame: 0, event: 'Lone trumpet phrase in the distance' }, { frame: 96, event: 'Walking bass enters on the tailor' }, { frame: 234, event: 'Brushes settle into time under the teenager' }],
-    label: 'SOURCE_ESTABLISHED',
+    label: 'DIRECTORIAL_INTERPRETATION',
   },
   {
     cueId: 'S1-01-MX02', title: 'Getting Ready', at: 324, frames: 360, cueType: 'SCORE', diegesis: 'NON_DIEGETIC', functions: ['CELEBRATION', 'CHARACTER_IDENTITY'],
@@ -42,7 +42,7 @@ export const MUSIC: MusicCue[] = [
     dynamicArc: 'Only the street', entry: 'Hard cut from MX02 at frame 684', exit: 'MX03 enters at frame 798 as the glass goes up',
     relationToDialogue: 'None', relationToSfx: 'The thinned street bed (AMB02) is the only sound; the Ember itself makes none',
     relationToEditing: 'The stop is the Ember. Silence across the lens, his lowered phone and the start of her toast makes the city\'s no audible without a designed effect.',
-    culturalReferences: 'None', rights: { requirement: 'NONE', dependency: null, status: 'NOT_REQUIRED' }, hitPoints: [], label: 'SOURCE_ESTABLISHED',
+    culturalReferences: 'None', rights: { requirement: 'NONE', dependency: null, status: 'NOT_REQUIRED' }, hitPoints: [], label: 'DIRECTORIAL_INTERPRETATION',
   },
   {
     cueId: 'S1-01-MX03', title: 'Halcyon', at: 798, frames: 282, cueType: 'SCORE_TO_SOURCE', diegesis: 'NON_DIEGETIC_TO_DIEGETIC', functions: ['NARRATIVE_PAYOFF', 'TRANSITION'],
@@ -62,7 +62,7 @@ const sc = (s: Omit<SoundCue, 'label' | 'continuesUnderCut' | 'syncPoints'> & Pa
 const shots = (from: number, to: number) => Array.from({ length: to - from + 1 }, (_, i) => `S1-01-SH${String(from + i).padStart(2, '0')}`);
 
 export const SOUND: SoundCue[] = [
-  sc({ cueId: 'S1-01-AMB01', track: 'AMBIENCE', layer: 'AMBIENCE', at: 0, frames: 636, description: 'Street bed: a bus sighing at the stop, a door, distant laughter, light traffic', perspective: 'Exterior; distance follows each vignette', reverb: 'Short slap off brownstone facades', linkedShots: shots(1, 12), continuesUnderCut: true, label: 'SOURCE_ESTABLISHED' }),
+  sc({ cueId: 'S1-01-AMB01', track: 'AMBIENCE', layer: 'AMBIENCE', at: 0, frames: 636, description: 'Street bed: a bus sighing at the stop, a door, distant laughter, light traffic', perspective: 'Exterior; distance follows each vignette', reverb: 'Short slap off brownstone facades', linkedShots: shots(1, 12), continuesUnderCut: true }),
   sc({ cueId: 'S1-01-AMB02', track: 'AMBIENCE', layer: 'AMBIENCE', at: 636, frames: 210, description: 'The same street, thinner and closer: a breeze, a far car, the hum of his reading lamp through the open window', perspective: 'From his window across the street', reverb: 'Open air, little reflection', linkedShots: shots(13, 16), continuesUnderCut: true }),
   sc({ cueId: 'S1-01-AMB03', track: 'AMBIENCE', layer: 'AMBIENCE', at: 846, frames: 210, description: 'Rooftop air: wind across water towers, the street far below', perspective: 'High and wide', reverb: 'Open air', linkedShots: shots(17, 18), continuesUnderCut: true }),
   sc({ cueId: 'S1-01-FL01', track: 'FOLEY', layer: 'FOLEY', at: 100, frames: 40, description: 'Grille rattles down on its runners and stops', perspective: 'Close, pavement', reverb: 'Street slap', linkedShots: ['S1-01-SH02'], syncPoints: [{ frame: 130, event: 'Grille stops halfway' }] }),
@@ -73,7 +73,7 @@ export const SOUND: SoundCue[] = [
   sc({ cueId: 'S1-01-FL06', track: 'FOLEY', layer: 'FOLEY', at: 528, frames: 108, description: 'Bare feet on kitchen tiles; the spoon tapping the counter edge', perspective: 'Medium, through the balcony door', reverb: 'Small tiled kitchen', linkedShots: shots(11, 12), syncPoints: [{ frame: 600, event: 'Spoon twirl' }] }),
   sc({ cueId: 'S1-01-FL07', track: 'FOLEY', layer: 'FOLEY', at: 636, frames: 48, description: 'Sleeve rustle as he lifts the phone off the sill', perspective: 'Close, at his window', reverb: 'Small room behind him', linkedShots: ['S1-01-SH13'], syncPoints: [{ frame: 650, event: 'Phone leaves the sill' }] }),
   sc({ cueId: 'S1-01-FL08', track: 'FOLEY', layer: 'FOLEY', at: 726, frames: 48, description: 'Phone set face down on the sill', perspective: 'Close, at his window', reverb: 'Small room behind him', linkedShots: ['S1-01-SH15'], syncPoints: [{ frame: 760, event: 'Phone touches the sill' }] }),
-  sc({ cueId: 'S1-01-SFX01', track: 'SFX', layer: 'SILENCE', at: 684, frames: 42, description: 'No designed sound for the Ember: the glow is silent', perspective: '', reverb: '', linkedShots: ['S1-01-SH14'], label: 'SOURCE_ESTABLISHED' }),
+  sc({ cueId: 'S1-01-SFX01', track: 'SFX', layer: 'SILENCE', at: 684, frames: 42, description: 'No designed sound for the Ember: the glow is silent', perspective: '', reverb: '', linkedShots: ['S1-01-SH14'] }),
   sc({ cueId: 'S1-01-SFX02', track: 'SFX', layer: 'SFX', at: 870, frames: 60, description: 'A single car passes far below', perspective: 'From rooftop height', reverb: 'Open air with a long street tail', linkedShots: ['S1-01-SH17'] }),
 ];
 

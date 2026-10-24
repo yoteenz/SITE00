@@ -21,7 +21,7 @@ Track coverage: AMBIENCE 3 events, 44 s; FOLEY 8 events, 20.5 s; SFX 2 events, 4
 
 | Cue | Track | Layer | Time | Sound | Perspective | Reverb | Linked shots | Under cut | Label |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| S1-01-AMB01 | AMBIENCE | AMBIENCE | 00:00:00.000–00:00:26.500 | Street bed: a bus sighing at the stop, a door, distant laughter, light traffic | Exterior; distance follows each vignette | Short slap off brownstone facades | S1-01-SH01 S1-01-SH02 S1-01-SH03 S1-01-SH04 S1-01-SH05 S1-01-SH06 S1-01-SH07 S1-01-SH08 S1-01-SH09 S1-01-SH10 S1-01-SH11 S1-01-SH12 | yes | SOURCE_ESTABLISHED |
+| S1-01-AMB01 | AMBIENCE | AMBIENCE | 00:00:00.000–00:00:26.500 | Street bed: a bus sighing at the stop, a door, distant laughter, light traffic | Exterior; distance follows each vignette | Short slap off brownstone facades | S1-01-SH01 S1-01-SH02 S1-01-SH03 S1-01-SH04 S1-01-SH05 S1-01-SH06 S1-01-SH07 S1-01-SH08 S1-01-SH09 S1-01-SH10 S1-01-SH11 S1-01-SH12 | yes | DIRECTORIAL_INTERPRETATION |
 | S1-01-AMB02 | AMBIENCE | AMBIENCE | 00:00:26.500–00:00:35.250 | The same street, thinner and closer: a breeze, a far car, the hum of his reading lamp through the open window | From his window across the street | Open air, little reflection | S1-01-SH13 S1-01-SH14 S1-01-SH15 S1-01-SH16 | yes | DIRECTORIAL_INTERPRETATION |
 | S1-01-AMB03 | AMBIENCE | AMBIENCE | 00:00:35.250–00:00:44.000 | Rooftop air: wind across water towers, the street far below | High and wide | Open air | S1-01-SH17 S1-01-SH18 | yes | DIRECTORIAL_INTERPRETATION |
 | S1-01-FL01 | FOLEY | FOLEY | 00:00:04.167–00:00:05.833 | Grille rattles down on its runners and stops | Close, pavement | Street slap | S1-01-SH02 | no | DIRECTORIAL_INTERPRETATION |
@@ -32,5 +32,5 @@ Track coverage: AMBIENCE 3 events, 44 s; FOLEY 8 events, 20.5 s; SFX 2 events, 4
 | S1-01-FL06 | FOLEY | FOLEY | 00:00:22.000–00:00:26.500 | Bare feet on kitchen tiles; the spoon tapping the counter edge | Medium, through the balcony door | Small tiled kitchen | S1-01-SH11 S1-01-SH12 | no | DIRECTORIAL_INTERPRETATION |
 | S1-01-FL07 | FOLEY | FOLEY | 00:00:26.500–00:00:28.500 | Sleeve rustle as he lifts the phone off the sill | Close, at his window | Small room behind him | S1-01-SH13 | no | DIRECTORIAL_INTERPRETATION |
 | S1-01-FL08 | FOLEY | FOLEY | 00:00:30.250–00:00:32.250 | Phone set face down on the sill | Close, at his window | Small room behind him | S1-01-SH15 | no | DIRECTORIAL_INTERPRETATION |
-| S1-01-SFX01 | SFX | SILENCE | 00:00:28.500–00:00:30.250 | No designed sound for the Ember: the glow is silent | — | — | S1-01-SH14 | no | SOURCE_ESTABLISHED |
+| S1-01-SFX01 | SFX | SILENCE | 00:00:28.500–00:00:30.250 | No designed sound for the Ember: the glow is silent | — | — | S1-01-SH14 | no | DIRECTORIAL_INTERPRETATION |
 | S1-01-SFX02 | SFX | SFX | 00:00:36.250–00:00:38.750 | A single car passes far below | From rooftop height | Open air with a long street tail | S1-01-SH17 | no | DIRECTORIAL_INTERPRETATION |

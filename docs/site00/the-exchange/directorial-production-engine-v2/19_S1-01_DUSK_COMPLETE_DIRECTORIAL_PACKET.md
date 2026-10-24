@@ -1373,8 +1373,8 @@ Brownstone street at dusk. Scale: Two-lane residential street about 18 m between
 
 | Cue | Track | Type | Time | What | Sync | Label |
 | --- | --- | --- | --- | --- | --- | --- |
-| S1-01-AMB01 | AMBIENCE | AMBIENCE | 00:00:00.000–00:00:26.500 | Street bed: a bus sighing at the stop, a door, distant laughter, light traffic | — | SOURCE_ESTABLISHED |
-| S1-01-MX01 | MUSIC | SOURCE | 00:00:00.000–00:00:13.500 | Warm-Up | 00:00:00.000 Lone trumpet phrase in the distance; 00:00:04.000 Walking bass enters on the tailor; 00:00:09.750 Brushes settle into time under the teenager | SOURCE_ESTABLISHED |
+| S1-01-AMB01 | AMBIENCE | AMBIENCE | 00:00:00.000–00:00:26.500 | Street bed: a bus sighing at the stop, a door, distant laughter, light traffic | — | DIRECTORIAL_INTERPRETATION |
+| S1-01-MX01 | MUSIC | SOURCE | 00:00:00.000–00:00:13.500 | Warm-Up | 00:00:00.000 Lone trumpet phrase in the distance; 00:00:04.000 Walking bass enters on the tailor; 00:00:09.750 Brushes settle into time under the teenager | DIRECTORIAL_INTERPRETATION |
 | S1-01-FL01 | FOLEY | FOLEY | 00:00:04.167–00:00:05.833 | Grille rattles down on its runners and stops | 00:00:05.417 Grille stops halfway | DIRECTORIAL_INTERPRETATION |
 | S1-01-FL02 | FOLEY | FOLEY | 00:00:08.250–00:00:09.750 | Grille rolls to the ground; a palm pats the window glass | 00:00:08.750 Grille meets the ground; 00:00:09.417 Pat on the glass | DIRECTORIAL_INTERPRETATION |
 | S1-01-FL03 | FOLEY | FOLEY | 00:00:09.750–00:00:15.375 | Sneakers scuff and squeak on the pavement through three attempts | 00:00:13.500 Heel lands on the downbeat | DIRECTORIAL_INTERPRETATION |
@@ -1384,8 +1384,8 @@ Brownstone street at dusk. Scale: Two-lane residential street about 18 m between
 | S1-01-FL06 | FOLEY | FOLEY | 00:00:22.000–00:00:26.500 | Bare feet on kitchen tiles; the spoon tapping the counter edge | 00:00:25.000 Spoon twirl | DIRECTORIAL_INTERPRETATION |
 | S1-01-AMB02 | AMBIENCE | AMBIENCE | 00:00:26.500–00:00:35.250 | The same street, thinner and closer: a breeze, a far car, the hum of his reading lamp through the open window | — | DIRECTORIAL_INTERPRETATION |
 | S1-01-FL07 | FOLEY | FOLEY | 00:00:26.500–00:00:28.500 | Sleeve rustle as he lifts the phone off the sill | 00:00:27.083 Phone leaves the sill | DIRECTORIAL_INTERPRETATION |
-| S1-01-MXS1 | MUSIC | SILENCE | 00:00:28.500–00:00:33.250 | SILENCE: The Ember | — | SOURCE_ESTABLISHED |
-| S1-01-SFX01 | SFX | SILENCE | 00:00:28.500–00:00:30.250 | No designed sound for the Ember: the glow is silent | — | SOURCE_ESTABLISHED |
+| S1-01-MXS1 | MUSIC | SILENCE | 00:00:28.500–00:00:33.250 | SILENCE: The Ember | — | DIRECTORIAL_INTERPRETATION |
+| S1-01-SFX01 | SFX | SILENCE | 00:00:28.500–00:00:30.250 | No designed sound for the Ember: the glow is silent | — | DIRECTORIAL_INTERPRETATION |
 | S1-01-FL08 | FOLEY | FOLEY | 00:00:30.250–00:00:32.250 | Phone set face down on the sill | 00:00:31.667 Phone touches the sill | DIRECTORIAL_INTERPRETATION |
 | S1-01-MX03 | MUSIC | SCORE_TO_SOURCE | 00:00:33.250–00:00:45.000 | Halcyon | 00:00:33.250 Groove returns on the raised glass; 00:00:35.250 Horns build as the camera rises; 00:00:41.250 First full chord as the ballroom windows arrive; 00:00:43.500 Cut to black; the chord rings; 00:00:45.000 Ring-out ends | DIRECTORIAL_INTERPRETATION |
 | S1-01-AMB03 | AMBIENCE | AMBIENCE | 00:00:35.250–00:00:44.000 | Rooftop air: wind across water towers, the street far below | — | DIRECTORIAL_INTERPRETATION |

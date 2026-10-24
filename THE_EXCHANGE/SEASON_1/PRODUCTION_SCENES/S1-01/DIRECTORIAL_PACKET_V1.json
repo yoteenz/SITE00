@@ -4574,7 +4574,7 @@
               "event": "Brushes settle into time under the teenager"
             }
           ],
-          "label": "SOURCE_ESTABLISHED"
+          "label": "DIRECTORIAL_INTERPRETATION"
         },
         {
           "cueId": "S1-01-MX02",
@@ -4667,7 +4667,7 @@
             "status": "NOT_REQUIRED"
           },
           "hitPoints": [],
-          "label": "SOURCE_ESTABLISHED"
+          "label": "DIRECTORIAL_INTERPRETATION"
         },
         {
           "cueId": "S1-01-MX03",
@@ -4735,7 +4735,7 @@
         {
           "continuesUnderCut": true,
           "syncPoints": [],
-          "label": "SOURCE_ESTABLISHED",
+          "label": "DIRECTORIAL_INTERPRETATION",
           "cueId": "S1-01-AMB01",
           "track": "AMBIENCE",
           "layer": "AMBIENCE",
@@ -4968,7 +4968,7 @@
         {
           "continuesUnderCut": false,
           "syncPoints": [],
-          "label": "SOURCE_ESTABLISHED",
+          "label": "DIRECTORIAL_INTERPRETATION",
           "cueId": "S1-01-SFX01",
           "track": "SFX",
           "layer": "SILENCE",
@@ -5021,7 +5021,7 @@
           "perspective": "Exterior; distance follows each vignette; reverb: Short slap off brownstone facades",
           "relationship": "linked: S1-01-SH01 S1-01-SH02 S1-01-SH03 S1-01-SH04 S1-01-SH05 S1-01-SH06 S1-01-SH07 S1-01-SH08 S1-01-SH09 S1-01-SH10 S1-01-SH11 S1-01-SH12",
           "rights": "NONE",
-          "label": "SOURCE_ESTABLISHED"
+          "label": "DIRECTORIAL_INTERPRETATION"
         },
         {
           "cueId": "S1-01-MX01",
@@ -5045,7 +5045,7 @@
           "perspective": "",
           "relationship": "No dialogue in this release; the music carries the edit with the street. | Sits behind the street bed; the street stays louder until the groove starts | Free time lets the vignettes cut on action rather than on beats until the teenager finds the beat.",
           "rights": "ORIGINAL_COMPOSITION: Route undecided (FD-S101-02): a commissioned composer (cost UNKNOWN), fal ElevenLabs music (commercial terms need founder review), or the founder's ElevenLabs workspace (no credential here). (NOT_CLEARED)",
-          "label": "SOURCE_ESTABLISHED"
+          "label": "DIRECTORIAL_INTERPRETATION"
         },
         {
           "cueId": "S1-01-FL01",
@@ -5285,7 +5285,7 @@
           "perspective": "",
           "relationship": "None | The thinned street bed (AMB02) is the only sound; the Ember itself makes none | The stop is the Ember. Silence across the lens, his lowered phone and the start of her toast makes the city's no audible without a designed effect.",
           "rights": "NONE (NOT_REQUIRED)",
-          "label": "SOURCE_ESTABLISHED"
+          "label": "DIRECTORIAL_INTERPRETATION"
         },
         {
           "cueId": "S1-01-SFX01",
@@ -5309,7 +5309,7 @@
           "perspective": "; reverb: ",
           "relationship": "linked: S1-01-SH14",
           "rights": "NONE",
-          "label": "SOURCE_ESTABLISHED"
+          "label": "DIRECTORIAL_INTERPRETATION"
         },
         {
           "cueId": "S1-01-FL08",

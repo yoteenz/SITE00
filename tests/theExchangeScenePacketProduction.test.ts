@@ -159,4 +159,10 @@ describe('THE EXCHANGE S1-01 directorial packet and production controls', () => 
     expect(X.requestCastPackage({ personId: 'scene:S1-01:tailor', scope: 'PERMANENT', activeReleaseId: 'S1-01' }, census).code).toBe('SCENE_SCOPED_NO_PERMANENT_PACKAGE');
     for (const p of X.S1_01_DIRECTION.performance) expect(p.avoid).toEqual(expect.arrayContaining([...D.PERFORMANCE_GLOBAL_AVOID]));
   });
+
+  it('does not label draft-screenplay sound and music as source-established', () => {
+    expect(plan.screenplay.status).toMatch(/^DRAFT/);
+    const sourced = [...plan.music, ...plan.sound].filter((c) => c.label === 'SOURCE_ESTABLISHED').map((c) => c.cueId);
+    expect(sourced).toEqual([]);
+  });
 });

@@ -18,7 +18,7 @@
 
 | Cue | Time | Type | Diegesis | Genre | Tempo | Instrumentation | Functions | Label |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| S1-01-MX01 | 00:00:00.000–00:00:13.500 | SOURCE | DIEGETIC | Jazz / Big band warming up: loose phrases, not yet a tune | Free, settling toward 96 BPM by frame 234 | trumpet, upright bass, drum kit with brushes | ATMOSPHERE, CULTURAL_CONTEXT | SOURCE_ESTABLISHED |
+| S1-01-MX01 | 00:00:00.000–00:00:13.500 | SOURCE | DIEGETIC | Jazz / Big band warming up: loose phrases, not yet a tune | Free, settling toward 96 BPM by frame 234 | trumpet, upright bass, drum kit with brushes | ATMOSPHERE, CULTURAL_CONTEXT | DIRECTORIAL_INTERPRETATION |
 | S1-01-MX02 | 00:00:13.500–00:00:28.500 | SCORE | NON_DIEGETIC | Jazz and soul / Big-band groove over a soul backbeat | 96 BPM: one beat is 15 frames, so frames 324, 384 and 684 fall on bar lines | trumpet, trombone, saxophone section, upright bass, drum kit with brushes, piano | CELEBRATION, CHARACTER_IDENTITY | DIRECTORIAL_INTERPRETATION |
 | S1-01-MX03 | 00:00:33.250–00:00:45.000 | SCORE_TO_SOURCE | NON_DIEGETIC_TO_DIEGETIC | Jazz / Big band: groove returns, broadens into a full ensemble chord | 96 BPM on the return, broadening freely into the chord at 990 | trumpet, trombone, saxophone section, upright bass, drum kit with brushes, piano | NARRATIVE_PAYOFF, TRANSITION | DIRECTORIAL_INTERPRETATION |
 

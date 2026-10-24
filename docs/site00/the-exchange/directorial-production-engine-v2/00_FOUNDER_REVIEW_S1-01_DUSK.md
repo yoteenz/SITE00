@@ -83,14 +83,14 @@ Creative choices are labelled: 2 SOURCE_ESTABLISHED, 6 FOUNDER_APPROVAL_REQUIRED
 
 | Cue | Time | What | Label |
 | --- | --- | --- | --- |
-| MX01 | 00:00.000–00:13.500 | Warm-Up: Jazz, Free, settling toward 96 BPM by frame 234, trumpet, upright bass, drum kit with brushes | SOURCE_ESTABLISHED |
+| MX01 | 00:00.000–00:13.500 | Warm-Up: Jazz, Free, settling toward 96 BPM by frame 234, trumpet, upright bass, drum kit with brushes | DIRECTORIAL_INTERPRETATION |
 | MX02 | 00:13.500–00:28.500 | Getting Ready: Jazz and soul, 96 BPM: one beat is 15 frames, so frames 324, 384 and 684 fall on bar lines, trumpet, trombone, saxophone section, upright bass | DIRECTORIAL_INTERPRETATION |
-| MXS1 | 00:28.500–00:33.250 | Silence: The Ember | SOURCE_ESTABLISHED |
+| MXS1 | 00:28.500–00:33.250 | Silence: The Ember | DIRECTORIAL_INTERPRETATION |
 | MX03 | 00:33.250–00:45.000 | Halcyon: Jazz, 96 BPM on the return, broadening freely into the chord at 990, trumpet, trombone, saxophone section, upright bass | DIRECTORIAL_INTERPRETATION |
-| AMB01 | 00:00.000–00:26.500 | Street bed: a bus sighing at the stop, a door, distant laughter, light traffic | SOURCE_ESTABLISHED |
+| AMB01 | 00:00.000–00:26.500 | Street bed: a bus sighing at the stop, a door, distant laughter, light traffic | DIRECTORIAL_INTERPRETATION |
 | AMB02 | 00:26.500–00:35.250 | The same street, thinner and closer: a breeze, a far car, the hum of his reading lamp through the open window | DIRECTORIAL_INTERPRETATION |
 | AMB03 | 00:35.250–00:44.000 | Rooftop air: wind across water towers, the street far below | DIRECTORIAL_INTERPRETATION |
-| SFX01 | 00:28.500–00:30.250 | No designed sound for the Ember: the glow is silent | SOURCE_ESTABLISHED |
+| SFX01 | 00:28.500–00:30.250 | No designed sound for the Ember: the glow is silent | DIRECTORIAL_INTERPRETATION |
 | SFX02 | 00:36.250–00:38.750 | A single car passes far below | DIRECTORIAL_INTERPRETATION |
 
 Plus 8 foley cues synced to hands, fabric and glass (deliverable 15).
