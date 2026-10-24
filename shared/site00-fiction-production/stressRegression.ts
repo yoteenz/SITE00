@@ -15,7 +15,11 @@ export function parsePriorStressTest(root = process.cwd()): PriorQuestion[] {
 
 type Check = { ok: boolean; evidence: string };
 
-const has = (m: SeasonMaster, id: string, phrase: string) => (m.releases.find((r) => r.id === id)?.narrativeDevelopment ?? '').replace(/\*/g, '').includes(phrase);
+const has = (m: SeasonMaster, id: string, phrase: string) => {
+  const r = m.releases.find((x) => x.id === id);
+  if (!r) return false;
+  return [r.openingHook, r.narrativeDevelopment, r.payoff, r.endingTransition].join('\n').replace(/\*/g, '').includes(phrase);
+};
 
 /** Questions whose prior verdict can be re-derived from the approved master and the continuity report. */
 export function computedChecks(m: SeasonMaster, findings: ContinuityFinding[]): Record<string, Check> {

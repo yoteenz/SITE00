@@ -1,0 +1,183 @@
+{
+  "schemaVersion": "1.0.0",
+  "scope": {
+    "master": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+    "screenplays": [
+      "THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-01_DUSK.fountain",
+      "THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-02_GETTING_READY.fountain",
+      "THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-03_THE_DOOR.fountain",
+      "THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-04_THE_HOST.fountain",
+      "THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-05_UNUSUAL_REQUEST.fountain"
+    ]
+  },
+  "summary": {
+    "hardConflicts": 0,
+    "warnings": 1,
+    "openQuestions": 7,
+    "checksRun": [
+      "RELEASE_ORDER",
+      "AGES",
+      "FAMILY_CHRONOLOGY",
+      "PLATONIC_GIDEON_SLOANE",
+      "KNOWLEDGE_AND_REVEALS",
+      "PATRON_TIMING",
+      "EMBER_RULE",
+      "NIGHTS_DISTRIBUTION",
+      "ARRIVALS_DEPARTURES",
+      "GEOGRAPHY",
+      "WARDROBE",
+      "PROPS_AND_HANDOFFS",
+      "DIALOGUE_CONTINUITY",
+      "DEPENDENCIES",
+      "OPEN_QUESTIONS"
+    ]
+  },
+  "screenplayFindings": [
+    {
+      "releaseId": "S1-01",
+      "findings": [],
+      "planWarnings": []
+    },
+    {
+      "releaseId": "S1-02",
+      "findings": [],
+      "planWarnings": []
+    },
+    {
+      "releaseId": "S1-03",
+      "findings": [],
+      "planWarnings": []
+    },
+    {
+      "releaseId": "S1-04",
+      "findings": [
+        {
+          "severity": "WARNING",
+          "check": "VOICE",
+          "detail": "S1-04-L002: PRODUCER has no dialogue registry entry"
+        },
+        {
+          "severity": "WARNING",
+          "check": "VOICE",
+          "detail": "S1-04-L004: PIANIST has no dialogue registry entry"
+        },
+        {
+          "severity": "WARNING",
+          "check": "VOICE",
+          "detail": "S1-04-L005: PRODUCER has no dialogue registry entry"
+        },
+        {
+          "severity": "WARNING",
+          "check": "VOICE",
+          "detail": "S1-04-L006: PIANIST has no dialogue registry entry"
+        },
+        {
+          "severity": "WARNING",
+          "check": "VOICE",
+          "detail": "S1-04-L007: PRODUCER has no dialogue registry entry"
+        },
+        {
+          "severity": "WARNING",
+          "check": "VOICE",
+          "detail": "S1-04-L008: PIANIST has no dialogue registry entry"
+        }
+      ],
+      "planWarnings": []
+    },
+    {
+      "releaseId": "S1-05",
+      "findings": [],
+      "planWarnings": []
+    }
+  ],
+  "findings": [
+    {
+      "check": "FAMILY_CHRONOLOGY",
+      "severity": "OPEN_QUESTION",
+      "releases": [],
+      "detail": "Sloane was 23 when Vivienne died and resumed leadership at 28. FD-12 (led at 23) and FD-15 (joined at 27) remain unruled (FC-03); CC-001B (Gideon family chronology) stays open."
+    },
+    {
+      "check": "KNOWLEDGE_AND_REVEALS",
+      "severity": "OPEN_QUESTION",
+      "releases": [],
+      "detail": "KF-09: Vivienne's private truth behind the sealed envelope (U-1). Writers' room OPEN; not revealed in Season 1 screenplays."
+    },
+    {
+      "check": "KNOWLEDGE_AND_REVEALS",
+      "severity": "OPEN_QUESTION",
+      "releases": [],
+      "detail": "KF-10: Emmett Hale's identity (U-3). FD-09 approved his function only. Writers' room OPEN; not revealed in Season 1 screenplays."
+    },
+    {
+      "check": "OPEN_QUESTIONS",
+      "severity": "OPEN_QUESTION",
+      "releases": [
+        "S1-01"
+      ],
+      "detail": "U-4: Sloane's and the principals' wardrobes; the founder's reference accounts are not reviewed."
+    },
+    {
+      "check": "OPEN_QUESTIONS",
+      "severity": "OPEN_QUESTION",
+      "releases": [
+        "S1-02"
+      ],
+      "detail": "U-4: Sloane's and the principals' wardrobes; the founder's reference accounts are not reviewed."
+    },
+    {
+      "check": "OPEN_QUESTIONS",
+      "severity": "OPEN_QUESTION",
+      "releases": [
+        "S1-03"
+      ],
+      "detail": "U-6: Face locks for the recurring patrons (FD-18 covers only the family and the flashback faces)."
+    },
+    {
+      "check": "DIALOGUE_CONTINUITY",
+      "severity": "WARNING",
+      "releases": [
+        "S1-04"
+      ],
+      "detail": "S1-04-L011: Gideon Shaw appears in the master for S1-04 but is not featured; this draft gives the character lines"
+    },
+    {
+      "check": "OPEN_QUESTIONS",
+      "severity": "OPEN_QUESTION",
+      "releases": [
+        "S1-04"
+      ],
+      "detail": "U-4: Sloane's and the principals' wardrobes; the founder's reference accounts are not reviewed."
+    }
+  ],
+  "forwardDependencies": [
+    {
+      "from": "S1-01",
+      "to": "S1-58"
+    },
+    {
+      "from": "S1-02",
+      "to": "S1-62"
+    },
+    {
+      "from": "S1-02",
+      "to": "S1-72"
+    },
+    {
+      "from": "S1-02",
+      "to": "S1-84"
+    },
+    {
+      "from": "S1-03",
+      "to": "S1-09"
+    },
+    {
+      "from": "S1-04",
+      "to": "S1-06"
+    },
+    {
+      "from": "S1-05",
+      "to": "S1-08"
+    }
+  ]
+}

@@ -1,0 +1,5471 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedFrom": "scripts/the-exchange/build-season1-production.ts",
+  "rules": [
+    "Nine separate domains: STORY STRUCTURE, SCREENPLAY, CHARACTER VISUAL IDENTITY, CHARACTER VOICE, SET, WARDROBE, SHOT PLAN, GENERATED VIDEO, FINAL EDIT.",
+    "Only the founder can approve, reject or request changes.",
+    "Approving one domain never approves another. Each downstream domain needs its own decision.",
+    "A domain cannot be approved until its prerequisite domains are approved.",
+    "A revision supersedes the approved version and restarts review at DRAFT."
+  ],
+  "records": [
+    {
+      "subjectId": "S1-01",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-01",
+      "domain": "SCREENPLAY",
+      "state": "DRAFT",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "DRAFT — FOUNDER REVIEW REQUIRED",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "DRAFT",
+          "actor": "claude-opus-cursor-agent",
+          "at": "2026-10-23",
+          "note": "DRAFT — FOUNDER REVIEW REQUIRED"
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-01",
+      "domain": "SHOT_PLAN",
+      "state": "DRAFT",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Draft shot list for review.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "DRAFT",
+          "actor": "claude-opus-cursor-agent",
+          "at": "2026-10-23",
+          "note": "Draft shot list for review."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-01",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-01",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-02",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-02",
+      "domain": "SCREENPLAY",
+      "state": "DRAFT",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "DRAFT — FOUNDER REVIEW REQUIRED",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "DRAFT",
+          "actor": "claude-opus-cursor-agent",
+          "at": "2026-10-23",
+          "note": "DRAFT — FOUNDER REVIEW REQUIRED"
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-02",
+      "domain": "SHOT_PLAN",
+      "state": "DRAFT",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Draft shot list for review.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "DRAFT",
+          "actor": "claude-opus-cursor-agent",
+          "at": "2026-10-23",
+          "note": "Draft shot list for review."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-02",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-02",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-03",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-03",
+      "domain": "SCREENPLAY",
+      "state": "DRAFT",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "DRAFT — FOUNDER REVIEW REQUIRED",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "DRAFT",
+          "actor": "claude-opus-cursor-agent",
+          "at": "2026-10-23",
+          "note": "DRAFT — FOUNDER REVIEW REQUIRED"
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-03",
+      "domain": "SHOT_PLAN",
+      "state": "DRAFT",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Draft shot list for review.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "DRAFT",
+          "actor": "claude-opus-cursor-agent",
+          "at": "2026-10-23",
+          "note": "Draft shot list for review."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-03",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-03",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-04",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-04",
+      "domain": "SCREENPLAY",
+      "state": "DRAFT",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "DRAFT — FOUNDER REVIEW REQUIRED",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "DRAFT",
+          "actor": "claude-opus-cursor-agent",
+          "at": "2026-10-23",
+          "note": "DRAFT — FOUNDER REVIEW REQUIRED"
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-04",
+      "domain": "SHOT_PLAN",
+      "state": "DRAFT",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Draft shot list for review.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "DRAFT",
+          "actor": "claude-opus-cursor-agent",
+          "at": "2026-10-23",
+          "note": "Draft shot list for review."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-04",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-04",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-05",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-05",
+      "domain": "SCREENPLAY",
+      "state": "DRAFT",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "DRAFT — FOUNDER REVIEW REQUIRED",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "DRAFT",
+          "actor": "claude-opus-cursor-agent",
+          "at": "2026-10-23",
+          "note": "DRAFT — FOUNDER REVIEW REQUIRED"
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-05",
+      "domain": "SHOT_PLAN",
+      "state": "DRAFT",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Draft shot list for review.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "DRAFT",
+          "actor": "claude-opus-cursor-agent",
+          "at": "2026-10-23",
+          "note": "Draft shot list for review."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-05",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-05",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-06",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-06",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-06",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-06",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-06",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-07",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-07",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-07",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-07",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-07",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-08",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-08",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-08",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-08",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-08",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-09",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-09",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-09",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-09",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-09",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-10",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-10",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-10",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-10",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-10",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-11",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-11",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-11",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-11",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-11",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-12",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-12",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-12",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-12",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-12",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-13",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-13",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-13",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-13",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-13",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-14",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-14",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-14",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-14",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-14",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-15",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-15",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-15",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-15",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-15",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-16",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-16",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-16",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-16",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-16",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-17",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-17",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-17",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-17",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-17",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-18",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-18",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-18",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-18",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-18",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-19",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-19",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-19",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-19",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-19",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-20",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-20",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-20",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-20",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-20",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-21",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-21",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-21",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-21",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-21",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-22",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-22",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-22",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-22",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-22",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-23",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-23",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-23",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-23",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-23",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-24",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-24",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-24",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-24",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-24",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-25",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-25",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-25",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-25",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-25",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-26",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-26",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-26",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-26",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-26",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-27",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-27",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-27",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-27",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-27",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-28",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-28",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-28",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-28",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-28",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-29",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-29",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-29",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-29",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-29",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-30",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-30",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-30",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-30",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-30",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-31",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-31",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-31",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-31",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-31",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-32",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-32",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-32",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-32",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-32",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-33",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-33",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-33",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-33",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-33",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-34",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-34",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-34",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-34",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-34",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-35",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-35",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-35",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-35",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-35",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-36",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-36",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-36",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-36",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-36",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-37",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-37",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-37",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-37",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-37",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-38",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-38",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-38",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-38",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-38",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-39",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-39",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-39",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-39",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-39",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-40",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-40",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-40",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-40",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-40",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-41",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-41",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-41",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-41",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-41",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-42",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-42",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-42",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-42",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-42",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-43",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-43",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-43",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-43",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-43",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-44",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-44",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-44",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-44",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-44",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-45",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-45",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-45",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-45",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-45",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-46",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-46",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-46",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-46",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-46",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-47",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-47",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-47",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-47",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-47",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-48",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-48",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-48",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-48",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-48",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-49",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-49",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-49",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-49",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-49",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-50",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-50",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-50",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-50",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-50",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-51",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-51",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-51",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-51",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-51",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-52",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-52",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-52",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-52",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-52",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-53",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-53",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-53",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-53",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-53",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-54",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-54",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-54",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-54",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-54",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-55",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-55",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-55",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-55",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-55",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-56",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-56",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-56",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-56",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-56",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-57",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-57",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-57",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-57",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-57",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-58",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-58",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-58",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-58",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-58",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-59",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-59",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-59",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-59",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-59",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-60",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-60",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-60",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-60",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-60",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-61",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-61",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-61",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-61",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-61",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-62",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-62",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-62",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-62",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-62",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-63",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-63",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-63",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-63",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-63",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-64",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-64",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-64",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-64",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-64",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-65",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-65",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-65",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-65",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-65",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-66",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-66",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-66",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-66",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-66",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-67",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-67",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-67",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-67",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-67",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-68",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-68",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-68",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-68",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-68",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-69",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-69",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-69",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-69",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-69",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-70",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-70",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-70",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-70",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-70",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-71",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-71",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-71",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-71",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-71",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-72",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-72",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-72",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-72",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-72",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-73",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-73",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-73",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-73",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-73",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-74",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-74",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-74",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-74",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-74",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-75",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-75",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-75",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-75",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-75",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-76",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-76",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-76",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-76",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-76",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-77",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-77",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-77",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-77",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-77",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-78",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-78",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-78",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-78",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-78",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-79",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-79",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-79",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-79",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-79",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-80",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-80",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-80",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-80",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-80",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-81",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-81",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-81",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-81",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-81",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-82",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-82",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-82",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-82",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-82",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-83",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-83",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-83",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-83",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-83",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-84",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-84",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-84",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-84",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-84",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-85",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-85",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-85",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-85",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-85",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-86",
+      "domain": "STORY_STRUCTURE",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": "2026-10-23",
+      "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "Founder authorization 2026-10-23: S-2 Option A, 86 releases."
+        }
+      ]
+    },
+    {
+      "subjectId": "S1-86",
+      "domain": "SCREENPLAY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Gated on founder acceptance of S1-01 to S1-05.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-86",
+      "domain": "SHOT_PLAN",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Needs an approved screenplay.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-86",
+      "domain": "GENERATED_VIDEO",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing generated.",
+      "history": []
+    },
+    {
+      "subjectId": "S1-86",
+      "domain": "FINAL_EDIT",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "Nothing assembled.",
+      "history": []
+    },
+    {
+      "subjectId": "sloane-lockwood",
+      "domain": "CHARACTER_VISUAL_IDENTITY",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": null,
+      "note": "FACIAL_IDENTITY_LOCKED in CHARACTER_VISUAL_REGISTRY_V1; no approval timestamp recorded.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "FACIAL_IDENTITY_LOCKED in CHARACTER_VISUAL_REGISTRY_V1; no approval timestamp recorded."
+        }
+      ]
+    },
+    {
+      "subjectId": "gideon-shaw",
+      "domain": "CHARACTER_VISUAL_IDENTITY",
+      "state": "APPROVED",
+      "version": 1,
+      "actor": "founder",
+      "decidedAt": null,
+      "note": "FACIAL_IDENTITY_LOCKED in CHARACTER_VISUAL_REGISTRY_V1; no approval timestamp recorded.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "APPROVED",
+          "actor": "founder",
+          "at": "2026-10-23",
+          "note": "FACIAL_IDENTITY_LOCKED in CHARACTER_VISUAL_REGISTRY_V1; no approval timestamp recorded."
+        }
+      ]
+    },
+    {
+      "subjectId": "kai-fontaine",
+      "domain": "CHARACTER_VISUAL_IDENTITY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No face asset.",
+      "history": []
+    },
+    {
+      "subjectId": "nadine-lockwood",
+      "domain": "CHARACTER_VISUAL_IDENTITY",
+      "state": "IN_REVIEW",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "FOUNDER_REFINEMENT_PROVISIONAL in CHARACTER_VISUAL_REGISTRY_V1.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "IN_REVIEW",
+          "actor": "system",
+          "at": "2026-10-23",
+          "note": "FOUNDER_REFINEMENT_PROVISIONAL in CHARACTER_VISUAL_REGISTRY_V1."
+        }
+      ]
+    },
+    {
+      "subjectId": "richard-lockwood",
+      "domain": "CHARACTER_VISUAL_IDENTITY",
+      "state": "IN_REVIEW",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "FOUNDER_REFINEMENT_PROVISIONAL in CHARACTER_VISUAL_REGISTRY_V1.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "IN_REVIEW",
+          "actor": "system",
+          "at": "2026-10-23",
+          "note": "FOUNDER_REFINEMENT_PROVISIONAL in CHARACTER_VISUAL_REGISTRY_V1."
+        }
+      ]
+    },
+    {
+      "subjectId": "vivienne-lockwood",
+      "domain": "CHARACTER_VISUAL_IDENTITY",
+      "state": "IN_REVIEW",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "FOUNDER_REFINEMENT_PROVISIONAL in CHARACTER_VISUAL_REGISTRY_V1.",
+      "history": [
+        {
+          "from": "NOT_SUBMITTED",
+          "to": "IN_REVIEW",
+          "actor": "system",
+          "at": "2026-10-23",
+          "note": "FOUNDER_REFINEMENT_PROVISIONAL in CHARACTER_VISUAL_REGISTRY_V1."
+        }
+      ]
+    },
+    {
+      "subjectId": "royce-bell",
+      "domain": "CHARACTER_VISUAL_IDENTITY",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No face asset.",
+      "history": []
+    },
+    {
+      "subjectId": "sloane-lockwood",
+      "domain": "CHARACTER_VOICE",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No verified voice.",
+      "history": []
+    },
+    {
+      "subjectId": "gideon-shaw",
+      "domain": "CHARACTER_VOICE",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No verified voice.",
+      "history": []
+    },
+    {
+      "subjectId": "kai-fontaine",
+      "domain": "CHARACTER_VOICE",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No verified voice.",
+      "history": []
+    },
+    {
+      "subjectId": "nadine-lockwood",
+      "domain": "CHARACTER_VOICE",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No verified voice.",
+      "history": []
+    },
+    {
+      "subjectId": "richard-lockwood",
+      "domain": "CHARACTER_VOICE",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No verified voice.",
+      "history": []
+    },
+    {
+      "subjectId": "celestine-rhodes",
+      "domain": "CHARACTER_VOICE",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No verified voice.",
+      "history": []
+    },
+    {
+      "subjectId": "royce-bell",
+      "domain": "CHARACTER_VOICE",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No verified voice.",
+      "history": []
+    },
+    {
+      "subjectId": "tina-grandison",
+      "domain": "CHARACTER_VOICE",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No verified voice.",
+      "history": []
+    },
+    {
+      "subjectId": "SET-CITY-DUSK",
+      "domain": "SET",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No approved reference.",
+      "history": []
+    },
+    {
+      "subjectId": "SET-HALCYON-HOUSE",
+      "domain": "SET",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No approved reference.",
+      "history": []
+    },
+    {
+      "subjectId": "SET-SLOANE-APARTMENT",
+      "domain": "SET",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No approved reference.",
+      "history": []
+    },
+    {
+      "subjectId": "SET-SLOANE-OFFICE",
+      "domain": "SET",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No approved reference.",
+      "history": []
+    },
+    {
+      "subjectId": "SET-RICHARD-HOUSE",
+      "domain": "SET",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No approved reference.",
+      "history": []
+    },
+    {
+      "subjectId": "SET-REGISTRY-ROOM",
+      "domain": "SET",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No approved reference.",
+      "history": []
+    },
+    {
+      "subjectId": "SET-RIVER-HALL",
+      "domain": "SET",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No approved reference.",
+      "history": []
+    },
+    {
+      "subjectId": "SET-ALDRIDGE-HOSPITAL",
+      "domain": "SET",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No approved reference.",
+      "history": []
+    },
+    {
+      "subjectId": "SET-KAI-WORKSHOP",
+      "domain": "SET",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No approved reference.",
+      "history": []
+    },
+    {
+      "subjectId": "SET-CRESCENT-ROOM",
+      "domain": "SET",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No approved reference.",
+      "history": []
+    },
+    {
+      "subjectId": "SET-CELESTINE-STUDIO",
+      "domain": "SET",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No approved reference.",
+      "history": []
+    },
+    {
+      "subjectId": "SET-THE-SALON",
+      "domain": "SET",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No approved reference.",
+      "history": []
+    },
+    {
+      "subjectId": "SET-THE-CAR",
+      "domain": "SET",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No approved reference.",
+      "history": []
+    },
+    {
+      "subjectId": "SET-RIVERSIDE-PAVILION",
+      "domain": "SET",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "No approved reference.",
+      "history": []
+    },
+    {
+      "subjectId": "WD-SLOANE-PARTY-GE92",
+      "domain": "WARDROBE",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "DESIGN_REQUIRED (U-4)",
+      "history": []
+    },
+    {
+      "subjectId": "WD-SLOANE-HOUSE-GE92",
+      "domain": "WARDROBE",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "DESIGN_REQUIRED (U-4)",
+      "history": []
+    },
+    {
+      "subjectId": "WD-GIDEON-SUIT",
+      "domain": "WARDROBE",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "DESIGN_REQUIRED (U-4)",
+      "history": []
+    },
+    {
+      "subjectId": "WD-KAI-GE92",
+      "domain": "WARDROBE",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "DESIGN_REQUIRED (U-4)",
+      "history": []
+    },
+    {
+      "subjectId": "WD-ROYCE-GE92",
+      "domain": "WARDROBE",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "DESIGN_REQUIRED (U-4, U-6)",
+      "history": []
+    },
+    {
+      "subjectId": "WD-ORANGE-JACKET",
+      "domain": "WARDROBE",
+      "state": "NOT_SUBMITTED",
+      "version": 1,
+      "actor": null,
+      "decidedAt": null,
+      "note": "DESIGN_REQUIRED (U-4)",
+      "history": []
+    }
+  ]
+}

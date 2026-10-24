@@ -1,0 +1,1450 @@
+{
+  "schemaVersion": "1.0.0",
+  "releaseId": "S1-03",
+  "title": "The Door",
+  "status": "DRAFT — FOUNDER REVIEW REQUIRED",
+  "classification": "PROVISIONAL_IMPLEMENTATION",
+  "note": "Planning manifest. Nothing listed here has been generated, recorded or rendered.",
+  "screenplay": {
+    "path": "THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-03_THE_DOOR.fountain",
+    "sha256": "8431d71dfb32ab7fcc98b3657245a38bca4282851034a7fcafb1692cea38e8c6",
+    "version": 1
+  },
+  "runtime": {
+    "targetSec": 120,
+    "estimatedSec": 109,
+    "ratio": 0.91,
+    "band": "ON_TARGET",
+    "shotListSec": 109
+  },
+  "characters": [
+    {
+      "cue": "GIDEON",
+      "speaks": true,
+      "faceRef": "gideon-shaw",
+      "voiceId": null,
+      "dialogueRegistry": true
+    },
+    {
+      "cue": "KAI",
+      "speaks": true,
+      "faceRef": null,
+      "voiceId": null,
+      "dialogueRegistry": true
+    },
+    {
+      "cue": "ROYCE",
+      "speaks": true,
+      "faceRef": null,
+      "voiceId": null,
+      "dialogueRegistry": true
+    },
+    {
+      "cue": "SLOANE",
+      "speaks": true,
+      "faceRef": "sloane-lockwood",
+      "voiceId": null,
+      "dialogueRegistry": true
+    }
+  ],
+  "sets": [
+    {
+      "heading": "EXT. HALCYON HOUSE — FRONT STEPS — NIGHT",
+      "setId": "SET-HALCYON-HOUSE",
+      "zone": "FRONT STEPS",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION"
+    },
+    {
+      "heading": "INT. HALCYON HOUSE — DOOR — NIGHT",
+      "setId": "SET-HALCYON-HOUSE",
+      "zone": "DOOR",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION"
+    }
+  ],
+  "wardrobe": [
+    {
+      "wardrobeId": "WD-GIDEON-SUIT",
+      "status": "DESIGN_REQUIRED"
+    },
+    {
+      "wardrobeId": "WD-KAI-GE92",
+      "status": "DESIGN_REQUIRED"
+    },
+    {
+      "wardrobeId": "WD-ROYCE-GE92",
+      "status": "DESIGN_REQUIRED"
+    }
+  ],
+  "props": [
+    {
+      "propId": "PR-KAI-NOTE",
+      "status": "DESIGN_REQUIRED",
+      "handoffChain": [
+        "KAI → GIDEON (S1-03)",
+        "GIDEON → SLOANE (S1-04/S1-05)",
+        "SLOANE → clutch (S1-05)"
+      ]
+    }
+  ],
+  "audio": {
+    "dialogue": [
+      {
+        "lineId": "S1-03-L001",
+        "cue": "KAI",
+        "voiceId": null,
+        "text": "Before you say it—",
+        "direction": "as Gideon reaches the bottom step",
+        "characters": 18
+      },
+      {
+        "lineId": "S1-03-L002",
+        "cue": "GIDEON",
+        "voiceId": null,
+        "text": "Not tonight, Kai.",
+        "direction": null,
+        "characters": 17
+      },
+      {
+        "lineId": "S1-03-L003",
+        "cue": "KAI",
+        "voiceId": null,
+        "text": "And there it is.",
+        "direction": null,
+        "characters": 16
+      },
+      {
+        "lineId": "S1-03-L004",
+        "cue": "KAI",
+        "voiceId": null,
+        "text": "I'm not asking to come in. I know where I stand. Out here, apparently, in a very good waistcoat.",
+        "direction": "beat",
+        "characters": 96
+      },
+      {
+        "lineId": "S1-03-L005",
+        "cue": "KAI",
+        "voiceId": null,
+        "text": "It isn't for me. That's the only reason I'm standing here.",
+        "direction": null,
+        "characters": 58
+      },
+      {
+        "lineId": "S1-03-L006",
+        "cue": "GIDEON",
+        "voiceId": null,
+        "text": "Go home, Kai.",
+        "direction": null,
+        "characters": 13
+      },
+      {
+        "lineId": "S1-03-L007",
+        "cue": "KAI",
+        "voiceId": null,
+        "text": "Working on it.",
+        "direction": "a small, dry smile",
+        "characters": 14
+      },
+      {
+        "lineId": "S1-03-L008",
+        "cue": "ROYCE",
+        "voiceId": null,
+        "text": "Gideon Shaw. I was hoping it'd be you. Five minutes with Lockwood. She'll thank you for it.",
+        "direction": "all charm",
+        "characters": 91
+      },
+      {
+        "lineId": "S1-03-L009",
+        "cue": "GIDEON",
+        "voiceId": null,
+        "text": "There's a door for that, Royce. It isn't this one.",
+        "direction": null,
+        "characters": 50
+      },
+      {
+        "lineId": "S1-03-L010",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "My father's right hand. My left. Has never once knocked.",
+        "direction": null,
+        "characters": 56
+      },
+      {
+        "lineId": "S1-03-L011",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "Runs the most popular room in the city. Would like mine.",
+        "direction": null,
+        "characters": 56
+      },
+      {
+        "lineId": "S1-03-L012",
+        "cue": "ROYCE",
+        "voiceId": null,
+        "text": "Worth a try.",
+        "direction": null,
+        "characters": 12
+      },
+      {
+        "lineId": "S1-03-L013",
+        "cue": "ROYCE",
+        "voiceId": null,
+        "text": "When you get tired of standing on her stairs, mine are wider.",
+        "direction": "lifting a glass from a passing tray",
+        "characters": 61
+      }
+    ],
+    "dialogueCharacters": 558,
+    "music": [
+      {
+        "sceneId": "S1-03-SC01",
+        "cue": "The band inside, muffled by the door; it swells each time the door opens.",
+        "asset": null
+      }
+    ],
+    "sfx": []
+  },
+  "effects": [],
+  "shots": {
+    "count": 28,
+    "generated": 25,
+    "estimatedUsd": 45.32,
+    "estimatedCredits": 6475,
+    "actualCost": null
+  },
+  "providerExports": {
+    "voice": [
+      {
+        "lineId": "S1-03-L001",
+        "cue": "KAI",
+        "voiceId": null,
+        "text": "Before you say it—",
+        "direction": "as Gideon reaches the bottom step",
+        "characters": 18
+      },
+      {
+        "lineId": "S1-03-L002",
+        "cue": "GIDEON",
+        "voiceId": null,
+        "text": "Not tonight, Kai.",
+        "direction": null,
+        "characters": 17
+      },
+      {
+        "lineId": "S1-03-L003",
+        "cue": "KAI",
+        "voiceId": null,
+        "text": "And there it is.",
+        "direction": null,
+        "characters": 16
+      },
+      {
+        "lineId": "S1-03-L004",
+        "cue": "KAI",
+        "voiceId": null,
+        "text": "I'm not asking to come in. I know where I stand. Out here, apparently, in a very good waistcoat.",
+        "direction": "beat",
+        "characters": 96
+      },
+      {
+        "lineId": "S1-03-L005",
+        "cue": "KAI",
+        "voiceId": null,
+        "text": "It isn't for me. That's the only reason I'm standing here.",
+        "direction": null,
+        "characters": 58
+      },
+      {
+        "lineId": "S1-03-L006",
+        "cue": "GIDEON",
+        "voiceId": null,
+        "text": "Go home, Kai.",
+        "direction": null,
+        "characters": 13
+      },
+      {
+        "lineId": "S1-03-L007",
+        "cue": "KAI",
+        "voiceId": null,
+        "text": "Working on it.",
+        "direction": "a small, dry smile",
+        "characters": 14
+      },
+      {
+        "lineId": "S1-03-L008",
+        "cue": "ROYCE",
+        "voiceId": null,
+        "text": "Gideon Shaw. I was hoping it'd be you. Five minutes with Lockwood. She'll thank you for it.",
+        "direction": "all charm",
+        "characters": 91
+      },
+      {
+        "lineId": "S1-03-L009",
+        "cue": "GIDEON",
+        "voiceId": null,
+        "text": "There's a door for that, Royce. It isn't this one.",
+        "direction": null,
+        "characters": 50
+      },
+      {
+        "lineId": "S1-03-L010",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "My father's right hand. My left. Has never once knocked.",
+        "direction": null,
+        "characters": 56
+      },
+      {
+        "lineId": "S1-03-L011",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "Runs the most popular room in the city. Would like mine.",
+        "direction": null,
+        "characters": 56
+      },
+      {
+        "lineId": "S1-03-L012",
+        "cue": "ROYCE",
+        "voiceId": null,
+        "text": "Worth a try.",
+        "direction": null,
+        "characters": 12
+      },
+      {
+        "lineId": "S1-03-L013",
+        "cue": "ROYCE",
+        "voiceId": null,
+        "text": "When you get tired of standing on her stairs, mine are wider.",
+        "direction": "lifting a glass from a passing tray",
+        "characters": 61
+      }
+    ],
+    "keyframes": [
+      {
+        "shotId": "S1-03-SC01-SH01",
+        "frame": "S1-03-SC01-SH01.start",
+        "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+        "onScreen": [],
+        "wardrobe": {},
+        "props": {},
+        "framing": "WIDE",
+        "blocking": "Halcyon House at nine o'clock: a restored 1920s Black-owned hotel, every window lit. Guests climb the front steps in pairs and threes, dressed for the best night of the year. Music spills out each time the door opens."
+      },
+      {
+        "shotId": "S1-03-SC01-SH02",
+        "frame": "S1-03-SC01-SH02.start",
+        "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+        "onScreen": [
+          "GIDEON"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT"
+        },
+        "props": {},
+        "framing": "MEDIUM",
+        "blocking": "At the top of the steps, GIDEON SHAW greets a couple by name and holds the door. Over their shoulders, something at the bottom of the steps stops him."
+      },
+      {
+        "shotId": "S1-03-SC01-SH03",
+        "frame": "S1-03-SC01-SH03.start",
+        "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+        "onScreen": [
+          "GIDEON",
+          "KAI"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT",
+          "KAI": "WD-KAI-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM",
+        "blocking": "At the foot of the steps, apart from the line, KAI FONTAINE (34) waits with his hands in his pockets. Tailored waistcoat, locs braided back, lineup sharp. A man dressed for a door he knows will not open."
+      },
+      {
+        "shotId": "S1-03-SC01-SH04",
+        "frame": "S1-03-SC01-SH04.start",
+        "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+        "onScreen": [
+          "GIDEON",
+          "KAI"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT",
+          "KAI": "WD-KAI-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM",
+        "blocking": "Gideon says a quiet word to the doorman and walks down the steps. He doesn't hurry."
+      },
+      {
+        "shotId": "S1-03-SC01-SH05",
+        "frame": "S1-03-SC01-SH05.start",
+        "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+        "onScreen": [
+          "KAI"
+        ],
+        "wardrobe": {
+          "KAI": "WD-KAI-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-03-SC01-SH06",
+        "frame": "S1-03-SC01-SH06.start",
+        "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+        "onScreen": [
+          "GIDEON"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT"
+        },
+        "props": {},
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-03-SC01-SH07",
+        "frame": "S1-03-SC01-SH07.start",
+        "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+        "onScreen": [
+          "KAI"
+        ],
+        "wardrobe": {
+          "KAI": "WD-KAI-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-03-SC01-SH08",
+        "frame": "S1-03-SC01-SH07.end",
+        "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+        "onScreen": [
+          "KAI"
+        ],
+        "wardrobe": {
+          "KAI": "WD-KAI-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-03-SC01-SH09",
+        "frame": "S1-03-SC01-SH09.start",
+        "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+        "onScreen": [
+          "GIDEON"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT"
+        },
+        "props": {},
+        "framing": "CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-03-SC01-SH10",
+        "frame": "S1-03-SC01-SH10.start",
+        "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+        "onScreen": [
+          "GIDEON",
+          "KAI"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT",
+          "KAI": "WD-KAI-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM",
+        "blocking": "Kai takes a folded note from inside his waistcoat and holds it out. Gideon doesn't take it. Kai doesn't lower it."
+      },
+      {
+        "shotId": "S1-03-SC01-SH11",
+        "frame": "S1-03-SC01-SH11.start",
+        "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+        "onScreen": [],
+        "wardrobe": {},
+        "props": {},
+        "framing": "EXTREME CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-03-SC01-SH12",
+        "frame": "S1-03-SC01-SH12.start",
+        "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+        "onScreen": [
+          "KAI"
+        ],
+        "wardrobe": {
+          "KAI": "WD-KAI-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-03-SC01-SH13",
+        "frame": "S1-03-SC01-SH13.start",
+        "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+        "onScreen": [
+          "GIDEON",
+          "KAI"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT",
+          "KAI": "WD-KAI-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM",
+        "blocking": "Gideon takes it. Kai keeps his fingers on the note a second longer than he needs to, pressing it into Gideon's palm, then lets go."
+      },
+      {
+        "shotId": "S1-03-SC01-SH14",
+        "frame": "S1-03-SC01-SH14.start",
+        "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+        "onScreen": [
+          "GIDEON"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT"
+        },
+        "props": {
+          "PR-KAI-NOTE": "KAI → GIDEON"
+        },
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-03-SC01-SH15",
+        "frame": "S1-03-SC01-SH15.start",
+        "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+        "onScreen": [
+          "KAI"
+        ],
+        "wardrobe": {
+          "KAI": "WD-KAI-GE92"
+        },
+        "props": {
+          "PR-KAI-NOTE": "KAI → GIDEON"
+        },
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-03-SC01-SH16",
+        "frame": "S1-03-SC01-SH16.start",
+        "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+        "onScreen": [
+          "GIDEON",
+          "KAI"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT",
+          "KAI": "WD-KAI-GE92"
+        },
+        "props": {
+          "PR-KAI-NOTE": "KAI → GIDEON"
+        },
+        "framing": "MEDIUM",
+        "blocking": "He turns and walks away down the street, past the line of arriving guests, and does not look back."
+      },
+      {
+        "shotId": "S1-03-SC02-SH01",
+        "frame": "S1-03-SC02-SH01.start",
+        "setRef": "SET-HALCYON-HOUSE › DOOR",
+        "onScreen": [
+          "GIDEON",
+          "ROYCE"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT",
+          "ROYCE": "WD-ROYCE-GE92"
+        },
+        "props": {
+          "PR-KAI-NOTE": "KAI → GIDEON"
+        },
+        "framing": "WIDE",
+        "blocking": "The foyer: coats, laughter, the ballroom roaring beyond a pair of doors. A private staircase curves up toward the balcony. Gideon comes in from the steps with the note still in his hand."
+      },
+      {
+        "shotId": "S1-03-SC02-SH02",
+        "frame": "S1-03-SC02-SH02.start",
+        "setRef": "SET-HALCYON-HOUSE › DOOR",
+        "onScreen": [
+          "GIDEON",
+          "ROYCE"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT",
+          "ROYCE": "WD-ROYCE-GE92"
+        },
+        "props": {
+          "PR-KAI-NOTE": "KAI → GIDEON"
+        },
+        "framing": "MEDIUM",
+        "blocking": "ROYCE BELL (46), somebody's plus-one and dressed to be noticed, peels away from his date at the coat check and heads straight for the staircase, two steps at a time."
+      },
+      {
+        "shotId": "S1-03-SC02-SH03",
+        "frame": "S1-03-SC02-SH03.start",
+        "setRef": "SET-HALCYON-HOUSE › DOOR",
+        "onScreen": [
+          "GIDEON",
+          "ROYCE"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT",
+          "ROYCE": "WD-ROYCE-GE92"
+        },
+        "props": {
+          "PR-KAI-NOTE": "KAI → GIDEON"
+        },
+        "framing": "MEDIUM",
+        "blocking": "Gideon is simply there, on the second step, in his path. He doesn't touch him. His hands stay at his sides."
+      },
+      {
+        "shotId": "S1-03-SC02-SH04",
+        "frame": "S1-03-SC02-SH04.start",
+        "setRef": "SET-HALCYON-HOUSE › DOOR",
+        "onScreen": [
+          "ROYCE"
+        ],
+        "wardrobe": {
+          "ROYCE": "WD-ROYCE-GE92"
+        },
+        "props": {
+          "PR-KAI-NOTE": "KAI → GIDEON"
+        },
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-03-SC02-SH05",
+        "frame": "S1-03-SC02-SH05.start",
+        "setRef": "SET-HALCYON-HOUSE › DOOR",
+        "onScreen": [
+          "GIDEON"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT"
+        },
+        "props": {
+          "PR-KAI-NOTE": "KAI → GIDEON"
+        },
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-03-SC02-SH08",
+        "frame": "S1-03-SC02-SH08.start",
+        "setRef": "SET-HALCYON-HOUSE › DOOR",
+        "onScreen": [
+          "GIDEON",
+          "ROYCE"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT",
+          "ROYCE": "WD-ROYCE-GE92"
+        },
+        "props": {
+          "PR-KAI-NOTE": "KAI → GIDEON"
+        },
+        "framing": "MEDIUM",
+        "blocking": "Motion resumes. Royce laughs, genuinely delighted, and steps back down."
+      },
+      {
+        "shotId": "S1-03-SC02-SH09",
+        "frame": "S1-03-SC02-SH09.start",
+        "setRef": "SET-HALCYON-HOUSE › DOOR",
+        "onScreen": [
+          "ROYCE"
+        ],
+        "wardrobe": {
+          "ROYCE": "WD-ROYCE-GE92"
+        },
+        "props": {
+          "PR-KAI-NOTE": "KAI → GIDEON"
+        },
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-03-SC02-SH10",
+        "frame": "S1-03-SC02-SH10.start",
+        "setRef": "SET-HALCYON-HOUSE › DOOR",
+        "onScreen": [
+          "GIDEON",
+          "ROYCE"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT",
+          "ROYCE": "WD-ROYCE-GE92"
+        },
+        "props": {
+          "PR-KAI-NOTE": "KAI → GIDEON"
+        },
+        "framing": "MEDIUM",
+        "blocking": "He goes back to his date and raises the glass to Gideon across the foyer."
+      },
+      {
+        "shotId": "S1-03-SC02-SH11",
+        "frame": "S1-03-SC02-SH11.start",
+        "setRef": "SET-HALCYON-HOUSE › DOOR",
+        "onScreen": [
+          "GIDEON"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT"
+        },
+        "props": {
+          "PR-KAI-NOTE": "KAI → GIDEON"
+        },
+        "framing": "MEDIUM",
+        "blocking": "Alone at the foot of the staircase, Gideon looks at the note. He slips it into his inside jacket pocket, then glances up the stairs toward the balcony, where the light and the music are."
+      }
+    ],
+    "video": [
+      {
+        "shotId": "S1-03-SC01-SH01",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 6,
+        "startFrameRef": "S1-03-SC01-SH01.start",
+        "endFrameRef": null,
+        "movement": "SLOW PUSH",
+        "constraints": []
+      },
+      {
+        "shotId": "S1-03-SC01-SH02",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 4,
+        "startFrameRef": "S1-03-SC01-SH02.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-03-SC01-SH03",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 5,
+        "startFrameRef": "S1-03-SC01-SH03.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "KAI: no approved face asset — generation blocked."
+        ]
+      },
+      {
+        "shotId": "S1-03-SC01-SH04",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 4,
+        "startFrameRef": "S1-03-SC01-SH04.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "KAI: no approved face asset — generation blocked."
+        ]
+      },
+      {
+        "shotId": "S1-03-SC01-SH05",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 1.6,
+        "startFrameRef": "S1-03-SC01-SH05.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "KAI: no approved face asset — generation blocked.",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-03-SC01-SH06",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 1.2,
+        "startFrameRef": "S1-03-SC01-SH06.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-03-SC01-SH07",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 5.1,
+        "startFrameRef": "S1-03-SC01-SH07.start",
+        "endFrameRef": "S1-03-SC01-SH07.end",
+        "movement": "STATIC",
+        "constraints": [
+          "Part 1 of 2: generations stay ≤10 s and chain end frame to start frame.",
+          "KAI: no approved face asset — generation blocked.",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-03-SC01-SH08",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 5.1,
+        "startFrameRef": "S1-03-SC01-SH07.end",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "Part 2 of 2: generations stay ≤10 s and chain end frame to start frame.",
+          "KAI: no approved face asset — generation blocked.",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-03-SC01-SH09",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 1.5,
+        "startFrameRef": "S1-03-SC01-SH09.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-03-SC01-SH10",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 4,
+        "startFrameRef": "S1-03-SC01-SH10.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "KAI: no approved face asset — generation blocked."
+        ]
+      },
+      {
+        "shotId": "S1-03-SC01-SH11",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 1.5,
+        "startFrameRef": "S1-03-SC01-SH11.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": []
+      },
+      {
+        "shotId": "S1-03-SC01-SH12",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 5.9,
+        "startFrameRef": "S1-03-SC01-SH12.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "KAI: no approved face asset — generation blocked.",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-03-SC01-SH13",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 4,
+        "startFrameRef": "S1-03-SC01-SH13.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "KAI: no approved face asset — generation blocked."
+        ]
+      },
+      {
+        "shotId": "S1-03-SC01-SH14",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 1.2,
+        "startFrameRef": "S1-03-SC01-SH14.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-03-SC01-SH15",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 1.2,
+        "startFrameRef": "S1-03-SC01-SH15.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "KAI: no approved face asset — generation blocked.",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-03-SC01-SH16",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 4,
+        "startFrameRef": "S1-03-SC01-SH16.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "KAI: no approved face asset — generation blocked."
+        ]
+      },
+      {
+        "shotId": "S1-03-SC02-SH01",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 5,
+        "startFrameRef": "S1-03-SC02-SH01.start",
+        "endFrameRef": null,
+        "movement": "SLOW PUSH",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "ROYCE: no approved face asset — generation blocked."
+        ]
+      },
+      {
+        "shotId": "S1-03-SC02-SH02",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 4,
+        "startFrameRef": "S1-03-SC02-SH02.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "ROYCE: no approved face asset — generation blocked."
+        ]
+      },
+      {
+        "shotId": "S1-03-SC02-SH03",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 3,
+        "startFrameRef": "S1-03-SC02-SH03.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "ROYCE: no approved face asset — generation blocked."
+        ]
+      },
+      {
+        "shotId": "S1-03-SC02-SH04",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 6.8,
+        "startFrameRef": "S1-03-SC02-SH04.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "ROYCE: no approved face asset — generation blocked.",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-03-SC02-SH05",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 4,
+        "startFrameRef": "S1-03-SC02-SH05.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-03-SC02-SH08",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 3,
+        "startFrameRef": "S1-03-SC02-SH08.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "ROYCE: no approved face asset — generation blocked."
+        ]
+      },
+      {
+        "shotId": "S1-03-SC02-SH09",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 6,
+        "startFrameRef": "S1-03-SC02-SH09.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "ROYCE: no approved face asset — generation blocked.",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-03-SC02-SH10",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 3,
+        "startFrameRef": "S1-03-SC02-SH10.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "ROYCE: no approved face asset — generation blocked."
+        ]
+      },
+      {
+        "shotId": "S1-03-SC02-SH11",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 5,
+        "startFrameRef": "S1-03-SC02-SH11.start",
+        "endFrameRef": null,
+        "movement": "SLOW PUSH",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      }
+    ],
+    "lipSync": [
+      {
+        "shotId": "S1-03-SC01-SH05",
+        "lineIds": [
+          "S1-03-L001"
+        ],
+        "onScreen": [
+          "KAI"
+        ]
+      },
+      {
+        "shotId": "S1-03-SC01-SH06",
+        "lineIds": [
+          "S1-03-L002"
+        ],
+        "onScreen": [
+          "GIDEON"
+        ]
+      },
+      {
+        "shotId": "S1-03-SC01-SH07",
+        "lineIds": [
+          "S1-03-L003",
+          "S1-03-L004"
+        ],
+        "onScreen": [
+          "KAI"
+        ]
+      },
+      {
+        "shotId": "S1-03-SC01-SH08",
+        "lineIds": [
+          "S1-03-L003",
+          "S1-03-L004"
+        ],
+        "onScreen": [
+          "KAI"
+        ]
+      },
+      {
+        "shotId": "S1-03-SC01-SH12",
+        "lineIds": [
+          "S1-03-L005"
+        ],
+        "onScreen": [
+          "KAI"
+        ]
+      },
+      {
+        "shotId": "S1-03-SC01-SH14",
+        "lineIds": [
+          "S1-03-L006"
+        ],
+        "onScreen": [
+          "GIDEON"
+        ]
+      },
+      {
+        "shotId": "S1-03-SC01-SH15",
+        "lineIds": [
+          "S1-03-L007"
+        ],
+        "onScreen": [
+          "KAI"
+        ]
+      },
+      {
+        "shotId": "S1-03-SC02-SH04",
+        "lineIds": [
+          "S1-03-L008"
+        ],
+        "onScreen": [
+          "ROYCE"
+        ]
+      },
+      {
+        "shotId": "S1-03-SC02-SH05",
+        "lineIds": [
+          "S1-03-L009"
+        ],
+        "onScreen": [
+          "GIDEON"
+        ]
+      },
+      {
+        "shotId": "S1-03-SC02-SH09",
+        "lineIds": [
+          "S1-03-L012",
+          "S1-03-L013"
+        ],
+        "onScreen": [
+          "ROYCE"
+        ]
+      }
+    ],
+    "edit": {
+      "format": "EXCHANGE_EDL_V1",
+      "totalSec": 109,
+      "events": [
+        {
+          "event": 1,
+          "shotId": "S1-03-SC01-SH01",
+          "sceneId": "S1-03-SC01",
+          "type": "ESTABLISHING",
+          "recordIn": 0,
+          "recordOut": 6,
+          "dialogue": []
+        },
+        {
+          "event": 2,
+          "shotId": "S1-03-SC01-SH02",
+          "sceneId": "S1-03-SC01",
+          "type": "ACTION",
+          "recordIn": 6,
+          "recordOut": 10,
+          "dialogue": []
+        },
+        {
+          "event": 3,
+          "shotId": "S1-03-SC01-SH03",
+          "sceneId": "S1-03-SC01",
+          "type": "ACTION",
+          "recordIn": 10,
+          "recordOut": 15,
+          "dialogue": []
+        },
+        {
+          "event": 4,
+          "shotId": "S1-03-SC01-SH04",
+          "sceneId": "S1-03-SC01",
+          "type": "ACTION",
+          "recordIn": 15,
+          "recordOut": 19,
+          "dialogue": []
+        },
+        {
+          "event": 5,
+          "shotId": "S1-03-SC01-SH05",
+          "sceneId": "S1-03-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 19,
+          "recordOut": 20.6,
+          "dialogue": [
+            "S1-03-L001"
+          ]
+        },
+        {
+          "event": 6,
+          "shotId": "S1-03-SC01-SH06",
+          "sceneId": "S1-03-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 20.6,
+          "recordOut": 21.8,
+          "dialogue": [
+            "S1-03-L002"
+          ]
+        },
+        {
+          "event": 7,
+          "shotId": "S1-03-SC01-SH07",
+          "sceneId": "S1-03-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 21.8,
+          "recordOut": 26.9,
+          "dialogue": [
+            "S1-03-L003",
+            "S1-03-L004"
+          ]
+        },
+        {
+          "event": 8,
+          "shotId": "S1-03-SC01-SH08",
+          "sceneId": "S1-03-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 26.9,
+          "recordOut": 32,
+          "dialogue": [
+            "S1-03-L003",
+            "S1-03-L004"
+          ]
+        },
+        {
+          "event": 9,
+          "shotId": "S1-03-SC01-SH09",
+          "sceneId": "S1-03-SC01",
+          "type": "REACTION",
+          "recordIn": 32,
+          "recordOut": 33.5,
+          "dialogue": []
+        },
+        {
+          "event": 10,
+          "shotId": "S1-03-SC01-SH10",
+          "sceneId": "S1-03-SC01",
+          "type": "ACTION",
+          "recordIn": 33.5,
+          "recordOut": 37.5,
+          "dialogue": []
+        },
+        {
+          "event": 11,
+          "shotId": "S1-03-SC01-SH11",
+          "sceneId": "S1-03-SC01",
+          "type": "INSERT",
+          "recordIn": 37.5,
+          "recordOut": 39,
+          "dialogue": []
+        },
+        {
+          "event": 12,
+          "shotId": "S1-03-SC01-SH12",
+          "sceneId": "S1-03-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 39,
+          "recordOut": 44.9,
+          "dialogue": [
+            "S1-03-L005"
+          ]
+        },
+        {
+          "event": 13,
+          "shotId": "S1-03-SC01-SH13",
+          "sceneId": "S1-03-SC01",
+          "type": "ACTION",
+          "recordIn": 44.9,
+          "recordOut": 48.9,
+          "dialogue": []
+        },
+        {
+          "event": 14,
+          "shotId": "S1-03-SC01-SH14",
+          "sceneId": "S1-03-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 48.9,
+          "recordOut": 50.1,
+          "dialogue": [
+            "S1-03-L006"
+          ]
+        },
+        {
+          "event": 15,
+          "shotId": "S1-03-SC01-SH15",
+          "sceneId": "S1-03-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 50.1,
+          "recordOut": 51.3,
+          "dialogue": [
+            "S1-03-L007"
+          ]
+        },
+        {
+          "event": 16,
+          "shotId": "S1-03-SC01-SH16",
+          "sceneId": "S1-03-SC01",
+          "type": "ACTION",
+          "recordIn": 51.3,
+          "recordOut": 55.3,
+          "dialogue": []
+        },
+        {
+          "event": 17,
+          "shotId": "S1-03-SC02-SH01",
+          "sceneId": "S1-03-SC02",
+          "type": "ESTABLISHING",
+          "recordIn": 55.3,
+          "recordOut": 60.3,
+          "dialogue": []
+        },
+        {
+          "event": 18,
+          "shotId": "S1-03-SC02-SH02",
+          "sceneId": "S1-03-SC02",
+          "type": "ACTION",
+          "recordIn": 60.3,
+          "recordOut": 64.3,
+          "dialogue": []
+        },
+        {
+          "event": 19,
+          "shotId": "S1-03-SC02-SH03",
+          "sceneId": "S1-03-SC02",
+          "type": "ACTION",
+          "recordIn": 64.3,
+          "recordOut": 67.3,
+          "dialogue": []
+        },
+        {
+          "event": 20,
+          "shotId": "S1-03-SC02-SH04",
+          "sceneId": "S1-03-SC02",
+          "type": "DIALOGUE",
+          "recordIn": 67.3,
+          "recordOut": 74.1,
+          "dialogue": [
+            "S1-03-L008"
+          ]
+        },
+        {
+          "event": 21,
+          "shotId": "S1-03-SC02-SH05",
+          "sceneId": "S1-03-SC02",
+          "type": "DIALOGUE",
+          "recordIn": 74.1,
+          "recordOut": 78.1,
+          "dialogue": [
+            "S1-03-L009"
+          ]
+        },
+        {
+          "event": 22,
+          "shotId": "S1-03-SC02-SH06",
+          "sceneId": "S1-03-SC02",
+          "type": "FREEZE_FRAME",
+          "recordIn": 78.1,
+          "recordOut": 84.6,
+          "dialogue": [
+            "S1-03-L010"
+          ]
+        },
+        {
+          "event": 23,
+          "shotId": "S1-03-SC02-SH07",
+          "sceneId": "S1-03-SC02",
+          "type": "FREEZE_FRAME",
+          "recordIn": 84.6,
+          "recordOut": 91.5,
+          "dialogue": [
+            "S1-03-L011"
+          ]
+        },
+        {
+          "event": 24,
+          "shotId": "S1-03-SC02-SH08",
+          "sceneId": "S1-03-SC02",
+          "type": "ACTION",
+          "recordIn": 91.5,
+          "recordOut": 94.5,
+          "dialogue": []
+        },
+        {
+          "event": 25,
+          "shotId": "S1-03-SC02-SH09",
+          "sceneId": "S1-03-SC02",
+          "type": "DIALOGUE",
+          "recordIn": 94.5,
+          "recordOut": 100.5,
+          "dialogue": [
+            "S1-03-L012",
+            "S1-03-L013"
+          ]
+        },
+        {
+          "event": 26,
+          "shotId": "S1-03-SC02-SH10",
+          "sceneId": "S1-03-SC02",
+          "type": "ACTION",
+          "recordIn": 100.5,
+          "recordOut": 103.5,
+          "dialogue": []
+        },
+        {
+          "event": 27,
+          "shotId": "S1-03-SC02-SH11",
+          "sceneId": "S1-03-SC02",
+          "type": "ACTION",
+          "recordIn": 103.5,
+          "recordOut": 108.5,
+          "dialogue": []
+        },
+        {
+          "event": 28,
+          "shotId": "S1-03-SC02-SH12",
+          "sceneId": "S1-03-SC02",
+          "type": "TRANSITION",
+          "recordIn": 108.5,
+          "recordOut": 109,
+          "dialogue": []
+        }
+      ],
+      "audioCues": [
+        {
+          "kind": "note",
+          "tag": "MUSIC",
+          "value": "The band inside, muffled by the door; it swells each time the door opens.",
+          "sceneId": "S1-03-SC01"
+        }
+      ]
+    }
+  },
+  "blockers": [
+    {
+      "kind": "CHARACTER_VOICE",
+      "subject": "GIDEON",
+      "detail": "no approved voice"
+    },
+    {
+      "kind": "CHARACTER_FACE",
+      "subject": "KAI",
+      "detail": "no approved face asset"
+    },
+    {
+      "kind": "CHARACTER_VOICE",
+      "subject": "KAI",
+      "detail": "no approved voice"
+    },
+    {
+      "kind": "CHARACTER_FACE",
+      "subject": "ROYCE",
+      "detail": "no approved face asset"
+    },
+    {
+      "kind": "CHARACTER_VOICE",
+      "subject": "ROYCE",
+      "detail": "no approved voice"
+    },
+    {
+      "kind": "CHARACTER_VOICE",
+      "subject": "SLOANE",
+      "detail": "no approved voice"
+    },
+    {
+      "kind": "SET",
+      "subject": "SET-HALCYON-HOUSE",
+      "detail": "no approved establishing reference"
+    },
+    {
+      "kind": "WARDROBE",
+      "subject": "WD-GIDEON-SUIT",
+      "detail": "DESIGN_REQUIRED (U-4)"
+    },
+    {
+      "kind": "WARDROBE",
+      "subject": "WD-KAI-GE92",
+      "detail": "DESIGN_REQUIRED (U-4)"
+    },
+    {
+      "kind": "WARDROBE",
+      "subject": "WD-ROYCE-GE92",
+      "detail": "DESIGN_REQUIRED (U-4, U-6)"
+    },
+    {
+      "kind": "PROP",
+      "subject": "PR-KAI-NOTE",
+      "detail": "DESIGN_REQUIRED"
+    }
+  ]
+}

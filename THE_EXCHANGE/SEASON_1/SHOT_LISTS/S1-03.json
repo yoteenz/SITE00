@@ -1,0 +1,1145 @@
+{
+  "schemaVersion": "1.0.0",
+  "releaseId": "S1-03",
+  "status": "DRAFT — FOUNDER REVIEW REQUIRED",
+  "classification": "PROVISIONAL_IMPLEMENTATION",
+  "note": "Planning document. No shot has been generated.",
+  "screenplay": {
+    "path": "THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-03_THE_DOOR.fountain",
+    "sha256": "8431d71dfb32ab7fcc98b3657245a38bca4282851034a7fcafb1692cea38e8c6",
+    "version": 1
+  },
+  "runtime": {
+    "releaseId": "S1-03",
+    "targetSec": 120,
+    "estimatedSec": 109,
+    "ratio": 0.91,
+    "band": "ON_TARGET",
+    "scenes": [
+      {
+        "sceneId": "S1-03-SC01",
+        "estimatedSec": 55.3
+      },
+      {
+        "sceneId": "S1-03-SC02",
+        "estimatedSec": 53.7
+      }
+    ],
+    "model": {
+      "dialogueWordsPerSec": 2.5,
+      "actionWordsPerSec": 3.5,
+      "minActionSec": 1.5,
+      "beatSec": 1,
+      "pauseSec": 2,
+      "longPauseSec": 3,
+      "freezeSec": 2.5,
+      "insertSec": 1.5,
+      "reactionSec": 1.5,
+      "transitionSec": 0.5,
+      "pacing": {
+        "under": 0.85,
+        "over": 1.15,
+        "high": 1.3
+      }
+    }
+  },
+  "totals": {
+    "shots": 28,
+    "durationSec": 109,
+    "usd": 45.32,
+    "credits": 6475,
+    "generatedShots": 25
+  },
+  "warnings": [],
+  "shots": [
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC01",
+      "type": "ESTABLISHING",
+      "purpose": "Halcyon House at nine o'clock: a restored 1920s Black-owned hotel, every window lit. Guests climb the front steps in pairs and threes, dress",
+      "onScreen": [],
+      "framing": "WIDE",
+      "movement": "SLOW PUSH",
+      "blocking": "Halcyon House at nine o'clock: a restored 1920s Black-owned hotel, every window lit. Guests climb the front steps in pairs and threes, dressed for the best night of the year. Music spills out each time the door opens.",
+      "dialogueRefs": [],
+      "durationSec": 6,
+      "wardrobeState": {},
+      "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+      "propState": {},
+      "movementConstraints": [],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC01-SH01",
+      "order": 1,
+      "startFrameRef": "S1-03-SC01-SH01.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 2.8,
+        "credits": 392,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 2. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 10 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC01",
+      "type": "ACTION",
+      "purpose": "At the top of the steps, GIDEON SHAW greets a couple by name and holds the door. Over their shoulders, something at the bottom of the steps ",
+      "onScreen": [
+        "GIDEON"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "At the top of the steps, GIDEON SHAW greets a couple by name and holds the door. Over their shoulders, something at the bottom of the steps stops him.",
+      "dialogueRefs": [],
+      "durationSec": 4,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT"
+      },
+      "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+      "propState": {},
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC01-SH02",
+      "order": 2,
+      "startFrameRef": "S1-03-SC01-SH02.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC01",
+      "type": "ACTION",
+      "purpose": "At the foot of the steps, apart from the line, KAI FONTAINE (34) waits with his hands in his pockets. Tailored waistcoat, locs braided back,",
+      "onScreen": [
+        "GIDEON",
+        "KAI"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "At the foot of the steps, apart from the line, KAI FONTAINE (34) waits with his hands in his pockets. Tailored waistcoat, locs braided back, lineup sharp. A man dressed for a door he knows will not open.",
+      "dialogueRefs": [],
+      "durationSec": 5,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "KAI": "WD-KAI-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+      "propState": {},
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "KAI: no approved face asset — generation blocked."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC01-SH03",
+      "order": 3,
+      "startFrameRef": "S1-03-SC01-SH03.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC01",
+      "type": "ACTION",
+      "purpose": "Gideon says a quiet word to the doorman and walks down the steps. He doesn't hurry.",
+      "onScreen": [
+        "GIDEON",
+        "KAI"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "Gideon says a quiet word to the doorman and walks down the steps. He doesn't hurry.",
+      "dialogueRefs": [],
+      "durationSec": 4,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "KAI": "WD-KAI-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+      "propState": {},
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "KAI: no approved face asset — generation blocked."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC01-SH04",
+      "order": 4,
+      "startFrameRef": "S1-03-SC01-SH04.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC01",
+      "type": "DIALOGUE",
+      "purpose": "KAI: Before you say it—",
+      "onScreen": [
+        "KAI"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-03-L001"
+      ],
+      "durationSec": 1.6,
+      "wardrobeState": {
+        "KAI": "WD-KAI-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+      "propState": {},
+      "movementConstraints": [
+        "KAI: no approved face asset — generation blocked.",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC01-SH05",
+      "order": 5,
+      "startFrameRef": "S1-03-SC01-SH05.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 1.48,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC01",
+      "type": "DIALOGUE",
+      "purpose": "GIDEON: Not tonight, Kai.",
+      "onScreen": [
+        "GIDEON"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-03-L002"
+      ],
+      "durationSec": 1.2,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT"
+      },
+      "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+      "propState": {},
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC01-SH06",
+      "order": 6,
+      "startFrameRef": "S1-03-SC01-SH06.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 1.46,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC01",
+      "type": "DIALOGUE",
+      "purpose": "KAI: And there it is.",
+      "onScreen": [
+        "KAI"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-03-L003",
+        "S1-03-L004"
+      ],
+      "durationSec": 5.1,
+      "wardrobeState": {
+        "KAI": "WD-KAI-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+      "propState": {},
+      "movementConstraints": [
+        "Part 1 of 2: generations stay ≤10 s and chain end frame to start frame.",
+        "KAI: no approved face asset — generation blocked.",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC01-SH07",
+      "order": 7,
+      "startFrameRef": "S1-03-SC01-SH07.start",
+      "endFrameRef": "S1-03-SC01-SH07.end",
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 3.06,
+        "credits": 392,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 2. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 10 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC01",
+      "type": "DIALOGUE",
+      "purpose": "KAI: And there it is.",
+      "onScreen": [
+        "KAI"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-03-L003",
+        "S1-03-L004"
+      ],
+      "durationSec": 5.1,
+      "wardrobeState": {
+        "KAI": "WD-KAI-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+      "propState": {},
+      "movementConstraints": [
+        "Part 2 of 2: generations stay ≤10 s and chain end frame to start frame.",
+        "KAI: no approved face asset — generation blocked.",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC01-SH08",
+      "order": 8,
+      "startFrameRef": "S1-03-SC01-SH07.end",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 3.06,
+        "credits": 392,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 2. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 10 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC01",
+      "type": "REACTION",
+      "purpose": "The smallest flicker of a smile, gone at once.",
+      "onScreen": [
+        "GIDEON"
+      ],
+      "framing": "CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [],
+      "durationSec": 1.5,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT"
+      },
+      "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+      "propState": {},
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC01-SH09",
+      "order": 9,
+      "startFrameRef": "S1-03-SC01-SH09.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC01",
+      "type": "ACTION",
+      "purpose": "Kai takes a folded note from inside his waistcoat and holds it out. Gideon doesn't take it. Kai doesn't lower it.",
+      "onScreen": [
+        "GIDEON",
+        "KAI"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "Kai takes a folded note from inside his waistcoat and holds it out. Gideon doesn't take it. Kai doesn't lower it.",
+      "dialogueRefs": [],
+      "durationSec": 4,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "KAI": "WD-KAI-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+      "propState": {},
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "KAI: no approved face asset — generation blocked."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC01-SH10",
+      "order": 10,
+      "startFrameRef": "S1-03-SC01-SH10.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC01",
+      "type": "INSERT",
+      "purpose": "The folded note between them, held steady.",
+      "onScreen": [],
+      "framing": "EXTREME CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [],
+      "durationSec": 1.5,
+      "wardrobeState": {},
+      "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+      "propState": {},
+      "movementConstraints": [],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC01-SH11",
+      "order": 11,
+      "startFrameRef": "S1-03-SC01-SH11.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC01",
+      "type": "DIALOGUE",
+      "purpose": "KAI: It isn't for me. That's the only reason I'm standing here.",
+      "onScreen": [
+        "KAI"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-03-L005"
+      ],
+      "durationSec": 5.9,
+      "wardrobeState": {
+        "KAI": "WD-KAI-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+      "propState": {},
+      "movementConstraints": [
+        "KAI: no approved face asset — generation blocked.",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC01-SH12",
+      "order": 12,
+      "startFrameRef": "S1-03-SC01-SH12.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 3.1,
+        "credits": 392,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 2. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 10 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC01",
+      "type": "ACTION",
+      "purpose": "Gideon takes it. Kai keeps his fingers on the note a second longer than he needs to, pressing it into Gideon's palm, then lets go.",
+      "onScreen": [
+        "GIDEON",
+        "KAI"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "Gideon takes it. Kai keeps his fingers on the note a second longer than he needs to, pressing it into Gideon's palm, then lets go.",
+      "dialogueRefs": [],
+      "durationSec": 4,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "KAI": "WD-KAI-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+      "propState": {},
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "KAI: no approved face asset — generation blocked."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC01-SH13",
+      "order": 13,
+      "startFrameRef": "S1-03-SC01-SH13.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC01",
+      "type": "DIALOGUE",
+      "purpose": "GIDEON: Go home, Kai.",
+      "onScreen": [
+        "GIDEON"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-03-L006"
+      ],
+      "durationSec": 1.2,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT"
+      },
+      "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+      "propState": {
+        "PR-KAI-NOTE": "KAI → GIDEON"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC01-SH14",
+      "order": 14,
+      "startFrameRef": "S1-03-SC01-SH14.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 1.46,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC01",
+      "type": "DIALOGUE",
+      "purpose": "KAI: Working on it.",
+      "onScreen": [
+        "KAI"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-03-L007"
+      ],
+      "durationSec": 1.2,
+      "wardrobeState": {
+        "KAI": "WD-KAI-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+      "propState": {
+        "PR-KAI-NOTE": "KAI → GIDEON"
+      },
+      "movementConstraints": [
+        "KAI: no approved face asset — generation blocked.",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC01-SH15",
+      "order": 15,
+      "startFrameRef": "S1-03-SC01-SH15.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 1.46,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC01",
+      "type": "ACTION",
+      "purpose": "He turns and walks away down the street, past the line of arriving guests, and does not look back.",
+      "onScreen": [
+        "GIDEON",
+        "KAI"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "He turns and walks away down the street, past the line of arriving guests, and does not look back.",
+      "dialogueRefs": [],
+      "durationSec": 4,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "KAI": "WD-KAI-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › FRONT STEPS",
+      "propState": {
+        "PR-KAI-NOTE": "KAI → GIDEON"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "KAI: no approved face asset — generation blocked."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC01-SH16",
+      "order": 16,
+      "startFrameRef": "S1-03-SC01-SH16.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC02",
+      "type": "ESTABLISHING",
+      "purpose": "The foyer: coats, laughter, the ballroom roaring beyond a pair of doors. A private staircase curves up toward the balcony. Gideon comes in f",
+      "onScreen": [
+        "GIDEON",
+        "ROYCE"
+      ],
+      "framing": "WIDE",
+      "movement": "SLOW PUSH",
+      "blocking": "The foyer: coats, laughter, the ballroom roaring beyond a pair of doors. A private staircase curves up toward the balcony. Gideon comes in from the steps with the note still in his hand.",
+      "dialogueRefs": [],
+      "durationSec": 5,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "ROYCE": "WD-ROYCE-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › DOOR",
+      "propState": {
+        "PR-KAI-NOTE": "KAI → GIDEON"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "ROYCE: no approved face asset — generation blocked."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC02-SH01",
+      "order": 17,
+      "startFrameRef": "S1-03-SC02-SH01.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC02",
+      "type": "ACTION",
+      "purpose": "ROYCE BELL (46), somebody's plus-one and dressed to be noticed, peels away from his date at the coat check and heads straight for the stairc",
+      "onScreen": [
+        "GIDEON",
+        "ROYCE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "ROYCE BELL (46), somebody's plus-one and dressed to be noticed, peels away from his date at the coat check and heads straight for the staircase, two steps at a time.",
+      "dialogueRefs": [],
+      "durationSec": 4,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "ROYCE": "WD-ROYCE-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › DOOR",
+      "propState": {
+        "PR-KAI-NOTE": "KAI → GIDEON"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "ROYCE: no approved face asset — generation blocked."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC02-SH02",
+      "order": 18,
+      "startFrameRef": "S1-03-SC02-SH02.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC02",
+      "type": "ACTION",
+      "purpose": "Gideon is simply there, on the second step, in his path. He doesn't touch him. His hands stay at his sides.",
+      "onScreen": [
+        "GIDEON",
+        "ROYCE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "Gideon is simply there, on the second step, in his path. He doesn't touch him. His hands stay at his sides.",
+      "dialogueRefs": [],
+      "durationSec": 3,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "ROYCE": "WD-ROYCE-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › DOOR",
+      "propState": {
+        "PR-KAI-NOTE": "KAI → GIDEON"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "ROYCE: no approved face asset — generation blocked."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC02-SH03",
+      "order": 19,
+      "startFrameRef": "S1-03-SC02-SH03.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC02",
+      "type": "DIALOGUE",
+      "purpose": "ROYCE: Gideon Shaw. I was hoping it'd be you. Five minutes with Lockwood. She'll thank ",
+      "onScreen": [
+        "ROYCE"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-03-L008"
+      ],
+      "durationSec": 6.8,
+      "wardrobeState": {
+        "ROYCE": "WD-ROYCE-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › DOOR",
+      "propState": {
+        "PR-KAI-NOTE": "KAI → GIDEON"
+      },
+      "movementConstraints": [
+        "ROYCE: no approved face asset — generation blocked.",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC02-SH04",
+      "order": 20,
+      "startFrameRef": "S1-03-SC02-SH04.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 3.14,
+        "credits": 392,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 2. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 10 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC02",
+      "type": "DIALOGUE",
+      "purpose": "GIDEON: There's a door for that, Royce. It isn't this one.",
+      "onScreen": [
+        "GIDEON"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-03-L009"
+      ],
+      "durationSec": 4,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT"
+      },
+      "setRef": "SET-HALCYON-HOUSE › DOOR",
+      "propState": {
+        "PR-KAI-NOTE": "KAI → GIDEON"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC02-SH05",
+      "order": 21,
+      "startFrameRef": "S1-03-SC02-SH05.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 1.6,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC02",
+      "type": "FREEZE_FRAME",
+      "purpose": "GIDEON SHAW: My father's right hand. My left. Has never once knocked.",
+      "onScreen": [
+        "GIDEON"
+      ],
+      "framing": "HOLD ON PREVIOUS FRAME",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-03-L010"
+      ],
+      "durationSec": 6.5,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT"
+      },
+      "setRef": "SET-HALCYON-HOUSE › DOOR",
+      "propState": {
+        "PR-KAI-NOTE": "KAI → GIDEON"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC02-SH06",
+      "order": 22,
+      "startFrameRef": "S1-03-SC02-SH06.start",
+      "endFrameRef": null,
+      "generationProvider": "EDIT:capcut-manifest",
+      "estimatedCost": {
+        "usd": 0,
+        "credits": 0,
+        "basis": "Edit-only: no generation."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC02",
+      "type": "FREEZE_FRAME",
+      "purpose": "ROYCE BELL: Runs the most popular room in the city. Would like mine.",
+      "onScreen": [
+        "GIDEON"
+      ],
+      "framing": "HOLD ON PREVIOUS FRAME",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-03-L011"
+      ],
+      "durationSec": 6.9,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT"
+      },
+      "setRef": "SET-HALCYON-HOUSE › DOOR",
+      "propState": {
+        "PR-KAI-NOTE": "KAI → GIDEON"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC02-SH07",
+      "order": 23,
+      "startFrameRef": "S1-03-SC02-SH07.start",
+      "endFrameRef": null,
+      "generationProvider": "EDIT:capcut-manifest",
+      "estimatedCost": {
+        "usd": 0,
+        "credits": 0,
+        "basis": "Edit-only: no generation."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC02",
+      "type": "ACTION",
+      "purpose": "Motion resumes. Royce laughs, genuinely delighted, and steps back down.",
+      "onScreen": [
+        "GIDEON",
+        "ROYCE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "Motion resumes. Royce laughs, genuinely delighted, and steps back down.",
+      "dialogueRefs": [],
+      "durationSec": 3,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "ROYCE": "WD-ROYCE-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › DOOR",
+      "propState": {
+        "PR-KAI-NOTE": "KAI → GIDEON"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "ROYCE: no approved face asset — generation blocked."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC02-SH08",
+      "order": 24,
+      "startFrameRef": "S1-03-SC02-SH08.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC02",
+      "type": "DIALOGUE",
+      "purpose": "ROYCE: Worth a try.",
+      "onScreen": [
+        "ROYCE"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-03-L012",
+        "S1-03-L013"
+      ],
+      "durationSec": 6,
+      "wardrobeState": {
+        "ROYCE": "WD-ROYCE-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › DOOR",
+      "propState": {
+        "PR-KAI-NOTE": "KAI → GIDEON"
+      },
+      "movementConstraints": [
+        "ROYCE: no approved face asset — generation blocked.",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC02-SH09",
+      "order": 25,
+      "startFrameRef": "S1-03-SC02-SH09.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 3.1,
+        "credits": 392,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 2. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 10 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC02",
+      "type": "ACTION",
+      "purpose": "He goes back to his date and raises the glass to Gideon across the foyer.",
+      "onScreen": [
+        "GIDEON",
+        "ROYCE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "He goes back to his date and raises the glass to Gideon across the foyer.",
+      "dialogueRefs": [],
+      "durationSec": 3,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "ROYCE": "WD-ROYCE-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › DOOR",
+      "propState": {
+        "PR-KAI-NOTE": "KAI → GIDEON"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "ROYCE: no approved face asset — generation blocked."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC02-SH10",
+      "order": 26,
+      "startFrameRef": "S1-03-SC02-SH10.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC02",
+      "type": "ACTION",
+      "purpose": "Alone at the foot of the staircase, Gideon looks at the note. He slips it into his inside jacket pocket, then glances up the stairs toward t",
+      "onScreen": [
+        "GIDEON"
+      ],
+      "framing": "MEDIUM",
+      "movement": "SLOW PUSH",
+      "blocking": "Alone at the foot of the staircase, Gideon looks at the note. He slips it into his inside jacket pocket, then glances up the stairs toward the balcony, where the light and the music are.",
+      "dialogueRefs": [],
+      "durationSec": 5,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT"
+      },
+      "setRef": "SET-HALCYON-HOUSE › DOOR",
+      "propState": {
+        "PR-KAI-NOTE": "KAI → GIDEON"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC02-SH11",
+      "order": 27,
+      "startFrameRef": "S1-03-SC02-SH11.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-03",
+      "sceneId": "S1-03-SC02",
+      "type": "TRANSITION",
+      "purpose": "CUT TO:",
+      "onScreen": [],
+      "framing": "N/A",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [],
+      "durationSec": 0.5,
+      "wardrobeState": {},
+      "setRef": "SET-HALCYON-HOUSE › DOOR",
+      "propState": {
+        "PR-KAI-NOTE": "Gideon's inside jacket pocket"
+      },
+      "movementConstraints": [],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-03-SC02-SH12",
+      "order": 28,
+      "startFrameRef": "S1-03-SC02-SH12.start",
+      "endFrameRef": null,
+      "generationProvider": "EDIT:capcut-manifest",
+      "estimatedCost": {
+        "usd": 0,
+        "credits": 0,
+        "basis": "Edit-only: no generation."
+      }
+    }
+  ]
+}

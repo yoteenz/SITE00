@@ -1,0 +1,547 @@
+{
+  "schemaVersion": "1.0.0",
+  "releaseId": "S1-01",
+  "title": "Dusk",
+  "status": "DRAFT — FOUNDER REVIEW REQUIRED",
+  "classification": "PROVISIONAL_IMPLEMENTATION",
+  "note": "Planning manifest. Nothing listed here has been generated, recorded or rendered.",
+  "screenplay": {
+    "path": "THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-01_DUSK.fountain",
+    "sha256": "3a2263664187e7b627f8afe5b60e052a46dff71ea42e19314d9add0a1a0c9020",
+    "version": 1
+  },
+  "runtime": {
+    "targetSec": 45,
+    "estimatedSec": 41.5,
+    "ratio": 0.92,
+    "band": "ON_TARGET",
+    "shotListSec": 41.5
+  },
+  "characters": [
+    {
+      "cue": "GRANDMOTHER",
+      "speaks": false,
+      "faceRef": null,
+      "voiceId": null,
+      "dialogueRegistry": false
+    },
+    {
+      "cue": "NEIGHBOUR",
+      "speaks": false,
+      "faceRef": null,
+      "voiceId": null,
+      "dialogueRegistry": false
+    },
+    {
+      "cue": "TAILOR",
+      "speaks": false,
+      "faceRef": null,
+      "voiceId": null,
+      "dialogueRegistry": false
+    },
+    {
+      "cue": "TEENAGER",
+      "speaks": false,
+      "faceRef": null,
+      "voiceId": null,
+      "dialogueRegistry": false
+    },
+    {
+      "cue": "WOMAN ON THE BALCONY",
+      "speaks": false,
+      "faceRef": null,
+      "voiceId": null,
+      "dialogueRegistry": false
+    }
+  ],
+  "sets": [
+    {
+      "heading": "EXT. CITY STREET — STREET — DUSK",
+      "setId": "SET-CITY-DUSK",
+      "zone": "STREET",
+      "classification": "PROVISIONAL_IMPLEMENTATION"
+    },
+    {
+      "heading": "EXT. CITY STREET — TAILOR'S SHOPFRONT — DUSK",
+      "setId": "SET-CITY-DUSK",
+      "zone": "TAILOR'S SHOPFRONT",
+      "classification": "PROVISIONAL_IMPLEMENTATION"
+    },
+    {
+      "heading": "EXT. CITY STREET — BUS STOP — DUSK",
+      "setId": "SET-CITY-DUSK",
+      "zone": "BUS STOP",
+      "classification": "PROVISIONAL_IMPLEMENTATION"
+    },
+    {
+      "heading": "EXT. CITY STREET — FIRE ESCAPE — DUSK",
+      "setId": "SET-CITY-DUSK",
+      "zone": "FIRE ESCAPE",
+      "classification": "PROVISIONAL_IMPLEMENTATION"
+    },
+    {
+      "heading": "EXT. CITY STREET — BALCONY KITCHEN — DUSK",
+      "setId": "SET-CITY-DUSK",
+      "zone": "BALCONY KITCHEN",
+      "classification": "PROVISIONAL_IMPLEMENTATION"
+    },
+    {
+      "heading": "EXT. CITY STREET — NEIGHBOUR'S WINDOW — DUSK",
+      "setId": "SET-CITY-DUSK",
+      "zone": "NEIGHBOUR'S WINDOW",
+      "classification": "PROVISIONAL_IMPLEMENTATION"
+    },
+    {
+      "heading": "EXT. CITY STREET — ROOFTOPS — DUSK",
+      "setId": "SET-CITY-DUSK",
+      "zone": "ROOFTOPS",
+      "classification": "PROVISIONAL_IMPLEMENTATION"
+    }
+  ],
+  "wardrobe": [],
+  "props": [
+    {
+      "propId": "PR-NEIGHBOUR-PHONE",
+      "status": "DESIGN_REQUIRED",
+      "handoffChain": []
+    }
+  ],
+  "audio": {
+    "dialogue": [],
+    "dialogueCharacters": 0,
+    "music": [
+      {
+        "sceneId": "S1-01-SC01",
+        "cue": "Main title cue: a big band warming up somewhere out of sight. Music only; no dialogue in this release.",
+        "asset": null
+      },
+      {
+        "sceneId": "S1-01-SC07",
+        "cue": "The band lands its first full chord as the ballroom comes into view.",
+        "asset": null
+      }
+    ],
+    "sfx": [
+      {
+        "sceneId": "S1-01-SC01",
+        "cue": "Street bed: a bus sighing, a door, distant laughter.",
+        "asset": null
+      }
+    ]
+  },
+  "effects": [
+    {
+      "sceneId": "S1-01-SC06",
+      "effect": "The lens blooms copper: the Ember, the city's everyday no."
+    }
+  ],
+  "shots": {
+    "count": 11,
+    "generated": 10,
+    "estimatedUsd": 15.4,
+    "estimatedCredits": 2345,
+    "actualCost": null
+  },
+  "providerExports": {
+    "voice": [],
+    "keyframes": [
+      {
+        "shotId": "S1-01-SC01-SH01",
+        "frame": "S1-01-SC01-SH01.start",
+        "setRef": "SET-CITY-DUSK › STREET",
+        "onScreen": [],
+        "wardrobe": {},
+        "props": {},
+        "framing": "WIDE",
+        "blocking": "A street of brownstones and glass towers at dusk. Copper light on the stoops. Windows come on one by one, like a city putting on its earrings."
+      },
+      {
+        "shotId": "S1-01-SC02-SH01",
+        "frame": "S1-01-SC02-SH01.start",
+        "setRef": "SET-CITY-DUSK › TAILOR'S SHOPFRONT",
+        "onScreen": [
+          "TAILOR"
+        ],
+        "wardrobe": {},
+        "props": {},
+        "framing": "WIDE",
+        "blocking": "A tailor in shirtsleeves lowers the grille on his shop. Halfway down he stops, ducks under, and straightens the lapel on the mannequin in the window. Then he locks up and pats the glass goodnight."
+      },
+      {
+        "shotId": "S1-01-SC03-SH01",
+        "frame": "S1-01-SC03-SH01.start",
+        "setRef": "SET-CITY-DUSK › BUS STOP",
+        "onScreen": [
+          "TEENAGER"
+        ],
+        "wardrobe": {},
+        "props": {},
+        "framing": "WIDE",
+        "blocking": "A teenager at the bus stop practises a dance step in the reflection of the shelter glass. Wrong. Wrong. Right. Nobody is watching, so he does it again for the pleasure of it."
+      },
+      {
+        "shotId": "S1-01-SC04-SH01",
+        "frame": "S1-01-SC04-SH01.start",
+        "setRef": "SET-CITY-DUSK › FIRE ESCAPE",
+        "onScreen": [
+          "GRANDMOTHER"
+        ],
+        "wardrobe": {},
+        "props": {},
+        "framing": "WIDE",
+        "blocking": "A grandmother hangs a jewel-green dress on her fire escape to air. She smooths the skirt with both hands and gives it a long look, as if the dress has a date tonight and she approves of him."
+      },
+      {
+        "shotId": "S1-01-SC05-SH01",
+        "frame": "S1-01-SC05-SH01.start",
+        "setRef": "SET-CITY-DUSK › BALCONY KITCHEN",
+        "onScreen": [
+          "WOMAN ON THE BALCONY"
+        ],
+        "wardrobe": {},
+        "props": {},
+        "framing": "WIDE",
+        "blocking": "Through an open balcony door, a woman dances alone in her kitchen. A wooden spoon for a partner. Completely unembarrassed."
+      },
+      {
+        "shotId": "S1-01-SC06-SH01",
+        "frame": "S1-01-SC06-SH01.start",
+        "setRef": "SET-CITY-DUSK › NEIGHBOUR'S WINDOW",
+        "onScreen": [
+          "NEIGHBOUR",
+          "WOMAN ON THE BALCONY"
+        ],
+        "wardrobe": {},
+        "props": {},
+        "framing": "WIDE",
+        "blocking": "Across the street, her neighbour lifts his phone toward her balcony."
+      },
+      {
+        "shotId": "S1-01-SC06-SH02",
+        "frame": "S1-01-SC06-SH02.start",
+        "setRef": "SET-CITY-DUSK › NEIGHBOUR'S WINDOW",
+        "onScreen": [],
+        "wardrobe": {},
+        "props": {
+          "PR-NEIGHBOUR-PHONE": "raised toward the balcony"
+        },
+        "framing": "EXTREME CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-01-SC06-SH03",
+        "frame": "S1-01-SC06-SH03.start",
+        "setRef": "SET-CITY-DUSK › NEIGHBOUR'S WINDOW",
+        "onScreen": [
+          "NEIGHBOUR",
+          "WOMAN ON THE BALCONY"
+        ],
+        "wardrobe": {},
+        "props": {
+          "PR-NEIGHBOUR-PHONE": "raised toward the balcony"
+        },
+        "framing": "MEDIUM",
+        "blocking": "He lowers the phone, embarrassed."
+      },
+      {
+        "shotId": "S1-01-SC06-SH04",
+        "frame": "S1-01-SC06-SH04.start",
+        "setRef": "SET-CITY-DUSK › NEIGHBOUR'S WINDOW",
+        "onScreen": [
+          "NEIGHBOUR",
+          "WOMAN ON THE BALCONY"
+        ],
+        "wardrobe": {},
+        "props": {
+          "PR-NEIGHBOUR-PHONE": "lowered"
+        },
+        "framing": "MEDIUM",
+        "blocking": "On her balcony, the woman has seen all of it. She raises her glass to him across the street, and keeps dancing."
+      },
+      {
+        "shotId": "S1-01-SC07-SH01",
+        "frame": "S1-01-SC07-SH01.start",
+        "setRef": "SET-CITY-DUSK › ROOFTOPS",
+        "onScreen": [],
+        "wardrobe": {},
+        "props": {
+          "PR-NEIGHBOUR-PHONE": "lowered"
+        },
+        "framing": "WIDE",
+        "blocking": "The camera rises over water towers and fire escapes, over the green dress and the woman's lit kitchen, toward a ballroom glowing like a jewellery box across the rooftops: Halcyon House."
+      }
+    ],
+    "video": [
+      {
+        "shotId": "S1-01-SC01-SH01",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 5,
+        "startFrameRef": "S1-01-SC01-SH01.start",
+        "endFrameRef": null,
+        "movement": "SLOW PUSH",
+        "constraints": []
+      },
+      {
+        "shotId": "S1-01-SC02-SH01",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 5,
+        "startFrameRef": "S1-01-SC02-SH01.start",
+        "endFrameRef": null,
+        "movement": "SLOW PUSH",
+        "constraints": [
+          "TAILOR: not in the asset registry."
+        ]
+      },
+      {
+        "shotId": "S1-01-SC03-SH01",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 5,
+        "startFrameRef": "S1-01-SC03-SH01.start",
+        "endFrameRef": null,
+        "movement": "SLOW PUSH",
+        "constraints": [
+          "TEENAGER: not in the asset registry."
+        ]
+      },
+      {
+        "shotId": "S1-01-SC04-SH01",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 5,
+        "startFrameRef": "S1-01-SC04-SH01.start",
+        "endFrameRef": null,
+        "movement": "SLOW PUSH",
+        "constraints": [
+          "GRANDMOTHER: not in the asset registry."
+        ]
+      },
+      {
+        "shotId": "S1-01-SC05-SH01",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 5,
+        "startFrameRef": "S1-01-SC05-SH01.start",
+        "endFrameRef": null,
+        "movement": "SLOW PUSH",
+        "constraints": [
+          "WOMAN ON THE BALCONY: not in the asset registry."
+        ]
+      },
+      {
+        "shotId": "S1-01-SC06-SH01",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 3,
+        "startFrameRef": "S1-01-SC06-SH01.start",
+        "endFrameRef": null,
+        "movement": "SLOW PUSH",
+        "constraints": [
+          "NEIGHBOUR: not in the asset registry.",
+          "WOMAN ON THE BALCONY: not in the asset registry."
+        ]
+      },
+      {
+        "shotId": "S1-01-SC06-SH02",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 1.5,
+        "startFrameRef": "S1-01-SC06-SH02.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": []
+      },
+      {
+        "shotId": "S1-01-SC06-SH03",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 1.5,
+        "startFrameRef": "S1-01-SC06-SH03.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "NEIGHBOUR: not in the asset registry.",
+          "WOMAN ON THE BALCONY: not in the asset registry."
+        ]
+      },
+      {
+        "shotId": "S1-01-SC06-SH04",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 4,
+        "startFrameRef": "S1-01-SC06-SH04.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "NEIGHBOUR: not in the asset registry.",
+          "WOMAN ON THE BALCONY: not in the asset registry."
+        ]
+      },
+      {
+        "shotId": "S1-01-SC07-SH01",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 6,
+        "startFrameRef": "S1-01-SC07-SH01.start",
+        "endFrameRef": null,
+        "movement": "RISING CRANE",
+        "constraints": []
+      }
+    ],
+    "lipSync": [],
+    "edit": {
+      "format": "EXCHANGE_EDL_V1",
+      "totalSec": 41.5,
+      "events": [
+        {
+          "event": 1,
+          "shotId": "S1-01-SC01-SH01",
+          "sceneId": "S1-01-SC01",
+          "type": "ESTABLISHING",
+          "recordIn": 0,
+          "recordOut": 5,
+          "dialogue": []
+        },
+        {
+          "event": 2,
+          "shotId": "S1-01-SC02-SH01",
+          "sceneId": "S1-01-SC02",
+          "type": "ESTABLISHING",
+          "recordIn": 5,
+          "recordOut": 10,
+          "dialogue": []
+        },
+        {
+          "event": 3,
+          "shotId": "S1-01-SC03-SH01",
+          "sceneId": "S1-01-SC03",
+          "type": "ESTABLISHING",
+          "recordIn": 10,
+          "recordOut": 15,
+          "dialogue": []
+        },
+        {
+          "event": 4,
+          "shotId": "S1-01-SC04-SH01",
+          "sceneId": "S1-01-SC04",
+          "type": "ESTABLISHING",
+          "recordIn": 15,
+          "recordOut": 20,
+          "dialogue": []
+        },
+        {
+          "event": 5,
+          "shotId": "S1-01-SC05-SH01",
+          "sceneId": "S1-01-SC05",
+          "type": "ESTABLISHING",
+          "recordIn": 20,
+          "recordOut": 25,
+          "dialogue": []
+        },
+        {
+          "event": 6,
+          "shotId": "S1-01-SC06-SH01",
+          "sceneId": "S1-01-SC06",
+          "type": "ESTABLISHING",
+          "recordIn": 25,
+          "recordOut": 28,
+          "dialogue": []
+        },
+        {
+          "event": 7,
+          "shotId": "S1-01-SC06-SH02",
+          "sceneId": "S1-01-SC06",
+          "type": "INSERT",
+          "recordIn": 28,
+          "recordOut": 29.5,
+          "dialogue": []
+        },
+        {
+          "event": 8,
+          "shotId": "S1-01-SC06-SH03",
+          "sceneId": "S1-01-SC06",
+          "type": "ACTION",
+          "recordIn": 29.5,
+          "recordOut": 31,
+          "dialogue": []
+        },
+        {
+          "event": 9,
+          "shotId": "S1-01-SC06-SH04",
+          "sceneId": "S1-01-SC06",
+          "type": "ACTION",
+          "recordIn": 31,
+          "recordOut": 35,
+          "dialogue": []
+        },
+        {
+          "event": 10,
+          "shotId": "S1-01-SC07-SH01",
+          "sceneId": "S1-01-SC07",
+          "type": "ESTABLISHING",
+          "recordIn": 35,
+          "recordOut": 41,
+          "dialogue": []
+        },
+        {
+          "event": 11,
+          "shotId": "S1-01-SC07-SH02",
+          "sceneId": "S1-01-SC07",
+          "type": "TRANSITION",
+          "recordIn": 41,
+          "recordOut": 41.5,
+          "dialogue": []
+        }
+      ],
+      "audioCues": [
+        {
+          "kind": "note",
+          "tag": "MUSIC",
+          "value": "Main title cue: a big band warming up somewhere out of sight. Music only; no dialogue in this release.",
+          "sceneId": "S1-01-SC01"
+        },
+        {
+          "kind": "note",
+          "tag": "MUSIC",
+          "value": "The band lands its first full chord as the ballroom comes into view.",
+          "sceneId": "S1-01-SC07"
+        },
+        {
+          "kind": "note",
+          "tag": "SFX",
+          "value": "Street bed: a bus sighing, a door, distant laughter.",
+          "sceneId": "S1-01-SC01"
+        }
+      ]
+    }
+  },
+  "blockers": [
+    {
+      "kind": "UNREGISTERED",
+      "subject": "GRANDMOTHER",
+      "detail": "not in the asset registry; needs casting and a face reference before generation"
+    },
+    {
+      "kind": "UNREGISTERED",
+      "subject": "NEIGHBOUR",
+      "detail": "not in the asset registry; needs casting and a face reference before generation"
+    },
+    {
+      "kind": "UNREGISTERED",
+      "subject": "TAILOR",
+      "detail": "not in the asset registry; needs casting and a face reference before generation"
+    },
+    {
+      "kind": "UNREGISTERED",
+      "subject": "TEENAGER",
+      "detail": "not in the asset registry; needs casting and a face reference before generation"
+    },
+    {
+      "kind": "UNREGISTERED",
+      "subject": "WOMAN ON THE BALCONY",
+      "detail": "not in the asset registry; needs casting and a face reference before generation"
+    },
+    {
+      "kind": "SET",
+      "subject": "SET-CITY-DUSK",
+      "detail": "no approved establishing reference"
+    },
+    {
+      "kind": "PROP",
+      "subject": "PR-NEIGHBOUR-PHONE",
+      "detail": "DESIGN_REQUIRED"
+    }
+  ]
+}

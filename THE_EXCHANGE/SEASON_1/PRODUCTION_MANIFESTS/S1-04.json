@@ -1,0 +1,1522 @@
+{
+  "schemaVersion": "1.0.0",
+  "releaseId": "S1-04",
+  "title": "The Host",
+  "status": "DRAFT — FOUNDER REVIEW REQUIRED",
+  "classification": "PROVISIONAL_IMPLEMENTATION",
+  "note": "Planning manifest. Nothing listed here has been generated, recorded or rendered.",
+  "screenplay": {
+    "path": "THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-04_THE_HOST.fountain",
+    "sha256": "73e943b347173e797f27cb2eaa33837a0f9d275476ba66c5ec67fe90cd23dad7",
+    "version": 1
+  },
+  "runtime": {
+    "targetSec": 90,
+    "estimatedSec": 86.9,
+    "ratio": 0.97,
+    "band": "ON_TARGET",
+    "shotListSec": 86.9
+  },
+  "characters": [
+    {
+      "cue": "GIDEON",
+      "speaks": true,
+      "faceRef": "gideon-shaw",
+      "voiceId": null,
+      "dialogueRegistry": true
+    },
+    {
+      "cue": "GUESTS",
+      "speaks": false,
+      "faceRef": null,
+      "voiceId": null,
+      "dialogueRegistry": false
+    },
+    {
+      "cue": "MAN IN THE ORANGE JACKET",
+      "speaks": false,
+      "faceRef": null,
+      "voiceId": null,
+      "dialogueRegistry": false
+    },
+    {
+      "cue": "PIANIST",
+      "speaks": true,
+      "faceRef": null,
+      "voiceId": null,
+      "dialogueRegistry": false
+    },
+    {
+      "cue": "PRODUCER",
+      "speaks": true,
+      "faceRef": null,
+      "voiceId": null,
+      "dialogueRegistry": false
+    },
+    {
+      "cue": "SLOANE",
+      "speaks": true,
+      "faceRef": "sloane-lockwood",
+      "voiceId": null,
+      "dialogueRegistry": true
+    },
+    {
+      "cue": "STRANGER",
+      "speaks": false,
+      "faceRef": null,
+      "voiceId": null,
+      "dialogueRegistry": false
+    }
+  ],
+  "sets": [
+    {
+      "heading": "INT. HALCYON HOUSE — BALLROOM — NIGHT",
+      "setId": "SET-HALCYON-HOUSE",
+      "zone": "BALLROOM",
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION"
+    }
+  ],
+  "wardrobe": [
+    {
+      "wardrobeId": "WD-SLOANE-PARTY-GE92",
+      "status": "DESIGN_REQUIRED"
+    },
+    {
+      "wardrobeId": "WD-ORANGE-JACKET",
+      "status": "DESIGN_REQUIRED"
+    },
+    {
+      "wardrobeId": "WD-GIDEON-SUIT",
+      "status": "DESIGN_REQUIRED"
+    }
+  ],
+  "props": [
+    {
+      "propId": "PR-KAI-NOTE",
+      "status": "DESIGN_REQUIRED",
+      "handoffChain": [
+        "KAI → GIDEON (S1-03)",
+        "GIDEON → SLOANE (S1-04/S1-05)",
+        "SLOANE → clutch (S1-05)"
+      ]
+    }
+  ],
+  "audio": {
+    "dialogue": [
+      {
+        "lineId": "S1-04-L001",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "That piano loop you've built three albums on?",
+        "direction": null,
+        "characters": 45
+      },
+      {
+        "lineId": "S1-04-L002",
+        "cue": "PRODUCER",
+        "voiceId": null,
+        "text": "Yeah?",
+        "direction": null,
+        "characters": 5
+      },
+      {
+        "lineId": "S1-04-L003",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "He's alive. Say hello.",
+        "direction": null,
+        "characters": 22
+      },
+      {
+        "lineId": "S1-04-L004",
+        "cue": "PIANIST",
+        "voiceId": null,
+        "text": "You cut the ninth out of my chord.",
+        "direction": null,
+        "characters": 34
+      },
+      {
+        "lineId": "S1-04-L005",
+        "cue": "PRODUCER",
+        "voiceId": null,
+        "text": "It was crowding the bass.",
+        "direction": null,
+        "characters": 25
+      },
+      {
+        "lineId": "S1-04-L006",
+        "cue": "PIANIST",
+        "voiceId": null,
+        "text": "It was holding the bass up.",
+        "direction": null,
+        "characters": 27
+      },
+      {
+        "lineId": "S1-04-L007",
+        "cue": "PRODUCER",
+        "voiceId": null,
+        "text": "Then why does my version work?",
+        "direction": null,
+        "characters": 30
+      },
+      {
+        "lineId": "S1-04-L008",
+        "cue": "PIANIST",
+        "voiceId": null,
+        "text": "Because you kept the eleventh. Sit down. I'll show you.",
+        "direction": null,
+        "characters": 55
+      },
+      {
+        "lineId": "S1-04-L009",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "Brave.",
+        "direction": "lightly, passing",
+        "characters": 6
+      },
+      {
+        "lineId": "S1-04-L010",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "Who's it from?",
+        "direction": null,
+        "characters": 14
+      },
+      {
+        "lineId": "S1-04-L011",
+        "cue": "GIDEON",
+        "voiceId": null,
+        "text": "Not here.",
+        "direction": null,
+        "characters": 9
+      }
+    ],
+    "dialogueCharacters": 272,
+    "music": [
+      {
+        "sceneId": "S1-04-SC01",
+        "cue": "House band, full swing; carries the whole release.",
+        "asset": null
+      }
+    ],
+    "sfx": []
+  },
+  "effects": [],
+  "shots": {
+    "count": 29,
+    "generated": 28,
+    "estimatedUsd": 44.48,
+    "estimatedCredits": 6601,
+    "actualCost": null
+  },
+  "providerExports": {
+    "voice": [
+      {
+        "lineId": "S1-04-L001",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "That piano loop you've built three albums on?",
+        "direction": null,
+        "characters": 45
+      },
+      {
+        "lineId": "S1-04-L002",
+        "cue": "PRODUCER",
+        "voiceId": null,
+        "text": "Yeah?",
+        "direction": null,
+        "characters": 5
+      },
+      {
+        "lineId": "S1-04-L003",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "He's alive. Say hello.",
+        "direction": null,
+        "characters": 22
+      },
+      {
+        "lineId": "S1-04-L004",
+        "cue": "PIANIST",
+        "voiceId": null,
+        "text": "You cut the ninth out of my chord.",
+        "direction": null,
+        "characters": 34
+      },
+      {
+        "lineId": "S1-04-L005",
+        "cue": "PRODUCER",
+        "voiceId": null,
+        "text": "It was crowding the bass.",
+        "direction": null,
+        "characters": 25
+      },
+      {
+        "lineId": "S1-04-L006",
+        "cue": "PIANIST",
+        "voiceId": null,
+        "text": "It was holding the bass up.",
+        "direction": null,
+        "characters": 27
+      },
+      {
+        "lineId": "S1-04-L007",
+        "cue": "PRODUCER",
+        "voiceId": null,
+        "text": "Then why does my version work?",
+        "direction": null,
+        "characters": 30
+      },
+      {
+        "lineId": "S1-04-L008",
+        "cue": "PIANIST",
+        "voiceId": null,
+        "text": "Because you kept the eleventh. Sit down. I'll show you.",
+        "direction": null,
+        "characters": 55
+      },
+      {
+        "lineId": "S1-04-L009",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "Brave.",
+        "direction": "lightly, passing",
+        "characters": 6
+      },
+      {
+        "lineId": "S1-04-L010",
+        "cue": "SLOANE",
+        "voiceId": null,
+        "text": "Who's it from?",
+        "direction": null,
+        "characters": 14
+      },
+      {
+        "lineId": "S1-04-L011",
+        "cue": "GIDEON",
+        "voiceId": null,
+        "text": "Not here.",
+        "direction": null,
+        "characters": 9
+      }
+    ],
+    "keyframes": [
+      {
+        "shotId": "S1-04-SC01-SH01",
+        "frame": "S1-04-SC01-SH01.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [],
+        "wardrobe": {},
+        "props": {},
+        "framing": "WIDE",
+        "blocking": "The ballroom: emerald walls, a brass bandstand, a floor so crowded the dancers move like one animal. The HOUSE BAND is in full swing."
+      },
+      {
+        "shotId": "S1-04-SC01-SH02",
+        "frame": "S1-04-SC01-SH02.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM",
+        "blocking": "Sloane moves through it like weather: a hand on a shoulder, a name remembered, a drink rescued, never quite stopping. She has a YOUNG PRODUCER by the elbow and is steering him toward the bar."
+      },
+      {
+        "shotId": "S1-04-SC01-SH03",
+        "frame": "S1-04-SC01-SH03.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-04-SC01-SH04",
+        "frame": "S1-04-SC01-SH04.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "PRODUCER"
+        ],
+        "wardrobe": {},
+        "props": {},
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-04-SC01-SH05",
+        "frame": "S1-04-SC01-SH05.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "PIANIST",
+          "PRODUCER",
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM",
+        "blocking": "She turns him to face a RETIRED JAZZ PIANIST holding court at the end of the bar."
+      },
+      {
+        "shotId": "S1-04-SC01-SH06",
+        "frame": "S1-04-SC01-SH06.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-04-SC01-SH07",
+        "frame": "S1-04-SC01-SH07.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "PRODUCER"
+        ],
+        "wardrobe": {},
+        "props": {},
+        "framing": "CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-04-SC01-SH08",
+        "frame": "S1-04-SC01-SH08.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "PIANIST",
+          "PRODUCER",
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM",
+        "blocking": "The pianist offers his hand, enjoying this enormously."
+      },
+      {
+        "shotId": "S1-04-SC01-SH09",
+        "frame": "S1-04-SC01-SH09.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "PIANIST"
+        ],
+        "wardrobe": {},
+        "props": {},
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-04-SC01-SH10",
+        "frame": "S1-04-SC01-SH10.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "PRODUCER"
+        ],
+        "wardrobe": {},
+        "props": {},
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-04-SC01-SH11",
+        "frame": "S1-04-SC01-SH11.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "PIANIST"
+        ],
+        "wardrobe": {},
+        "props": {},
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-04-SC01-SH12",
+        "frame": "S1-04-SC01-SH12.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "PRODUCER"
+        ],
+        "wardrobe": {},
+        "props": {},
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-04-SC01-SH13",
+        "frame": "S1-04-SC01-SH13.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "PIANIST"
+        ],
+        "wardrobe": {},
+        "props": {},
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-04-SC01-SH14",
+        "frame": "S1-04-SC01-SH14.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "PIANIST",
+          "PRODUCER",
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM",
+        "blocking": "They lean in, already arguing, both delighted. Sloane backs away, leaving them to it."
+      },
+      {
+        "shotId": "S1-04-SC01-SH15",
+        "frame": "S1-04-SC01-SH15.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {},
+        "framing": "CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-04-SC01-SH16",
+        "frame": "S1-04-SC01-SH16.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "SLOANE",
+          "STRANGER"
+        ],
+        "wardrobe": {
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM",
+        "blocking": "The band kicks into something faster. A STRANGER offers his hand. Sloane takes it without asking his name."
+      },
+      {
+        "shotId": "S1-04-SC01-SH17",
+        "frame": "S1-04-SC01-SH17.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "SLOANE",
+          "STRANGER"
+        ],
+        "wardrobe": {
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM WIDE",
+        "blocking": "They dance a full chorus. She's good, really good, and so is he. The floor opens a little around them without anyone deciding to. On the last bar he spins her out, and she comes back on the beat."
+      },
+      {
+        "shotId": "S1-04-SC01-SH18",
+        "frame": "S1-04-SC01-SH17.end",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "SLOANE",
+          "STRANGER"
+        ],
+        "wardrobe": {
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM WIDE",
+        "blocking": "They dance a full chorus. She's good, really good, and so is he. The floor opens a little around them without anyone deciding to. On the last bar he spins her out, and she comes back on the beat."
+      },
+      {
+        "shotId": "S1-04-SC01-SH19",
+        "frame": "S1-04-SC01-SH18.end",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "SLOANE",
+          "STRANGER"
+        ],
+        "wardrobe": {
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM WIDE",
+        "blocking": "They dance a full chorus. She's good, really good, and so is he. The floor opens a little around them without anyone deciding to. On the last bar he spins her out, and she comes back on the beat."
+      },
+      {
+        "shotId": "S1-04-SC01-SH20",
+        "frame": "S1-04-SC01-SH20.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "MAN IN THE ORANGE JACKET",
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "MAN IN THE ORANGE JACKET": "WD-ORANGE-JACKET",
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM",
+        "blocking": "Flushed and laughing, Sloane comes off the floor and passes a MAN IN A BOLD ORANGE JACKET. She doesn't stop."
+      },
+      {
+        "shotId": "S1-04-SC01-SH21",
+        "frame": "S1-04-SC01-SH21.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-04-SC01-SH22",
+        "frame": "S1-04-SC01-SH22.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "GUESTS",
+          "MAN IN THE ORANGE JACKET",
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "MAN IN THE ORANGE JACKET": "WD-ORANGE-JACKET",
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM",
+        "blocking": "Behind her, two GUESTS immediately lean in to read the label inside his collar. The man in the jacket stands very still and lets them."
+      },
+      {
+        "shotId": "S1-04-SC01-SH23",
+        "frame": "S1-04-SC01-SH23.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [],
+        "wardrobe": {},
+        "props": {},
+        "framing": "EXTREME CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-04-SC01-SH24",
+        "frame": "S1-04-SC01-SH24.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "GUESTS",
+          "MAN IN THE ORANGE JACKET",
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "MAN IN THE ORANGE JACKET": "WD-ORANGE-JACKET",
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM",
+        "blocking": "Sloane glances back and sees it. Her smile holds a fraction too long."
+      },
+      {
+        "shotId": "S1-04-SC01-SH25",
+        "frame": "S1-04-SC01-SH25.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "GIDEON",
+          "GUESTS",
+          "MAN IN THE ORANGE JACKET",
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT",
+          "MAN IN THE ORANGE JACKET": "WD-ORANGE-JACKET",
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {},
+        "framing": "MEDIUM",
+        "blocking": "Gideon is at her elbow, the way he always is, and holds up the folded note between two fingers."
+      },
+      {
+        "shotId": "S1-04-SC01-SH26",
+        "frame": "S1-04-SC01-SH26.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {
+          "PR-KAI-NOTE": "held up between Gideon's fingers"
+        },
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-04-SC01-SH27",
+        "frame": "S1-04-SC01-SH27.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "GIDEON"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT"
+        },
+        "props": {
+          "PR-KAI-NOTE": "held up between Gideon's fingers"
+        },
+        "framing": "MEDIUM CLOSE-UP",
+        "blocking": ""
+      },
+      {
+        "shotId": "S1-04-SC01-SH28",
+        "frame": "S1-04-SC01-SH28.start",
+        "setRef": "SET-HALCYON-HOUSE › BALLROOM",
+        "onScreen": [
+          "GIDEON",
+          "GUESTS",
+          "MAN IN THE ORANGE JACKET",
+          "SLOANE"
+        ],
+        "wardrobe": {
+          "GIDEON": "WD-GIDEON-SUIT",
+          "MAN IN THE ORANGE JACKET": "WD-ORANGE-JACKET",
+          "SLOANE": "WD-SLOANE-PARTY-GE92"
+        },
+        "props": {
+          "PR-KAI-NOTE": "held up between Gideon's fingers"
+        },
+        "framing": "MEDIUM",
+        "blocking": "She looks at the note, then at him, and the party noise seems to drop a little."
+      }
+    ],
+    "video": [
+      {
+        "shotId": "S1-04-SC01-SH01",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 5,
+        "startFrameRef": "S1-04-SC01-SH01.start",
+        "endFrameRef": null,
+        "movement": "TRAVELLING",
+        "constraints": []
+      },
+      {
+        "shotId": "S1-04-SC01-SH02",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 5,
+        "startFrameRef": "S1-04-SC01-SH02.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH03",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 3.2,
+        "startFrameRef": "S1-04-SC01-SH03.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1).",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH04",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 0.4,
+        "startFrameRef": "S1-04-SC01-SH04.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "PRODUCER: not in the asset registry.",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH05",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 2,
+        "startFrameRef": "S1-04-SC01-SH05.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "PIANIST: not in the asset registry.",
+          "PRODUCER: not in the asset registry.",
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH06",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 1.6,
+        "startFrameRef": "S1-04-SC01-SH06.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1).",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH07",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 1.5,
+        "startFrameRef": "S1-04-SC01-SH07.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "PRODUCER: not in the asset registry."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH08",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 2.3,
+        "startFrameRef": "S1-04-SC01-SH08.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "PIANIST: not in the asset registry.",
+          "PRODUCER: not in the asset registry.",
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH09",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 3.2,
+        "startFrameRef": "S1-04-SC01-SH09.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "PIANIST: not in the asset registry.",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH10",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 2,
+        "startFrameRef": "S1-04-SC01-SH10.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "PRODUCER: not in the asset registry.",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH11",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 2.4,
+        "startFrameRef": "S1-04-SC01-SH11.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "PIANIST: not in the asset registry.",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH12",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 2.4,
+        "startFrameRef": "S1-04-SC01-SH12.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "PRODUCER: not in the asset registry.",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH13",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 4,
+        "startFrameRef": "S1-04-SC01-SH13.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "PIANIST: not in the asset registry.",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH14",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 3,
+        "startFrameRef": "S1-04-SC01-SH14.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "PIANIST: not in the asset registry.",
+          "PRODUCER: not in the asset registry.",
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH15",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 1.5,
+        "startFrameRef": "S1-04-SC01-SH15.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH16",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 3,
+        "startFrameRef": "S1-04-SC01-SH16.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1).",
+          "STRANGER: not in the asset registry."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH17",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 8,
+        "startFrameRef": "S1-04-SC01-SH17.start",
+        "endFrameRef": "S1-04-SC01-SH17.end",
+        "movement": "CIRCLING",
+        "constraints": [
+          "Part 1 of 3: generations stay ≤10 s and chain end frame to start frame.",
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1).",
+          "STRANGER: not in the asset registry."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH18",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 8,
+        "startFrameRef": "S1-04-SC01-SH17.end",
+        "endFrameRef": "S1-04-SC01-SH18.end",
+        "movement": "CIRCLING",
+        "constraints": [
+          "Part 2 of 3: generations stay ≤10 s and chain end frame to start frame.",
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1).",
+          "STRANGER: not in the asset registry."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH19",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 8,
+        "startFrameRef": "S1-04-SC01-SH18.end",
+        "endFrameRef": null,
+        "movement": "CIRCLING",
+        "constraints": [
+          "Part 3 of 3: generations stay ≤10 s and chain end frame to start frame.",
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1).",
+          "STRANGER: not in the asset registry."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH20",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 3,
+        "startFrameRef": "S1-04-SC01-SH20.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "MAN IN THE ORANGE JACKET: not in the asset registry.",
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH21",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 0.4,
+        "startFrameRef": "S1-04-SC01-SH21.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1).",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH22",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 4,
+        "startFrameRef": "S1-04-SC01-SH22.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GUESTS: not in the asset registry.",
+          "MAN IN THE ORANGE JACKET: not in the asset registry.",
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH23",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 1.5,
+        "startFrameRef": "S1-04-SC01-SH23.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": []
+      },
+      {
+        "shotId": "S1-04-SC01-SH24",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 3,
+        "startFrameRef": "S1-04-SC01-SH24.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GUESTS: not in the asset registry.",
+          "MAN IN THE ORANGE JACKET: not in the asset registry.",
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH25",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 3,
+        "startFrameRef": "S1-04-SC01-SH25.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "GUESTS: not in the asset registry.",
+          "MAN IN THE ORANGE JACKET: not in the asset registry.",
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH26",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 1.2,
+        "startFrameRef": "S1-04-SC01-SH26.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1).",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH27",
+        "provider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+        "durationSec": 0.8,
+        "startFrameRef": "S1-04-SC01-SH27.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH28",
+        "provider": "OPENART:kling-3-omni:image2video",
+        "durationSec": 3,
+        "startFrameRef": "S1-04-SC01-SH28.start",
+        "endFrameRef": null,
+        "movement": "STATIC",
+        "constraints": [
+          "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+          "GUESTS: not in the asset registry.",
+          "MAN IN THE ORANGE JACKET: not in the asset registry.",
+          "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+        ]
+      }
+    ],
+    "lipSync": [
+      {
+        "shotId": "S1-04-SC01-SH03",
+        "lineIds": [
+          "S1-04-L001"
+        ],
+        "onScreen": [
+          "SLOANE"
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH04",
+        "lineIds": [
+          "S1-04-L002"
+        ],
+        "onScreen": [
+          "PRODUCER"
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH06",
+        "lineIds": [
+          "S1-04-L003"
+        ],
+        "onScreen": [
+          "SLOANE"
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH09",
+        "lineIds": [
+          "S1-04-L004"
+        ],
+        "onScreen": [
+          "PIANIST"
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH10",
+        "lineIds": [
+          "S1-04-L005"
+        ],
+        "onScreen": [
+          "PRODUCER"
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH11",
+        "lineIds": [
+          "S1-04-L006"
+        ],
+        "onScreen": [
+          "PIANIST"
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH12",
+        "lineIds": [
+          "S1-04-L007"
+        ],
+        "onScreen": [
+          "PRODUCER"
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH13",
+        "lineIds": [
+          "S1-04-L008"
+        ],
+        "onScreen": [
+          "PIANIST"
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH21",
+        "lineIds": [
+          "S1-04-L009"
+        ],
+        "onScreen": [
+          "SLOANE"
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH26",
+        "lineIds": [
+          "S1-04-L010"
+        ],
+        "onScreen": [
+          "SLOANE"
+        ]
+      },
+      {
+        "shotId": "S1-04-SC01-SH27",
+        "lineIds": [
+          "S1-04-L011"
+        ],
+        "onScreen": [
+          "GIDEON"
+        ]
+      }
+    ],
+    "edit": {
+      "format": "EXCHANGE_EDL_V1",
+      "totalSec": 86.9,
+      "events": [
+        {
+          "event": 1,
+          "shotId": "S1-04-SC01-SH01",
+          "sceneId": "S1-04-SC01",
+          "type": "ESTABLISHING",
+          "recordIn": 0,
+          "recordOut": 5,
+          "dialogue": []
+        },
+        {
+          "event": 2,
+          "shotId": "S1-04-SC01-SH02",
+          "sceneId": "S1-04-SC01",
+          "type": "ACTION",
+          "recordIn": 5,
+          "recordOut": 10,
+          "dialogue": []
+        },
+        {
+          "event": 3,
+          "shotId": "S1-04-SC01-SH03",
+          "sceneId": "S1-04-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 10,
+          "recordOut": 13.2,
+          "dialogue": [
+            "S1-04-L001"
+          ]
+        },
+        {
+          "event": 4,
+          "shotId": "S1-04-SC01-SH04",
+          "sceneId": "S1-04-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 13.2,
+          "recordOut": 13.6,
+          "dialogue": [
+            "S1-04-L002"
+          ]
+        },
+        {
+          "event": 5,
+          "shotId": "S1-04-SC01-SH05",
+          "sceneId": "S1-04-SC01",
+          "type": "ACTION",
+          "recordIn": 13.6,
+          "recordOut": 15.6,
+          "dialogue": []
+        },
+        {
+          "event": 6,
+          "shotId": "S1-04-SC01-SH06",
+          "sceneId": "S1-04-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 15.6,
+          "recordOut": 17.2,
+          "dialogue": [
+            "S1-04-L003"
+          ]
+        },
+        {
+          "event": 7,
+          "shotId": "S1-04-SC01-SH07",
+          "sceneId": "S1-04-SC01",
+          "type": "REACTION",
+          "recordIn": 17.2,
+          "recordOut": 18.7,
+          "dialogue": []
+        },
+        {
+          "event": 8,
+          "shotId": "S1-04-SC01-SH08",
+          "sceneId": "S1-04-SC01",
+          "type": "ACTION",
+          "recordIn": 18.7,
+          "recordOut": 21,
+          "dialogue": []
+        },
+        {
+          "event": 9,
+          "shotId": "S1-04-SC01-SH09",
+          "sceneId": "S1-04-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 21,
+          "recordOut": 24.2,
+          "dialogue": [
+            "S1-04-L004"
+          ]
+        },
+        {
+          "event": 10,
+          "shotId": "S1-04-SC01-SH10",
+          "sceneId": "S1-04-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 24.2,
+          "recordOut": 26.2,
+          "dialogue": [
+            "S1-04-L005"
+          ]
+        },
+        {
+          "event": 11,
+          "shotId": "S1-04-SC01-SH11",
+          "sceneId": "S1-04-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 26.2,
+          "recordOut": 28.6,
+          "dialogue": [
+            "S1-04-L006"
+          ]
+        },
+        {
+          "event": 12,
+          "shotId": "S1-04-SC01-SH12",
+          "sceneId": "S1-04-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 28.6,
+          "recordOut": 31,
+          "dialogue": [
+            "S1-04-L007"
+          ]
+        },
+        {
+          "event": 13,
+          "shotId": "S1-04-SC01-SH13",
+          "sceneId": "S1-04-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 31,
+          "recordOut": 35,
+          "dialogue": [
+            "S1-04-L008"
+          ]
+        },
+        {
+          "event": 14,
+          "shotId": "S1-04-SC01-SH14",
+          "sceneId": "S1-04-SC01",
+          "type": "ACTION",
+          "recordIn": 35,
+          "recordOut": 38,
+          "dialogue": []
+        },
+        {
+          "event": 15,
+          "shotId": "S1-04-SC01-SH15",
+          "sceneId": "S1-04-SC01",
+          "type": "REACTION",
+          "recordIn": 38,
+          "recordOut": 39.5,
+          "dialogue": []
+        },
+        {
+          "event": 16,
+          "shotId": "S1-04-SC01-SH16",
+          "sceneId": "S1-04-SC01",
+          "type": "ACTION",
+          "recordIn": 39.5,
+          "recordOut": 42.5,
+          "dialogue": []
+        },
+        {
+          "event": 17,
+          "shotId": "S1-04-SC01-SH17",
+          "sceneId": "S1-04-SC01",
+          "type": "ACTION",
+          "recordIn": 42.5,
+          "recordOut": 50.5,
+          "dialogue": []
+        },
+        {
+          "event": 18,
+          "shotId": "S1-04-SC01-SH18",
+          "sceneId": "S1-04-SC01",
+          "type": "ACTION",
+          "recordIn": 50.5,
+          "recordOut": 58.5,
+          "dialogue": []
+        },
+        {
+          "event": 19,
+          "shotId": "S1-04-SC01-SH19",
+          "sceneId": "S1-04-SC01",
+          "type": "ACTION",
+          "recordIn": 58.5,
+          "recordOut": 66.5,
+          "dialogue": []
+        },
+        {
+          "event": 20,
+          "shotId": "S1-04-SC01-SH20",
+          "sceneId": "S1-04-SC01",
+          "type": "ACTION",
+          "recordIn": 66.5,
+          "recordOut": 69.5,
+          "dialogue": []
+        },
+        {
+          "event": 21,
+          "shotId": "S1-04-SC01-SH21",
+          "sceneId": "S1-04-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 69.5,
+          "recordOut": 69.9,
+          "dialogue": [
+            "S1-04-L009"
+          ]
+        },
+        {
+          "event": 22,
+          "shotId": "S1-04-SC01-SH22",
+          "sceneId": "S1-04-SC01",
+          "type": "ACTION",
+          "recordIn": 69.9,
+          "recordOut": 73.9,
+          "dialogue": []
+        },
+        {
+          "event": 23,
+          "shotId": "S1-04-SC01-SH23",
+          "sceneId": "S1-04-SC01",
+          "type": "INSERT",
+          "recordIn": 73.9,
+          "recordOut": 75.4,
+          "dialogue": []
+        },
+        {
+          "event": 24,
+          "shotId": "S1-04-SC01-SH24",
+          "sceneId": "S1-04-SC01",
+          "type": "ACTION",
+          "recordIn": 75.4,
+          "recordOut": 78.4,
+          "dialogue": []
+        },
+        {
+          "event": 25,
+          "shotId": "S1-04-SC01-SH25",
+          "sceneId": "S1-04-SC01",
+          "type": "ACTION",
+          "recordIn": 78.4,
+          "recordOut": 81.4,
+          "dialogue": []
+        },
+        {
+          "event": 26,
+          "shotId": "S1-04-SC01-SH26",
+          "sceneId": "S1-04-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 81.4,
+          "recordOut": 82.6,
+          "dialogue": [
+            "S1-04-L010"
+          ]
+        },
+        {
+          "event": 27,
+          "shotId": "S1-04-SC01-SH27",
+          "sceneId": "S1-04-SC01",
+          "type": "DIALOGUE",
+          "recordIn": 82.6,
+          "recordOut": 83.4,
+          "dialogue": [
+            "S1-04-L011"
+          ]
+        },
+        {
+          "event": 28,
+          "shotId": "S1-04-SC01-SH28",
+          "sceneId": "S1-04-SC01",
+          "type": "ACTION",
+          "recordIn": 83.4,
+          "recordOut": 86.4,
+          "dialogue": []
+        },
+        {
+          "event": 29,
+          "shotId": "S1-04-SC01-SH29",
+          "sceneId": "S1-04-SC01",
+          "type": "TRANSITION",
+          "recordIn": 86.4,
+          "recordOut": 86.9,
+          "dialogue": []
+        }
+      ],
+      "audioCues": [
+        {
+          "kind": "note",
+          "tag": "MUSIC",
+          "value": "House band, full swing; carries the whole release.",
+          "sceneId": "S1-04-SC01"
+        }
+      ]
+    }
+  },
+  "blockers": [
+    {
+      "kind": "CHARACTER_VOICE",
+      "subject": "GIDEON",
+      "detail": "no approved voice"
+    },
+    {
+      "kind": "UNREGISTERED",
+      "subject": "GUESTS",
+      "detail": "not in the asset registry; needs casting and a face reference before generation"
+    },
+    {
+      "kind": "UNREGISTERED",
+      "subject": "MAN IN THE ORANGE JACKET",
+      "detail": "not in the asset registry; needs casting and a face reference before generation"
+    },
+    {
+      "kind": "UNREGISTERED",
+      "subject": "PIANIST",
+      "detail": "not in the asset registry; needs casting and a face reference before generation"
+    },
+    {
+      "kind": "CHARACTER_VOICE",
+      "subject": "PIANIST",
+      "detail": "no approved voice"
+    },
+    {
+      "kind": "UNREGISTERED",
+      "subject": "PRODUCER",
+      "detail": "not in the asset registry; needs casting and a face reference before generation"
+    },
+    {
+      "kind": "CHARACTER_VOICE",
+      "subject": "PRODUCER",
+      "detail": "no approved voice"
+    },
+    {
+      "kind": "CHARACTER_VOICE",
+      "subject": "SLOANE",
+      "detail": "no approved voice"
+    },
+    {
+      "kind": "UNREGISTERED",
+      "subject": "STRANGER",
+      "detail": "not in the asset registry; needs casting and a face reference before generation"
+    },
+    {
+      "kind": "SET",
+      "subject": "SET-HALCYON-HOUSE",
+      "detail": "no approved establishing reference"
+    },
+    {
+      "kind": "WARDROBE",
+      "subject": "WD-SLOANE-PARTY-GE92",
+      "detail": "DESIGN_REQUIRED (U-4)"
+    },
+    {
+      "kind": "WARDROBE",
+      "subject": "WD-ORANGE-JACKET",
+      "detail": "DESIGN_REQUIRED (U-4)"
+    },
+    {
+      "kind": "WARDROBE",
+      "subject": "WD-GIDEON-SUIT",
+      "detail": "DESIGN_REQUIRED (U-4)"
+    },
+    {
+      "kind": "PROP",
+      "subject": "PR-KAI-NOTE",
+      "detail": "DESIGN_REQUIRED"
+    }
+  ]
+}

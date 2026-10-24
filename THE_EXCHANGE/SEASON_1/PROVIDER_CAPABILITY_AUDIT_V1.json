@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "1.0.0",
+  "audit": [
+    {
+      "role": "SCREENWRITING",
+      "provider": "Claude Opus (Cursor cloud agent)",
+      "route": "Repository files: SCREENPLAYS/*.fountain",
+      "integration": "VERIFIED",
+      "generationVerified": true,
+      "adapterMode": "IN_SESSION",
+      "evidence": [
+        "S1-01 to S1-05 drafted in this sprint and parsed by fountain.ts; tests read the files from disk."
+      ],
+      "checkedAtUtc": "2026-10-24",
+      "nextStep": "Founder screenplay review of S1-01 to S1-05."
+    },
+    {
+      "role": "VOICE",
+      "provider": "ElevenLabs",
+      "route": "Direct API: no credential on this VM. Through fal: fal-ai/elevenlabs/tts/eleven-v3 (FAL_KEY present).",
+      "integration": "NOT_VERIFIED",
+      "generationVerified": false,
+      "adapterMode": "MANIFEST_EXPORT",
+      "evidence": [
+        "No ELEVENLABS_* variable in the environment.",
+        "fal pricing API (read-only, 2026-10-24T02:52Z): fal-ai/elevenlabs/tts/eleven-v3 $0.10 per 1,000 characters.",
+        "No approved character voice exists; registries hold voiceId null."
+      ],
+      "checkedAtUtc": "2026-10-24T02:52Z",
+      "nextStep": "Founder approves a voice per character (CHARACTER_VOICE), then a spend authorization for recordings."
+    },
+    {
+      "role": "IMAGE",
+      "provider": "OpenArt",
+      "route": "OpenArt MCP: gpt-image-2-5-sunburst / nano-banana-pro image2image",
+      "integration": "READ_ONLY_VERIFIED",
+      "generationVerified": false,
+      "adapterMode": "MANIFEST_EXPORT",
+      "evidence": [
+        "openart_model_cost quotes: 42 credits (gpt-image-2-5-sunburst 2k medium), 40 credits (nano-banana-pro 1K).",
+        "Balance read: 10,154 credits."
+      ],
+      "checkedAtUtc": "2026-10-24T02:24Z",
+      "nextStep": "Approved set, wardrobe and face references, then a keyframe spend authorization."
+    },
+    {
+      "role": "VIDEO",
+      "provider": "OpenArt (Kling)",
+      "route": "OpenArt MCP: kling-3-omni / kling-v3 image2video. Kling 4 Omni has no OpenArt quote.",
+      "integration": "READ_ONLY_VERIFIED",
+      "generationVerified": false,
+      "adapterMode": "MANIFEST_EXPORT",
+      "evidence": [
+        "openart_model_cost: kling-3-omni std 5 s with sound = 175 credits.",
+        "Kai's Note screen-test creations read back from OpenArt project JDK0WveKdptpT6L3pLzB (PRODUCTION_TEST_ONLY).",
+        "fal pricing: fal-ai/kling-video/v2.1/master/image-to-video $0.28 per second."
+      ],
+      "checkedAtUtc": "2026-10-24T02:24Z",
+      "nextStep": "Approved keyframes and a per-release spend authorization."
+    },
+    {
+      "role": "LIP_SYNC",
+      "provider": "Kling lip-sync (OpenArt) or sync-lipsync (fal)",
+      "route": "OpenArt kling-lipsync-v1 (unquoted); fal-ai/sync-lipsync/v2; fal-ai/kling-video/lipsync/audio-to-video",
+      "integration": "READ_ONLY_VERIFIED",
+      "generationVerified": false,
+      "adapterMode": "MANIFEST_EXPORT",
+      "evidence": [
+        "Kai's Note test contains lip-sync creations (read only).",
+        "fal pricing: sync-lipsync v2 $3 per minute; kling lipsync $0.014 per unit."
+      ],
+      "checkedAtUtc": "2026-10-24T02:24Z",
+      "nextStep": "Approved recordings; multi-speaker lip-sync still untested (stress test T28)."
+    },
+    {
+      "role": "EDITING",
+      "provider": "CapCut",
+      "route": "Edit decision list exported in PRODUCTION_MANIFESTS; no CapCut API.",
+      "integration": "MANIFEST_EXPORT_ONLY",
+      "generationVerified": false,
+      "adapterMode": "MANIFEST_EXPORT",
+      "evidence": [
+        "No CapCut credential or API in the repository or environment."
+      ],
+      "checkedAtUtc": "2026-10-24",
+      "nextStep": "Editor imports the manifest by hand."
+    }
+  ],
+  "verifiedGenerationProviders": []
+}

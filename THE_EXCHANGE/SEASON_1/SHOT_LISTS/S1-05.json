@@ -1,0 +1,1142 @@
+{
+  "schemaVersion": "1.0.0",
+  "releaseId": "S1-05",
+  "status": "DRAFT — FOUNDER REVIEW REQUIRED",
+  "classification": "PROVISIONAL_IMPLEMENTATION",
+  "note": "Planning document. No shot has been generated.",
+  "screenplay": {
+    "path": "THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-05_UNUSUAL_REQUEST.fountain",
+    "sha256": "0db6d6b21b6d3edb1a9331e687d29abb7a8e9d6f168e93855d43c261e951c743",
+    "version": 1
+  },
+  "runtime": {
+    "releaseId": "S1-05",
+    "targetSec": 105,
+    "estimatedSec": 91.9,
+    "ratio": 0.88,
+    "band": "ON_TARGET",
+    "scenes": [
+      {
+        "sceneId": "S1-05-SC01",
+        "estimatedSec": 91.9
+      }
+    ],
+    "model": {
+      "dialogueWordsPerSec": 2.5,
+      "actionWordsPerSec": 3.5,
+      "minActionSec": 1.5,
+      "beatSec": 1,
+      "pauseSec": 2,
+      "longPauseSec": 3,
+      "freezeSec": 2.5,
+      "insertSec": 1.5,
+      "reactionSec": 1.5,
+      "transitionSec": 0.5,
+      "pacing": {
+        "under": 0.85,
+        "over": 1.15,
+        "high": 1.3
+      }
+    }
+  },
+  "totals": {
+    "shots": 27,
+    "durationSec": 91.9,
+    "usd": 45.76,
+    "credits": 6692,
+    "generatedShots": 26
+  },
+  "warnings": [],
+  "shots": [
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "ESTABLISHING",
+      "purpose": "The balcony above the ballroom, near midnight. Below, the party has reached the hour when nobody wants to leave. Sloane stands alone at the ",
+      "onScreen": [
+        "SLOANE"
+      ],
+      "framing": "WIDE",
+      "movement": "HIGH ANGLE",
+      "blocking": "The balcony above the ballroom, near midnight. Below, the party has reached the hour when nobody wants to leave. Sloane stands alone at the rail with her clutch, watching it.",
+      "dialogueRefs": [],
+      "durationSec": 6,
+      "wardrobeState": {
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand"
+      },
+      "movementConstraints": [
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH01",
+      "order": 1,
+      "startFrameRef": "S1-05-SC01-SH01.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 2.8,
+        "credits": 392,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 2. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 10 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "ACTION",
+      "purpose": "Gideon comes out through the balcony doors and joins her at the rail. He holds out the note. She doesn't take it yet.",
+      "onScreen": [
+        "GIDEON",
+        "SLOANE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "Gideon comes out through the balcony doors and joins her at the rail. He holds out the note. She doesn't take it yet.",
+      "dialogueRefs": [],
+      "durationSec": 5,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH02",
+      "order": 2,
+      "startFrameRef": "S1-05-SC01-SH02.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "DIALOGUE",
+      "purpose": "SLOANE: Who brought it?",
+      "onScreen": [
+        "SLOANE"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-05-L001"
+      ],
+      "durationSec": 1.2,
+      "wardrobeState": {
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand"
+      },
+      "movementConstraints": [
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1).",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH03",
+      "order": 3,
+      "startFrameRef": "S1-05-SC01-SH03.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 1.46,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "DIALOGUE",
+      "purpose": "GIDEON: Kai.",
+      "onScreen": [
+        "GIDEON"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-05-L002"
+      ],
+      "durationSec": 0.4,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH04",
+      "order": 4,
+      "startFrameRef": "S1-05-SC01-SH04.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 1.42,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "REACTION",
+      "purpose": "Very still.",
+      "onScreen": [
+        "SLOANE"
+      ],
+      "framing": "CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [],
+      "durationSec": 1.5,
+      "wardrobeState": {
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand"
+      },
+      "movementConstraints": [
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH05",
+      "order": 5,
+      "startFrameRef": "S1-05-SC01-SH05.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "DIALOGUE",
+      "purpose": "SLOANE: He came here.",
+      "onScreen": [
+        "SLOANE"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-05-L003"
+      ],
+      "durationSec": 1.2,
+      "wardrobeState": {
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand"
+      },
+      "movementConstraints": [
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1).",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH06",
+      "order": 6,
+      "startFrameRef": "S1-05-SC01-SH06.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 1.46,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "DIALOGUE",
+      "purpose": "GIDEON: Stayed on the steps. Didn't ask to come in.",
+      "onScreen": [
+        "GIDEON"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-05-L004",
+        "S1-05-L005"
+      ],
+      "durationSec": 5.4,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH07",
+      "order": 7,
+      "startFrameRef": "S1-05-SC01-SH07.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 3.07,
+        "credits": 392,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 2. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 10 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "DIALOGUE",
+      "purpose": "SLOANE: He would.",
+      "onScreen": [
+        "SLOANE"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-05-L006"
+      ],
+      "durationSec": 0.8,
+      "wardrobeState": {
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand"
+      },
+      "movementConstraints": [
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1).",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH08",
+      "order": 8,
+      "startFrameRef": "S1-05-SC01-SH08.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 1.44,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "ACTION",
+      "purpose": "She takes the note.",
+      "onScreen": [
+        "GIDEON",
+        "SLOANE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "She takes the note.",
+      "dialogueRefs": [],
+      "durationSec": 2,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH09",
+      "order": 9,
+      "startFrameRef": "S1-05-SC01-SH09.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "ACTION",
+      "purpose": "She unfolds it and reads.",
+      "onScreen": [
+        "GIDEON",
+        "SLOANE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "She unfolds it and reads.",
+      "dialogueRefs": [],
+      "durationSec": 3,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand",
+        "PR-KAI-NOTE": "GIDEON → SLOANE"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH10",
+      "order": 10,
+      "startFrameRef": "S1-05-SC01-SH10.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "INSERT",
+      "purpose": "The note in Kai's hand: \"Celestine has a vision she never built. She'll never ask. I'm asking.\"",
+      "onScreen": [],
+      "framing": "INSERT",
+      "movement": "LOCKED OFF",
+      "blocking": "",
+      "dialogueRefs": [],
+      "durationSec": 4.5,
+      "wardrobeState": {},
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand",
+        "PR-KAI-NOTE": "GIDEON → SLOANE"
+      },
+      "movementConstraints": [],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH11",
+      "order": 11,
+      "startFrameRef": "S1-05-SC01-SH11.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "ACTION",
+      "purpose": "Gideon watches her read it. He waits until she looks up.",
+      "onScreen": [
+        "GIDEON",
+        "SLOANE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "Gideon watches her read it. He waits until she looks up.",
+      "dialogueRefs": [],
+      "durationSec": 3,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand",
+        "PR-KAI-NOTE": "GIDEON → SLOANE"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH12",
+      "order": 12,
+      "startFrameRef": "S1-05-SC01-SH12.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "DIALOGUE",
+      "purpose": "GIDEON: He can't ask. He has no standing. You know that.",
+      "onScreen": [
+        "GIDEON"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-05-L007"
+      ],
+      "durationSec": 4,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand",
+        "PR-KAI-NOTE": "GIDEON → SLOANE"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH13",
+      "order": 13,
+      "startFrameRef": "S1-05-SC01-SH13.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 1.6,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "DIALOGUE",
+      "purpose": "SLOANE: I know.",
+      "onScreen": [
+        "SLOANE"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-05-L008"
+      ],
+      "durationSec": 0.8,
+      "wardrobeState": {
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand",
+        "PR-KAI-NOTE": "GIDEON → SLOANE"
+      },
+      "movementConstraints": [
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1).",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH14",
+      "order": 14,
+      "startFrameRef": "S1-05-SC01-SH14.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 1.44,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "ACTION",
+      "purpose": "She reads it again. Slowly, all the way through, as if the second time it might say something different. Then she turns it over.",
+      "onScreen": [
+        "GIDEON",
+        "SLOANE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "She reads it again. Slowly, all the way through, as if the second time it might say something different. Then she turns it over.",
+      "dialogueRefs": [],
+      "durationSec": 6,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand",
+        "PR-KAI-NOTE": "GIDEON → SLOANE"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH15",
+      "order": 15,
+      "startFrameRef": "S1-05-SC01-SH15.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 2.8,
+        "credits": 392,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 2. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 10 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "INSERT",
+      "purpose": "The back of the note: blank.",
+      "onScreen": [],
+      "framing": "EXTREME CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [],
+      "durationSec": 1.5,
+      "wardrobeState": {},
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand",
+        "PR-KAI-NOTE": "GIDEON → SLOANE"
+      },
+      "movementConstraints": [],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH16",
+      "order": 16,
+      "startFrameRef": "S1-05-SC01-SH16.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "ACTION",
+      "purpose": "Nothing else. Just the three sentences, and his name nowhere on it.",
+      "onScreen": [
+        "GIDEON",
+        "SLOANE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "Nothing else. Just the three sentences, and his name nowhere on it.",
+      "dialogueRefs": [],
+      "durationSec": 5,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand",
+        "PR-KAI-NOTE": "GIDEON → SLOANE"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH17",
+      "order": 17,
+      "startFrameRef": "S1-05-SC01-SH17.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "ACTION",
+      "purpose": "Below, the room she built dances on: the pianist and the producer still arguing at the bar, the stranger with a new partner, the orange jack",
+      "onScreen": [
+        "GIDEON",
+        "SLOANE"
+      ],
+      "framing": "HIGH ANGLE",
+      "movement": "OVER THE RAIL",
+      "blocking": "Below, the room she built dances on: the pianist and the producer still arguing at the bar, the stranger with a new partner, the orange jacket in the middle of the floor.",
+      "dialogueRefs": [
+        "S1-05-L009"
+      ],
+      "durationSec": 9.1,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand",
+        "PR-KAI-NOTE": "GIDEON → SLOANE"
+      },
+      "movementConstraints": [
+        "Part 1 of 2: generations stay ≤10 s and chain end frame to start frame.",
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH18",
+      "order": 18,
+      "startFrameRef": "S1-05-SC01-SH18.start",
+      "endFrameRef": "S1-05-SC01-SH18.end",
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 2.8,
+        "credits": 392,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 2. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 10 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "ACTION",
+      "purpose": "Below, the room she built dances on: the pianist and the producer still arguing at the bar, the stranger with a new partner, the orange jack",
+      "onScreen": [
+        "GIDEON",
+        "SLOANE"
+      ],
+      "framing": "HIGH ANGLE",
+      "movement": "OVER THE RAIL",
+      "blocking": "Below, the room she built dances on: the pianist and the producer still arguing at the bar, the stranger with a new partner, the orange jacket in the middle of the floor.",
+      "dialogueRefs": [
+        "S1-05-L009"
+      ],
+      "durationSec": 9.1,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand",
+        "PR-KAI-NOTE": "GIDEON → SLOANE"
+      },
+      "movementConstraints": [
+        "Part 2 of 2: generations stay ≤10 s and chain end frame to start frame.",
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH19",
+      "order": 19,
+      "startFrameRef": "S1-05-SC01-SH18.end",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 2.8,
+        "credits": 392,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 2. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 10 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "DIALOGUE",
+      "purpose": "GIDEON: Want me to send it back?",
+      "onScreen": [
+        "GIDEON"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-05-L010"
+      ],
+      "durationSec": 2.4,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand",
+        "PR-KAI-NOTE": "GIDEON → SLOANE"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH20",
+      "order": 20,
+      "startFrameRef": "S1-05-SC01-SH20.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 1.52,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "DIALOGUE",
+      "purpose": "SLOANE: No.",
+      "onScreen": [
+        "SLOANE"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-05-L011"
+      ],
+      "durationSec": 1.4,
+      "wardrobeState": {
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand",
+        "PR-KAI-NOTE": "GIDEON → SLOANE"
+      },
+      "movementConstraints": [
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1).",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH21",
+      "order": 21,
+      "startFrameRef": "S1-05-SC01-SH21.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 1.47,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "REACTION",
+      "purpose": "He studies her; he expected that answer.",
+      "onScreen": [
+        "GIDEON"
+      ],
+      "framing": "CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [],
+      "durationSec": 1.5,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand",
+        "PR-KAI-NOTE": "GIDEON → SLOANE"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH22",
+      "order": 22,
+      "startFrameRef": "S1-05-SC01-SH22.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "DIALOGUE",
+      "purpose": "GIDEON: Then I'll be downstairs.",
+      "onScreen": [
+        "GIDEON"
+      ],
+      "framing": "MEDIUM CLOSE-UP",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [
+        "S1-05-L012"
+      ],
+      "durationSec": 1.6,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand",
+        "PR-KAI-NOTE": "GIDEON → SLOANE"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "Lip-sync pass on the approved dialogue recording only; no substitute speech."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH23",
+      "order": 23,
+      "startFrameRef": "S1-05-SC01-SH23.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video + LIPSYNC:unverified",
+      "estimatedCost": {
+        "usd": 1.48,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s + fal-ai/sync-lipsync/v2 $3/min. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "ACTION",
+      "purpose": "He leaves her the balcony.",
+      "onScreen": [
+        "GIDEON",
+        "SLOANE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "He leaves her the balcony.",
+      "dialogueRefs": [],
+      "durationSec": 3,
+      "wardrobeState": {
+        "GIDEON": "WD-GIDEON-SUIT",
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand",
+        "PR-KAI-NOTE": "GIDEON → SLOANE"
+      },
+      "movementConstraints": [
+        "GIDEON: face lock gideon-shaw (CHARACTER_VISUAL_REGISTRY_V1).",
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "MED",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH24",
+      "order": 24,
+      "startFrameRef": "S1-05-SC01-SH24.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "ACTION",
+      "purpose": "Alone, Sloane folds the note along its creases, tucks it into her clutch, and snaps the clasp shut. She checks her face in the dark glass of",
+      "onScreen": [
+        "SLOANE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "Alone, Sloane folds the note along its creases, tucks it into her clutch, and snaps the clasp shut. She checks her face in the dark glass of the balcony door, finds the hostess again, and goes back down to the party.",
+      "dialogueRefs": [],
+      "durationSec": 8,
+      "wardrobeState": {
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand",
+        "PR-KAI-NOTE": "GIDEON → SLOANE"
+      },
+      "movementConstraints": [
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH25",
+      "order": 25,
+      "startFrameRef": "S1-05-SC01-SH25.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 2.8,
+        "credits": 392,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 2. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 10 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "ACTION",
+      "purpose": "At the top of the stairs she stops for one breath. The music comes up to meet her. She goes down into it.",
+      "onScreen": [
+        "SLOANE"
+      ],
+      "framing": "MEDIUM",
+      "movement": "STATIC",
+      "blocking": "At the top of the stairs she stops for one breath. The music comes up to meet her. She goes down into it.",
+      "dialogueRefs": [],
+      "durationSec": 4,
+      "wardrobeState": {
+        "SLOANE": "WD-SLOANE-PARTY-GE92"
+      },
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand",
+        "PR-KAI-NOTE": "SLOANE → CLUTCH"
+      },
+      "movementConstraints": [
+        "SLOANE: face lock sloane-lockwood (CHARACTER_VISUAL_REGISTRY_V1)."
+      ],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH26",
+      "order": 26,
+      "startFrameRef": "S1-05-SC01-SH26.start",
+      "endFrameRef": null,
+      "generationProvider": "OPENART:kling-3-omni:image2video",
+      "estimatedCost": {
+        "usd": 1.4,
+        "credits": 217,
+        "basis": "Alternatives, not a sum. OpenArt: keyframe gpt-image-2-5-sunburst 42 cr + kling-3-omni std 175 cr per 5 s × 1. fal: fal-ai/kling-video/v2.1/master/image-to-video $0.28/s billed 5 s. Quoted 2026-10-24T02:24Z; kling-4-omni, kling-lipsync-v1 unquoted."
+      }
+    },
+    {
+      "releaseId": "S1-05",
+      "sceneId": "S1-05-SC01",
+      "type": "TRANSITION",
+      "purpose": "CUT TO BLACK.",
+      "onScreen": [],
+      "framing": "N/A",
+      "movement": "STATIC",
+      "blocking": "",
+      "dialogueRefs": [],
+      "durationSec": 0.5,
+      "wardrobeState": {},
+      "setRef": "SET-HALCYON-HOUSE › BALCONY",
+      "propState": {
+        "PR-SLOANE-CLUTCH": "in Sloane's hand",
+        "PR-KAI-NOTE": "SLOANE → CLUTCH"
+      },
+      "movementConstraints": [],
+      "technicalComplexity": "LOW",
+      "generationStatus": "NOT_STARTED",
+      "approvalStatus": "NOT_SUBMITTED",
+      "actualCost": null,
+      "shotId": "S1-05-SC01-SH27",
+      "order": 27,
+      "startFrameRef": "S1-05-SC01-SH27.start",
+      "endFrameRef": null,
+      "generationProvider": "EDIT:capcut-manifest",
+      "estimatedCost": {
+        "usd": 0,
+        "credits": 0,
+        "basis": "Edit-only: no generation."
+      }
+    }
+  ]
+}
