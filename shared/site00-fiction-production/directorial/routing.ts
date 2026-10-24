@@ -78,7 +78,7 @@ export function buildBudget(plan: ProductionPlan, q: QuotesV2) {
   lines.push({ lineId: 'B-04', category: 'LIP_SYNC', description: lip ? `${lip} lip-sync jobs` : 'No visible speaking mouth', jobs: lip, routeId: null, credits: lip ? null : 0, usd: lip ? null : 0, status: lip ? 'UNKNOWN' : 'NOT_REQUIRED', basis: lip ? 'kling-lipsync-v1 is unquoted' : 'Wordless release' });
   const chars = plan.dialogue.reduce((a, d) => a + d.text.length, 0);
   lines.push({ lineId: 'B-05', category: 'DIALOGUE_GENERATION', description: chars ? `${plan.dialogue.length} lines, ${chars} characters` : 'No dialogue', jobs: plan.dialogue.length, routeId: chars ? 'EL-DIRECT' : null, credits: null, usd: chars ? null : 0, status: chars ? 'UNKNOWN' : 'NOT_REQUIRED', basis: chars ? 'Founder ElevenLabs workspace pricing unknown here' : 'Do not invent narration' });
-  const sfx = plan.sound.filter((c) => c.track === 'SFX' || c.track === 'FOLEY' || c.track === 'AMBIENCE');
+  const sfx = plan.sound.filter((c) => c.layer !== 'SILENCE');
   const sfxSec = framesToSec(sfx.reduce((a, c) => a + c.frames, 0), fps);
   const sfxRate = q.fal.prices['fal-ai/elevenlabs/sound-effects/v2']?.unitPriceUsd ?? null;
   lines.push({ lineId: 'B-06', category: 'SOUND_EFFECTS', description: `${sfx.length} designed or generated layers, ${sfxSec} s total, two takes each`, jobs: sfx.length * 2, routeId: 'FAL-EL-SFX', credits: null, usd: sfxRate === null ? null : Math.round(sfxSec * 2 * sfxRate * 100) / 100, status: sfxRate === null ? 'UNKNOWN' : 'QUOTED', basis: `fal ElevenLabs sound effects $${sfxRate ?? '?'} per second` });

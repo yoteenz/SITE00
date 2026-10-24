@@ -53,6 +53,19 @@ export function newReviewState(plan: ProductionPlan, extra: Array<{ elementId: s
   };
 }
 
+/**
+ * Carries a saved review state onto a regenerated plan: recorded decisions are kept, new elements start PENDING.
+ * An element that disappears from the plan after a founder decision is a conflict; it needs a change request, not a silent drop.
+ */
+export function reconcileReviewState(saved: SceneReviewState, fresh: SceneReviewState): SceneReviewState {
+  if (saved.unitId !== fresh.unitId) throw new ReviewError(`review state belongs to ${saved.unitId}, not ${fresh.unitId}`);
+  const freshIds = new Set(fresh.elements.map((e) => e.elementId));
+  const dropped = saved.elements.filter((e) => !freshIds.has(e.elementId) && (e.state !== 'PENDING' || e.history.length));
+  if (dropped.length) throw new ReviewError(`elements with founder history are missing from the plan: ${dropped.map((e) => e.elementId).join(', ')}`);
+  const byId = new Map(saved.elements.map((e) => [e.elementId, e]));
+  return { ...saved, elements: fresh.elements.map((e) => byId.get(e.elementId) ?? e) };
+}
+
 const founderOnly = (actor: string) => {
   if (actor !== FOUNDER_ACTOR) throw new ReviewError(`only the founder decides; got ${actor}`);
 };

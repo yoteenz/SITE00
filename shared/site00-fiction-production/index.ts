@@ -23,3 +23,4 @@ export * from './sceneIndex.js';
 export * from './jitCast.js';
 export * from './dependencyGraph.js';
 export * as Directorial from './directorial/index.js';
+export * from './scenes/index.js';

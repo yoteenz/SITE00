@@ -109,6 +109,18 @@ export function buildCastRegistry(input: { dialogue: DialogueRegistry; assets: A
 }
 export type CastRegistry = ReturnType<typeof buildCastRegistry>;
 
+/** Approved visual asset ids: the only assets a keyframe may reuse or derive from without its own reference. */
+export function approvedAssetIds(cast: CastRegistry): Set<string> {
+  const out = new Set<string>();
+  for (const c of cast.characters) {
+    for (const f of Object.values(c.fields)) {
+      if (!Array.isArray(f.value)) continue;
+      for (const r of f.value as unknown[]) if (r && typeof r === 'object' && (r as CastAssetRef).status === 'APPROVED' && (r as CastAssetRef).assetId) out.add((r as CastAssetRef).assetId!);
+    }
+  }
+  return out;
+}
+
 export type CastFinding = { severity: 'HARD_CONFLICT' | 'WARNING' | 'BLOCKER'; subject: string; detail: string };
 
 const fileSha = (rel: string, root: string): string | null => {
