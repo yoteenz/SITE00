@@ -18,7 +18,7 @@ type Check = { ok: boolean; evidence: string };
 const has = (m: SeasonMaster, id: string, phrase: string) => {
   const r = m.releases.find((x) => x.id === id);
   if (!r) return false;
-  return [r.openingHook, r.narrativeDevelopment, r.payoff, r.endingTransition].join('\n').replace(/\*/g, '').includes(phrase);
+  return [r.openingHook.text, r.narrativeDevelopment, r.payoff, r.endingTransition].join('\n').replace(/\*/g, '').includes(phrase);
 };
 
 /** Questions whose prior verdict can be re-derived from the approved master and the continuity report. */
