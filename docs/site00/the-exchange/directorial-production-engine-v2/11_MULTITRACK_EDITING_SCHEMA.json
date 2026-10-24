@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "site00:the-exchange:multitrack-v2",
+  "title": "Multitrack editorial timeline",
+  "type": "object",
+  "required": [
+    "format",
+    "unitId",
+    "fps",
+    "durationFrames",
+    "sceneDuration",
+    "tracks",
+    "trackDurations"
+  ],
+  "properties": {
+    "format": {
+      "const": "EXCHANGE_MULTITRACK_V1"
+    },
+    "unitId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "fps": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "durationFrames": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "tracks": {
+      "type": "object",
+      "required": [
+        "VIDEO_A",
+        "VIDEO_B",
+        "DIALOGUE",
+        "AMBIENCE",
+        "FOLEY",
+        "SFX",
+        "MUSIC",
+        "SUBTITLES"
+      ],
+      "properties": {
+        "VIDEO_A": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/event"
+          }
+        },
+        "VIDEO_B": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/event"
+          }
+        },
+        "DIALOGUE": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/event"
+          }
+        },
+        "AMBIENCE": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/event"
+          }
+        },
+        "FOLEY": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/event"
+          }
+        },
+        "SFX": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/event"
+          }
+        },
+        "MUSIC": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/event"
+          }
+        },
+        "SUBTITLES": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/event"
+          }
+        }
+      }
+    },
+    "trackDurations": {
+      "type": "object",
+      "description": "Per-track active time, computed separately for each track."
+    }
+  },
+  "$defs": {
+    "event": {
+      "type": "object",
+      "required": [
+        "eventId",
+        "track",
+        "ref",
+        "label",
+        "start",
+        "end",
+        "duration",
+        "startFrame",
+        "endFrame",
+        "frames",
+        "continuesUnderCut"
+      ],
+      "properties": {
+        "eventId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "track": {
+          "enum": [
+            "VIDEO_A",
+            "VIDEO_B",
+            "DIALOGUE",
+            "AMBIENCE",
+            "FOLEY",
+            "SFX",
+            "MUSIC",
+            "SUBTITLES"
+          ]
+        },
+        "ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string"
+        },
+        "start": {
+          "type": "string",
+          "minLength": 1
+        },
+        "end": {
+          "type": "string",
+          "minLength": 1
+        },
+        "duration": {
+          "type": "string",
+          "minLength": 1
+        },
+        "startFrame": {
+          "type": "integer"
+        },
+        "endFrame": {
+          "type": "integer"
+        },
+        "frames": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "continuesUnderCut": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "tracks": {
+    "VIDEO_A": "Primary character and action coverage.",
+    "VIDEO_B": "Reactions, cutaways, inserts, establishing shots, transitions; may overlay a continuing A take.",
+    "DIALOGUE": "Approved performances; one continuous event per line.",
+    "AMBIENCE": "Room tone, exterior atmosphere, crowd beds.",
+    "FOLEY": "Footsteps, fabric, jewellery, doors, prop handling.",
+    "SFX": "Designed effects, used sparingly.",
+    "MUSIC": "Score, source, transitions, stingers and declared silence.",
+    "SUBTITLES": "Spoken dialogue and accessibility text."
+  },
+  "rules": [
+    "J-cut: a line starts before its speaker is seen.",
+    "L-cut: a line continues after the picture leaves its speaker.",
+    "A line is never split around a cutaway.",
+    "Lip-sync only where a speaking mouth is visible."
+  ]
+}

@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "site00:the-exchange:performance-direction-v2",
+  "title": "Character performance direction",
+  "type": "object",
+  "required": [
+    "character",
+    "shots",
+    "speaking",
+    "objective",
+    "emotionalState",
+    "subtext",
+    "relationshipDynamic",
+    "tempo",
+    "emphasis",
+    "restraint",
+    "physicalBehavior",
+    "eyes",
+    "microExpressions",
+    "listening",
+    "silence",
+    "reactionTiming",
+    "avoid"
+  ],
+  "properties": {
+    "character": {
+      "type": "string",
+      "minLength": 1
+    },
+    "shots": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "speaking": {
+      "type": "boolean"
+    },
+    "objective": {
+      "type": "string",
+      "minLength": 1
+    },
+    "emotionalState": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subtext": {
+      "type": "string",
+      "minLength": 1
+    },
+    "relationshipDynamic": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tempo": {
+      "type": "string",
+      "minLength": 1
+    },
+    "emphasis": {
+      "type": "string",
+      "minLength": 1
+    },
+    "restraint": {
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH"
+      ]
+    },
+    "physicalBehavior": {
+      "type": "string",
+      "minLength": 1
+    },
+    "eyes": {
+      "type": "string",
+      "minLength": 1
+    },
+    "microExpressions": {
+      "type": "string",
+      "minLength": 1
+    },
+    "listening": {
+      "type": "string",
+      "minLength": 1
+    },
+    "silence": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reactionTiming": {
+      "type": "string",
+      "minLength": 1
+    },
+    "avoid": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "sprintFieldMap": {
+    "IMMEDIATE OBJECTIVE": "objective",
+    "EMOTIONAL STATE": "emotionalState",
+    "SUBTEXT": "subtext",
+    "RELATIONSHIP DYNAMIC": "relationshipDynamic",
+    "SPEAKING TEMPO": "tempo",
+    "INTENDED EMPHASIS": "emphasis",
+    "DEGREE OF RESTRAINT": "restraint",
+    "PHYSICAL BEHAVIOR": "physicalBehavior",
+    "EYE MOVEMENTS": "eyes",
+    "FACIAL MICRO-EXPRESSIONS": "microExpressions",
+    "LISTENING BEHAVIOR": "listening",
+    "SILENCE": "silence",
+    "REACTION TIMING": "reactionTiming"
+  },
+  "baselines": [
+    {
+      "character": "SLOANE",
+      "preserve": [
+        "glamour",
+        "warmth",
+        "wit",
+        "charisma",
+        "emotional intelligence"
+      ],
+      "label": "SOURCE_ESTABLISHED",
+      "source": "Founder sprint V2 §15"
+    },
+    {
+      "character": "GIDEON",
+      "preserve": [
+        "understated authority",
+        "dry humor",
+        "familiarity",
+        "protectiveness",
+        "natural conversational pacing"
+      ],
+      "label": "SOURCE_ESTABLISHED",
+      "source": "Founder sprint V2 §15"
+    },
+    {
+      "character": "KAI",
+      "preserve": [
+        "intelligence",
+        "articulate delivery",
+        "charm",
+        "quiet sarcasm",
+        "social fluency",
+        "masculine ease",
+        "emotional depth"
+      ],
+      "label": "SOURCE_ESTABLISHED",
+      "source": "Founder sprint V2 §15"
+    }
+  ],
+  "globalAvoid": [
+    "overused slang",
+    "theatrical pauses",
+    "dramatic expressions out of proportion to the moment",
+    "mouth motion on a character who is not speaking"
+  ]
+}

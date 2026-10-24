@@ -73,7 +73,7 @@ export const SHOTS_A = [
     composition: 'Grille drops through frame; his hand lands on the glass at frame right', screenDirection: 'He faces screen right', eyeline: 'The mannequin, a last look',
     blocking: 'He pulls the grille to the ground, then pats the glass once.', performance: 'A goodnight to the work; no smile needed.',
     landmarks: ['tailor shop grille'], lightingState: 'LS-GOLDEN', wardrobe: [WD.TAILOR], propState: { 'Shop grille': 'half down, then closed' },
-    startFrameRef: 'KF-SF-SH04', referenceAssets: ['KF-SF-SH02'], editTransition: 'Cut on the pat to the bus stop',
+    startFrameRef: 'KF-SF-SH04', referenceAssets: ['KF-SF-SH02'], editTransition: 'Cut back outside as the grille comes down',
     motionClass: 'HIGH', primaryAction: 'He pats the glass after the grille lands',
     why: {
       framing: 'Medium gives the grille drop and the pat in one frame.', distance: 'Same family as SH02 so the vignette reads as one place.',
@@ -90,7 +90,7 @@ export const SHOTS_A = [
     composition: 'Teenager frame right, reflection frame left in the glass', screenDirection: 'He faces screen left into the glass', eyeline: 'His own reflection',
     blocking: 'He tries a two-step turn and stumbles out of it.', performance: 'Concentration, then a small wince at himself.',
     landmarks: ['bus shelter glass'], lightingState: 'LS-GOLDEN', wardrobe: [WD.TEENAGER],
-    startFrameRef: 'KF-SF-SH05', referenceAssets: ['KF-ENV-CITY-DUSK-B'], editTransition: 'Cut',
+    startFrameRef: 'KF-SF-SH05', referenceAssets: ['KF-ENV-CITY-DUSK-B'], editTransition: 'Cut on the pat to the bus stop',
     continuityRisk: ['Reflection must mirror his movement', 'Feet drift in fast footwork'], motionClass: 'HIGH', primaryAction: 'He tries the step and misses it',
     why: {
       framing: 'The reflection is his audience, so both stay in frame.', distance: 'Full enough to see the footwork fail.',
@@ -120,7 +120,7 @@ export const SHOTS_A = [
     composition: 'He finishes facing the glass, grin visible in the reflection', screenDirection: 'He faces screen left', eyeline: 'His reflection, then a quick glance round: nobody saw',
     blocking: 'He sets, turns cleanly, lands on the downbeat, grins, glances round.', performance: 'Private pride; the glance round is relief, not fear.',
     landmarks: ['bus shelter glass'], lightingState: 'LS-GOLDEN', wardrobe: [WD.TEENAGER],
-    startFrameRef: 'KF-SF-SH07', referenceAssets: ['KF-SF-SH05'], editTransition: 'Cut on the grin to the fire escape',
+    startFrameRef: 'KF-SF-SH07', referenceAssets: ['KF-SF-SH05'], editTransition: 'Cut back to the SH05 framing; its last frame is this start frame',
     continuityRisk: ['Must match SH05 framing', 'Landing must sit on frame 324'], motionClass: 'HIGH', primaryAction: 'He lands the step and grins',
     why: {
       framing: 'Returning to the SH05 frame makes the success read against the first failure.', distance: 'Full enough to see the step land and the grin in the glass.',

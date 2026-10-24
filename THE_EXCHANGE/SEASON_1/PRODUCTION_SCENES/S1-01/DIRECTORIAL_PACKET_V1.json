@@ -606,7 +606,7 @@
           "startFrame": "KF-SF-SH04",
           "endFrame": "NOT REQUIRED",
           "referenceAssets": "KF-SF-SH02",
-          "editTransition": "Cut on the pat to the bus stop",
+          "editTransition": "Cut back outside as the grille comes down",
           "continuityRisk": "NONE",
           "generationModel": "OpenArt kling-3-omni image2video, pro, sound off",
           "expectedCost": "105 credits (estimated)",
@@ -655,7 +655,7 @@
           "startFrame": "KF-SF-SH05",
           "endFrame": "NOT REQUIRED",
           "referenceAssets": "KF-ENV-CITY-DUSK-B",
-          "editTransition": "Cut",
+          "editTransition": "Cut on the pat to the bus stop",
           "continuityRisk": "Reflection must mirror his movement; Feet drift in fast footwork",
           "generationModel": "OpenArt kling-3-omni image2video, pro, sound off",
           "expectedCost": "105 credits (estimated)",
@@ -753,7 +753,7 @@
           "startFrame": "KF-SF-SH07",
           "endFrame": "NOT REQUIRED",
           "referenceAssets": "KF-SF-SH05",
-          "editTransition": "Cut on the grin to the fire escape",
+          "editTransition": "Cut back to the SH05 framing; its last frame is this start frame",
           "continuityRisk": "Must match SH05 framing; Landing must sit on frame 324",
           "generationModel": "OpenArt kling-3-omni image2video, pro, sound off",
           "expectedCost": "140 credits (estimated)",
@@ -900,7 +900,7 @@
           "startFrame": "KF-SF-SH10",
           "endFrame": "NOT REQUIRED",
           "referenceAssets": "KF-SF-SH08; KF-WD-GREEN-DRESS",
-          "editTransition": "Cut to the balcony",
+          "editTransition": "Cut",
           "continuityRisk": "Her face is scene-scoped; it must hold from SH08 to SH10",
           "generationModel": "OpenArt kling-3-omni image2video, pro, sound off",
           "expectedCost": "140 credits (estimated)",
@@ -949,7 +949,7 @@
           "startFrame": "KF-SF-SH11",
           "endFrame": "NOT REQUIRED",
           "referenceAssets": "KF-ENV-CITY-DUSK-A",
-          "editTransition": "Cut",
+          "editTransition": "Cut to the balcony",
           "continuityRisk": "The glass on the ledge sets up SH16; Spoon stays in her right hand",
           "generationModel": "OpenArt kling-3-omni image2video, pro, sound off",
           "expectedCost": "140 credits (estimated)",
@@ -998,7 +998,7 @@
           "startFrame": "KF-SF-SH12",
           "endFrame": "NOT REQUIRED",
           "referenceAssets": "KF-SF-SH11",
-          "editTransition": "Cut across the street to the neighbour",
+          "editTransition": "Cut",
           "continuityRisk": "Glass is out of frame here",
           "generationModel": "OpenArt kling-3-omni image2video, pro, sound off",
           "expectedCost": "105 credits (estimated)",
@@ -1047,7 +1047,7 @@
           "startFrame": "KF-SF-SH13",
           "endFrame": "NOT REQUIRED",
           "referenceAssets": "KF-ENV-CITY-DUSK-B",
-          "editTransition": "Cut; the band thins to bass and brushes on this cut",
+          "editTransition": "Cut across the street to the neighbour; the band thins to bass and brushes on this cut",
           "continuityRisk": "Eyeline must stay screen left; Phone design pending (PR-NEIGHBOUR-PHONE DESIGN_REQUIRED)",
           "generationModel": "OpenArt kling-3-omni image2video, pro, sound off",
           "expectedCost": "105 credits (estimated)",
@@ -1145,7 +1145,7 @@
           "startFrame": "KF-SF-SH15",
           "endFrame": "NOT REQUIRED",
           "referenceAssets": "KF-SF-SH13",
-          "editTransition": "Cut on his eyes to her balcony",
+          "editTransition": "Cut back to the neighbour, the glow still on the lens",
           "continuityRisk": "Copper glow visible at the start of the shot, gone once the phone is down",
           "generationModel": "OpenArt kling-3-omni image2video, pro, sound off",
           "expectedCost": "105 credits (estimated)",
@@ -1194,7 +1194,7 @@
           "startFrame": "KF-SF-SH16",
           "endFrame": "NOT REQUIRED",
           "referenceAssets": "KF-SF-SH11; KF-ENV-CITY-DUSK-A",
-          "editTransition": "Cut; the groove returns as the glass goes up (frame 798)",
+          "editTransition": "Cut on his eyes to her balcony; the groove returns as the glass goes up (frame 798)",
           "continuityRisk": "Glass in her left hand, spoon in her right; Her face is scene-scoped; it must match SH11 and SH12",
           "generationModel": "OpenArt kling-3-omni image2video, pro, sound off",
           "expectedCost": "140 credits (estimated)",
@@ -1292,7 +1292,7 @@
           "startFrame": "KF-SF-SH18",
           "endFrame": "KF-ENV-HALCYON-EXT",
           "referenceAssets": "KF-ENV-HALCYON-EXT",
-          "editTransition": "CUT TO BLACK at frame 1044",
+          "editTransition": "Cut inside the rise: SH17's last frame is this start frame, so the move reads as one",
           "continuityRisk": "Only lit windows: no approved facade, roofline or signage (FD-S101-04); Amber, not gold, in the windows",
           "generationModel": "OpenArt kling-3-omni image2video, pro, sound off",
           "expectedCost": "210 credits (estimated)",
@@ -1341,7 +1341,7 @@
           "startFrame": "NONE",
           "endFrame": "NOT REQUIRED",
           "referenceAssets": "NONE",
-          "editTransition": "Black to end; no title card unless the founder asks (FD-S101-10)",
+          "editTransition": "CUT TO BLACK at frame 1044; black to end, no title card unless the founder asks (FD-S101-10)",
           "continuityRisk": "NONE",
           "generationModel": "NONE (editorial)",
           "expectedCost": "0",
@@ -2377,7 +2377,7 @@
           "propState": {
             "Shop grille": "half down, then closed"
           },
-          "editTransition": "Cut on the pat to the bus stop",
+          "editTransition": "Cut back outside as the grille comes down",
           "keyframeRequirement": [
             "KF-SF-SH04 (START_FRAME, GENERATE)"
           ],
@@ -2419,7 +2419,7 @@
             "S1-01-FL03 00:00:09.750–00:00:15.375: Sneakers scuff and squeak on the pavement through three attempts"
           ],
           "propState": {},
-          "editTransition": "Cut",
+          "editTransition": "Cut on the pat to the bus stop",
           "keyframeRequirement": [
             "KF-SF-SH05 (START_FRAME, GENERATE)"
           ],
@@ -2507,7 +2507,7 @@
             "S1-01-FL03 00:00:09.750–00:00:15.375: Sneakers scuff and squeak on the pavement through three attempts"
           ],
           "propState": {},
-          "editTransition": "Cut on the grin to the fire escape",
+          "editTransition": "Cut back to the SH05 framing; its last frame is this start frame",
           "keyframeRequirement": [
             "KF-SF-SH07 (START_FRAME, EXTRACT_FROM_APPROVED_FOOTAGE)"
           ],
@@ -2647,7 +2647,7 @@
           "propState": {
             "Jewel-green dress": "hanging on the rail"
           },
-          "editTransition": "Cut to the balcony",
+          "editTransition": "Cut",
           "keyframeRequirement": [
             "KF-SF-SH10 (START_FRAME, GENERATE)"
           ],
@@ -2696,7 +2696,7 @@
             "Wine glass": "full, on the ledge",
             "Wooden spoon": "in her right hand"
           },
-          "editTransition": "Cut",
+          "editTransition": "Cut to the balcony",
           "keyframeRequirement": [
             "KF-SF-SH11 (START_FRAME, GENERATE)"
           ],
@@ -2743,7 +2743,7 @@
           "propState": {
             "Wooden spoon": "in her right hand"
           },
-          "editTransition": "Cut across the street to the neighbour",
+          "editTransition": "Cut",
           "keyframeRequirement": [
             "KF-SF-SH12 (START_FRAME, GENERATE)"
           ],
@@ -2789,7 +2789,7 @@
           "propState": {
             "Neighbour's phone": "lowered, then raised toward the balcony"
           },
-          "editTransition": "Cut; the band thins to bass and brushes on this cut",
+          "editTransition": "Cut across the street to the neighbour; the band thins to bass and brushes on this cut",
           "keyframeRequirement": [
             "KF-SF-SH13 (START_FRAME, GENERATE)"
           ],
@@ -2883,7 +2883,7 @@
           "propState": {
             "Neighbour's phone": "raised with the lens copper, then lowered below the sill"
           },
-          "editTransition": "Cut on his eyes to her balcony",
+          "editTransition": "Cut back to the neighbour, the glow still on the lens",
           "keyframeRequirement": [
             "KF-SF-SH15 (START_FRAME, GENERATE)"
           ],
@@ -2929,7 +2929,7 @@
             "Wine glass": "raised in her left hand",
             "Wooden spoon": "in her right hand"
           },
-          "editTransition": "Cut; the groove returns as the glass goes up (frame 798)",
+          "editTransition": "Cut on his eyes to her balcony; the groove returns as the glass goes up (frame 798)",
           "keyframeRequirement": [
             "KF-SF-SH16 (START_FRAME, GENERATE)"
           ],
@@ -3023,7 +3023,7 @@
           ],
           "soundEffects": [],
           "propState": {},
-          "editTransition": "CUT TO BLACK at frame 1044",
+          "editTransition": "Cut inside the rise: SH17's last frame is this start frame, so the move reads as one",
           "keyframeRequirement": [
             "KF-ENV-HALCYON-EXT (ENVIRONMENT_REFERENCE, GENERATE)",
             "KF-SF-SH18 (START_FRAME, EXTRACT_FROM_APPROVED_FOOTAGE)"
@@ -3066,7 +3066,7 @@
           ],
           "soundEffects": [],
           "propState": {},
-          "editTransition": "Black to end; no title card unless the founder asks (FD-S101-10)",
+          "editTransition": "CUT TO BLACK at frame 1044; black to end, no title card unless the founder asks (FD-S101-10)",
           "keyframeRequirement": [],
           "productionAssetRequirement": [],
           "continuityNotes": [],

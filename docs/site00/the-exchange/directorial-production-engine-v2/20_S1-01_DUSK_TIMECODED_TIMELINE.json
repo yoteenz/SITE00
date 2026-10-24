@@ -1,0 +1,1508 @@
+{
+  "sources": [
+    "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/TIMELINE_EVENTS_V1.json",
+    "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/MULTITRACK_V1.json"
+  ],
+  "timeline": {
+    "schemaVersion": "2.0.0",
+    "unitId": "S1-01",
+    "fps": 24,
+    "durationFrames": 1080,
+    "events": [
+      {
+        "eventId": "S1-01-EV01",
+        "sceneId": "S1-01-SC01",
+        "shotId": "S1-01-SH01",
+        "track": "VIDEO_A",
+        "start": "00:00:00.000",
+        "end": "00:00:04.000",
+        "duration": "00:00:04.000",
+        "startFrame": 0,
+        "endFrame": 96,
+        "frames": 96,
+        "durationSec": 4,
+        "narrativeBeat": "S1-01-SC01-B1: Establish the street, the hour and the copper light before anyone appears.",
+        "visibleAction": "Windows light one by one as the camera tilts down",
+        "characterPosition": "A few passers-by far below; nobody featured.",
+        "cameraPosition": "Wide; High, about fifth-floor level across the street; Slightly high, looking east along the street",
+        "cameraMovement": "Tilt down from the tower glass to the street (Slow and even)",
+        "dialogue": [
+          "NONE"
+        ],
+        "audioSource": [
+          "AMBIENCE S1-01-AMB01"
+        ],
+        "musicState": [
+          "S1-01-MX01 Warm-Up — enters 00:00:00.000 (Fades in with the picture at frame 0, distant and slightly echoing) — hit 00:00:00.000: Lone trumpet phrase in the distance"
+        ],
+        "soundEffects": [],
+        "propState": {},
+        "editTransition": "FADE IN from black over the first 12 frames",
+        "keyframeRequirement": [
+          "KF-ENV-CITY-DUSK-A (ENVIRONMENT_REFERENCE, GENERATE)"
+        ],
+        "productionAssetRequirement": [
+          "KF-ENV-CITY-DUSK-A"
+        ],
+        "continuityNotes": [
+          "Windows lit here set the count of lit windows for SH17"
+        ],
+        "coverage": "SILENT_ACTION",
+        "lipSync": "NONE"
+      },
+      {
+        "eventId": "S1-01-EV02",
+        "sceneId": "S1-01-SC02",
+        "shotId": "S1-01-SH02",
+        "track": "VIDEO_A",
+        "start": "00:00:04.000",
+        "end": "00:00:06.000",
+        "duration": "00:00:02.000",
+        "startFrame": 96,
+        "endFrame": 144,
+        "frames": 48,
+        "durationSec": 2,
+        "narrativeBeat": "S1-01-SC02-B1: Meet the tailor at the end of his day.",
+        "visibleAction": "He pulls the grille halfway and stops",
+        "characterPosition": "He reaches up, pulls the grille down to waist height and stops.",
+        "cameraPosition": "Medium full; Eye level; Three-quarter front from the pavement, west of the door",
+        "cameraMovement": "Locked off (Static)",
+        "dialogue": [
+          "NONE"
+        ],
+        "audioSource": [
+          "AMBIENCE S1-01-AMB01"
+        ],
+        "musicState": [
+          "S1-01-MX01 Warm-Up — hit 00:00:04.000: Walking bass enters on the tailor"
+        ],
+        "soundEffects": [
+          "S1-01-FL01 00:00:04.167–00:00:05.833: Grille rattles down on its runners and stops"
+        ],
+        "propState": {
+          "Shop grille": "up, then pulled halfway"
+        },
+        "editTransition": "Cut on the grille starting to move",
+        "keyframeRequirement": [
+          "KF-SF-SH02 (START_FRAME, GENERATE)"
+        ],
+        "productionAssetRequirement": [
+          "KF-ENV-CITY-DUSK-A",
+          "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)"
+        ],
+        "continuityNotes": [
+          "Grille height must match SH03",
+          "Hands drift during fast pulls"
+        ],
+        "coverage": "SILENT_ACTION",
+        "lipSync": "NONE"
+      },
+      {
+        "eventId": "S1-01-EV03",
+        "sceneId": "S1-01-SC02",
+        "shotId": "S1-01-SH03",
+        "track": "VIDEO_A",
+        "start": "00:00:06.000",
+        "end": "00:00:08.250",
+        "duration": "00:00:02.250",
+        "startFrame": 144,
+        "endFrame": 198,
+        "frames": 54,
+        "durationSec": 2.25,
+        "narrativeBeat": "S1-01-SC02-B2: Show what he stopped for: the work.",
+        "visibleAction": "His hands straighten the lapel",
+        "characterPosition": "He leans in from the doorway, adjusts the lapel twice and steps back.",
+        "cameraPosition": "Medium close on the mannequin lapel and his hands; Chest height; Straight on through the window glass",
+        "cameraMovement": "Slow push in (Very slow)",
+        "dialogue": [
+          "NONE"
+        ],
+        "audioSource": [
+          "AMBIENCE S1-01-AMB01"
+        ],
+        "musicState": [
+          "S1-01-MX01 Warm-Up"
+        ],
+        "soundEffects": [],
+        "propState": {
+          "Shop grille": "half down"
+        },
+        "editTransition": "Cut",
+        "keyframeRequirement": [
+          "KF-SF-SH03 (START_FRAME, GENERATE)"
+        ],
+        "productionAssetRequirement": [
+          "KF-SF-SH02",
+          "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)"
+        ],
+        "continuityNotes": [
+          "Grille stays half down"
+        ],
+        "coverage": "SILENT_ACTION",
+        "lipSync": "NONE"
+      },
+      {
+        "eventId": "S1-01-EV04",
+        "sceneId": "S1-01-SC02",
+        "shotId": "S1-01-SH04",
+        "track": "VIDEO_A",
+        "start": "00:00:08.250",
+        "end": "00:00:09.750",
+        "duration": "00:00:01.500",
+        "startFrame": 198,
+        "endFrame": 234,
+        "frames": 36,
+        "durationSec": 1.5,
+        "narrativeBeat": "S1-01-SC02-B3: Close the shop with affection.",
+        "visibleAction": "He pats the glass after the grille lands",
+        "characterPosition": "He pulls the grille to the ground, then pats the glass once.",
+        "cameraPosition": "Medium; Eye level; Side-on from the west along the shopfront",
+        "cameraMovement": "Locked off (Static)",
+        "dialogue": [
+          "NONE"
+        ],
+        "audioSource": [
+          "AMBIENCE S1-01-AMB01"
+        ],
+        "musicState": [
+          "S1-01-MX01 Warm-Up"
+        ],
+        "soundEffects": [
+          "S1-01-FL02 00:00:08.250–00:00:09.750: Grille rolls to the ground; a palm pats the window glass"
+        ],
+        "propState": {
+          "Shop grille": "half down, then closed"
+        },
+        "editTransition": "Cut back outside as the grille comes down",
+        "keyframeRequirement": [
+          "KF-SF-SH04 (START_FRAME, GENERATE)"
+        ],
+        "productionAssetRequirement": [
+          "KF-SF-SH02",
+          "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)"
+        ],
+        "continuityNotes": [],
+        "coverage": "SILENT_ACTION",
+        "lipSync": "NONE"
+      },
+      {
+        "eventId": "S1-01-EV05",
+        "sceneId": "S1-01-SC03",
+        "shotId": "S1-01-SH05",
+        "track": "VIDEO_A",
+        "start": "00:00:09.750",
+        "end": "00:00:11.375",
+        "duration": "00:00:01.625",
+        "startFrame": 234,
+        "endFrame": 273,
+        "frames": 39,
+        "durationSec": 1.625,
+        "narrativeBeat": "S1-01-SC03-B1: Meet the teenager rehearsing in private.",
+        "visibleAction": "He tries the step and misses it",
+        "characterPosition": "He tries a two-step turn and stumbles out of it.",
+        "cameraPosition": "Medium full, teenager and his reflection; Waist height; Three-quarter behind his shoulder toward the shelter glass",
+        "cameraMovement": "Locked off (Static)",
+        "dialogue": [
+          "NONE"
+        ],
+        "audioSource": [
+          "AMBIENCE S1-01-AMB01"
+        ],
+        "musicState": [
+          "S1-01-MX01 Warm-Up — hit 00:00:09.750: Brushes settle into time under the teenager"
+        ],
+        "soundEffects": [
+          "S1-01-FL03 00:00:09.750–00:00:15.375: Sneakers scuff and squeak on the pavement through three attempts"
+        ],
+        "propState": {},
+        "editTransition": "Cut on the pat to the bus stop",
+        "keyframeRequirement": [
+          "KF-SF-SH05 (START_FRAME, GENERATE)"
+        ],
+        "productionAssetRequirement": [
+          "KF-ENV-CITY-DUSK-B",
+          "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)"
+        ],
+        "continuityNotes": [
+          "Reflection must mirror his movement",
+          "Feet drift in fast footwork"
+        ],
+        "coverage": "SILENT_ACTION",
+        "lipSync": "NONE"
+      },
+      {
+        "eventId": "S1-01-EV06",
+        "sceneId": "S1-01-SC03",
+        "shotId": "S1-01-SH06",
+        "track": "VIDEO_A",
+        "start": "00:00:11.375",
+        "end": "00:00:12.500",
+        "duration": "00:00:01.125",
+        "startFrame": 273,
+        "endFrame": 300,
+        "frames": 27,
+        "durationSec": 1.125,
+        "narrativeBeat": "S1-01-SC03-B2: The second miss, in close detail.",
+        "visibleAction": "His feet tangle on the turn",
+        "characterPosition": "Feet start the turn and cross wrongly.",
+        "cameraPosition": "Insert on his feet; Ground level; Low, side-on",
+        "cameraMovement": "Locked off (Static)",
+        "dialogue": [
+          "NONE"
+        ],
+        "audioSource": [
+          "AMBIENCE S1-01-AMB01"
+        ],
+        "musicState": [
+          "S1-01-MX01 Warm-Up"
+        ],
+        "soundEffects": [
+          "S1-01-FL03 00:00:09.750–00:00:15.375: Sneakers scuff and squeak on the pavement through three attempts"
+        ],
+        "propState": {},
+        "editTransition": "Cut",
+        "keyframeRequirement": [
+          "KF-SF-SH06 (START_FRAME, GENERATE)"
+        ],
+        "productionAssetRequirement": [
+          "KF-SF-SH05",
+          "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)"
+        ],
+        "continuityNotes": [],
+        "coverage": "SILENT_ACTION",
+        "lipSync": "NONE"
+      },
+      {
+        "eventId": "S1-01-EV07",
+        "sceneId": "S1-01-SC03",
+        "shotId": "S1-01-SH07",
+        "track": "VIDEO_A",
+        "start": "00:00:12.500",
+        "end": "00:00:15.375",
+        "duration": "00:00:02.875",
+        "startFrame": 300,
+        "endFrame": 369,
+        "frames": 69,
+        "durationSec": 2.875,
+        "narrativeBeat": "S1-01-SC03-B3: The teenager lands the step on the beat, for nobody but himself.",
+        "visibleAction": "He lands the step and grins",
+        "characterPosition": "He sets, turns cleanly, lands on the downbeat, grins, glances round.",
+        "cameraPosition": "Medium full, same as SH05; Waist height; Three-quarter behind his shoulder, matching SH05",
+        "cameraMovement": "Small drift right as he turns (Slow)",
+        "dialogue": [
+          "NONE"
+        ],
+        "audioSource": [
+          "AMBIENCE S1-01-AMB01"
+        ],
+        "musicState": [
+          "S1-01-MX01 Warm-Up — exits 00:00:13.500 (Hands over to MX02 on the downbeat at frame 324)",
+          "S1-01-MX02 Getting Ready — enters 00:00:13.500 (Downbeat at frame 324 as the teenager lands the step) — hit 00:00:13.500: Downbeat: the teenager lands the step"
+        ],
+        "soundEffects": [
+          "S1-01-FL03 00:00:09.750–00:00:15.375: Sneakers scuff and squeak on the pavement through three attempts"
+        ],
+        "propState": {},
+        "editTransition": "Cut back to the SH05 framing; its last frame is this start frame",
+        "keyframeRequirement": [
+          "KF-SF-SH07 (START_FRAME, EXTRACT_FROM_APPROVED_FOOTAGE)"
+        ],
+        "productionAssetRequirement": [
+          "KF-SF-SH05",
+          "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)"
+        ],
+        "continuityNotes": [
+          "Must match SH05 framing",
+          "Landing must sit on frame 324"
+        ],
+        "coverage": "SILENT_ACTION",
+        "lipSync": "NONE"
+      },
+      {
+        "eventId": "S1-01-EV08",
+        "sceneId": "S1-01-SC04",
+        "shotId": "S1-01-SH08",
+        "track": "VIDEO_A",
+        "start": "00:00:15.375",
+        "end": "00:00:17.875",
+        "duration": "00:00:02.500",
+        "startFrame": 369,
+        "endFrame": 429,
+        "frames": 60,
+        "durationSec": 2.5,
+        "narrativeBeat": "S1-01-SC04-B1: Give the dress its own reveal.",
+        "visibleAction": "The dress unfurls over the rail",
+        "characterPosition": "Her arms push the dress out over the rail; it unfurls and settles.",
+        "cameraPosition": "Medium wide on the rail from below; Street level; Low, looking up at the third floor",
+        "cameraMovement": "Locked off (Static)",
+        "dialogue": [
+          "NONE"
+        ],
+        "audioSource": [
+          "AMBIENCE S1-01-AMB01"
+        ],
+        "musicState": [
+          "S1-01-MX02 Getting Ready — hit 00:00:16.000: Horn accent as the dress opens"
+        ],
+        "soundEffects": [
+          "S1-01-FL04 00:00:15.375–00:00:17.083: Fabric snaps open over the rail"
+        ],
+        "propState": {
+          "Jewel-green dress": "in her hands above the rail, then unfurling over it"
+        },
+        "editTransition": "Cut on the grin to the dress unfurling",
+        "keyframeRequirement": [
+          "KF-SF-SH08 (START_FRAME, GENERATE)"
+        ],
+        "productionAssetRequirement": [
+          "KF-ENV-CITY-DUSK-A",
+          "KF-WD-GREEN-DRESS",
+          "The jewel-green dress (design pending, U-4)",
+          "Grandmother: house cardigan, reading glasses on a chain (scene-scoped)"
+        ],
+        "continuityNotes": [
+          "Dress design must match KF-WD-GREEN-DRESS in every shot",
+          "Fabric physics drift in fast unfurls"
+        ],
+        "coverage": "SILENT_ACTION",
+        "lipSync": "NONE"
+      },
+      {
+        "eventId": "S1-01-EV09",
+        "sceneId": "S1-01-SC04",
+        "shotId": "S1-01-SH09",
+        "track": "VIDEO_A",
+        "start": "00:00:17.875",
+        "end": "00:00:19.375",
+        "duration": "00:00:01.500",
+        "startFrame": 429,
+        "endFrame": 465,
+        "frames": 36,
+        "durationSec": 1.5,
+        "narrativeBeat": "S1-01-SC04-B2: Bring her into the shot through touch.",
+        "visibleAction": "Her hands smooth the skirt",
+        "characterPosition": "Both hands smooth the skirt from the waist down, once.",
+        "cameraPosition": "Close on her hands on the skirt; Rail height (on the fire escape); Side-on along the rail",
+        "cameraMovement": "Locked off (Static)",
+        "dialogue": [
+          "NONE"
+        ],
+        "audioSource": [
+          "AMBIENCE S1-01-AMB01"
+        ],
+        "musicState": [
+          "S1-01-MX02 Getting Ready"
+        ],
+        "soundEffects": [
+          "S1-01-FL05 00:00:17.875–00:00:19.375: Palms smoothing the skirt fabric"
+        ],
+        "propState": {
+          "Jewel-green dress": "hanging on the rail"
+        },
+        "editTransition": "Cut",
+        "keyframeRequirement": [
+          "KF-SF-SH09 (START_FRAME, GENERATE)"
+        ],
+        "productionAssetRequirement": [
+          "KF-SF-SH08",
+          "KF-WD-GREEN-DRESS",
+          "The jewel-green dress (design pending, U-4)",
+          "Grandmother: house cardigan, reading glasses on a chain (scene-scoped)"
+        ],
+        "continuityNotes": [],
+        "coverage": "SILENT_ACTION",
+        "lipSync": "NONE"
+      },
+      {
+        "eventId": "S1-01-EV10",
+        "sceneId": "S1-01-SC04",
+        "shotId": "S1-01-SH10",
+        "track": "VIDEO_A",
+        "start": "00:00:19.375",
+        "end": "00:00:22.000",
+        "duration": "00:00:02.625",
+        "startFrame": 465,
+        "endFrame": 528,
+        "frames": 63,
+        "durationSec": 2.625,
+        "narrativeBeat": "S1-01-SC04-B3: Let her approve the dress, and let the audience enjoy her.",
+        "visibleAction": "She looks at the dress and nods",
+        "characterPosition": "She steps back half a pace and looks; a small nod.",
+        "cameraPosition": "Medium close on her face beside the dress; Her eye level; Three-quarter front from along the fire escape",
+        "cameraMovement": "Locked off (Static)",
+        "dialogue": [
+          "NONE"
+        ],
+        "audioSource": [
+          "AMBIENCE S1-01-AMB01"
+        ],
+        "musicState": [
+          "S1-01-MX02 Getting Ready"
+        ],
+        "soundEffects": [],
+        "propState": {
+          "Jewel-green dress": "hanging on the rail"
+        },
+        "editTransition": "Cut",
+        "keyframeRequirement": [
+          "KF-SF-SH10 (START_FRAME, GENERATE)"
+        ],
+        "productionAssetRequirement": [
+          "KF-SF-SH08",
+          "KF-WD-GREEN-DRESS",
+          "The jewel-green dress (design pending, U-4)",
+          "Grandmother: house cardigan, reading glasses on a chain (scene-scoped)"
+        ],
+        "continuityNotes": [
+          "Her face is scene-scoped; it must hold from SH08 to SH10"
+        ],
+        "coverage": "SILENT_ACTION",
+        "lipSync": "NONE"
+      },
+      {
+        "eventId": "S1-01-EV11",
+        "sceneId": "S1-01-SC05",
+        "shotId": "S1-01-SH11",
+        "track": "VIDEO_A",
+        "start": "00:00:22.000",
+        "end": "00:00:24.750",
+        "duration": "00:00:02.750",
+        "startFrame": 528,
+        "endFrame": 594,
+        "frames": 66,
+        "durationSec": 2.75,
+        "narrativeBeat": "S1-01-SC05-B1: Meet the woman dancing for herself, and place the glass.",
+        "visibleAction": "She dances across the kitchen",
+        "characterPosition": "She dances a loose step across the kitchen with the spoon.",
+        "cameraPosition": "Medium wide through the balcony door; Balcony height, from outside; Straight on from the balcony edge into the kitchen",
+        "cameraMovement": "Locked off (Static)",
+        "dialogue": [
+          "NONE"
+        ],
+        "audioSource": [
+          "AMBIENCE S1-01-AMB01"
+        ],
+        "musicState": [
+          "S1-01-MX02 Getting Ready — hit 00:00:22.000: Groove brightens for the dancing woman"
+        ],
+        "soundEffects": [
+          "S1-01-FL06 00:00:22.000–00:00:26.500: Bare feet on kitchen tiles; the spoon tapping the counter edge"
+        ],
+        "propState": {
+          "Wine glass": "full, on the ledge",
+          "Wooden spoon": "in her right hand"
+        },
+        "editTransition": "Cut to the balcony",
+        "keyframeRequirement": [
+          "KF-SF-SH11 (START_FRAME, GENERATE)"
+        ],
+        "productionAssetRequirement": [
+          "KF-ENV-CITY-DUSK-A",
+          "Woman on the balcony: soft at-home dress, bare feet, hair loosely up (scene-scoped)"
+        ],
+        "continuityNotes": [
+          "The glass on the ledge sets up SH16",
+          "Spoon stays in her right hand"
+        ],
+        "coverage": "SILENT_ACTION",
+        "lipSync": "NONE"
+      },
+      {
+        "eventId": "S1-01-EV12",
+        "sceneId": "S1-01-SC05",
+        "shotId": "S1-01-SH12",
+        "track": "VIDEO_A",
+        "start": "00:00:24.750",
+        "end": "00:00:26.500",
+        "duration": "00:00:01.750",
+        "startFrame": 594,
+        "endFrame": 636,
+        "frames": 42,
+        "durationSec": 1.75,
+        "narrativeBeat": "S1-01-SC05-B2: Her joy, close.",
+        "visibleAction": "She twirls the spoon",
+        "characterPosition": "She twirls the spoon and turns with it.",
+        "cameraPosition": "Medium close; Her eye level; Three-quarter front, inside the door line",
+        "cameraMovement": "Slight follow on the spin (Matches her)",
+        "dialogue": [
+          "NONE"
+        ],
+        "audioSource": [
+          "AMBIENCE S1-01-AMB01"
+        ],
+        "musicState": [
+          "S1-01-MX02 Getting Ready"
+        ],
+        "soundEffects": [
+          "S1-01-FL06 00:00:22.000–00:00:26.500: Bare feet on kitchen tiles; the spoon tapping the counter edge"
+        ],
+        "propState": {
+          "Wooden spoon": "in her right hand"
+        },
+        "editTransition": "Cut",
+        "keyframeRequirement": [
+          "KF-SF-SH12 (START_FRAME, GENERATE)"
+        ],
+        "productionAssetRequirement": [
+          "KF-SF-SH11",
+          "Woman on the balcony: soft at-home dress, bare feet, hair loosely up (scene-scoped)"
+        ],
+        "continuityNotes": [
+          "Glass is out of frame here"
+        ],
+        "coverage": "SILENT_ACTION",
+        "lipSync": "NONE"
+      },
+      {
+        "eventId": "S1-01-EV13",
+        "sceneId": "S1-01-SC06",
+        "shotId": "S1-01-SH13",
+        "track": "VIDEO_A",
+        "start": "00:00:26.500",
+        "end": "00:00:28.500",
+        "duration": "00:00:02.000",
+        "startFrame": 636,
+        "endFrame": 684,
+        "frames": 48,
+        "durationSec": 2,
+        "narrativeBeat": "S1-01-SC06-B1: The reflex to capture.",
+        "visibleAction": "He lifts his phone toward her balcony",
+        "characterPosition": "He sees her, lifts the phone and frames her.",
+        "cameraPosition": "Medium on the neighbour in his window; His eye level, from outside his window; Three-quarter front; her balcony off frame left",
+        "cameraMovement": "Locked off (Static)",
+        "dialogue": [
+          "NONE"
+        ],
+        "audioSource": [
+          "AMBIENCE S1-01-AMB02"
+        ],
+        "musicState": [
+          "S1-01-MX02 Getting Ready — exits 00:00:28.500 (Hard stop at frame 684 on the cut to the copper lens; no tail, no reverb ring) — hit 00:00:26.500: Thins to bass and brushes as the phone rises"
+        ],
+        "soundEffects": [
+          "S1-01-FL07 00:00:26.500–00:00:28.500: Sleeve rustle as he lifts the phone off the sill"
+        ],
+        "propState": {
+          "Neighbour's phone": "lowered, then raised toward the balcony"
+        },
+        "editTransition": "Cut across the street to the neighbour; the band thins to bass and brushes on this cut",
+        "keyframeRequirement": [
+          "KF-SF-SH13 (START_FRAME, GENERATE)"
+        ],
+        "productionAssetRequirement": [
+          "KF-ENV-CITY-DUSK-B",
+          "Neighbour: plain t-shirt, reading lamp behind him (scene-scoped)"
+        ],
+        "continuityNotes": [
+          "Eyeline must stay screen left",
+          "Phone design pending (PR-NEIGHBOUR-PHONE DESIGN_REQUIRED)"
+        ],
+        "coverage": "SILENT_ACTION",
+        "lipSync": "NONE"
+      },
+      {
+        "eventId": "S1-01-EV14",
+        "sceneId": "S1-01-SC06",
+        "shotId": "S1-01-SH14",
+        "track": "VIDEO_A",
+        "start": "00:00:28.500",
+        "end": "00:00:30.250",
+        "duration": "00:00:01.750",
+        "startFrame": 684,
+        "endFrame": 726,
+        "frames": 42,
+        "durationSec": 1.75,
+        "narrativeBeat": "S1-01-SC06-B2: Reveal the Ember: the city's everyday no.",
+        "visibleAction": "The lens blooms copper",
+        "characterPosition": "The phone is held still; only the glow changes.",
+        "cameraPosition": "Extreme close on the phone lens and screen edge; Phone height; Front three-quarter on the camera lens",
+        "cameraMovement": "Locked off (Static)",
+        "dialogue": [
+          "NONE"
+        ],
+        "audioSource": [
+          "AMBIENCE S1-01-AMB02"
+        ],
+        "musicState": [
+          "S1-01-MXS1 SILENCE — enters 00:00:28.500 (Hard cut from MX02 at frame 684)"
+        ],
+        "soundEffects": [
+          "S1-01-SFX01 00:00:28.500–00:00:30.250: No designed sound for the Ember: the glow is silent"
+        ],
+        "propState": {
+          "Neighbour's phone": "raised; the lens blooms copper"
+        },
+        "editTransition": "Hard cut; music stops on the cut at frame 684",
+        "keyframeRequirement": [
+          "KF-SF-SH14 (START_FRAME, GENERATE)"
+        ],
+        "productionAssetRequirement": [
+          "KF-SF-SH13",
+          "KF-EMBER-LOOK"
+        ],
+        "continuityNotes": [
+          "Ember look must match KF-EMBER-LOOK and hold for the season",
+          "Copper must not read as gold (gold is the S1-58 reveal)"
+        ],
+        "coverage": "SILENT_ACTION",
+        "lipSync": "NONE"
+      },
+      {
+        "eventId": "S1-01-EV15",
+        "sceneId": "S1-01-SC06",
+        "shotId": "S1-01-SH15",
+        "track": "VIDEO_A",
+        "start": "00:00:30.250",
+        "end": "00:00:32.250",
+        "duration": "00:00:02.000",
+        "startFrame": 726,
+        "endFrame": 774,
+        "frames": 48,
+        "durationSec": 2,
+        "narrativeBeat": "S1-01-SC06-B3: He respects the no.",
+        "visibleAction": "He lowers the phone",
+        "characterPosition": "He lowers the phone below the sill; a small wince.",
+        "cameraPosition": "Medium close, matching SH13 but tighter; His eye level; Three-quarter front, as SH13",
+        "cameraMovement": "Locked off (Static)",
+        "dialogue": [
+          "NONE"
+        ],
+        "audioSource": [
+          "AMBIENCE S1-01-AMB02"
+        ],
+        "musicState": [
+          "S1-01-MXS1 SILENCE"
+        ],
+        "soundEffects": [
+          "S1-01-FL08 00:00:30.250–00:00:32.250: Phone set face down on the sill"
+        ],
+        "propState": {
+          "Neighbour's phone": "raised with the lens copper, then lowered below the sill"
+        },
+        "editTransition": "Cut back to the neighbour, the glow still on the lens",
+        "keyframeRequirement": [
+          "KF-SF-SH15 (START_FRAME, GENERATE)"
+        ],
+        "productionAssetRequirement": [
+          "KF-SF-SH13",
+          "Neighbour: plain t-shirt, reading lamp behind him (scene-scoped)"
+        ],
+        "continuityNotes": [
+          "Copper glow visible at the start of the shot, gone once the phone is down"
+        ],
+        "coverage": "SILENT_ACTION",
+        "lipSync": "NONE"
+      },
+      {
+        "eventId": "S1-01-EV16",
+        "sceneId": "S1-01-SC06",
+        "shotId": "S1-01-SH16",
+        "track": "VIDEO_A",
+        "start": "00:00:32.250",
+        "end": "00:00:35.250",
+        "duration": "00:00:03.000",
+        "startFrame": 774,
+        "endFrame": 846,
+        "frames": 72,
+        "durationSec": 3,
+        "narrativeBeat": "S1-01-SC06-B4: She answers with grace, not a closed curtain.",
+        "visibleAction": "She raises her glass to him",
+        "characterPosition": "She steps to the ledge, lifts the glass toward him, then turns back to the kitchen dancing.",
+        "cameraPosition": "Medium wide, his point of view across the street; His window height; Across the street, slightly up to her balcony",
+        "cameraMovement": "Locked off, a faint handheld breath (Static)",
+        "dialogue": [
+          "NONE"
+        ],
+        "audioSource": [
+          "AMBIENCE S1-01-AMB02"
+        ],
+        "musicState": [
+          "S1-01-MXS1 SILENCE — exits 00:00:33.250 (MX03 enters at frame 798 as the glass goes up)",
+          "S1-01-MX03 Halcyon — enters 00:00:33.250 (Groove returns at frame 798 as she raises the glass) — hit 00:00:33.250: Groove returns on the raised glass"
+        ],
+        "soundEffects": [],
+        "propState": {
+          "Wine glass": "raised in her left hand",
+          "Wooden spoon": "in her right hand"
+        },
+        "editTransition": "Cut on his eyes to her balcony; the groove returns as the glass goes up (frame 798)",
+        "keyframeRequirement": [
+          "KF-SF-SH16 (START_FRAME, GENERATE)"
+        ],
+        "productionAssetRequirement": [
+          "KF-SF-SH11",
+          "KF-ENV-CITY-DUSK-A",
+          "Woman on the balcony: soft at-home dress, bare feet, hair loosely up (scene-scoped)"
+        ],
+        "continuityNotes": [
+          "Glass in her left hand, spoon in her right",
+          "Her face is scene-scoped; it must match SH11 and SH12"
+        ],
+        "coverage": "SILENT_ACTION",
+        "lipSync": "NONE"
+      },
+      {
+        "eventId": "S1-01-EV17",
+        "sceneId": "S1-01-SC07",
+        "shotId": "S1-01-SH17",
+        "track": "VIDEO_A",
+        "start": "00:00:35.250",
+        "end": "00:00:38.750",
+        "duration": "00:00:03.500",
+        "startFrame": 846,
+        "endFrame": 930,
+        "frames": 84,
+        "durationSec": 3.5,
+        "narrativeBeat": "S1-01-SC07-B1: Gather the street into one rising view.",
+        "visibleAction": "The camera rises past the kitchen and the dress",
+        "characterPosition": "She dances small in her kitchen as the camera passes.",
+        "cameraPosition": "Wide; Rising from the fourth floor to above the rooftops; Level, then tipping slightly down as it clears the roofline",
+        "cameraMovement": "Crane rise (Steady, unhurried)",
+        "dialogue": [
+          "NONE"
+        ],
+        "audioSource": [
+          "AMBIENCE S1-01-AMB03"
+        ],
+        "musicState": [
+          "S1-01-MX03 Halcyon — hit 00:00:35.250: Horns build as the camera rises"
+        ],
+        "soundEffects": [
+          "S1-01-SFX02 00:00:36.250–00:00:38.750: A single car passes far below"
+        ],
+        "propState": {
+          "Jewel-green dress": "hanging on the rail"
+        },
+        "editTransition": "Cut",
+        "keyframeRequirement": [
+          "KF-SF-SH17 (START_FRAME, GENERATE)"
+        ],
+        "productionAssetRequirement": [
+          "KF-ENV-CITY-DUSK-A",
+          "KF-SF-SH11",
+          "KF-SF-SH08",
+          "Woman on the balcony: soft at-home dress, bare feet, hair loosely up (scene-scoped)",
+          "The jewel-green dress (design pending, U-4)"
+        ],
+        "continuityNotes": [
+          "Fire-escape and balcony positions must match SH08 and SH11",
+          "Architecture bends during long moves"
+        ],
+        "coverage": "SILENT_ACTION",
+        "lipSync": "NONE"
+      },
+      {
+        "eventId": "S1-01-EV18",
+        "sceneId": "S1-01-SC07",
+        "shotId": "S1-01-SH18",
+        "track": "VIDEO_A",
+        "start": "00:00:38.750",
+        "end": "00:00:43.500",
+        "duration": "00:00:04.750",
+        "startFrame": 930,
+        "endFrame": 1044,
+        "frames": 114,
+        "durationSec": 4.75,
+        "narrativeBeat": "S1-01-SC07-B2: Point the season at Halcyon House without designing it.",
+        "visibleAction": "The camera settles on the lit ballroom windows",
+        "characterPosition": "Nobody visible.",
+        "cameraPosition": "Wide, landing on a row of tall lit windows; Above the rooftops; Level, looking east across the roofs",
+        "cameraMovement": "Continues the rise, then a slow push toward the windows (Slowing to a stop)",
+        "dialogue": [
+          "NONE"
+        ],
+        "audioSource": [
+          "AMBIENCE S1-01-AMB03"
+        ],
+        "musicState": [
+          "S1-01-MX03 Halcyon — hit 00:00:41.250: First full chord as the ballroom windows arrive"
+        ],
+        "soundEffects": [],
+        "propState": {},
+        "editTransition": "Cut inside the rise: SH17's last frame is this start frame, so the move reads as one",
+        "keyframeRequirement": [
+          "KF-ENV-HALCYON-EXT (ENVIRONMENT_REFERENCE, GENERATE)",
+          "KF-SF-SH18 (START_FRAME, EXTRACT_FROM_APPROVED_FOOTAGE)"
+        ],
+        "productionAssetRequirement": [
+          "KF-ENV-HALCYON-EXT"
+        ],
+        "continuityNotes": [
+          "Only lit windows: no approved facade, roofline or signage (FD-S101-04)",
+          "Amber, not gold, in the windows"
+        ],
+        "coverage": "SILENT_ACTION",
+        "lipSync": "NONE"
+      },
+      {
+        "eventId": "S1-01-EV19",
+        "sceneId": "S1-01-SC07",
+        "shotId": "S1-01-SH19",
+        "track": "VIDEO_A",
+        "start": "00:00:43.500",
+        "end": "00:00:45.000",
+        "duration": "00:00:01.500",
+        "startFrame": 1044,
+        "endFrame": 1080,
+        "frames": 36,
+        "durationSec": 1.5,
+        "narrativeBeat": "S1-01-SC07-B3: Let the chord ring out on black.",
+        "visibleAction": "None.",
+        "characterPosition": "None.",
+        "cameraPosition": "Black frame; None; None",
+        "cameraMovement": "None (None)",
+        "dialogue": [
+          "NONE"
+        ],
+        "audioSource": [
+          "AMBIENCE S1-01-AMB03"
+        ],
+        "musicState": [
+          "S1-01-MX03 Halcyon — exits 00:00:45.000 (The chord rings out through black and ends at frame 1080) — hit 00:00:43.500: Cut to black; the chord rings"
+        ],
+        "soundEffects": [],
+        "propState": {},
+        "editTransition": "CUT TO BLACK at frame 1044; black to end, no title card unless the founder asks (FD-S101-10)",
+        "keyframeRequirement": [],
+        "productionAssetRequirement": [],
+        "continuityNotes": [],
+        "coverage": "TRANSITION",
+        "lipSync": "NONE"
+      }
+    ],
+    "editJoins": []
+  },
+  "multitrack": {
+    "format": "EXCHANGE_MULTITRACK_V1",
+    "unitId": "S1-01",
+    "fps": 24,
+    "durationFrames": 1080,
+    "sceneDuration": {
+      "start": "00:00:00.000",
+      "end": "00:00:45.000",
+      "duration": "00:00:45.000",
+      "startFrame": 0,
+      "endFrame": 1080,
+      "frames": 1080,
+      "durationSec": 45
+    },
+    "tracks": {
+      "VIDEO_A": [
+        {
+          "eventId": "VIDEO_A-01",
+          "track": "VIDEO_A",
+          "ref": "S1-01-SH01",
+          "label": "Windows light one by one as the camera tilts down",
+          "continuesUnderCut": false,
+          "start": "00:00:00.000",
+          "end": "00:00:04.000",
+          "duration": "00:00:04.000",
+          "startFrame": 0,
+          "endFrame": 96,
+          "frames": 96,
+          "durationSec": 4
+        },
+        {
+          "eventId": "VIDEO_A-02",
+          "track": "VIDEO_A",
+          "ref": "S1-01-SH02",
+          "label": "He pulls the grille halfway and stops",
+          "continuesUnderCut": false,
+          "start": "00:00:04.000",
+          "end": "00:00:06.000",
+          "duration": "00:00:02.000",
+          "startFrame": 96,
+          "endFrame": 144,
+          "frames": 48,
+          "durationSec": 2
+        },
+        {
+          "eventId": "VIDEO_A-03",
+          "track": "VIDEO_A",
+          "ref": "S1-01-SH03",
+          "label": "His hands straighten the lapel",
+          "continuesUnderCut": false,
+          "start": "00:00:06.000",
+          "end": "00:00:08.250",
+          "duration": "00:00:02.250",
+          "startFrame": 144,
+          "endFrame": 198,
+          "frames": 54,
+          "durationSec": 2.25
+        },
+        {
+          "eventId": "VIDEO_A-04",
+          "track": "VIDEO_A",
+          "ref": "S1-01-SH04",
+          "label": "He pats the glass after the grille lands",
+          "continuesUnderCut": false,
+          "start": "00:00:08.250",
+          "end": "00:00:09.750",
+          "duration": "00:00:01.500",
+          "startFrame": 198,
+          "endFrame": 234,
+          "frames": 36,
+          "durationSec": 1.5
+        },
+        {
+          "eventId": "VIDEO_A-05",
+          "track": "VIDEO_A",
+          "ref": "S1-01-SH05",
+          "label": "He tries the step and misses it",
+          "continuesUnderCut": false,
+          "start": "00:00:09.750",
+          "end": "00:00:11.375",
+          "duration": "00:00:01.625",
+          "startFrame": 234,
+          "endFrame": 273,
+          "frames": 39,
+          "durationSec": 1.625
+        },
+        {
+          "eventId": "VIDEO_A-06",
+          "track": "VIDEO_A",
+          "ref": "S1-01-SH06",
+          "label": "His feet tangle on the turn",
+          "continuesUnderCut": false,
+          "start": "00:00:11.375",
+          "end": "00:00:12.500",
+          "duration": "00:00:01.125",
+          "startFrame": 273,
+          "endFrame": 300,
+          "frames": 27,
+          "durationSec": 1.125
+        },
+        {
+          "eventId": "VIDEO_A-07",
+          "track": "VIDEO_A",
+          "ref": "S1-01-SH07",
+          "label": "He lands the step and grins",
+          "continuesUnderCut": false,
+          "start": "00:00:12.500",
+          "end": "00:00:15.375",
+          "duration": "00:00:02.875",
+          "startFrame": 300,
+          "endFrame": 369,
+          "frames": 69,
+          "durationSec": 2.875
+        },
+        {
+          "eventId": "VIDEO_A-08",
+          "track": "VIDEO_A",
+          "ref": "S1-01-SH08",
+          "label": "The dress unfurls over the rail",
+          "continuesUnderCut": false,
+          "start": "00:00:15.375",
+          "end": "00:00:17.875",
+          "duration": "00:00:02.500",
+          "startFrame": 369,
+          "endFrame": 429,
+          "frames": 60,
+          "durationSec": 2.5
+        },
+        {
+          "eventId": "VIDEO_A-09",
+          "track": "VIDEO_A",
+          "ref": "S1-01-SH09",
+          "label": "Her hands smooth the skirt",
+          "continuesUnderCut": false,
+          "start": "00:00:17.875",
+          "end": "00:00:19.375",
+          "duration": "00:00:01.500",
+          "startFrame": 429,
+          "endFrame": 465,
+          "frames": 36,
+          "durationSec": 1.5
+        },
+        {
+          "eventId": "VIDEO_A-10",
+          "track": "VIDEO_A",
+          "ref": "S1-01-SH10",
+          "label": "She looks at the dress and nods",
+          "continuesUnderCut": false,
+          "start": "00:00:19.375",
+          "end": "00:00:22.000",
+          "duration": "00:00:02.625",
+          "startFrame": 465,
+          "endFrame": 528,
+          "frames": 63,
+          "durationSec": 2.625
+        },
+        {
+          "eventId": "VIDEO_A-11",
+          "track": "VIDEO_A",
+          "ref": "S1-01-SH11",
+          "label": "She dances across the kitchen",
+          "continuesUnderCut": false,
+          "start": "00:00:22.000",
+          "end": "00:00:24.750",
+          "duration": "00:00:02.750",
+          "startFrame": 528,
+          "endFrame": 594,
+          "frames": 66,
+          "durationSec": 2.75
+        },
+        {
+          "eventId": "VIDEO_A-12",
+          "track": "VIDEO_A",
+          "ref": "S1-01-SH12",
+          "label": "She twirls the spoon",
+          "continuesUnderCut": false,
+          "start": "00:00:24.750",
+          "end": "00:00:26.500",
+          "duration": "00:00:01.750",
+          "startFrame": 594,
+          "endFrame": 636,
+          "frames": 42,
+          "durationSec": 1.75
+        },
+        {
+          "eventId": "VIDEO_A-13",
+          "track": "VIDEO_A",
+          "ref": "S1-01-SH13",
+          "label": "He lifts his phone toward her balcony",
+          "continuesUnderCut": false,
+          "start": "00:00:26.500",
+          "end": "00:00:28.500",
+          "duration": "00:00:02.000",
+          "startFrame": 636,
+          "endFrame": 684,
+          "frames": 48,
+          "durationSec": 2
+        },
+        {
+          "eventId": "VIDEO_A-14",
+          "track": "VIDEO_A",
+          "ref": "S1-01-SH14",
+          "label": "The lens blooms copper",
+          "continuesUnderCut": false,
+          "start": "00:00:28.500",
+          "end": "00:00:30.250",
+          "duration": "00:00:01.750",
+          "startFrame": 684,
+          "endFrame": 726,
+          "frames": 42,
+          "durationSec": 1.75
+        },
+        {
+          "eventId": "VIDEO_A-15",
+          "track": "VIDEO_A",
+          "ref": "S1-01-SH15",
+          "label": "He lowers the phone",
+          "continuesUnderCut": false,
+          "start": "00:00:30.250",
+          "end": "00:00:32.250",
+          "duration": "00:00:02.000",
+          "startFrame": 726,
+          "endFrame": 774,
+          "frames": 48,
+          "durationSec": 2
+        },
+        {
+          "eventId": "VIDEO_A-16",
+          "track": "VIDEO_A",
+          "ref": "S1-01-SH16",
+          "label": "She raises her glass to him",
+          "continuesUnderCut": false,
+          "start": "00:00:32.250",
+          "end": "00:00:35.250",
+          "duration": "00:00:03.000",
+          "startFrame": 774,
+          "endFrame": 846,
+          "frames": 72,
+          "durationSec": 3
+        },
+        {
+          "eventId": "VIDEO_A-17",
+          "track": "VIDEO_A",
+          "ref": "S1-01-SH17",
+          "label": "The camera rises past the kitchen and the dress",
+          "continuesUnderCut": false,
+          "start": "00:00:35.250",
+          "end": "00:00:38.750",
+          "duration": "00:00:03.500",
+          "startFrame": 846,
+          "endFrame": 930,
+          "frames": 84,
+          "durationSec": 3.5
+        },
+        {
+          "eventId": "VIDEO_A-18",
+          "track": "VIDEO_A",
+          "ref": "S1-01-SH18",
+          "label": "The camera settles on the lit ballroom windows",
+          "continuesUnderCut": false,
+          "start": "00:00:38.750",
+          "end": "00:00:43.500",
+          "duration": "00:00:04.750",
+          "startFrame": 930,
+          "endFrame": 1044,
+          "frames": 114,
+          "durationSec": 4.75
+        },
+        {
+          "eventId": "VIDEO_A-19",
+          "track": "VIDEO_A",
+          "ref": "S1-01-SH19",
+          "label": "Let the chord ring out on black.",
+          "continuesUnderCut": false,
+          "start": "00:00:43.500",
+          "end": "00:00:45.000",
+          "duration": "00:00:01.500",
+          "startFrame": 1044,
+          "endFrame": 1080,
+          "frames": 36,
+          "durationSec": 1.5
+        }
+      ],
+      "VIDEO_B": [],
+      "DIALOGUE": [],
+      "AMBIENCE": [
+        {
+          "eventId": "AMBIENCE-01",
+          "track": "AMBIENCE",
+          "ref": "S1-01-AMB01",
+          "label": "Street bed: a bus sighing at the stop, a door, distant laughter, light traffic",
+          "continuesUnderCut": true,
+          "start": "00:00:00.000",
+          "end": "00:00:26.500",
+          "duration": "00:00:26.500",
+          "startFrame": 0,
+          "endFrame": 636,
+          "frames": 636,
+          "durationSec": 26.5
+        },
+        {
+          "eventId": "AMBIENCE-02",
+          "track": "AMBIENCE",
+          "ref": "S1-01-AMB02",
+          "label": "The same street, thinner and closer: a breeze, a far car, the hum of his reading lamp through the open window",
+          "continuesUnderCut": true,
+          "start": "00:00:26.500",
+          "end": "00:00:35.250",
+          "duration": "00:00:08.750",
+          "startFrame": 636,
+          "endFrame": 846,
+          "frames": 210,
+          "durationSec": 8.75
+        },
+        {
+          "eventId": "AMBIENCE-03",
+          "track": "AMBIENCE",
+          "ref": "S1-01-AMB03",
+          "label": "Rooftop air: wind across water towers, the street far below",
+          "continuesUnderCut": true,
+          "start": "00:00:35.250",
+          "end": "00:00:44.000",
+          "duration": "00:00:08.750",
+          "startFrame": 846,
+          "endFrame": 1056,
+          "frames": 210,
+          "durationSec": 8.75
+        }
+      ],
+      "FOLEY": [
+        {
+          "eventId": "FOLEY-01",
+          "track": "FOLEY",
+          "ref": "S1-01-FL01",
+          "label": "Grille rattles down on its runners and stops",
+          "continuesUnderCut": false,
+          "start": "00:00:04.167",
+          "end": "00:00:05.833",
+          "duration": "00:00:01.667",
+          "startFrame": 100,
+          "endFrame": 140,
+          "frames": 40,
+          "durationSec": 1.667
+        },
+        {
+          "eventId": "FOLEY-02",
+          "track": "FOLEY",
+          "ref": "S1-01-FL02",
+          "label": "Grille rolls to the ground; a palm pats the window glass",
+          "continuesUnderCut": false,
+          "start": "00:00:08.250",
+          "end": "00:00:09.750",
+          "duration": "00:00:01.500",
+          "startFrame": 198,
+          "endFrame": 234,
+          "frames": 36,
+          "durationSec": 1.5
+        },
+        {
+          "eventId": "FOLEY-03",
+          "track": "FOLEY",
+          "ref": "S1-01-FL03",
+          "label": "Sneakers scuff and squeak on the pavement through three attempts",
+          "continuesUnderCut": false,
+          "start": "00:00:09.750",
+          "end": "00:00:15.375",
+          "duration": "00:00:05.625",
+          "startFrame": 234,
+          "endFrame": 369,
+          "frames": 135,
+          "durationSec": 5.625
+        },
+        {
+          "eventId": "FOLEY-04",
+          "track": "FOLEY",
+          "ref": "S1-01-FL04",
+          "label": "Fabric snaps open over the rail",
+          "continuesUnderCut": false,
+          "start": "00:00:15.375",
+          "end": "00:00:17.083",
+          "duration": "00:00:01.708",
+          "startFrame": 369,
+          "endFrame": 410,
+          "frames": 41,
+          "durationSec": 1.708
+        },
+        {
+          "eventId": "FOLEY-05",
+          "track": "FOLEY",
+          "ref": "S1-01-FL05",
+          "label": "Palms smoothing the skirt fabric",
+          "continuesUnderCut": false,
+          "start": "00:00:17.875",
+          "end": "00:00:19.375",
+          "duration": "00:00:01.500",
+          "startFrame": 429,
+          "endFrame": 465,
+          "frames": 36,
+          "durationSec": 1.5
+        },
+        {
+          "eventId": "FOLEY-06",
+          "track": "FOLEY",
+          "ref": "S1-01-FL06",
+          "label": "Bare feet on kitchen tiles; the spoon tapping the counter edge",
+          "continuesUnderCut": false,
+          "start": "00:00:22.000",
+          "end": "00:00:26.500",
+          "duration": "00:00:04.500",
+          "startFrame": 528,
+          "endFrame": 636,
+          "frames": 108,
+          "durationSec": 4.5
+        },
+        {
+          "eventId": "FOLEY-07",
+          "track": "FOLEY",
+          "ref": "S1-01-FL07",
+          "label": "Sleeve rustle as he lifts the phone off the sill",
+          "continuesUnderCut": false,
+          "start": "00:00:26.500",
+          "end": "00:00:28.500",
+          "duration": "00:00:02.000",
+          "startFrame": 636,
+          "endFrame": 684,
+          "frames": 48,
+          "durationSec": 2
+        },
+        {
+          "eventId": "FOLEY-08",
+          "track": "FOLEY",
+          "ref": "S1-01-FL08",
+          "label": "Phone set face down on the sill",
+          "continuesUnderCut": false,
+          "start": "00:00:30.250",
+          "end": "00:00:32.250",
+          "duration": "00:00:02.000",
+          "startFrame": 726,
+          "endFrame": 774,
+          "frames": 48,
+          "durationSec": 2
+        }
+      ],
+      "SFX": [
+        {
+          "eventId": "SFX-01",
+          "track": "SFX",
+          "ref": "S1-01-SFX01",
+          "label": "No designed sound for the Ember: the glow is silent",
+          "continuesUnderCut": false,
+          "start": "00:00:28.500",
+          "end": "00:00:30.250",
+          "duration": "00:00:01.750",
+          "startFrame": 684,
+          "endFrame": 726,
+          "frames": 42,
+          "durationSec": 1.75
+        },
+        {
+          "eventId": "SFX-02",
+          "track": "SFX",
+          "ref": "S1-01-SFX02",
+          "label": "A single car passes far below",
+          "continuesUnderCut": false,
+          "start": "00:00:36.250",
+          "end": "00:00:38.750",
+          "duration": "00:00:02.500",
+          "startFrame": 870,
+          "endFrame": 930,
+          "frames": 60,
+          "durationSec": 2.5
+        }
+      ],
+      "MUSIC": [
+        {
+          "eventId": "MUSIC-01",
+          "track": "MUSIC",
+          "ref": "S1-01-MX01",
+          "label": "Warm-Up",
+          "continuesUnderCut": true,
+          "start": "00:00:00.000",
+          "end": "00:00:13.500",
+          "duration": "00:00:13.500",
+          "startFrame": 0,
+          "endFrame": 324,
+          "frames": 324,
+          "durationSec": 13.5
+        },
+        {
+          "eventId": "MUSIC-02",
+          "track": "MUSIC",
+          "ref": "S1-01-MX02",
+          "label": "Getting Ready",
+          "continuesUnderCut": true,
+          "start": "00:00:13.500",
+          "end": "00:00:28.500",
+          "duration": "00:00:15.000",
+          "startFrame": 324,
+          "endFrame": 684,
+          "frames": 360,
+          "durationSec": 15
+        },
+        {
+          "eventId": "MUSIC-03",
+          "track": "MUSIC",
+          "ref": "S1-01-MXS1",
+          "label": "SILENCE — The Ember",
+          "continuesUnderCut": true,
+          "start": "00:00:28.500",
+          "end": "00:00:33.250",
+          "duration": "00:00:04.750",
+          "startFrame": 684,
+          "endFrame": 798,
+          "frames": 114,
+          "durationSec": 4.75
+        },
+        {
+          "eventId": "MUSIC-04",
+          "track": "MUSIC",
+          "ref": "S1-01-MX03",
+          "label": "Halcyon",
+          "continuesUnderCut": true,
+          "start": "00:00:33.250",
+          "end": "00:00:45.000",
+          "duration": "00:00:11.750",
+          "startFrame": 798,
+          "endFrame": 1080,
+          "frames": 282,
+          "durationSec": 11.75
+        }
+      ],
+      "SUBTITLES": [
+        {
+          "eventId": "SUBTITLES-01",
+          "track": "SUBTITLES",
+          "ref": "S1-01-SUB01",
+          "label": "[a big band warms up in the distance]",
+          "continuesUnderCut": false,
+          "start": "00:00:00.000",
+          "end": "00:00:04.000",
+          "duration": "00:00:04.000",
+          "startFrame": 0,
+          "endFrame": 96,
+          "frames": 96,
+          "durationSec": 4
+        },
+        {
+          "eventId": "SUBTITLES-02",
+          "track": "SUBTITLES",
+          "ref": "S1-01-SUB02",
+          "label": "[music stops]",
+          "continuesUnderCut": false,
+          "start": "00:00:28.500",
+          "end": "00:00:30.250",
+          "duration": "00:00:01.750",
+          "startFrame": 684,
+          "endFrame": 726,
+          "frames": 42,
+          "durationSec": 1.75
+        },
+        {
+          "eventId": "SUBTITLES-03",
+          "track": "SUBTITLES",
+          "ref": "S1-01-SUB03",
+          "label": "[music returns]",
+          "continuesUnderCut": false,
+          "start": "00:00:33.250",
+          "end": "00:00:35.250",
+          "duration": "00:00:02.000",
+          "startFrame": 798,
+          "endFrame": 846,
+          "frames": 48,
+          "durationSec": 2
+        },
+        {
+          "eventId": "SUBTITLES-04",
+          "track": "SUBTITLES",
+          "ref": "S1-01-SUB04",
+          "label": "[the band lands a full chord]",
+          "continuesUnderCut": false,
+          "start": "00:00:41.250",
+          "end": "00:00:43.500",
+          "duration": "00:00:02.250",
+          "startFrame": 990,
+          "endFrame": 1044,
+          "frames": 54,
+          "durationSec": 2.25
+        }
+      ]
+    },
+    "trackDurations": {
+      "VIDEO_A": {
+        "events": 19,
+        "activeFrames": 1080,
+        "activeSec": 45
+      },
+      "VIDEO_B": {
+        "events": 0,
+        "activeFrames": 0,
+        "activeSec": 0
+      },
+      "DIALOGUE": {
+        "events": 0,
+        "activeFrames": 0,
+        "activeSec": 0
+      },
+      "AMBIENCE": {
+        "events": 3,
+        "activeFrames": 1056,
+        "activeSec": 44
+      },
+      "FOLEY": {
+        "events": 8,
+        "activeFrames": 492,
+        "activeSec": 20.5
+      },
+      "SFX": {
+        "events": 2,
+        "activeFrames": 102,
+        "activeSec": 4.25
+      },
+      "MUSIC": {
+        "events": 4,
+        "activeFrames": 1080,
+        "activeSec": 45
+      },
+      "SUBTITLES": {
+        "events": 4,
+        "activeFrames": 240,
+        "activeSec": 10
+      }
+    }
+  }
+}

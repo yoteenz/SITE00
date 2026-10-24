@@ -89,6 +89,7 @@ export type ShotDesign = {
   startFrameRef: string | null;
   endFrameRef: string | null;
   referenceAssets: string[];
+  /** How the picture arrives at this shot: the cut, fade or match at its first frame. */
   editTransition: string;
   continuityRisk: string[];
   motionClass: MotionClass;

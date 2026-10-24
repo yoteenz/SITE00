@@ -46,7 +46,7 @@ export const SHOTS_B = [
     composition: 'Her face frame right, the green dress soft frame left', screenDirection: 'She faces screen left toward the dress', eyeline: 'The dress',
     blocking: 'She steps back half a pace and looks; a small nod.', performance: 'Approval held in the eyes; the nod is tiny.',
     landmarks: ['third-floor fire-escape rail'], lightingState: 'LS-LAST-LIGHT', wardrobe: [WD.DRESS, WD.GRANDMOTHER],
-    propState: { 'Jewel-green dress': 'hanging on the rail' }, startFrameRef: 'KF-SF-SH10', referenceAssets: ['KF-SF-SH08', 'KF-WD-GREEN-DRESS'], editTransition: 'Cut to the balcony',
+    propState: { 'Jewel-green dress': 'hanging on the rail' }, startFrameRef: 'KF-SF-SH10', referenceAssets: ['KF-SF-SH08', 'KF-WD-GREEN-DRESS'], editTransition: 'Cut',
     continuityRisk: ['Her face is scene-scoped; it must hold from SH08 to SH10'], motionClass: 'LOW', primaryAction: 'She looks at the dress and nods',
     why: {
       framing: 'The first face held in close-up; she earns it.', distance: 'Medium close reads the humour in the look.',
@@ -64,7 +64,7 @@ export const SHOTS_B = [
     blocking: 'She dances a loose step across the kitchen with the spoon.', performance: 'Unselfconscious pleasure; not performing for anyone.',
     landmarks: ['fourth-floor balcony ledge', 'open balcony door'], lightingState: 'LS-LAST-LIGHT', wardrobe: [WD.WOMAN],
     propState: { 'Wine glass': 'full, on the ledge', 'Wooden spoon': 'in her right hand' },
-    startFrameRef: 'KF-SF-SH11', referenceAssets: ['KF-ENV-CITY-DUSK-A'], editTransition: 'Cut',
+    startFrameRef: 'KF-SF-SH11', referenceAssets: ['KF-ENV-CITY-DUSK-A'], editTransition: 'Cut to the balcony',
     continuityRisk: ['The glass on the ledge sets up SH16', 'Spoon stays in her right hand'], motionClass: 'HIGH', primaryAction: 'She dances across the kitchen',
     why: {
       framing: 'The door frame is a stage she does not know she is on.', distance: 'Wide enough for her full body and the glass in one frame.',
@@ -80,7 +80,7 @@ export const SHOTS_B = [
     composition: 'Her face centre; the spoon arcs through frame', screenDirection: 'Spin turns screen right', eyeline: 'Off, toward the room',
     blocking: 'She twirls the spoon and turns with it.', performance: 'A laugh to herself; no camera awareness.',
     landmarks: ['open balcony door'], lightingState: 'LS-LAST-LIGHT', wardrobe: [WD.WOMAN], propState: { 'Wooden spoon': 'in her right hand' },
-    startFrameRef: 'KF-SF-SH12', referenceAssets: ['KF-SF-SH11'], editTransition: 'Cut across the street to the neighbour',
+    startFrameRef: 'KF-SF-SH12', referenceAssets: ['KF-SF-SH11'], editTransition: 'Cut',
     continuityRisk: ['Glass is out of frame here'], motionClass: 'HIGH', primaryAction: 'She twirls the spoon',
     why: {
       framing: 'Medium close makes her joy specific.', distance: 'Close enough for the laugh; the glass leaves frame on purpose.',
@@ -97,7 +97,7 @@ export const SHOTS_B = [
     composition: 'Neighbour frame right; phone rises into the frame-left space', screenDirection: 'He looks screen left toward her balcony', eyeline: 'Screen left and slightly up, to her balcony',
     blocking: 'He sees her, lifts the phone and frames her.', performance: 'Amused, idle, a little greedy; no malice.',
     landmarks: ["neighbour's window frame"], lightingState: 'LS-BLUE-HOUR', wardrobe: [WD.NEIGHBOUR], propState: { "Neighbour's phone": 'lowered, then raised toward the balcony' },
-    startFrameRef: 'KF-SF-SH13', referenceAssets: ['KF-ENV-CITY-DUSK-B'], editTransition: 'Cut; the band thins to bass and brushes on this cut',
+    startFrameRef: 'KF-SF-SH13', referenceAssets: ['KF-ENV-CITY-DUSK-B'], editTransition: 'Cut across the street to the neighbour; the band thins to bass and brushes on this cut',
     continuityRisk: ['Eyeline must stay screen left', 'Phone design pending (PR-NEIGHBOUR-PHONE DESIGN_REQUIRED)'], motionClass: 'MODERATE', primaryAction: 'He lifts his phone toward her balcony',
     why: {
       framing: 'Medium shows his face and the phone in the same gesture.', distance: 'A step closer than the vignettes: this is where the release turns.',

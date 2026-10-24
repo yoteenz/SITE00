@@ -28,7 +28,7 @@ export const SHOTS_C = [
     composition: 'His face frame right; the phone drops out of frame bottom', screenDirection: 'He looks screen left, then down', eyeline: 'Screen left at her, then down and away',
     blocking: 'He lowers the phone below the sill; a small wince.', performance: 'Caught out; a small embarrassed exhale, no apology mime.',
     landmarks: ["neighbour's window frame"], lightingState: 'LS-BLUE-HOUR', wardrobe: [WD.NEIGHBOUR], propState: { "Neighbour's phone": 'raised with the lens copper, then lowered below the sill' },
-    startFrameRef: 'KF-SF-SH15', referenceAssets: ['KF-SF-SH13'], editTransition: 'Cut on his eyes to her balcony',
+    startFrameRef: 'KF-SF-SH15', referenceAssets: ['KF-SF-SH13'], editTransition: 'Cut back to the neighbour, the glow still on the lens',
     continuityRisk: ['Copper glow visible at the start of the shot, gone once the phone is down'], motionClass: 'MODERATE', primaryAction: 'He lowers the phone',
     why: {
       framing: 'Tighter than SH13: the embarrassment is in the face.', distance: 'Medium close, closer than any vignette, because this is the turn.',
@@ -46,7 +46,7 @@ export const SHOTS_C = [
     blocking: 'She steps to the ledge, lifts the glass toward him, then turns back to the kitchen dancing.', performance: 'Amused, generous, a little knowing; not hurt, not flirtatious.',
     landmarks: ['fourth-floor balcony ledge', 'open balcony door'], lightingState: 'LS-BLUE-HOUR', wardrobe: [WD.WOMAN],
     propState: { 'Wine glass': 'raised in her left hand', 'Wooden spoon': 'in her right hand' },
-    startFrameRef: 'KF-SF-SH16', referenceAssets: ['KF-SF-SH11', 'KF-ENV-CITY-DUSK-A'], editTransition: 'Cut; the groove returns as the glass goes up (frame 798)',
+    startFrameRef: 'KF-SF-SH16', referenceAssets: ['KF-SF-SH11', 'KF-ENV-CITY-DUSK-A'], editTransition: 'Cut on his eyes to her balcony; the groove returns as the glass goes up (frame 798)',
     continuityRisk: ['Glass in her left hand, spoon in her right', 'Her face is scene-scoped; it must match SH11 and SH12'],
     motionClass: 'MODERATE', primaryAction: 'She raises her glass to him',
     why: {
@@ -80,7 +80,7 @@ export const SHOTS_C = [
     cameraMovement: 'Continues the rise, then a slow push toward the windows', movementSpeed: 'Slowing to a stop', cameraDirection: 'Forward, east',
     composition: 'Water towers silhouetted in the foreground; the ballroom windows land on the upper third', screenDirection: 'East, screen right of centre', eyeline: 'None',
     blocking: 'Nobody visible.', performance: 'None.', landmarks: ['water towers', 'Halcyon House ballroom windows'], lightingState: 'LS-BLUE-HOUR',
-    startFrameRef: 'KF-SF-SH18', endFrameRef: 'KF-ENV-HALCYON-EXT', referenceAssets: ['KF-ENV-HALCYON-EXT'], editTransition: 'CUT TO BLACK at frame 1044',
+    startFrameRef: 'KF-SF-SH18', endFrameRef: 'KF-ENV-HALCYON-EXT', referenceAssets: ['KF-ENV-HALCYON-EXT'], editTransition: "Cut inside the rise: SH17's last frame is this start frame, so the move reads as one",
     continuityRisk: ['Only lit windows: no approved facade, roofline or signage (FD-S101-04)', 'Amber, not gold, in the windows'],
     motionClass: 'ENVIRONMENT', primaryAction: 'The camera settles on the lit ballroom windows',
     why: {
@@ -95,7 +95,7 @@ export const SHOTS_C = [
     framing: 'Black frame', cameraHeight: 'None', cameraAngle: 'None', lensIntent: 'None', depthOfField: 'None',
     cameraMovement: 'None', movementSpeed: 'None', cameraDirection: 'None', composition: 'Black', screenDirection: 'None', eyeline: 'None',
     blocking: 'None.', performance: 'None.', landmarks: [], lightingState: 'LS-BLUE-HOUR',
-    startFrameRef: null, generated: false, coverage: 'TRANSITION', editTransition: 'Black to end; no title card unless the founder asks (FD-S101-10)',
+    startFrameRef: null, generated: false, coverage: 'TRANSITION', editTransition: 'CUT TO BLACK at frame 1044; black to end, no title card unless the founder asks (FD-S101-10)',
     motionClass: 'LOW', primaryAction: '',
     why: {
       framing: 'Black lets the last chord be the final image.', distance: 'None.', angle: 'None.', movement: 'None.',
