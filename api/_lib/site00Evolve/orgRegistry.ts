@@ -9,6 +9,7 @@ export const MEMORY_ORG_SLUG_TO_ID: Record<string, string> = {
   'all-in-one-enterprises': 'org-00000000-0000-4000-8000-000000000003',
   'studio-world': 'org-00000000-0000-4000-8000-000000000004',
   ndxbook: 'org-00000000-0000-4000-8000-000000000005',
+  'the-exchange': 'org-00000000-0000-4000-8000-000000000006',
 };
 
 /** Verified SITE 00 operational Supabase org registry */
@@ -18,6 +19,8 @@ export const PRODUCTION_ORG_SLUG_TO_ID: Record<string, string> = {
   'all-in-one-enterprises': '3781f0b7-cbc5-470d-8af7-69b97cfa5729',
   'studio-world': 'e6b0ee2c-7140-486f-867f-a759ae731f9a',
   ndxbook: '7681ab75-bddc-43e5-b594-79fcf8168205',
+  /** Index isolation UUID — not an EVOLVE marketing client; link site00_organizations when provisioned. */
+  'the-exchange': 'f8c4e2a1-0d3b-4f5e-9c7a-1b2e3d4f5a6b',
 };
 
 export function useMemoryOrgIds(): boolean {

@@ -61,6 +61,7 @@ const ORG_NAMES: Record<string, string> = {
   'all-in-one-enterprises': 'ALL IN ONE ENTERPRISES',
   'studio-world': 'STUDIO WORLD',
   ndxbook: 'NDXBOOK',
+  'the-exchange': 'THE EXCHANGE',
 };
 
 const ORG_CLASS: Record<string, string> = {
@@ -69,6 +70,7 @@ const ORG_CLASS: Record<string, string> = {
   'all-in-one-enterprises': 'MANAGED_BRAND',
   'studio-world': 'PRODUCTION_INFRASTRUCTURE',
   ndxbook: 'MANAGED_BRAND',
+  'the-exchange': 'SERIALIZED_FICTION',
 };
 
 export async function ensureEvolveSeeded(): Promise<void> {

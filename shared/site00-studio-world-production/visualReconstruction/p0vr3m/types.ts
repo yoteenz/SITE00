@@ -51,6 +51,8 @@ export type Site00ManagedProjectRecord = {
   relationship?: 'PLATFORM' | 'PERSONAL' | 'CLIENT' | 'MANAGED_BRAND' | 'INFRASTRUCTURE';
   /** Project has its own product runtime mounted at /production/:slug/runtime/*. */
   projectRuntime?: boolean;
+  /** Fiction / scripted production uses the durable production record spine (Studio World tools, project-local data). */
+  productionSpine?: boolean;
 };
 
 export type DesignRouteAuthorityRecord = {

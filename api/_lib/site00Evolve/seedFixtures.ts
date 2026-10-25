@@ -259,7 +259,9 @@ export function buildSeedEvolveRoadmapItems(): EvolveRoadmapSeed[] {
 }
 
 export function isMarketingClientOrg(classification: string): boolean {
-  return classification !== 'PRODUCTION_INFRASTRUCTURE';
+  if (classification === 'PRODUCTION_INFRASTRUCTURE') return false;
+  if (classification === 'SERIALIZED_FICTION') return false;
+  return true;
 }
 
 /** Operational seed data for Sprint 02 operator UI — safe baselines, not finalized strategy */
