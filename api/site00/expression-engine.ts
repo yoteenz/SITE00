@@ -832,8 +832,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (req.method === 'GET' && (phase === 'B46' || phase === 'B4.6' || phase === 'B4P6' || phase === 'STORYBOARD_AUTHORITY')) {
-      const dispatchFal = req.query.dispatchFal !== '0' && (req.query.dispatchFal === '1' || body.dispatchFal !== false);
-      const forceDispatch = req.query.forceDispatch === '1' || body.forceDispatch === true;
+      const dispatchFal = false; // GET never spends (D-13): paid generation needs an explicit, authorized POST.
+      assertNoGetDispatchOnRead();
+      const forceDispatch = false;
       const b46 = await bootstrapB46({ dispatchFal, forceDispatch });
       return res.status(200).json({
         engine: 'EXPRESSION_ENGINE_V0',
@@ -889,8 +890,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (req.method === 'GET' && (phase === 'B45' || phase === 'B4.5' || phase === 'B4P5' || phase === 'CINEMATIC_SEQUENCE')) {
-      const dispatchFal = req.query.dispatchFal !== '0' && (req.query.dispatchFal === '1' || body.dispatchFal !== false);
-      const forceDispatch = req.query.forceDispatch === '1' || body.forceDispatch === true;
+      const dispatchFal = false; // GET never spends (D-13): paid generation needs an explicit, authorized POST.
+      assertNoGetDispatchOnRead();
+      const forceDispatch = false;
       const skipContactSheet = req.query.skipContactSheet === '1' || body.skipContactSheet === true;
       const b45 = await bootstrapB45({ dispatchFal, forceDispatch, skipContactSheet });
       return res.status(200).json({
@@ -932,8 +934,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (req.method === 'GET' && (phase === 'B44' || phase === 'B4.4' || phase === 'B4P4' || phase === 'STORYBOARD')) {
-      const dispatchFal = req.query.dispatchFal !== '0' && (req.query.dispatchFal === '1' || body.dispatchFal !== false);
-      const forceDispatch = req.query.forceDispatch === '1' || body.forceDispatch === true;
+      const dispatchFal = false; // GET never spends (D-13): paid generation needs an explicit, authorized POST.
+      assertNoGetDispatchOnRead();
+      const forceDispatch = false;
       const panelsOnly = req.query.panelsOnly === '1' || body.panelsOnly === true;
       const b44 = await bootstrapB44({ dispatchFal, forceDispatch, panelsOnly });
       return res.status(200).json({
@@ -1013,8 +1016,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (req.method === 'GET' && (phase === 'B42' || phase === 'B4.2' || phase === 'B4P2')) {
-      const dispatchFal = req.query.dispatchFal !== '0' && (req.query.dispatchFal === '1' || body.dispatchFal !== false);
-      const forceDispatch = req.query.forceDispatch === '1' || body.forceDispatch === true;
+      const dispatchFal = false; // GET never spends (D-13): paid generation needs an explicit, authorized POST.
+      assertNoGetDispatchOnRead();
+      const forceDispatch = false;
       const b42 = await bootstrapB42({ dispatchFal, forceDispatch });
       return res.status(200).json({
         engine: 'EXPRESSION_ENGINE_V0',
@@ -1054,7 +1058,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (req.method === 'GET' && (phase === 'B41' || phase === 'B4.1' || phase === 'B4P1')) {
-      const dispatchFal = req.query.dispatchFal === '1' || body.dispatchFal === true;
+      const dispatchFal = false; // GET never spends (D-13): paid generation needs an explicit, authorized POST.
+      assertNoGetDispatchOnRead();
       const b41 = await bootstrapB41({ dispatchFal });
       return res.status(200).json({
         engine: 'EXPRESSION_ENGINE_V0',
@@ -1164,7 +1169,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (req.method === 'GET' && phase === 'B3') {
-      const dispatchFal = req.query.dispatchFal === '1' || body.dispatchFal === true;
+      const dispatchFal = false; // GET never spends (D-13): paid generation needs an explicit, authorized POST.
+      assertNoGetDispatchOnRead();
       const b3 = await bootstrapB3CreativeAnchor({ dispatchFal });
       return res.status(200).json({
         engine: 'EXPRESSION_ENGINE_V0',

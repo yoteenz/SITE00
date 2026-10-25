@@ -69,7 +69,7 @@ export async function dispatchEntry002PreStoryboardAuthority(
 ): Promise<PreStoryboardAuthorityRasterResult> {
   const storagePath = buildEntry002PreStoryboardAuthorityStoragePath(board.boardId);
   const promptBundle = compileEntry002PreStoryboardAuthorityPrompt(board);
-  const shouldDispatch = options?.dispatchFal ?? Boolean(process.env.FAL_KEY?.trim());
+  const shouldDispatch = options?.dispatchFal === true;
   const exists = await site00StorageObjectExists(storagePath);
 
   if (exists && !options?.forceDispatch) {

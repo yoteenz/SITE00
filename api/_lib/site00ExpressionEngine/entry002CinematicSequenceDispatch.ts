@@ -99,7 +99,7 @@ export async function dispatchEntry002CinematicFrame(
   options?: { dispatchFal?: boolean; forceDispatch?: boolean },
 ): Promise<CinematicFrameRasterResult> {
   const storagePath = buildEntry002CinematicFrameStoragePath(frame.frameId);
-  const shouldDispatch = options?.dispatchFal ?? Boolean(process.env.FAL_KEY?.trim());
+  const shouldDispatch = options?.dispatchFal === true;
   const exists = await site00StorageObjectExists(storagePath);
 
   if (exists && !options?.forceDispatch) {
@@ -252,7 +252,7 @@ export async function dispatchEntry002CinematicContactSheet(
 }> {
   const sheetId = ENTRY_002_CINEMATIC_CONTACT_SHEET_001;
   const storagePath = buildEntry002CinematicContactSheetStoragePath(sheetId);
-  const shouldDispatch = options?.dispatchFal ?? Boolean(process.env.FAL_KEY?.trim());
+  const shouldDispatch = options?.dispatchFal === true;
   const exists = await site00StorageObjectExists(storagePath);
 
   if (exists && !options?.forceDispatch) {

@@ -34,7 +34,7 @@ export async function bootstrapB44Entry002ReelStoryboardAuthority(options?: {
   await bootstrapB31FounderCreativeOverride();
   saveEntry(compileEntry002LockedEntry());
 
-  const dispatchFal = options?.dispatchFal ?? Boolean(process.env.FAL_KEY?.trim());
+  const dispatchFal = options?.dispatchFal === true;
   const visuals = await dispatchAllEntry002ReelStoryboardVisuals({
     dispatchFal,
     forceDispatch: options?.forceDispatch,
