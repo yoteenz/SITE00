@@ -25,6 +25,7 @@ const PROJECT_VISUAL_CLASS: Record<string, string> = {
   'frontal-slayer': 'fs',
   'studio-world': 'sw',
   ndxbook: 'nd',
+  'the-exchange': 'ex',
   'all-in-one-enterprises': 'aio',
   'astral-world': 'aw',
   site00: 'design',

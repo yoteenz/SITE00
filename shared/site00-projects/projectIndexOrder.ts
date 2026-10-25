@@ -13,6 +13,7 @@ export const PROJECT_INDEX_CANONICAL_ORDER = [
   'frontal-slayer',
   'studio-world',
   'ndxbook',
+  'the-exchange',
   'all-in-one-enterprises',
   'astral-world',
 ] as const;

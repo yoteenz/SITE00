@@ -32,7 +32,7 @@ describe('SITE 00 real project index + command surface', () => {
   it('1. founder index lists real projects — no demo names', async () => {
     const projects = await listSite00FounderProjects();
     const founderProjects = projects.filter((p) => isFounderProjectSlug(p.slug));
-    expect(founderProjects.length).toBe(4);
+    expect(founderProjects.length).toBe(5);
     assertNoDemoProjectsInIndex(projects);
     for (const name of DEMO_PROJECT_NAMES) {
       expect(projects.some((p) => p.name.includes(name))).toBe(false);
@@ -130,8 +130,8 @@ describe('SITE 00 real project index + command surface', () => {
     const founderUuids = new Set(
       payload.projects.filter((p) => isFounderProjectSlug(p.slug)).map((p) => p.organizationUuid),
     );
-    expect(founderUuids.size).toBe(4);
-    expect(uuids.size).toBeGreaterThanOrEqual(4);
+    expect(founderUuids.size).toBe(5);
+    expect(uuids.size).toBeGreaterThanOrEqual(5);
   });
 
   it('18. ProjectsPage does not import ecosystem seed data', () => {
