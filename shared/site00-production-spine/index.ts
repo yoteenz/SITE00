@@ -6,6 +6,7 @@ export * from './types.js';
 export * from './hash.js';
 export * from './validate.js';
 export * from './store.js';
+export * from './permissions.js';
 export * from './machines.js';
 export * from './gate.js';
 export * from './media.js';

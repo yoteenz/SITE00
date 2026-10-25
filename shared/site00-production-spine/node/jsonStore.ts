@@ -1,14 +1,19 @@
 import { randomBytes } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
-import { ScopedRecordStore, type StoreBackend, type StoreOptions } from '../store.js';
+import { checkRevisions, ScopedRecordStore, type StoreBackend, type StoreOp, type StoreOptions } from '../store.js';
 import { SpineError, type StoredKind } from '../types.js';
 
 /**
- * Repository JSON backend (D-03): one file per record at `<root>/<KIND>/<id>.json`, written atomically (temp file,
- * then rename). Temporary pilot persistence for a single operator; not the multi-user production database.
+ * Repository JSON backend (D-03): one file per record at `<root>/<KIND>/<id>.json`. A batch is checked against the
+ * current revisions and written under an in-process lock, each file through a temp file and a rename. Development and
+ * the read-only planning catalogue only: it is neither shared between server instances nor atomic across processes,
+ * so it is never the production store (`durable` is false).
  */
+const LOCKS = new Map<string, Promise<void>>();
+
 export class JsonFileBackend implements StoreBackend {
+  readonly durable = false;
   constructor(readonly root: string) {}
 
   get description() {
@@ -25,12 +30,31 @@ export class JsonFileBackend implements StoreBackend {
     return fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : null;
   }
 
-  async write(kind: StoredKind, id: string, text: string) {
+  private writeFile(kind: StoredKind, id: string, text: string) {
     const f = this.file(kind, id);
     fs.mkdirSync(path.dirname(f), { recursive: true });
     const tmp = `${f}.tmp-${process.pid}-${randomBytes(4).toString('hex')}`;
     fs.writeFileSync(tmp, text, 'utf8');
-    fs.renameSync(tmp, f);
+    return () => fs.renameSync(tmp, f);
+  }
+
+  async commit(ops: StoreOp[]) {
+    const root = path.resolve(this.root);
+    const prev = LOCKS.get(root) ?? Promise.resolve();
+    let release!: () => void;
+    const mine = new Promise<void>((r) => (release = r));
+    LOCKS.set(root, prev.then(() => mine));
+    await prev;
+    try {
+      checkRevisions(ops, (k, id) => {
+        const f = this.file(k, id);
+        return fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : null;
+      });
+      const renames = ops.map((op) => this.writeFile(op.kind, op.id, op.text));
+      for (const r of renames) r();
+    } finally {
+      release();
+    }
   }
 
   async list(kind: StoredKind) {

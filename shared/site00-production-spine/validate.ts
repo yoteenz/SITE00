@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { APPROVAL_KINDS, JOB_STATES, SPINE_SCHEMA_VERSION, SpineError, TAKE_DECISION_STATES, TEST_FIXTURE, type AnyRecord, type StoredKind } from './types.js';
+import { APPROVAL_KINDS, JOB_STATES, PROJECT_ROLES, SPINE_SCHEMA_VERSION, SpineError, TAKE_DECISION_STATES, TEST_FIXTURE, type AnyRecord, type StoredKind } from './types.js';
 
 /** Schema validation for every stored record. Unknown fields are refused, so a typo cannot hide a value. */
 
@@ -70,7 +70,7 @@ const job = z.strictObject({
   actualSpend: z.strictObject({ credits: unknowable(z.number().nonnegative()) }),
   outputAssetIds: z.array(id),
   errors: z.array(z.strictObject({ at: iso, code: z.string(), message: z.string() })),
-  attempts: z.array(z.strictObject({ attempt: z.number().int().positive(), authorizationId: id.nullable(), ticketId: z.string().nullable(), operationId: unknowable(z.string().min(1)), outcome: z.enum(['OPEN', 'SUCCEEDED', 'FAILED', 'CANCELED']), chargedCredits: unknowable(z.number().nonnegative()) })),
+  attempts: z.array(z.strictObject({ attempt: z.number().int().positive(), authorizationId: id.nullable(), ticketId: z.string().nullable(), operationId: unknowable(z.string().min(1)), outcome: z.enum(['OPEN', 'UNCERTAIN', 'SUCCEEDED', 'FAILED', 'CANCELED']), quotedCredits: z.number().int().nonnegative().nullable(), chargedCredits: unknowable(z.number().nonnegative()) })),
   transitions: z.array(z.strictObject({ from: z.enum(JOB_STATES), to: z.enum(JOB_STATES), at: iso, actor: z.string(), reason: z.string(), evidence: z.record(z.string(), z.string()) })),
 });
 
@@ -91,7 +91,8 @@ const take = z.strictObject({
   audioPresent: unknowable(z.boolean()),
   provider: z.string(),
   model: z.string(),
-  continuity: z.strictObject({ status: z.enum(['NOT_REVIEWED', 'PASS', 'ISSUES']), approvalId: id.nullable() }),
+  intendedEditSec: z.number().positive().nullable(),
+  continuity: z.strictObject({ status: z.enum(['NOT_REVIEWED', 'PASS', 'ISSUES']), approvalId: id.nullable(), findings: z.array(z.string().min(1).max(300)).max(20) }),
   decision: z.enum(TAKE_DECISION_STATES),
   selectedForEdit: z.boolean(),
   approvalIds: z.array(id),
@@ -115,15 +116,22 @@ const approval = z.strictObject({
   subject: z.strictObject({ kind: z.enum(['SHOT', 'GENERATION_JOB', 'TAKE', 'ASSET', 'APPROVAL', 'BUDGET', 'CONTINUITY_REFERENCE']), id }),
   decision: z.enum(['AUTHORIZE', 'REVOKE', 'APPROVE', 'HOLD', 'REJECT', 'SELECT_FOR_EDIT', 'DESELECT_FOR_EDIT', 'PASS', 'ISSUES']),
   actor: z.string().min(1),
-  actorRole: z.enum(['FOUNDER', 'REVIEWER', 'SYSTEM']),
+  actorRole: z.enum([...PROJECT_ROLES, 'SYSTEM']),
   at: iso,
+  previousState: z.string().min(1).nullable(),
+  newState: z.string().min(1).nullable(),
+  sourceVersion: z.string().regex(/^[A-Z_]+\/[A-Za-z0-9._:-]+@r\d+(#[A-Za-z0-9._:-]+)?$/),
   note: z.string().max(2000).nullable(),
   decisionRefs: z.array(id),
   supersedes: id.nullable(),
   inputHash: sha.optional(),
+  quotedCredits: z.number().int().nonnegative().optional(),
   maxCredits: z.number().int().nonnegative().optional(),
   expiresAt: iso.optional(),
   budgetId: id.optional(),
+  routeId: id.optional(),
+  scope: z.literal('ONE_JOB_ONE_ATTEMPT').optional(),
+  purpose: z.string().min(1).max(300).optional(),
   authorizedCredits: z.number().int().nonnegative().optional(),
 });
 
@@ -222,8 +230,16 @@ function approvalConsistency(a: Extract<AnyRecord, { kind: 'APPROVAL' }>): strin
   if (a.revision !== 1) out.push('revision: approvals are immutable; a new decision is a new record');
   if (a.approvalKind === 'GENERATION_AUTHORIZATION' && a.decision === 'AUTHORIZE') {
     if (a.actorRole !== 'FOUNDER') out.push('actorRole: only the founder authorizes generation');
-    if (!a.inputHash || a.maxCredits === undefined || !a.expiresAt || !a.budgetId) out.push('a generation authorization needs inputHash, maxCredits, expiresAt and budgetId');
+    if (!a.inputHash || a.maxCredits === undefined || a.quotedCredits === undefined || !a.expiresAt || !a.budgetId || !a.routeId || a.scope !== 'ONE_JOB_ONE_ATTEMPT' || !a.purpose)
+      out.push('a generation authorization needs inputHash, quotedCredits, maxCredits, expiresAt, budgetId, routeId, purpose and the ONE_JOB_ONE_ATTEMPT scope');
+    if (a.quotedCredits !== undefined && a.maxCredits !== undefined && a.quotedCredits > a.maxCredits) out.push('maxCredits: the ceiling is below the quote it authorizes');
   }
+  if (a.approvalKind === 'TAKE_DECISION') {
+    const who: Record<string, readonly string[]> = { APPROVE: ['FOUNDER'], REJECT: ['FOUNDER'], SELECT_FOR_EDIT: ['FOUNDER', 'AUTHORIZED_EDITOR'], DESELECT_FOR_EDIT: ['FOUNDER', 'AUTHORIZED_EDITOR'], HOLD: ['FOUNDER', 'PRODUCTION_ADMIN', 'AUTHORIZED_EDITOR', 'REVIEWER'] };
+    if (!who[a.decision]?.includes(a.actorRole)) out.push(`actorRole: ${a.actorRole} may not record ${a.decision} on a take`);
+  }
+  if (a.approvalKind === 'CONTINUITY_REVIEW' && !['FOUNDER', 'PRODUCTION_ADMIN', 'AUTHORIZED_EDITOR', 'REVIEWER'].includes(a.actorRole)) out.push(`actorRole: ${a.actorRole} may not review continuity`);
+  if (a.approvalKind === 'REFERENCE_APPROVAL' && a.actorRole !== 'FOUNDER') out.push('actorRole: only the founder approves a reference');
   if (a.approvalKind === 'BUDGET_AUTHORIZATION' && a.decision === 'AUTHORIZE') {
     if (a.actorRole !== 'FOUNDER') out.push('actorRole: only the founder authorizes a budget');
     if (a.authorizedCredits === undefined) out.push('a budget authorization needs authorizedCredits');
