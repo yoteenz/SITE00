@@ -424,23 +424,31 @@ export async function resetBatchForReview(batchId: string): Promise<void> {
   }
 }
 
-export async function ensureAutoGenerationPipeline(batchKey = ACTIVE_ASSTS_ENV_BATCH_KEY): Promise<{ autoQueued: boolean; polled: number }> {
+/** Assets a batch run would generate. A FAILED asset counts, but only an explicit run retries it. */
+export function assetsAwaitingGeneration(assets: Array<{ status: string; current_version_id: string | null }>): number {
+  return assets.filter((asset) => asset.status === 'QUEUED' || asset.status === 'FAILED' || !asset.current_version_id).length;
+}
+
+/**
+ * Library pipeline status. Reading the library never spends (D-13): it polls jobs already submitted and reports what a
+ * run would queue. Only `allowGeneration: true`, passed by an explicit admin action, starts a paid batch run.
+ */
+export async function ensureAutoGenerationPipeline(
+  batchKey = ACTIVE_ASSTS_ENV_BATCH_KEY,
+  options: { allowGeneration?: boolean } = {},
+): Promise<{ autoQueued: boolean; polled: number; awaitingGeneration: number }> {
   await ensureBootstrapBatch(batchKey);
   const batch = await getBatchByKey(batchKey);
-  if (!batch || batch.status === 'LOCKED') return { autoQueued: false, polled: 0 };
+  if (!batch || batch.status === 'LOCKED') return { autoQueued: false, polled: 0, awaitingGeneration: 0 };
 
   const assets = await listAssetsForBatch(batch.id);
   const manifest = getBatchManifestByKey(batchKey);
-  if (!manifest) return { autoQueued: false, polled: 0 };
+  if (!manifest) return { autoQueued: false, polled: 0, awaitingGeneration: 0 };
 
   let autoQueued = false;
-  const shouldQueue = assets.some((asset) => {
-    if (asset.status === 'QUEUED' || asset.status === 'FAILED') return true;
-    if (!asset.current_version_id) return true;
-    return false;
-  });
+  const awaitingGeneration = assetsAwaitingGeneration(assets);
 
-  if (shouldQueue && batch.status !== 'GENERATING') {
+  if (options.allowGeneration === true && awaitingGeneration > 0 && batch.status !== 'GENERATING') {
     const { runBatchGeneration } = await import('./generation.js');
     await runBatchGeneration(batchKey);
     autoQueued = true;
@@ -448,7 +456,7 @@ export async function ensureAutoGenerationPipeline(batchKey = ACTIVE_ASSTS_ENV_B
 
   const { pollPendingGenerationJobs } = await import('./generation.js');
   const polled = await pollPendingGenerationJobs(10);
-  return { autoQueued, polled };
+  return { autoQueued, polled, awaitingGeneration };
 }
 
 export async function recomputeBatchStatus(batchId: string): Promise<BatchStatus> {

@@ -529,7 +529,8 @@ export async function runBatchGeneration(batchKey: string): Promise<{ queued: nu
   return { queued, jobs };
 }
 
-export async function pollPendingGenerationJobs(limit = 5): Promise<number> {
+/** Collects results of jobs already submitted. Continuing a vault lineage submits new paid jobs, so it needs `continueLineage: true` from an explicit action. */
+export async function pollPendingGenerationJobs(limit = 5, options: { continueLineage?: boolean } = {}): Promise<number> {
   const supabase = getSupabaseAdmin();
   const { data: jobs } = await supabase
     .from('site00_generation_jobs')
@@ -611,8 +612,10 @@ export async function pollPendingGenerationJobs(limit = 5): Promise<number> {
     }
   }
 
-  for (const batchKey of batchesToContinue) {
-    await continueVaultLineageGeneration(batchKey);
+  if (options.continueLineage === true) {
+    for (const batchKey of batchesToContinue) {
+      await continueVaultLineageGeneration(batchKey);
+    }
   }
 
   return completed;

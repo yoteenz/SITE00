@@ -49,7 +49,7 @@ export async function bootstrapB46Entry002StoryboardGate(options?: {
   await bootstrapB31FounderCreativeOverride();
   saveEntry(compileEntry002LockedEntry());
 
-  const dispatchFal = options?.dispatchFal ?? Boolean(process.env.FAL_KEY?.trim());
+  const dispatchFal = options?.dispatchFal === true;
   const treatment = buildEntry002ReelTreatmentAuthority();
   const preStoryboardAuthorities = buildEntry002PreStoryboardVisualAuthorities();
   const preStoryboardAuthorityPack = buildEntry002PreStoryboardVisualAuthorityPack(preStoryboardAuthorities);

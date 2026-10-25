@@ -42,7 +42,7 @@ export async function executeEntry002ReelKeyframeDispatchB42(options?: {
   seedChapter01Canon();
   await bootstrapB31FounderCreativeOverride();
 
-  const dispatchFal = options?.dispatchFal ?? Boolean(process.env.FAL_KEY?.trim());
+  const dispatchFal = options?.dispatchFal === true;
   const rasters = await dispatchAllEntry002ReelKeyframeRasters({
     dispatchFal,
     forceDispatch: options?.forceDispatch,
