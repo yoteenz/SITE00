@@ -7,7 +7,7 @@ import { FakeProviderTransport, MemoryMediaStore, ProductionRunner, ScopedRecord
 import { FfprobeMediaProbe } from '../shared/site00-production-spine/node/ffmpeg.js';
 import { SupabaseRpcBackend } from '../shared/site00-production-spine/node/supabaseStore.js';
 import { planSpineStore } from '../shared/site00-production-spine/node/storeSelection.js';
-import { buildSh01Records, EXCHANGE_PROJECT_ID, SH01 } from '../shared/site00-production-spine/projects/theExchange.js';
+import { buildSh01Records, EXCHANGE_PROJECT_ID } from '../shared/site00-production-spine/projects/theExchange.js';
 import { pgServerBin, sandboxRpcClient, SPINE_MIGRATIONS, startPgSandbox, type PgSandbox, type SqlOptions } from '../scripts/production/pgSandbox.js';
 import { makeSpineFixtureMedia, markFixture, seedApprovedSh01, seedSh01Setup, steppingClock, VIDEO_JOB, type SpineFixtureMedia } from '../scripts/production/spineFixtures.js';
 
