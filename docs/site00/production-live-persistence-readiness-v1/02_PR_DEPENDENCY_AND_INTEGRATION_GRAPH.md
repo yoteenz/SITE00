@@ -26,7 +26,7 @@ main 159c0fa9
 | Branch | From | Contains | Why separate |
 | --- | --- | --- | --- |
 | `claude/production-security-rls-hardening` (**PR #1698**, base #1696's branch) | #1696 (30577615) | #1696 plus migration `20261026090000`: RLS on the two production-graph tables, and EXECUTE on `site00_allocate_access_credential_code()` limited to service_role | Security repairs deploy on their own, before any application change (§02: keep the deployment sequencing separate) |
-| `claude/production-live-persistence-readiness` | #1697 (0f987a3f) | `--no-ff` merges of the security branch (so #1696 too) and of #1693's d6fcbcf4, then this sprint's work: durable store migration `20261026100000`, store, roles, gate, runner, UI, scripts, tests and deliverables | The reviewable integration branch: every open PR head in one tree, with no history rewritten |
+| `claude/production-live-persistence-readiness` (**PR #1699**, base #1697's branch) | #1697 (0f987a3f) | `--no-ff` merges of the security branch (so #1696 too) and of #1693's d6fcbcf4, then this sprint's work: durable store migration `20261026100000`, store, roles, gate, runner, UI, scripts, tests and deliverables | The reviewable integration branch: every open PR head in one tree, with no history rewritten |
 
 Both merges were clean. The audit merge brings in documentation only, and it is not duplicated anywhere.
 
@@ -42,7 +42,7 @@ Both merges were clean. The audit merge brings in documentation only, and it is 
 | #1696 | main | 30577615 | none | adds 20261025120000 (policy repair) | Expression Engine and ASSTS dispatch opt-in | 15/15 spend-gate tests; policy check 16/16 (B1) | Independent; can merge first | API redeploy (Railway) plus the migration, founder-approved (deliverable 18) |
 | #1698 security follow-up | #1696 | fd899040 | #1696 | adds 20261026090000; needs the production-graph migration (20260823210000) and the access-credential migration (20260820000000) applied | none | 20/20 on a throwaway PostgreSQL 16 | After #1696 | Migration only, founder-approved, before any app change |
 | #1697 | #1695 | 0f987a3f | #1695 | none (pilot JSON store) | fiction-production engine; spine | Its suites pass (now superseded by the integration branch) | After #1695 | Read-only planning catalogue; safe |
-| integration | #1697 | branch head | #1697, security follow-up, #1693 head | adds 20261026100000; needs 20260826123000 (managed-project registry) and the auth and storage schemas | spine, API, Takes UI | deliverable 20 | After #1697 and the security follow-up | Staging first; production only after founder approval (deliverable 18) |
+| #1699 integration | #1697 | branch head | #1697, security follow-up, #1693 head | adds 20261026100000; needs 20260826123000 (managed-project registry) and the auth and storage schemas | spine, API, Takes UI | deliverable 20 | After #1697 and the security follow-up | Staging first; production only after founder approval (deliverable 18) |
 
 ## 4. Suggested merge order (the founder's decision; nothing was merged)
 
