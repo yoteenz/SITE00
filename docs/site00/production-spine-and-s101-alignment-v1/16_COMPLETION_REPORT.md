@@ -9,8 +9,9 @@ REPOSITORY:           yoteenz/SITE00
 BRANCHES:             A  claude/the-exchange-s101-packet-alignment
                       B1 claude/production-spend-gates-and-policy-repair
                       B2 claude/studioworld-production-record-spine
-SHAS:                 A 6dda1c51 · B1 30577615 · B2 PENDING
-PRs:                  PENDING
+SHAS:                 A 6dda1c51 · B1 30577615 · B2 0877342e (implementation) + documentation commits;
+                      B2 head as shown on PR #1697
+PRs:                  #1695 (A, base #1694) · #1696 (B1, base main) · #1697 (B2, base A); none merged
 
 WORKSTREAM A
   S1-01 patches implemented:        7 of 7 (PATCH-S101-01 to -07)
@@ -48,9 +49,11 @@ MEDIA CREDITS SPENT:                0
 PRODUCTION DEPLOYMENT:              NONE
 AUTOMATIC MERGES:                   NONE
 
-BUILD:                              PENDING
-TEST:                               PENDING
-NEW REGRESSIONS:                    PENDING
+BUILD:                              PASS (npm run build on B2: tsc clean, Vite build, dist verification OK)
+TEST:                               A: 134/134 Exchange · B1: 15/15 new; full suite 11,245 pass / 91 fail = main
+                                    B2: 41/41 new; full suite 11,384 pass / 91 fail = base; dry run 20/20;
+                                    viewport check 390 / 834 / 1440 / 2560 pass
+NEW REGRESSIONS:                    NONE (failure sets identical test by test: B1 vs main, B2 vs its base)
 
 SMALL PACKAGE:                      STUDIOWORLD_PRODUCTION_SPINE_S101_ALIGNMENT_V1_SMALL_FOUNDER_REVIEW.zip
 FULL PACKAGE:                       STUDIOWORLD_PRODUCTION_SPINE_S101_ALIGNMENT_V1_FULL_IMPLEMENTATION_EVIDENCE.zip

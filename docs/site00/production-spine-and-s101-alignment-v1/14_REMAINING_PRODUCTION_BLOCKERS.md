@@ -70,7 +70,7 @@ Sprint `P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMEN
 ## 5. Merge order (no merge was made)
 
 1. #1690, #1692, #1693, #1694 (the existing Exchange stack).
-2. Workstream A (S1-01 packet alignment), based on #1694.
-3. B2 (production spine), based on A.
+2. #1695, workstream A (S1-01 packet alignment), based on #1694.
+3. #1697, B2 (production spine), based on #1695.
 
-B1 (spend gates and role policies) is based on `main` and is independent of 1–3. It can merge first.
+#1696, B1 (spend gates and role policies), is based on `main` and is independent of 1–3. It can merge first.

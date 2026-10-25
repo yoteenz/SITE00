@@ -20,7 +20,9 @@ Sprint `P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMEN
 | Related suites (31 files: Expression Engine B3–B5, ASSTS, provider gateway, bypass audit, reference binding) | 579 pass, 15 fail; identical on unmodified `main` (B4.1, B4.2, B5.3 #15, B5.4 #4) |
 | API type errors in the changed files' dependency closure (the `api/` folder has no project tsconfig) | 328 before, 328 after, identical set |
 | `scripts/production/verify-role-policies.sh` (throwaway PostgreSQL 16) | before: anon INSERT allowed; after: anon and authenticated denied and see 0 rows, service_role allowed, policy roles `{service_role}`, re-apply harmless |
-| Full suite | PENDING (filled in after the B1 and `main` full-suite runs) |
+| Full suite, B1 head | 11,341 tests: 11,245 pass, 91 fail (60 files), 5 skipped |
+| Full suite, `main` @ `159c0fa9` | 11,326 tests: 11,230 pass, 91 fail (60 files), 5 skipped |
+| Failure sets compared test by test | **identical: 0 new failures, 0 fixed**; the +15 tests are `productionSpendGates.test.ts` |
 
 ## 3. Workstream B2 (`claude/studioworld-production-record-spine`, base A @ `6dda1c51`)
 
@@ -36,12 +38,12 @@ Sprint `P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMEN
 | Test count difference | +42: the 41 new spine tests and 1 new parametrized case in `productionWorkspacePanelMediaGeometry2` (the new Takes panels), which passes |
 | Typecheck (`tsc --noEmit`, whole app) | clean |
 | Spine, API and scripts typecheck (scratch tsconfig including `api/site00/production-spine.ts`) | clean |
-| Production build (`npm run build`) | PENDING (production build in progress) |
+| Production build (`npm run build`) | passes: `tsc` clean; Vite built 4,151 modules in 46 s; `verify-production-dist` OK (471 JS assets); release manifest and SPA `.htaccess` written to `dist/` (untracked); no spine module in any browser-externalization warning |
 | Zero-spend dry run (`scripts/production/sh01DryRun.ts`) | 20 of 20 steps; 0 network calls; live records unchanged |
 | Responsive check (`scripts/production/takes-viewport-check.ts`) | 390, 834, 1440 and 2560 pass: no page or frame scroll, bottom nav visible, controls on screen, no circular buttons; decisions written by touch, keyboard and click |
 | Dev server | serves `/api/site00/production-spine`; without Supabase it refuses with 503 (auth not configured), and a bad media signature with 403 |
 
-The full suite writes two JURNL generation ledgers as a side effect. Both were restored after each run.
+The full suite writes two JURNL generation ledgers as a side effect. Both were restored after each of the four runs (B2, its base, B1 and `main`).
 
 ## 4. Pre-existing failures
 

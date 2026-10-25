@@ -38,11 +38,11 @@ No source record was invented. Where a value was not available it is recorded as
 
 ## 3. Branches made by this sprint
 
-| Workstream | Branch @ head | Based on | Why that base |
+| Workstream (PR) | Branch @ head | Based on | Why that base |
 | --- | --- | --- | --- |
-| A, S1-01 packet alignment | `claude/the-exchange-s101-packet-alignment` @ `6dda1c51` | #1694 @ `d1f41ae3` | the patches apply promotion records that exist only on #1694 |
-| B1, spend gates and role policies | `claude/production-spend-gates-and-policy-repair` @ `30577615` | `main` @ `159c0fa9` | the fixes are in `main` code (Expression Engine, ASSTS, migrations) and must not wait for the Exchange stack |
-| B2, production record spine | `claude/studioworld-production-record-spine` @ `0877342e` | A @ `6dda1c51` | the SH01 setup is built from the patched packet and records its hash |
+| A, S1-01 packet alignment (#1695) | `claude/the-exchange-s101-packet-alignment` @ `6dda1c51` | #1694 @ `d1f41ae3` | the patches apply promotion records that exist only on #1694 |
+| B1, spend gates and role policies (#1696) | `claude/production-spend-gates-and-policy-repair` @ `30577615` | `main` @ `159c0fa9` | the fixes are in `main` code (Expression Engine, ASSTS, migrations) and must not wait for the Exchange stack |
+| B2, production record spine (#1697) | `claude/studioworld-production-record-spine` @ `0877342e` (implementation; documentation commits follow) | A @ `6dda1c51` | the SH01 setup is built from the patched packet and records its hash |
 
 The sprint required separate branches and PRs, so no work went to the session's default branch `claude/ready-r60enh`. That branch is #1693's head and was left unchanged.
 
