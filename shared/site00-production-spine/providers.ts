@@ -1,4 +1,5 @@
 import { redeemDispatchTicket, type DispatchTicket } from './gate.js';
+import { openArtContractProblems, parseOpenArtCreation, sessionCredentialFaults } from './openartContract.js';
 import { SpineError, type GenerationJobRecord, type SettingValue, type Unknowable } from './types.js';
 
 /**
@@ -185,18 +186,24 @@ export class FakeProviderTransport implements ProviderTransport {
 
 /* ── OpenArt, agent-session route (guarded, disabled) ──────────────────────────────────────────────── */
 
-/** What an agent session holding the OpenArt connector would execute. Not available to the deployed app. */
+/**
+ * What an agent session holding the founder's OpenArt connector would execute. The deployed app has no such
+ * connector and no OpenArt credential; nothing in this repository implements this interface.
+ *   submit     creates one creation from the payload; returns the provider's creation id
+ *   creation   the raw creation record as openart_creation_list returns it (parsed against the observed contract)
+ *   download   the output bytes, read once from the provider's temporary URL
+ *   lookup     optional: finds the creation a request made, by idempotency key; absent → never definitive
+ */
 export interface AgentSessionOpenArtExecutor {
   submit(payload: OpenArtPayload): Promise<{ operationId: string }>;
-  poll(operationId: string): Promise<ProviderPoll>;
-  fetchOutput(operationId: string): Promise<ProviderOutput>;
-  /** Optional: the connector's creation history searched for this request. Absent → lookups are not definitive. */
+  creation(operationId: string): Promise<unknown>;
+  download(url: string): Promise<{ bytes: Uint8Array; mimeType: string }>;
   lookup?(idempotencyKey: string): Promise<ProviderLookup>;
 }
 
 /**
- * The request as OpenArt's quotes describe it (model, mode, config). The connector's tool names and response fields
- * have not been verified from this environment, so they are not modelled here.
+ * The request in the form OpenArt's quotes and creation records show: model, mode, config, prompt, and inputs by
+ * the observed field names. REFERENCE has no observed field and is refused by openArtContractProblems.
  */
 export type OpenArtPayload = { model: string; mode: string; config: Record<string, SettingValue>; prompt: string; inputs: Array<{ field: 'startFrame' | 'endFrame' | 'reference'; storageRef: string; sha256: string }> };
 
@@ -217,6 +224,8 @@ export class OpenArtAgentSessionTransport implements ProviderTransport {
   ) {}
 
   status() {
+    const faults = sessionCredentialFaults(this.env);
+    if (faults.length) return { enabled: false, reason: `OpenArt credentials found in the server environment (${faults.join(', ')}): founder app-session credentials are never server secrets` };
     if (this.env[PROVIDER_EXECUTION_FLAG] !== 'ENABLED') return { enabled: false, reason: `${PROVIDER_EXECUTION_FLAG} is not ENABLED` };
     if (!this.executor) return { enabled: false, reason: 'no agent-session OpenArt executor in this runtime (the deployed app has no OpenArt connector)' };
     return { enabled: true, reason: 'agent-session OpenArt executor attached and execution flag set' };
@@ -236,7 +245,7 @@ export class OpenArtAgentSessionTransport implements ProviderTransport {
     } catch (e) {
       throw new ProviderSubmitError('NOT_SENT', (e as SpineError).code ?? 'PROVIDER_EXECUTION_DISABLED', (e as Error).message, 0);
     }
-    const problems = requestProblems(req);
+    const problems = [...requestProblems(req), ...openArtContractProblems(req)];
     if (problems.length) throw new ProviderSubmitError('NOT_SENT', 'PROVIDER_REQUEST_INVALID', problems.join('; '), 0);
     // From here the request may be in flight: any error the executor throws is UNCERTAIN unless it says otherwise.
     return executor.submit(openArtPayload(req));
@@ -247,11 +256,15 @@ export class OpenArtAgentSessionTransport implements ProviderTransport {
     return executor.lookup ? executor.lookup(idempotencyKey) : { found: false, definitive: false, detail: 'the OpenArt connector offers no lookup by idempotency key; reconcile by hand' };
   }
 
-  async poll(operationId: string) {
-    return this.executorOrThrow().poll(operationId);
+  async poll(operationId: string): Promise<ProviderPoll> {
+    return parseOpenArtCreation(await this.executorOrThrow().creation(operationId)).poll;
   }
 
-  async fetchOutput(operationId: string) {
-    return this.executorOrThrow().fetchOutput(operationId);
+  async fetchOutput(operationId: string): Promise<ProviderOutput> {
+    const executor = this.executorOrThrow();
+    const c = parseOpenArtCreation(await executor.creation(operationId));
+    if (!c.outputUrl) throw new SpineError('PROVIDER_OUTPUT_MISSING', `creation ${c.creationId} has no output`);
+    const { bytes, mimeType } = await executor.download(c.outputUrl);
+    return { bytes, mimeType, sourceHost: c.sourceHost };
   }
 }

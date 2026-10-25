@@ -11,6 +11,7 @@ export * from './machines.js';
 export * from './gate.js';
 export * from './media.js';
 export * from './providers.js';
+export * from './openartContract.js';
 export * from './frames.js';
 export * from './runner.js';
 export * from './workspace.js';

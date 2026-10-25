@@ -33,6 +33,11 @@ import {
   PROJECT_ROLES,
   ROLE_PERMISSIONS,
   type FakeBehaviour,
+  matchingQuote,
+  OPENART_EVIDENCE,
+  OPENART_OBSERVED_INPUT_FIELDS,
+  openArtContractProblems,
+  parseOpenArtCreation,
 } from '../shared/site00-production-spine/index.js';
 import { FfmpegFrameExtractor, FfprobeMediaProbe } from '../shared/site00-production-spine/node/ffmpeg.js';
 import { jsonFileStore } from '../shared/site00-production-spine/node/jsonStore.js';
@@ -322,7 +327,7 @@ describe('spend gate (§18)', () => {
 
   it('keeps the real OpenArt route disabled: no flag, or no agent-session executor, means no call', async () => {
     const calls: string[] = [];
-    const executor = { submit: async () => (calls.push('submit'), { operationId: 'X' }), poll: async () => ({ state: 'RUNNING' as const }), fetchOutput: async () => ({ bytes: new Uint8Array(), mimeType: 'video/mp4', sourceHost: 'UNKNOWN' as const }) };
+    const executor = { submit: async () => (calls.push('submit'), { operationId: 'X' }), creation: async () => ({}), download: async () => ({ bytes: new Uint8Array(), mimeType: 'video/mp4' }) };
     for (const t of [new OpenArtAgentSessionTransport({}), new OpenArtAgentSessionTransport({ SITE00_PROVIDER_EXECUTION: 'ENABLED' }), new OpenArtAgentSessionTransport({}, executor)]) {
       expect(t.status().enabled).toBe(false);
       expect(await code(t.submit({} as never, {} as DispatchTicket, '2026-10-25T00:00:00Z'))).toBe('PROVIDER_EXECUTION_DISABLED');
@@ -575,6 +580,61 @@ describe('duplicate and retry protection (§16–§17)', () => {
     expect(await code(h.runner.recapture(VIDEO, REVIEWER))).toBe('FORBIDDEN');
     expect((await h.runner.recapture(VIDEO, ADMIN)).status).toBe('CAPTURED');
     expect([h.fake.calls.submit, h.fake.received.length, (await h.store.list('GENERATION_JOB')).length, (await h.store.list('TAKE')).length]).toEqual([1, 1, 3, 1]);
+  });
+});
+
+describe('OpenArt runner readiness against the observed contract (§18)', () => {
+  const recorded = JSON.parse(fs.readFileSync(path.join(root, OPENART_EVIDENCE.creations), 'utf8')) as { creations: Array<Record<string, unknown>> };
+  const quotes = (JSON.parse(fs.readFileSync(path.join(root, OPENART_EVIDENCE.quotes), 'utf8')) as { openart: { quotes: Parameters<typeof matchingQuote>[1] } }).openart.quotes;
+
+  it('parses every recorded creation: completed → stored-output pointer, failed → failure, charge UNKNOWN', () => {
+    const parsed = recorded.creations.map((c) => parseOpenArtCreation(c));
+    expect(parsed.map((p) => p.poll.state)).toEqual(['SUCCEEDED', 'SUCCEEDED', 'SUCCEEDED', 'SUCCEEDED', 'SUCCEEDED', 'FAILED', 'FAILED']);
+    for (const p of parsed.filter((x) => x.poll.state === 'SUCCEEDED')) expect([p.sourceHost, 'reportedCredits' in p.poll && p.poll.reportedCredits]).toEqual(['cdn.openart.ai', 'UNKNOWN']);
+    expect(parsed[0]).toMatchObject({ durationSec: 10.041667, resolution: '1080p' });
+    expect(new Set(recorded.creations.flatMap((c) => (c.inputRefs as Array<{ field: string }>).map((i) => i.field)))).toEqual(new Set(OPENART_OBSERVED_INPUT_FIELDS));
+  });
+
+  it('refuses what was never observed: other statuses, other hosts, a completed creation with no output', () => {
+    const c = recorded.creations[0]!;
+    expect(codeSync(() => parseOpenArtCreation({ ...c, status: 'processing' }))).toBe('PROVIDER_STATUS_UNRECOGNIZED');
+    expect(codeSync(() => parseOpenArtCreation({ ...c, outputUrl: 'https://example.test/x.mp4' }))).toBe('PROVIDER_OUTPUT_HOST_UNEXPECTED');
+    expect(codeSync(() => parseOpenArtCreation({ ...c, outputUrl: '' }))).toBe('PROVIDER_OUTPUT_MISSING');
+    expect(codeSync(() => parseOpenArtCreation({ status: 'completed' }))).toBe('PROVIDER_RESPONSE_INVALID');
+  });
+
+  it('prices only the exact quoted configuration, and checks the request against the recorded form', () => {
+    const { jobs } = buildSh01Records(root);
+    const [ref, , video] = jobs as [GenerationJobRecord, GenerationJobRecord, GenerationJobRecord];
+    expect(matchingQuote(video, quotes)?.totalCredits).toBe(175);
+    expect(matchingQuote(ref, quotes)?.totalCredits).toBe(40);
+    expect(matchingQuote({ ...video, settings: { ...video.settings, duration: 7 } }, quotes)).toBeNull();
+    const req = { projectId: 'p', jobId: video.id, inputHash: video.inputHash, idempotencyKey: video.idempotencyKey, routeId: video.routeId, provider: 'OpenArt', model: video.model, mode: video.mode, settings: video.settings, prompt: video.prompt.text, inputs: [{ role: 'START_FRAME' as const, referenceId: 'KF', storageRef: 'x', sha256: 'y' }] };
+    expect(openArtContractProblems(req)).toEqual([]);
+    expect(openArtContractProblems({ ...req, settings: { ...req.settings, generateSound: true } }).join()).toMatch(/generateSound/);
+    expect(openArtContractProblems({ ...req, settings: { ...req.settings, duration: 16 } }).join()).toMatch(/duration/);
+    expect(openArtContractProblems({ ...req, inputs: [...req.inputs, { role: 'REFERENCE' as const, referenceId: 'R', storageRef: 'x', sha256: 'y' }] }).join()).toMatch(/not been observed/);
+  });
+
+  it('keeps founder app-session credentials out of the server: present in the environment → route disabled', () => {
+    const t = new OpenArtAgentSessionTransport({ SITE00_PROVIDER_EXECUTION: 'ENABLED', OPENART_SESSION_COOKIE: 'x' }, { submit: async () => ({ operationId: 'X' }), creation: async () => ({}), download: async () => ({ bytes: new Uint8Array(), mimeType: 'video/mp4' }) });
+    expect(t.status()).toMatchObject({ enabled: false, reason: expect.stringMatching(/never server secrets/) });
+    expect(Object.keys(process.env).filter((k) => /OPENART/i.test(k))).toEqual([]);
+  });
+
+  it('runs operation creation, status, output retrieval and asset handoff through a stub executor replaying recorded records', async () => {
+    const h = await harness({ approve: true });
+    const done = recorded.creations[0]!;
+    const sent: unknown[] = [];
+    const stub = { submit: async (p: unknown) => (sent.push(p), { operationId: String(done.creationId) }), creation: async () => done, download: async () => ({ bytes: fx.video, mimeType: 'video/mp4' }) };
+    const openart = new OpenArtAgentSessionTransport({ SITE00_PROVIDER_EXECUTION: 'ENABLED' }, stub);
+    const runner = new ProductionRunner({ store: h.store, media: h.media, transports: { 'OA-NBP-I2I-2K-REF': openart, 'OA-K3O-I2V-PRO': openart }, sceneGate: () => ({ valid: true, reasons: [] }), probe: new FfprobeMediaProbe(), clock: h.clock });
+    expect((await runner.dispatch(VIDEO, FOUNDER)).outcome).toBe('SUBMITTED');
+    expect(sent).toEqual([expect.objectContaining({ model: 'kling-3-omni', mode: 'image2video', config: { duration: 5, generateSound: false, resolution: 'pro', videoCount: 1 }, inputs: [expect.objectContaining({ field: 'startFrame' })] })]);
+    const job = await runner.poll(VIDEO);
+    const asset = (await h.store.get('ASSET', job.outputAssetIds[0]!))!;
+    expect([job.status, job.actualSpend.credits, asset.lineage.providerSourceHost, asset.lineage.providerOperationId]).toEqual(['CAPTURED', 'UNKNOWN', 'cdn.openart.ai', done.creationId]);
+    expect(JSON.stringify(await h.store.list('ASSET'))).not.toMatch(/https?:/);
   });
 });
 
