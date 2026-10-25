@@ -1,0 +1,1171 @@
+{
+  "schemaVersion": "1.0.0",
+  "sprint": "P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1",
+  "rule": "These 53 proposals have no founder decision. Each keeps its audit recommendation, is not promoted, and enters no screenplay or production plan as a requirement. A later founder decision may approve, revise, hold or reject any of them.",
+  "count": 53,
+  "proposals": [
+    {
+      "proposalId": "T-03",
+      "title": "The Echo Track goes dark where the 1985 camera looked away",
+      "type": "TECHNOLOGY",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-40"
+      ],
+      "placement": "S1-40 P2, beat 14, in the line's first run down lane four before the gun.",
+      "proposed": "Before the start, as the line makes its first run, it thins to nothing for two strides on the bend, where the 1985 broadcast cut to the crowd, and picks up again. Nobody comments. Only Dee's line runs; the other 1985 runners, who are in the same footage, are not drawn. The race itself plays as written.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "T-05",
+      "title": "The pliers girl runs out past lights like hers",
+      "type": "TECHNOLOGY",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-22",
+        "S1-30"
+      ],
+      "placement": "S1-22 ending, as the girl runs out holding her light up.",
+      "proposed": "She runs past the stairwell of the block next door, where the landing lights are the same bloom design, already installed. She does not notice; the audience does. Nobody says civic programme.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "T-06",
+      "title": "The Halo at home on Grand Exchange morning",
+      "type": "TECHNOLOGY",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [
+        {
+          "decisionId": "U-4",
+          "status": "OPEN"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-68",
+        "S1-62"
+      ],
+      "placement": "S1-68, beat 1, behind Sloane at the counter.",
+      "proposed": "Sloane eats her cake with her own hair setting under the Halo, the floating ring humming at the edge of frame. Gideon moves it aside to reach the coffee. Nobody names it.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "T-07",
+      "title": "Kids playing copper tag at the market",
+      "type": "TECHNOLOGY",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-51"
+      ],
+      "placement": "S1-51, beat 6, among the kids weaving between stalls.",
+      "proposed": "Two kids play a game with an old phone: raise it, shout \"Yes?\", and if the target doesn't answer in time the lens glows copper and they're out. A grown-up walks into the game and glows copper without knowing why everyone is laughing.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "T-08",
+      "title": "Kai's Threshold credential dulls after midnight",
+      "type": "TECHNOLOGY",
+      "category": "A",
+      "auditRecommendation": "HOLD",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-79",
+        "S1-61"
+      ],
+      "placement": "S1-79, beat 4, as Honora says \"But I saw it.\"",
+      "proposed": "A small brass pin on Kai's lapel, warm all night, has gone dull by the afterparty. Honora glances at it before she speaks.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "T-09",
+      "title": "The brass key is a keepsake; the door knows the list",
+      "type": "TECHNOLOGY",
+      "category": "C",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-69",
+        "S1-07",
+        "S1-72"
+      ],
+      "placement": "Season rule, exercised in S1-69 and S1-72.",
+      "proposed": "Write down: a key is a summons and a keepsake, not a credential. The door already knows the list, and a key in the wrong hand opens nothing. Mavis tucks hers into a hatband because she will keep it, not because she needs it at the door.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "T-13",
+      "title": "What the Threshold covers",
+      "type": "TECHNOLOGY",
+      "category": "C",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-61",
+        "S1-63",
+        "S1-67",
+        "S1-77",
+        "S1-79"
+      ],
+      "placement": "Season rule, stated in S1-61 and exercised in S1-67.",
+      "proposed": "Write down: the Threshold grants Kai one purpose, building the yes as Celestine's named collaborator, for as long as that work lasts, and one Exchange Night, the Grand Exchange. Rehearsal is inside the purpose. The Night is the one night.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "T-14",
+      "title": "A Veil at the Okafor cookout",
+      "type": "TECHNOLOGY",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-64"
+      ],
+      "placement": "S1-64.",
+      "proposed": "Delphine wears a Veil that shields her identity at the table.",
+      "auditReason": "The master calls this \"a moment of wonder with no invention at all\". The gift is the family's discretion; a Veil would take it from them."
+    },
+    {
+      "proposalId": "T-15",
+      "title": "Name the Constellation at the midpoint",
+      "type": "TECHNOLOGY",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-43"
+      ],
+      "placement": "S1-43.",
+      "proposed": "Royce names the Constellation as his source of signals.",
+      "auditReason": "The function and its limit are already on screen: the signals support his inference and none says \"last\". Naming the system adds exposition and nothing else."
+    },
+    {
+      "proposalId": "T-16",
+      "title": "An Interval message from Vivienne",
+      "type": "TECHNOLOGY",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-86"
+      ],
+      "placement": "S1-86.",
+      "proposed": "Vivienne's voice and face bloom on Interval silk with a recorded message.",
+      "auditReason": "The ending is handwriting kept in a desk. A recorded Vivienne would read as communication with the dead and would turn a private letter into a performance."
+    },
+    {
+      "proposalId": "T-17",
+      "title": "An Echo dance floor at the Crescent Room",
+      "type": "TECHNOLOGY",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-20",
+        "S1-09"
+      ],
+      "placement": "S1-20.",
+      "proposed": "The Echo Archive projects the 1986 dance floor around the living dancers.",
+      "auditReason": "The Crescent Room Orchestra plays only rooms where phones stay down, so nothing was recorded. The living guests are the re-creation; that is the release."
+    },
+    {
+      "proposalId": "T-18",
+      "title": "Replay the garage from an archive",
+      "type": "TECHNOLOGY",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-58"
+      ],
+      "placement": "S1-58.",
+      "proposed": "The Echo Archive reconstructs the garage, or Celestine's studio, for the family to watch.",
+      "auditReason": "The setting is \"explicitly Richard's recollection, warm and imperfect\". An archive would make it objective and would recreate a memory nobody recorded."
+    },
+    {
+      "proposalId": "T-19",
+      "title": "A soil sensor for the fern",
+      "type": "TECHNOLOGY",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-84"
+      ],
+      "placement": "S1-84.",
+      "proposed": "A sensor in the pot reminds Sloane to water it.",
+      "auditReason": "The new leaf is care, not a device. A gadget that nags Sloane kills the payoff."
+    },
+    {
+      "proposalId": "T-20",
+      "title": "A smart dance card",
+      "type": "TECHNOLOGY",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-20"
+      ],
+      "placement": "S1-20.",
+      "proposed": "The card logs who danced with whom.",
+      "auditReason": "Nadine works out her birth night from a year stamped on paper. A tracking card turns a friendly room into a record."
+    },
+    {
+      "proposalId": "T-21",
+      "title": "The photo booth prints the uninvited in copper",
+      "type": "TECHNOLOGY",
+      "category": "A",
+      "auditRecommendation": "HOLD",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-20"
+      ],
+      "placement": "S1-20, beat 4, at the photo booth.",
+      "proposed": "A strip comes out with three friends clear and a fourth, who leaned in uninvited, as a warm copper silhouette. They laugh.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "F-02",
+      "title": "A rail rhythm under the dining-car menu",
+      "type": "SENSORY_FLASHBACK",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-73",
+        "S1-16"
+      ],
+      "placement": "S1-73, beat 4, under \"The room goes quiet.\"",
+      "proposed": "In S1-16 the score under her recital carries a soft rail-joint rhythm on brushes (music, not a train effect). In S1-73, when the room goes quiet, that rhythm returns alone for four bars, then stops as she laughs.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "F-03",
+      "title": "The skirt opens into the shape of the 1981 pencil line",
+      "type": "SENSORY_FLASHBACK",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [
+        {
+          "decisionId": "U-4",
+          "status": "OPEN"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-70",
+        "S1-25",
+        "S1-74"
+      ],
+      "placement": "S1-70 ending, on Talia's turn.",
+      "proposed": "S1-25 holds one insert on the sketch: the figure drawn mid-turn, the hem a pencilled bell. S1-70 frames Talia's turn from the sketch's angle so the opened skirt fills the same shape. No dissolve, no insert of the drawing: the audience supplies it. S1-74 repeats the angle once on the dance floor.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "F-08",
+      "title": "The year's ledger, read by ear",
+      "type": "SENSORY_FLASHBACK",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-83",
+        "S1-20",
+        "S1-34",
+        "S1-40",
+        "S1-47",
+        "S1-51"
+      ],
+      "placement": "S1-83 P2, beats 7 to 17.",
+      "proposed": "Under each line, one sound from that request and no picture: the Number 9's doors, Clarence's count-off, Gideon's single clap, the drumline's snare. \"Sunset: failed.\" gets nothing: the room tone of an empty balcony.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "F-09",
+      "title": "Young Vivienne eating dessert first, in the pilot",
+      "type": "SENSORY_FLASHBACK",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-02"
+      ],
+      "placement": "S1-02.",
+      "proposed": "A flash of Vivienne doing the same.",
+      "auditReason": "The habit is \"later revealed as Vivienne's habit\" by Clementine (S1-16) and Celestine (S1-78). A flash in S1-02 spends both lines."
+    },
+    {
+      "proposalId": "F-10",
+      "title": "Young Nadine being told last",
+      "type": "SENSORY_FLASHBACK",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-31"
+      ],
+      "placement": "S1-31.",
+      "proposed": "A flash of Nadine as a child, the last to be told.",
+      "auditReason": "The master says she names it \"without naming it\". A picture names it."
+    },
+    {
+      "proposalId": "F-11",
+      "title": "The pavilion, the night Kai built it",
+      "type": "SENSORY_FLASHBACK",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-13"
+      ],
+      "placement": "S1-13.",
+      "proposed": "A flashback to the lantern pavilion's one night.",
+      "auditReason": "In the writers' room the pavilion was \"one night only, never shown again\", and its guests were exposed by a record of who was there. Showing it re-exposes them, and S1-76 erases that record for good."
+    },
+    {
+      "proposalId": "F-12",
+      "title": "Honora's exposure, shown",
+      "type": "SENSORY_FLASHBACK",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-36"
+      ],
+      "placement": "S1-36.",
+      "proposed": "A flashback to the recusal fight.",
+      "auditReason": "Her dignity is that the account is hers, \"quiet and exact\". Dramatizing her exposure exposes her again."
+    },
+    {
+      "proposalId": "F-13",
+      "title": "The studio visit, nineteen days before",
+      "type": "SENSORY_FLASHBACK",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-78"
+      ],
+      "placement": "S1-78.",
+      "proposed": "A flashback to Vivienne at Celestine's studio.",
+      "auditReason": "Celestine's answer is \"The rest is mine.\" The writers' room says the audience does not learn it in Season 1. (The truth document dates the visit twenty days before the death; the master says nineteen. The master governs.)"
+    },
+    {
+      "proposalId": "F-14",
+      "title": "Vivienne reads her letter aloud",
+      "type": "SENSORY_FLASHBACK",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-86"
+      ],
+      "placement": "S1-86.",
+      "proposed": "Vivienne's voice reads the lines.",
+      "auditReason": "The audience reads the lines; nobody performs them. A voice would choose a tone for her private truth, which is still open (U-1, KF-09)."
+    },
+    {
+      "proposalId": "F-15",
+      "title": "Richard's ridiculous story, held for Season 2",
+      "type": "SENSORY_FLASHBACK",
+      "category": "D",
+      "auditRecommendation": "HOLD",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-80"
+      ],
+      "placement": "Season 2, growing from S1-80. No Season 1 change.",
+      "proposed": "Whatever story the S1-80 screenplay chooses becomes the seed of a Season 2 sound memory in Richard's voice, using the S1-58 grammar.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "F-16",
+      "title": "Gideon's years as Richard's right hand, held for Season 2",
+      "type": "SENSORY_FLASHBACK",
+      "category": "D",
+      "auditRecommendation": "HOLD",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-85",
+        "S1-03"
+      ],
+      "placement": "Season 2, growing from S1-85 and S1-03. No Season 1 change.",
+      "proposed": "Season 2 memory from Gideon's point of view, if his decision about the offer needs a past to weigh against.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "F-17",
+      "title": "Sloane's years learning the house from her mother, held for Season 2",
+      "type": "SENSORY_FLASHBACK",
+      "category": "D",
+      "auditRecommendation": "HOLD",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [
+        {
+          "decisionId": "U-1",
+          "status": "OPEN"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-08"
+      ],
+      "placement": "Season 2, growing from S1-08. No Season 1 change.",
+      "proposed": "A Season 2 memory of Sloane learning the house from her mother.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "F-18",
+      "title": "The fruit truck, shown",
+      "type": "SENSORY_FLASHBACK",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-20"
+      ],
+      "placement": "S1-20.",
+      "proposed": "A visual flashback to the truck on the way to the hospital.",
+      "auditReason": "Nadine works it out and looks at her father differently for a whole song. A picture does the working out for her. F-01 gives the memory as sound, in the release where it is told."
+    },
+    {
+      "proposalId": "F-20",
+      "title": "Eight seconds of young Kai at Celestine's door",
+      "type": "SENSORY_FLASHBACK",
+      "category": "B",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-56"
+      ],
+      "placement": "S1-56, beat 10.",
+      "proposed": "An eight-second visual memory of Kai at 24 at Celestine's studio door.",
+      "auditReason": "Eight seconds the locked runtime does not have and a new face lock (Kai at 24), in a release whose power is Sloane recognising her mother's phrasing. Kai's three lines already carry it."
+    },
+    {
+      "proposalId": "R-06",
+      "title": "The same three Aldridge night nurses",
+      "type": "AMBIENT_RETURN",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-40",
+        "S1-18",
+        "S1-33"
+      ],
+      "placement": "S1-40, beat 7, as the night nurses arrive.",
+      "proposed": "Three specific nurses: the one who told Sloane who plays spades (S1-18), arguing for opposite radio hosts in the break room (S1-33), arriving at the breakfast dance in scrubs and earrings (S1-40).",
+      "auditReason": null
+    },
+    {
+      "proposalId": "R-07",
+      "title": "The nurses hear Tad and Yaz agree",
+      "type": "AMBIENT_RETURN",
+      "category": "B",
+      "auditRecommendation": "REVISE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-81",
+        "S1-33"
+      ],
+      "placement": "S1-81, beats 4 and 5, in the laundromat.",
+      "proposed": "Two seconds: the two nurses who took opposite sides in S1-33 fold scrubs in the laundromat and look at each other as the hosts agree.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "R-08",
+      "title": "One courier, three deliveries",
+      "type": "AMBIENT_RETURN",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-69",
+        "S1-11",
+        "S1-17"
+      ],
+      "placement": "S1-69, beat 1.",
+      "proposed": "One courier recurs: she returns Celestine's \"No.\" (S1-11), rings her bell at a child (S1-17), and delivers a key in S1-69. Her bell is the same sound each time.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "R-09",
+      "title": "The honey seller dances at the Crescent Room",
+      "type": "AMBIENT_RETURN",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-20",
+        "S1-12",
+        "S1-51"
+      ],
+      "placement": "S1-20, among Mavis's stallholders on the floor; also in the S1-12 market; named by his sign in S1-51.",
+      "proposed": "He is behind a stall in S1-12's covered market, on the dance floor in S1-20 in a 1986 suit, and back at his stall with the laminated sign in S1-51.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "R-10",
+      "title": "Gideon's barber in a pillbox hat",
+      "type": "AMBIENT_RETURN",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-51",
+        "S1-45",
+        "S1-69"
+      ],
+      "placement": "S1-51, beat 12.",
+      "proposed": "The S1-45 barber takes a pillbox from Mavis's hats (S1-51) and is the one who flips his sign in S1-69. No key is shown or implied: why he closes early is his own business.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "R-11",
+      "title": "The balcony woman at the Grand Exchange",
+      "type": "AMBIENT_RETURN",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-72",
+        "S1-01"
+      ],
+      "placement": "S1-72, beat 1, among the arriving guests.",
+      "proposed": "She appears as a guest at the Grand Exchange.",
+      "auditReason": "Her power is that she could be anyone. An invitation to the private Night gives her a connection the master never does and makes the city smaller."
+    },
+    {
+      "proposalId": "R-12",
+      "title": "The neighbour photographs the gold",
+      "type": "VISUAL_EASTER_EGG",
+      "category": "A",
+      "auditRecommendation": "HOLD",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": "NOT APPROVED. The audit identifies a conflict between R-03 and R-12. Preserve R-12 in its original unapproved/held state. Do not promote R-12. Do not substitute R-12 for the approved R-03 treatment.",
+      "waitsOn": [
+        {
+          "decisionId": "FD-S101-06",
+          "status": "ANSWERED RECURRING"
+        }
+      ],
+      "conflictsWithApproved": [
+        "R-03"
+      ],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-77",
+        "S1-01"
+      ],
+      "placement": "S1-77, beat 10, in the far-bank crowd.",
+      "proposed": "On the far bank, the S1-01 neighbour raises his phone toward the gold, and this time the lens does not glow. He takes the picture.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "R-13",
+      "title": "The balcony woman and the neighbour become a couple",
+      "type": "AMBIENT_RETURN",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-81",
+        "S1-01"
+      ],
+      "placement": "S1-81, beat 1, on the morning-after streets.",
+      "proposed": "They are seen together the morning after the Grand Exchange.",
+      "auditReason": "S1-01 is about a no being honoured. Pairing them turns his attempted capture into courtship."
+    },
+    {
+      "proposalId": "R-14",
+      "title": "The S1-69 teenager is the S1-01 teenager",
+      "type": "AMBIENT_RETURN",
+      "category": "A",
+      "auditRecommendation": "HOLD",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": "NOT APPROVED. The teenager's S1-51 drumline return is approved. A separate proposed S1-69 return is not. Do not combine these appearances.",
+      "waitsOn": [
+        {
+          "decisionId": "FD-S101-06",
+          "status": "ANSWERED RECURRING"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-69",
+        "S1-01"
+      ],
+      "placement": "S1-69, beat 9.",
+      "proposed": "Cast the S1-01 teenager.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "R-15",
+      "title": "One church for everyone",
+      "type": "SOCIAL_WORLDBUILDING",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-20",
+        "S1-15",
+        "S1-18"
+      ],
+      "placement": "S1-20.",
+      "proposed": "Make them one congregation.",
+      "auditReason": "A city with one church is a village. The season's churches should stay plural."
+    },
+    {
+      "proposalId": "R-16",
+      "title": "Imara and Bea are friends",
+      "type": "SOCIAL_WORLDBUILDING",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-42",
+        "S1-07"
+      ],
+      "placement": "S1-42.",
+      "proposed": "They are classmates.",
+      "auditReason": "S1-42 exists to give Emmett a life \"without tying him to the plot\". His identity is still an open question (U-3)."
+    },
+    {
+      "proposalId": "R-17",
+      "title": "The Vandyne coat comes back",
+      "type": "VISUAL_EASTER_EGG",
+      "category": "D",
+      "auditRecommendation": "HOLD",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-19",
+        "S1-83"
+      ],
+      "placement": "Season 2, growing from S1-19 and S1-83. No Season 1 change.",
+      "proposed": "In Season 2 the coat returns through a request where it is Sloane's to accept.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "R-18",
+      "title": "Femi's kitchen crew, from the alley to the Sunday supper",
+      "type": "AMBIENT_RETURN",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-73",
+        "S1-17",
+        "S1-82"
+      ],
+      "placement": "S1-73 ending, behind Femi in the kitchen doorway.",
+      "proposed": "The same two line cooks: on a crate in the alley while he reads his terms (S1-17), behind him in the doorway at the supper (S1-73), serving the elders on Sunday (S1-82).",
+      "auditReason": null
+    },
+    {
+      "proposalId": "S-01",
+      "title": "Hold longer on the green dress in the S1-01 rise",
+      "type": "VISUAL_EASTER_EGG",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-01"
+      ],
+      "placement": "S1-01, SH17.",
+      "proposed": "Lengthen SH17 to hold on the dress and plant it for R-02.",
+      "auditReason": "The dress is already in four shots and the rise. Extra hold time would need a trim elsewhere in a 45-second packet for no gain."
+    },
+    {
+      "proposalId": "C-01",
+      "title": "The S1-01 tailor is Wendell Ames",
+      "type": "AMBIENT_RETURN",
+      "category": "C",
+      "auditRecommendation": "HOLD",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": "NOT APPROVED. Do not identify the tailor as Wendell Ames. Preserve C-01 as an unapproved historical proposal.",
+      "waitsOn": [
+        {
+          "decisionId": "FD-S101-07",
+          "status": "ANSWERED ANONYMOUS"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": "FD-S101-07 ANONYMOUS: the S1-01 tailor is not Wendell Ames.",
+      "releases": [
+        "S1-01",
+        "S1-06",
+        "S1-72"
+      ],
+      "placement": "S1-01, SH02 to SH04.",
+      "proposed": "Make him Wendell Ames: the first face of the season is the man Sloane's verdict hurts in S1-06 and whose tailoring she wears in S1-72.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "V-01",
+      "title": "The Hush rooftop stands over the S1-01 street",
+      "type": "VISUAL_EASTER_EGG",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [
+        {
+          "decisionId": "FD-S101-08",
+          "status": "OPEN"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-50",
+        "S1-01"
+      ],
+      "placement": "S1-50, beat 6, on \"The street below hears nothing.\"",
+      "proposed": "The water tower is one of the towers the S1-01 rise passes. When the master cuts to the street below hearing nothing, it is the S1-01 street at night: the bus shelter, the fire escapes, a dark tailor's grille. Nobody is on the balcony.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "V-02",
+      "title": "The Gold State notice goes up in the S1-01 bus shelter",
+      "type": "VISUAL_EASTER_EGG",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [
+        {
+          "decisionId": "FD-S101-08",
+          "status": "OPEN"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-82",
+        "S1-01"
+      ],
+      "placement": "S1-82 ending.",
+      "proposed": "The notice is in the glass of the S1-01 bus shelter, where the teenager practised his step. Dusk, the same copper sun on the towers.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "V-03",
+      "title": "The purple cartwheel hat on the morning after",
+      "type": "VISUAL_EASTER_EGG",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-81",
+        "S1-51"
+      ],
+      "placement": "S1-81, beat 1, passing a café.",
+      "proposed": "The skateboarder in the purple cartwheel rolls past the café where people are describing the gold lights. The hat is still going places.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "V-05",
+      "title": "The S1-73 menu card on the Sunday supper wall",
+      "type": "VISUAL_EASTER_EGG",
+      "category": "A",
+      "auditRecommendation": "HOLD",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-82",
+        "S1-73"
+      ],
+      "placement": "S1-82, beat 1.",
+      "proposed": "One menu card from S1-73, framed by the kitchen door.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "V-12",
+      "title": "The bus in S1-01 is the Number 9",
+      "type": "VISUAL_EASTER_EGG",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-01",
+        "S1-15"
+      ],
+      "placement": "S1-01, SH05 to SH07.",
+      "proposed": "A Number 9 passes behind the teenager.",
+      "auditReason": "The Number 9 is Tina and Ophelia's bus. Putting it in S1-01 connects an anonymous street to their story for no gain, and needs a new vehicle asset in three blocked keyframes."
+    },
+    {
+      "proposalId": "W-03",
+      "title": "A Ferry Street continuity sheet",
+      "type": "SOCIAL_WORLDBUILDING",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [
+        {
+          "decisionId": "FD-S101-07",
+          "status": "ANSWERED ANONYMOUS"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-51",
+        "S1-06",
+        "S1-15",
+        "S1-34",
+        "S1-59"
+      ],
+      "placement": "Production document for Ferry Street, which S1-51 introduces. It applies wherever Ferry Street is named, from S1-06 on.",
+      "proposed": "One sheet: the vintage shop (S1-15), the church off Ferry Street (S1-15, S1-34), the market (S1-51), the promenade (S1-59), the River Hall. Wendell's shop is placed on the sheet but not shown until FD-S101-07 is decided.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "W-06",
+      "title": "A school corridor humming Noelle's song",
+      "type": "SOCIAL_WORLDBUILDING",
+      "category": "B",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-82"
+      ],
+      "placement": "S1-82.",
+      "proposed": "A fifth: four seconds of kids humming the song in a school corridor.",
+      "auditReason": "S1-82 already says the song has spread (\"The Crescent Room's Saturday closer\"). Four seconds and a new location add nothing the line does not."
+    },
+    {
+      "proposalId": "W-08",
+      "title": "The door greets guests by name before anyone shows a key",
+      "type": "SOCIAL_WORLDBUILDING",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-72",
+        "S1-69"
+      ],
+      "placement": "S1-72, beat 1, at the River Hall doors.",
+      "proposed": "Staff greet each guest by name before any key appears. Mavis's key stays in her hatband.",
+      "auditReason": null
+    },
+    {
+      "proposalId": "W-09",
+      "title": "A joy-only Night in the long gap",
+      "type": "SOCIAL_WORLDBUILDING",
+      "category": "B",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [
+        {
+          "decisionId": "U-2",
+          "status": "OPEN"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null,
+      "releases": [
+        "S1-62",
+        "S1-63"
+      ],
+      "placement": "A new release between S1-62 and S1-63.",
+      "proposed": "A 90-second Night with no request attached.",
+      "auditReason": "It breaks the approved 86-release, 127:40 structure and renumbers every later release. Density inside existing releases (deliverable 11) answers the gap without that cost, and U-2 stays the founder's decision."
+    }
+  ]
+}
