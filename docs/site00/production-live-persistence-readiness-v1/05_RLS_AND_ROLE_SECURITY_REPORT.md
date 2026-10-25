@@ -68,7 +68,7 @@ A hidden button is not the control. Every refusal above is tested with the butto
 
 | Finding | Scope | Action |
 | --- | --- | --- |
-| RLS disabled on `site00_production_dependency_edges` and `site00_production_invalidation_events` (advisor ERROR); no app code uses them | SITE00 | Migration `20261026090000` (security follow-up branch): RLS on, service_role only. 21/21 isolated checks. |
+| RLS disabled on `site00_production_dependency_edges` and `site00_production_invalidation_events` (advisor ERROR); no app code uses them | SITE00 | Migration `20261026090000` (security follow-up branch): RLS on, service_role only. 20/20 isolated checks. |
 | `site00_allocate_access_credential_code()` is SECURITY DEFINER and executable by anon and authenticated | SITE00 | The same migration revokes it from anon, authenticated and public, and grants it to service_role |
 | `studio_world_atomic_reserve_budget` is SECURITY DEFINER and executable by anon and authenticated | Defined outside this repository | Reported only: no migration here defines it. Founder decision (deliverable 19). |
 | 15 more SECURITY DEFINER functions open to anon/authenticated (hairstyle, psa, lounge, slay/trend) | FS Website | Reported only: another product |

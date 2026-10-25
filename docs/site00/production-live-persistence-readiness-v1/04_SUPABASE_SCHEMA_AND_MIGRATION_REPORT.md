@@ -76,7 +76,7 @@ The bucket insert is skipped when `storage.buckets` is absent.
   - in-flight attempt; operation reuse; closed-attempt rewrite;
   - approval immutability (update, delete and truncate as owner);
   - RLS for anon, non-member, member and other-project member; direct writes and function calls denied.
-- **Security follow-up.** `scripts/production/verify-security-hardening.sh` runs 21 checks on the security migration. B1's `verify-role-policies.sh` runs 16 on #1696's.
+- **Security follow-up.** `scripts/production/verify-security-hardening.sh` runs 20 checks on the security migration. B1's `verify-role-policies.sh` runs 16 on #1696's.
 
 ## 5. Not done
 
