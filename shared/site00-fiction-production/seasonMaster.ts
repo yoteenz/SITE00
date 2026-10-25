@@ -15,6 +15,7 @@ import {
   REVISION_DECISIONS,
   S1_DEPENDENT_RELEASES,
 } from './founderDecisions.js';
+import { LIVING_WORLD_AMENDMENTS } from './promotion/amendments.js';
 import {
   FICTION_PRODUCTION_SCHEMA_VERSION,
   type MasterRelease,
@@ -121,7 +122,7 @@ export function buildSeasonMaster(root = process.cwd()): SeasonMaster {
       paysOffIn,
       unresolvedQuestions: unresolvedFor(r),
       productionComplexity: { rating: rating.trim() as MasterRelease['productionComplexity']['rating'], notes: rest.join(' (').replace(/\)$/, '') },
-      approvedAmendments: APPROVED_AMENDMENTS[r.ID] ?? [],
+      approvedAmendments: [...(APPROVED_AMENDMENTS[r.ID] ?? []), ...(LIVING_WORLD_AMENDMENTS[r.ID] ?? [])],
       classification: 'APPROVED_DEVELOPMENT_DIRECTION',
       lineage: {
         hybridSource: r.SOURCE,

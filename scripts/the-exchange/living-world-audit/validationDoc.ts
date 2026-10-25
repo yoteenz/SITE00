@@ -1,4 +1,3 @@
-import * as X from '../../../shared/site00-fiction-production/index.js';
 import { A, bullets, generatedNote, table, type Ctx } from './md.js';
 
 /** Section 28, each requirement mapped to the validator checks that test it. */
@@ -43,11 +42,11 @@ export function validationDoc(c: Ctx): string {
     '',
     '## 3. Protected files',
     '',
-    `Each file is hashed on every render and compared with the baseline taken at ${A.AUDIT_BASELINE_COMMIT} (head of PR #1692).`,
+    `Each file is hashed on every render and compared with the baseline taken at ${A.AUDIT_BASELINE_COMMIT} (head of PR #1692). UNCHANGED_EXCEPT_FOUNDER_PROMOTION means the master is byte-identical once the founder-promoted living-world amendments (2026-10-25) are removed.`,
     '',
     table(
       ['File', 'Baseline sha256', 'Now'],
-      A.PROTECTED_BASELINE.map((f) => [`\`${f.path}\``, `\`${f.sha256.slice(0, 16)}…\``, A.sha256(X.repoPath(f.path, c.root)) === f.sha256 ? 'UNCHANGED' : 'CHANGED']),
+      A.PROTECTED_BASELINE.map((f) => [`\`${f.path}\``, `\`${f.sha256.slice(0, 16)}…\``, A.baselineState(f, c.root)]),
     ),
     '',
     '## 4. Negative tests',

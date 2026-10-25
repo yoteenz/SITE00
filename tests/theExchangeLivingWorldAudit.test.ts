@@ -36,9 +36,12 @@ describe('THE EXCHANGE Season 1 living-world audit: records', () => {
     expect(A.RELEASE_JUDGMENTS.map((j) => j.id)).toEqual(master.releases.map((r) => r.id));
   });
 
-  it('leaves the master, the S1-01 packet files and the Fountain drafts byte-identical', () => {
+  it('leaves the S1-01 packet files and the Fountain drafts byte-identical, and the master apart from founder-promoted amendments', () => {
     expect(A.PROTECTED_BASELINE).toHaveLength(15);
-    for (const f of A.PROTECTED_BASELINE) expect(A.sha256(X.repoPath(f.path, root)), f.path).toBe(f.sha256);
+    for (const f of A.PROTECTED_BASELINE) {
+      if (f.path === X.EXCHANGE_PATHS.master) expect(A.baselineState(f, root), f.path).not.toBe('CHANGED');
+      else expect(A.sha256(X.repoPath(f.path, root)), f.path).toBe(f.sha256);
+    }
   });
 
   it('ranks at most twelve priorities, each with a written reason on all ten dimensions', () => {
