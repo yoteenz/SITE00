@@ -63,7 +63,7 @@ export async function dispatchEntry002CreativeAnchor(
     'chapter-01-nostalgia-revision',
   ];
 
-  const shouldDispatch = options?.dispatchFal ?? Boolean(process.env.FAL_KEY?.trim());
+  const shouldDispatch = options?.dispatchFal === true;
 
   if (process.env.VITEST === 'true' || !shouldDispatch) {
     const previewUrl = `https://expression-engine.local/${storagePath}`;
