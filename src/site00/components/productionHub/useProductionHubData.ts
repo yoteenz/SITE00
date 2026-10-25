@@ -9,6 +9,7 @@ import { apiFetch } from '../../../utils/api';
 import {
   getSite00ManagedProject,
   listDesignEnabledManagedProjects,
+  listProductionManagedProjects,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/managedProjectRegistry.js';
 import { compileEntry002RetroactiveNarrativeMomentum } from '../../../../shared/site00-expression-engine/narrative-momentum/entry002RetroactiveIngest.js';
 import { buildEntry002ProductionCastState } from '../../../../shared/site00-studio-world/acting-catalogue/index.js';
@@ -81,7 +82,7 @@ export function useProductionHubData(selectedProjectId: string) {
             .map((p) => ({ projectId: p.projectId, name: p.displayName }));
     // Founder PERSONAL projects ingested into SITE 00 (e.g. JURNL) are founder work even before the server index
     // knows them (no org row yet) — list them instead of dropping them.
-    for (const m of listDesignEnabledManagedProjects()) {
+    for (const m of listProductionManagedProjects()) {
       if (m.relationship === 'PERSONAL' && !base.some((b) => b.projectId === m.projectId)) base.push({ projectId: m.projectId, name: m.displayName });
     }
     return base.map((p) => ({

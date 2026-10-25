@@ -43,6 +43,7 @@ const LOCAL_API_ROUTES = [
   { path: '/api/site00/page-mirror', file: 'api/site00/page-mirror.ts' },
   { path: '/api/site00/experience-engine', file: 'api/site00/experience-engine.ts' },
   { path: '/api/site00/expression-engine', file: 'api/site00/expression-engine.ts' },
+  { path: '/api/site00/production-spine', file: 'api/site00/production-spine.ts' },
   { path: '/api/site00/campaign-package', file: 'api/site00/campaign-package.ts' },
   { path: '/api/site00/design-control-plane', file: 'api/site00/design-control-plane.ts' },
   { path: '/api/site00/twin-v2-visual-concept', file: 'api/site00/twin-v2-visual-concept.ts' },

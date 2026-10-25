@@ -1,0 +1,86 @@
+{
+  "aspect": "9:16",
+  "budgetId": "BUDGET-S1-01-SH01-PILOT",
+  "createdAt": "2026-10-25T12:00:00Z",
+  "createdBy": "system:production-spine-setup",
+  "fps": 24,
+  "generation": "GENERATION_AUTHORIZATION_PENDING",
+  "generationSec": 5,
+  "id": "S1-01-SH01",
+  "jobIds": [
+    "JOB-S1-01-SH01-REF-01",
+    "JOB-S1-01-SH01-REF-02",
+    "JOB-S1-01-SH01-VIDEO-01"
+  ],
+  "kind": "SHOT",
+  "liveProviderCheck": "NOT_RUN",
+  "projectId": "the-exchange",
+  "references": [
+    {
+      "assetId": null,
+      "blockedBy": [
+        "FD-S101-08"
+      ],
+      "referenceId": "KF-ENV-CITY-DUSK-A",
+      "role": "START_FRAME",
+      "status": "NOT_CREATED",
+      "title": "North side of the street at golden hour (also the SH01 start frame)"
+    }
+  ],
+  "releaseId": "S1-01",
+  "requiredDecisions": [
+    {
+      "decisionId": "FD-S101-01",
+      "question": "Approve the S1-01 screenplay v2 (still DRAFT)?",
+      "role": "SCREENPLAY",
+      "source": {
+        "path": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+        "recordId": "FD-S101-01",
+        "sha256": "4509b8aa667252abf3b72bbfa695d605f4ac1f67a4f27efb3f6f7813ae5c5e95"
+      },
+      "status": "OPEN"
+    },
+    {
+      "decisionId": "FD-S101-08",
+      "question": "How is the street seeded?",
+      "role": "CITY_REFERENCE",
+      "source": {
+        "path": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+        "recordId": "FD-S101-08",
+        "sha256": "4509b8aa667252abf3b72bbfa695d605f4ac1f67a4f27efb3f6f7813ae5c5e95"
+      },
+      "status": "OPEN"
+    },
+    {
+      "decisionId": "FD-S101-11",
+      "question": "Authorize the generation budget?",
+      "role": "GENERATION_AUTHORIZATION",
+      "source": {
+        "path": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+        "recordId": "FD-S101-11",
+        "sha256": "4509b8aa667252abf3b72bbfa695d605f4ac1f67a4f27efb3f6f7813ae5c5e95"
+      },
+      "status": "OPEN"
+    }
+  ],
+  "revision": 1,
+  "sceneId": "S1-01-SC01",
+  "schemaVersion": 1,
+  "screenFrames": 96,
+  "screenSec": 4,
+  "setup": "PRODUCTION_SETUP_READY",
+  "shotId": "S1-01-SH01",
+  "source": {
+    "path": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+    "recordId": "S1-01-SH01",
+    "sha256": "4509b8aa667252abf3b72bbfa695d605f4ac1f67a4f27efb3f6f7813ae5c5e95"
+  },
+  "summary": {
+    "framing": "Wide",
+    "lighting": "LS-GOLDEN: Low sun on the west end of the street; the glass tower burns copper; stone and brick warm.",
+    "movement": "Tilt down from the tower glass to the street",
+    "purpose": "Establish the street, the hour and the copper light before anyone appears.",
+    "subject": "Copper sun on a glass tower, tilting down to a brownstone street as windows come on."
+  },
+  "updatedAt": "2026-10-25T12:00:00Z"
+}

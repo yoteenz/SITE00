@@ -1,0 +1,46 @@
+{
+  "approvalId": null,
+  "authorizedCredits": 0,
+  "createdAt": "2026-10-25T12:00:00Z",
+  "createdBy": "system:production-spine-setup",
+  "id": "BUDGET-S1-01-SH01-PILOT",
+  "kind": "BUDGET",
+  "lines": [
+    {
+      "basis": "nano-banana-pro image2image 2K 9:16, 40 credits per image",
+      "credits": 80,
+      "description": "Reference development: KF-ENV-CITY-DUSK-A ×2 (also the start frame)",
+      "jobIds": [
+        "JOB-S1-01-SH01-REF-01",
+        "JOB-S1-01-SH01-REF-02"
+      ],
+      "lineId": "L-01"
+    },
+    {
+      "basis": "kling-3-omni image2video pro, 5 s, sound off",
+      "credits": 175,
+      "description": "Initial video: 5 s generated for 4 s on screen",
+      "jobIds": [
+        "JOB-S1-01-SH01-VIDEO-01"
+      ],
+      "lineId": "L-02"
+    }
+  ],
+  "note": "Planning estimate only (§23). Not an approved budget: nothing is reserved, debited or spent. FD-S101-11 decides the generation budget.",
+  "plannedCredits": 255,
+  "projectId": "the-exchange",
+  "quoteSource": {
+    "path": "THE_EXCHANGE/SEASON_1/PRODUCTION_TEST_RECORDS/PROVIDER_PRICE_QUOTES_V2.json",
+    "recordId": "openart.quotes",
+    "sha256": "c9e8afe89fec6d59d2b928d7470bcde3db2a24024b9c24e73b832e8a124c8305"
+  },
+  "quotedAt": "2026-10-24T14:47Z",
+  "releaseId": "S1-01",
+  "revision": 1,
+  "schemaVersion": 1,
+  "shotIds": [
+    "S1-01-SH01"
+  ],
+  "status": "PLANNING_ESTIMATE_ONLY",
+  "updatedAt": "2026-10-25T12:00:00Z"
+}

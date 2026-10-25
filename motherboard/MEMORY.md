@@ -16764,3 +16764,18 @@ Sprint `P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMEN
 - **Unchanged:** 45 s, 1,080 frames, 19 shots in order, 22 keyframes, 3 music cues, 1 silence, 13 sound cues, no dialogue, budget, review state, the Fountain drafts, 86 releases and 127:40.
 - **Docs:** `docs/site00/production-spine-and-s101-alignment-v1/03` and `04` from `scripts/the-exchange/render-s101-alignment.ts`. Rebuild order adds that renderer after the promotion renderer.
 - **Tests:** `tests/theExchangeS101PacketAlignment.test.ts` (10); 134 of 134 Exchange tests.
+
+---
+
+## 2026-10-25 — Studio World production record spine (B2) and the two spend gates (B1)
+
+Same sprint, workstream B. Nothing was generated, no provider was called, no credit was spent, nothing was merged or deployed.
+
+- **B1, branch `claude/production-spend-gates-and-policy-repair` (from `main`):** Expression Engine dispatch is opt-in (`dispatchFal === true`); six GET phases never dispatch; the ASSTS library GET no longer queues or retries generation and polling no longer continues lineages (new explicit POST `continue-lineage`). Migration `20261025120000_site00_restrict_service_role_all_policies.sql` restricts the two cross-role policies to `service_role`; `scripts/production/verify-role-policies.sh` proves it on a throwaway PG16 cluster. Not applied to production.
+- **B2, branch `claude/studioworld-production-record-spine` (stacked on workstream A):** `shared/site00-production-spine/` holds the typed records (SHOT setup, GENERATION_JOB, TAKE, ASSET, APPROVAL, BUDGET, CONTINUITY_REFERENCE; PROJECT, RELEASE, SCENE and PROVIDER are resolved references), the job and take state machines, the spend gate (the only issuer of dispatch tickets; transports refuse anything else), repository-JSON and Supabase-ready storage behind `RecordStore`, private content-addressed media with signed expiring reads, the runner, frame extraction and the Takes workspace view.
+- **Records:** `THE_EXCHANGE/SEASON_1/PRODUCTION_RECORDS/` holds the S1-01-SH01 setup (PRODUCTION_SETUP_READY / GENERATION_AUTHORIZATION_PENDING), a 255-credit PLANNING_ESTIMATE_ONLY budget and three DRAFT jobs; rebuilt by `scripts/production/build-exchange-production-records.ts` (a changed packet or quote shows as a conflict, never an overwrite). FD-S101-01, -08 and -11 stay OPEN.
+- **Providers:** the OpenArt agent-session transport is DISABLED unless `SITE00_PROVIDER_EXECUTION=ENABLED` and an agent-session executor is injected; nothing injects one. The fake transport refuses to run against a live store.
+- **UI:** THE EXCHANGE is a managed project (`designEnabled: false`, `productionSpine: true`), listed in the PROJECT switcher; its EXPRESSION → CAST + PERFORMANCE → TAKES route renders `ProductionTakes` from `/api/site00/production-spine`. No new nav tab. The API has no endpoint that authorizes generation or a budget (D-11 not granted); a deployed server opens repository JSON read-only.
+- **Checks:** `scripts/production/sh01DryRun.ts` (20 of 20), `scripts/production/takes-viewport-check.ts` (390, 834, 1440, 2560: no page or frame scroll; decisions written by touch, keyboard and click). The test Chromium cannot decode H.264, so in-browser playback of the fixture was not observed.
+- **Tests:** `tests/productionSpine.test.ts` (33), `tests/productionSpineApi.test.ts` (8).
+- **Open:** live private storage (no bucket or credentials here), the durable record store, the authenticated OpenArt route, H.264 playback check in a real browser, and D-11.

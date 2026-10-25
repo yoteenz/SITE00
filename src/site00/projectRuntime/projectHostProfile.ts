@@ -4,7 +4,7 @@
  */
 
 import { hubAssetUrl } from '../../../shared/site00-production-hub/assets.js';
-import { getSite00ManagedProject, listDesignEnabledManagedProjects } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/managedProjectRegistry.js';
+import { getSite00ManagedProject, listProductionManagedProjects } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/managedProjectRegistry.js';
 import { getIngestedProject } from '../../projects/registry';
 import { hasProjectRuntime } from './projectRuntimeRegistry';
 import { projectSwitchTarget } from '../../../shared/site00-production-graph/projectScope.js';
@@ -31,9 +31,9 @@ function kindLabel(slug: string): string {
   return m.platformRole === 'INFRASTRUCTURE' ? 'INFRASTRUCTURE' : 'MANAGED BRAND';
 }
 
-/** Production project switcher list: every design-enabled managed project except the host itself. */
+/** Production project switcher list: every design-enabled or production-spine managed project except the host itself. */
 export function listHostProductionProjects(): HostProjectOption[] {
-  return listDesignEnabledManagedProjects()
+  return listProductionManagedProjects()
     .filter((p) => p.projectId !== 'site00')
     .map((p) => ({ slug: p.projectId, name: p.displayName, kind: kindLabel(p.projectId), cover: projectCoverUrl(p.projectId), runtime: hasProjectRuntime(p.projectId) }));
 }

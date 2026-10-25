@@ -1,0 +1,68 @@
+{
+  "actualSpend": {
+    "credits": "NOT_AVAILABLE"
+  },
+  "attempts": [],
+  "completedAt": null,
+  "createdAt": "2026-10-25T12:00:00Z",
+  "createdBy": "system:production-spine-setup",
+  "errors": [],
+  "founderApprovalRef": null,
+  "id": "JOB-S1-01-SH01-REF-02",
+  "idempotencyKey": "6c7014fa1cb7e9572f34c5f841852e9bb19c0cf0a89e6a862b2a6aa3641685ad",
+  "inputHash": "ab63546e6f4c0aca14837b2719d060adf799814c6c30cdf0780d1638422e13fe",
+  "inputs": [],
+  "jobKind": "REFERENCE_IMAGE",
+  "kind": "GENERATION_JOB",
+  "maxAuthorizedCost": {
+    "credits": null
+  },
+  "mode": "image2image",
+  "model": "nano-banana-pro",
+  "outputAssetIds": [],
+  "producesReferenceId": "KF-ENV-CITY-DUSK-A",
+  "projectId": "the-exchange",
+  "prompt": {
+    "source": "DERIVED_FROM_PACKET",
+    "sourceRef": {
+      "path": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+      "recordId": "KF-ENV-CITY-DUSK-A",
+      "sha256": "4509b8aa667252abf3b72bbfa695d605f4ac1f67a4f27efb3f6f7813ae5c5e95"
+    },
+    "text": "North side of the street at golden hour (also the SH01 start frame). Architecture: East-west brownstone street; glass tower at the west end of the north side; tailor shop, fire escapes and a fourth-floor balcony on the north side. Lighting: LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east. Visible: glass tower (copper reflection), brownstone stoops, street lamps, tailor shop grille, third-floor fire-escape rail, fourth-floor balcony ledge. Not shown: Halcyon House, any principal, any readable signage brand. Camera: High, looking east along the street; Wide."
+  },
+  "provider": "OpenArt",
+  "providerOperationId": "NOT_AVAILABLE",
+  "quotedCost": {
+    "credits": 40,
+    "quotedAt": "2026-10-24T14:47Z",
+    "source": {
+      "path": "THE_EXCHANGE/SEASON_1/PRODUCTION_TEST_RECORDS/PROVIDER_PRICE_QUOTES_V2.json",
+      "recordId": "nano-banana-pro image2image",
+      "sha256": "c9e8afe89fec6d59d2b928d7470bcde3db2a24024b9c24e73b832e8a124c8305"
+    }
+  },
+  "releaseId": "S1-01",
+  "requestedOutputs": {
+    "aspect": "9:16",
+    "audio": false,
+    "count": 1,
+    "durationSec": null,
+    "mediaType": "IMAGE",
+    "resolution": "2K"
+  },
+  "revision": 1,
+  "routeId": "OA-NBP-I2I-2K-REF",
+  "sceneId": "S1-01-SC01",
+  "schemaVersion": 1,
+  "settings": {
+    "aspectRatio": "9:16",
+    "imageCount": 1,
+    "resolution": "2K"
+  },
+  "shotId": "S1-01-SH01",
+  "status": "DRAFT",
+  "submittedAt": null,
+  "transitions": [],
+  "updatedAt": "2026-10-25T12:00:00Z"
+}

@@ -1,0 +1,76 @@
+{
+  "actualSpend": {
+    "credits": "NOT_AVAILABLE"
+  },
+  "attempts": [],
+  "completedAt": null,
+  "createdAt": "2026-10-25T12:00:00Z",
+  "createdBy": "system:production-spine-setup",
+  "errors": [],
+  "founderApprovalRef": null,
+  "id": "JOB-S1-01-SH01-VIDEO-01",
+  "idempotencyKey": "b50e67622aaf4f37f60c40ecc7aa3863b0a139eedcdf01fbd1b0773cd8c9c30e",
+  "inputHash": "478b359127f3f6385b60394101e505fbd283f88213cf195786ba17cc2a8af31b",
+  "inputs": [
+    {
+      "assetId": null,
+      "contentSha256": null,
+      "referenceId": "KF-ENV-CITY-DUSK-A",
+      "role": "START_FRAME"
+    }
+  ],
+  "jobKind": "VIDEO_I2V",
+  "kind": "GENERATION_JOB",
+  "maxAuthorizedCost": {
+    "credits": null
+  },
+  "mode": "image2video",
+  "model": "kling-3-omni",
+  "outputAssetIds": [],
+  "producesReferenceId": null,
+  "projectId": "the-exchange",
+  "prompt": {
+    "source": "DERIVED_FROM_PACKET",
+    "sourceRef": {
+      "path": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+      "recordId": "S1-01-SH01",
+      "sha256": "4509b8aa667252abf3b72bbfa695d605f4ac1f67a4f27efb3f6f7813ae5c5e95"
+    },
+    "text": "Copper sun on a glass tower, tilting down to a brownstone street as windows come on. Framing: Wide; camera high, about fifth-floor level across the street, slightly high, looking east along the street. Movement: Tilt down from the tower glass to the street, slow and even. Composition: Tower glass fills the top third at the start; the street lands on the lower third by the end. Action: Windows light one by one as the camera tilts down. Blocking: A few passers-by far below; nobody featured. Lighting: Low sun on the west end of the street; the glass tower burns copper; stone and brick warm. Depth of field: Deep: tower and street both sharp."
+  },
+  "provider": "OpenArt",
+  "providerOperationId": "NOT_AVAILABLE",
+  "quotedCost": {
+    "credits": 175,
+    "quotedAt": "2026-10-24T14:47Z",
+    "source": {
+      "path": "THE_EXCHANGE/SEASON_1/PRODUCTION_TEST_RECORDS/PROVIDER_PRICE_QUOTES_V2.json",
+      "recordId": "kling-3-omni image2video",
+      "sha256": "c9e8afe89fec6d59d2b928d7470bcde3db2a24024b9c24e73b832e8a124c8305"
+    }
+  },
+  "releaseId": "S1-01",
+  "requestedOutputs": {
+    "aspect": "9:16",
+    "audio": false,
+    "count": 1,
+    "durationSec": 5,
+    "mediaType": "VIDEO",
+    "resolution": "pro"
+  },
+  "revision": 1,
+  "routeId": "OA-K3O-I2V-PRO",
+  "sceneId": "S1-01-SC01",
+  "schemaVersion": 1,
+  "settings": {
+    "duration": 5,
+    "generateSound": false,
+    "resolution": "pro",
+    "videoCount": 1
+  },
+  "shotId": "S1-01-SH01",
+  "status": "DRAFT",
+  "submittedAt": null,
+  "transitions": [],
+  "updatedAt": "2026-10-25T12:00:00Z"
+}

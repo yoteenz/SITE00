@@ -109,6 +109,25 @@ const MANAGED_PROJECTS: Site00ManagedProjectRecord[] = [
     relationship: 'PERSONAL',
     projectRuntime: true,
   },
+  {
+    // Serialized fiction (D-08). No site or page families, so DESIGN stays off; its production runs on the record
+    // spine. Canon and cast stay project-local (THE_EXCHANGE/…); nothing is imported into the global Actor Catalogue.
+    projectId: 'the-exchange',
+    displayName: 'THE EXCHANGE',
+    projectType: 'SERIALIZED_FICTION',
+    websiteDesignAuthority: 'SITE00',
+    platformRole: 'NONE',
+    managedWebsiteRole: 'NONE',
+    designEnabled: false,
+    marketingEnabled: false,
+    projectAccent: 'PROJECT_CANONICAL',
+    routeAuthority: 'SITE00',
+    status: 'ACTIVE',
+    legacyDesignRoutes: [],
+    ownership: 'FOUNDER',
+    relationship: 'PERSONAL',
+    productionSpine: true,
+  },
 ];
 
 export function listSite00ManagedProjects(): Site00ManagedProjectRecord[] {
@@ -121,6 +140,15 @@ export function getSite00ManagedProject(projectId: string): Site00ManagedProject
 
 export function listDesignEnabledManagedProjects(): Site00ManagedProjectRecord[] {
   return listSite00ManagedProjects().filter((p) => p.designEnabled);
+}
+
+/** Projects the founder works on in Production: design-enabled ones and those whose production runs on the record spine. */
+export function listProductionManagedProjects(): Site00ManagedProjectRecord[] {
+  return listSite00ManagedProjects().filter((p) => p.designEnabled || p.productionSpine);
+}
+
+export function hasProductionSpine(projectId: string): boolean {
+  return getSite00ManagedProject(projectId.toLowerCase())?.productionSpine === true;
 }
 
 export function isKnownManagedProject(projectId: string): boolean {
