@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import defaultHandler, { createProductionSpineHandler, type SpineContext } from '../api/site00/production-spine.js';
 import { FOUNDER_ACTOR } from '../shared/site00-fiction-production/approvals.js';
 import { repoPath } from '../shared/site00-fiction-production/paths.js';
-import { MediaSigner, MemoryMediaStore, OpenArtAgentSessionTransport, ProductionRunner, SpineError, type Actor, type TakesWorkspaceView } from '../shared/site00-production-spine/index.js';
+import { MediaSigner, MemoryMediaStore, memoryStore, OpenArtAgentSessionTransport, ProductionRunner, SpineError, TEST_FIXTURE, type Actor, type TakesWorkspaceView } from '../shared/site00-production-spine/index.js';
 import { FfprobeMediaProbe } from '../shared/site00-production-spine/node/ffmpeg.js';
 import { jsonFileStore } from '../shared/site00-production-spine/node/jsonStore.js';
 import { spineProject } from '../shared/site00-production-spine/projects/index.js';
@@ -96,6 +96,22 @@ describe('production spine API', () => {
     expect((await callHandler(h, { method: 'GET', query: { action: 'media', project: EXCHANGE_PROJECT_ID, ref: 'spine-media://MEMORY_TEST/test-fixtures/the-exchange/' + '0'.repeat(64) + '.mp4', exp: '1792900000', sig: 'ab' } })).status).toBe(403);
     const readOnly = liveHandler({ runner: { decideTake: async () => Promise.reject(new SpineError('STORE_READ_ONLY', 'production')) } as unknown as ProductionRunner });
     expect((await callHandler(readOnly, { method: 'POST', body: { action: 'take-decision', project: EXCHANGE_PROJECT_ID, takeId: 'TAKE-X', decision: 'HOLD' }, headers: as('founder') })).status).toBe(503);
+  });
+
+  it('serves a signed media link only while a record of that project names the media (revocation)', async () => {
+    const signer = new MediaSigner('s'.repeat(32));
+    const media = new MemoryMediaStore(signer);
+    const store = memoryStore(EXCHANGE_PROJECT_ID);
+    const project = spineProject(EXCHANGE_PROJECT_ID)!;
+    const runner = new ProductionRunner({ store, media, transports: {}, sceneGate: () => ({ valid: true, reasons: [] }), probe: new FfprobeMediaProbe(), clock: steppingClock() });
+    const ctx: SpineContext = { store, media, runner, refs: project.refs(root, project.providers(() => ({ execution: 'DISABLED', reason: 'test', transportId: 'none' }))) };
+    const h = createProductionSpineHandler({ authenticate: async () => ({ ok: true, actor: FOUNDER }), open: async (id) => (id === EXCHANGE_PROJECT_ID ? ctx : null), signer, now: () => '2026-10-25T13:00:00Z' });
+    const put = await media.put({ projectId: EXCHANGE_PROJECT_ID, bytes: new Uint8Array([1, 2, 3]), mimeType: 'image/png' });
+    const link = signer.sign(put.storageRef, { projectId: EXCHANGE_PROJECT_ID, ttlSec: 300, now: '2026-10-25T13:00:00Z' });
+    const q = Object.fromEntries(new URL(link.url, 'http://x').searchParams);
+    expect((await callHandler(h, { method: 'GET', query: q })).json?.code).toBe('MEDIA_NOT_FOUND');
+    await store.create({ kind: 'ASSET', id: 'ASSET-TEST-LINK', projectId: EXCHANGE_PROJECT_ID, schemaVersion: 1, revision: 1, createdAt: '2026-10-25T13:00:00Z', updatedAt: '2026-10-25T13:00:00Z', createdBy: 'test', fixture: TEST_FIXTURE, mediaType: 'IMAGE', mimeType: 'image/png', adapter: 'MEMORY_TEST', storageRef: put.storageRef, contentSha256: put.sha256, byteSize: 3, verifiedAt: '2026-10-25T13:00:00Z', lineage: { sourceJobId: null, sourceTakeId: null, derivedFromAssetId: null, providerOperationId: 'NOT_AVAILABLE', providerSourceHost: 'NOT_AVAILABLE' } });
+    expect((await callHandler(h, { method: 'GET', query: q })).status).toBe(200);
   });
 
   it('exposes no endpoint that authorizes generation or a budget (D-11 is not granted)', async () => {
