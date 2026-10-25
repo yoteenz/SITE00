@@ -13,6 +13,7 @@ Sprint §33/§34. Every item here is open. None is resolved by technical readine
 | No PostgREST layer tested locally | The HTTP layer is exercised only by the staging script | Stage 2.2 |
 | `site00-staging` has no managed-project registry | Stage 2.1 must apply `20260826123000` first | Included in the plan |
 | Production migration drift: fiction canon (20261022), invitation system, DF messaging not applied | Unrelated to the spine; noted | Separate founder review |
+| **Paid provider paths outside the spine: 15 ungated and 10 client-flag-only, most public (no session; CORS `*`)** | §14 PARTIAL. A pre-existing live exposure, depending on which keys and flags Railway sets. | Founder decision D-I; deliverable 09 §8 |
 
 ## 2. Founder decisions (new in this sprint)
 
@@ -26,6 +27,7 @@ Sprint §33/§34. Every item here is open. None is resolved by technical readine
 | D-F | `studio_world_atomic_reserve_budget` is SECURITY DEFINER and open to anon/authenticated in production, but defined outside this repository | Reported only |
 | D-G | FS Website findings: 15 SECURITY DEFINER functions open to anon/authenticated; public INSERT/UPDATE policies on the `live-preview` bucket | Reported only; another product |
 | D-H | Quote freshness limit (24 h) and authorization lifetime (≤ 24 h) | As built |
+| **D-I** | Close the paid paths outside the spine (deliverable 09 §8). Immediate, no code: set `SITE00_CREATIVE_REASONING_FORCE_FALLBACK=1` on Railway, and confirm which provider keys the API needs. Then a security branch from `main`: an admin/founder guard on every ungated and client-flag entry point, opt-in dispatch in the Evolve services, no GET resumes, UNKNOWN instead of zero cost, restricted CORS, and screens that send the session. | Not changed: these are other product systems, and closing them changes how the founder's screens call the API |
 
 ## 3. S1-01 / SH01 creative and financial decisions
 
