@@ -15,6 +15,8 @@ export const MAX_SIGNED_READ_SEC = 900;
 
 export interface MediaStore {
   readonly adapter: MediaAdapterId;
+  /** Where masters land: a private bucket (Supabase) or a private directory (local, tests). Never public. */
+  readonly bucket: string;
   /** True when this store holds production masters; a test store holds fixtures only. */
   readonly live: boolean;
   put(input: { projectId: string; bytes: Uint8Array; mimeType: string }): Promise<StoredMedia>;

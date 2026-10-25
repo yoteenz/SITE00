@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { DISPATCHED_STATES } from './machines.js';
-import { SpineError, type ApprovalRecord, type BudgetRecord, type GenerationJobRecord, type ShotRecord } from './types.js';
+import { can } from './permissions.js';
+import { SpineError, type Actor, type ApprovalRecord, type BudgetRecord, type GenerationJobRecord, type ShotRecord } from './types.js';
 
 /**
  * The spend gate (§18). It runs immediately before any provider call and is the only issuer of dispatch tickets.
@@ -12,6 +13,9 @@ import { SpineError, type ApprovalRecord, type BudgetRecord, type GenerationJobR
  *   budget already committed (retries)  → no call        scene review state not authorized  → no call
  *   founder decisions still open        → no call        references not approved             → no call
  *   job already dispatched              → idempotent, no call
+ *   operator may not dispatch           → no call        route not in the project's table   → no call
+ *   quote older than MAX_QUOTE_AGE_HOURS → no call       quote changed since authorization  → new approval
+ *   authorization already spent         → no call        spend of an earlier attempt unknown → no call
  */
 
 export type GateCode =
@@ -28,7 +32,13 @@ export type GateCode =
   | 'OVER_BUDGET'
   | 'INVALID_SCENE_STATE'
   | 'DECISIONS_OPEN'
-  | 'REFERENCES_NOT_APPROVED';
+  | 'REFERENCES_NOT_APPROVED'
+  | 'OPERATOR_NOT_AUTHORIZED'
+  | 'ROUTE_INVALID'
+  | 'QUOTE_STALE'
+  | 'QUOTE_CHANGED'
+  | 'AUTHORIZATION_ALREADY_USED'
+  | 'UNKNOWN_COMMITTED_SPEND';
 
 export type GateReason = { code: GateCode; detail: string };
 
@@ -46,19 +56,48 @@ export type GateInput = {
   /** Every job the budget covers, including this one. */
   ledger: readonly GenerationJobRecord[];
   scene: SceneGateResult;
+  /** Who is asking. Dispatch needs the DISPATCH permission (the founder); null in a preview made for nobody. */
+  operator: Actor | null;
+  /** The project's route table: a job may only be sent on one of these. */
+  routeIds: readonly string[];
   now: string;
 };
+
+/**
+ * A quote is a price at a moment. Older than this, it is planning information: it must be read again from the
+ * provider before anyone authorizes or spends on it.
+ */
+export const MAX_QUOTE_AGE_HOURS = 24;
 
 export type GateResult = { allowed: boolean; reasons: GateReason[] };
 
 /**
- * Credits a job has committed: every dispatched attempt counts its reported charge, or its quote when the provider
- * reported none. Failed and canceled attempts count too, so a retry can never spend past the budget.
+ * Credits a job has committed: every dispatched attempt counts its reported charge, or the quote it was sent against
+ * when the provider reported none. Failed, canceled and uncertain attempts count too, so a retry can never spend past
+ * the budget. An attempt with neither a charge nor a quote makes the total unknown (null), never zero.
  */
-export function committedCredits(j: GenerationJobRecord): number {
-  const quote = j.quotedCost.credits ?? 0;
-  return j.attempts.reduce((n, a) => n + (typeof a.chargedCredits === 'number' ? a.chargedCredits : quote), 0);
+export function committedCredits(j: GenerationJobRecord): number | null {
+  let n = 0;
+  for (const a of j.attempts) {
+    const c = typeof a.chargedCredits === 'number' ? a.chargedCredits : (a.quotedCredits ?? j.quotedCost.credits);
+    if (c === null) return null;
+    n += c;
+  }
+  return n;
 }
+
+/** Sum of committed credits; null when any part is unknown. */
+export function committedTotal(jobs: readonly GenerationJobRecord[]): number | null {
+  let n = 0;
+  for (const j of jobs) {
+    const c = committedCredits(j);
+    if (c === null) return null;
+    n += c;
+  }
+  return n;
+}
+
+export const quoteAgeHours = (quotedAt: string | null, now: string) => (quotedAt && !Number.isNaN(Date.parse(quotedAt)) ? (Date.parse(now) - Date.parse(quotedAt)) / 3_600_000 : null);
 
 export function evaluateGate(g: GateInput, opts: { forAuthorization?: boolean } = {}): GateResult {
   const { job, shot, authorization: a, budget, budgetApproval, now } = g;
@@ -68,6 +107,8 @@ export function evaluateGate(g: GateInput, opts: { forAuthorization?: boolean } 
 
   if (DISPATCHED_STATES.includes(job.status)) no('DUPLICATE_REQUEST', `${job.id} is already ${job.status}; nothing is sent twice`);
   if (!opts.forAuthorization && job.status !== 'AUTHORIZED') no('JOB_NOT_AUTHORIZED', `${job.id} is ${job.status}`);
+  if (!opts.forAuthorization && (!g.operator || !can(g.operator.role, 'DISPATCH'))) no('OPERATOR_NOT_AUTHORIZED', `${g.operator ? `${g.operator.id} is ${g.operator.role}` : 'no operator'}; only the founder dispatches paid generation`);
+  if (!g.routeIds.includes(job.routeId)) no('ROUTE_INVALID', `${job.routeId} is not a route of ${job.projectId}`);
 
   if (!opts.forAuthorization) {
     if (!a || a.approvalKind !== 'GENERATION_AUTHORIZATION' || a.decision !== 'AUTHORIZE' || a.actorRole !== 'FOUNDER' || a.subject.id !== job.id) no('NO_FOUNDER_APPROVAL', `${job.id} has no founder generation authorization`);
@@ -76,6 +117,9 @@ export function evaluateGate(g: GateInput, opts: { forAuthorization?: boolean } 
       if (a.inputHash !== job.inputHash) no('APPROVAL_INVALIDATED_BY_INPUT_CHANGE', `${a.id} approved inputs ${a.inputHash?.slice(0, 12)}; the job now asks for ${job.inputHash.slice(0, 12)}`);
       if (!a.expiresAt || a.expiresAt <= now) no('AUTHORIZATION_EXPIRED', `${a.id} expired at ${a.expiresAt ?? 'never set'}`);
       if (a.budgetId !== shot.budgetId) no('NO_APPLICABLE_BUDGET', `${a.id} names budget ${a.budgetId}, the shot uses ${shot.budgetId}`);
+      if (a.routeId !== job.routeId) no('ROUTE_INVALID', `${a.id} authorized route ${a.routeId ?? 'none'}; the job uses ${job.routeId}`);
+      if (a.quotedCredits !== job.quotedCost.credits) no('QUOTE_CHANGED', `${a.id} authorized against a quote of ${a.quotedCredits ?? 'none'}; the job now quotes ${job.quotedCost.credits ?? 'none'}`);
+      if (a.scope !== 'ONE_JOB_ONE_ATTEMPT' || job.attempts.some((x) => x.authorizationId === a.id)) no('AUTHORIZATION_ALREADY_USED', `${a.id} buys one attempt and ${job.attempts.some((x) => x.authorizationId === a.id) ? 'has been used' : 'has no single-attempt scope'}`);
     }
   }
 
@@ -85,12 +129,14 @@ export function evaluateGate(g: GateInput, opts: { forAuthorization?: boolean } 
   const quote = job.quotedCost.credits;
   if (quote === null) no('UNKNOWN_QUOTE', `${job.id}: no exact quote for ${job.model} ${job.mode}; quote before authorizing`);
   else {
+    const age = quoteAgeHours(job.quotedCost.quotedAt, now);
+    if (age === null || age > MAX_QUOTE_AGE_HOURS || age < 0) no('QUOTE_STALE', `${job.id}: quoted ${job.quotedCost.quotedAt ?? 'at an unknown time'}; a quote older than ${MAX_QUOTE_AGE_HOURS} h is planning information and is read again before spend`);
     const max = opts.forAuthorization ? null : (a?.maxCredits ?? null);
     if (max !== null && quote > max) no('EXCEEDS_AUTHORIZED_MAX', `${job.id} quotes ${quote}; authorized ${max}`);
     if (budgetOk) {
-      const others = g.ledger.filter((x) => x.id !== job.id).reduce((n, x) => n + committedCredits(x), 0);
-      const total = others + committedCredits(job) + quote;
-      if (total > budget!.authorizedCredits) no('OVER_BUDGET', `${budget!.id}: ${others + committedCredits(job)} committed + ${quote} > ${budget!.authorizedCredits} authorized`);
+      const committed = committedTotal(g.ledger.some((x) => x.id === job.id) ? g.ledger : [...g.ledger, job]);
+      if (committed === null) no('UNKNOWN_COMMITTED_SPEND', `${budget!.id}: an earlier attempt has no reported charge and no quote; its spend is unknown, not zero`);
+      else if (committed + quote > budget!.authorizedCredits) no('OVER_BUDGET', `${budget!.id}: ${committed} committed + ${quote} > ${budget!.authorizedCredits} authorized`);
     }
   }
 
@@ -112,8 +158,10 @@ export type DispatchTicket = Readonly<{
   inputHash: string;
   idempotencyKey: string;
   authorizationId: string;
+  routeId: string;
   quotedCredits: number;
   maxCredits: number;
+  operator: string;
   issuedAt: string;
   expiresAt: string;
 }>;
@@ -134,7 +182,9 @@ export function issueDispatchTicket(g: GateInput): { ticket: DispatchTicket } | 
     inputHash: g.job.inputHash,
     idempotencyKey: g.job.idempotencyKey,
     authorizationId: g.authorization!.id,
+    routeId: g.job.routeId,
     quotedCredits: g.job.quotedCost.credits!,
+    operator: g.operator!.id,
     maxCredits: g.authorization!.maxCredits!,
     issuedAt: g.now,
     expiresAt,
@@ -144,12 +194,12 @@ export function issueDispatchTicket(g: GateInput): { ticket: DispatchTicket } | 
 }
 
 /** Called by a transport before it does anything. One ticket buys one submission of exactly the gated request. */
-export function redeemDispatchTicket(ticket: DispatchTicket | null | undefined, req: { projectId: string; jobId: string; inputHash: string; idempotencyKey: string }, now: string): void {
+export function redeemDispatchTicket(ticket: DispatchTicket | null | undefined, req: { projectId: string; jobId: string; inputHash: string; idempotencyKey: string; routeId: string }, now: string): void {
   const state = ticket ? ISSUED.get(ticket) : undefined;
   if (!ticket || !state) throw new SpineError('NO_DISPATCH_TICKET', `${req.jobId}: a provider call needs a ticket from the spend gate`);
   if (state.redeemed) throw new SpineError('TICKET_ALREADY_USED', `${ticket.ticketId} was already redeemed`);
   if (ticket.expiresAt <= now) throw new SpineError('TICKET_EXPIRED', `${ticket.ticketId} expired at ${ticket.expiresAt}`);
-  for (const k of ['projectId', 'jobId', 'inputHash', 'idempotencyKey'] as const)
+  for (const k of ['projectId', 'jobId', 'inputHash', 'idempotencyKey', 'routeId'] as const)
     if (ticket[k] !== req[k]) throw new SpineError('TICKET_MISMATCH', `${ticket.ticketId} was issued for ${k} ${ticket[k]}, not ${req[k]}`);
   state.redeemed = true;
 }

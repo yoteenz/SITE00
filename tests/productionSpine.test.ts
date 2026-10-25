@@ -28,12 +28,24 @@ import {
   type DispatchTicket,
   type GenerationJobRecord,
   type ProviderTransport,
+  committedCredits,
+  FOUNDER_ONLY,
+  PROJECT_ROLES,
+  ROLE_PERMISSIONS,
+  type FakeBehaviour,
+  matchingQuote,
+  OPENART_EVIDENCE,
+  OPENART_OBSERVED_INPUT_FIELDS,
+  openArtContractProblems,
+  parseOpenArtCreation,
 } from '../shared/site00-production-spine/index.js';
 import { FfmpegFrameExtractor, FfprobeMediaProbe } from '../shared/site00-production-spine/node/ffmpeg.js';
 import { jsonFileStore } from '../shared/site00-production-spine/node/jsonStore.js';
 import { LocalPrivateMediaStore } from '../shared/site00-production-spine/node/localMedia.js';
 import { SupabasePrivateMediaStore, type StorageClient } from '../shared/site00-production-spine/node/supabaseMedia.js';
-import { buildSh01Records, EXCHANGE_PROJECT_ID, EXCHANGE_RECORDS_DIR, exchangeActorAdapter, SH01 } from '../shared/site00-production-spine/projects/theExchange.js';
+import { buildSh01Records, EXCHANGE_PROJECT_ID, EXCHANGE_RECORDS_DIR, exchangeActorAdapter, SH01, sceneGateFrom } from '../shared/site00-production-spine/projects/theExchange.js';
+import { authorizeStep, decideElement } from '../shared/site00-fiction-production/directorial/review.js';
+import { loadSceneReviewState } from '../shared/site00-fiction-production/scenes/index.js';
 import { theExchangeGraphPart } from '../shared/site00-production-spine/projects/theExchangeGraph.js';
 import { getStudioWorldActorCatalogue } from '../shared/site00-studio-world/acting-catalogue/seedCatalogue.js';
 import { getSite00ManagedProject, listDesignEnabledManagedProjects } from '../shared/site00-studio-world-production/visualReconstruction/p0vr3m/managedProjectRegistry.js';
@@ -42,7 +54,11 @@ import { makeSpineFixtureMedia, steppingClock, tempDir, type SpineFixtureMedia }
 const root = process.cwd();
 const FOUNDER: Actor = { id: FOUNDER_ACTOR, role: 'FOUNDER' };
 const REVIEWER: Actor = { id: 'test:reviewer', role: 'REVIEWER' };
+const ADMIN: Actor = { id: 'test:production-admin', role: 'PRODUCTION_ADMIN' };
+const EDITOR: Actor = { id: 'test:editor', role: 'AUTHORIZED_EDITOR' };
+const READER: Actor = { id: 'test:read-only', role: 'READ_ONLY' };
 const SYSTEM: Actor = { id: 'system:test', role: 'SYSTEM' };
+const TEST_QUOTE_SOURCE = { path: 'TEST_FIXTURE', recordId: 'fake-provider-quote', sha256: null };
 const VIDEO = `JOB-${SH01.shotId}-VIDEO-01`;
 const mark = <T extends AnyRecord>(r: T): T => ({ ...r, fixture: TEST_FIXTURE });
 const code = (p: Promise<unknown>) => p.then(() => 'OK', (e: Error) => e.message.split(':')[0]);
@@ -62,7 +78,7 @@ beforeAll(() => {
 afterAll(() => fs.rmSync(fx.dir, { recursive: true, force: true }));
 
 /** A test store holding the SH01 setup, with optional test-only approvals that let the gate pass. */
-async function harness(opts: { approve?: boolean; budgetCredits?: number; scene?: boolean; transport?: (fx: SpineFixtureMedia) => ProviderTransport } = {}) {
+async function harness(opts: { approve?: boolean; budgetCredits?: number; scene?: boolean; transport?: (fx: SpineFixtureMedia) => ProviderTransport; behaviour?: FakeBehaviour } = {}) {
   const store = memoryStore(EXCHANGE_PROJECT_ID);
   const media = new MemoryMediaStore();
   const clock = steppingClock();
@@ -71,7 +87,7 @@ async function harness(opts: { approve?: boolean; budgetCredits?: number; scene?
   await store.create(mark(opts.approve ? { ...shot, requiredDecisions: shot.requiredDecisions.map((d) => ({ ...d, status: 'ANSWERED' as const })) } : shot));
   for (const j of jobs) await store.create(mark(j));
   let authorizeError = 'NOT_ATTEMPTED';
-  const fake = (opts.transport?.(fx) ?? new FakeProviderTransport('OpenArt', { bytes: fx.video, mimeType: 'video/mp4' })) as FakeProviderTransport;
+  const fake = (opts.transport?.(fx) ?? new FakeProviderTransport('OpenArt', { bytes: fx.video, mimeType: 'video/mp4' }, opts.behaviour)) as FakeProviderTransport;
   const runner = new ProductionRunner({ store, media, transports: { 'OA-NBP-I2I-2K-REF': fake, 'OA-K3O-I2V-PRO': fake }, sceneGate: () => (opts.scene === false ? { valid: false, reasons: ['PRODUCTION not authorized'] } : { valid: true, reasons: [] }), probe: new FfprobeMediaProbe(), extractor: new FfmpegFrameExtractor(), clock });
   if (opts.approve) {
     const ref = await media.put({ projectId: EXCHANGE_PROJECT_ID, bytes: fx.frame, mimeType: 'image/png' });
@@ -81,6 +97,8 @@ async function harness(opts: { approve?: boolean; budgetCredits?: number; scene?
     await runner.authorizeBudget(SH01.budgetId, FOUNDER, { authorizedCredits: opts.budgetCredits ?? 255, decisionRefs: ['FD-S101-11'], note: 'TEST' });
     await runner.approveReference(SH01.shotId, 'KF-ENV-CITY-DUSK-A', asset.id, FOUNDER, { decisionRefs: ['FD-S101-08'], note: 'TEST' });
     await runner.requestAuthorization(VIDEO, FOUNDER);
+    // A fresh test quote: the planning quote in the records is history, not a price to spend against.
+    await runner.recordQuote(VIDEO, FOUNDER, { credits: 175, quotedAt: clock(), source: TEST_QUOTE_SOURCE });
     authorizeError = await code(runner.authorizeJob(VIDEO, FOUNDER, { maxCredits: 175, ttlSec: 600, decisionRefs: ['FD-S101-11'], note: 'TEST' }));
   }
   return { store, media, runner, fake, clock, authorizeError };
@@ -88,7 +106,7 @@ async function harness(opts: { approve?: boolean; budgetCredits?: number; scene?
 
 async function capturedTake() {
   const h = await harness({ approve: true });
-  await h.runner.dispatch(VIDEO);
+  await h.runner.dispatch(VIDEO, FOUNDER);
   await h.runner.poll(VIDEO);
   const take = (await h.store.list('TAKE'))[0]!;
   return { ...h, take };
@@ -224,7 +242,7 @@ describe('job and take state machines (§17)', () => {
 
 describe('spend gate (§18)', () => {
   const blockedBy = async (h: Awaited<ReturnType<typeof harness>>, jobId = VIDEO) => {
-    const out = await h.runner.dispatch(jobId);
+    const out = await h.runner.dispatch(jobId, FOUNDER);
     return out.outcome === 'BLOCKED' ? [...new Set(out.reasons.map((r) => r.code))] : [out.outcome];
   };
 
@@ -272,20 +290,20 @@ describe('spend gate (§18)', () => {
 
   it('makes a duplicate dispatch idempotent: one provider request', async () => {
     const h = await harness({ approve: true });
-    expect((await h.runner.dispatch(VIDEO)).outcome).toBe('SUBMITTED');
-    expect((await h.runner.dispatch(VIDEO)).outcome).toBe('DUPLICATE_IDEMPOTENT');
+    expect((await h.runner.dispatch(VIDEO, FOUNDER)).outcome).toBe('SUBMITTED');
+    expect((await h.runner.dispatch(VIDEO, FOUNDER)).outcome).toBe('DUPLICATE_IDEMPOTENT');
     expect(h.fake.received).toHaveLength(1);
   });
 
   it('never retries a failed job on its own, and rejects a retry that would pass the budget', async () => {
     const h = await harness({ approve: true, budgetCredits: 175, transport: (f) => new FakeProviderTransport('OpenArt', { bytes: f.video, mimeType: 'video/mp4' }, { failRun: 'TEST: provider failure' }) });
-    await h.runner.dispatch(VIDEO);
+    await h.runner.dispatch(VIDEO, FOUNDER);
     const failed = await h.runner.poll(VIDEO);
     expect([failed.status, failed.attempts.length, h.fake.received.length]).toEqual(['FAILED', 1, 1]);
-    expect((await h.runner.dispatch(VIDEO)).outcome).toBe('BLOCKED');
+    expect((await h.runner.dispatch(VIDEO, FOUNDER)).outcome).toBe('BLOCKED');
     await h.runner.requestRetry(VIDEO, FOUNDER, 'TEST');
     expect(await code(h.runner.authorizeJob(VIDEO, FOUNDER, { maxCredits: 175, ttlSec: 600, decisionRefs: [], note: null }))).toBe('GATE_BLOCKED');
-    const gi = await h.runner.gateInput((await h.store.get('GENERATION_JOB', VIDEO))!);
+    const gi = await h.runner.gateInput((await h.store.get('GENERATION_JOB', VIDEO))!, FOUNDER);
     expect(evaluateGate(gi, { forAuthorization: true }).reasons.map((r) => r.code)).toEqual(['OVER_BUDGET']);
     expect(h.fake.received).toHaveLength(1);
   });
@@ -293,12 +311,13 @@ describe('spend gate (§18)', () => {
   it('issues tickets only through the gate; a copied, reused, mismatched or hand-made ticket buys nothing', async () => {
     const h = await harness({ approve: true });
     const job = (await h.store.get('GENERATION_JOB', VIDEO))!;
-    const issued = issueDispatchTicket(await h.runner.gateInput(job));
+    const issued = issueDispatchTicket(await h.runner.gateInput(job, FOUNDER));
     const ticket = issued.ticket!;
-    const req = { projectId: job.projectId, jobId: job.id, inputHash: job.inputHash, idempotencyKey: job.idempotencyKey };
+    const req = { projectId: job.projectId, jobId: job.id, inputHash: job.inputHash, idempotencyKey: job.idempotencyKey, routeId: job.routeId };
     const now = '2026-10-25T13:00:30Z';
     expect(codeSync(() => redeemDispatchTicket({ ...ticket } as DispatchTicket, req, now))).toBe('NO_DISPATCH_TICKET');
     expect(codeSync(() => redeemDispatchTicket(ticket, { ...req, inputHash: '0'.repeat(64) }, now))).toBe('TICKET_MISMATCH');
+    expect(codeSync(() => redeemDispatchTicket(ticket, { ...req, routeId: 'OA-NBP-I2I-2K-REF' }, now))).toBe('TICKET_MISMATCH');
     expect(codeSync(() => redeemDispatchTicket(ticket, req, '2099-01-01T00:00:00Z'))).toBe('TICKET_EXPIRED');
     expect(codeSync(() => redeemDispatchTicket(ticket, req, now))).toBe('OK');
     expect(codeSync(() => redeemDispatchTicket(ticket, req, now))).toBe('TICKET_ALREADY_USED');
@@ -308,7 +327,7 @@ describe('spend gate (§18)', () => {
 
   it('keeps the real OpenArt route disabled: no flag, or no agent-session executor, means no call', async () => {
     const calls: string[] = [];
-    const executor = { submit: async () => (calls.push('submit'), { operationId: 'X' }), poll: async () => ({ state: 'RUNNING' as const }), fetchOutput: async () => ({ bytes: new Uint8Array(), mimeType: 'video/mp4', sourceHost: 'UNKNOWN' as const }) };
+    const executor = { submit: async () => (calls.push('submit'), { operationId: 'X' }), creation: async () => ({}), download: async () => ({ bytes: new Uint8Array(), mimeType: 'video/mp4' }) };
     for (const t of [new OpenArtAgentSessionTransport({}), new OpenArtAgentSessionTransport({ SITE00_PROVIDER_EXECUTION: 'ENABLED' }), new OpenArtAgentSessionTransport({}, executor)]) {
       expect(t.status().enabled).toBe(false);
       expect(await code(t.submit({} as never, {} as DispatchTicket, '2026-10-25T00:00:00Z'))).toBe('PROVIDER_EXECUTION_DISABLED');
@@ -329,8 +348,8 @@ describe('runner, capture and review (§22)', () => {
     const { store, media, take, fake } = await capturedTake();
     const job = (await store.get('GENERATION_JOB', VIDEO))!;
     expect(job.transitions.map((t) => t.to)).toEqual(['AWAITING_APPROVAL', 'AUTHORIZED', 'QUEUED', 'RUNNING', 'SUCCEEDED', 'ASSET_CAPTURE_PENDING', 'CAPTURED']);
-    expect(job.attempts).toEqual([expect.objectContaining({ attempt: 1, outcome: 'SUCCEEDED', chargedCredits: 0, operationId: 'FAKE-OP-001' })]);
-    expect(take).toMatchObject({ decision: 'READY_FOR_REVIEW', selectedForEdit: false, resolution: '270x480', frameRate: 24, aspectRatio: '9:16', audioPresent: false, runtimeSec: 5 });
+    expect(job.attempts).toEqual([expect.objectContaining({ attempt: 1, outcome: 'SUCCEEDED', quotedCredits: 175, chargedCredits: 0, operationId: 'FAKE-OP-001' })]);
+    expect(take).toMatchObject({ decision: 'READY_FOR_REVIEW', selectedForEdit: false, resolution: '270x480', frameRate: 24, aspectRatio: '9:16', audioPresent: false, runtimeSec: 5, intendedEditSec: 4, continuity: { status: 'NOT_REVIEWED', approvalId: null, findings: [] } });
     expect((await media.verify(take.storageRef, take.contentSha256)).ok).toBe(true);
     const asset = (await store.get('ASSET', take.assetId))!;
     expect(asset.lineage).toEqual({ sourceJobId: VIDEO, sourceTakeId: null, derivedFromAssetId: null, providerOperationId: 'FAKE-OP-001', providerSourceHost: 'fake-provider.test' });
@@ -339,7 +358,7 @@ describe('runner, capture and review (§22)', () => {
 
   it('records a capture failure without calling the provider again', async () => {
     const h = await harness({ approve: true });
-    await h.runner.dispatch(VIDEO);
+    await h.runner.dispatch(VIDEO, FOUNDER);
     (h.media as MemoryMediaStore).put = async () => {
       throw new Error('TEST: storage unavailable');
     };
@@ -359,6 +378,263 @@ describe('runner, capture and review (§22)', () => {
     const { runner, media, take } = await capturedTake();
     (media as MemoryMediaStore).corruptForTest(take.storageRef);
     expect(await code(runner.decideTake(take.id, 'APPROVE', FOUNDER, { note: null }))).toBe('MEDIA_UNVERIFIED');
+  });
+});
+
+describe('roles and permissions (§07)', () => {
+  it('gives spend, dispatch, reference and take approval to the founder alone', () => {
+    for (const r of PROJECT_ROLES.filter((r) => r !== 'FOUNDER')) for (const p of FOUNDER_ONLY) expect(ROLE_PERMISSIONS[r], `${r} ${p}`).not.toContain(p);
+    expect(ROLE_PERMISSIONS.AUTHORIZED_EDITOR).toContain('SELECT_FOR_EDIT');
+    expect(ROLE_PERMISSIONS.REVIEWER).not.toContain('SELECT_FOR_EDIT');
+    expect(ROLE_PERMISSIONS.READ_ONLY).toEqual(['VIEW', 'READ_MEDIA']);
+  });
+
+  it('enforces the table in the runner: wrong role, no record change', async () => {
+    const { runner, store, take } = await capturedTake();
+    for (const a of [REVIEWER, EDITOR, ADMIN, READER]) expect(await code(runner.decideTake(take.id, 'APPROVE', a, { note: null })), a.role).toBe('FORBIDDEN');
+    expect(await code(runner.decideTake(take.id, 'HOLD', READER, { note: null }))).toBe('FORBIDDEN');
+    expect(await code(runner.reviewContinuity(take.id, 'PASS', READER, null))).toBe('FORBIDDEN');
+    expect(await code(runner.authorizeBudget(SH01.budgetId, ADMIN, { authorizedCredits: 1, decisionRefs: [], note: null }))).toBe('FORBIDDEN');
+    expect((await store.get('TAKE', take.id))!.revision).toBe(take.revision);
+    await runner.decideTake(take.id, 'APPROVE', FOUNDER, { note: 'TEST' });
+    expect(await code(runner.decideTake(take.id, 'SELECT_FOR_EDIT', REVIEWER, { note: null }))).toBe('FORBIDDEN');
+    expect((await runner.decideTake(take.id, 'SELECT_FOR_EDIT', EDITOR, { note: 'TEST editor selects' })).selectedForEdit).toBe(true);
+  });
+
+  it('records each decision with the state before and after and the subject version it was made on', async () => {
+    const { runner, store, take } = await capturedTake();
+    await runner.decideTake(take.id, 'HOLD', REVIEWER, { note: 'TEST' });
+    await runner.reviewContinuity(take.id, 'ISSUES', REVIEWER, 'TEST', ['wet street reads dry in frames 40–60']);
+    const history = (await store.list('APPROVAL')).filter((a) => a.subject.id === take.id).sort((x, y) => x.at.localeCompare(y.at));
+    expect(history.map((a) => [a.decision, a.previousState, a.newState, a.sourceVersion])).toEqual([
+      ['HOLD', 'READY_FOR_REVIEW', 'HELD', `TAKE/${take.id}@r1`],
+      ['ISSUES', 'NOT_REVIEWED', 'ISSUES', `TAKE/${take.id}@r2`],
+    ]);
+    expect((await store.get('TAKE', take.id))!.continuity.findings).toEqual(['wet street reads dry in frames 40–60']);
+    expect(await code(runner.reviewContinuity(take.id, 'ISSUES', REVIEWER, null, []))).toBe('FINDINGS_REQUIRED');
+  });
+
+  it('decides a take version once: a double click or a race between two reviewers records one decision', async () => {
+    const { runner, store, take } = await capturedTake();
+    const results = await Promise.all([runner.decideTake(take.id, 'APPROVE', FOUNDER, { note: 'TEST a' }), runner.decideTake(take.id, 'REJECT', FOUNDER, { note: 'TEST b' })].map((p) => p.then((t) => t.decision, (e: Error) => e.message.split(':')[0])));
+    expect(results.filter((r) => r === 'CONFLICT')).toHaveLength(1);
+    expect(results.filter((r) => r === 'APPROVED' || r === 'REJECTED')).toHaveLength(1);
+    expect((await store.list('APPROVAL')).filter((a) => a.subject.id === take.id)).toHaveLength(1);
+    expect(await code(runner.decideTake(take.id, 'APPROVE', FOUNDER, { note: null }))).toBe('ILLEGAL_TRANSITION');
+    expect(await code(runner.decideTake('TAKE-DOES-NOT-EXIST', 'SELECT_FOR_EDIT', FOUNDER, { note: null }))).toBe('NOT_FOUND');
+  });
+});
+
+describe('dispatch-time authorization (§14–§15)', () => {
+  const reasons = async (h: Awaited<ReturnType<typeof harness>>, who: Actor = FOUNDER) => {
+    const out = await h.runner.dispatch(VIDEO, who);
+    return out.outcome === 'BLOCKED' ? [...new Set(out.reasons.map((r) => r.code))] : [out.outcome];
+  };
+
+  it('dispatches only for the founder: an admin or editor operator is refused, nothing sent', async () => {
+    const h = await harness({ approve: true });
+    for (const a of [ADMIN, EDITOR, REVIEWER, READER]) expect(await reasons(h, a), a.role).toEqual(['OPERATOR_NOT_AUTHORIZED']);
+    expect(h.fake.calls.submit).toBe(0);
+  });
+
+  it('refuses a request changed after authorization: new quote, other route', async () => {
+    const h = await harness({ approve: true });
+    await h.store.update({ ...(await h.store.get('GENERATION_JOB', VIDEO))!, quotedCost: { credits: 170, quotedAt: h.clock(), source: TEST_QUOTE_SOURCE } }, (await h.store.get('GENERATION_JOB', VIDEO))!.revision);
+    expect(await reasons(h)).toEqual(['QUOTE_CHANGED']);
+    expect((await h.store.get('GENERATION_JOB', VIDEO))!.status).toBe('AWAITING_APPROVAL');
+    const h2 = await harness({ approve: true });
+    const j = (await h2.store.get('GENERATION_JOB', VIDEO))!;
+    await h2.store.update({ ...j, routeId: 'OA-UNKNOWN-ROUTE' }, j.revision);
+    expect(await h2.runner.dispatch(VIDEO, FOUNDER)).toMatchObject({ outcome: 'BLOCKED', reasons: [{ code: 'NO_TRANSPORT' }] });
+    expect([h.fake.calls.submit, h2.fake.calls.submit]).toEqual([0, 0]);
+  });
+
+  it('treats a quote older than 24 hours as planning information: no authorization, no dispatch', async () => {
+    const h = await harness({ approve: true });
+    const job = (await h.store.get('GENERATION_JOB', VIDEO))!;
+    await h.runner.revokeAuthorization(VIDEO, FOUNDER, 'TEST');
+    await h.store.update({ ...(await h.store.get('GENERATION_JOB', VIDEO))!, quotedCost: { ...job.quotedCost, quotedAt: '2026-10-24T12:00:00Z' } }, job.revision + 1);
+    expect(await code(h.runner.authorizeJob(VIDEO, FOUNDER, { maxCredits: 175, ttlSec: 600, decisionRefs: [], note: null }))).toBe('GATE_BLOCKED');
+    const gi = await h.runner.gateInput((await h.store.get('GENERATION_JOB', VIDEO))!, FOUNDER);
+    expect(evaluateGate(gi, { forAuthorization: true }).reasons.map((r) => r.code)).toEqual(['QUOTE_STALE']);
+  });
+
+  it('scene gate: an unknown quote stays unknown, and a scoped budget step covers only its scope', () => {
+    let review = loadSceneReviewState(SH01.releaseId, root);
+    const at = '2026-10-25T13:00:00Z';
+    review = authorizeStep(authorizeStep(review, 'SCREENPLAY', FOUNDER_ACTOR, at, 'TEST'), 'DIRECTION', FOUNDER_ACTOR, at, 'TEST');
+    for (const e of review.elements) if (e.state !== 'APPROVED') review = decideElement(review, e.elementId, 'APPROVED', FOUNDER_ACTOR, at, 'TEST');
+    review = authorizeStep(authorizeStep(review, 'KEYFRAMES', FOUNDER_ACTOR, at, 'TEST'), 'GENERATION_BUDGET', FOUNDER_ACTOR, at, 'TEST', ['KF-ENV-CITY-DUSK-A']);
+    const gate = sceneGateFrom(review);
+    const { shot, jobs } = buildSh01Records(root);
+    expect(gate(jobs[0]!, shot)).toEqual({ valid: true, reasons: [] });
+    expect(gate({ ...jobs[0]!, quotedCost: { ...jobs[0]!.quotedCost, credits: null } }, shot).reasons).toEqual(['price UNKNOWN: quote before authorizing']);
+    expect(gate({ ...jobs[0]!, producesReferenceId: 'KF-ENV-HALCYON-EXT' }, shot).reasons).toEqual(['KF-ENV-HALCYON-EXT is outside the authorized generation budget scope']);
+  });
+
+  it('never counts an unknown cost as zero', () => {
+    const j = buildSh01Records(root).jobs[2]!;
+    const unknown = { ...j, quotedCost: { ...j.quotedCost, credits: null }, attempts: [{ attempt: 1, authorizationId: 'A', ticketId: 'T', operationId: 'X', outcome: 'FAILED' as const, quotedCredits: null, chargedCredits: 'UNKNOWN' as const }] };
+    expect(committedCredits(unknown)).toBeNull();
+    expect(committedCredits({ ...unknown, attempts: [{ ...unknown.attempts[0]!, quotedCredits: 175 }] })).toBe(175);
+    expect(committedCredits({ ...unknown, attempts: [{ ...unknown.attempts[0]!, chargedCredits: 12 }] })).toBe(12);
+  });
+
+  it('uses an authorization once: after a failed attempt the same authorization buys nothing', async () => {
+    const h = await harness({ approve: true, behaviour: { failSubmit: 'TEST: provider refused' } });
+    expect((await h.runner.dispatch(VIDEO, FOUNDER)).outcome).toBe('FAILED');
+    const j = (await h.store.get('GENERATION_JOB', VIDEO))!;
+    expect([j.attempts[0]!.outcome, j.attempts[0]!.chargedCredits]).toEqual(['FAILED', 'UNKNOWN']);
+    // Force the job back to AUTHORIZED behind the runner's back: the gate still refuses the spent authorization.
+    await h.store.update({ ...j, status: 'AUTHORIZED', founderApprovalRef: j.transitions.find((t) => t.to === 'AUTHORIZED')!.evidence.approvalId! }, j.revision);
+    expect(await reasons(h)).toContain('AUTHORIZATION_ALREADY_USED');
+    expect(h.fake.received).toHaveLength(1);
+  });
+});
+
+describe('duplicate and retry protection (§16–§17)', () => {
+  it('double click: two dispatches at once send one request', async () => {
+    const h = await harness({ approve: true });
+    const outs = await Promise.all([h.runner.dispatch(VIDEO, FOUNDER), h.runner.dispatch(VIDEO, FOUNDER), h.runner.dispatch(VIDEO, FOUNDER)]);
+    expect(outs.filter((o) => o.outcome === 'SUBMITTED')).toHaveLength(1);
+    expect(h.fake.received).toHaveLength(1);
+  });
+
+  it('lost provider response: RECONCILIATION_REQUIRED, looked up by key, never resent', async () => {
+    const h = await harness({ approve: true, behaviour: { loseSubmitResponse: true } });
+    const out = await h.runner.dispatch(VIDEO, FOUNDER);
+    expect([out.outcome, out.job.status, out.job.attempts[0]!.outcome, out.job.attempts[0]!.chargedCredits]).toEqual(['RECONCILIATION_REQUIRED', 'RECONCILIATION_REQUIRED', 'UNCERTAIN', 'UNKNOWN']);
+    expect((await h.runner.dispatch(VIDEO, FOUNDER)).outcome).toBe('DUPLICATE_IDEMPOTENT');
+    expect(await code(h.runner.reconcile(VIDEO, REVIEWER))).toBe('FORBIDDEN');
+    const found = await h.runner.reconcile(VIDEO, ADMIN);
+    expect([found.status, found.providerOperationId]).toEqual(['RUNNING', 'FAKE-OP-001']);
+    const done = await h.runner.poll(VIDEO);
+    expect([done.status, h.fake.received.length, h.fake.calls.submit]).toEqual(['CAPTURED', 1, 1]);
+  });
+
+  it('timeout before the provider: the lookup says definitively not found → FAILED, spend counted at the quote', async () => {
+    const h = await harness({ approve: true, behaviour: { dropBeforeProvider: true } });
+    expect((await h.runner.dispatch(VIDEO, FOUNDER)).outcome).toBe('RECONCILIATION_REQUIRED');
+    const failed = await h.runner.reconcile(VIDEO, SYSTEM);
+    expect([failed.status, failed.attempts[0]!.outcome, committedCredits(failed)]).toEqual(['FAILED', 'FAILED', 175]);
+    expect(h.fake.received).toHaveLength(0);
+  });
+
+  it('uncertain status the provider cannot answer: stays for a person to resolve', async () => {
+    const h = await harness({ approve: true, behaviour: { loseSubmitResponse: true, noLookup: true } });
+    await h.runner.dispatch(VIDEO, FOUNDER);
+    expect((await h.runner.reconcile(VIDEO, SYSTEM)).status).toBe('RECONCILIATION_REQUIRED');
+    expect(await code(h.runner.resolveReconciliation(VIDEO, EDITOR, { notSubmitted: 'x' }))).toBe('FORBIDDEN');
+    expect((await h.runner.resolveReconciliation(VIDEO, ADMIN, { operationId: 'FAKE-OP-001' })).status).toBe('RUNNING');
+    expect(h.fake.calls.submit).toBe(1);
+  });
+
+  it('worker restart mid-call: the orphaned QUEUED job is reconciled, not resubmitted', async () => {
+    const h = await harness({ approve: true });
+    const hang = new FakeProviderTransport('OpenArt', { bytes: fx.video, mimeType: 'video/mp4' });
+    hang.submit = () => new Promise(() => {}); // the worker dies inside the provider call
+    const doomed = new ProductionRunner({ store: h.store, media: h.media, transports: { 'OA-NBP-I2I-2K-REF': hang, 'OA-K3O-I2V-PRO': hang }, sceneGate: () => ({ valid: true, reasons: [] }), probe: new FfprobeMediaProbe(), clock: h.clock });
+    void doomed.dispatch(VIDEO, FOUNDER);
+    for (let i = 0; i < 50 && (await h.store.get('GENERATION_JOB', VIDEO))!.status !== 'QUEUED'; i++) await new Promise((r) => setTimeout(r, 5));
+    expect((await h.store.get('GENERATION_JOB', VIDEO))!.status).toBe('QUEUED');
+    const later = steppingClock('2026-10-25T15:00:00Z');
+    const restarted = new ProductionRunner({ store: h.store, media: h.media, transports: { 'OA-NBP-I2I-2K-REF': h.fake, 'OA-K3O-I2V-PRO': h.fake }, sceneGate: () => ({ valid: true, reasons: [] }), probe: new FfprobeMediaProbe(), clock: later });
+    expect(await restarted.recoverInterrupted()).toEqual([{ jobId: VIDEO, from: 'QUEUED', to: 'RECONCILIATION_REQUIRED' }]);
+    expect((await restarted.dispatch(VIDEO, FOUNDER)).outcome).toBe('DUPLICATE_IDEMPOTENT');
+    expect(h.fake.calls.submit).toBe(0);
+  });
+
+  it('provider accepted but the ledger write failed: reconciliation, never a resend', async () => {
+    const h = await harness({ approve: true });
+    const realUpdate = h.store.update.bind(h.store);
+    let failOnce = true;
+    h.store.update = (async (rec: AnyRecord, rev: number) => {
+      if (failOnce && rec.kind === 'GENERATION_JOB' && rec.status === 'RUNNING') {
+        failOnce = false;
+        throw new Error('TEST: database unavailable for one write');
+      }
+      return realUpdate(rec, rev);
+    }) as typeof h.store.update;
+    const out = await h.runner.dispatch(VIDEO, FOUNDER);
+    expect([out.outcome, out.job.status, out.job.errors.at(-1)?.code]).toEqual(['RECONCILIATION_REQUIRED', 'RECONCILIATION_REQUIRED', 'OPERATION_RECORD_FAILED']);
+    expect((await h.runner.reconcile(VIDEO, SYSTEM)).status).toBe('RUNNING');
+    expect(h.fake.calls.submit).toBe(1);
+  });
+
+  it('double callback and polling race: one result recorded, one take', async () => {
+    const h = await harness({ approve: true });
+    await h.runner.dispatch(VIDEO, FOUNDER);
+    const [a, b] = await Promise.all([h.runner.poll(VIDEO), h.runner.poll(VIDEO)]);
+    const final = (await h.store.get('GENERATION_JOB', VIDEO))!;
+    expect(final.status).toBe('CAPTURED');
+    expect([a.status, b.status].every((s) => ['CAPTURED', 'SUCCEEDED', 'ASSET_CAPTURE_PENDING'].includes(s))).toBe(true);
+    expect(await h.store.list('TAKE')).toHaveLength(1);
+    expect((await h.runner.poll(VIDEO)).status).toBe('CAPTURED');
+    expect(h.fake.received).toHaveLength(1);
+  });
+
+  it('capture failure creates no new paid job: recapture reads the stored output, never submits', async () => {
+    const h = await harness({ approve: true, behaviour: { failFetches: 1 } });
+    await h.runner.dispatch(VIDEO, FOUNDER);
+    expect((await h.runner.poll(VIDEO)).status).toBe('ASSET_CAPTURE_FAILED');
+    expect(await code(h.runner.recapture(VIDEO, REVIEWER))).toBe('FORBIDDEN');
+    expect((await h.runner.recapture(VIDEO, ADMIN)).status).toBe('CAPTURED');
+    expect([h.fake.calls.submit, h.fake.received.length, (await h.store.list('GENERATION_JOB')).length, (await h.store.list('TAKE')).length]).toEqual([1, 1, 3, 1]);
+  });
+});
+
+describe('OpenArt runner readiness against the observed contract (§18)', () => {
+  const recorded = JSON.parse(fs.readFileSync(path.join(root, OPENART_EVIDENCE.creations), 'utf8')) as { creations: Array<Record<string, unknown>> };
+  const quotes = (JSON.parse(fs.readFileSync(path.join(root, OPENART_EVIDENCE.quotes), 'utf8')) as { openart: { quotes: Parameters<typeof matchingQuote>[1] } }).openart.quotes;
+
+  it('parses every recorded creation: completed → stored-output pointer, failed → failure, charge UNKNOWN', () => {
+    const parsed = recorded.creations.map((c) => parseOpenArtCreation(c));
+    expect(parsed.map((p) => p.poll.state)).toEqual(['SUCCEEDED', 'SUCCEEDED', 'SUCCEEDED', 'SUCCEEDED', 'SUCCEEDED', 'FAILED', 'FAILED']);
+    for (const p of parsed.filter((x) => x.poll.state === 'SUCCEEDED')) expect([p.sourceHost, 'reportedCredits' in p.poll && p.poll.reportedCredits]).toEqual(['cdn.openart.ai', 'UNKNOWN']);
+    expect(parsed[0]).toMatchObject({ durationSec: 10.041667, resolution: '1080p' });
+    expect(new Set(recorded.creations.flatMap((c) => (c.inputRefs as Array<{ field: string }>).map((i) => i.field)))).toEqual(new Set(OPENART_OBSERVED_INPUT_FIELDS));
+  });
+
+  it('refuses what was never observed: other statuses, other hosts, a completed creation with no output', () => {
+    const c = recorded.creations[0]!;
+    expect(codeSync(() => parseOpenArtCreation({ ...c, status: 'processing' }))).toBe('PROVIDER_STATUS_UNRECOGNIZED');
+    expect(codeSync(() => parseOpenArtCreation({ ...c, outputUrl: 'https://example.test/x.mp4' }))).toBe('PROVIDER_OUTPUT_HOST_UNEXPECTED');
+    expect(codeSync(() => parseOpenArtCreation({ ...c, outputUrl: '' }))).toBe('PROVIDER_OUTPUT_MISSING');
+    expect(codeSync(() => parseOpenArtCreation({ status: 'completed' }))).toBe('PROVIDER_RESPONSE_INVALID');
+  });
+
+  it('prices only the exact quoted configuration, and checks the request against the recorded form', () => {
+    const { jobs } = buildSh01Records(root);
+    const [ref, , video] = jobs as [GenerationJobRecord, GenerationJobRecord, GenerationJobRecord];
+    expect(matchingQuote(video, quotes)?.totalCredits).toBe(175);
+    expect(matchingQuote(ref, quotes)?.totalCredits).toBe(40);
+    expect(matchingQuote({ ...video, settings: { ...video.settings, duration: 7 } }, quotes)).toBeNull();
+    const req = { projectId: 'p', jobId: video.id, inputHash: video.inputHash, idempotencyKey: video.idempotencyKey, routeId: video.routeId, provider: 'OpenArt', model: video.model, mode: video.mode, settings: video.settings, prompt: video.prompt.text, inputs: [{ role: 'START_FRAME' as const, referenceId: 'KF', storageRef: 'x', sha256: 'y' }] };
+    expect(openArtContractProblems(req)).toEqual([]);
+    expect(openArtContractProblems({ ...req, settings: { ...req.settings, generateSound: true } }).join()).toMatch(/generateSound/);
+    expect(openArtContractProblems({ ...req, settings: { ...req.settings, duration: 16 } }).join()).toMatch(/duration/);
+    expect(openArtContractProblems({ ...req, inputs: [...req.inputs, { role: 'REFERENCE' as const, referenceId: 'R', storageRef: 'x', sha256: 'y' }] }).join()).toMatch(/not been observed/);
+  });
+
+  it('keeps founder app-session credentials out of the server: present in the environment → route disabled', () => {
+    const t = new OpenArtAgentSessionTransport({ SITE00_PROVIDER_EXECUTION: 'ENABLED', OPENART_SESSION_COOKIE: 'x' }, { submit: async () => ({ operationId: 'X' }), creation: async () => ({}), download: async () => ({ bytes: new Uint8Array(), mimeType: 'video/mp4' }) });
+    expect(t.status()).toMatchObject({ enabled: false, reason: expect.stringMatching(/never server secrets/) });
+    expect(Object.keys(process.env).filter((k) => /OPENART/i.test(k))).toEqual([]);
+  });
+
+  it('runs operation creation, status, output retrieval and asset handoff through a stub executor replaying recorded records', async () => {
+    const h = await harness({ approve: true });
+    const done = recorded.creations[0]!;
+    const sent: unknown[] = [];
+    const stub = { submit: async (p: unknown) => (sent.push(p), { operationId: String(done.creationId) }), creation: async () => done, download: async () => ({ bytes: fx.video, mimeType: 'video/mp4' }) };
+    const openart = new OpenArtAgentSessionTransport({ SITE00_PROVIDER_EXECUTION: 'ENABLED' }, stub);
+    const runner = new ProductionRunner({ store: h.store, media: h.media, transports: { 'OA-NBP-I2I-2K-REF': openart, 'OA-K3O-I2V-PRO': openart }, sceneGate: () => ({ valid: true, reasons: [] }), probe: new FfprobeMediaProbe(), clock: h.clock });
+    expect((await runner.dispatch(VIDEO, FOUNDER)).outcome).toBe('SUBMITTED');
+    expect(sent).toEqual([expect.objectContaining({ model: 'kling-3-omni', mode: 'image2video', config: { duration: 5, generateSound: false, resolution: 'pro', videoCount: 1 }, inputs: [expect.objectContaining({ field: 'startFrame' })] })]);
+    const job = await runner.poll(VIDEO);
+    const asset = (await h.store.get('ASSET', job.outputAssetIds[0]!))!;
+    expect([job.status, job.actualSpend.credits, asset.lineage.providerSourceHost, asset.lineage.providerOperationId]).toEqual(['CAPTURED', 'UNKNOWN', 'cdn.openart.ai', done.creationId]);
+    expect(JSON.stringify(await h.store.list('ASSET'))).not.toMatch(/https?:/);
   });
 });
 

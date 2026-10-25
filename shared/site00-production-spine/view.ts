@@ -28,6 +28,12 @@ export type JobView = {
   jobId: string;
   jobKind: JobKind;
   status: JobState;
+  purpose: string;
+  mode: string;
+  settings: Record<string, string | number | boolean>;
+  /** The quote and how old it is; older than the gate's limit it is planning information only. */
+  quote: { credits: number | null; quotedAt: string | null; ageHours: number | null; fresh: boolean; source: string };
+  attempts: Array<{ attempt: number; outcome: string; quotedCredits: number | null; chargedCredits: Unknowable<number> }>;
   producesReferenceId: string | null;
   routeId: string;
   provider: string;
@@ -42,7 +48,15 @@ export type JobView = {
   dispatch: { enabled: boolean; reasons: ReasonView[] };
 };
 
-export type HistoryView = { approvalId: string; kind: ApprovalKind; decision: ApprovalDecision; actor: string; actorRole: ActorRole; at: string; note: string | null };
+export type HistoryView = { approvalId: string; kind: ApprovalKind; decision: ApprovalDecision; actor: string; actorRole: ActorRole; at: string; note: string | null; previousState: string | null; newState: string | null; sourceVersion: string };
+
+/**
+ * The six separate readiness stages (§25). Each is judged on its own evidence; none implies another. Technical
+ * readiness is not creative approval, and creative approval is not permission to spend.
+ */
+export const READINESS_STAGES = ['TECHNICALLY_READY', 'CREATIVELY_APPROVED', 'FINANCIALLY_AUTHORIZED', 'GENERATION_RUNNING', 'TAKE_READY_FOR_REVIEW', 'TAKE_APPROVED'] as const;
+export type ReadinessStage = (typeof READINESS_STAGES)[number];
+export type ReadinessView = { stage: ReadinessStage; label: string; met: boolean; detail: string; checks: Array<{ label: string; met: boolean; detail: string }> };
 
 export type TakeView = {
   takeId: string;
@@ -60,7 +74,9 @@ export type TakeView = {
   model: string;
   contentSha256: string;
   storage: MediaAdapterId;
+  intendedEditSec: number | null;
   continuity: ContinuityStatus;
+  continuityFindings: string[];
   estimatedCredits: number | null;
   actualCredits: Unknowable<number>;
   /** Short-lived signed read of the stored copy; null when it cannot be signed here. */
@@ -84,7 +100,9 @@ export type ShotView = {
   summary: { purpose: string; subject: string; framing: string; movement: string; lighting: string };
   requiredDecisions: RequiredDecision[];
   references: ShotReference[];
-  budget: { budgetId: string; status: BudgetStatus; plannedCredits: number | null; authorizedCredits: number; committedCredits: number; actualCredits: Unknowable<number>; note: string };
+  /** committedCredits null: an attempt's spend is unknown, so the total is unknown (never shown as zero). */
+  budget: { budgetId: string; status: BudgetStatus; plannedCredits: number | null; authorizedCredits: number; committedCredits: number | null; actualCredits: Unknowable<number>; note: string };
+  readiness: ReadinessView[];
   jobs: JobView[];
   takes: TakeView[];
   generate: { enabled: boolean; reasons: ReasonView[] };
@@ -94,8 +112,10 @@ export type ShotView = {
 export type TakesWorkspaceView = {
   projectId: string;
   displayName: string;
-  catalogue: { kind: 'LIVE' | 'TEST_FIXTURE'; records: string; media: MediaAdapterId; readOnlyReason: string | null };
-  viewer: { id: string; role: ActorRole };
+  catalogue: { kind: 'LIVE' | 'TEST_FIXTURE'; records: string; durable: boolean; media: MediaAdapterId; readOnlyReason: string | null };
+  /** Where a generated master would be stored, and how it is read. */
+  storage: { adapter: MediaAdapterId; bucket: string; live: boolean; access: string };
+  viewer: { id: string; role: ActorRole; permissions: string[] };
   project: { releases: number; runtime: string; castAuthority: 'PROJECT_LOCAL'; globalActorCatalogue: 'NOT_IMPORTED' };
   release: { releaseId: string; title: string; runtimeTargetSec: number };
   scene: { sceneId: string; packetStatus: string; screenplayStatus: string };

@@ -4,6 +4,9 @@
  * Shot → generation status → take preview → APPROVE / HOLD / REJECT / SELECT FOR EDIT, with requirements, cost
  * and approval history. Everything shown is read from the spine API; every action writes an approval record on the
  * server. A control the viewer may not use stays visible, disabled, with the server's reason. Test data is labelled.
+ *
+ * Readiness is six separate stages (technically ready, creatively approved, financially authorized, generation
+ * running, take ready for review, take approved), each judged on its own evidence and never collapsed into one badge.
  */
 import { useState } from 'react';
 import type { TakeAction, Unknowable } from '../../../../../../shared/site00-production-spine/types.js';
@@ -55,7 +58,8 @@ function TakeStage({ take, pending, onDecide }: { take: TakeView; pending: strin
             ['ASPECT', show(take.aspectRatio)],
             ['AUDIO', show(take.audioPresent)],
             ['PROVIDER', `${take.provider} · ${take.model}`],
-            ['CONTINUITY', words(take.continuity)],
+            ['INTENDED EDIT', take.intendedEditSec === null ? 'NOT SET' : `${take.intendedEditSec} S OF ${show(take.runtimeSec, ' S')}`],
+            ['CONTINUITY', `${words(take.continuity)}${take.continuityFindings.length ? ` · ${take.continuityFindings.join(' · ')}` : ''}`],
             ['EST. COST', credits(take.estimatedCredits)],
             ['ACTUAL COST', credits(take.actualCredits)],
             ['STORAGE', `${words(take.storage)} · ${take.contentSha256.slice(0, 12)}…`],
@@ -66,7 +70,7 @@ function TakeStage({ take, pending, onDecide }: { take: TakeView; pending: strin
   );
 }
 
-function Requirements({ shot, pending, onDispatch }: { shot: ShotView; pending: string | null; onDispatch: (jobId: string) => void }) {
+function Requirements({ shot, storage, pending, onDispatch }: { shot: ShotView; storage: { adapter: string; bucket: string; live: boolean; access: string }; pending: string | null; onDispatch: (jobId: string) => void }) {
   const next = shot.jobs.find((j) => j.dispatch.reasons.every((r) => r.code !== 'DUPLICATE_REQUEST'));
   return (
     <>
@@ -75,14 +79,28 @@ function Requirements({ shot, pending, onDispatch }: { shot: ShotView; pending: 
           GENERATE
         </Btn>
       </Actions>
+      <ol className="exf-takes-ladder" data-testid="spine-readiness" aria-label="Readiness">
+        {shot.readiness.map((r) => {
+          const why = r.met ? r.checks.map((c) => c.detail).join(' · ') : r.checks.filter((c) => !c.met).map((c) => `${c.label}: ${c.detail}`).join(' · ');
+          return (
+            <li key={r.stage} data-stage={r.stage} data-met={r.met ? 'true' : 'false'} title={why}>
+              <Chip tone={r.met ? 'green' : 'amber'}>{r.met ? 'YES' : 'NOT YET'}</Chip>
+              <b>{r.label.toUpperCase()}</b>
+              <small className="exf-takes-ladder__why">{why}</small>
+            </li>
+          );
+        })}
+      </ol>
       <Kv
         testId="spine-shot-status"
         rows={[
           ['SETUP', <Chip tone={shot.setup === 'PRODUCTION_SETUP_READY' ? 'green' : 'amber'}>{words(shot.setup)}</Chip>],
           ['GENERATION', <Chip tone={shot.generation === 'GENERATION_READY' ? 'green' : 'amber'}>{words(shot.generation)}</Chip>],
-          ['ESTIMATE', `${credits(shot.budget.plannedCredits)} · ${words(shot.budget.status)}`],
+          ['ESTIMATE', `${credits(shot.budget.plannedCredits)} · ${words(shot.budget.status)} · NOT A QUOTE`],
           ['AUTHORIZED', credits(shot.budget.authorizedCredits)],
+          ['COMMITTED', credits(shot.budget.committedCredits)],
           ['ACTUAL', credits(shot.budget.actualCredits)],
+          ['STORAGE', `${words(storage.adapter)} · ${storage.bucket}${storage.live ? '' : ' · TEST'}`],
         ]}
       />
       <ul className="exf-takes-reqs" data-testid="spine-required-decisions">
@@ -101,13 +119,13 @@ function Requirements({ shot, pending, onDispatch }: { shot: ShotView; pending: 
           </li>
         ))}
       </ul>
-      <ul className="exf-takes-jobs" data-testid="spine-jobs">
+      <ul className="exf-takes-jobs" data-testid="spine-jobs" aria-label="Generation plan">
         {shot.jobs.map((j) => (
-          <li key={j.jobId}>
+          <li key={j.jobId} title={`${j.purpose} · ${j.mode} ${Object.entries(j.settings).map(([k, v]) => `${k}=${String(v)}`).join(' ')}`}>
             <b>{j.jobId.replace(`JOB-${shot.shotId}-`, '')}</b>
             <span>{j.model}</span>
-            <span>{credits(j.quotedCredits)}</span>
-            <Chip tone={j.status === 'CAPTURED' ? 'green' : j.status === 'FAILED' ? 'red' : 'gray'}>{words(j.status)}</Chip>
+            <span>{credits(j.quote.credits)}{j.quote.credits !== null && !j.quote.fresh ? ' · PLANNING' : ''}</span>
+            <Chip tone={j.status === 'CAPTURED' ? 'green' : j.status === 'FAILED' || j.status === 'RECONCILIATION_REQUIRED' ? 'red' : 'gray'}>{words(j.status)}</Chip>
           </li>
         ))}
       </ul>
@@ -182,7 +200,7 @@ export function ProductionTakes({ slug }: { slug: string }) {
       </Panel>
 
       <Panel title="REQUIREMENTS" meta="BEFORE ANY SPEND" at={{ d: [4, 1], t: [6, 1], m: [3, 1] }} testId="spine-requirements" className="exf-takes-panel">
-        {shot ? <Requirements shot={shot} pending={pending} onDispatch={(id) => void dispatch(id)} /> : <Empty title="NO SHOT" />}
+        {shot ? <Requirements shot={shot} storage={ws.storage} pending={pending} onDispatch={(id) => void dispatch(id)} /> : <Empty title="NO SHOT" />}
       </Panel>
 
       <Panel title="HISTORY" meta="APPROVALS · SOURCES" at={{ d: [4, 1], t: [6, 1], m: [3, 1] }} testId="spine-history" className="exf-takes-panel">
@@ -192,7 +210,8 @@ export function ProductionTakes({ slug }: { slug: string }) {
               <li key={h.approvalId}>
                 <b>{words(h.decision)}</b>
                 <span>
-                  {h.actorRole} · {h.at.replace('T', ' ').replace(/(:\d\d)?Z$/, ' UTC')}
+                  {words(h.actorRole)} · {h.previousState && h.newState ? `${words(h.previousState)} → ${words(h.newState)} · ` : ''}
+                  {h.at.replace('T', ' ').replace(/(\.\d+)?(:\d\d)?(\.\d+)?Z$/, ' UTC')}
                 </span>
                 {h.note ? <small>{h.note}</small> : null}
               </li>

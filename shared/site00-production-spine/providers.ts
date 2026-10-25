@@ -1,4 +1,5 @@
 import { redeemDispatchTicket, type DispatchTicket } from './gate.js';
+import { openArtContractProblems, parseOpenArtCreation, sessionCredentialFaults } from './openartContract.js';
 import { SpineError, type GenerationJobRecord, type SettingValue, type Unknowable } from './types.js';
 
 /**
@@ -34,6 +35,30 @@ export type ProviderPoll =
 
 export type ProviderOutput = { bytes: Uint8Array; mimeType: string; sourceHost: Unknowable<string> };
 
+/**
+ * How sure a failed submission is about what the provider received.
+ *   NOT_SENT   nothing left this process (ticket refused, request invalid, transport disabled): nothing was charged
+ *   REJECTED   the provider answered and refused the request: the attempt is closed, its charge as reported
+ *   UNCERTAIN  the request may have arrived (timeout, dropped connection, unreadable answer): look it up, never resend
+ * Any other error out of submit() is treated as UNCERTAIN.
+ */
+export type SubmitCertainty = 'NOT_SENT' | 'REJECTED' | 'UNCERTAIN';
+export class ProviderSubmitError extends SpineError {
+  constructor(
+    readonly certainty: SubmitCertainty,
+    code: string,
+    message: string,
+    readonly reportedCredits: Unknowable<number> = 'UNKNOWN',
+  ) {
+    super(code, message);
+  }
+}
+
+export const submitCertainty = (e: unknown): SubmitCertainty => (e instanceof ProviderSubmitError ? e.certainty : 'UNCERTAIN');
+
+/** What a provider says about an idempotency key it may have seen. definitive: false means it could not say. */
+export type ProviderLookup = { found: true; operationId: string } | { found: false; definitive: boolean; detail: string };
+
 export interface ProviderTransport {
   readonly transportId: string;
   readonly provider: string;
@@ -42,6 +67,8 @@ export interface ProviderTransport {
   submit(req: ProviderRequest, ticket: DispatchTicket, now: string): Promise<{ operationId: string }>;
   poll(operationId: string): Promise<ProviderPoll>;
   fetchOutput(operationId: string): Promise<ProviderOutput>;
+  /** Finds the operation a request with this idempotency key created, if the provider can say. Spends nothing. */
+  lookup(idempotencyKey: string): Promise<ProviderLookup>;
 }
 
 export function buildProviderRequest(job: GenerationJobRecord, inputs: ProviderInput[]): ProviderRequest {
@@ -76,15 +103,34 @@ export function requestProblems(req: ProviderRequest): string[] {
 
 /* ── fake ──────────────────────────────────────────────────────────────────────────────────────────── */
 
+export type FakeBehaviour = {
+  /** The provider answers and refuses the request. */
+  failSubmit?: string;
+  /** The provider accepts the request, but the answer is lost (timeout): the caller cannot know it was accepted. */
+  loseSubmitResponse?: boolean;
+  /** The provider never received it, and can say so when asked. */
+  dropBeforeProvider?: boolean;
+  failRun?: string;
+  /** fetchOutput fails this many times before it works (a capture failure). */
+  failFetches?: number;
+  /** The provider cannot answer lookups. */
+  noLookup?: boolean;
+};
+
 export class FakeProviderTransport implements ProviderTransport {
   readonly transportId = 'FAKE-PROVIDER-TEST';
   readonly kind = 'FAKE_TEST' as const;
+  /** Every request that reached the fake provider. Each one would have been a paid generation. */
   readonly received: ProviderRequest[] = [];
+  readonly calls = { submit: 0, poll: 0, fetchOutput: 0, lookup: 0 };
   private readonly ops = new Map<string, ProviderRequest>();
+  private readonly byKey = new Map<string, string>();
   constructor(
     readonly provider: string,
     private readonly output: { bytes: Uint8Array; mimeType: string },
-    private readonly behaviour: { failSubmit?: string; failRun?: string } = {},
+    readonly behaviour: FakeBehaviour = {},
+    /** Operation ids are unique per provider; two fakes standing in for one provider need different prefixes. */
+    private readonly opPrefix = 'FAKE-OP',
   ) {}
 
   status() {
@@ -92,40 +138,72 @@ export class FakeProviderTransport implements ProviderTransport {
   }
 
   async submit(req: ProviderRequest, ticket: DispatchTicket, now: string) {
-    redeemDispatchTicket(ticket, req, now);
+    this.calls.submit++;
+    try {
+      redeemDispatchTicket(ticket, req, now);
+    } catch (e) {
+      throw new ProviderSubmitError('NOT_SENT', (e as SpineError).code ?? 'NO_DISPATCH_TICKET', (e as Error).message, 0);
+    }
     const problems = requestProblems(req);
-    if (problems.length) throw new SpineError('PROVIDER_REQUEST_INVALID', problems.join('; '));
+    if (problems.length) throw new ProviderSubmitError('NOT_SENT', 'PROVIDER_REQUEST_INVALID', problems.join('; '), 0);
+    if (this.behaviour.dropBeforeProvider) throw new Error('fake network: connection reset before the request was written');
+    // The fake provider deduplicates by idempotency key, as a provider that honours one would.
+    const known = this.byKey.get(req.idempotencyKey);
+    if (known) return { operationId: known };
     this.received.push(req);
-    if (this.behaviour.failSubmit) throw new SpineError('PROVIDER_SUBMIT_FAILED', this.behaviour.failSubmit);
-    const operationId = `FAKE-OP-${String(this.received.length).padStart(3, '0')}`;
+    if (this.behaviour.failSubmit) throw new ProviderSubmitError('REJECTED', 'PROVIDER_SUBMIT_FAILED', this.behaviour.failSubmit, 'UNKNOWN');
+    const operationId = `${this.opPrefix}-${String(this.received.length).padStart(3, '0')}`;
     this.ops.set(operationId, req);
+    this.byKey.set(req.idempotencyKey, operationId);
+    if (this.behaviour.loseSubmitResponse) throw new Error('fake network: timed out waiting for the provider’s answer');
     return { operationId };
   }
 
   async poll(operationId: string): Promise<ProviderPoll> {
+    this.calls.poll++;
     if (!this.ops.has(operationId)) throw new SpineError('PROVIDER_UNKNOWN_OPERATION', operationId);
     // A failure reports no charge (as a provider that does not say would); the gate then counts the quote.
     return this.behaviour.failRun ? { state: 'FAILED', error: this.behaviour.failRun, reportedCredits: 'UNKNOWN' } : { state: 'SUCCEEDED', reportedCredits: 0 };
   }
 
   async fetchOutput(operationId: string): Promise<ProviderOutput> {
+    this.calls.fetchOutput++;
     if (!this.ops.has(operationId)) throw new SpineError('PROVIDER_UNKNOWN_OPERATION', operationId);
+    if ((this.behaviour.failFetches ?? 0) > 0) {
+      this.behaviour.failFetches!--;
+      throw new SpineError('PROVIDER_OUTPUT_UNAVAILABLE', 'fake network: output download interrupted');
+    }
     return { bytes: new Uint8Array(this.output.bytes), mimeType: this.output.mimeType, sourceHost: 'fake-provider.test' };
+  }
+
+  async lookup(idempotencyKey: string): Promise<ProviderLookup> {
+    this.calls.lookup++;
+    if (this.behaviour.noLookup) return { found: false, definitive: false, detail: 'fake provider: lookup unavailable' };
+    const op = this.byKey.get(idempotencyKey);
+    return op ? { found: true, operationId: op } : { found: false, definitive: true, detail: 'fake provider: no request with this key' };
   }
 }
 
 /* ── OpenArt, agent-session route (guarded, disabled) ──────────────────────────────────────────────── */
 
-/** What an agent session holding the OpenArt connector would execute. Not available to the deployed app. */
+/**
+ * What an agent session holding the founder's OpenArt connector would execute. The deployed app has no such
+ * connector and no OpenArt credential; nothing in this repository implements this interface.
+ *   submit     creates one creation from the payload; returns the provider's creation id
+ *   creation   the raw creation record as openart_creation_list returns it (parsed against the observed contract)
+ *   download   the output bytes, read once from the provider's temporary URL
+ *   lookup     optional: finds the creation a request made, by idempotency key; absent → never definitive
+ */
 export interface AgentSessionOpenArtExecutor {
   submit(payload: OpenArtPayload): Promise<{ operationId: string }>;
-  poll(operationId: string): Promise<ProviderPoll>;
-  fetchOutput(operationId: string): Promise<ProviderOutput>;
+  creation(operationId: string): Promise<unknown>;
+  download(url: string): Promise<{ bytes: Uint8Array; mimeType: string }>;
+  lookup?(idempotencyKey: string): Promise<ProviderLookup>;
 }
 
 /**
- * The request as OpenArt's quotes describe it (model, mode, config). The connector's tool names and response fields
- * have not been verified from this environment, so they are not modelled here.
+ * The request in the form OpenArt's quotes and creation records show: model, mode, config, prompt, and inputs by
+ * the observed field names. REFERENCE has no observed field and is refused by openArtContractProblems.
  */
 export type OpenArtPayload = { model: string; mode: string; config: Record<string, SettingValue>; prompt: string; inputs: Array<{ field: 'startFrame' | 'endFrame' | 'reference'; storageRef: string; sha256: string }> };
 
@@ -146,6 +224,8 @@ export class OpenArtAgentSessionTransport implements ProviderTransport {
   ) {}
 
   status() {
+    const faults = sessionCredentialFaults(this.env);
+    if (faults.length) return { enabled: false, reason: `OpenArt credentials found in the server environment (${faults.join(', ')}): founder app-session credentials are never server secrets` };
     if (this.env[PROVIDER_EXECUTION_FLAG] !== 'ENABLED') return { enabled: false, reason: `${PROVIDER_EXECUTION_FLAG} is not ENABLED` };
     if (!this.executor) return { enabled: false, reason: 'no agent-session OpenArt executor in this runtime (the deployed app has no OpenArt connector)' };
     return { enabled: true, reason: 'agent-session OpenArt executor attached and execution flag set' };
@@ -158,18 +238,33 @@ export class OpenArtAgentSessionTransport implements ProviderTransport {
   }
 
   async submit(req: ProviderRequest, ticket: DispatchTicket, now: string) {
-    const executor = this.executorOrThrow();
-    redeemDispatchTicket(ticket, req, now);
-    const problems = requestProblems(req);
-    if (problems.length) throw new SpineError('PROVIDER_REQUEST_INVALID', problems.join('; '));
+    let executor: AgentSessionOpenArtExecutor;
+    try {
+      executor = this.executorOrThrow();
+      redeemDispatchTicket(ticket, req, now);
+    } catch (e) {
+      throw new ProviderSubmitError('NOT_SENT', (e as SpineError).code ?? 'PROVIDER_EXECUTION_DISABLED', (e as Error).message, 0);
+    }
+    const problems = [...requestProblems(req), ...openArtContractProblems(req)];
+    if (problems.length) throw new ProviderSubmitError('NOT_SENT', 'PROVIDER_REQUEST_INVALID', problems.join('; '), 0);
+    // From here the request may be in flight: any error the executor throws is UNCERTAIN unless it says otherwise.
     return executor.submit(openArtPayload(req));
   }
 
-  async poll(operationId: string) {
-    return this.executorOrThrow().poll(operationId);
+  async lookup(idempotencyKey: string): Promise<ProviderLookup> {
+    const executor = this.executorOrThrow();
+    return executor.lookup ? executor.lookup(idempotencyKey) : { found: false, definitive: false, detail: 'the OpenArt connector offers no lookup by idempotency key; reconcile by hand' };
   }
 
-  async fetchOutput(operationId: string) {
-    return this.executorOrThrow().fetchOutput(operationId);
+  async poll(operationId: string): Promise<ProviderPoll> {
+    return parseOpenArtCreation(await this.executorOrThrow().creation(operationId)).poll;
+  }
+
+  async fetchOutput(operationId: string): Promise<ProviderOutput> {
+    const executor = this.executorOrThrow();
+    const c = parseOpenArtCreation(await executor.creation(operationId));
+    if (!c.outputUrl) throw new SpineError('PROVIDER_OUTPUT_MISSING', `creation ${c.creationId} has no output`);
+    const { bytes, mimeType } = await executor.download(c.outputUrl);
+    return { bytes, mimeType, sourceHost: c.sourceHost };
   }
 }

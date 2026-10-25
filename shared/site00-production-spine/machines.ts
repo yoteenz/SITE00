@@ -11,16 +11,31 @@ import { SpineError, type Actor, type ActorRole, type GenerationJobRecord, type 
 
 type Rule = { who: readonly ActorRole[]; needs?: readonly string[] };
 
+const CANCEL: Rule = { who: ['FOUNDER', 'PRODUCTION_ADMIN'] };
+const PREPARE: readonly ActorRole[] = ['FOUNDER', 'PRODUCTION_ADMIN', 'AUTHORIZED_EDITOR', 'SYSTEM'];
+
 export const JOB_TRANSITIONS: Readonly<Record<JobState, Partial<Record<JobState, Rule>>>> = {
-  DRAFT: { AWAITING_APPROVAL: { who: ['FOUNDER', 'SYSTEM'] }, CANCELED: { who: ['FOUNDER'] } },
-  AWAITING_APPROVAL: { AUTHORIZED: { who: ['FOUNDER'], needs: ['approvalId'] }, DRAFT: { who: ['FOUNDER', 'SYSTEM'] }, CANCELED: { who: ['FOUNDER'] } },
-  AUTHORIZED: { QUEUED: { who: ['SYSTEM'], needs: ['ticketId'] }, AWAITING_APPROVAL: { who: ['FOUNDER', 'SYSTEM'] }, CANCELED: { who: ['FOUNDER'] } },
-  QUEUED: { RUNNING: { who: ['SYSTEM'], needs: ['operationId'] }, FAILED: { who: ['SYSTEM'], needs: ['error'] }, CANCELED: { who: ['FOUNDER'] } },
-  RUNNING: { SUCCEEDED: { who: ['SYSTEM'] }, FAILED: { who: ['SYSTEM'], needs: ['error'] }, CANCELED: { who: ['FOUNDER'] } },
+  DRAFT: { AWAITING_APPROVAL: { who: PREPARE }, CANCELED: CANCEL },
+  AWAITING_APPROVAL: { AUTHORIZED: { who: ['FOUNDER'], needs: ['approvalId'] }, DRAFT: { who: PREPARE }, CANCELED: CANCEL },
+  AUTHORIZED: { QUEUED: { who: ['SYSTEM'], needs: ['ticketId'] }, AWAITING_APPROVAL: { who: ['FOUNDER', 'SYSTEM'] }, CANCELED: CANCEL },
+  QUEUED: {
+    RUNNING: { who: ['SYSTEM'], needs: ['operationId'] },
+    // Refused before it reached the provider, or rejected by it: the attempt is closed.
+    FAILED: { who: ['SYSTEM'], needs: ['error'] },
+    // Timeout, lost response or a restart mid-call: the provider may have it. Never resent; looked up instead.
+    RECONCILIATION_REQUIRED: { who: ['SYSTEM'], needs: ['error'] },
+    CANCELED: CANCEL,
+  },
+  RECONCILIATION_REQUIRED: {
+    RUNNING: { who: ['SYSTEM', 'FOUNDER', 'PRODUCTION_ADMIN'], needs: ['operationId'] },
+    FAILED: { who: ['SYSTEM', 'FOUNDER', 'PRODUCTION_ADMIN'], needs: ['error', 'resolution'] },
+    CANCELED: CANCEL,
+  },
+  RUNNING: { SUCCEEDED: { who: ['SYSTEM'] }, FAILED: { who: ['SYSTEM'], needs: ['error'] }, CANCELED: CANCEL },
   SUCCEEDED: { ASSET_CAPTURE_PENDING: { who: ['SYSTEM'] } },
   ASSET_CAPTURE_PENDING: { CAPTURED: { who: ['SYSTEM'], needs: ['assetId', 'takeId'] }, ASSET_CAPTURE_FAILED: { who: ['SYSTEM'], needs: ['error'] } },
   // Capturing again reads the provider's stored output; it never resubmits, so it spends nothing.
-  ASSET_CAPTURE_FAILED: { ASSET_CAPTURE_PENDING: { who: ['FOUNDER'] } },
+  ASSET_CAPTURE_FAILED: { ASSET_CAPTURE_PENDING: { who: ['FOUNDER', 'PRODUCTION_ADMIN', 'SYSTEM'] } },
   // The only way out of FAILED: a founder retry request. It clears the old authorization, so the spend gate runs again.
   FAILED: { AWAITING_APPROVAL: { who: ['FOUNDER'], needs: ['retryRequest'] } },
   CANCELED: {},
@@ -28,7 +43,7 @@ export const JOB_TRANSITIONS: Readonly<Record<JobState, Partial<Record<JobState,
 };
 
 /** States in which a job has been handed to (or may still be with) a provider. Dispatching again is a duplicate. */
-export const DISPATCHED_STATES: readonly JobState[] = ['QUEUED', 'RUNNING', 'SUCCEEDED', 'ASSET_CAPTURE_PENDING', 'ASSET_CAPTURE_FAILED', 'CAPTURED'];
+export const DISPATCHED_STATES: readonly JobState[] = ['QUEUED', 'RUNNING', 'RECONCILIATION_REQUIRED', 'SUCCEEDED', 'ASSET_CAPTURE_PENDING', 'ASSET_CAPTURE_FAILED', 'CAPTURED'];
 
 export function canTransitionJob(from: JobState, to: JobState, role: ActorRole): boolean {
   return JOB_TRANSITIONS[from][to]?.who.includes(role) ?? false;
@@ -54,7 +69,7 @@ export function transitionJob(job: GenerationJobRecord, to: JobState, actor: Act
 /** Changing what the provider would be asked for voids any authorization: the job goes back to waiting for one. */
 export function reviseJobInputs(job: GenerationJobRecord, change: Partial<Pick<GenerationJobRecord, 'inputs' | 'settings' | 'prompt' | 'requestedOutputs'>>, actor: Actor, at: string, reason: string): GenerationJobRecord {
   if (!['DRAFT', 'AWAITING_APPROVAL', 'AUTHORIZED'].includes(job.status)) throw new SpineError('ILLEGAL_TRANSITION', `${job.id}: inputs cannot change once the job is ${job.status}`);
-  if (actor.role !== 'FOUNDER') throw new SpineError('FORBIDDEN', `${job.id}: only the founder changes a job's inputs`);
+  if (actor.role !== 'FOUNDER') throw new SpineError('FORBIDDEN', `${job.id}: only the founder changes an authorized job's inputs`);
   const next = { ...job, ...change };
   const inputHash = jobInputHash(next);
   if (inputHash === job.inputHash) return job;
@@ -67,12 +82,13 @@ export function reviseJobInputs(job: GenerationJobRecord, change: Partial<Pick<G
 
 type TakeRule = { from: readonly TakeDecisionState[]; who: readonly ActorRole[] };
 
+/** Mirrors permissions.ts and the database's approval-event checks. */
 export const TAKE_RULES: Readonly<Record<TakeAction, TakeRule>> = {
   APPROVE: { from: ['READY_FOR_REVIEW', 'HELD'], who: ['FOUNDER'] },
-  HOLD: { from: ['READY_FOR_REVIEW', 'APPROVED'], who: ['FOUNDER', 'REVIEWER'] },
+  HOLD: { from: ['READY_FOR_REVIEW', 'APPROVED'], who: ['FOUNDER', 'PRODUCTION_ADMIN', 'AUTHORIZED_EDITOR', 'REVIEWER'] },
   REJECT: { from: ['READY_FOR_REVIEW', 'HELD', 'APPROVED'], who: ['FOUNDER'] },
-  SELECT_FOR_EDIT: { from: ['APPROVED'], who: ['FOUNDER'] },
-  DESELECT_FOR_EDIT: { from: ['APPROVED'], who: ['FOUNDER'] },
+  SELECT_FOR_EDIT: { from: ['APPROVED'], who: ['FOUNDER', 'AUTHORIZED_EDITOR'] },
+  DESELECT_FOR_EDIT: { from: ['APPROVED'], who: ['FOUNDER', 'AUTHORIZED_EDITOR'] },
 };
 
 /** The state a take shows: SELECTED_FOR_EDIT is an approved take chosen for the cut. */

@@ -2,6 +2,11 @@ import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { buildSh01Records, EXCHANGE_PROJECT_ID, SH01 } from '../../shared/site00-production-spine/projects/theExchange.js';
+import type { MediaStore } from '../../shared/site00-production-spine/media.js';
+import type { ProductionRunner } from '../../shared/site00-production-spine/runner.js';
+import type { RecordStore } from '../../shared/site00-production-spine/store.js';
+import { TEST_FIXTURE, type Actor, type AnyRecord, type AssetRecord } from '../../shared/site00-production-spine/types.js';
 
 /**
  * Deterministic local media for production-spine tests, generated with ffmpeg's built-in test sources into a temp
@@ -33,4 +38,37 @@ export function steppingClock(start = '2026-10-25T13:00:00Z') {
     t += 1000;
     return iso;
   };
+}
+
+/* ── seeding the SH01 setup into a test store ─────────────────────────────────────────────────────── */
+
+export const TEST_QUOTE_SOURCE = { path: 'TEST_FIXTURE', recordId: 'fake-provider-quote', sha256: null };
+export const VIDEO_JOB = `JOB-${SH01.shotId}-VIDEO-01`;
+export const markFixture = <T extends AnyRecord>(r: T): T => ({ ...r, fixture: TEST_FIXTURE });
+
+/** Copies the SH01 setup records into a test store, marked TEST_FIXTURE, with no approvals. */
+export async function seedSh01Setup(store: RecordStore, root: string, opts: { answerDecisions?: boolean } = {}) {
+  const { budget, shot, jobs } = buildSh01Records(root);
+  await store.create(markFixture(budget));
+  await store.create(markFixture(opts.answerDecisions ? { ...shot, requiredDecisions: shot.requiredDecisions.map((d) => ({ ...d, status: 'ANSWERED' as const })) } : shot));
+  for (const j of jobs) await store.create(markFixture(j));
+  return { budget, shot, jobs };
+}
+
+/**
+ * Test-only approvals that let the gate pass for SH01's video job: decisions answered in the test copy, a test
+ * reference image approved, the budget and the job authorized by a test founder against a TEST quote. None of it is a
+ * founder decision.
+ */
+export async function seedApprovedSh01(a: { store: RecordStore; runner: ProductionRunner; media: MediaStore; clock: () => string; root: string; frame: Uint8Array; founder: Actor; budgetCredits?: number; maxCredits?: number }) {
+  await seedSh01Setup(a.store, a.root, { answerDecisions: true });
+  const ref = await a.media.put({ projectId: EXCHANGE_PROJECT_ID, bytes: a.frame, mimeType: 'image/png' });
+  const at = a.clock();
+  const asset: AssetRecord = { kind: 'ASSET', id: 'ASSET-TEST-FIXTURE-KF-ENV-CITY-DUSK-A', projectId: EXCHANGE_PROJECT_ID, schemaVersion: 1, revision: 1, createdAt: at, updatedAt: at, createdBy: a.founder.id, fixture: TEST_FIXTURE, mediaType: 'IMAGE', mimeType: 'image/png', adapter: a.media.adapter, storageRef: ref.storageRef, contentSha256: ref.sha256, byteSize: ref.byteSize, verifiedAt: at, lineage: { sourceJobId: null, sourceTakeId: null, derivedFromAssetId: null, providerOperationId: 'NOT_AVAILABLE', providerSourceHost: 'NOT_AVAILABLE' } };
+  await a.store.create(asset);
+  await a.runner.authorizeBudget(SH01.budgetId, a.founder, { authorizedCredits: a.budgetCredits ?? 255, decisionRefs: ['FD-S101-11'], note: 'TEST FIXTURE: not a founder decision' });
+  await a.runner.approveReference(SH01.shotId, 'KF-ENV-CITY-DUSK-A', asset.id, a.founder, { decisionRefs: ['FD-S101-08'], note: 'TEST FIXTURE: stands in for a founder-supplied photograph' });
+  await a.runner.requestAuthorization(VIDEO_JOB, a.founder);
+  await a.runner.recordQuote(VIDEO_JOB, a.founder, { credits: 175, quotedAt: a.clock(), source: TEST_QUOTE_SOURCE });
+  return a.runner.authorizeJob(VIDEO_JOB, a.founder, { maxCredits: a.maxCredits ?? 175, ttlSec: 900, decisionRefs: ['FD-S101-11'], note: 'TEST FIXTURE: not a founder decision' });
 }

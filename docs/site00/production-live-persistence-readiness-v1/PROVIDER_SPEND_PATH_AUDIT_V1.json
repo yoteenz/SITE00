@@ -1,0 +1,1524 @@
+{
+  "generatedAt": "2026-10-25T18:25:19Z",
+  "method": "Read-only static audit of /home/user/SITE00; no app run, no provider/network calls, no repo writes. Production deploy determined from railway.toml (startCommand 'npm run start:api' -> tsx server/index.ts) and server/routes.ts API_ROUTES; api/*.ts files NOT listed in server/routes.ts (vision-replication.ts, hero-asset-materialize.ts, brand-creative-context.ts, dev/*) treated as not mounted in production. Searches: (1) SDK imports: grep -rln -E \"from ['\\\"]@fal-ai/client|import\\(['\\\"]@fal-ai/client\" plus 'openai', '@anthropic-ai/', replicate/@google/genai/elevenlabs/runway/luma/stability/@ai-sdk across api server shared scripts src; (2) SDK invocations: grep -E \"\\bfal\\.(subscribe|run|queue\\.submit|queue\\.result|queue\\.status|stream|realtime|storage\\.upload)\\b\" and non-prefixed queue.submit/.subscribe(; (3) provider hostnames: grep for https?://...(fal.run|fal.ai|openart|elevenlabs|kling|byteplus|seedance|runwayml|lumalabs|replicate.com|stability.ai|suno|udio|api.openai.com|api.anthropic.com|api.x.ai|generativelanguage.googleapis|aiplatform.googleapis|artlist|hedra|heygen|deepgram|assemblyai|minimax|ideogram|leonardo|bfl.ai|recraft|tripo|meshy|cartesia|playht|...); (4) Anthropic markers: grep 'ANTHROPIC_API_URL|x-api-key|anthropic-version'; (5) env var tally: grep -ohE '(process\\.env|import\\.meta\\.env|os\\.environ...)[.\\[(][A-Z0-9_]+' filtered for KEY|TOKEN|SECRET|FAL|OPENAI|ANTHROPIC|XAI|GROK|..., then grep of each key name (OPENAI_API_KEY, XAI_API_KEY, IDEOGRAM_API_KEY, PIXELCUT_API_KEY, STUDIO_WORLD_API_KEY, JURNL_ASK_PROVIDER_URL, NEWS_API_KEY); (6) every fetch(/fetchImpl(/fetchFn( call in api server shared listed per file and classified; (7) a regex import-graph tool written to the scratchpad (graph.mjs/graphlib.mjs; parses static/dynamic import specifiers, skips 'import type') used to BFS from each server/routes.ts handler, from the startup hook (shared/.../p0vr8r3/captureWorkerBoot.ts and the other server/index.ts imports) and from every scripts/ file to the set of outbound-call files (scratchpad targets.json); (8) each reachable call path then traced by hand (Read/sed/grep) from handler -> service -> call site for auth, method, spend flags, budget/quote checks, dedupe, retry and cost recording; (9) GET/poll/resume detection: awk over api/site00/projects.ts case blocks for missing 'req.method !== POST' and missing canAccessFounderProject*; grep for maybeResume*/setImmediate/enqueue*Work; review of expression-engine GET phases; grep of src/ for UI calls to dispatching GET endpoints; (10) unknown-cost handling: grep -E '(cost|credits|spend)[A-Za-z]*\\s*[:=]\\s*0' plus reading cost/receipt code; (11) client exposure: grep VITE_* key-like names in src/shared/api/server/scripts/vite.config.ts/.env*, provider SDK/key/hostname references in src, vite.config.ts define block, and dist/ for provider hostnames and key-shaped strings (sk-ant-, sk-proj-, xai-). (12) Compared with docs/production/provider-gateway/PROVIDER_CALL_SITE_INVENTORY.json (generatedAt 2026-10-05; 209 entries) to find gaps. Status rule used: GATED = founder/admin server-verified auth + budget/quote gate; EXPLICIT_UNBUDGETED = server-verified founder or admin-email auth on an explicit POST action, no budget/quote; CLIENT_FLAG_ONLY = no founder/admin auth, only a client-controlled spend flag (founderConfirmedSpend/explicitFounderAction/founder_initiated); UNGATED = reachable with no spend flag by an unauthenticated or any signed-in caller, OR reachable from a GET/poll/page-load/auto-resume path (even if the caller must be admin); SCRIPT_ONLY = only via scripts/; DISABLED = code present but unreachable/turned off in the deployed server; TEST_ONLY = only tests. Line numbers cite lines actually read; 'admin' = resolveAdminAuth/canAccessFounderProjectAsOwner (Supabase bearer token + email in ADMIN_EMAILS or default list api/_lib/adminAuth.ts:10-28); 'founder' = isFounderPrivilegedAccount (email === FOUNDER_PRIVILEGED_ADMIN_EMAIL, api/_lib/adminAuth.ts:8, api/_lib/site00Access/accessModel.ts:15-17).",
+  "paths": [
+    {
+      "id": "twin-v2-visual-concept",
+      "provider": "fal.ai",
+      "models": [
+        "openai/gpt-image-2"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "api/site00/twin-v2-visual-concept.ts:51"
+      ],
+      "entry": "POST /api/site00/twin-v2-visual-concept (body.action generate|regenerate|refine)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "public: no auth check anywhere in handler; handleTwinV2VisualConceptCors only sets CORS headers (api/_lib/site00TwinV2/twinV2VisualConceptCors.ts:11-15); server/index.ts:51-53 sets Access-Control-Allow-Origin '*'; handler api/site00/twin-v2-visual-concept.ts:59-82",
+      "spendGuard": "client body flag founderConfirmedSpend only (api/site00/twin-v2-visual-concept.ts:79-82)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded: no cost field written for this call; fal does not return a price in the SDK result and nothing estimates it (ledger entry type has no cost field: api/_lib/site00TwinV2/twinV2ConceptLedger.ts:7-17)",
+      "duplicateProtection": "none before dispatch; every POST dispatches; ledger dedupes only identical image refs after the fact (twinV2ConceptLedger.ts:37-38)",
+      "autoRetry": "NO",
+      "ledger": "Supabase storage JSON site00/twin-v2-ledger/<project>.json (twinV2ConceptLedger.ts:19-42) - no cost",
+      "status": "CLIENT_FLAG_ONLY",
+      "notes": "Anonymous internet caller can spend GPT Image 2 (high quality) per POST by sending founderConfirmedSpend:true. Output also uploaded to Supabase storage (lines 106-111)."
+    },
+    {
+      "id": "twin-v2-fal-parallel-twin-proof",
+      "provider": "fal.ai",
+      "models": [
+        "openai/gpt-image-2"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "shared/site00-studio-world-production/visualReconstruction/p0vrTwinV28/dispatchFalParallelTwinGeneration.ts:87 (probe, num_images:2)",
+        "shared/site00-visual-generation/falParallelImageSubscribe.ts:62 (queue.submit x2)",
+        "shared/site00-studio-world-production/visualReconstruction/p0vrTwinV28/dispatchFalParallelTwinGeneration.ts:57 (standalone asset proofs)"
+      ],
+      "entry": "POST /api/site00/twin-v2-fal-parallel-twin-proof",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "public: no auth check anywhere in handler; handleTwinV2VisualConceptCors only sets CORS headers (api/_lib/site00TwinV2/twinV2VisualConceptCors.ts:11-15); server/index.ts:51-53 sets Access-Control-Allow-Origin '*'; handler api/site00/twin-v2-fal-parallel-twin-proof.ts:34-61",
+      "spendGuard": "client flag founderConfirmedSpend only (api/site00/twin-v2-fal-parallel-twin-proof.ts:54-57)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded: no cost field written for this call; fal does not return a price in the SDK result and nothing estimates it",
+      "duplicateProtection": "none",
+      "autoRetry": "NO (no resubmission), but every request makes an extra paid 'probe' call",
+      "ledger": "Supabase storage JSON site00/twin-v2-ledger (api/site00/twin-v2-fal-parallel-twin-proof.ts:74-94) - no cost",
+      "status": "CLIENT_FLAG_ONLY",
+      "notes": "Per POST: probeFalMultiOutputSupport('probe') with num_images:2 (dispatchFalParallelTwinGeneration.ts:111, :86-87) + 2 parallel jobs (:118-121) + 2 standalone asset proofs unless runAssetProof===false (runFalParallelTwinProof.ts:80-83; p0vrTwinV28/constants.ts:54) = up to 5 submissions / 6 images, public."
+    },
+    {
+      "id": "twin-v2-atomic-concept-generation",
+      "provider": "fal.ai",
+      "models": [
+        "openai/gpt-image-2"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "shared/site00-visual-generation/falParallelImageSubscribe.ts:62"
+      ],
+      "entry": "POST /api/site00/twin-v2-atomic-concept-generation",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "public: no auth check anywhere in handler; handleTwinV2VisualConceptCors only sets CORS headers (api/_lib/site00TwinV2/twinV2VisualConceptCors.ts:11-15); server/index.ts:51-53 sets Access-Control-Allow-Origin '*'",
+      "spendGuard": "client flag founderConfirmedSpend only (api/site00/twin-v2-atomic-concept-generation.ts:36-37)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded: no cost field written for this call; fal does not return a price in the SDK result and nothing estimates it",
+      "duplicateProtection": "none",
+      "autoRetry": "NO",
+      "ledger": "Supabase storage twin-v2 ledger, no cost",
+      "status": "CLIENT_FLAG_ONLY",
+      "notes": "2 parallel jobs (p0vrTwinV29/dispatchAtomicFalVisuals.ts:53-56) + up to 3 standalone assets (p0vrTwinV29/runAtomicConceptGenerationBundle.ts:88-101)."
+    },
+    {
+      "id": "twin-v3-design-page-authority",
+      "provider": "fal.ai",
+      "models": [
+        "openai/gpt-image-2"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "shared/site00-visual-generation/falParallelImageSubscribe.ts:62"
+      ],
+      "entry": "POST /api/site00/twin-v3-design-page-authority (action GENERATE|REFINE|REGENERATE|REGENERATE_TERRITORY)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "public: no auth check anywhere in handler; handleTwinV2VisualConceptCors only sets CORS headers (api/_lib/site00TwinV2/twinV2VisualConceptCors.ts:11-15); server/index.ts:51-53 sets Access-Control-Allow-Origin '*'; handler api/site00/twin-v3-design-page-authority.ts:19-41",
+      "spendGuard": "client flag founderConfirmedSpend only (api/site00/twin-v3-design-page-authority.ts:38-41)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded: no cost field written for this call; fal does not return a price in the SDK result and nothing estimates it",
+      "duplicateProtection": "none",
+      "autoRetry": "NO",
+      "ledger": "none (result returned to caller)",
+      "status": "CLIENT_FLAG_ONLY",
+      "notes": "territoryScope ALL = 3 territories x (mobile+desktop) = 6 parallel GPT Image 2 jobs per POST (p0vrTwinV30/dispatchDesignPageAuthorityTerritoryVisuals.ts:60-110)."
+    },
+    {
+      "id": "twin-v3-mobile-twin-pipeline",
+      "provider": "fal.ai",
+      "models": [
+        "openai/gpt-image-2/edit",
+        "fal-ai/nano-banana-pro/edit",
+        "fal-ai/flux-2-max/edit",
+        "fal-ai/flux-pro/kontext/max"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "shared/site00-visual-generation/falReferenceImageJob.ts:70",
+        "shared/site00-visual-generation/twinProviderBenchmarkAdapter.ts:84"
+      ],
+      "entry": "POST /api/site00/twin-v3-mobile-twin-pipeline (body.action GENERATE_MOBILE_RENDER, REFINE_MOBILE_RENDER, GENERATE_MOBILE_TWIN_PACKAGE, RUN_MOBILE_TWIN_PROVIDER_BENCHMARK, RETRY_* ...)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "public: no auth check anywhere in handler; handleTwinV2VisualConceptCors only sets CORS headers (api/_lib/site00TwinV2/twinV2VisualConceptCors.ts:11-15); server/index.ts:51-53 sets Access-Control-Allow-Origin '*'; handler api/site00/twin-v3-mobile-twin-pipeline.ts:29-60",
+      "spendGuard": "client flag founderConfirmedSpend only (api/site00/twin-v3-mobile-twin-pipeline.ts:56-57; re-checked runMobileTwinFalPipeline.ts:73-74 but handler hardcodes founderConfirmedSpend:true at :68)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded: no cost field written for this call; fal does not return a price in the SDK result and nothing estimates it",
+      "duplicateProtection": "none",
+      "autoRetry": "NO automatic; RETRY_* actions are client-triggered re-dispatches (runMobileTwinFalPipeline.ts:99-160)",
+      "ledger": "none server-side; session returned to client",
+      "status": "CLIENT_FLAG_ONLY",
+      "notes": "Benchmark actions dispatch pairs across several premium models (twinProviderBenchmarkCatalog.ts:18-28). Reference image URLs come from the client-supplied session."
+    },
+    {
+      "id": "twin-v3-forensic-ui-blueprint",
+      "provider": "fal.ai",
+      "models": [
+        "fal-ai/nano-banana-2/edit"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "shared/site00-visual-generation/falReferenceImageJob.ts:70 (called from p0vrTwinV30R8M2R5/dispatchForensicUiBlueprintFal.ts:81)"
+      ],
+      "entry": "POST /api/site00/twin-v3-forensic-ui-blueprint action GENERATE_FORENSIC_UI_BLUEPRINT",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "public: no auth check anywhere in handler; handleTwinV2VisualConceptCors only sets CORS headers (api/_lib/site00TwinV2/twinV2VisualConceptCors.ts:11-15); server/index.ts:51-53 sets Access-Control-Allow-Origin '*'; handler api/site00/twin-v3-forensic-ui-blueprint.ts:24-51",
+      "spendGuard": "client flag founderConfirmedSpend only (api/site00/twin-v3-forensic-ui-blueprint.ts:48-51)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "recorded as null (unknown), not zero: costUsd: site00IsVitest() ? 0 : null (dispatchForensicUiBlueprintFal.ts:143)",
+      "duplicateProtection": "partial: in-process Map cache keyed by actual-image hash (forensicBlueprintCache.ts:6, :29-48; dispatchForensicUiBlueprintFal.ts:52-53) - written only after quality gate passes (:126-130), lost on restart, not shared across instances",
+      "autoRetry": "NO",
+      "ledger": "none durable (in-memory cache + response receipt)",
+      "status": "CLIENT_FLAG_ONLY",
+      "notes": "Client 'endpoint' body field is copied into the receipt only (forensicUiBlueprintService.ts:53), not used to pick the model. A failed quality gate spends and throws without caching, so repeats spend again."
+    },
+    {
+      "id": "twin-v3-mobile-twin-implementation-compile",
+      "provider": "fal.ai",
+      "models": [
+        "fal-ai/nano-banana-2/edit"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "shared/site00-visual-generation/falReferenceImageJob.ts:70 via api/_lib/site00MobileTwinImplementation/mobileTwinImplementationService.ts:48 -> forensicUiBlueprintService.ts:58"
+      ],
+      "entry": "POST /api/site00/twin-v3-mobile-twin-implementation action COMPILE_IMPLEMENTATION",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "public: no auth check anywhere in handler; handleTwinV2VisualConceptCors only sets CORS headers (api/_lib/site00TwinV2/twinV2VisualConceptCors.ts:11-15); server/index.ts:51-53 sets Access-Control-Allow-Origin '*'; handler api/site00/twin-v3-mobile-twin-implementation.ts:30-93",
+      "spendGuard": "none: no spend flag on COMPILE_IMPLEMENTATION (api/site00/twin-v3-mobile-twin-implementation.ts:85-93); only precondition is a stored package approval (mobileTwinImplementationService.ts:38-43)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "null (same receipt as forensic blueprint, dispatchForensicUiBlueprintFal.ts:143)",
+      "duplicateProtection": "same in-memory forensic cache as above",
+      "autoRetry": "NO",
+      "ledger": "mobileTwinImplementationStore (build record) - no cost",
+      "status": "UNGATED",
+      "notes": "The same public endpoint's PERSIST_PACKAGE_APPROVAL action auto-approves an unapproved client session (api/site00/twin-v3-mobile-twin-implementation.ts:62-72) and persists it, so an anonymous caller can satisfy the precondition and then COMPILE to spend."
+    },
+    {
+      "id": "design-asset-reconstruction-skins-candidate",
+      "provider": "fal.ai",
+      "models": [
+        "openai/gpt-image-2/edit"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "api/site00/design-asset-reconstruction.ts:627"
+      ],
+      "entry": "POST /api/site00/design-asset-reconstruction?action=dispatch_skins_candidate",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "public: handler has no auth check at all (api/site00/design-asset-reconstruction.ts:96-650)",
+      "spendGuard": "client flag explicitFounderAction===true only (api/site00/design-asset-reconstruction.ts:603-605)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded: no cost field written for this call; fal does not return a price in the SDK result and nothing estimates it",
+      "duplicateProtection": "none",
+      "autoRetry": "NO (returns retryAvailable to the client, :638, :641)",
+      "ledger": "none",
+      "status": "CLIENT_FLAG_ONLY",
+      "notes": "Prompt and source image URL are arbitrary client input (:615-625): effectively an open GPT Image 2 edit proxy on the founder's FAL key."
+    },
+    {
+      "id": "design-asset-reconstruction-live-acceptance",
+      "provider": "fal.ai",
+      "models": [
+        "openai/gpt-image-2/edit",
+        "fal-ai/birefnet/v2"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "shared/site00-studio-world-production/visualReconstruction/p0vr4r1/liveFalProvider.ts:109",
+        "shared/site00-studio-world-production/visualReconstruction/p0vr4r1/liveFalProvider.ts:168 (background removal, chained)"
+      ],
+      "entry": "POST /api/site00/design-asset-reconstruction?action=generate (body.live=true) | action=live_acceptance",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "public (no auth in handler)",
+      "spendGuard": "client flag explicitFounderAction (liveAcceptancePipeline.ts:92; design-asset-reconstruction.ts:478-486, :588-594) + per-asset cap MAX_PRIMARY_GENERATION_DISPATCHES=1 (p0vr4/constants.ts:19; p0vr4/spendGuard.ts:7-9; liveAcceptancePipeline.ts:158)",
+      "quoteOrBudgetCheck": "NO price check; a count cap only",
+      "unknownCostHandling": "not recorded: no cost field written for this call; fal does not return a price in the SDK result and nothing estimates it",
+      "duplicateProtection": "weak: dispatchCount kept in an in-memory Map (p0vr4/assetStore.ts:13) and persisted only after success (liveAcceptancePipeline.ts:277, :420-426) - failed/timed-out paid calls do not count, restart resets, concurrent requests both pass",
+      "autoRetry": "NO resubmission; background removal is an automatic chained second paid call (liveAcceptancePipeline.ts:341)",
+      "ledger": "in-memory reconstruction asset store",
+      "status": "CLIENT_FLAG_ONLY",
+      "notes": ""
+    },
+    {
+      "id": "expression-engine-generate-final-storyboard",
+      "provider": "fal.ai",
+      "models": [
+        "openai/gpt-image-2",
+        "openai/gpt-image-2/edit"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "api/_lib/site00ExpressionEngine/entry002ReelStoryboardSingleArtifact.ts:178 (dispatched at ~:297)",
+        "api/_lib/site00ExpressionEngine/entry002FinalCinematicStoryboardDispatch.ts:165"
+      ],
+      "entry": "POST /api/site00/expression-engine action=GENERATE_FINAL_STORYBOARD (api/site00/expression-engine.ts:359-368)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "public: expression-engine handler has no auth check (api/site00/expression-engine.ts:319-1371; no getAuthUser/resolveAdminAuth in file)",
+      "spendGuard": "handler passes dispatchFal:true, explicitFounderAction:true itself (expression-engine.ts:363-366); evaluateStoryboardGenerationGuard requires all five pre-storyboard authorities LOVE_IT and nothing in flight (entry002B49R4Bootstrap.ts:290-306; storyboardGenerationCostGuard.ts:55-72) - those LOVE_IT judgments are set by the equally public POST SET_PRE_STORYBOARD_AUTHORITY_JUDGMENT (expression-engine.ts:336-356)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded: no cost field written for this call; fal does not return a price in the SDK result and nothing estimates it (StoryboardCostTelemetry counts dispatches only, storyboardGenerationCostGuard.ts:7-17)",
+      "duplicateProtection": "in-memory generationInFlight flag (storyboardGenerationCostGuard.ts:35, :69-78) - blocks a concurrent double click in one process only",
+      "autoRetry": "NO (autoRetry hard-coded false, entry002B49R4Bootstrap.ts:302)",
+      "ledger": "in-memory telemetry + storage object",
+      "status": "UNGATED",
+      "notes": "D-13 fix verified: dispatch modules are opt-in (=== true) and GET phases force dispatchFal=false (expression-engine.ts:811-815, 835-838, 893-897, 937-941, 1019-1022, 1061-1063, 1172-1174). But the remaining paid POST is unauthenticated."
+    },
+    {
+      "id": "expression-engine-creative-director-llm-on-get",
+      "provider": "Anthropic",
+      "models": [
+        "claude-sonnet-4-6 (default; SITE00_CREATIVE_INTELLIGENCE_MODEL/ANTHROPIC_CREATIVE_MODEL override, creativeIntelligence/config.ts:11-14)"
+      ],
+      "mediaType": "TEXT",
+      "callSite": [
+        "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/anthropicCompletion.ts:24 (via api/_lib/site00ExpressionEngine/creativeDirector/creativeDirectorLlmPass.ts:17-23)"
+      ],
+      "entry": "GET /api/site00/expression-engine?phase=C1.1 (expression-engine.ts:754), C1.2 (:746), C1.3 (:738), C1.4 (:567, via C14->C13->C12, entry003C14Pipeline.ts:16; entry003AutonomousPipeline.ts:88); POST SET_CREATIVE_DIRECTOR_JUDGMENT (:504) and SET_ENTRY_003_CREATIVE_JUDGMENT (:536) also re-run it",
+      "trigger": "READ_PATH",
+      "auth": "public (no auth in expression-engine handler)",
+      "spendGuard": "none beyond env: runs whenever ANTHROPIC_API_KEY is set and EXPRESSION_ENGINE_TEST_DETERMINISTIC_CREATIVE_DIRECTOR!=='1' (creativeDirectorLlmPass.ts:11-14); runAutonomousCreativeDirector calls it unconditionally (autonomousCreativeDirectorRuntime.ts:67-71)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded; response even reports providerDispatchCount: 0 (autonomousCreativeDirectorRuntime.ts:211) while llmRequestCount may be 1",
+      "duplicateProtection": "none: no caching of the run; every GET re-calls",
+      "autoRetry": "NO",
+      "ledger": "creativeDirectorRuntimeStore saveCreativeDirectorRun (no cost)",
+      "status": "UNGATED",
+      "notes": "The Expression Engine workspace UI fetches ?phase=C1.1 and ?phase=C1.4 on every mount (src/site00/components/founderWorkspace/expressionEngine/useExpressionEngineEntry002.ts:51-60, :118-124), so a page view spends."
+    },
+    {
+      "id": "expression-engine-senior-creative-reasoning",
+      "provider": "Anthropic",
+      "models": [
+        "claude-sonnet-4-6 (getAnthropicModel)"
+      ],
+      "mediaType": "TEXT",
+      "callSite": [
+        "api/_lib/site00ExpressionEngine/seniorCreativeJudgment/creativeReasoningProvider.ts:191"
+      ],
+      "entry": "GET /api/site00/expression-engine?phase=C1.4 (:567 -> entry003C14Pipeline.ts:20), C1.5 (:573 -> entry003C14Pipeline.ts:86), C1.6 (:665 -> :127-128), C1.7 (:673 -> runMultiUnitBlindCampaignPackage), C1.9/C1.9R1/C1.9R2 (:714-735), plus Meridian job (see expression-engine-meridian-live-job). Reached via creativeIntelligenceRuntime.ts:71 (all MPMD units) and multiUnitCampaignArchitect.ts:259 (per unit loop :384-387)",
+      "trigger": "READ_PATH",
+      "auth": "public",
+      "spendGuard": "env only: VITEST or SITE00_CREATIVE_REASONING_FORCE_FALLBACK==='1' forces deterministic (creativeReasoningProvider.ts:351-357); otherwise live when ANTHROPIC_API_KEY set",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded (persistSeniorCreativeJudgment stores judgment only, creativeIntelligenceRuntime.ts:115-125); usage tokens read but not costed",
+      "duplicateProtection": "none; each GET re-runs every unit",
+      "autoRetry": "YES: loop attempt<=MAX_PROVIDER_RETRIES (=1) re-sends on non-OK HTTP, JSON-parse failure or thrown fetch error (creativeReasoningProvider.ts:56, :188-247) - up to 2 paid calls per unit",
+      "ledger": "senior creative judgment store (no cost)",
+      "status": "UNGATED",
+      "notes": "UI loads C1.4 and C1.6 on mount (useExpressionEngineEntry002.ts:58-59). Number of calls per GET = number of MPMD units x up to 2."
+    },
+    {
+      "id": "expression-engine-copy-reasoning",
+      "provider": "Anthropic",
+      "models": [
+        "claude-sonnet-4-6 (getAnthropicModel)"
+      ],
+      "mediaType": "TEXT",
+      "callSite": [
+        "api/_lib/site00ExpressionEngine/campaignCopy/copyReasoningProvider.ts:192"
+      ],
+      "entry": "GET ?phase=C1.7 (expression-engine.ts:673) and C1.8 (:681 -> compareDeterministicVsFullReasoning entry003C14Pipeline.ts:226 -> runMultiBrandLaunchCopyBlindTest over 6 brand fixtures, copyReasoningProvider.ts:294-336); campaignCopyDirector.ts:512; founderCopyActions.ts:116",
+      "trigger": "READ_PATH",
+      "auth": "public",
+      "spendGuard": "env/health only: resolveCopyRuntimeMode -> FULL_REASONING/HYBRID when key configured and not force-fallback (copyReasoningProvider.ts:270-291; creativeReasoningProvider.ts:100-160)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded (copyReasoningDispatchCount only)",
+      "duplicateProtection": "none",
+      "autoRetry": "NO",
+      "ledger": "campaign copy store (no cost)",
+      "status": "UNGATED",
+      "notes": "UI loads C1.7 on mount (useExpressionEngineEntry002.ts:60)."
+    },
+    {
+      "id": "expression-engine-meridian-live-job",
+      "provider": "Anthropic",
+      "models": [
+        "claude-sonnet-4-6"
+      ],
+      "mediaType": "TEXT",
+      "callSite": [
+        "api/_lib/site00ExpressionEngine/seniorCreativeJudgment/creativeReasoningProvider.ts:191",
+        "api/_lib/site00ExpressionEngine/campaignCopy/copyReasoningProvider.ts:192"
+      ],
+      "entry": "POST /api/site00/expression-engine action=START_C19R3_MERIDIAN_LIVE_JOB (expression-engine.ts:402-415); GET ?phase=C1.9R2 (:714-719) and ?phase=C1.9R1 (:722-727) run synchronously",
+      "trigger": "EXPLICIT_USER_ACTION (POST) / READ_PATH (GET C1.9R1, C1.9R2)",
+      "auth": "public",
+      "spendGuard": "none; the POST job runs runC19R3MeridianLivePostRedeploy, which calls applyMeridianLiveAcceptanceEnv (runC19R3MeridianLivePostRedeploy.ts:114) and DELETES process.env.SITE00_CREATIVE_REASONING_FORCE_FALLBACK and SITE00_CREATIVE_REASONING_MOCK_FULL until restore (meridianLiveAcceptanceEnv.ts:21-25) - defeats the operator kill switch process-wide while the job runs (affects concurrent GETs too). GET C1.9R1/C1.9R2 run live reasoning whenever provider health allows",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded",
+      "duplicateProtection": "POST job: returns existing QUEUED/RUNNING job (meridianLiveJobService.ts:32-36); GET C1.9R1/R2: none",
+      "autoRetry": "inherits 1 retry per reasoning call (creativeReasoningProvider.ts:188)",
+      "ledger": "in-memory job map + persistMeridianRun (no cost)",
+      "status": "UNGATED",
+      "notes": "UI fallback loadMeridianComparisonFallback() GETs ?phase=C1.9R1 on page load when no C1.9R3 snapshot exists (loadC19R3MeridianComparisonViaJob.ts:77-81, :111-113); runC19R1MeridianLiveProof runs a FULL_REASONING campaign when provider health allows (runC19R1MeridianLiveProof.ts:134-165)."
+    },
+    {
+      "id": "sol-design-bench",
+      "provider": "OpenAI",
+      "models": [
+        "gpt-5.6-sol (reasoning high)"
+      ],
+      "mediaType": "TEXT",
+      "callSite": [
+        "api/_lib/site00SolDesignBench/provider.ts:243 (openai SDK client.responses.parse)"
+      ],
+      "entry": "POST /api/site00/sol-design-bench action START_SOL_TEST | RETRY_SOL_TEST | RUN_SOL_STRUCTURED_OUTPUT_PROOF (api/site00/sol-design-bench.ts:77-122)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "public: no auth in handler (api/site00/sol-design-bench.ts:20-139)",
+      "spendGuard": "none (no spend flag); preconditions: provider readiness + reference must match the expected authority image (service.ts:431-468, SOL_REFERENCE_AUTHORITY_MISMATCH)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not verified: usage-to-cost recording not found in provider.ts (notChecked)",
+      "duplicateProtection": "structured-output proof: blocked if already passed/running (service.ts:559-562); START/RETRY: none",
+      "autoRetry": "NO automatic (RETRY_SOL_TEST is client-triggered)",
+      "ledger": "files under SOL_DESIGN_BENCH_STORE_DIR or os.tmpdir()/site00-sol-design-bench (service.ts:38-39) - ephemeral",
+      "status": "UNGATED",
+      "notes": ""
+    },
+    {
+      "id": "grok-design-bench-run",
+      "provider": "xAI",
+      "models": [
+        "grok-4.6"
+      ],
+      "mediaType": "TEXT",
+      "callSite": [
+        "api/_lib/site00GrokDesignBench/grokProviderRetry.ts:258 (called from grokVisionProvider.ts:408; endpoint https://api.x.ai/v1/responses, grokVisionProvider.ts:407; constants.ts:21)"
+      ],
+      "entry": "POST /api/site00/twin-test-a-design-bench action start|start_run|retry|retry_grok (api/site00/twin-test-a-design-bench.ts:68-108)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "public: no auth (handler only applies capture CORS, twin-test-a-design-bench.ts:20-22)",
+      "spendGuard": "none (no flag); readiness/runtime-health checks only (service.ts:76-86)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded",
+      "duplicateProtection": "none",
+      "autoRetry": "YES: up to GROK_PROVIDER_MAX_ATTEMPTS=3 (constants.ts:14; grokProviderRetry.ts:236-330) on 429/500/502/503/504 AND on network errors where status is null (grokProviderRetry.ts:312; providerErrors.ts:38) - a request that reached xAI and was billed but whose response was lost is re-sent",
+      "ledger": "in-memory run store",
+      "status": "UNGATED",
+      "notes": "Image (vision) input is client-supplied base64 (twin-test-a-design-bench.ts:101-108)."
+    },
+    {
+      "id": "grok-access-and-timing-probes",
+      "provider": "xAI",
+      "models": [
+        "grok-4.6"
+      ],
+      "mediaType": "TEXT",
+      "callSite": [
+        "api/_lib/site00GrokDesignBench/grokAccessProbe.ts:190 (responses text)",
+        "api/_lib/site00GrokDesignBench/grokAccessProbe.ts:217 (chat/completions)",
+        "api/_lib/site00GrokDesignBench/grokAccessProbe.ts:232 (responses image)",
+        "api/_lib/site00GrokDesignBench/grokTimingProbe.ts:37"
+      ],
+      "entry": "GET /api/site00/twin-test-a-design-bench?action=access_probe|model_access (twin-test-a-design-bench.ts:31-38 -> service.ts:222 skipCache:true); GET ?action=runtime_health|timing_probe (:40-46 -> service.ts:245-249); GET ?action=readiness (:49-55 -> evaluateGrokDesignBenchLiveReadiness -> probe, grokVisionProvider.ts:208-218)",
+      "trigger": "READ_PATH",
+      "auth": "public",
+      "spendGuard": "none; caches 45 s (grokAccessProbe.ts:65, :142-144) and 120 s (grokTimingProbe.ts:19) except access_probe which skips cache",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded",
+      "duplicateProtection": "time cache only (not for access_probe)",
+      "autoRetry": "NO",
+      "ledger": "none",
+      "status": "UNGATED",
+      "notes": "Small 'Return exactly: READY' smoke prompts, but each anonymous GET access_probe makes up to 3 paid xAI requests. UI calls readiness and runtime_health (src/site00/services/grokTwinTestAClient.ts:125, :174)."
+    },
+    {
+      "id": "experience-compiler-creative-director-run",
+      "provider": "OpenAI",
+      "models": [
+        "gpt-5.6-sol (default, modelConfig.ts:15; reasoning default high)"
+      ],
+      "mediaType": "TEXT",
+      "callSite": [
+        "api/_lib/experienceCompilerCreativeDirector/creativeModelGateway.ts:131 (https://api.openai.com/v1/responses)"
+      ],
+      "entry": "POST /api/site00/experience-compiler-creative-director?action=run (api/site00/experience-compiler-creative-director.ts:112-137)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "public: no auth check in handler (experience-compiler-creative-director.ts:30-196); thread can be created by public POST create-thread (:76-84)",
+      "spendGuard": "client flag founder_initiated===true (experience-compiler-creative-director.ts:115-118; creativeModelGateway.ts:96-98)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "token usage recorded when returned (creativeModelGateway.ts:166-170); no cost; failed attempts not recorded",
+      "duplicateProtection": "none",
+      "autoRetry": "YES: retry_policy max_attempts 2 on 429/500/502/503/504 (modelConfig.ts:47; creativeModelGateway.ts:130-147); 600 s timeout per attempt",
+      "ledger": "Supabase site00_ec_* tables (supabasePersistence.ts:24-98)",
+      "status": "CLIENT_FLAG_ONLY",
+      "notes": "max_output_tokens 16000 (modelConfig.ts:44)."
+    },
+    {
+      "id": "opus-native-run",
+      "provider": "Anthropic",
+      "models": [
+        "claude-opus-5"
+      ],
+      "mediaType": "TEXT",
+      "callSite": [
+        "api/_lib/site00OpusNative/provider.ts:133"
+      ],
+      "entry": "POST /api/site00/opus-native action start | continue (api/site00/opus-native.ts:286-395)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "public: no auth in handler (api/site00/opus-native.ts:54-69; only CORS helper)",
+      "spendGuard": "client flag founderConfirmedSpend (runtime.ts:99-100) + per-run token/cost meter with hard stop by mode (costLedger.ts:58-90; shared/site00-opus-native/modeContracts.ts:80, :106, :132 = $0.75 / $6 / $25)",
+      "quoteOrBudgetCheck": "PARTIAL: per-run ceiling from token rates (costLedger.ts:58-90) and an optional 'estimate' action (opus-native.ts:213-284) that is not required; no global/daily budget",
+      "unknownCostHandling": "estimated from returned token usage; actualUsd set equal to estimate (costLedger.ts:116)",
+      "duplicateProtection": "none per request (new run per start/continue)",
+      "autoRetry": "NO (provider.ts:150-158 throws on 429/5xx)",
+      "ledger": "JSON receipts in SITE00_OPUS_NATIVE_WORKDIR/ledger, default /tmp/site00-opus-native/ledger (costLedger.ts:129-140; config.ts:64) - ephemeral on Railway",
+      "status": "CLIENT_FLAG_ONLY",
+      "notes": "Anonymous caller can start claude-opus-5 agent runs (up to $25 each, unlimited count). The runtime also has file write tools/authority (not audited here)."
+    },
+    {
+      "id": "opus-design-shell-run",
+      "provider": "Anthropic",
+      "models": [
+        "claude-opus-5"
+      ],
+      "mediaType": "TEXT",
+      "callSite": [
+        "api/_lib/site00OpusDesignShell/runShellGeneration.ts:130"
+      ],
+      "entry": "POST /api/site00/opus-design-shell action run | request_changes (api/site00/opus-design-shell.ts:136-148, :185-210)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "founder only: getAuthUser + isFounderPrivilegedAccount (api/site00/opus-design-shell.ts:79-82)",
+      "spendGuard": "founderConfirmedRun===true (opus-design-shell.ts:137, :207)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "estimatedCostUsd: null (runShellGeneration.ts:181); missing usage fields recorded as 0 tokens (runShellGeneration.ts:170-179)",
+      "duplicateProtection": "none",
+      "autoRetry": "NO",
+      "ledger": "design shell persistence (saveResult) + events",
+      "status": "EXPLICIT_UNBUDGETED",
+      "notes": "max_tokens 8192 (runShellGeneration.ts:122)."
+    },
+    {
+      "id": "page-concept-generation",
+      "provider": "Anthropic + OpenAI + fal.ai",
+      "models": [
+        "claude-sonnet-4-6 (CGPT)",
+        "gpt-4o-mini (SITE00_PAGE_CONCEPT_GPT2_TEXT_MODEL)",
+        "openai/gpt-image-2/edit via fal",
+        "fal-ai/nano-banana-pro/edit"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "api/_lib/site00PageConcept/generatePageCreativeInjection.ts:99",
+        "api/_lib/site00PageConcept/generatePageCreativeInjection.ts:199 (synthesis repair)",
+        "api/_lib/site00PageConcept/generatePageGpt2AuthorityConcept.ts:73",
+        "api/_lib/site00PageConcept/renderPageGpt2MobileConceptJob.ts:79",
+        "api/_lib/site00PageConcept/renderPageNbpJob.ts:49"
+      ],
+      "entry": "POST /api/site00/page-concept-generation action start (async background, api/site00/page-concept-generation.ts:223-257) | generate (sync, :260-273)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "founder only: getAuthUser + isFounderPrivilegedAccount (api/site00/page-concept-generation.ts:142-151)",
+      "spendGuard": "founderConfirmedSpend===true (page-concept-generation.ts:229-232; startPageConceptGenerationRun.ts:34-36; executePageConceptGenerationRun.ts:95; runPageConceptGeneration.ts:106); stage pauses for founder review between CGPT/GPT2/NBP (executePageConceptGenerationRun.ts:366-378, :710-722)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded (cgptMeta tracks dispatchCount only, executePageConceptCgptStage.ts:434-445)",
+      "duplicateProtection": "none on start: every start creates a new runId unless resumeRunId+continue flag (startPageConceptGenerationRun.ts:54-80, :115); CGPT stage lock per run only",
+      "autoRetry": "YES: CGPT Anthropic call re-sent on HTTP 429 up to 4 attempts with backoff (executePageConceptCgptStage.ts:254-450; pageConceptCgpt429.ts:5); automatic chained 'synthesis repair' Anthropic call when validation fails (generatePageCreativeInjection.ts:236-241; executePageConceptCgptStage.ts:86)",
+      "ledger": "page concept generation run store (pageConceptGenerationRunSupabaseStore) - no cost",
+      "status": "EXPLICIT_UNBUDGETED",
+      "notes": "GET (status/latestForPage) only reads/hydrates (startPageConceptGenerationRun.ts:224-271) - no dispatch found on GET."
+    },
+    {
+      "id": "page-concept-viewport-family",
+      "provider": "fal.ai + OpenAI",
+      "models": [
+        "openai/gpt-image-2/edit via fal",
+        "fal experience expression model (executePageConceptExperienceExpressionFal.ts)",
+        "gpt-image-1 (SITE00_PAGE_CONCEPT_GPT2_IMAGE_MODEL) via api.openai.com/v1/images/generations"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "api/_lib/site00PageConcept/executePageConceptExperienceExpressionFal.ts:115",
+        "api/_lib/site00PageConcept/renderPageGpt2MobileConceptJob.ts:79",
+        "api/_lib/site00PageConcept/renderPageGpt2DirectJob.ts:35"
+      ],
+      "entry": "POST /api/site00/page-concept-viewport-family action generateExperienceExpression | regenerateExperienceExpressionState | runTabletInterpretation | runDesktopInterpretation | regenerateTablet | regenerateDesktop | regenerateMobileConcept | regenerateAllMobileConcepts (api/site00/page-concept-viewport-family.ts:57-161)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "founder only (api/site00/page-concept-viewport-family.ts:33-42)",
+      "spendGuard": "founder auth only - no founderConfirmedSpend on any action (Body type :17-28; runPageConceptViewportFamilyAction.ts:105, :148, :273, :326, :386 only read dryRun)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded",
+      "duplicateProtection": "none",
+      "autoRetry": "NO ('retryJob' at executePageConceptExperienceExpressionGeneration.ts:392 is a history record, not a resubmission)",
+      "ledger": "persistPageConceptStateToActiveServerRun (no cost)",
+      "status": "EXPLICIT_UNBUDGETED",
+      "notes": "generateExperienceExpression dispatches all targets in parallel (executePageConceptExperienceExpressionGeneration.ts:169)."
+    },
+    {
+      "id": "workspace-self-concept-generation",
+      "provider": "Anthropic + OpenAI + fal.ai",
+      "models": [
+        "claude-sonnet-4-6",
+        "gpt-4o-mini (SITE00_WORKSPACE_SELF_GPT2_TEXT_MODEL)",
+        "fal-ai/nano-banana-pro/edit"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "api/_lib/site00WorkspaceSelfConcept/generateWorkspaceCreativeContext.ts:124",
+        "api/_lib/site00WorkspaceSelfConcept/generateWorkspaceGpt2AuthorityConcept.ts:95",
+        "api/_lib/site00WorkspaceSelfConcept/renderWorkspaceNbpJob.ts:76"
+      ],
+      "entry": "POST /api/site00/workspace-self-concept-generation action generate | retry_failed (api/site00/workspace-self-concept-generation.ts:58-73)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "founder only (api/site00/workspace-self-concept-generation.ts:34-43)",
+      "spendGuard": "founderConfirmedSpend (workspace-self-concept-generation.ts:67; runWorkspaceSelfGeneration.ts:56)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded",
+      "duplicateProtection": "none",
+      "autoRetry": "NO (retry_failed is explicit)",
+      "ledger": "none durable found",
+      "status": "EXPLICIT_UNBUDGETED",
+      "notes": "Chained Anthropic -> OpenAI -> renditions x {MOBILE, DESKTOP} NBP jobs (runWorkspaceSelfGeneration.ts:85-165)."
+    },
+    {
+      "id": "assts-generate",
+      "provider": "fal.ai",
+      "models": [
+        "manifest model or buildFalImageInput default (openai/gpt-image-2[/edit]); nano-banana style input otherwise"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "api/_lib/site00Assts/generation.ts:156 (fal.queue.submit)"
+      ],
+      "entry": "POST /api/admin/site00-assts action generate (site00-assts.ts:185-190) | continue-lineage (:179-183) | regenerate (:246-253)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "admin email: resolveAdminAuth (api/admin/site00-assts.ts:63-67)",
+      "spendGuard": "admin auth only; D-13 fix verified: library GET no longer generates (ensureAutoGenerationPipeline needs allowGeneration:true, api/_lib/site00Assts/service.ts:436-459; site00-assts.ts:75) and polling continues lineage only with continueLineage:true (generation.ts:532-533)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded (no cost column written in site00_generation_jobs/site00_asset_versions inserts)",
+      "duplicateProtection": "per-asset: assetHasActiveGeneration + batch GENERATING status (generation.ts:158-185, :516)",
+      "autoRetry": "NO automatic; but an explicit POST generate re-submits every QUEUED or FAILED asset (assetNeedsNewGeneration generation.ts:164-165)",
+      "ledger": "Supabase site00_generation_jobs, site00_asset_versions, site00_logical_assets, site00_batches",
+      "status": "EXPLICIT_UNBUDGETED",
+      "notes": ""
+    },
+    {
+      "id": "assts-loader-post-process",
+      "provider": "fal.ai",
+      "models": [
+        "bria/video/background-removal/v3",
+        "fal-ai/ben/v2/video"
+      ],
+      "mediaType": "VIDEO",
+      "callSite": [
+        "api/_lib/site00Assts/postProcess/pipeline.ts:129"
+      ],
+      "entry": "POST /api/admin/site00-assts action post-process-loader | reprocess-loader (site00-assts.ts:291-300)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "admin email (site00-assts.ts:63)",
+      "spendGuard": "admin auth; client modelId validated against registry (pipeline.ts:103-104; registry.ts:14, :24)",
+      "quoteOrBudgetCheck": "NO pre-dispatch check; post-hoc estimate only",
+      "unknownCostHandling": "cost_usd estimate written on completion (pipeline.ts:211-256); estimateVideoBgRemovalCost returns 0 for an unrecognised model (pipeline.ts:92-96) and assumes 10 s when duration unknown (pipeline.ts:213-214)",
+      "duplicateProtection": "DB check for QUEUED/PROCESSING job before submit (pipeline.ts:111-120) - check-then-submit race (insert happens after submit, :131+)",
+      "autoRetry": "NO",
+      "ledger": "Supabase site00_post_process_jobs (cost_usd)",
+      "status": "EXPLICIT_UNBUDGETED",
+      "notes": "GET ?action=poll / loader-pipeline only poll results (pipeline.ts:296-305)."
+    },
+    {
+      "id": "astral-world-generation",
+      "provider": "fal.ai",
+      "models": [
+        "openai/gpt-image-2",
+        "openai/gpt-image-2/edit"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "api/_lib/site00AstralWorld/generationService.ts:143"
+      ],
+      "entry": "POST /api/admin/site00-astral-world-generation action generate | generate-missing | dispatch-p0 | dispatch-p1 | dispatch-p2 | regenerate (site00-astral-world-generation.ts:94-130)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "admin email (site00-astral-world-generation.ts:37-41)",
+      "spendGuard": "admin auth only",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "recorded as null (generationService.ts:277, :419)",
+      "duplicateProtection": "per slot: skips ACTIVE/READY and active/QUEUED/PROCESSING unless force (generationService.ts:202-209); store is in-memory + manifest file",
+      "autoRetry": "NO (in-request status polling up to 120 polls, generationService.ts:~245-250, does not resubmit)",
+      "ledger": "astral asset record store / manifest",
+      "status": "EXPLICIT_UNBUDGETED",
+      "notes": "Public GET /api/site00/astral-world-assets is read-only (api/site00/astral-world-assets.ts:15-31)."
+    },
+    {
+      "id": "evolve-creative-direction-visual-assets",
+      "provider": "fal.ai",
+      "models": [
+        "openai/gpt-image-2 (CREATIVE_DIRECTION_FAL_MODEL, assetGeneration.ts:24)"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "api/_lib/site00Evolve/creativeDirection/assetGeneration.ts:103"
+      ],
+      "entry": "POST /api/admin/site00-evolve action creative_direction_generate_visual_assets (site00-evolve.ts:471-475)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "admin email: resolveAdminAuth (api/admin/site00-evolve.ts:132-137; api/_lib/adminAuth.ts:37-93)",
+      "spendGuard": "admin auth only",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded: no cost field written for this call; fal does not return a price in the SDK result and nothing estimates it",
+      "duplicateProtection": "onlyMissing default true (site00-evolve.ts:472)",
+      "autoRetry": "NO",
+      "ledger": "local manifest file + Supabase storage (assetGeneration.ts:68-77)",
+      "status": "EXPLICIT_UNBUDGETED",
+      "notes": "creative_direction_queue_generation does not dispatch (engagementService.ts:581-605)."
+    },
+    {
+      "id": "evolve-formation-anthropic-post",
+      "provider": "Anthropic",
+      "models": [
+        "claude-sonnet-4-6"
+      ],
+      "mediaType": "TEXT",
+      "callSite": [
+        "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/anthropicProvider.ts:52"
+      ],
+      "entry": "POST /api/admin/site00-evolve action creative_direction_reform | creative_direction_formation_retry (site00-evolve.ts:476-479)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "admin email: resolveAdminAuth (api/admin/site00-evolve.ts:132-137; api/_lib/adminAuth.ts:37-93)",
+      "spendGuard": "admin auth only",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "token usage accumulated (formationService.ts:274) - cost not computed",
+      "duplicateProtection": "idempotency key per input/prompt version (formationService.ts:208-214) - bypassed by forceReform/retryFailed on these actions",
+      "autoRetry": "YES: one automatic re-call on JSON parse failure (anthropicProvider.ts:120-129); chained critique + up to MAX_CREATIVE_REVISION_ROUNDS=2 revise/critique rounds (formationService.ts:290-310; config.ts:7)",
+      "ledger": "formation records (providerAccounting tokens)",
+      "status": "EXPLICIT_UNBUDGETED",
+      "notes": ""
+    },
+    {
+      "id": "evolve-formation-anthropic-on-get",
+      "provider": "Anthropic",
+      "models": [
+        "claude-sonnet-4-6"
+      ],
+      "mediaType": "TEXT",
+      "callSite": [
+        "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/anthropicProvider.ts:52"
+      ],
+      "entry": "GET /api/site00/projects?action=creative_direction&slug=X (projects.ts:482-498) and GET /api/admin/site00-evolve?action=creative_direction|creative_direction_debug (site00-evolve.ts:218-224) -> getCreativeDirectionPayload with default runFormation=true (engagementService.ts:318, :330-351) -> getOrRunCoreDirectionFormation -> provider.formCoreDirections (formationService.ts:273)",
+      "trigger": "READ_PATH",
+      "auth": "admin email (projects.ts:491; site00-evolve.ts:132)",
+      "spendGuard": "none beyond admin auth: runs when brand lore present, readiness not blocked and no canonical READY record matches the current brand-lore fingerprint (engagementService.ts:330-352)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "tokens only, no cost",
+      "duplicateProtection": "idempotency key: reuses completed or in-flight (FORMING/CRITIQUING/REVISING) record (formationService.ts:182-191, :208-214); concurrent first GETs can race before the record is persisted",
+      "autoRetry": "same as POST (JSON retry + revise rounds)",
+      "ledger": "formation records",
+      "status": "UNGATED",
+      "notes": "Admin UI calls these GETs (src/site00/services/site00ProjectsApi.ts:140; src/site00/admin/services/evolveApi.ts:302-305). Aggregators (site00-production, orchestration, project-technical-intelligence) pass runFormation:false (commandConnections.ts:74; projectResolver.ts:178, :216, :317, :413, :425) - no dispatch found there."
+    },
+    {
+      "id": "evolve-production-jobs-and-pilots",
+      "provider": "fal.ai + Anthropic",
+      "models": [
+        "openai/gpt-image-2[/edit]",
+        "fal-ai/birefnet/v2",
+        "claude-sonnet-4-6"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/comparisonProofProduction.ts:105, :126",
+        "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/boardAssetProductionV2.ts:115, :128",
+        "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/gptImage2VisualProviderAdapter.ts:138",
+        "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/boardAssetInspector.ts:138",
+        "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/brandNativeVisualRawInspector.ts:96",
+        "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/identityNativeVisualRawInspector.ts:110",
+        "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/identityNativeVisualRawInspectorV2.ts:92",
+        "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/anthropicCompletion.ts:24 (directionCompletionService.ts:202-203 etc.)"
+      ],
+      "entry": "POST /api/admin/site00-evolve actions creative_direction_complete_v1_directions (:480-487), creative_direction_run_six_direction_production (:488-499), creative_direction_start_production_job (:500-523), creative_direction_marked_up_copy_* pilots (:524-622)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "admin email: resolveAdminAuth (api/admin/site00-evolve.ts:132-137; api/_lib/adminAuth.ts:37-93)",
+      "spendGuard": "admin auth only (dryRun:true optional)",
+      "quoteOrBudgetCheck": "NO (comparisonProofProduction.ts:181-189 computes an estimate but does not gate)",
+      "unknownCostHandling": "fixed estimate constants (gptImage2VisualProviderAdapter.ts:144 costEstimateUsd 0.045; comparisonProofProduction.ts:232, :381 accumulate); failed calls not recorded",
+      "duplicateProtection": "background production job: returns active queued/running job (sixDirectionProductionJobService.ts:160-163); synchronous six-direction action: none",
+      "autoRetry": "NO resubmission found",
+      "ledger": "Supabase site00_creative_direction_production_jobs (sixDirectionProductionJobService.ts:16)",
+      "status": "EXPLICIT_UNBUDGETED",
+      "notes": ""
+    },
+    {
+      "id": "projects-visual-casting",
+      "provider": "fal.ai",
+      "models": [
+        "openai/gpt-image-2 (SITE00_FAL_TEXT_TO_IMAGE_MODEL) / edit with refs"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "api/_lib/site00Evolve/characterVisualCasting/castingFalDispatch.ts:111"
+      ],
+      "entry": "POST /api/site00/projects action character_visual_casting_generate | _retry_fal | _next_round | _regenerate_from_references | _generate_bible_from_reference | _generate_canonical_anchor (projects.ts:3829-4110)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "admin email: getAuthUser bearer token (api/site00/projects.ts:401-408) + canAccessFounderProjectAsOwner -> isAdminEmail (api/_lib/site00Access/accessModel.ts:20-28; api/_lib/adminAuth.ts:16-28) + project capability guard (api/_lib/site00Projects/projectCapabilityGuard.ts:59-70)",
+      "spendGuard": "admin auth only; dispatch defaults ON when the body omits dispatchFal: shouldDispatch = params.dispatchFal ?? falConfigured() (characterVisualCastingService.ts:87, :142, :287, :334, :367, :390, :422, :442, :466, :487) - D-13 opt-in fix not applied here",
+      "quoteOrBudgetCheck": "NO (character_visual_casting_estimate exists, projects.ts:3816-3828, not enforced)",
+      "unknownCostHandling": "not verified per call (notChecked)",
+      "duplicateProtection": "in-memory activeCastingGenerationAttempts per project + DB tracking attemptId (castingFalBackgroundJob.ts:62-138)",
+      "autoRetry": "see projects-visual-casting-get-resume",
+      "ledger": "founder character discovery run store",
+      "status": "EXPLICIT_UNBUDGETED",
+      "notes": ""
+    },
+    {
+      "id": "projects-visual-casting-get-resume",
+      "provider": "fal.ai",
+      "models": [
+        "openai/gpt-image-2"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "api/_lib/site00Evolve/characterVisualCasting/castingFalDispatch.ts:111"
+      ],
+      "entry": "GET /api/site00/projects?action=character_visual_casting_get&slug=X (projects.ts:3807-3815) -> getVisualCastingState -> hydrateCastingRun (characterVisualCastingService.ts:43-48, :64-65) -> maybeResumeCastingGeneration (castingFalBackgroundJob.ts:170-196) -> startCastingRoundFalBackgroundJob(force:true)",
+      "trigger": "READ_PATH",
+      "auth": "admin email (projects.ts:3810)",
+      "spendGuard": "none: fires when DB tracking says RUNNING, this process has no active attempt, and startedAt < 15 min (falBackgroundJob.ts:19-20) - e.g. after any Railway restart/redeploy or on a second instance",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not verified",
+      "duplicateProtection": "in-process Map only (castingFalBackgroundJob.ts:120); not shared across processes, so the round can be re-submitted while the original is still running elsewhere or already billed",
+      "autoRetry": "YES: automatic resubmission of an interrupted paid round on read",
+      "ledger": "founder character discovery run store",
+      "status": "UNGATED",
+      "notes": "UI calls this GET (src/site00/services/site00ProjectsApi.ts:2002)."
+    },
+    {
+      "id": "projects-founder-creative-ingestion-photo",
+      "provider": "fal.ai",
+      "models": [
+        "openai/gpt-image-2[/edit] via buildFalImageInput"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "api/_lib/site00Evolve/founderCreativeIngestion/founderCreativeFalDispatch.ts:70"
+      ],
+      "entry": "POST /api/site00/projects action founder_creative_ingestion_generate_photo (projects.ts:2520-2545)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "ANY signed-in Supabase user: getAuthUser only (projects.ts:401-408); this case has NO canAccessFounderProjectAsOwner check, only the project-capability guard (projects.ts:2535; projectCapabilityGuard.ts:24-50 checks the project, not the user)",
+      "spendGuard": "none required: dispatch defaults ON when dispatchFal omitted ((params.dispatchFal ?? falConfigured()) founderCreativeIngestionService.ts:164, :193, :254)",
+      "quoteOrBudgetCheck": "NO (founder_creative_ingestion_estimate exists, projects.ts:2507, not enforced)",
+      "unknownCostHandling": "accounting fields initialised to 0 (founderCreativeIngestionService.ts:77-81); per-call cost not verified",
+      "duplicateProtection": "in-memory activeIngestionGenerationAttempts (founderCreativeFalBackgroundJob.ts:219-220)",
+      "autoRetry": "see projects-founder-creative-ingestion-get-resume",
+      "ledger": "marketing campaign production run store",
+      "status": "UNGATED",
+      "notes": ""
+    },
+    {
+      "id": "projects-founder-creative-ingestion-get-resume",
+      "provider": "fal.ai",
+      "models": [
+        "openai/gpt-image-2[/edit]"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "api/_lib/site00Evolve/founderCreativeIngestion/founderCreativeFalDispatch.ts:70"
+      ],
+      "entry": "GET /api/site00/projects?action=founder_creative_ingestion_get (projects.ts:2390) -> getFounderCreativeIngestion -> hydrateRun (founderCreativeIngestionService.ts:103-113, :116-119) -> maybeResumeFounderCreativeGeneration (founderCreativeFalBackgroundJob.ts:285-308) -> startFounderCreativeFalBatch(force:true)",
+      "trigger": "READ_PATH",
+      "auth": "admin email (case has canAccessFounderProjectAsOwner per awk scan of projects.ts)",
+      "spendGuard": "none: resumes remaining slides when tracking RUNNING, no in-process attempt, age between 45 s and 15 min (founderCreativeFalBackgroundJob.ts:288-293; falBackgroundJob.ts:19-20)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not verified",
+      "duplicateProtection": "in-process Map only",
+      "autoRetry": "YES: automatic resubmission of remaining paid slides on read",
+      "ledger": "marketing campaign production run store",
+      "status": "UNGATED",
+      "notes": "UI calls this GET (site00ProjectsApi.ts:1573). A slide in flight but not yet marked complete when the process died is re-generated (double spend)."
+    },
+    {
+      "id": "projects-marketing-expression",
+      "provider": "fal.ai",
+      "models": [
+        "openai/gpt-image-2 (buildFalImageInput)"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "api/_lib/site00Evolve/creativeDirection/brandMarketingExpressionExperiment/brandMarketingExpressionService.ts:650, :851, :989, :1107, :1188, :1962, :2133"
+      ],
+      "entry": "POST /api/site00/projects action marketing_expression_experiment_01[_v2|_v21|_v22|_v23]_generate | _generate_all | _v23_regenerate_all (projects.ts:1710-2083)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "admin email: getAuthUser bearer token (api/site00/projects.ts:401-408) + canAccessFounderProjectAsOwner -> isAdminEmail (api/_lib/site00Access/accessModel.ts:20-28; api/_lib/adminAuth.ts:16-28) + project capability guard (api/_lib/site00Projects/projectCapabilityGuard.ts:59-70)",
+      "spendGuard": "admin auth only",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "falActualCostUsd = fixed estimate FAL_MARKETING_COST_ESTIMATE_USD 0.08 (brand-lore constants.ts:169; service.ts:655, :683-686) - 'actual' is not provider-reported; a thrown fal call records nothing",
+      "duplicateProtection": "skips already GENERATED artifact (service.ts:630); batch attemptId map (service.ts:1678-1712)",
+      "autoRetry": "NO (reconcile only resets stale state, service.ts:153-206)",
+      "ledger": "brand marketing expression run accounting",
+      "status": "EXPLICIT_UNBUDGETED",
+      "notes": ""
+    },
+    {
+      "id": "projects-marketing-expression-v23-any-user",
+      "provider": "fal.ai",
+      "models": [
+        "openai/gpt-image-2"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "api/_lib/site00Evolve/creativeDirection/brandMarketingExpressionExperiment/brandMarketingExpressionService.ts:1962"
+      ],
+      "entry": "POST /api/site00/projects action marketing_expression_experiment_01_v23_generate (projects.ts:1986-2010) | _v23_replay (projects.ts:2011-2033 -> replayExperiment01V23HistoricalPrompt -> generateExperiment01V23ArtifactAsset, service.ts:2034)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "ANY signed-in user: no canAccessFounderProjectAsOwner in these two cases (projects.ts:1986-2033), only capability guard",
+      "spendGuard": "none",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "fixed estimate as above",
+      "duplicateProtection": "mode REGENERATE_CURRENT always re-generates",
+      "autoRetry": "NO",
+      "ledger": "brand marketing expression run (projectId hard-coded 'ndxbook', projects.ts:2004, :2028)",
+      "status": "UNGATED",
+      "notes": ""
+    },
+    {
+      "id": "projects-brand-character-synthesis",
+      "provider": "fal.ai + Anthropic",
+      "models": [
+        "openai/gpt-image-2",
+        "claude-sonnet-4-6"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "api/_lib/site00Evolve/creativeDirection/brandCharacterExperiment/brandCharacterSynthesisService.ts:600",
+        "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/anthropicCompletion.ts:24"
+      ],
+      "entry": "POST /api/site00/projects action experiment_h_synthesis_run (projects.ts:1541-1562, forceRetry) | experiment_h_artifact_proof_generate (projects.ts:1613-1628)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "admin email: getAuthUser bearer token (api/site00/projects.ts:401-408) + canAccessFounderProjectAsOwner -> isAdminEmail (api/_lib/site00Access/accessModel.ts:20-28; api/_lib/adminAuth.ts:16-28) + project capability guard (api/_lib/site00Projects/projectCapabilityGuard.ts:59-70)",
+      "spendGuard": "admin auth only",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "fixed estimate FAL_CHARACTER_PROOF_COST_ESTIMATE_USD (brandCharacterSynthesisService.ts:612)",
+      "duplicateProtection": "skips proof already GENERATED (brandCharacterSynthesisService.ts:574)",
+      "autoRetry": "NO",
+      "ledger": "brand character synthesis run",
+      "status": "EXPLICIT_UNBUDGETED",
+      "notes": ""
+    },
+    {
+      "id": "projects-visual-formulation",
+      "provider": "fal.ai + Anthropic",
+      "models": [
+        "openai/gpt-image-2[/edit]",
+        "claude-sonnet-4-6"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "api/_lib/site00Evolve/creativeDirection/brandPresentationVisualFormulationExperiment/visualFormulationService.ts:1098",
+        "shared/site00-brand-lore/experienceExpression/experienceAssetFalProvider.ts:197"
+      ],
+      "entry": "POST /api/site00/projects action experiment_g_visual_formulate | experiment_g_visual_generate (projects.ts:4534-4568)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "admin email: getAuthUser bearer token (api/site00/projects.ts:401-408) + canAccessFounderProjectAsOwner -> isAdminEmail (api/_lib/site00Access/accessModel.ts:20-28; api/_lib/adminAuth.ts:16-28) + project capability guard (api/_lib/site00Projects/projectCapabilityGuard.ts:59-70)",
+      "spendGuard": "admin auth only",
+      "quoteOrBudgetCheck": "NO: estimateVisualGenerationCost is computed and returned but not enforced (projects.ts:4560-4561)",
+      "unknownCostHandling": "fixed estimate FAL_COST_ESTIMATE_USD on success (visualFormulationService.ts:1111); storage reuse 0 (legitimate, :1076-1085)",
+      "duplicateProtection": "skips if storage object exists (visualFormulationService.ts:1076)",
+      "autoRetry": "NO",
+      "ledger": "visual formulation run accounting",
+      "status": "EXPLICIT_UNBUDGETED",
+      "notes": ""
+    },
+    {
+      "id": "projects-experiment-g-formation-get-resume",
+      "provider": "Anthropic",
+      "models": [
+        "claude-sonnet-4-6"
+      ],
+      "mediaType": "TEXT",
+      "callSite": [
+        "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/anthropicCompletion.ts:24 (experimentGService formation work)"
+      ],
+      "entry": "GET /api/site00/projects?action=experiment_g_get (projects.ts:4305) and ?action=experiment_g_direction_get (projects.ts:4395 -> directionService.ts:446-451) -> getBrandPresentationConceptFormationRun -> maybeResumeFormation (experimentGService.ts:370-376, :473-484)",
+      "trigger": "READ_PATH",
+      "auth": "admin email",
+      "spendGuard": "none: re-enqueues formation when status FORMING, age >= 45 s (experimentGService.ts:44) and no in-process attempt",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "fixed estimate 0.05 per request; tokens '?? 0' when absent (experimentGService.ts:362-367)",
+      "duplicateProtection": "in-process activeFormationAttempts map only",
+      "autoRetry": "YES: automatic resubmission on read",
+      "ledger": "experiment G run accounting",
+      "status": "UNGATED",
+      "notes": "UI calls both GETs (site00ProjectsApi.ts:397, :528)."
+    },
+    {
+      "id": "projects-gpt-image2-adapter-consumers",
+      "provider": "fal.ai + Anthropic",
+      "models": [
+        "openai/gpt-image-2",
+        "openai/gpt-image-2/edit",
+        "claude-sonnet-4-6"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/gptImage2VisualProviderAdapter.ts:138",
+        "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/anthropicProvider.ts:52"
+      ],
+      "entry": "POST /api/site00/projects action personality_replay_execute (projects.ts:861), personality_replay_six_direction_execute (:908-951, sync or void background), canonical_creative_range_execute (:1007), canonical_carousel_expansion_execute (:1074), experiment_d_execute_heroes (:1170-1189, void background); project_workspace_generate_hero (:4871-4882 -> projectWorkspaceService.ts:232)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "admin email: getAuthUser bearer token (api/site00/projects.ts:401-408) + canAccessFounderProjectAsOwner -> isAdminEmail (api/_lib/site00Access/accessModel.ts:20-28; api/_lib/adminAuth.ts:16-28) + project capability guard (api/_lib/site00Projects/projectCapabilityGuard.ts:59-70)",
+      "spendGuard": "admin auth only",
+      "quoteOrBudgetCheck": "NO (preflight actions exist but not enforced)",
+      "unknownCostHandling": "fixed 0.045 per image (gptImage2VisualProviderAdapter.ts:144); Anthropic estimatedCostUsd '?? 0' when provider accounting lacks it (sixDirectionConsistencyService.ts:568-569)",
+      "duplicateProtection": "not verified per service",
+      "autoRetry": "NO found",
+      "ledger": "replay / range / carousel run accounting",
+      "status": "EXPLICIT_UNBUDGETED",
+      "notes": ""
+    },
+    {
+      "id": "projects-neural-voice",
+      "provider": "fal.ai",
+      "models": [
+        "fal-ai/minimax/speech-02-hd (NEURAL_TTS_DISCOVERY_ENDPOINTS default)"
+      ],
+      "mediaType": "VOICE",
+      "callSite": [
+        "api/_lib/site00Evolve/founderCharacterDiscovery/neuralVoiceGenerationService.ts:75"
+      ],
+      "entry": "POST /api/site00/projects action founder_character_discovery_neural_voice_audition (projects.ts:3616-3633) | _revision (:3653-3685) | _regenerate (:3686-3716)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "admin email: getAuthUser bearer token (api/site00/projects.ts:401-408) + canAccessFounderProjectAsOwner -> isAdminEmail (api/_lib/site00Access/accessModel.ts:20-28; api/_lib/adminAuth.ts:16-28) + project capability guard (api/_lib/site00Projects/projectCapabilityGuard.ts:59-70)",
+      "spendGuard": "admin auth only",
+      "quoteOrBudgetCheck": "NO (founder_character_discovery_neural_voice_estimate, projects.ts:3607, not enforced)",
+      "unknownCostHandling": "actualCostUsd = contract.estimatedCostUsd, not provider-reported (neuralVoiceGenerationService.ts:62, :84); failed/thrown calls recorded as costUsd: 0 (founderCharacterDiscoveryService.ts:477-485, :532)",
+      "duplicateProtection": "none",
+      "autoRetry": "NO",
+      "ledger": "founder character discovery run (voiceCalibrationState)",
+      "status": "EXPLICIT_UNBUDGETED",
+      "notes": "Audition loops all contracts serially (founderCharacterDiscoveryService.ts:320-329)."
+    },
+    {
+      "id": "projects-evolve-anthropic-completion",
+      "provider": "Anthropic",
+      "models": [
+        "claude-sonnet-4-6"
+      ],
+      "mediaType": "TEXT",
+      "callSite": [
+        "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/anthropicCompletion.ts:24"
+      ],
+      "entry": "POST /api/site00/projects actions experiment_f_prepare_snapshot/_reform_set (projects.ts:1229, :1284 -> experimentFService.ts:330), experiment_h_prepare_snapshot/_reform_set (:1306, :1372), experiment_g_prepare/_reform, direction formation, creative expression, copy quality gate, board director services (callers: brandCharacterService, experimentGService, directionService, visualFormulationService, boardArtDirectionService, boardCreativeDirector[V4]Service, copyQualityGate, creativeExpressionService, directionExpressionSystemService, identityNativeArtDirectorService)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "admin email: getAuthUser bearer token (api/site00/projects.ts:401-408) + canAccessFounderProjectAsOwner -> isAdminEmail (api/_lib/site00Access/accessModel.ts:20-28; api/_lib/adminAuth.ts:16-28) + project capability guard (api/_lib/site00Projects/projectCapabilityGuard.ts:59-70)",
+      "spendGuard": "admin auth only",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "fixed per-request estimates; tokens default 0 when usage absent (e.g. experimentGService.ts:362-367)",
+      "duplicateProtection": "varies; background attempt maps",
+      "autoRetry": "NO found in anthropicCompletion.ts (throws on non-OK, :40-43)",
+      "ledger": "per-experiment run accounting",
+      "status": "EXPLICIT_UNBUDGETED",
+      "notes": "Grouped entry; each caller not individually traced."
+    },
+    {
+      "id": "projects-visual-development",
+      "provider": "fal.ai",
+      "models": [
+        "EXPERIENCE_FAL_MODEL = openai/gpt-image-2[/edit]"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "shared/site00-brand-lore/experienceExpression/experienceAssetFalProvider.ts:197 (via visualDevelopmentService.ts:841, :915)"
+      ],
+      "entry": "POST /api/site00/projects action visual_development_generate (projects.ts:4921-4937)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "admin email: getAuthUser bearer token (api/site00/projects.ts:401-408) + canAccessFounderProjectAsOwner -> isAdminEmail (api/_lib/site00Access/accessModel.ts:20-28; api/_lib/adminAuth.ts:16-28) + project capability guard (api/_lib/site00Projects/projectCapabilityGuard.ts:59-70)",
+      "spendGuard": "admin auth only",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "fixed estimate on success (experienceAssetFalProvider.ts:216); 0 for reuse/vitest",
+      "duplicateProtection": "not verified",
+      "autoRetry": "NO",
+      "ledger": "visual development run",
+      "status": "EXPLICIT_UNBUDGETED",
+      "notes": "visual_development_prepare_interface and visual_development_generate_assets are unreachable: guard 'if (!proofId !== \"SITE00_PROJECTS_INDEX\")' is always true (projects.ts:5018, :5035) so both always return 400."
+    },
+    {
+      "id": "production-spine-openart",
+      "provider": "OpenArt",
+      "models": [
+        "route models in spine project config"
+      ],
+      "mediaType": "IMAGE/VIDEO",
+      "callSite": [
+        "shared/site00-production-spine/providers.ts:240-252 (OpenArtAgentSessionTransport.submit -> executor.submit)"
+      ],
+      "entry": "POST /api/site00/production-spine (Director Composer jobs)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "admin email + founder or project member role (api/site00/production-spine.ts:224-231; role table permissions.ts)",
+      "spendGuard": "spine spend gate: founder budget authorization, exact quote, quote age, authorized max, expiry, scene state, idempotency (gate.ts:11-17, :102-135); transport disabled unless SITE00_PROVIDER_EXECUTION=ENABLED AND an executor is injected (providers.ts:226-231) - production-spine.ts:200 constructs it with no executor",
+      "quoteOrBudgetCheck": "YES (gate.ts:126-135: UNKNOWN_QUOTE, QUOTE_STALE, EXCEEDS_AUTHORIZED_MAX)",
+      "unknownCostHandling": "unknown never zero: committedCredits returns null when neither charge nor quote known (gate.ts:75-90)",
+      "duplicateProtection": "idempotency key + lookup before resend; UNCERTAIN submissions are never resent (providers.ts:38-45, :59-71)",
+      "autoRetry": "NO",
+      "ledger": "spine record store (jsonFileStore / Supabase per plan, production-spine.ts:190-196)",
+      "status": "DISABLED",
+      "notes": "GATED design but no real transport can run in the deployed app."
+    },
+    {
+      "id": "jurnl-production-gateway",
+      "provider": "OpenArt (manual)",
+      "models": [
+        "gpt-image-2-5-sunburst"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "none - dispatch callback returns a ticket only (shared/site00-jurnl-production/dispatchJurnlProductionRequest.ts:322-344)"
+      ],
+      "entry": "POST /api/admin/jurnl-production action issue-spend-authorization | dispatch-dry-run | register-manual-output (api/admin/jurnl-production.ts:35-92)",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "admin email (jurnl-production.ts:26-30)",
+      "spendGuard": "provider gateway spendAuthorization (spendAuthorization.ts:49-82) + budget precheck (budgetPrecheck.ts:8-24); handler forces dryRun:true (jurnl-production.ts:68)",
+      "quoteOrBudgetCheck": "PARTIAL: unknown estimate passes (budgetPrecheck.ts:20-21; spendAuthorization.ts:77 treats missing estimate as 0)",
+      "unknownCostHandling": "gateway receipt actualCredits = estimatedCostCredits ?? null (runProductionProviderRequest.ts:189); blocked receipts actualCredits 0",
+      "duplicateProtection": "idempotencyKey (dispatchJurnlProductionRequest.ts:350 recordJurnlIdempotency)",
+      "autoRetry": "NO",
+      "ledger": "data/production-cost-receipts/gateway-receipts.jsonl + family GENERATION_LEDGER (costReceipt.ts:51-61) - repo filesystem, ephemeral on Railway",
+      "status": "DISABLED",
+      "notes": "No external request is made. jurnl-production.ts:39 and :64 read auth.email, which resolveAdminAuth does not return (it returns auth.user.email, adminAuth.ts:92), so actor is always 'admin'. Spend authorizations live in an in-memory Map (spendAuthorization.ts:23) and are consumed only after dispatch returns (runProductionProviderRequest.ts:174-177)."
+    },
+    {
+      "id": "fal-image-via-production-gateway",
+      "provider": "fal.ai",
+      "models": [
+        "openai/gpt-image-2/edit"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "shared/site00-visual-generation/falImageViaProductionGateway.ts:18-28 -> falReferenceImageJob.ts:70"
+      ],
+      "entry": "none: no importer in api/server/shared/scripts/src (grep runFalReferenceImageViaProductionGateway)",
+      "trigger": "AUTOMATIC",
+      "auth": "n/a",
+      "spendGuard": "would use runProductionProviderRequest",
+      "quoteOrBudgetCheck": "n/a",
+      "unknownCostHandling": "n/a",
+      "duplicateProtection": "n/a",
+      "autoRetry": "NO",
+      "ledger": "n/a",
+      "status": "DISABLED",
+      "notes": "The only gateway-wrapped fal helper is dead code; every live fal path bypasses the provider gateway."
+    },
+    {
+      "id": "studio-builder-generation",
+      "provider": "fal.ai",
+      "models": [
+        "resolved via missing ./creativeProduction/studio-os-server.bundle.js"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "api/_lib/studioBuilderGeneration.ts:284, :300, :321 (queue.submit)",
+        "api/_lib/studioBuilderGeneration.ts:448, :470 (subscribe)"
+      ],
+      "entry": "none: submitStudioBuilderFalQueue / generateStudioBuilderAsset have no callers (grep); only poll/result helpers are used by ASSTS/Astral",
+      "trigger": "AUTOMATIC",
+      "auth": "n/a",
+      "spendGuard": "n/a",
+      "quoteOrBudgetCheck": "n/a",
+      "unknownCostHandling": "n/a",
+      "duplicateProtection": "n/a",
+      "autoRetry": "NO",
+      "ledger": "n/a",
+      "status": "DISABLED",
+      "notes": "api/_lib/creativeProduction/ directory does not exist, so the model-resolution import would throw."
+    },
+    {
+      "id": "expression-engine-entry002-dispatch-modules",
+      "provider": "fal.ai",
+      "models": [
+        "openai/gpt-image-2",
+        "fal-ai/flux-pro",
+        "fal-ai/flux-pro/v1.1"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "api/_lib/site00ExpressionEngine/entry002AnchorDispatch.ts:124, :132",
+        "api/_lib/site00ExpressionEngine/entry002ReelKeyframeDispatch.ts:156, :187",
+        "api/_lib/site00ExpressionEngine/entry002ReelStoryboardDispatch.ts:83, :107",
+        "api/_lib/site00ExpressionEngine/entry002CinematicSequenceDispatch.ts:81",
+        "api/_lib/site00ExpressionEngine/storyboardAuthorityDispatch.ts:67",
+        "api/_lib/site00ExpressionEngine/preStoryboardAuthorityDispatch.ts:51"
+      ],
+      "entry": "GET phases B3/B41/B42/B44/B45/B46 only, which now pass dispatchFal=false (expression-engine.ts:811-1174); modules require options.dispatchFal === true (entry002AnchorDispatch.ts:66; entry002ReelKeyframeDispatch.ts:289; entry002ReelStoryboardDispatch.ts:126, :244; entry002CinematicSequenceDispatch.ts:102, :255; storyboardAuthorityDispatch.ts:87; preStoryboardAuthorityDispatch.ts:72); no caller passes true except B49 (grep 'dispatchFal: true')",
+      "trigger": "READ_PATH",
+      "auth": "public (if re-enabled)",
+      "spendGuard": "dispatchFal opt-in",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded",
+      "duplicateProtection": "storage-object existence checks",
+      "autoRetry": "YES if ever enabled: automatic fallback re-dispatch to a second paid model on failure (entry002ReelStoryboardDispatch.ts:81-120 any error; entry002AnchorDispatch.ts:122-143 content-policy; entry002ReelKeyframeDispatch.ts fallbackAttempted)",
+      "ledger": "storage objects",
+      "status": "DISABLED",
+      "notes": "Verified D-13 fix; risk is latent fallback retries."
+    },
+    {
+      "id": "unmounted-or-dead-provider-modules",
+      "provider": "Anthropic / OpenAI / fal.ai",
+      "models": [
+        "various"
+      ],
+      "mediaType": "TEXT/IMAGE",
+      "callSite": [
+        "api/_lib/site00VisualReconstruction/visionReplicationAnthropic.ts:90 (only api/site00/vision-replication.ts, not in server/routes.ts)",
+        "api/_lib/site00WorkspaceSelfConcept/generateWorkspaceCreativeDirection.ts:117",
+        "api/_lib/site00WorkspaceSelfConcept/generateWorkspaceSingleConcept.ts:91 (OpenAI)",
+        "api/_lib/site00Evolve/creativeDirection/creativeIntelligence/boardAssetProduction.ts:44, :68",
+        "api/_lib/site00ExpressionEngine/entry002FinalCinematicStoryboardPanelPipeline.ts:75",
+        "api/_lib/site00ExpressionEngine/entry002FinalCinematicStoryboardSingleArtifact.ts:118"
+      ],
+      "entry": "none from server/routes.ts or startup (import-graph BFS found no route reaching these files)",
+      "trigger": "AUTOMATIC",
+      "auth": "n/a",
+      "spendGuard": "n/a",
+      "quoteOrBudgetCheck": "n/a",
+      "unknownCostHandling": "n/a",
+      "duplicateProtection": "n/a",
+      "autoRetry": "NO",
+      "ledger": "n/a",
+      "status": "DISABLED",
+      "notes": "Would become reachable if api/site00/vision-replication.ts were mounted (Vercel file routing or added to routes.ts)."
+    },
+    {
+      "id": "studio-world-live-adapter",
+      "provider": "Studio World (external production service, not an AI model API)",
+      "models": [],
+      "mediaType": "OTHER",
+      "callSite": [
+        "api/_lib/studioWorld/httpClient.ts (fetch to STUDIO_WORLD_API_BASE, contract.ts:23-30)"
+      ],
+      "entry": "marketingEngagements service provisionCampaign / submitClientAction (api/_lib/marketingEngagements/service.ts:252, :481) via /api/site00/marketing-engagements, /api/site00/studio-world-webhook, /api/admin/site00-marketing",
+      "trigger": "EXPLICIT_USER_ACTION",
+      "auth": "signed-in user for marketing-engagements (marketing-engagements.ts:31); others not traced",
+      "spendGuard": "not verified",
+      "quoteOrBudgetCheck": "not verified",
+      "unknownCostHandling": "not verified",
+      "duplicateProtection": "not verified",
+      "autoRetry": "not verified",
+      "ledger": "not verified",
+      "status": "EXPLICIT_UNBUDGETED",
+      "notes": "Included for completeness; whether a provision call is billable cannot be determined from this repo. Default adapter is live in production when configured (client.ts:13-30)."
+    },
+    {
+      "id": "script-ndxbook-creative-direction-assets",
+      "provider": "fal.ai",
+      "models": [
+        "openai/gpt-image-2",
+        "fal-ai/birefnet/v2"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "scripts/ndxbook-creative-direction-assets/generate.ts:36, :59"
+      ],
+      "entry": "script only: run manually (node/tsx) with FAL_KEY in env",
+      "trigger": "SCRIPT_ONLY",
+      "auth": "whoever holds FAL_KEY locally",
+      "spendGuard": "none (only FAL_KEY presence check)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded",
+      "duplicateProtection": "none",
+      "autoRetry": "NO (not observed)",
+      "ledger": "local files",
+      "status": "SCRIPT_ONLY",
+      "notes": ""
+    },
+    {
+      "id": "script-reconstruct-skins-ndx-golden",
+      "provider": "fal.ai",
+      "models": [
+        "(model variable, see file)"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "scripts/reconstruct-skins-ndx-golden.mjs:48"
+      ],
+      "entry": "script only: run manually (node/tsx) with FAL_KEY in env",
+      "trigger": "SCRIPT_ONLY",
+      "auth": "whoever holds FAL_KEY locally",
+      "spendGuard": "none (only FAL_KEY presence check)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded",
+      "duplicateProtection": "none",
+      "autoRetry": "NO (not observed)",
+      "ledger": "local files",
+      "status": "SCRIPT_ONLY",
+      "notes": ""
+    },
+    {
+      "id": "script-email-intake-fal-smoke",
+      "provider": "fal.ai",
+      "models": [
+        "openai/gpt-image-2"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "scripts/site00-email-intake-assets/fal-smoke-test.mjs:14"
+      ],
+      "entry": "script only: run manually (node/tsx) with FAL_KEY in env",
+      "trigger": "SCRIPT_ONLY",
+      "auth": "whoever holds FAL_KEY locally",
+      "spendGuard": "none (only FAL_KEY presence check)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded",
+      "duplicateProtection": "none",
+      "autoRetry": "NO (not observed)",
+      "ledger": "local files",
+      "status": "SCRIPT_ONLY",
+      "notes": ""
+    },
+    {
+      "id": "script-email-intake-generate",
+      "provider": "fal.ai",
+      "models": [
+        "openai/gpt-image-2"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "scripts/site00-email-intake-assets/generate.mjs:41"
+      ],
+      "entry": "script only: run manually (node/tsx) with FAL_KEY in env",
+      "trigger": "SCRIPT_ONLY",
+      "auth": "whoever holds FAL_KEY locally",
+      "spendGuard": "none (only FAL_KEY presence check)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded",
+      "duplicateProtection": "none",
+      "autoRetry": "NO (not observed)",
+      "ledger": "local files",
+      "status": "SCRIPT_ONLY",
+      "notes": ""
+    },
+    {
+      "id": "script-email-intake-remove-background",
+      "provider": "fal.ai",
+      "models": [
+        "fal-ai/birefnet/v2"
+      ],
+      "mediaType": "IMAGE",
+      "callSite": [
+        "scripts/site00-email-intake-assets/remove-background.mjs:63"
+      ],
+      "entry": "script only: run manually (node/tsx) with FAL_KEY in env",
+      "trigger": "SCRIPT_ONLY",
+      "auth": "whoever holds FAL_KEY locally",
+      "spendGuard": "none (only FAL_KEY presence check)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded",
+      "duplicateProtection": "none",
+      "autoRetry": "NO (not observed)",
+      "ledger": "local files",
+      "status": "SCRIPT_ONLY",
+      "notes": ""
+    },
+    {
+      "id": "script-test-neural-voice-fal",
+      "provider": "fal.ai",
+      "models": [
+        "fal-ai/minimax/speech-02-hd"
+      ],
+      "mediaType": "VOICE",
+      "callSite": [
+        "scripts/test-neural-voice-fal.mjs:22"
+      ],
+      "entry": "script only: run manually (node/tsx) with FAL_KEY in env",
+      "trigger": "SCRIPT_ONLY",
+      "auth": "whoever holds FAL_KEY locally",
+      "spendGuard": "none (only FAL_KEY presence check)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "not recorded",
+      "duplicateProtection": "none",
+      "autoRetry": "NO (not observed)",
+      "ledger": "local files",
+      "status": "SCRIPT_ONLY",
+      "notes": ""
+    },
+    {
+      "id": "scripts-importing-server-provider-code",
+      "provider": "fal.ai / Anthropic",
+      "models": [
+        "as per imported services"
+      ],
+      "mediaType": "IMAGE/TEXT",
+      "callSite": [
+        "(imported call sites; see related server paths)"
+      ],
+      "entry": "scripts that import api/_lib services and call providers directly from a dev machine (import-graph result): scripts/run-p0vr4r1-live-acceptance.ts (explicitFounderAction:true at :19 -> liveFalProvider.ts), scripts/astral-world-dispatch.mjs, scripts/astral-world-dispatch-p0.mjs, scripts/astral-world-preflight.mjs (generationService.ts; preflight dispatch not verified), scripts/runNdxbookSixDirectionProduction.ts, scripts/runMarkedUpCopyBoardPilotV2.ts, scripts/runMarkedUpCopyBoardPilotV3.ts, scripts/runIdentityNativeHeroPilotLocal.ts, scripts/runSixDirectionConsistencyValidation.ts, scripts/runCanonicalCreativeRangePreflight.ts, scripts/checkMarkedUpCopyFormation.ts, scripts/run-c19-proof.mjs (Anthropic reasoning), scripts/qa/page-concept-pipeline-founder-review-smoke.ts (page concept CGPT/GPT2/NBP modules)",
+      "trigger": "SCRIPT_ONLY",
+      "auth": "local env keys",
+      "spendGuard": "as in the imported service (mostly none)",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "as service",
+      "duplicateProtection": "as service",
+      "autoRetry": "as service",
+      "ledger": "as service",
+      "status": "SCRIPT_ONLY",
+      "notes": "Each script's arguments/dry-run flags not individually verified."
+    },
+    {
+      "id": "scripts-calling-deployed-spend-endpoints",
+      "provider": "fal.ai / Anthropic / OpenAI (via API)",
+      "models": [
+        "as per endpoint"
+      ],
+      "mediaType": "IMAGE/TEXT",
+      "callSite": [
+        "server-side call sites of the endpoints listed"
+      ],
+      "entry": "scripts that fetch spend endpoints on a running API: scripts/inspectNdxbookFormation.ts, scripts/liveMarkedUpCopyBoardV4.ts, scripts/liveNdxbookFormationActivation.ts, scripts/runMarkedUpCopyBrandNativeVisualPilot.ts, scripts/runMarkedUpCopyIdentityNativeHeroPilot.ts, scripts/runMarkedUpCopyIdentityNativeHeroPilotV2.ts (all /api/admin/site00-evolve), scripts/studioos/run-creative-director-live-proof.mjs|.ts (/api/site00/experience-compiler-creative-director), scripts/design-bench/opus-native2/proofs.mjs (/api/site00/opus-native), scripts/qa/page-concept-pipeline-wiring1-qa.mjs (/api/site00/page-concept-generation); scripts/vite-site00-local-api.mjs and vite-site00-assts-local-api.mjs mount the same handlers in local dev",
+      "trigger": "SCRIPT_ONLY",
+      "auth": "as per endpoint",
+      "spendGuard": "as per endpoint",
+      "quoteOrBudgetCheck": "NO - no price/budget lookup before dispatch",
+      "unknownCostHandling": "as per endpoint",
+      "duplicateProtection": "as per endpoint",
+      "autoRetry": "as per endpoint",
+      "ledger": "as per endpoint",
+      "status": "SCRIPT_ONLY",
+      "notes": "Python scripts only download from CDNs/fonts (e.g. scripts/jurnl-f01-regen-interactions-uppercase.py:97-100; OpenArt CDN URLs in scripts/jurnl/f09-sunburst-generate-one.py) - no billable API calls found."
+    }
+  ],
+  "clientExposure": [
+    {
+      "finding": "No provider key exposed client-side.",
+      "evidence": [
+        "Only VITE_* key-like variable in code/env templates is VITE_SUPABASE_ANON_KEY (grep VITE_*(KEY|TOKEN|SECRET|FAL|OPENAI|ANTHROPIC|...) over src shared api server scripts vite.config.ts .env.example)",
+        "vite.config.ts:223-237 define block injects only build/version/preview flags",
+        ".env.example lists FAL_KEY, OPENAI_API_KEY, XAI_API_KEY, STUDIO_WORLD_API_KEY, NEWS_API_KEY without VITE_ prefix (lines 26-40)",
+        "src/ references to FAL_KEY/OPENAI_API_KEY/ANTHROPIC_API_KEY are UI help text only (e.g. src/site00/pages/ProjectFounderCharacterDiscoveryPage.tsx:883, src/site00/components/studio/creativeWorkspace/CreativeCanvas.tsx:42); no @fal-ai/client import in src",
+        "src/site00/pages/DesignTwinTestAPage.tsx:140 contains the string 'https://api.x.ai/v1/responses' as display data, not a fetch",
+        "dist/ grep for fal.run|queue.fal|api.anthropic.com|api.openai.com/v1/(images|chat|responses) and for key-shaped strings (sk-ant-, sk-proj-, xai-) returned nothing"
+      ],
+      "caveat": "Server-side endpoints that spend the keys are publicly callable (see readPathDispatch and CLIENT_FLAG_ONLY/UNGATED paths) - the practical exposure is via unauthenticated APIs with Access-Control-Allow-Origin '*' (server/index.ts:51-53), not via leaked keys."
+    }
+  ],
+  "readPathDispatch": [
+    {
+      "path": "GET /api/site00/expression-engine?phase=C1.1 | C1.2 | C1.3 | C1.4",
+      "provider": "Anthropic",
+      "evidence": "expression-engine.ts:738-758, :567 -> autonomousCreativeDirectorRuntime.ts:67-71 -> creativeDirectorLlmPass.ts:11-23 -> anthropicCompletion.ts:24",
+      "auth": "public",
+      "autoCalledByUI": "yes, useExpressionEngineEntry002.ts:51-60"
+    },
+    {
+      "path": "GET /api/site00/expression-engine?phase=C1.4 | C1.5 | C1.6 | C1.7 | C1.8 | C1.9 | C1.9R1 | C1.9R2",
+      "provider": "Anthropic",
+      "evidence": "entry003C14Pipeline.ts:20, :86, :127-128, :171, :220-226; creativeIntelligenceRuntime.ts:71; multiUnitCampaignArchitect.ts:259; creativeReasoningProvider.ts:191; copyReasoningProvider.ts:192; runC19R1MeridianLiveProof.ts:146-165",
+      "auth": "public",
+      "autoCalledByUI": "C1.4, C1.6, C1.7 on mount (useExpressionEngineEntry002.ts:58-60); C1.9R1 as fallback (loadC19R3MeridianComparisonViaJob.ts:77-81, :111-113)"
+    },
+    {
+      "path": "GET /api/site00/twin-test-a-design-bench?action=access_probe | runtime_health | readiness",
+      "provider": "xAI",
+      "evidence": "twin-test-a-design-bench.ts:31-55; service.ts:222, :245-249; grokAccessProbe.ts:190, :217, :232; grokTimingProbe.ts:37",
+      "auth": "public",
+      "autoCalledByUI": "readiness and runtime_health (grokTwinTestAClient.ts:125, :174)"
+    },
+    {
+      "path": "GET /api/site00/projects?action=creative_direction ; GET /api/admin/site00-evolve?action=creative_direction|creative_direction_debug",
+      "provider": "Anthropic",
+      "evidence": "projects.ts:482-498; site00-evolve.ts:218-224; engagementService.ts:318, :330-351; formationService.ts:208-214, :273",
+      "auth": "admin",
+      "autoCalledByUI": "site00ProjectsApi.ts:140; evolveApi.ts:302-305"
+    },
+    {
+      "path": "GET /api/site00/projects?action=character_visual_casting_get",
+      "provider": "fal.ai",
+      "evidence": "projects.ts:3807-3815; characterVisualCastingService.ts:43-48, :64-65; castingFalBackgroundJob.ts:170-196",
+      "auth": "admin",
+      "autoCalledByUI": "site00ProjectsApi.ts:2002"
+    },
+    {
+      "path": "GET /api/site00/projects?action=founder_creative_ingestion_get",
+      "provider": "fal.ai",
+      "evidence": "projects.ts:2390; founderCreativeIngestionService.ts:103-119; founderCreativeFalBackgroundJob.ts:285-308",
+      "auth": "admin",
+      "autoCalledByUI": "site00ProjectsApi.ts:1573"
+    },
+    {
+      "path": "GET /api/site00/projects?action=experiment_g_get | experiment_g_direction_get",
+      "provider": "Anthropic",
+      "evidence": "projects.ts:4305, :4395; experimentGService.ts:370-376, :473-484; directionService.ts:446-451",
+      "auth": "admin",
+      "autoCalledByUI": "site00ProjectsApi.ts:397, :528"
+    },
+    {
+      "note": "Verified NOT dispatching on read: /api/admin/site00-assts GET library/batch/asset/poll (service.ts:451; generation.ts:532-533), expression-engine B3/B41-B46/B49 GET (dispatchFal=false), /api/site00/page-concept-generation GET (read/hydrate only), /api/site00/astral-world-assets (read-only), Grok GET 'latest'/'run', twin endpoints' GET status, ASSTS loader poll."
+    }
+  ],
+  "autoRetry": [
+    {
+      "path": "grok-design-bench-run",
+      "evidence": "grokProviderRetry.ts:236-330 (3 attempts; network errors with null status retried, :312); constants.ts:14",
+      "risk": "re-sends a possibly already-billed request after a lost response"
+    },
+    {
+      "path": "experience-compiler-creative-director-run",
+      "evidence": "creativeModelGateway.ts:130-147; modelConfig.ts:47 (2 attempts on 429/500/502/503/504)",
+      "risk": "5xx/timeout re-send of a high-reasoning gpt-5.6-sol call"
+    },
+    {
+      "path": "expression-engine-senior-creative-reasoning",
+      "evidence": "creativeReasoningProvider.ts:56, :188-247 (retry once on non-OK, parse failure or thrown error)",
+      "risk": "parse-failure retry re-bills a call that already succeeded at the provider; triggered from public GET"
+    },
+    {
+      "path": "page-concept-generation CGPT",
+      "evidence": "executePageConceptCgptStage.ts:254-450 (up to 4 attempts, 429 only; pageConceptCgpt429.ts:5) + chained synthesis repair call generatePageCreativeInjection.ts:236-241",
+      "risk": "429 retries are usually unbilled; repair call is an automatic extra paid call"
+    },
+    {
+      "path": "evolve formation (anthropicProvider)",
+      "evidence": "anthropicProvider.ts:120-129 (re-call on JSON parse failure); formationService.ts:290-310 (automatic critique/revise rounds up to 2)",
+      "risk": "automatic chained paid calls; reachable from admin GET"
+    },
+    {
+      "path": "projects-visual-casting-get-resume",
+      "evidence": "castingFalBackgroundJob.ts:170-196 (startCastingRoundFalBackgroundJob force:true from GET hydrate)",
+      "risk": "resubmits an interrupted paid round after restart/second instance"
+    },
+    {
+      "path": "projects-founder-creative-ingestion-get-resume",
+      "evidence": "founderCreativeFalBackgroundJob.ts:285-308",
+      "risk": "resubmits remaining paid slides on read"
+    },
+    {
+      "path": "projects-experiment-g-formation-get-resume",
+      "evidence": "experimentGService.ts:473-484",
+      "risk": "re-enqueues Anthropic formation on read"
+    },
+    {
+      "path": "design-asset-reconstruction-live-acceptance (chained)",
+      "evidence": "liveAcceptancePipeline.ts:341 background removal after generation",
+      "risk": "automatic second paid call (birefnet), not a retry"
+    },
+    {
+      "path": "expression-engine-entry002-dispatch-modules (latent)",
+      "evidence": "entry002ReelStoryboardDispatch.ts:81-120; entry002AnchorDispatch.ts:122-143",
+      "risk": "automatic fallback to a second paid model if these modules are ever re-enabled"
+    },
+    {
+      "path": "twin-v2-fal-parallel-twin-proof (extra call)",
+      "evidence": "dispatchFalParallelTwinGeneration.ts:111 probe with num_images:2 on every request",
+      "risk": "paid probe each time, not a retry"
+    }
+  ],
+  "unknownCostAsZero": [
+    {
+      "location": "shared/site00-production-guardrails/providerGateway/spendAuthorization.ts:77",
+      "detail": "const est = request.estimatedCostCredits ?? 0 - a missing estimate passes the maxCredits check as zero"
+    },
+    {
+      "location": "api/_lib/site00Evolve/founderCharacterDiscovery/founderCharacterDiscoveryService.ts:483 and :532",
+      "detail": "failed/thrown neural voice generation recorded with costUsd: 0 even though the provider may have billed (e.g. timeout after accept)"
+    },
+    {
+      "location": "api/_lib/site00Evolve/creativeDirection/personalityReplay/sixDirectionConsistencyService.ts:568-569",
+      "detail": "anthropicRequests += requestCount ?? 0; estimatedCostUsd += tokenUsage.estimatedCostUsd ?? 0"
+    },
+    {
+      "location": "api/_lib/site00Evolve/creativeDirection/brandPresentationConceptExperiment/experimentGService.ts:362-367",
+      "detail": "anthropicInputTokens/OutputTokens: usage.* ?? 0 when usage absent (cost is a fixed 0.05 estimate)"
+    },
+    {
+      "location": "api/_lib/site00OpusDesignShell/runShellGeneration.ts:170-179",
+      "detail": "missing usage fields recorded as 0 tokens (estimatedCostUsd itself is null, :181)"
+    },
+    {
+      "location": "api/_lib/site00Assts/postProcess/pipeline.ts:92-96",
+      "detail": "estimateVideoBgRemovalCost returns 0 for any model other than bria/ben (registry currently only has those two); duration defaults to 10 s when unknown (:213-214)"
+    },
+    {
+      "location": "api/_lib/site00ExpressionEngine/creativeDirector/autonomousCreativeDirectorRuntime.ts:211",
+      "detail": "bootstrap result reports providerDispatchCount: 0 while the run may have made an Anthropic call (llmRequestCount)"
+    },
+    {
+      "location": "api/_lib/site00Evolve/creativeDirection/experienceExpressionExperiment/experimentEService.ts:419",
+      "detail": "opposite error: increments anthropicRequests although formExperienceConcepts makes no provider call"
+    },
+    {
+      "note": "Most fal paths record no cost at all (not zero): twin-*, design-asset-reconstruction, expression-engine B49, page concept, workspace self, ASSTS image jobs, Evolve asset generation. Evolve services that do record cost use fixed constants labelled 'actual' (e.g. brandMarketingExpressionService.ts:655, :683-686; neuralVoiceGenerationService.ts:62, :84) and record nothing when the call throws. Unknown cost recorded as null (good): astral generationService.ts:277, :419; forensic blueprint dispatchForensicUiBlueprintFal.ts:143; opus design shell runShellGeneration.ts:181; production spine gate.ts:75-90."
+    }
+  ],
+  "notChecked": [
+    "Production environment values were not inspectable: whether SITE00_CREATIVE_REASONING_FORCE_FALLBACK, EXPRESSION_ENGINE_TEST_DETERMINISTIC_CREATIVE_DIRECTOR, ANTHROPIC_API_KEY, OPENAI_API_KEY, XAI_API_KEY, FAL_KEY, SITE00_PROVIDER_EXECUTION are set on Railway determines which paths actually spend.",
+    "Whether api.site00.com sits behind any gateway/WAF/auth proxy in front of Railway (not in repo); findings assume server/index.ts is exposed directly.",
+    "Whether any deployment uses Vercel file-based routing (which would mount unrouted api/*.ts such as api/site00/vision-replication.ts); railway.toml indicates Express + server/routes.ts only.",
+    "Per-call cost recording inside characterVisualCastingService / castingFalBackgroundJob, founderCreativeFalBackgroundJob, canonical range / carousel / replay services, SolDesignBench provider usage accounting - not traced line by line.",
+    "Each individual callAnthropicForCompletion caller in api/_lib/site00Evolve (grouped as projects-evolve-anthropic-completion) and each projects.ts generation action's internal dedupe logic.",
+    "Exact number of MPMD units / multi-unit campaign units per Expression Engine GET (determines how many Anthropic calls one page view makes).",
+    "opus-native write tools / repo mutation authority (security beyond spend) and its GET diagnostics actions beyond confirming provider.ts:133 is the only fetch.",
+    "Studio World external service billing semantics.",
+    "fal.storage.upload calls (generation.ts:85, falEnsureReferenceUrls.ts:104, liveFalProvider.ts:97/166, renderPage*Job uploads, etc.) were treated as non-billable storage uploads, not generation.",
+    "Python/PowerShell scripts were checked only by grep for HTTP clients and provider names; none found calling a billable API.",
+    "Regex import graph can miss computed dynamic imports (import(variable)); call sites were found by direct grep, so this affects only route attribution.",
+    "Tests (*.test.ts, tests/) were excluded; they mostly stub providers via VITEST checks (TEST_ONLY paths not enumerated)."
+  ],
+  "summaryCountsByStatus": {
+    "CLIENT_FLAG_ONLY": 10,
+    "UNGATED": 15,
+    "EXPLICIT_UNBUDGETED": 19,
+    "DISABLED": 6,
+    "SCRIPT_ONLY": 8
+  }
+}

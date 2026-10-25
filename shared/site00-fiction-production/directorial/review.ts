@@ -162,7 +162,7 @@ export function authorizeGenerationJob(state: SceneReviewState, job: JobRequest,
   const step: AuthorizationStep = job.kind === 'KEYFRAME_IMAGE' || job.kind === 'REFERENCE_IMAGE' ? 'GENERATION_BUDGET' : 'PRODUCTION';
   if (state.steps[step].state !== 'AUTHORIZED') reasons.push(`${step} not authorized`);
   const scope = state.steps[step].scope;
-  if (step === 'PRODUCTION' && scope && !scope.includes(job.target)) reasons.push(`${job.target} is outside the authorized production scope`);
+  if (scope && !scope.includes(job.target)) reasons.push(`${job.target} is outside the authorized ${step === 'PRODUCTION' ? 'production' : 'generation budget'} scope`);
   const el = state.elements.find((e) => e.elementId === job.target);
   if (!el) reasons.push(`unknown target ${job.target}`);
   else if (el.state !== 'APPROVED') reasons.push(`${job.target} is ${el.state}`);

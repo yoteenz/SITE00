@@ -20,12 +20,12 @@ import { FfmpegFrameExtractor, FfprobeMediaProbe } from '../../shared/site00-pro
 import { jsonFileStore } from '../../shared/site00-production-spine/node/jsonStore.js';
 import { LocalPrivateMediaStore } from '../../shared/site00-production-spine/node/localMedia.js';
 import { spineProject } from '../../shared/site00-production-spine/projects/index.js';
-import { buildSh01Records, EXCHANGE_PROJECT_ID, EXCHANGE_RECORDS_DIR, SH01, sceneGateFrom } from '../../shared/site00-production-spine/projects/theExchange.js';
+import { EXCHANGE_PROJECT_ID, EXCHANGE_RECORDS_DIR, SH01, sceneGateFrom } from '../../shared/site00-production-spine/projects/theExchange.js';
 import { FakeProviderTransport, OpenArtAgentSessionTransport } from '../../shared/site00-production-spine/providers.js';
 import { ProductionRunner } from '../../shared/site00-production-spine/runner.js';
-import { TEST_FIXTURE, type Actor, type AnyRecord } from '../../shared/site00-production-spine/types.js';
+import type { Actor } from '../../shared/site00-production-spine/types.js';
 import { callHandler } from './sh01DryRun.js';
-import { makeSpineFixtureMedia, steppingClock, tempDir } from './spineFixtures.js';
+import { makeSpineFixtureMedia, seedApprovedSh01, tempDir, VIDEO_JOB } from './spineFixtures.js';
 
 const root = process.cwd();
 const BASE = process.env.TAKES_CHECK_BASE_URL ?? 'http://127.0.0.1:5191';
@@ -51,23 +51,11 @@ async function fixtureContext(workDir: string): Promise<SpineContext> {
   review = authorizeStep(authorizeStep(review, 'SCREENPLAY', FOUNDER_ACTOR, at, 'TEST'), 'DIRECTION', FOUNDER_ACTOR, at, 'TEST');
   for (const e of review.elements) if (e.state !== 'APPROVED') review = decideElement(review, e.elementId, 'APPROVED', FOUNDER_ACTOR, at, 'TEST');
   review = authorizeStep(authorizeStep(authorizeStep(review, 'KEYFRAMES', FOUNDER_ACTOR, at, 'TEST'), 'GENERATION_BUDGET', FOUNDER_ACTOR, at, 'TEST'), 'PRODUCTION', FOUNDER_ACTOR, at, 'TEST', [SH01.shotId]);
-  const clock = steppingClock('2026-10-25T14:00:00Z');
-  const runner = new ProductionRunner({ store, media: testMedia, transports: { 'OA-NBP-I2I-2K-REF': fake, 'OA-K3O-I2V-PRO': fake }, sceneGate: sceneGateFrom(review), probe: new FfprobeMediaProbe(), extractor: new FfmpegFrameExtractor(), clock: () => new Date().toISOString().replace(/\.\d{3}Z$/, 'Z') });
-  const { budget, shot, jobs } = buildSh01Records(root);
-  const mark = <T extends AnyRecord>(r: T): T => ({ ...r, fixture: TEST_FIXTURE });
-  await store.create(mark(budget));
-  await store.create(mark({ ...shot, requiredDecisions: shot.requiredDecisions.map((d) => ({ ...d, status: 'ANSWERED' as const })) }));
-  for (const j of jobs) await store.create(mark(j));
-  const ref = await testMedia.put({ projectId: EXCHANGE_PROJECT_ID, bytes: media.frame, mimeType: 'image/png' });
-  const t = clock();
-  await store.create({ kind: 'ASSET', id: 'ASSET-TEST-FIXTURE-KF-ENV-CITY-DUSK-A', projectId: EXCHANGE_PROJECT_ID, schemaVersion: 1, revision: 1, createdAt: t, updatedAt: t, createdBy: FOUNDER.id, fixture: TEST_FIXTURE, mediaType: 'IMAGE', mimeType: 'image/png', adapter: testMedia.adapter, storageRef: ref.storageRef, contentSha256: ref.sha256, byteSize: ref.byteSize, verifiedAt: t, lineage: { sourceJobId: null, sourceTakeId: null, derivedFromAssetId: null, providerOperationId: 'NOT_AVAILABLE', providerSourceHost: 'NOT_AVAILABLE' } });
-  await runner.authorizeBudget(SH01.budgetId, FOUNDER, { authorizedCredits: 255, decisionRefs: ['FD-S101-11'], note: 'TEST FIXTURE' });
-  await runner.approveReference(SH01.shotId, 'KF-ENV-CITY-DUSK-A', 'ASSET-TEST-FIXTURE-KF-ENV-CITY-DUSK-A', FOUNDER, { decisionRefs: ['FD-S101-08'], note: 'TEST FIXTURE' });
-  const videoId = `JOB-${SH01.shotId}-VIDEO-01`;
-  await runner.requestAuthorization(videoId, FOUNDER);
-  await runner.authorizeJob(videoId, FOUNDER, { maxCredits: 175, ttlSec: 900, decisionRefs: ['FD-S101-11'], note: 'TEST FIXTURE' });
-  await runner.dispatch(videoId);
-  await runner.poll(videoId);
+  const clock = () => new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
+  const runner = new ProductionRunner({ store, media: testMedia, transports: { 'OA-NBP-I2I-2K-REF': fake, 'OA-K3O-I2V-PRO': fake }, routeIds: project.routeIds, sceneGate: sceneGateFrom(review), probe: new FfprobeMediaProbe(), extractor: new FfmpegFrameExtractor(), clock });
+  await seedApprovedSh01({ store, runner, media: testMedia, clock, root, frame: media.frame, founder: FOUNDER });
+  await runner.dispatch(VIDEO_JOB, FOUNDER);
+  await runner.poll(VIDEO_JOB);
   return { store, media: testMedia, runner, refs: project.refs(root, project.providers(() => ({ execution: 'FAKE_TEST_ONLY', reason: 'test double', transportId: fake.transportId }))) };
 }
 
@@ -76,7 +64,7 @@ function liveContext(): SpineContext {
   const store = jsonFileStore(repoPath(EXCHANGE_RECORDS_DIR, root), { projectId: EXCHANGE_PROJECT_ID, live: true, readOnly: 'viewport check: read only' });
   const media = new LocalPrivateMediaStore(tempDir('site00-takes-live-'), { repoRoot: root, live: true, signer: SIGNER });
   const openart = new OpenArtAgentSessionTransport({});
-  const runner = new ProductionRunner({ store, media, transports: Object.fromEntries(project.routeIds.map((r) => [r, openart])), sceneGate: project.sceneGate(root), probe: new FfprobeMediaProbe(), clock: () => new Date().toISOString() });
+  const runner = new ProductionRunner({ store, media, transports: Object.fromEntries(project.routeIds.map((r) => [r, openart])), routeIds: project.routeIds, sceneGate: project.sceneGate(root), probe: new FfprobeMediaProbe(), clock: () => new Date().toISOString() });
   return { store, media, runner, refs: project.refs(root, project.providers(() => ({ execution: 'DISABLED', reason: openart.status().reason, transportId: openart.transportId }))) };
 }
 
@@ -129,6 +117,7 @@ async function measure(page: Page) {
       h264: document.createElement('video').canPlayType('video/mp4; codecs="avc1.42E01E"') || 'NO',
       fixtureBanner: inView(box('[data-testid="spine-fixture-banner"]')),
       panels: ['spine-shots', 'spine-take', 'spine-requirements', 'spine-history'].map((id) => ({ id, inView: inView(box(`[data-testid="${id}"]`)) })),
+      readiness: [...document.querySelectorAll('[data-testid="spine-readiness"] li')].map((li) => `${li.getAttribute('data-stage')}=${li.getAttribute('data-met')}`),
     };
   });
 }
@@ -153,18 +142,18 @@ async function main() {
       await page.screenshot({ path: path.join(outDir, `takes-fixture-${vp.name}.png`) });
       if (vp.name === 'mobile-390') {
         await page.getByTestId('spine-take-hold').tap();
-        await page.getByText('HELD', { exact: true }).first().waitFor();
+        await page.getByTestId('spine-take-facts').getByText('HELD', { exact: true }).waitFor();
         interactions.push(`390 touch: HOLD → disk ${takeOnDisk(workDir).decision}`);
       }
       if (vp.name === 'desktop-1440') {
         await page.getByTestId('spine-take-approve').focus();
         await page.keyboard.press('Enter');
-        await page.getByText('APPROVED', { exact: true }).first().waitFor();
+        await page.getByTestId('spine-take-facts').getByText('APPROVED', { exact: true }).waitFor();
         interactions.push(`1440 keyboard: APPROVE → disk ${takeOnDisk(workDir).decision}`);
       }
       if (vp.name === 'ultrawide-2560') {
         await page.getByTestId('spine-take-select-for-edit').click();
-        await page.getByText('SELECTED FOR EDIT', { exact: true }).first().waitFor();
+        await page.getByTestId('spine-take-facts').getByText('SELECTED FOR EDIT', { exact: true }).waitFor();
         const t = takeOnDisk(workDir);
         interactions.push(`2560 click: SELECT FOR EDIT → disk selectedForEdit=${t.selectedForEdit}, ${t.approvalIds.length} approvals`);
         await page.screenshot({ path: path.join(outDir, `takes-fixture-${vp.name}-selected.png`) });
@@ -197,6 +186,7 @@ async function main() {
     if (!r.navVisible) failures.push(`${name}: bottom nav hidden`);
     if (r.roundButtons) failures.push(`${name}: ${r.roundButtons} circular buttons`);
     if (r.buttons.some((b) => !b.inView)) failures.push(`${name}: a decision control is off screen`);
+    if (r.readiness.length !== 6) failures.push(`${name}: readiness shows ${r.readiness.length} stages, not 6`);
     if (!name.startsWith('live') && (!r.video?.insidePanel || !r.video.inView)) failures.push(`${name}: video preview does not fit its panel`);
     if (!name.startsWith('live') && !r.fixtureBanner) failures.push(`${name}: test-fixture label not visible`);
     if (!r.shotRowInView) failures.push(`${name}: shot row not visible`);

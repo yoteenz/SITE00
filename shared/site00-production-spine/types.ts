@@ -43,7 +43,11 @@ export type SourceRef = { path: string; recordId: string; sha256: string | null 
 
 /* ── actors ─────────────────────────────────────────────────────────────────────────────────────────── */
 
-export type ActorRole = 'FOUNDER' | 'REVIEWER' | 'SYSTEM';
+/** Roles a person holds on one project (site00_spine_members). The founder holds FOUNDER on every spine project. */
+export const PROJECT_ROLES = ['FOUNDER', 'PRODUCTION_ADMIN', 'AUTHORIZED_EDITOR', 'REVIEWER', 'READ_ONLY'] as const;
+export type ProjectRole = (typeof PROJECT_ROLES)[number];
+/** SYSTEM is the runner itself: it moves jobs through execution and decides nothing. */
+export type ActorRole = ProjectRole | 'SYSTEM';
 export type Actor = { id: string; role: ActorRole };
 
 /* ── references (resolved, never stored) ──────────────────────────────────────────────────────────── */
@@ -116,6 +120,8 @@ export const JOB_STATES = [
   'AUTHORIZED',
   'QUEUED',
   'RUNNING',
+  /** The provider may or may not have the request (timeout, lost response, restart mid-call). Nothing is resent. */
+  'RECONCILIATION_REQUIRED',
   'SUCCEEDED',
   'FAILED',
   'CANCELED',
@@ -132,7 +138,20 @@ export type JobInput = { role: 'START_FRAME' | 'END_FRAME' | 'REFERENCE'; refere
 
 export type JobTransition = { from: JobState; to: JobState; at: string; actor: string; reason: string; evidence: Record<string, string> };
 export type JobError = { at: string; code: string; message: string };
-export type JobAttempt = { attempt: number; authorizationId: string | null; ticketId: string | null; operationId: Unknowable<string>; outcome: 'OPEN' | 'SUCCEEDED' | 'FAILED' | 'CANCELED'; chargedCredits: Unknowable<number> };
+/**
+ * One hand-over to a provider. UNCERTAIN: the request may have reached the provider; the attempt stays open to
+ * reconciliation and no new attempt can start. quotedCredits is the quote the ticket was issued against.
+ */
+export type AttemptOutcome = 'OPEN' | 'UNCERTAIN' | 'SUCCEEDED' | 'FAILED' | 'CANCELED';
+export type JobAttempt = {
+  attempt: number;
+  authorizationId: string | null;
+  ticketId: string | null;
+  operationId: Unknowable<string>;
+  outcome: AttemptOutcome;
+  quotedCredits: number | null;
+  chargedCredits: Unknowable<number>;
+};
 
 export type GenerationJobRecord = RecordBase<'GENERATION_JOB'> & {
   releaseId: string;
@@ -189,7 +208,10 @@ export type TakeRecord = RecordBase<'TAKE'> & {
   audioPresent: Unknowable<boolean>;
   provider: string;
   model: string;
-  continuity: { status: ContinuityStatus; approvalId: string | null };
+  /** The shot's planned on-screen duration: how much of this take the edit is expected to use. */
+  intendedEditSec: number | null;
+  /** findings: what the latest continuity review recorded, in the reviewer's words. */
+  continuity: { status: ContinuityStatus; approvalId: string | null; findings: string[] };
   decision: TakeDecisionState;
   selectedForEdit: boolean;
   approvalIds: string[];
@@ -226,15 +248,24 @@ export type ApprovalRecord = RecordBase<'APPROVAL'> & {
   actor: string;
   actorRole: ActorRole;
   at: string;
+  /** The subject's state before and after this decision (job status, take decision, budget status, …). */
+  previousState: string | null;
+  newState: string | null;
+  /** The subject version decided on: `<KIND>/<id>@r<revision>`. One decision per subject version. */
+  sourceVersion: string;
   note: string | null;
   /** Founder decisions (FD-…) this approval answers or relies on. */
   decisionRefs: string[];
   supersedes: string | null;
-  /** GENERATION_AUTHORIZATION only. */
+  /** GENERATION_AUTHORIZATION only: the exact request, quote, ceiling, route, scope and expiry it covers. */
   inputHash?: string;
+  quotedCredits?: number;
   maxCredits?: number;
   expiresAt?: string;
   budgetId?: string;
+  routeId?: string;
+  scope?: 'ONE_JOB_ONE_ATTEMPT';
+  purpose?: string;
   /** BUDGET_AUTHORIZATION only. */
   authorizedCredits?: number;
 };

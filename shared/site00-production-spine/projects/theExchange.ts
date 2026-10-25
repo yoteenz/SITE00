@@ -247,7 +247,8 @@ export function buildSh01Records(root = process.cwd()): { budget: BudgetRecord; 
  */
 export function sceneGateFrom(review: SceneReviewState) {
   return (job: GenerationJobRecord, shot: ShotRecord): SceneGateResult => {
-    const d = authorizeGenerationJob(review, { jobId: job.id, kind: job.jobKind === 'VIDEO_I2V' ? 'VIDEO_I2V' : 'REFERENCE_IMAGE', target: job.producesReferenceId ?? shot.shotId, estimatedCredits: job.quotedCost.credits ?? 0, routeExecutable: true }, Number.MAX_SAFE_INTEGER, 0);
+    // Budget and price are the spend gate's: an unknown quote stays unknown here too (never counted as zero).
+    const d = authorizeGenerationJob(review, { jobId: job.id, kind: job.jobKind === 'VIDEO_I2V' ? 'VIDEO_I2V' : 'REFERENCE_IMAGE', target: job.producesReferenceId ?? shot.shotId, estimatedCredits: job.quotedCost.credits, routeExecutable: true }, Number.MAX_SAFE_INTEGER, 0);
     return { valid: d.allowed, reasons: d.reasons };
   };
 }
