@@ -1,0 +1,2050 @@
+{
+  "graphId": "THE-EXCHANGE.S1.LIVING-WORLD-AUDIT.DEPENDENCY-GRAPH.V1",
+  "auditId": "THE-EXCHANGE.S1.LIVING-WORLD-AUDIT.V1",
+  "classification": "NEW_PROPOSAL — NOT CANON",
+  "note": "Nodes are proposals, open founder decisions, existing systems and invention candidates. An APPROVE or REVISE proposal never depends on a HOLD or REJECT one (validator DEPENDENCIES).",
+  "nodes": {
+    "proposals": [
+      {
+        "id": "T-01",
+        "title": "The last Relay blanks in Celestine's hand",
+        "type": "TECHNOLOGY",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "HIGH",
+        "placement": "S1-86",
+        "releases": [
+          "S1-86",
+          "S1-15",
+          "S1-34"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "LOW",
+          "note": "Must match S1-15 and S1-34 exactly. If the S1-15 effect changes at screenplay stage, this follows it."
+        },
+        "canonImpact": "None. Fills an unspecified visual in an APPROVED_DEVELOPMENT_DIRECTION release with behaviour the season already established.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "T-02",
+        "title": "Four Relay rules, written down before S1-34 and S1-86 are drafted",
+        "type": "TECHNOLOGY",
+        "category": "C",
+        "auditRecommendation": "APPROVE",
+        "strength": "HIGH",
+        "placement": "S1-15",
+        "releases": [
+          "S1-15",
+          "S1-34",
+          "S1-86"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "LOW",
+          "note": "A season rule, so it binds every later use. It removes nothing that is on the page."
+        },
+        "canonImpact": "Adds four rules to the season bible. No release text changes; S1-15, S1-34 and S1-86 already comply.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "T-03",
+        "title": "The Echo Track goes dark where the 1985 camera looked away",
+        "type": "TECHNOLOGY",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "MEDIUM",
+        "placement": "S1-40",
+        "releases": [
+          "S1-40"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "LOW",
+          "note": "Keep it out of the race itself so it does not compete with Zuri passing the line."
+        },
+        "canonImpact": "None. Specifies how an existing device behaves at its documented limit.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "T-05",
+        "title": "The pliers girl runs out past lights like hers",
+        "type": "TECHNOLOGY",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "MEDIUM",
+        "placement": "S1-22",
+        "releases": [
+          "S1-22",
+          "S1-30"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "MEDIUM",
+          "note": "\"Public housing\" appears only in the writers'-room truth document (NONCANONICAL. PROPOSED — NOT APPROVED.). If the founder has not approved that detail, keep the stairwell lights generic and do not label the building."
+        },
+        "canonImpact": "Puts a truth-document detail on screen as set dressing. Requires the founder to accept that detail or to keep it unlabelled.",
+        "citesTruthDocument": true,
+        "touchesS101": false
+      },
+      {
+        "id": "T-06",
+        "title": "The Halo at home on Grand Exchange morning",
+        "type": "TECHNOLOGY",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "MEDIUM",
+        "placement": "S1-68",
+        "releases": [
+          "S1-68",
+          "S1-62"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "LOW",
+          "note": "Hair for the Grand Exchange is part of the U-4 wardrobe question. The Halo must not suggest the final look."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "T-07",
+        "title": "Kids playing copper tag at the market",
+        "type": "TECHNOLOGY",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "MEDIUM",
+        "placement": "S1-51",
+        "releases": [
+          "S1-51"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "LOW",
+          "note": "Must read as a game about saying no, not as children surveilling adults."
+        },
+        "canonImpact": "None. Uses the Ember as defined in S1-01.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "T-08",
+        "title": "Kai's Threshold credential dulls after midnight",
+        "type": "TECHNOLOGY",
+        "category": "A",
+        "auditRecommendation": "HOLD",
+        "strength": "LOW",
+        "placement": "S1-79",
+        "releases": [
+          "S1-79",
+          "S1-61"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "MEDIUM",
+          "note": "A new prop in a release about acknowledgment. It could read as a gadget doing the emotional work. Held for that reason."
+        },
+        "canonImpact": "Gives the Threshold a physical form. Depends on the Threshold scope rule (T-13).",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "T-09",
+        "title": "The brass key is a keepsake; the door knows the list",
+        "type": "TECHNOLOGY",
+        "category": "C",
+        "auditRecommendation": "APPROVE",
+        "strength": "MEDIUM",
+        "placement": "S1-69",
+        "releases": [
+          "S1-69",
+          "S1-07",
+          "S1-72"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "LOW",
+          "note": "A rule only. It closes a plot hole (a stolen key) before a later season opens it by accident."
+        },
+        "canonImpact": "Adds a rule to the season bible. S1-69 and S1-72 already comply.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "T-10",
+        "title": "The Ember stops capture, not memory",
+        "type": "TECHNOLOGY",
+        "category": "C",
+        "auditRecommendation": "APPROVE",
+        "strength": "HIGH",
+        "placement": "S1-75",
+        "releases": [
+          "S1-75",
+          "S1-43",
+          "S1-54"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "LOW",
+          "note": "A rule that S1-28 to S1-55 already obey. Writing it down protects the midpoint."
+        },
+        "canonImpact": "Adds a rule to the season bible. No release changes.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "T-11",
+        "title": "A ladder for gold: hand, room, city",
+        "type": "TECHNOLOGY",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "HIGH",
+        "placement": "S1-30",
+        "releases": [
+          "S1-30",
+          "S1-22",
+          "S1-75",
+          "S1-77",
+          "S1-82"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "LOW",
+          "note": "A reading rule. Production must keep pre-S1-77 gold small and local."
+        },
+        "canonImpact": "None. Clarifies a discrepancy between a NONCANONICAL document and the master in the master's favour.",
+        "citesTruthDocument": true,
+        "touchesS101": false
+      },
+      {
+        "id": "T-12",
+        "title": "The lantern that flickered at rigging flickers again before the failure",
+        "type": "TECHNOLOGY",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "HIGH",
+        "placement": "S1-76",
+        "releases": [
+          "S1-76",
+          "S1-59"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "NONE",
+          "note": "Implies no new conspiracy: the old keys were always there (S1-76)."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "T-13",
+        "title": "What the Threshold covers",
+        "type": "TECHNOLOGY",
+        "category": "C",
+        "auditRecommendation": "APPROVE",
+        "strength": "MEDIUM",
+        "placement": "S1-61",
+        "releases": [
+          "S1-61",
+          "S1-63",
+          "S1-67",
+          "S1-77",
+          "S1-79"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "LOW",
+          "note": "Honora agreed to \"one night\" in S1-63. The rule must not make her look misled: the purpose was in the request she read."
+        },
+        "canonImpact": "Clarifies an APPROVED_DEVELOPMENT_DIRECTION term. No release changes.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "T-14",
+        "title": "A Veil at the Okafor cookout",
+        "type": "TECHNOLOGY",
+        "category": "E",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-64",
+        "releases": [
+          "S1-64"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "HIGH",
+          "note": "Replaces the family's discretion with a device."
+        },
+        "canonImpact": "Would contradict the release's stated value.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "T-15",
+        "title": "Name the Constellation at the midpoint",
+        "type": "TECHNOLOGY",
+        "category": "E",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-43",
+        "releases": [
+          "S1-43"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "MEDIUM",
+          "note": "Adds a term and a lecture to the season's best dialogue scene."
+        },
+        "canonImpact": "Would name a WORKING_CONCEPT on screen.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "T-16",
+        "title": "An Interval message from Vivienne",
+        "type": "TECHNOLOGY",
+        "category": "E",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-86",
+        "releases": [
+          "S1-86"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "HIGH",
+          "note": "Gives the dead a voice the master deliberately withholds."
+        },
+        "canonImpact": "Would contradict the release and the Interval's limit.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "T-17",
+        "title": "An Echo dance floor at the Crescent Room",
+        "type": "TECHNOLOGY",
+        "category": "E",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-20",
+        "releases": [
+          "S1-20",
+          "S1-09"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "HIGH",
+          "note": "There is no footage of a room where phones stay down."
+        },
+        "canonImpact": "Would break the Echo Archive's hard limit.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "T-18",
+        "title": "Replay the garage from an archive",
+        "type": "TECHNOLOGY",
+        "category": "E",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-58",
+        "releases": [
+          "S1-58"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "HIGH",
+          "note": "Nobody recorded the garage."
+        },
+        "canonImpact": "Would contradict the release setting and the Echo Archive's limit.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "T-19",
+        "title": "A soil sensor for the fern",
+        "type": "TECHNOLOGY",
+        "category": "E",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-84",
+        "releases": [
+          "S1-84"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "HIGH",
+          "note": "Removes the season's running joke and its payoff."
+        },
+        "canonImpact": "Would change what the payoff means.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "T-20",
+        "title": "A smart dance card",
+        "type": "TECHNOLOGY",
+        "category": "E",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-20",
+        "releases": [
+          "S1-20"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "HIGH",
+          "note": "A partner log at a private party."
+        },
+        "canonImpact": "Would put tracking into Mavis's room.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "T-21",
+        "title": "The photo booth prints the uninvited in copper",
+        "type": "TECHNOLOGY",
+        "category": "A",
+        "auditRecommendation": "HOLD",
+        "strength": "HOLD",
+        "placement": "S1-20",
+        "releases": [
+          "S1-20"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "MEDIUM",
+          "note": "S1-20 is dense and is a period room. A modern booth behaviour could read as anachronism."
+        },
+        "canonImpact": "None, but the booth must be decided as period or modern first.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "F-01",
+        "title": "The fruit truck, heard and not seen",
+        "type": "SENSORY_FLASHBACK",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "HIGH",
+        "placement": "S1-12",
+        "releases": [
+          "S1-12",
+          "S1-20"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "LOW",
+          "note": "The wife in the truck is Vivienne. She must not be heard: her voice belongs to nobody in Season 1."
+        },
+        "canonImpact": "None. Adds a sound bed to a stated fact and specifies which slow song S1-20 plays.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "F-02",
+        "title": "A rail rhythm under the dining-car menu",
+        "type": "SENSORY_FLASHBACK",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "MEDIUM",
+        "placement": "S1-73",
+        "releases": [
+          "S1-73",
+          "S1-16"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "NONE",
+          "note": "The film's voice only. It claims no memory: the master never says Clementine rode the dining car."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "F-03",
+        "title": "The skirt opens into the shape of the 1981 pencil line",
+        "type": "SENSORY_FLASHBACK",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "HIGH",
+        "placement": "S1-70",
+        "releases": [
+          "S1-70",
+          "S1-25",
+          "S1-74"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "NONE",
+          "note": "Depends on the gown design (U-4), which must honour the sketch it is matched to."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "F-04",
+        "title": "Dee hears 1985; the Echo Track stays silent",
+        "type": "SENSORY_FLASHBACK",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "HIGH",
+        "placement": "S1-37",
+        "releases": [
+          "S1-37",
+          "S1-40"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "LOW",
+          "note": "Decides an open Echo Track spec (whether the archive carries sound) in favour of silence. That decision should go into the U-5 dossier."
+        },
+        "canonImpact": "None to canon. Settles one unresolved device spec.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "F-05",
+        "title": "Plant Yaz's real laugh so the audience knows it in the Hush",
+        "type": "SENSORY_FLASHBACK",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "HIGH",
+        "placement": "S1-33",
+        "releases": [
+          "S1-33",
+          "S1-50"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "NONE",
+          "note": "Requires the same performer and the same laugh in both releases."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "F-06",
+        "title": "The garage, told honestly: a needle drop, a doorway, and objects for what Richard did not see",
+        "type": "SENSORY_FLASHBACK",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "HIGH",
+        "placement": "S1-58",
+        "releases": [
+          "S1-58",
+          "S1-57"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "LOW",
+          "note": "The newspaper and letter must not carry legible text that adds facts beyond KF-06."
+        },
+        "canonImpact": "None. A grammar for a release the master already defines as a recollection.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "F-07",
+        "title": "Celestine's flash is the dancer's version, with the hum of the first gold light",
+        "type": "SENSORY_FLASHBACK",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "HIGH",
+        "placement": "S1-77",
+        "releases": [
+          "S1-77",
+          "S1-58",
+          "S1-59"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "NONE",
+          "note": "Reuses S1-58 assets, so the face locks (FD-18) are already required."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "F-08",
+        "title": "The year's ledger, read by ear",
+        "type": "SENSORY_FLASHBACK",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "MEDIUM",
+        "placement": "S1-83",
+        "releases": [
+          "S1-83",
+          "S1-20",
+          "S1-34",
+          "S1-40",
+          "S1-47",
+          "S1-51"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "LOW",
+          "note": "Keep each sound under a second; it must not become a montage."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "F-09",
+        "title": "Young Vivienne eating dessert first, in the pilot",
+        "type": "SENSORY_FLASHBACK",
+        "category": "E",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-02",
+        "releases": [
+          "S1-02"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "HIGH",
+          "note": "Spends a reveal the season saves for S1-16 and S1-78."
+        },
+        "canonImpact": "Would move a reveal.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "F-10",
+        "title": "Young Nadine being told last",
+        "type": "SENSORY_FLASHBACK",
+        "category": "E",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-31",
+        "releases": [
+          "S1-31"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "MEDIUM",
+          "note": "Illustrates a line that works because it is not illustrated."
+        },
+        "canonImpact": "None to canon; changes the scene's method.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "F-11",
+        "title": "The pavilion, the night Kai built it",
+        "type": "SENSORY_FLASHBACK",
+        "category": "E",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-13",
+        "releases": [
+          "S1-13"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "HIGH",
+          "note": "Shows the room whose attendance exposed forty guests."
+        },
+        "canonImpact": "Would put a writers'-room fact on screen and show harmed guests.",
+        "citesTruthDocument": true,
+        "touchesS101": false
+      },
+      {
+        "id": "F-12",
+        "title": "Honora's exposure, shown",
+        "type": "SENSORY_FLASHBACK",
+        "category": "E",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-36",
+        "releases": [
+          "S1-36"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "HIGH",
+          "note": "Takes her account away from her."
+        },
+        "canonImpact": "Would change who tells the harm.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "F-13",
+        "title": "The studio visit, nineteen days before",
+        "type": "SENSORY_FLASHBACK",
+        "category": "E",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-78",
+        "releases": [
+          "S1-78"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "HIGH",
+          "note": "Shows what Celestine refuses to tell."
+        },
+        "canonImpact": "Would contradict the release and the writers'-room plan.",
+        "citesTruthDocument": true,
+        "touchesS101": false
+      },
+      {
+        "id": "F-14",
+        "title": "Vivienne reads her letter aloud",
+        "type": "SENSORY_FLASHBACK",
+        "category": "E",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-86",
+        "releases": [
+          "S1-86"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "HIGH",
+          "note": "A performance interprets an open question (U-1)."
+        },
+        "canonImpact": "Would give the dead a voice.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "F-15",
+        "title": "Richard's ridiculous story, held for Season 2",
+        "type": "SENSORY_FLASHBACK",
+        "category": "D",
+        "auditRecommendation": "HOLD",
+        "strength": "HOLD",
+        "placement": "S1-80",
+        "releases": [
+          "S1-80"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "NONE",
+          "note": "No Season 1 effect."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "F-16",
+        "title": "Gideon's years as Richard's right hand, held for Season 2",
+        "type": "SENSORY_FLASHBACK",
+        "category": "D",
+        "auditRecommendation": "HOLD",
+        "strength": "HOLD",
+        "placement": "S1-85",
+        "releases": [
+          "S1-85",
+          "S1-03"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "NONE",
+          "note": "No Season 1 effect."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "F-17",
+        "title": "Sloane's years learning the house from her mother, held for Season 2",
+        "type": "SENSORY_FLASHBACK",
+        "category": "D",
+        "auditRecommendation": "HOLD",
+        "strength": "HOLD",
+        "placement": "S1-08",
+        "releases": [
+          "S1-08"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "MEDIUM",
+          "note": "Any living Vivienne scene touches her private truth."
+        },
+        "canonImpact": "None in Season 1.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "F-18",
+        "title": "The fruit truck, shown",
+        "type": "SENSORY_FLASHBACK",
+        "category": "E",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-20",
+        "releases": [
+          "S1-20"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "MEDIUM",
+          "note": "New period vehicle, new faces, and a picture of Vivienne in labour."
+        },
+        "canonImpact": "Would put Vivienne on screen outside the two approved flashbacks.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "F-19",
+        "title": "Noelle writes down two bars of Clarence's trumpet",
+        "type": "SENSORY_FLASHBACK",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "HIGH",
+        "placement": "S1-20",
+        "releases": [
+          "S1-20",
+          "S1-35",
+          "S1-74",
+          "S1-82"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "LOW",
+          "note": "Must read as a quotation, the way jazz musicians quote each other, not as copying. Her song is still hers."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "F-20",
+        "title": "Eight seconds of young Kai at Celestine's door",
+        "type": "SENSORY_FLASHBACK",
+        "category": "B",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-56",
+        "releases": [
+          "S1-56"
+        ],
+        "runtimeSec": 8,
+        "risk": {
+          "level": "MEDIUM",
+          "note": "A new face lock (Kai at 24) and eight seconds in a release whose power is Sloane reading her mother's phrasing."
+        },
+        "canonImpact": "None to canon; adds runtime and a third visual flashback.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "R-01",
+        "title": "The grandmother from the fire escape is the grandmother on the bench",
+        "type": "AMBIENT_RETURN",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "HIGH",
+        "placement": "S1-59",
+        "releases": [
+          "S1-59",
+          "S1-01"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "LOW",
+          "note": "Needs the S1-01 face to be kept as a reference, which FD-S101-06 currently does not plan."
+        },
+        "canonImpact": "None. Uses an existing master line; no name, history or new dialogue.",
+        "citesTruthDocument": false,
+        "touchesS101": true
+      },
+      {
+        "id": "R-02",
+        "title": "The jewel-green dress gets its date, on the far bank",
+        "type": "VISUAL_EASTER_EGG",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "HIGH",
+        "placement": "S1-77",
+        "releases": [
+          "S1-77",
+          "S1-01"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "MEDIUM",
+          "note": "It must not imply that S1-01's \"date\" was the Grand Exchange, which is ninety-two days away. Her date tonight is her own business; this is simply a later night out in the same dress."
+        },
+        "canonImpact": "None. The far bank already exists; this directs one person in it.",
+        "citesTruthDocument": false,
+        "touchesS101": true
+      },
+      {
+        "id": "R-03",
+        "title": "The tailor on the far bank, in a suit he made",
+        "type": "AMBIENT_RETURN",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "HIGH",
+        "placement": "S1-77",
+        "releases": [
+          "S1-77",
+          "S1-01"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "LOW",
+          "note": "Whether he is Wendell Ames is open (FD-S101-07, recommendation \"No for now\"). Orange, a sign or a look at Sloane would answer it by accident."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": true
+      },
+      {
+        "id": "R-04",
+        "title": "The teenager lands his step with the drumline",
+        "type": "AMBIENT_RETURN",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "HIGH",
+        "placement": "S1-51",
+        "releases": [
+          "S1-51",
+          "S1-01"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "LOW",
+          "note": "Keep him away from Sloane's ending beat so the two do not read as connected."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": true
+      },
+      {
+        "id": "R-05",
+        "title": "The girl with Kai's pliers asks what the lanterns are for",
+        "type": "AMBIENT_RETURN",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "MEDIUM",
+        "placement": "S1-59",
+        "releases": [
+          "S1-59",
+          "S1-22"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "NONE",
+          "note": "She does not speak beyond the kids' existing question."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "R-06",
+        "title": "The same three Aldridge night nurses",
+        "type": "AMBIENT_RETURN",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "HIGH",
+        "placement": "S1-40",
+        "releases": [
+          "S1-40",
+          "S1-18",
+          "S1-33"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "LOW",
+          "note": "Their S1-40 invitation is a proposal: Sloane, as host, invites the night shift that helped her. The master does not say so."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "R-07",
+        "title": "The nurses hear Tad and Yaz agree",
+        "type": "AMBIENT_RETURN",
+        "category": "B",
+        "auditRecommendation": "REVISE",
+        "strength": "MEDIUM",
+        "placement": "S1-81",
+        "releases": [
+          "S1-81",
+          "S1-33"
+        ],
+        "runtimeSec": 2,
+        "risk": {
+          "level": "LOW",
+          "note": "Adds two seconds to a 1:15 release."
+        },
+        "canonImpact": "None to canon; adds runtime.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "R-08",
+        "title": "One courier, three deliveries",
+        "type": "AMBIENT_RETURN",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "MEDIUM",
+        "placement": "S1-69",
+        "releases": [
+          "S1-69",
+          "S1-11",
+          "S1-17"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "NONE",
+          "note": "She is staff doing her job."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "R-09",
+        "title": "The honey seller dances at the Crescent Room",
+        "type": "AMBIENT_RETURN",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "MEDIUM",
+        "placement": "S1-20",
+        "releases": [
+          "S1-20",
+          "S1-12",
+          "S1-51"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "NONE",
+          "note": "His S1-20 presence is covered by Mavis's guest list."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "R-10",
+        "title": "Gideon's barber in a pillbox hat",
+        "type": "AMBIENT_RETURN",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "MEDIUM",
+        "placement": "S1-51",
+        "releases": [
+          "S1-51",
+          "S1-45",
+          "S1-69"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "LOW",
+          "note": "Showing him with a key would imply an invitation the master never gives."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "R-11",
+        "title": "The balcony woman at the Grand Exchange",
+        "type": "AMBIENT_RETURN",
+        "category": "E",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-72",
+        "releases": [
+          "S1-72",
+          "S1-01"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "MEDIUM",
+          "note": "Turns the season's thesis image into a person with a connection."
+        },
+        "canonImpact": "Would imply an invitation and a history.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "R-12",
+        "title": "The neighbour photographs the gold",
+        "type": "VISUAL_EASTER_EGG",
+        "category": "A",
+        "auditRecommendation": "HOLD",
+        "strength": "HOLD",
+        "placement": "S1-77",
+        "releases": [
+          "S1-77",
+          "S1-01"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "MEDIUM",
+          "note": "Very neat. With R-02 and R-03 it would make three S1-01 returns in one beat. Choose it instead of R-03, not as well."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": true
+      },
+      {
+        "id": "R-13",
+        "title": "The balcony woman and the neighbour become a couple",
+        "type": "AMBIENT_RETURN",
+        "category": "E",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-81",
+        "releases": [
+          "S1-81",
+          "S1-01"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "HIGH",
+          "note": "Rewrites a consent moment as a meet-cute."
+        },
+        "canonImpact": "Would change what S1-01 means.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "R-14",
+        "title": "The S1-69 teenager is the S1-01 teenager",
+        "type": "AMBIENT_RETURN",
+        "category": "A",
+        "auditRecommendation": "HOLD",
+        "strength": "HOLD",
+        "placement": "S1-69",
+        "releases": [
+          "S1-69",
+          "S1-01"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "MEDIUM",
+          "note": "Implies his grandfather holds a key, which gives an S1-01 inhabitant an invited family. R-04 already returns him."
+        },
+        "canonImpact": "Implies an invitation for an unnamed family.",
+        "citesTruthDocument": false,
+        "touchesS101": true
+      },
+      {
+        "id": "R-15",
+        "title": "One church for everyone",
+        "type": "SOCIAL_WORLDBUILDING",
+        "category": "E",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-20",
+        "releases": [
+          "S1-20",
+          "S1-15",
+          "S1-18"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "MEDIUM",
+          "note": "Shrinks the city."
+        },
+        "canonImpact": "Would merge communities the master keeps separate.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "R-16",
+        "title": "Imara and Bea are friends",
+        "type": "SOCIAL_WORLDBUILDING",
+        "category": "E",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-42",
+        "releases": [
+          "S1-42",
+          "S1-07"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "MEDIUM",
+          "note": "Ties Emmett to the family through a child, while his identity is open (U-3)."
+        },
+        "canonImpact": "Would tie Emmett to the plot.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "R-17",
+        "title": "The Vandyne coat comes back",
+        "type": "VISUAL_EASTER_EGG",
+        "category": "D",
+        "auditRecommendation": "HOLD",
+        "strength": "HOLD",
+        "placement": "S1-19",
+        "releases": [
+          "S1-19",
+          "S1-83"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "NONE",
+          "note": "No Season 1 effect."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "R-18",
+        "title": "Femi's kitchen crew, from the alley to the Sunday supper",
+        "type": "AMBIENT_RETURN",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "MEDIUM",
+        "placement": "S1-73",
+        "releases": [
+          "S1-73",
+          "S1-17",
+          "S1-82"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "NONE",
+          "note": "Staff in their own workplace."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "S-01",
+        "title": "Hold longer on the green dress in the S1-01 rise",
+        "type": "VISUAL_EASTER_EGG",
+        "category": "E",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-01",
+        "releases": [
+          "S1-01"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "MEDIUM",
+          "note": "Changes a packet in founder review for a plant that already works."
+        },
+        "canonImpact": "None to canon; changes packet timing.",
+        "citesTruthDocument": false,
+        "touchesS101": true
+      },
+      {
+        "id": "S-02",
+        "title": "Fix the teenager's step as four counts",
+        "type": "VISUAL_EASTER_EGG",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "MEDIUM",
+        "placement": "S1-01",
+        "releases": [
+          "S1-01",
+          "S1-51"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "NONE",
+          "note": "No change to shot count, timing or framing."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": true
+      },
+      {
+        "id": "C-01",
+        "title": "The S1-01 tailor is Wendell Ames",
+        "type": "AMBIENT_RETURN",
+        "category": "C",
+        "auditRecommendation": "HOLD",
+        "strength": "HOLD",
+        "placement": "S1-01",
+        "releases": [
+          "S1-01",
+          "S1-06",
+          "S1-72"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "MEDIUM",
+          "note": "Makes him a recurring character whose identity reference must exist before S1-01 frames are generated, and puts Ferry Street on screen in the first 45 seconds."
+        },
+        "canonImpact": "Changes how a named character is introduced.",
+        "citesTruthDocument": false,
+        "touchesS101": true
+      },
+      {
+        "id": "V-01",
+        "title": "The Hush rooftop stands over the S1-01 street",
+        "type": "VISUAL_EASTER_EGG",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "HIGH",
+        "placement": "S1-50",
+        "releases": [
+          "S1-50",
+          "S1-01"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "NONE",
+          "note": "Must not show the balcony woman or imply anyone from S1-01 is at the party."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "V-02",
+        "title": "The Gold State notice goes up in the S1-01 bus shelter",
+        "type": "VISUAL_EASTER_EGG",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "MEDIUM",
+        "placement": "S1-82",
+        "releases": [
+          "S1-82",
+          "S1-01"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "NONE",
+          "note": "The notice must still not mention the Ember's origin (S1-82 beat 5)."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "V-03",
+        "title": "The purple cartwheel hat on the morning after",
+        "type": "VISUAL_EASTER_EGG",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "MEDIUM",
+        "placement": "S1-81",
+        "releases": [
+          "S1-81",
+          "S1-51"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "NONE",
+          "note": "Background only."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "V-05",
+        "title": "The S1-73 menu card on the Sunday supper wall",
+        "type": "VISUAL_EASTER_EGG",
+        "category": "A",
+        "auditRecommendation": "HOLD",
+        "strength": "LOW",
+        "placement": "S1-82",
+        "releases": [
+          "S1-82",
+          "S1-73"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "NONE",
+          "note": "Easy to miss; that is fine."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "V-07",
+        "title": "Copper wax: every seal holds until Celestine breaks one",
+        "type": "VISUAL_EASTER_EGG",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "HIGH",
+        "placement": "S1-86",
+        "releases": [
+          "S1-86",
+          "S1-07",
+          "S1-11",
+          "S1-17",
+          "S1-57",
+          "S1-78"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "LOW",
+          "note": "Every Exchange envelope in every release must match. One mismatch breaks it."
+        },
+        "canonImpact": "None. Extends a prop rule the master states in S1-17.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "V-12",
+        "title": "The bus in S1-01 is the Number 9",
+        "type": "VISUAL_EASTER_EGG",
+        "category": "E",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-01",
+        "releases": [
+          "S1-01",
+          "S1-15"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "MEDIUM",
+          "note": "Adds a vehicle to a packet in founder review."
+        },
+        "canonImpact": "None to canon; changes packet content.",
+        "citesTruthDocument": false,
+        "touchesS101": true
+      },
+      {
+        "id": "W-01",
+        "title": "The far bank is the city's own party",
+        "type": "SOCIAL_WORLDBUILDING",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "HIGH",
+        "placement": "S1-77",
+        "releases": [
+          "S1-77",
+          "S1-81"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "NONE",
+          "note": "Direction only."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "W-03",
+        "title": "A Ferry Street continuity sheet",
+        "type": "SOCIAL_WORLDBUILDING",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "MEDIUM",
+        "placement": "S1-51",
+        "releases": [
+          "S1-51",
+          "S1-06",
+          "S1-15",
+          "S1-34",
+          "S1-59"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "NONE",
+          "note": "A planning document."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "W-06",
+        "title": "A school corridor humming Noelle's song",
+        "type": "SOCIAL_WORLDBUILDING",
+        "category": "B",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-82",
+        "releases": [
+          "S1-82"
+        ],
+        "runtimeSec": 4,
+        "risk": {
+          "level": "LOW",
+          "note": "A new location for four seconds."
+        },
+        "canonImpact": "None to canon; adds runtime and a location.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "W-08",
+        "title": "The door greets guests by name before anyone shows a key",
+        "type": "SOCIAL_WORLDBUILDING",
+        "category": "A",
+        "auditRecommendation": "APPROVE",
+        "strength": "MEDIUM",
+        "placement": "S1-72",
+        "releases": [
+          "S1-72",
+          "S1-69"
+        ],
+        "runtimeSec": 0,
+        "risk": {
+          "level": "NONE",
+          "note": "Depends on T-09."
+        },
+        "canonImpact": "None.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      },
+      {
+        "id": "W-09",
+        "title": "A joy-only Night in the long gap",
+        "type": "SOCIAL_WORLDBUILDING",
+        "category": "B",
+        "auditRecommendation": "REJECT",
+        "strength": "NOT_RECOMMENDED",
+        "placement": "S1-62",
+        "releases": [
+          "S1-62",
+          "S1-63"
+        ],
+        "runtimeSec": 90,
+        "risk": {
+          "level": "HIGH",
+          "note": "Breaks the approved 86-release structure and moves every later release number."
+        },
+        "canonImpact": "Would change the approved release count and runtime.",
+        "citesTruthDocument": false,
+        "touchesS101": false
+      }
+    ],
+    "decisions": [
+      {
+        "id": "FD-S101-05",
+        "question": "Design of the jewel-green dress?",
+        "status": "OPEN"
+      },
+      {
+        "id": "FD-S101-06",
+        "question": "Approve the inhabitants' looks as planned (scene-scoped)?",
+        "status": "OPEN"
+      },
+      {
+        "id": "FD-S101-07",
+        "question": "Is the tailor Wendell Ames?",
+        "status": "OPEN"
+      },
+      {
+        "id": "FD-S101-08",
+        "question": "How is the street seeded?",
+        "status": "OPEN"
+      },
+      {
+        "id": "U-1",
+        "question": "Vivienne's private truth: writers'-room truth, or kept unresolved?",
+        "status": "OPEN_CREATIVE_QUESTION"
+      },
+      {
+        "id": "U-2",
+        "question": "Should one mid-season Night exist purely for joy, with no request attached?",
+        "status": "OPEN_CREATIVE_QUESTION"
+      },
+      {
+        "id": "U-4",
+        "question": "Sloane's and the principals' wardrobes; the founder's reference accounts are not reviewed.",
+        "status": "PRODUCTION_DEPENDENCY"
+      }
+    ],
+    "technology": [
+      {
+        "id": "TECH-RELAY",
+        "name": "The Relay (Relay paper)",
+        "tier": "PROFESSIONAL"
+      },
+      {
+        "id": "TECH-CONSTELLATION",
+        "name": "The Constellation",
+        "tier": "PROFESSIONAL"
+      },
+      {
+        "id": "TECH-VEIL",
+        "name": "The Veil",
+        "tier": "NOT_PRESENT"
+      },
+      {
+        "id": "TECH-ECHO",
+        "name": "Echo Archive (the Echo Track)",
+        "tier": "PROFESSIONAL"
+      },
+      {
+        "id": "TECH-PLEDGE",
+        "name": "The Pledge / Witness",
+        "tier": "LEGACY_EXPERIMENTAL"
+      },
+      {
+        "id": "TECH-THRESHOLD",
+        "name": "The Threshold",
+        "tier": "PROFESSIONAL"
+      },
+      {
+        "id": "TECH-INTERVAL",
+        "name": "The Interval (Interval silk)",
+        "tier": "PROFESSIONAL"
+      },
+      {
+        "id": "TECH-EMBER",
+        "name": "The Ember",
+        "tier": "CIVIC"
+      },
+      {
+        "id": "TECH-BLOOM",
+        "name": "Kai's consent lights (the civic programme)",
+        "tier": "CIVIC"
+      },
+      {
+        "id": "TECH-LANTERNS",
+        "name": "The river lanterns and the old rig's memory",
+        "tier": "LEGACY_EXPERIMENTAL"
+      },
+      {
+        "id": "TECH-HUSH",
+        "name": "The Hush",
+        "tier": "PROFESSIONAL"
+      },
+      {
+        "id": "TECH-HALO",
+        "name": "The Halo",
+        "tier": "CIVIC"
+      },
+      {
+        "id": "TECH-PAPER",
+        "name": "Exchange paper: referral cards, couriers, copper wax and brass keys",
+        "tier": "PROFESSIONAL"
+      },
+      {
+        "id": "TECH-REGISTRY",
+        "name": "Registry procedure: sealed beneficiary, notice, objection period",
+        "tier": "PROFESSIONAL"
+      },
+      {
+        "id": "TECH-DISPLAY",
+        "name": "Consented display with revocation (Office of Public Display)",
+        "tier": "CIVIC"
+      },
+      {
+        "id": "TECH-CAPTURE",
+        "name": "Capture etiquette: phones down, open capture, consented sharing",
+        "tier": "CIVIC"
+      }
+    ],
+    "inventions": [
+      {
+        "id": "NI-01",
+        "name": "Copper print",
+        "category": "A",
+        "approvalStatus": "NEW_PROPOSAL"
+      },
+      {
+        "id": "NI-02",
+        "name": "Fitting glass",
+        "category": "D",
+        "approvalStatus": "NEW_PROPOSAL"
+      },
+      {
+        "id": "NI-03",
+        "name": "Calling card",
+        "category": "E",
+        "approvalStatus": "NEW_PROPOSAL"
+      },
+      {
+        "id": "NI-04",
+        "name": "Gold thread",
+        "category": "D",
+        "approvalStatus": "NEW_PROPOSAL"
+      },
+      {
+        "id": "NI-05",
+        "name": "Hush loop (an origin for the Hush)",
+        "category": "D",
+        "approvalStatus": "NEW_PROPOSAL"
+      },
+      {
+        "id": "NI-06",
+        "name": "Copper tag (a game, not a device)",
+        "category": "A",
+        "approvalStatus": "NEW_PROPOSAL"
+      },
+      {
+        "id": "NI-07",
+        "name": "Soil sensor",
+        "category": "E",
+        "approvalStatus": "NEW_PROPOSAL"
+      },
+      {
+        "id": "NI-08",
+        "name": "Smart dance card",
+        "category": "E",
+        "approvalStatus": "NEW_PROPOSAL"
+      },
+      {
+        "id": "NI-09",
+        "name": "Haptic Ember",
+        "category": "D",
+        "approvalStatus": "NEW_PROPOSAL"
+      },
+      {
+        "id": "NI-10",
+        "name": "Porch ember",
+        "category": "D",
+        "approvalStatus": "NEW_PROPOSAL"
+      }
+    ]
+  },
+  "edges": [
+    {
+      "from": "T-01",
+      "to": "T-02",
+      "kind": "DEPENDS_ON"
+    },
+    {
+      "from": "T-01",
+      "to": "TECH-RELAY",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "T-02",
+      "to": "TECH-RELAY",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "T-03",
+      "to": "TECH-ECHO",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "T-05",
+      "to": "TECH-BLOOM",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "T-06",
+      "to": "U-4",
+      "kind": "WAITS_ON_DECISION"
+    },
+    {
+      "from": "T-06",
+      "to": "TECH-HALO",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "T-07",
+      "to": "TECH-EMBER",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "T-07",
+      "to": "TECH-CAPTURE",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "T-07",
+      "to": "NI-06",
+      "kind": "USES_INVENTION"
+    },
+    {
+      "from": "T-08",
+      "to": "T-13",
+      "kind": "DEPENDS_ON"
+    },
+    {
+      "from": "T-08",
+      "to": "TECH-THRESHOLD",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "T-09",
+      "to": "TECH-PAPER",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "T-10",
+      "to": "TECH-EMBER",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "T-10",
+      "to": "TECH-CAPTURE",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "T-11",
+      "to": "TECH-EMBER",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "T-11",
+      "to": "TECH-BLOOM",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "T-12",
+      "to": "TECH-LANTERNS",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "T-13",
+      "to": "TECH-THRESHOLD",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "T-14",
+      "to": "TECH-VEIL",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "T-15",
+      "to": "TECH-CONSTELLATION",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "T-16",
+      "to": "TECH-INTERVAL",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "T-17",
+      "to": "TECH-ECHO",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "T-18",
+      "to": "TECH-ECHO",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "T-19",
+      "to": "NI-07",
+      "kind": "USES_INVENTION"
+    },
+    {
+      "from": "T-20",
+      "to": "NI-08",
+      "kind": "USES_INVENTION"
+    },
+    {
+      "from": "T-21",
+      "to": "TECH-EMBER",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "T-21",
+      "to": "NI-01",
+      "kind": "USES_INVENTION"
+    },
+    {
+      "from": "F-03",
+      "to": "U-4",
+      "kind": "WAITS_ON_DECISION"
+    },
+    {
+      "from": "F-04",
+      "to": "TECH-ECHO",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "F-07",
+      "to": "TECH-EMBER",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "F-07",
+      "to": "TECH-LANTERNS",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "F-17",
+      "to": "U-1",
+      "kind": "WAITS_ON_DECISION"
+    },
+    {
+      "from": "R-01",
+      "to": "FD-S101-06",
+      "kind": "WAITS_ON_DECISION"
+    },
+    {
+      "from": "R-02",
+      "to": "W-01",
+      "kind": "DEPENDS_ON"
+    },
+    {
+      "from": "R-02",
+      "to": "FD-S101-05",
+      "kind": "WAITS_ON_DECISION"
+    },
+    {
+      "from": "R-02",
+      "to": "FD-S101-06",
+      "kind": "WAITS_ON_DECISION"
+    },
+    {
+      "from": "R-03",
+      "to": "W-01",
+      "kind": "DEPENDS_ON"
+    },
+    {
+      "from": "R-03",
+      "to": "R-12",
+      "kind": "CONFLICTS_WITH"
+    },
+    {
+      "from": "R-03",
+      "to": "FD-S101-06",
+      "kind": "WAITS_ON_DECISION"
+    },
+    {
+      "from": "R-03",
+      "to": "FD-S101-07",
+      "kind": "WAITS_ON_DECISION"
+    },
+    {
+      "from": "R-04",
+      "to": "S-02",
+      "kind": "DEPENDS_ON"
+    },
+    {
+      "from": "R-04",
+      "to": "FD-S101-06",
+      "kind": "WAITS_ON_DECISION"
+    },
+    {
+      "from": "R-07",
+      "to": "R-06",
+      "kind": "DEPENDS_ON"
+    },
+    {
+      "from": "R-08",
+      "to": "TECH-PAPER",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "R-12",
+      "to": "W-01",
+      "kind": "DEPENDS_ON"
+    },
+    {
+      "from": "R-12",
+      "to": "R-03",
+      "kind": "CONFLICTS_WITH"
+    },
+    {
+      "from": "R-12",
+      "to": "FD-S101-06",
+      "kind": "WAITS_ON_DECISION"
+    },
+    {
+      "from": "R-14",
+      "to": "FD-S101-06",
+      "kind": "WAITS_ON_DECISION"
+    },
+    {
+      "from": "S-02",
+      "to": "FD-S101-06",
+      "kind": "WAITS_ON_DECISION"
+    },
+    {
+      "from": "C-01",
+      "to": "FD-S101-07",
+      "kind": "WAITS_ON_DECISION"
+    },
+    {
+      "from": "V-01",
+      "to": "FD-S101-08",
+      "kind": "WAITS_ON_DECISION"
+    },
+    {
+      "from": "V-02",
+      "to": "FD-S101-08",
+      "kind": "WAITS_ON_DECISION"
+    },
+    {
+      "from": "V-07",
+      "to": "TECH-PAPER",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "W-03",
+      "to": "FD-S101-07",
+      "kind": "WAITS_ON_DECISION"
+    },
+    {
+      "from": "W-08",
+      "to": "T-09",
+      "kind": "DEPENDS_ON"
+    },
+    {
+      "from": "W-08",
+      "to": "TECH-PAPER",
+      "kind": "USES_TECHNOLOGY"
+    },
+    {
+      "from": "W-09",
+      "to": "U-2",
+      "kind": "WAITS_ON_DECISION"
+    }
+  ],
+  "canonRisk": {
+    "byRiskLevel": {
+      "LOW": 21,
+      "MEDIUM": 8,
+      "NONE": 20
+    },
+    "seasonRules": [
+      {
+        "id": "T-02",
+        "canonImpact": "Adds four rules to the season bible. No release text changes; S1-15, S1-34 and S1-86 already comply."
+      },
+      {
+        "id": "T-09",
+        "canonImpact": "Adds a rule to the season bible. S1-69 and S1-72 already comply."
+      },
+      {
+        "id": "T-10",
+        "canonImpact": "Adds a rule to the season bible. No release changes."
+      },
+      {
+        "id": "T-13",
+        "canonImpact": "Clarifies an APPROVED_DEVELOPMENT_DIRECTION term. No release changes."
+      },
+      {
+        "id": "C-01",
+        "canonImpact": "Changes how a named character is introduced."
+      }
+    ],
+    "highRisk": [],
+    "dependsOnTruthDocument": [
+      "T-05",
+      "T-11"
+    ],
+    "touchesS101": [
+      "R-01",
+      "R-02",
+      "R-03",
+      "R-04",
+      "R-12",
+      "R-14",
+      "S-02",
+      "C-01"
+    ]
+  }
+}
