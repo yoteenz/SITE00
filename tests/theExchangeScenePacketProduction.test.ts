@@ -147,7 +147,10 @@ describe('THE EXCHANGE S1-01 directorial packet and production controls', () => 
     expect(plan.subtitles.every((s) => s.kind === 'ACCESSIBILITY')).toBe(true);
     const refs = new Set(X.S1_01_DIRECTION.founderDecisions.flatMap((d) => d.refs));
     for (const e of plan.embellishments.filter((x) => x.label === 'FOUNDER_APPROVAL_REQUIRED')) expect(refs.has(e.id), e.id).toBe(true);
-    expect(X.S1_01_DIRECTION.founderDecisions.every((d) => d.status === 'OPEN' && d.answer === null)).toBe(true);
+    const answered = X.S1_01_DIRECTION.founderDecisions.filter((d) => d.status === 'ANSWERED');
+    expect(answered.map((d) => d.decisionId)).toEqual(['FD-S101-06', 'FD-S101-07']);
+    for (const d of answered) expect(d.answer, d.decisionId).toMatch(/founder, 2026-10-25/);
+    expect(X.S1_01_DIRECTION.founderDecisions.filter((d) => d.status === 'OPEN').every((d) => d.answer === null)).toBe(true);
     expect(D.validateIntent(X.S1_01_DIRECTION.intent)).toEqual([]);
     const k = (id: string) => plan.keyframes.find((x) => x.keyframeId === id)!;
     expect(k('KF-ENV-HALCYON-EXT').spec!.hidden).toEqual(expect.arrayContaining(['facade detail', 'signage']));
@@ -155,8 +158,15 @@ describe('THE EXCHANGE S1-01 directorial packet and production controls', () => 
     expect(k('KF-EMBER-LOOK').spec!.hidden).toContain('any gold tone');
     expect(plan.lighting.find((l) => l.id === 'LS-BLUE-HOUR')!.palette.some((p) => /gold/i.test(p))).toBe(false);
     const census = X.buildCastCensus(X.loadSeasonMaster(root), X.loadScreenplays(root), cast).filter((p) => p.releases.includes('S1-01'));
-    expect(census.map((p) => p.tier)).toEqual(Array(5).fill('SCENE_SCOPED'));
-    expect(X.requestCastPackage({ personId: 'scene:S1-01:tailor', scope: 'PERMANENT', activeReleaseId: 'S1-01' }, census).code).toBe('SCENE_SCOPED_NO_PERMANENT_PACKAGE');
+    expect(Object.fromEntries(census.map((p) => [p.personId, p.tier]))).toEqual({
+      'scene:S1-01:tailor': 'RECURRING_BACKGROUND',
+      'scene:S1-01:teenager': 'RECURRING_BACKGROUND',
+      'scene:S1-01:grandmother': 'RECURRING_BACKGROUND',
+      'scene:S1-01:woman on the balcony': 'SCENE_SCOPED',
+      'scene:S1-01:neighbour': 'SCENE_SCOPED',
+    });
+    expect(X.requestCastPackage({ personId: 'scene:S1-01:tailor', scope: 'PERMANENT', activeReleaseId: 'S1-01' }, census).code).toBe('RECURRING_BACKGROUND_NO_PRINCIPAL_PACKAGE');
+    expect(X.requestCastPackage({ personId: 'scene:S1-01:neighbour', scope: 'PERMANENT', activeReleaseId: 'S1-01' }, census).code).toBe('SCENE_SCOPED_NO_PERMANENT_PACKAGE');
     for (const p of X.S1_01_DIRECTION.performance) expect(p.avoid).toEqual(expect.arrayContaining([...D.PERFORMANCE_GLOBAL_AVOID]));
   });
 

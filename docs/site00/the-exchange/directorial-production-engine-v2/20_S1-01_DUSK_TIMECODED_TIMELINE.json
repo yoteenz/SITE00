@@ -88,7 +88,7 @@
         ],
         "productionAssetRequirement": [
           "KF-ENV-CITY-DUSK-A",
-          "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)"
+          "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06)"
         ],
         "continuityNotes": [
           "Grille height must match SH03",
@@ -133,7 +133,7 @@
         ],
         "productionAssetRequirement": [
           "KF-SF-SH02",
-          "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)"
+          "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06)"
         ],
         "continuityNotes": [
           "Grille stays half down"
@@ -179,7 +179,7 @@
         ],
         "productionAssetRequirement": [
           "KF-SF-SH02",
-          "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)"
+          "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06)"
         ],
         "continuityNotes": [],
         "coverage": "SILENT_ACTION",
@@ -199,7 +199,7 @@
         "durationSec": 1.625,
         "narrativeBeat": "S1-01-SC03-B1: Meet the teenager rehearsing in private.",
         "visibleAction": "He tries the step and misses it",
-        "characterPosition": "He tries a two-step turn and stumbles out of it.",
+        "characterPosition": "He tries the four-count step and stumbles out of it.",
         "cameraPosition": "Medium full, teenager and his reflection; Waist height; Three-quarter behind his shoulder toward the shelter glass",
         "cameraMovement": "Locked off (Static)",
         "dialogue": [
@@ -221,7 +221,7 @@
         ],
         "productionAssetRequirement": [
           "KF-ENV-CITY-DUSK-B",
-          "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)"
+          "Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06)"
         ],
         "continuityNotes": [
           "Reflection must mirror his movement",
@@ -266,7 +266,7 @@
         ],
         "productionAssetRequirement": [
           "KF-SF-SH05",
-          "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)"
+          "Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06)"
         ],
         "continuityNotes": [],
         "coverage": "SILENT_ACTION",
@@ -309,7 +309,7 @@
         ],
         "productionAssetRequirement": [
           "KF-SF-SH05",
-          "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)"
+          "Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06)"
         ],
         "continuityNotes": [
           "Must match SH05 framing",
@@ -358,7 +358,7 @@
           "KF-ENV-CITY-DUSK-A",
           "KF-WD-GREEN-DRESS",
           "The jewel-green dress (design pending, U-4)",
-          "Grandmother: house cardigan, reading glasses on a chain (scene-scoped)"
+          "Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)"
         ],
         "continuityNotes": [
           "Dress design must match KF-WD-GREEN-DRESS in every shot",
@@ -407,7 +407,7 @@
           "KF-SF-SH08",
           "KF-WD-GREEN-DRESS",
           "The jewel-green dress (design pending, U-4)",
-          "Grandmother: house cardigan, reading glasses on a chain (scene-scoped)"
+          "Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)"
         ],
         "continuityNotes": [],
         "coverage": "SILENT_ACTION",
@@ -451,7 +451,7 @@
           "KF-SF-SH08",
           "KF-WD-GREEN-DRESS",
           "The jewel-green dress (design pending, U-4)",
-          "Grandmother: house cardigan, reading glasses on a chain (scene-scoped)"
+          "Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)"
         ],
         "continuityNotes": [
           "Her face is scene-scoped; it must hold from SH08 to SH10"

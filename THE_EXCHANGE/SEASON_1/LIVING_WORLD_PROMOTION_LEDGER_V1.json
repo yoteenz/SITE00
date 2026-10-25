@@ -222,7 +222,7 @@
     "pendingFounder": 53,
     "founderHeld": 0,
     "founderRejected": 0,
-    "conditionalProductionHold": 8
+    "conditionalProductionHold": 6
   },
   "promotionOrder": [
     "V-07",
@@ -1159,10 +1159,8 @@
         "LW-WD-GRANDMOTHER: The grandmother's everyday look — PROVISIONAL",
         "LW-VOICE-GRANDMOTHER: The grandmother's voice for her one S1-59 line — PENDING_PRODUCTION"
       ],
-      "productionState": "CONDITIONAL_PRODUCTION_HOLD",
-      "productionHolds": [
-        "HOLD-S101-PATCH"
-      ],
+      "productionState": "PENDING_PRODUCTION",
+      "productionHolds": [],
       "dependencies": [
         {
           "to": "FD-S101-06",
@@ -1238,8 +1236,7 @@
       ],
       "productionState": "CONDITIONAL_PRODUCTION_HOLD",
       "productionHolds": [
-        "HOLD-FD-S101-05",
-        "HOLD-S101-PATCH"
+        "HOLD-FD-S101-05"
       ],
       "dependencies": [
         {
@@ -1327,10 +1324,8 @@
         "LW-WD-TAILOR: The tailor's recognizable appearance — PROVISIONAL",
         "LW-ENV-FAR-BANK: The public riverbank celebration — PENDING_DESIGN"
       ],
-      "productionState": "CONDITIONAL_PRODUCTION_HOLD",
-      "productionHolds": [
-        "HOLD-S101-PATCH"
-      ],
+      "productionState": "PENDING_PRODUCTION",
+      "productionHolds": [],
       "dependencies": [
         {
           "to": "W-01",
@@ -1422,7 +1417,7 @@
       ],
       "productionState": "CONDITIONAL_PRODUCTION_HOLD",
       "productionHolds": [
-        "HOLD-S101-PATCH"
+        "HOLD-FD-S101-12"
       ],
       "dependencies": [
         {
@@ -1491,7 +1486,7 @@
       ],
       "productionState": "CONDITIONAL_PRODUCTION_HOLD",
       "productionHolds": [
-        "HOLD-S101-PATCH"
+        "HOLD-FD-S101-12"
       ],
       "dependencies": [
         {
@@ -2143,7 +2138,19 @@
           "S1-01-SH17"
         ],
         "unchanged": "No shot, frame, keyframe count, cue, dialogue or runtime changes.",
-        "status": "PROPOSED_PENDING_FOUNDER_PACKET_REVIEW"
+        "status": "APPLIED_FOUNDER_AUTHORIZED",
+        "applied": {
+          "authority": "Founder sprint P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 §03 A",
+          "date": "2026-10-25",
+          "present": [
+            "RECURRING (founder, 2026-10-25): the tailor, the grandmother and the teenager keep reusable recurring-background identities; the woman on the balcony and the neighbour stay scene-scoped.",
+            "Looks, ages and everyday wardrobe of the five inhabitants. The tailor, the grandmother and the teenager are recurring background (FD-S101-06); the woman on the balcony and the neighbour are scene-scoped. The looks are approved with the start frames."
+          ],
+          "absent": [
+            "Looks, ages and everyday wardrobe of the five inhabitants (scene-scoped, no permanent packages)."
+          ],
+          "note": "The FD-S101-06 question keeps its original wording; the decision now reads ANSWERED with the founder's answer."
+        }
       },
       {
         "patchId": "PATCH-S101-02",
@@ -2194,7 +2201,28 @@
           "KF-SF-SH09"
         ],
         "unchanged": "No shot, frame, keyframe count, cue, dialogue or runtime changes. The woman on the balcony and the neighbour keep their scene-scoped labels.",
-        "status": "PROPOSED_PENDING_FOUNDER_PACKET_REVIEW"
+        "status": "APPLIED_FOUNDER_AUTHORIZED",
+        "applied": {
+          "authority": "Founder sprint P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 §03 A",
+          "date": "2026-10-25",
+          "present": [
+            "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06)",
+            "Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06)",
+            "Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)",
+            "As fixed by the vignette's first start frame, kept as the identity reference for their later returns (recurring background, FD-S101-06)",
+            "As fixed by her first face-readable start frame (KF-SF-SH10), kept as the identity reference for her later returns (recurring background, FD-S101-06)",
+            "S1-77 (R-03): the tailor's identity reference, once this frame is generated and approved",
+            "S1-51 (R-04): the teenager's identity reference, once this frame is generated and approved",
+            "S1-59 (R-01): the grandmother's identity reference, once this frame is generated and approved",
+            "S1-77 (R-02): the grandmother's identity reference, once this frame is generated and approved"
+          ],
+          "absent": [
+            "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)",
+            "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)",
+            "Grandmother: house cardigan, reading glasses on a chain (scene-scoped)"
+          ],
+          "note": "Deviation: the plan named KF-SF-SH09 for the grandmother, but that frame shows only her hands (spec hides her face) and SH08 only the top of her head. Her reuse and identity reference sit on KF-SF-SH10, her first face-readable start frame. The woman on the balcony and the neighbour keep the scene-scoped hair note."
+        }
       },
       {
         "patchId": "PATCH-S101-03",
@@ -2235,7 +2263,18 @@
           "scene:S1-01:teenager"
         ],
         "unchanged": "No shot, frame, keyframe count, cue, dialogue or runtime changes.",
-        "status": "PROPOSED_PENDING_FOUNDER_PACKET_REVIEW"
+        "status": "APPLIED_FOUNDER_AUTHORIZED",
+        "applied": {
+          "authority": "Founder sprint P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 §03 A",
+          "date": "2026-10-25",
+          "present": [
+            "Inhabitants get performance direction. The tailor, the grandmother and the teenager keep an identity reference (face, wardrobe, mannerism) for their approved returns; no voice, biography or principal package. The woman on the balcony and the neighbour are scene-scoped.",
+            "RECURRING_BACKGROUND"
+          ],
+          "absent": [
+            "Scene-scoped inhabitants get performance direction and no permanent package (sprint V2 §28)."
+          ]
+        }
       },
       {
         "patchId": "PATCH-S101-04",
@@ -2272,7 +2311,20 @@
           "S1-01-SH04"
         ],
         "unchanged": "No shot, frame, keyframe count, cue, dialogue or runtime changes.",
-        "status": "PROPOSED_PENDING_FOUNDER_PACKET_REVIEW"
+        "status": "APPLIED_FOUNDER_AUTHORIZED",
+        "applied": {
+          "authority": "Founder sprint P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 §03 A",
+          "date": "2026-10-25",
+          "present": [
+            "No: an unnamed tailor (ANONYMOUS, founder, 2026-10-25). The shop sign stays unreadable.",
+            "The tailor is anonymous (FD-S101-07). He is not Wendell Ames and has no biography."
+          ],
+          "absent": [
+            "No for now: keep him scene-scoped and the shop sign unreadable so the choice stays open.",
+            "Whether the tailor is Wendell Ames, the Ferry Street tailor named later in the season."
+          ],
+          "note": "E-10 is labelled FOUNDER_DECIDED."
+        }
       },
       {
         "patchId": "PATCH-S101-05",
@@ -2304,7 +2356,20 @@
           "S1-01-SH07"
         ],
         "unchanged": "No shot, frame, keyframe count, cue, dialogue or runtime changes. E-06 keeps the downbeat at frame 324.",
-        "status": "PROPOSED_PENDING_FOUNDER_PACKET_REVIEW"
+        "status": "APPLIED_FOUNDER_AUTHORIZED",
+        "applied": {
+          "authority": "Founder sprint P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 §03 A",
+          "date": "2026-10-25",
+          "present": [
+            "Choreography note on SH05 to SH07: one specific four-count step, missed, tangled, then landed on the downbeat (frame 324, E-06). The same four counts return in S1-51 (R-04). The step itself is still to be choreographed.",
+            "He tries the four-count step and stumbles out of it.",
+            "CHOREOGRAPHY_LOCK_PENDING"
+          ],
+          "absent": [
+            "He tries a two-step turn and stumbles out of it."
+          ],
+          "note": "The note is embellishment E-14. The step's lock is open founder decision FD-S101-12, which also blocks KF-SF-SH05; SH06 and SH07 inherit the block. No move is invented."
+        }
       },
       {
         "patchId": "PATCH-S101-06",
@@ -2343,7 +2408,20 @@
           "S1-01-SH17"
         ],
         "unchanged": "No shot, frame, keyframe count, cue, dialogue or runtime changes. KF-WD-GREEN-DRESS stays blocked and is not production-ready.",
-        "status": "PROPOSED_PENDING_FOUNDER_PACKET_REVIEW"
+        "status": "APPLIED_FOUNDER_AUTHORIZED",
+        "applied": {
+          "authority": "Founder sprint P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 §03 A",
+          "date": "2026-10-25",
+          "present": [
+            "Story continuity approved (founder, 2026-10-25); the design is chosen at S1-01 visual development, and the chosen garment is the one S1-77 uses (R-02). No candidate is chosen.",
+            "VISUAL_DESIGN_PENDING",
+            "The design of the jewel-green dress: one garment for SH08 to SH10, SH17 and the S1-77 callback. KF-WD-GREEN-DRESS stays blocked by FD-S101-05."
+          ],
+          "absent": [
+            "The design of the jewel-green dress."
+          ],
+          "note": "FD-S101-05 stays OPEN with progress STORY_CONTINUITY_APPROVED, VISUAL_DESIGN_PENDING."
+        }
       },
       {
         "patchId": "PATCH-S101-07",
@@ -2377,7 +2455,16 @@
           "S1-01-SC04"
         ],
         "unchanged": "No shot, frame, keyframe count, cue, dialogue or runtime changes.",
-        "status": "PROPOSED_PENDING_FOUNDER_PACKET_REVIEW"
+        "status": "APPLIED_FOUNDER_AUTHORIZED",
+        "applied": {
+          "authority": "Founder sprint P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 §03 A",
+          "date": "2026-10-25",
+          "present": [
+            "Forward references: the grandmother in S1-59 (R-01, with her existing line) and S1-77 (R-02, in the jewel-green dress); the tailor in S1-77 (R-03); the teenager in S1-51 (R-04). None of them meet, and none is named."
+          ],
+          "absent": [],
+          "note": "Section 6 carries forwardReferences: the note plus one structured return per appearance, in the background register's wording."
+        }
       }
     ],
     "guards": {
@@ -2405,11 +2492,15 @@
         "FD-S101-08",
         "FD-S101-09",
         "FD-S101-10",
-        "FD-S101-11"
+        "FD-S101-11",
+        "FD-S101-12"
       ],
       "answeredBySprint": [
         "FD-S101-06",
         "FD-S101-07"
+      ],
+      "addedByPatch": [
+        "FD-S101-12"
       ],
       "notes": [
         "The Ember's look (E-02, E-03, FD-S101-03) is unchanged; the privacy rule WR-03 is not visual.",
@@ -2437,7 +2528,20 @@
         "R-04"
       ],
       "reason": "The S1-01 packet still describes the three inhabitants as scene-scoped. Their start frames must be made as recurring identity references.",
-      "liftedBy": "Founder review of the S1-01 patch plan (PATCH-S101-01 to -07), then a packet rebuild."
+      "liftedBy": "Founder review of the S1-01 patch plan (PATCH-S101-01 to -07), then a packet rebuild.",
+      "lifted": {
+        "date": "2026-10-25",
+        "by": "Founder authorized PATCH-S101-01 to -07; the packet was rebuilt with them (P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1)."
+      }
+    },
+    {
+      "holdId": "HOLD-FD-S101-12",
+      "blocks": [
+        "S-02",
+        "R-04"
+      ],
+      "reason": "The teenager's four-count step is not choreographed (CHOREOGRAPHY_LOCK_PENDING). Its S1-01 start frame (KF-SF-SH05) and the S1-51 return wait for it.",
+      "liftedBy": "Founder locks the four counts (FD-S101-12)."
     },
     {
       "holdId": "HOLD-SONG",
@@ -2470,9 +2574,7 @@
       ],
       "status": "PENDING_PRODUCTION",
       "source": "S1-01 start frame KF-SF-SH02 (planned, not generated)",
-      "holds": [
-        "HOLD-S101-PATCH"
-      ],
+      "holds": [],
       "note": "Made once in S1-01 and reused."
     },
     {
@@ -2488,10 +2590,8 @@
         "S1-77"
       ],
       "status": "PENDING_PRODUCTION",
-      "source": "S1-01 start frame KF-SF-SH09 (planned, not generated)",
-      "holds": [
-        "HOLD-S101-PATCH"
-      ],
+      "source": "S1-01 start frame KF-SF-SH10, her first face-readable frame (planned, not generated)",
+      "holds": [],
       "note": "One face and performance in all three releases."
     },
     {
@@ -2507,7 +2607,7 @@
       "status": "PENDING_PRODUCTION",
       "source": "S1-01 start frame KF-SF-SH05 (planned, not generated)",
       "holds": [
-        "HOLD-S101-PATCH"
+        "HOLD-FD-S101-12"
       ],
       "note": "Made once in S1-01 and reused."
     },
@@ -2538,9 +2638,9 @@
         "S1-51"
       ],
       "status": "PENDING_DESIGN",
-      "source": "Choreography note (S-02); the step itself is not choreographed",
+      "source": "Choreography note (S-02, E-14); the step itself is not choreographed",
       "holds": [
-        "HOLD-S101-PATCH"
+        "HOLD-FD-S101-12"
       ],
       "note": "The same four counts in both releases."
     },
@@ -2556,9 +2656,7 @@
       ],
       "status": "PROVISIONAL",
       "source": "S1-01 packet wardrobe (directorial interpretation); S1-77: a suit of his own making, not orange",
-      "holds": [
-        "HOLD-S101-PATCH"
-      ],
+      "holds": [],
       "note": "Approved with the S1-01 start frames."
     },
     {
@@ -2573,9 +2671,7 @@
       ],
       "status": "PROVISIONAL",
       "source": "S1-01 packet wardrobe: house cardigan, reading glasses on a chain",
-      "holds": [
-        "HOLD-S101-PATCH"
-      ],
+      "holds": [],
       "note": "Approved with the S1-01 start frames."
     },
     {

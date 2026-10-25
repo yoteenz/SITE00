@@ -11,7 +11,8 @@ Layer B. Creative approval does not make an asset ready. Nothing below exists as
 | Hold | Blocks | Why | Lifted by |
 | --- | --- | --- | --- |
 | HOLD-FD-S101-05 | R-02 | The jewel-green dress has no approved design. No dress reference, keyframe (KF-WD-GREEN-DRESS) or S1-77 callback shot may be generated. | Founder visual approval of the garment at S1-01 visual development (FD-S101-05). |
-| HOLD-S101-PATCH | S-02, R-01, R-02, R-03, R-04 | The S1-01 packet still describes the three inhabitants as scene-scoped. Their start frames must be made as recurring identity references. | Founder review of the S1-01 patch plan (PATCH-S101-01 to -07), then a packet rebuild. |
+| HOLD-S101-PATCH | S-02, R-01, R-02, R-03, R-04 | The S1-01 packet still describes the three inhabitants as scene-scoped. Their start frames must be made as recurring identity references. | Founder review of the S1-01 patch plan (PATCH-S101-01 to -07), then a packet rebuild. LIFTED 2026-10-25: Founder authorized PATCH-S101-01 to -07; the packet was rebuilt with them (P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1). |
+| HOLD-FD-S101-12 | S-02, R-04 | The teenager's four-count step is not choreographed (CHOREOGRAPHY_LOCK_PENDING). Its S1-01 start frame (KF-SF-SH05) and the S1-51 return wait for it. | Founder locks the four counts (FD-S101-12). |
 | HOLD-SONG | F-01 | The fruit-truck song is not chosen; it must be one song for S1-12 and S1-20. | Founder chooses or commissions the song. |
 | HOLD-FD-18 | F-06, F-07 | S1-58 and S1-77 need face locks for Vivienne at 34 and Celestine at 33 (FD-18, still open). | Founder face locks for the memory faces. |
 
@@ -32,24 +33,24 @@ Layer B. Creative approval does not make an asset ready. Nothing below exists as
 | F-07 | Celestine's flash is the dancer's version, with the hum of the first gold light | CONDITIONAL_PRODUCTION_HOLD | HOLD-FD-18 |
 | F-19 | Noelle writes down two bars of Clarence's trumpet | PENDING_PRODUCTION | — |
 | W-01 | The far bank is the city's own party | PENDING_PRODUCTION | — |
-| R-01 | The grandmother from the fire escape is the grandmother on the bench | CONDITIONAL_PRODUCTION_HOLD | HOLD-S101-PATCH |
-| R-02 | The jewel-green dress gets its date, on the far bank | CONDITIONAL_PRODUCTION_HOLD | HOLD-FD-S101-05, HOLD-S101-PATCH |
-| R-03 | The tailor on the far bank, in a suit he made | CONDITIONAL_PRODUCTION_HOLD | HOLD-S101-PATCH |
-| S-02 | Fix the teenager's step as four counts | CONDITIONAL_PRODUCTION_HOLD | HOLD-S101-PATCH |
-| R-04 | The teenager lands his step with the drumline | CONDITIONAL_PRODUCTION_HOLD | HOLD-S101-PATCH |
+| R-01 | The grandmother from the fire escape is the grandmother on the bench | PENDING_PRODUCTION | — |
+| R-02 | The jewel-green dress gets its date, on the far bank | CONDITIONAL_PRODUCTION_HOLD | HOLD-FD-S101-05 |
+| R-03 | The tailor on the far bank, in a suit he made | PENDING_PRODUCTION | — |
+| S-02 | Fix the teenager's step as four counts | CONDITIONAL_PRODUCTION_HOLD | HOLD-FD-S101-12 |
+| R-04 | The teenager lands his step with the drumline | CONDITIONAL_PRODUCTION_HOLD | HOLD-FD-S101-12 |
 | R-05 | The girl with Kai's pliers asks what the lanterns are for | PENDING_PRODUCTION | — |
 
 ## 3. Asset ledger
 
 | Asset | Item | Proposals | Releases | Status | Source | Holds | Note |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| LW-FACE-TAILOR | The tailor's facial reference | R-03 | S1-01, S1-77 | PENDING_PRODUCTION | S1-01 start frame KF-SF-SH02 (planned, not generated) | HOLD-S101-PATCH | Made once in S1-01 and reused. |
-| LW-FACE-GRANDMOTHER | The grandmother's facial reference and performance | R-01, R-02 | S1-01, S1-59, S1-77 | PENDING_PRODUCTION | S1-01 start frame KF-SF-SH09 (planned, not generated) | HOLD-S101-PATCH | One face and performance in all three releases. |
-| LW-FACE-TEENAGER | The teenager's facial reference | R-04 | S1-01, S1-51 | PENDING_PRODUCTION | S1-01 start frame KF-SF-SH05 (planned, not generated) | HOLD-S101-PATCH | Made once in S1-01 and reused. |
+| LW-FACE-TAILOR | The tailor's facial reference | R-03 | S1-01, S1-77 | PENDING_PRODUCTION | S1-01 start frame KF-SF-SH02 (planned, not generated) | — | Made once in S1-01 and reused. |
+| LW-FACE-GRANDMOTHER | The grandmother's facial reference and performance | R-01, R-02 | S1-01, S1-59, S1-77 | PENDING_PRODUCTION | S1-01 start frame KF-SF-SH10, her first face-readable frame (planned, not generated) | — | One face and performance in all three releases. |
+| LW-FACE-TEENAGER | The teenager's facial reference | R-04 | S1-01, S1-51 | PENDING_PRODUCTION | S1-01 start frame KF-SF-SH05 (planned, not generated) | HOLD-FD-S101-12 | Made once in S1-01 and reused. |
 | LW-FACE-PLIERS-GIRL | The girl from Kai's workshop | R-05 | S1-22, S1-59 | PENDING_PRODUCTION | S1-22 (not in production) | — | Made when S1-22 is produced; S1-59 reuses it. |
-| LW-DANCE-FOUR-COUNT | The teenager's four-count step | S-02, R-04 | S1-01, S1-51 | PENDING_DESIGN | Choreography note (S-02); the step itself is not choreographed | HOLD-S101-PATCH | The same four counts in both releases. |
-| LW-WD-TAILOR | The tailor's recognizable appearance | R-03 | S1-01, S1-77 | PROVISIONAL | S1-01 packet wardrobe (directorial interpretation); S1-77: a suit of his own making, not orange | HOLD-S101-PATCH | Approved with the S1-01 start frames. |
-| LW-WD-GRANDMOTHER | The grandmother's everyday look | R-01 | S1-01, S1-59 | PROVISIONAL | S1-01 packet wardrobe: house cardigan, reading glasses on a chain | HOLD-S101-PATCH | Approved with the S1-01 start frames. |
+| LW-DANCE-FOUR-COUNT | The teenager's four-count step | S-02, R-04 | S1-01, S1-51 | PENDING_DESIGN | Choreography note (S-02, E-14); the step itself is not choreographed | HOLD-FD-S101-12 | The same four counts in both releases. |
+| LW-WD-TAILOR | The tailor's recognizable appearance | R-03 | S1-01, S1-77 | PROVISIONAL | S1-01 packet wardrobe (directorial interpretation); S1-77: a suit of his own making, not orange | — | Approved with the S1-01 start frames. |
+| LW-WD-GRANDMOTHER | The grandmother's everyday look | R-01 | S1-01, S1-59 | PROVISIONAL | S1-01 packet wardrobe: house cardigan, reading glasses on a chain | — | Approved with the S1-01 start frames. |
 | LW-WD-GREEN-DRESS | The jewel-green dress | R-02 | S1-01, S1-77 | PENDING_DESIGN | S1-01 keyframe requirement KF-WD-GREEN-DRESS (blocked by FD-S101-05) | HOLD-FD-S101-05 | One garment; story continuity approved, design open. Not production-ready. |
 | LW-PROP-COPPER-SEAL | The copper wax seal on Exchange envelopes | V-07 | S1-07, S1-11, S1-17, S1-57, S1-78, S1-86 | PENDING_DESIGN | Master S1-17 ("sealed in copper wax") | — | One prop sheet for every Exchange envelope. |
 | LW-SFX-SEAL-CRACK | The seal-crack sound | V-07 | S1-86 | PENDING_DESIGN | V-07 | — | Heard once. |

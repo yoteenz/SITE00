@@ -16749,3 +16749,18 @@ Sprint `P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V
 - **Rebuild order:** `build-season1-production.ts`, `build-directorial-production.ts`, `build-living-world-promotion.ts`, then `render-directorial-docs.ts`, `render-living-world-audit.ts`, `render-living-world-promotion.ts`. Do not regenerate `founder-canon-lock-v1/`: it is that sprint's snapshot and five files were already stale.
 - **Tests:** 19 new; 124 of 124 Exchange tests in 14 files. Full suite 11,331 pass / 91 fail in 60 files, all unrelated to Exchange code.
 - **Founder next:** read `living-world-promotion-v1/03`, `08`, `12` and `13`; decide the dress design, the fruit-truck song, FD-18 face locks and the S1-01 patch.
+
+---
+
+## 2026-10-25 — THE EXCHANGE S1-01 packet alignment: PATCH-S101-01 to -07 applied (stacked on #1694)
+
+Sprint `P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1`, workstream A. The founder authorized the seven S1-01 packet patches from Living World Promotion V1 deliverable 08. A Claude Code session applied them.
+
+- **Branch:** `claude/the-exchange-s101-packet-alignment`, based on `claude/the-exchange-living-world-promotion` (PR #1694, `d1f41ae3`). Not merged.
+- **What moved:** FD-S101-06 and -07 read ANSWERED in the packet; the tailor, grandmother and teenager are RECURRING_BACKGROUND in the cast census (`jitCast.ts`, read from the promotion's background register); E-10 is FOUNDER_DECIDED; E-14 records the four-count step and new open decision FD-S101-12 (CHOREOGRAPHY_LOCK_PENDING) blocks KF-SF-SH05; FD-S101-05 stays OPEN with progress STORY_CONTINUITY_APPROVED, VISUAL_DESIGN_PENDING; section 6 carries `forwardReferences`.
+- **Deviation:** the plan named KF-SF-SH09 as the grandmother's identity reference, but that frame hides her face. KF-SF-SH10 is used, and the register says so.
+- **Holds:** HOLD-S101-PATCH is lifted (dated); HOLD-FD-S101-12 holds S-02 and R-04 production until the step is locked.
+- **Baselines:** the audit's hashes stay; `FOUNDER_S101_PATCH_BASELINE` (audit/baseline.ts) holds the five moved files, and `baselineState` returns FOUNDER_S101_PATCH for them. The audit docs read a frozen view of the packet they audited (`scripts/the-exchange/living-world-audit/S1-01_PACKET_AT_AUDIT.json`).
+- **Unchanged:** 45 s, 1,080 frames, 19 shots in order, 22 keyframes, 3 music cues, 1 silence, 13 sound cues, no dialogue, budget, review state, the Fountain drafts, 86 releases and 127:40.
+- **Docs:** `docs/site00/production-spine-and-s101-alignment-v1/03` and `04` from `scripts/the-exchange/render-s101-alignment.ts`. Rebuild order adds that renderer after the promotion renderer.
+- **Tests:** `tests/theExchangeS101PacketAlignment.test.ts` (10); 134 of 134 Exchange tests.

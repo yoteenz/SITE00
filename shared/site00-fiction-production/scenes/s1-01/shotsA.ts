@@ -88,7 +88,7 @@ export const SHOTS_A = [
     lensIntent: 'Natural; the reflection must read as his', depthOfField: 'Moderate: him and the reflection both readable',
     cameraMovement: 'Locked off', movementSpeed: 'Static', cameraDirection: 'None',
     composition: 'Teenager frame right, reflection frame left in the glass', screenDirection: 'He faces screen left into the glass', eyeline: 'His own reflection',
-    blocking: 'He tries a two-step turn and stumbles out of it.', performance: 'Concentration, then a small wince at himself.',
+    blocking: 'He tries the four-count step and stumbles out of it.', performance: 'Concentration, then a small wince at himself.',
     landmarks: ['bus shelter glass'], lightingState: 'LS-GOLDEN', wardrobe: [WD.TEENAGER],
     startFrameRef: 'KF-SF-SH05', referenceAssets: ['KF-ENV-CITY-DUSK-B'], editTransition: 'Cut on the pat to the bus stop',
     continuityRisk: ['Reflection must mirror his movement', 'Feet drift in fast footwork'], motionClass: 'HIGH', primaryAction: 'He tries the step and misses it',

@@ -9,7 +9,7 @@
 | Decision | What it blocks | Why it is open |
 | --- | --- | --- |
 | FD-S101-05 garment design | R-02 production (HOLD-FD-S101-05); KF-WD-GREEN-DRESS | The founder approved the story continuity and deferred the silhouette to S1-01 visual development. Neither candidate is chosen. |
-| S1-01 packet revision (PATCH-S101-01 to -07) | S-02, R-01, R-02, R-03, R-04 production (HOLD-S101-PATCH) | The packet stays as last reviewed until the founder accepts the patch (deliverable 08). |
+| The four-count step (FD-S101-12) | S-02 and R-04 production (HOLD-FD-S101-12); KF-SF-SH05 | Opened when the founder-authorized patch was applied (PATCH-S101-05, 2026-10-25): the step is not choreographed (CHOREOGRAPHY_LOCK_PENDING). HOLD-S101-PATCH is lifted. |
 | The fruit-truck song | F-01 production (HOLD-SONG) | One song, chosen or commissioned once for S1-12 and S1-20. |
 | FD-18 memory face locks | F-06 and F-07 production (HOLD-FD-18) | Vivienne at 34 and Celestine at 33 have no face lock. |
 | FD-S101-06, the looks part | The tailor, grandmother and teenager start frames | RECURRING settles the tier. The looks are directorial interpretation, approved when the founder approves the S1-01 start frames. |
@@ -18,7 +18,7 @@
 
 ## 2. S1-01 decisions still open
 
-This sprint answered FD-S101-06 and FD-S101-07, and the story half of FD-S101-05. The packet still shows them OPEN until the patch is applied. Everything else is unchanged:
+This sprint answered FD-S101-06 and FD-S101-07, and the story half of FD-S101-05. The founder-authorized patch (2026-10-25) now shows FD-S101-06 and -07 ANSWERED in the packet, with FD-S101-05 still OPEN for the design. Still open:
 
 | Decision | Question | Packet recommendation |
 | --- | --- | --- |
@@ -31,6 +31,7 @@ This sprint answered FD-S101-06 and FD-S101-07, and the story half of FD-S101-05
 | FD-S101-09 | Confirm 24 fps delivery? | 24 fps. |
 | FD-S101-10 | Title card at the end? | No title card in S1-01. |
 | FD-S101-11 | Authorize the generation budget? | Authorize references and keyframes first, then video once frames are approved. |
+| FD-S101-12 | Lock the teenager's four-count step? | Lock the step before the SH05 start frame is generated; no shot length changes. |
 
 ## 3. The 53 proposals awaiting the founder
 

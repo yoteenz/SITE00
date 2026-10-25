@@ -3,7 +3,7 @@
 export const DIRECTORIAL_SCHEMA_VERSION = '2.0.0' as const;
 
 /** Every significant creative embellishment carries one of these labels (sprint V2 §25). */
-export type EmbellishmentLabel = 'SOURCE_ESTABLISHED' | 'DIRECTORIAL_INTERPRETATION' | 'FOUNDER_APPROVAL_REQUIRED';
+export type EmbellishmentLabel = 'SOURCE_ESTABLISHED' | 'DIRECTORIAL_INTERPRETATION' | 'FOUNDER_APPROVAL_REQUIRED' | 'FOUNDER_DECIDED';
 
 export type Embellishment = { id: string; description: string; label: EmbellishmentLabel; source: string; affects: string[] };
 
@@ -242,4 +242,8 @@ export type ProductionPlan = {
   continuity: ContinuityState[];
   transitions: DeclaredTransition[];
   embellishments: Embellishment[];
+  /** Later releases that reuse this unit's people or frames, so they are made knowing they return. */
+  forwardReferences?: { note: string; references: ForwardReference[] };
 };
+
+export type ForwardReference = { subject: string; censusPersonId: string; releaseId: string; proposalId: string; appearance: string; reuses: string[] };

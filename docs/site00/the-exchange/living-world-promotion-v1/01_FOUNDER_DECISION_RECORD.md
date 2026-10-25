@@ -78,7 +78,7 @@ Each stays in the audit with its original recommendation. None is promoted or su
 | FOUNDER_HELD | Decision | The founder chose to hold it. | 0 |
 | FOUNDER_REJECTED | Decision | The founder rejected it. | 0 |
 | PENDING_FOUNDER | Decision | No founder decision yet. The audit recommendation is kept as a recommendation. | 53 |
-| CONDITIONAL_PRODUCTION_HOLD | Production | Approved, but a named design, decision or packet review must land before anything is generated. | 8 |
+| CONDITIONAL_PRODUCTION_HOLD | Production | Approved, but a named design, decision or packet review must land before anything is generated. | 6 |
 
 An audit APPROVE, HOLD or REJECT is a recommendation, never a founder decision. No proposal is FOUNDER_HELD or FOUNDER_REJECTED: the founder did not hold or reject any.
 

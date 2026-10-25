@@ -57,6 +57,7 @@ export function validateEmbellishments(list: Embellishment[], founderDecisionRef
   for (const e of list) {
     if (!e.source.trim()) out.push({ severity: 'ERROR', code: 'EMBELLISHMENT_SOURCE', subject: e.id, detail: 'every embellishment names its source or its reasoning' });
     if (e.label === 'FOUNDER_APPROVAL_REQUIRED' && !founderDecisionRefs.has(e.id)) out.push({ severity: 'ERROR', code: 'EMBELLISHMENT_UNSURFACED', subject: e.id, detail: 'needs founder approval but no founder decision references it' });
+    if (e.label === 'FOUNDER_DECIDED' && !founderDecisionRefs.has(e.id)) out.push({ severity: 'ERROR', code: 'EMBELLISHMENT_UNSURFACED', subject: e.id, detail: 'marked founder-decided but no founder decision references it' });
   }
   return out;
 }

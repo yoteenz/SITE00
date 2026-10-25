@@ -1,0 +1,443 @@
+{
+  "note": "What the Living World Audit V1 read from the S1-01 directorial packet (sha256 a5ebb48547bdaf440a5372b97310c0334b30ac2160e5d79faffa38883802cf4b, the audit baseline). Frozen on 2026-10-25 when the founder-authorized patch PATCH-S101-01 to -07 changed the live packet, so the audit's dated deliverables keep describing what it audited. Evidence, not a source of truth: the live packet is THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json.",
+  "sourceSha256": "a5ebb48547bdaf440a5372b97310c0334b30ac2160e5d79faffa38883802cf4b",
+  "status": "FOUNDER_REVIEW_REQUIRED",
+  "sections": {
+    "1_SCENE_OVERVIEW": {
+      "estimatedDuration": "45 s"
+    },
+    "4_SHOT_STORYBOARD": {
+      "shots": [
+        {
+          "shotId": "S1-01-SH01",
+          "sceneId": "S1-01-SC01",
+          "subject": "Copper sun on a glass tower, tilting down to a brownstone street as windows come on.",
+          "intendedScreenTime": "4 s (96 frames)"
+        },
+        {
+          "shotId": "S1-01-SH02",
+          "sceneId": "S1-01-SC02",
+          "subject": "The tailor hauls the shop grille down and stops halfway.",
+          "intendedScreenTime": "2 s (48 frames)"
+        },
+        {
+          "shotId": "S1-01-SH03",
+          "sceneId": "S1-01-SC02",
+          "subject": "Through the window, his hands straighten the lapel on the mannequin.",
+          "intendedScreenTime": "2.25 s (54 frames)"
+        },
+        {
+          "shotId": "S1-01-SH04",
+          "sceneId": "S1-01-SC02",
+          "subject": "The grille comes down; he pats the glass goodnight.",
+          "intendedScreenTime": "1.5 s (36 frames)"
+        },
+        {
+          "shotId": "S1-01-SH05",
+          "sceneId": "S1-01-SC03",
+          "subject": "A teenager tries a dance step in the bus shelter glass and gets it wrong.",
+          "intendedScreenTime": "1.625 s (39 frames)"
+        },
+        {
+          "shotId": "S1-01-SH06",
+          "sceneId": "S1-01-SC03",
+          "subject": "His sneakers tangle on the second attempt.",
+          "intendedScreenTime": "1.125 s (27 frames)"
+        },
+        {
+          "shotId": "S1-01-SH07",
+          "sceneId": "S1-01-SC03",
+          "subject": "He lands the step on the downbeat and grins at his reflection.",
+          "intendedScreenTime": "2.875 s (69 frames)"
+        },
+        {
+          "shotId": "S1-01-SH08",
+          "sceneId": "S1-01-SC04",
+          "subject": "A jewel-green dress unfurls over a third-floor fire-escape rail.",
+          "intendedScreenTime": "2.5 s (60 frames)"
+        },
+        {
+          "shotId": "S1-01-SH09",
+          "sceneId": "S1-01-SC04",
+          "subject": "The grandmother smooths the skirt with both hands.",
+          "intendedScreenTime": "1.5 s (36 frames)"
+        },
+        {
+          "shotId": "S1-01-SH10",
+          "sceneId": "S1-01-SC04",
+          "subject": "She gives the dress a long look, as if it has a date tonight.",
+          "intendedScreenTime": "2.625 s (63 frames)"
+        },
+        {
+          "shotId": "S1-01-SH11",
+          "sceneId": "S1-01-SC05",
+          "subject": "Through an open balcony door, a woman dances with a wooden spoon; a glass of wine waits on the ledge.",
+          "intendedScreenTime": "2.75 s (66 frames)"
+        },
+        {
+          "shotId": "S1-01-SH12",
+          "sceneId": "S1-01-SC05",
+          "subject": "She spins the spoon, completely unembarrassed.",
+          "intendedScreenTime": "1.75 s (42 frames)"
+        },
+        {
+          "shotId": "S1-01-SH13",
+          "sceneId": "S1-01-SC06",
+          "subject": "Across the street, her neighbour lifts his phone toward her balcony.",
+          "intendedScreenTime": "2 s (48 frames)"
+        },
+        {
+          "shotId": "S1-01-SH14",
+          "sceneId": "S1-01-SC06",
+          "subject": "His phone lens blooms copper. The music stops dead.",
+          "intendedScreenTime": "1.75 s (42 frames)"
+        },
+        {
+          "shotId": "S1-01-SH15",
+          "sceneId": "S1-01-SC06",
+          "subject": "He lowers the phone, embarrassed.",
+          "intendedScreenTime": "2 s (48 frames)"
+        },
+        {
+          "shotId": "S1-01-SH16",
+          "sceneId": "S1-01-SC06",
+          "subject": "On her balcony she lifts her glass to him across the street and goes back to her dance.",
+          "intendedScreenTime": "3 s (72 frames)"
+        },
+        {
+          "shotId": "S1-01-SH17",
+          "sceneId": "S1-01-SC07",
+          "subject": "The camera rises past her lit kitchen and the green dress on its rail, over water towers and fire escapes.",
+          "intendedScreenTime": "3.5 s (84 frames)"
+        },
+        {
+          "shotId": "S1-01-SH18",
+          "sceneId": "S1-01-SC07",
+          "subject": "Across the rooftops, the tall windows of a ballroom glow amber: Halcyon House.",
+          "intendedScreenTime": "4.75 s (114 frames)"
+        },
+        {
+          "shotId": "S1-01-SH19",
+          "sceneId": "S1-01-SC07",
+          "subject": "Black.",
+          "intendedScreenTime": "1.5 s (36 frames)"
+        }
+      ],
+      "counts": {
+        "total": 22
+      }
+    },
+    "6_CHARACTERS_AND_ASSETS": {
+      "cast": {
+        "people": [
+          {
+            "personId": "scene:S1-01:grandmother",
+            "name": "GRANDMOTHER",
+            "tier": "SCENE_SCOPED",
+            "registryId": null,
+            "releases": [
+              "S1-01"
+            ],
+            "firstRelease": "S1-01",
+            "mentions": [
+              "screenplay S1-01: PRODUCTION.characters"
+            ]
+          },
+          {
+            "personId": "scene:S1-01:neighbour",
+            "name": "NEIGHBOUR",
+            "tier": "SCENE_SCOPED",
+            "registryId": null,
+            "releases": [
+              "S1-01"
+            ],
+            "firstRelease": "S1-01",
+            "mentions": [
+              "screenplay S1-01: PRODUCTION.characters"
+            ]
+          },
+          {
+            "personId": "scene:S1-01:tailor",
+            "name": "TAILOR",
+            "tier": "SCENE_SCOPED",
+            "registryId": null,
+            "releases": [
+              "S1-01"
+            ],
+            "firstRelease": "S1-01",
+            "mentions": [
+              "screenplay S1-01: PRODUCTION.characters"
+            ]
+          },
+          {
+            "personId": "scene:S1-01:teenager",
+            "name": "TEENAGER",
+            "tier": "SCENE_SCOPED",
+            "registryId": null,
+            "releases": [
+              "S1-01"
+            ],
+            "firstRelease": "S1-01",
+            "mentions": [
+              "screenplay S1-01: PRODUCTION.characters"
+            ]
+          },
+          {
+            "personId": "scene:S1-01:woman on the balcony",
+            "name": "WOMAN ON THE BALCONY",
+            "tier": "SCENE_SCOPED",
+            "registryId": null,
+            "releases": [
+              "S1-01"
+            ],
+            "firstRelease": "S1-01",
+            "mentions": [
+              "screenplay S1-01: PRODUCTION.characters"
+            ]
+          }
+        ]
+      }
+    },
+    "7_MUSIC_AND_SOUND": {
+      "summary": {
+        "musicCues": 3,
+        "silenceCues": 1,
+        "soundCues": 13,
+        "byTrack": {
+          "AMBIENCE": 3,
+          "FOLEY": 8,
+          "SFX": 2
+        },
+        "dialogueEvents": 0,
+        "licensing": [
+          {
+            "cueId": "S1-01-MX01",
+            "title": "Warm-Up",
+            "requirement": "ORIGINAL_COMPOSITION",
+            "dependency": "Route undecided (FD-S101-02): a commissioned composer (cost UNKNOWN), fal ElevenLabs music (commercial terms need founder review), or the founder's ElevenLabs workspace (no credential here).",
+            "status": "NOT_CLEARED",
+            "culturalReferences": "The Halcyon House band (S1-03 same night); the restored 1920s Black-owned hotel tradition of live big band"
+          },
+          {
+            "cueId": "S1-01-MX02",
+            "title": "Getting Ready",
+            "requirement": "ORIGINAL_COMPOSITION",
+            "dependency": "Route undecided (FD-S101-02): a commissioned composer (cost UNKNOWN), fal ElevenLabs music (commercial terms need founder review), or the founder's ElevenLabs workspace (no credential here).",
+            "status": "NOT_CLEARED",
+            "culturalReferences": "Season palette: jazz, soul and funk (PK-014)"
+          },
+          {
+            "cueId": "S1-01-MX03",
+            "title": "Halcyon",
+            "requirement": "ORIGINAL_COMPOSITION",
+            "dependency": "Route undecided (FD-S101-02): a commissioned composer (cost UNKNOWN), fal ElevenLabs music (commercial terms need founder review), or the founder's ElevenLabs workspace (no credential here).",
+            "status": "NOT_CLEARED",
+            "culturalReferences": "By the final chord the music is the Halcyon House band heard through the ballroom windows"
+          }
+        ]
+      }
+    },
+    "9_FOUNDER_DECISIONS": [
+      {
+        "decisionId": "FD-S101-01",
+        "question": "Approve the S1-01 screenplay v2 (still DRAFT)?",
+        "why": "Every shot, cue and keyframe is planned from v2; v1 is kept in SCREENPLAYS/HISTORY.",
+        "options": [
+          "Approve v2",
+          "Request changes",
+          "Return to v1"
+        ],
+        "recommendation": "Approve v2: the glass is set up, the Ember is silent and Halcyon House is windows only.",
+        "blocks": [
+          "SCREENPLAY"
+        ],
+        "refs": [
+          "E-01",
+          "E-04",
+          "E-05"
+        ],
+        "status": "OPEN",
+        "answer": null
+      },
+      {
+        "decisionId": "FD-S101-02",
+        "question": "Music direction and composer route?",
+        "why": "The cue arc and hit points are planned; who composes it decides cost, rights and how exactly it hits frame 324, 684 and 990.",
+        "options": [
+          "Commission a composer (cost UNKNOWN)",
+          "fal ElevenLabs music (low cost; commercial terms to review)",
+          "Founder's ElevenLabs workspace (outside this environment)"
+        ],
+        "recommendation": "Commission a composer for the main theme; frame-exact hits are hard to prompt.",
+        "blocks": [
+          "DIRECTION"
+        ],
+        "refs": [
+          "E-12"
+        ],
+        "status": "OPEN",
+        "answer": null
+      },
+      {
+        "decisionId": "FD-S101-03",
+        "question": "What does the Ember look like on a lens?",
+        "why": "It holds for the season and must never be mistaken for the gold yes revealed in S1-58.",
+        "options": [
+          "Soft copper bloom spreading from the lens",
+          "A thin copper ring around the lens",
+          "Founder supplies a reference"
+        ],
+        "recommendation": "Approve two KF-EMBER-LOOK candidates (80 credits) and choose one.",
+        "blocks": [
+          "KEYFRAMES"
+        ],
+        "refs": [
+          "E-02",
+          "E-03"
+        ],
+        "status": "OPEN",
+        "answer": null
+      },
+      {
+        "decisionId": "FD-S101-04",
+        "question": "Halcyon House: windows only, or supply an exterior authority?",
+        "why": "No approved exterior exists and the sprint forbids inventing one.",
+        "options": [
+          "Windows only (no facade, roofline or signage)",
+          "Founder supplies an exterior reference first"
+        ],
+        "recommendation": "Windows only for S1-01; design the exterior when S1-02 to S1-05 need the front steps.",
+        "blocks": [
+          "KEYFRAMES"
+        ],
+        "refs": [
+          "E-07"
+        ],
+        "status": "OPEN",
+        "answer": null
+      },
+      {
+        "decisionId": "FD-S101-05",
+        "question": "Design of the jewel-green dress?",
+        "why": "It appears in four shots and the rise; it needs one fixed design (U-4).",
+        "options": [
+          "Approve from two generated candidates",
+          "Founder supplies a reference"
+        ],
+        "recommendation": "Two candidates (80 credits): a 1960s satin cocktail dress and a bias-cut evening dress.",
+        "blocks": [
+          "KEYFRAMES"
+        ],
+        "refs": [
+          "E-08"
+        ],
+        "status": "OPEN",
+        "answer": null
+      },
+      {
+        "decisionId": "FD-S101-06",
+        "question": "Approve the inhabitants' looks as planned (scene-scoped)?",
+        "why": "Ages, looks and clothes are directorial interpretation; none of the five gets a permanent package.",
+        "options": [
+          "Approve as directed",
+          "Adjust"
+        ],
+        "recommendation": "Approve; faces are fixed by each vignette's first start frame.",
+        "blocks": [
+          "KEYFRAMES"
+        ],
+        "refs": [
+          "E-09"
+        ],
+        "status": "OPEN",
+        "answer": null
+      },
+      {
+        "decisionId": "FD-S101-07",
+        "question": "Is the tailor Wendell Ames?",
+        "why": "Yes makes him a recurring character whose identity reference must exist before S1-01 frames are generated.",
+        "options": [
+          "No: an unnamed tailor",
+          "Yes: Wendell Ames, 58, Ferry Street"
+        ],
+        "recommendation": "No for now: keep him scene-scoped and the shop sign unreadable so the choice stays open.",
+        "blocks": [
+          "KEYFRAMES"
+        ],
+        "refs": [
+          "E-10"
+        ],
+        "status": "OPEN",
+        "answer": null
+      },
+      {
+        "decisionId": "FD-S101-08",
+        "question": "How is the street seeded?",
+        "why": "SET-CITY-DUSK has no approved reference; every frame derives from KF-ENV-CITY-DUSK-A.",
+        "options": [
+          "Look development: two candidates from the spec",
+          "Founder supplies a street photograph as the reference"
+        ],
+        "recommendation": "Founder photograph if one exists; otherwise two look-development candidates (80 credits).",
+        "blocks": [
+          "KEYFRAMES"
+        ],
+        "refs": [
+          "E-11",
+          "E-13"
+        ],
+        "status": "OPEN",
+        "answer": null
+      },
+      {
+        "decisionId": "FD-S101-09",
+        "question": "Confirm 24 fps delivery?",
+        "why": "All timing is in frames at 24 fps, matching the recorded Kling outputs (PK-007).",
+        "options": [
+          "24 fps",
+          "30 fps (re-time every event)"
+        ],
+        "recommendation": "24 fps.",
+        "blocks": [
+          "DIRECTION"
+        ],
+        "refs": [],
+        "status": "OPEN",
+        "answer": null
+      },
+      {
+        "decisionId": "FD-S101-10",
+        "question": "Title card at the end?",
+        "why": "The release ends on a ringing chord over black.",
+        "options": [
+          "No title card",
+          "THE EXCHANGE title over black"
+        ],
+        "recommendation": "No title card in S1-01.",
+        "blocks": [
+          "DIRECTION"
+        ],
+        "refs": [],
+        "status": "OPEN",
+        "answer": null
+      },
+      {
+        "decisionId": "FD-S101-11",
+        "question": "Authorize the generation budget?",
+        "why": "No credits are spent until the founder authorizes an amount.",
+        "options": [
+          "Authorize the estimate plus expected revisions",
+          "Authorize references and keyframes only",
+          "Hold"
+        ],
+        "recommendation": "Authorize references and keyframes first, then video once frames are approved.",
+        "blocks": [
+          "GENERATION_BUDGET"
+        ],
+        "refs": [],
+        "status": "OPEN",
+        "answer": null
+      }
+    ]
+  }
+}

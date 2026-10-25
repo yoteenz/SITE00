@@ -254,7 +254,9 @@
         "KF-ENV-CITY-DUSK-A"
       ],
       "candidates": 2,
-      "reusableBeyondUnit": [],
+      "reusableBeyondUnit": [
+        "S1-77 (R-03): the tailor's identity reference, once this frame is generated and approved"
+      ],
       "blockedBy": [],
       "keyframeId": "KF-SF-SH02",
       "kind": "START_FRAME",
@@ -266,7 +268,7 @@
       "spec": {
         "characterPlacement": "Tailor frame left, arms up to the grille",
         "expression": "Focused, end-of-day calm",
-        "wardrobe": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)",
+        "wardrobe": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06)",
         "lighting": "LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east",
         "architecture": "Shopfront, grille up, mannequin in the window",
         "propOwnership": "Grille up",
@@ -303,7 +305,7 @@
       "spec": {
         "characterPlacement": "Hands entering frame left",
         "expression": "Face cropped",
-        "wardrobe": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)",
+        "wardrobe": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06)",
         "lighting": "LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east",
         "architecture": "Window glass with street reflection, grille half down at top of frame",
         "propOwnership": "Grille half down",
@@ -338,7 +340,7 @@
       "spec": {
         "characterPlacement": "Tailor frame right, hand on the grille",
         "expression": "Satisfied",
-        "wardrobe": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)",
+        "wardrobe": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06)",
         "lighting": "LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east",
         "architecture": "Shopfront along frame",
         "propOwnership": "Grille half down",
@@ -360,8 +362,12 @@
         "KF-ENV-CITY-DUSK-B"
       ],
       "candidates": 2,
-      "reusableBeyondUnit": [],
-      "blockedBy": [],
+      "reusableBeyondUnit": [
+        "S1-51 (R-04): the teenager's identity reference, once this frame is generated and approved"
+      ],
+      "blockedBy": [
+        "FD-S101-12"
+      ],
       "keyframeId": "KF-SF-SH05",
       "kind": "START_FRAME",
       "title": "Teenager and his reflection at the shelter",
@@ -372,7 +378,7 @@
       "spec": {
         "characterPlacement": "Teenager frame right, reflection frame left",
         "expression": "Concentrating",
-        "wardrobe": "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)",
+        "wardrobe": "Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06)",
         "lighting": "LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east",
         "architecture": "Bus shelter glass and the street behind it",
         "propOwnership": "None",
@@ -387,6 +393,7 @@
       },
       "output": null,
       "effectiveBlockers": [
+        "FD-S101-12",
         "KF-ENV-CITY-DUSK-B: KF-ENV-CITY-DUSK-A: FD-S101-08"
       ]
     },
@@ -408,7 +415,7 @@
       "spec": {
         "characterPlacement": "Feet centre",
         "expression": "None",
-        "wardrobe": "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)",
+        "wardrobe": "Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06)",
         "lighting": "LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east",
         "architecture": "Kerb and pavement",
         "propOwnership": "None",
@@ -424,6 +431,7 @@
       },
       "output": null,
       "effectiveBlockers": [
+        "KF-SF-SH05: FD-S101-12",
         "KF-SF-SH05: KF-ENV-CITY-DUSK-B: KF-ENV-CITY-DUSK-A: FD-S101-08"
       ]
     },
@@ -447,6 +455,7 @@
       },
       "output": null,
       "effectiveBlockers": [
+        "S1-01-SH05 via KF-SF-SH05: FD-S101-12",
         "S1-01-SH05 via KF-SF-SH05: KF-ENV-CITY-DUSK-B: KF-ENV-CITY-DUSK-A: FD-S101-08"
       ]
     },
@@ -469,7 +478,7 @@
       "spec": {
         "characterPlacement": "Grandmother's arms and the top of her head above the rail",
         "expression": "Not readable",
-        "wardrobe": "The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (scene-scoped)",
+        "wardrobe": "The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)",
         "lighting": "LS-LAST-LIGHT: sun just below the roofline, warm bounce off brick, first interior lamps",
         "architecture": "Brownstone brick, third-floor fire escape",
         "propOwnership": "Dress in her hands, folded",
@@ -506,7 +515,7 @@
       "spec": {
         "characterPlacement": "Hands entering frame left",
         "expression": "None",
-        "wardrobe": "The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (scene-scoped)",
+        "wardrobe": "The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)",
         "lighting": "LS-LAST-LIGHT: sun just below the roofline, warm bounce off brick, first interior lamps",
         "architecture": "Fire-escape rail",
         "propOwnership": "Dress hanging on the rail",
@@ -534,7 +543,10 @@
         "KF-WD-GREEN-DRESS"
       ],
       "candidates": 2,
-      "reusableBeyondUnit": [],
+      "reusableBeyondUnit": [
+        "S1-59 (R-01): the grandmother's identity reference, once this frame is generated and approved",
+        "S1-77 (R-02): the grandmother's identity reference, once this frame is generated and approved"
+      ],
       "blockedBy": [],
       "keyframeId": "KF-SF-SH10",
       "kind": "START_FRAME",
@@ -546,7 +558,7 @@
       "spec": {
         "characterPlacement": "Face frame right, dress soft frame left",
         "expression": "Quiet approval with a trace of mischief",
-        "wardrobe": "The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (scene-scoped)",
+        "wardrobe": "The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)",
         "lighting": "LS-LAST-LIGHT: sun just below the roofline, warm bounce off brick, first interior lamps",
         "architecture": "Fire escape, window behind her",
         "propOwnership": "Dress hanging on the rail",

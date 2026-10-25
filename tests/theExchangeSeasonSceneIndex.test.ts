@@ -104,12 +104,15 @@ describe('THE EXCHANGE dependency graph and just-in-time cast', () => {
   it('develops only the cast the active scene needs', () => {
     const plan = X.jitPlan('S1-01', census, cast);
     expect(plan.needed.map((n) => n.personId).sort()).toEqual(['scene:S1-01:grandmother', 'scene:S1-01:neighbour', 'scene:S1-01:tailor', 'scene:S1-01:teenager', 'scene:S1-01:woman on the balcony']);
-    expect(plan.needed.every((n) => n.tier === 'SCENE_SCOPED')).toBe(true);
+    expect(plan.needed.filter((n) => n.tier === 'RECURRING_BACKGROUND').map((n) => n.personId).sort()).toEqual(['scene:S1-01:grandmother', 'scene:S1-01:tailor', 'scene:S1-01:teenager']);
+    expect(plan.needed.filter((n) => n.tier === 'SCENE_SCOPED').map((n) => n.personId).sort()).toEqual(['scene:S1-01:neighbour', 'scene:S1-01:woman on the balcony']);
+    for (const n of plan.needed.filter((x) => x.tier === 'RECURRING_BACKGROUND')) expect(n.gaps.join(' '), n.personId).not.toMatch(/voice|facial master/);
     expect(plan.deferred.find((d) => d.personId === 'kai-fontaine')!.trigger).toBe('S1-03 enters active production');
     const ask = (personId: string, scope: X.PackageRequest['scope'], founderPromotion?: string) => X.requestCastPackage({ personId, scope, activeReleaseId: 'S1-01', founderPromotion }, census);
     expect(ask('kai-fontaine', 'PERMANENT')).toMatchObject({ allowed: false, code: 'FUTURE_CAST_NOT_JUSTIFIED', creditsSpent: 0 });
     expect(ask('person:ada', 'PERMANENT').code).toBe('FUTURE_CAST_NOT_JUSTIFIED');
-    expect(ask('scene:S1-01:tailor', 'PERMANENT').code).toBe('SCENE_SCOPED_NO_PERMANENT_PACKAGE');
+    expect(ask('scene:S1-01:tailor', 'PERMANENT').code).toBe('RECURRING_BACKGROUND_NO_PRINCIPAL_PACKAGE');
+    expect(ask('scene:S1-01:woman on the balcony', 'PERMANENT').code).toBe('SCENE_SCOPED_NO_PERMANENT_PACKAGE');
     expect(ask('scene:S1-01:tailor', 'PERMANENT', 'FD-S101-07').allowed).toBe(true);
     expect(ask('scene:S1-01:tailor', 'SCENE_SCOPED').allowed).toBe(true);
     expect(ask('nobody', 'SCENE_SCOPED').code).toBe('UNKNOWN_PERSON');

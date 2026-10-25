@@ -11,6 +11,13 @@ const GOLDEN = 'LS-GOLDEN: low sun from the west, copper on glass, warm stone, l
 const LAST = 'LS-LAST-LIGHT: sun just below the roofline, warm bounce off brick, first interior lamps';
 const BLUE = 'LS-BLUE-HOUR: blue sky, warm practical windows, street lamps on; no gold anywhere';
 const STREET = 'East-west brownstone street; glass tower at the west end of the north side';
+/** Approved returns of the recurring inhabitants (PATCH-S101-02). A planned reuse, not an asset: the frame is not generated. */
+const RETURN = {
+  TAILOR_S177: 'S1-77 (R-03): the tailor\'s identity reference, once this frame is generated and approved',
+  TEENAGER_S151: 'S1-51 (R-04): the teenager\'s identity reference, once this frame is generated and approved',
+  GRANDMOTHER_S159: 'S1-59 (R-01): the grandmother\'s identity reference, once this frame is generated and approved',
+  GRANDMOTHER_S177: 'S1-77 (R-02): the grandmother\'s identity reference, once this frame is generated and approved',
+} as const;
 const sf = (n: string, usedBy: string, derivesFrom: string[], candidates: number, title: string, s: KeyframeSpec, extra: Partial<Keyframe> = {}) =>
   kf({ keyframeId: `KF-SF-SH${n}`, kind: 'START_FRAME', title, usedBy: [usedBy], source: 'GENERATE', derivesFrom, candidates, spec: s, ...extra });
 
@@ -42,14 +49,14 @@ export const KEYFRAMES: Keyframe[] = [
 
   sf('02', 'S1-01-SH02', ['KF-ENV-CITY-DUSK-A'], 2, 'Tailor reaching for the grille', spec({ cameraAngle: 'Eye level, three-quarter front from west of the door', shotScale: 'Medium full',
     characterPlacement: 'Tailor frame left, arms up to the grille', expression: 'Focused, end-of-day calm', wardrobe: WD.TAILOR, lighting: GOLDEN, architecture: 'Shopfront, grille up, mannequin in the window',
-    propOwnership: 'Grille up', visible: ['tailor shop grille', 'mannequin in the window'], hidden: ['the bus stop'] })),
+    propOwnership: 'Grille up', visible: ['tailor shop grille', 'mannequin in the window'], hidden: ['the bus stop'] }), { reusableBeyondUnit: [RETURN.TAILOR_S177] }),
   sf('03', 'S1-01-SH03', ['KF-SF-SH02'], 1, 'Hands on the lapel through the window', spec({ cameraAngle: 'Chest height through the window glass', shotScale: 'Medium close',
     characterPlacement: 'Hands entering frame left', expression: 'Face cropped', wardrobe: WD.TAILOR, lighting: GOLDEN, architecture: 'Window glass with street reflection, grille half down at top of frame',
     propOwnership: 'Grille half down', visible: ['mannequin in the window', 'tailor shop grille'], hidden: [] })),
   sf('04', 'S1-01-SH04', ['KF-SF-SH02'], 1, 'Side-on shopfront, grille half down', spec({ cameraAngle: 'Eye level, side-on from the west', shotScale: 'Medium',
     characterPlacement: 'Tailor frame right, hand on the grille', expression: 'Satisfied', wardrobe: WD.TAILOR, lighting: GOLDEN, architecture: 'Shopfront along frame', propOwnership: 'Grille half down', visible: ['tailor shop grille'], hidden: [] })),
   sf('05', 'S1-01-SH05', ['KF-ENV-CITY-DUSK-B'], 2, 'Teenager and his reflection at the shelter', spec({ cameraAngle: 'Waist height behind his shoulder toward the shelter glass', shotScale: 'Medium full',
-    characterPlacement: 'Teenager frame right, reflection frame left', expression: 'Concentrating', wardrobe: WD.TEENAGER, lighting: GOLDEN, architecture: 'Bus shelter glass and the street behind it', visible: ['bus shelter glass'], hidden: ['other people waiting'] })),
+    characterPlacement: 'Teenager frame right, reflection frame left', expression: 'Concentrating', wardrobe: WD.TEENAGER, lighting: GOLDEN, architecture: 'Bus shelter glass and the street behind it', visible: ['bus shelter glass'], hidden: ['other people waiting'] }), { reusableBeyondUnit: [RETURN.TEENAGER_S151], blockedBy: ['FD-S101-12'] }),
   sf('06', 'S1-01-SH06', ['KF-SF-SH05'], 1, 'Sneakers on the kerb', spec({ cameraAngle: 'Ground level, side-on', shotScale: 'Insert', characterPlacement: 'Feet centre', wardrobe: WD.TEENAGER, lighting: GOLDEN, architecture: 'Kerb and pavement', visible: ['sneakers', 'kerb'], hidden: ['his face'] })),
   kf({ keyframeId: 'KF-SF-SH07', kind: 'START_FRAME', title: 'Landing take starts where the first attempt ended', usedBy: ['S1-01-SH07'], source: 'EXTRACT_FROM_APPROVED_FOOTAGE', candidates: 0, spec: null, extractFrom: { shotId: 'S1-01-SH05', position: 'LAST_FRAME' } }),
   sf('08', 'S1-01-SH08', ['KF-ENV-CITY-DUSK-A', 'KF-WD-GREEN-DRESS'], 1, 'Dress held above the fire-escape rail', spec({ cameraAngle: 'Street level looking up at the third floor', shotScale: 'Medium wide',
@@ -59,7 +66,7 @@ export const KEYFRAMES: Keyframe[] = [
     characterPlacement: 'Hands entering frame left', wardrobe: `${WD.DRESS}; ${WD.GRANDMOTHER}`, lighting: LAST, architecture: 'Fire-escape rail', propOwnership: 'Dress hanging on the rail', visible: ['third-floor fire-escape rail', 'skirt'], hidden: ['her face'] })),
   sf('10', 'S1-01-SH10', ['KF-SF-SH08', 'KF-WD-GREEN-DRESS'], 2, "Grandmother's look at the dress", spec({ cameraAngle: 'Her eye level, three-quarter front', shotScale: 'Medium close',
     characterPlacement: 'Face frame right, dress soft frame left', expression: 'Quiet approval with a trace of mischief', wardrobe: `${WD.DRESS}; ${WD.GRANDMOTHER}`, lighting: LAST, architecture: 'Fire escape, window behind her',
-    propOwnership: 'Dress hanging on the rail', visible: ['third-floor fire-escape rail'], hidden: [] })),
+    propOwnership: 'Dress hanging on the rail', visible: ['third-floor fire-escape rail'], hidden: [] }), { reusableBeyondUnit: [RETURN.GRANDMOTHER_S159, RETURN.GRANDMOTHER_S177] }),
   sf('11', 'S1-01-SH11', ['KF-ENV-CITY-DUSK-A'], 2, 'Woman dancing through the balcony door, glass on the ledge', spec({ cameraAngle: 'Balcony height from outside, straight into the kitchen', shotScale: 'Medium wide',
     characterPlacement: 'Woman right of centre inside the door frame', expression: 'Eyes half closed, pleased', wardrobe: WD.WOMAN, lighting: LAST, architecture: 'Fourth-floor balcony on a converted brownstone, open door, small kitchen',
     propOwnership: 'Glass on the ledge; spoon in her right hand', visible: ['fourth-floor balcony ledge', 'open balcony door', 'wine glass', 'wooden spoon'], hidden: [] })),

@@ -10,7 +10,7 @@ import { framesToSec, framesToTimecode } from './timecode.js';
 import { buildMultitrack, editJoins, placeShots, validateTimeline } from './timeline.js';
 import type { DirectorialFinding, DirectorsIntent, PerformanceDirection, ProductionPlan } from './types.js';
 
-export type FounderDecision = { decisionId: string; question: string; why: string; options: string[]; recommendation: string; blocks: string[]; refs: string[]; status: 'OPEN' | 'ANSWERED'; answer: string | null };
+export type FounderDecision = { decisionId: string; question: string; why: string; options: string[]; recommendation: string; blocks: string[]; refs: string[]; status: 'OPEN' | 'ANSWERED'; answer: string | null; note?: string; progress?: string[] };
 
 export type SceneDirection = { plan: ProductionPlan; intent: DirectorsIntent; performance: PerformanceDirection[]; founderDecisions: FounderDecision[]; treatment: { feel: string; perspective: string; language: string; atmosphere: string; rhythm: string } };
 
@@ -103,7 +103,7 @@ export function buildScenePacket(d: SceneDirection, ctx: { review: SceneReviewSt
       '3_DIRECTORS_TREATMENT': { treatment: d.treatment, intent: d.intent, embellishments: plan.embellishments, lighting: plan.lighting },
       '4_SHOT_STORYBOARD': { shots: shotListRows(plan, ctx.budget, ctx.review), keyframes: plan.keyframes.map((k) => ({ ...k, effectiveBlockers: blockers.get(k.keyframeId) ?? [] })), keyframeOrder: keyframeProductionOrder(plan), counts: keyframeCounts(plan) },
       '5_TIMELINE': { events: deriveTimelineEvents(plan), multitrack: buildMultitrack(plan), editJoins: editJoins(plan) },
-      '6_CHARACTERS_AND_ASSETS': { cast: ctx.cast, assets: ctx.assets, spatial: plan.spatial, continuity: plan.continuity, transitions: plan.transitions },
+      '6_CHARACTERS_AND_ASSETS': { cast: ctx.cast, assets: ctx.assets, spatial: plan.spatial, continuity: plan.continuity, transitions: plan.transitions, ...(plan.forwardReferences ? { forwardReferences: plan.forwardReferences } : {}) },
       '7_MUSIC_AND_SOUND': { music: plan.music, sound: plan.sound, cueSheet: cueSheetRows(plan), summary: audioSummary(plan), licensing: licensingDependencies(plan.music) },
       '8_PRODUCTION_COST': ctx.budget,
       '9_FOUNDER_DECISIONS': d.founderDecisions,

@@ -24,8 +24,8 @@ Result: **PASS (17 of 17 promotion checks)**, and the audit validator 21 of 21 o
 | WORLD_RULES | Copper wax, Relay, Ember, gold ladder, lantern, Echo Track and flashback rules hold against every release they cite | 7 | PASS |
 | MEMORY | Approved memories are witnessed, reveal nothing early, and add no visual flashback beyond the master's two | 6 | PASS |
 | RUNTIME | Every approved change adds 0 s; 86 releases and 127:40 hold at release and season level | 19 | PASS |
-| UNCHANGED_FILES | The S1-01 packet, the five Fountain drafts, the approval book, registries, ledgers and active production are untouched | 22 | PASS |
-| S1-01_PATCH | The S1-01 patch plan quotes the current packet, touches real shots and keyframes, and leaves shots, frames, cues and open decisions as they are | 7 | PASS |
+| UNCHANGED_FILES | The five Fountain drafts, the approval book, registries, ledgers and active production are untouched; the S1-01 packet is as audited or as the founder-authorized patch left it | 22 | PASS |
+| S1-01_PATCH | Each S1-01 patch either quotes the packet it would change or is applied (its text present, its replaced text gone); it touches real shots and keyframes and leaves shots, frames, cues and open decisions as they are | 7 | PASS |
 | ASSETS | No approved direction claims an asset that does not exist, invents a location for one, or spends anything | 25 | PASS |
 
 ## 2. Section 19 tests
