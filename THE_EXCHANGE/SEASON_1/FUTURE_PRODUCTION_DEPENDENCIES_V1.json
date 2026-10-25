@@ -8,10 +8,10 @@
       {
         "personId": "scene:S1-01:grandmother",
         "name": "GRANDMOTHER",
-        "tier": "SCENE_SCOPED",
+        "tier": "RECURRING_BACKGROUND",
         "existing": "none",
         "gaps": [
-          "scene-scoped look (designed inside the scene packet)"
+          "identity reference (face, wardrobe, mannerism) from the scene's start frames, kept for approved returns"
         ],
         "steps": [
           "IDENTIFY",
@@ -44,10 +44,10 @@
       {
         "personId": "scene:S1-01:tailor",
         "name": "TAILOR",
-        "tier": "SCENE_SCOPED",
+        "tier": "RECURRING_BACKGROUND",
         "existing": "none",
         "gaps": [
-          "scene-scoped look (designed inside the scene packet)"
+          "identity reference (face, wardrobe, mannerism) from the scene's start frames, kept for approved returns"
         ],
         "steps": [
           "IDENTIFY",
@@ -62,10 +62,10 @@
       {
         "personId": "scene:S1-01:teenager",
         "name": "TEENAGER",
-        "tier": "SCENE_SCOPED",
+        "tier": "RECURRING_BACKGROUND",
         "existing": "none",
         "gaps": [
-          "scene-scoped look (designed inside the scene packet)"
+          "identity reference (face, wardrobe, mannerism) from the scene's start frames, kept for approved returns"
         ],
         "steps": [
           "IDENTIFY",
@@ -384,7 +384,7 @@
     {
       "personId": "scene:S1-01:grandmother",
       "name": "GRANDMOTHER",
-      "tier": "SCENE_SCOPED",
+      "tier": "RECURRING_BACKGROUND",
       "registryId": null,
       "releases": [
         "S1-01"
@@ -410,7 +410,7 @@
     {
       "personId": "scene:S1-01:tailor",
       "name": "TAILOR",
-      "tier": "SCENE_SCOPED",
+      "tier": "RECURRING_BACKGROUND",
       "registryId": null,
       "releases": [
         "S1-01"
@@ -423,7 +423,7 @@
     {
       "personId": "scene:S1-01:teenager",
       "name": "TEENAGER",
-      "tier": "SCENE_SCOPED",
+      "tier": "RECURRING_BACKGROUND",
       "registryId": null,
       "releases": [
         "S1-01"
@@ -2394,9 +2394,9 @@
           "DRESS_DESIGN_PENDING"
         ],
         "facialReference": {
-          "keyframeId": "KF-SF-SH09",
+          "keyframeId": "KF-SF-SH10",
           "status": "PENDING_PRODUCTION",
-          "note": "Fixed by the SH09 start frame once generated. Not generated. The same face and performance in S1-59 and S1-77."
+          "note": "Fixed by the SH10 start frame once generated: her face first reads there (SH08 shows the top of her head, SH09 only her hands). Not generated. The same face and performance in S1-59 and S1-77."
         },
         "releases": [
           "S1-01",
@@ -2455,7 +2455,7 @@
           "LW-WD-GREEN-DRESS (PENDING_DESIGN)"
         ],
         "holds": [
-          "HOLD-S101-PATCH",
+          "HOLD-FD-S101-12",
           "HOLD-FD-S101-05"
         ]
       },
@@ -2574,7 +2574,7 @@
           "LW-DANCE-FOUR-COUNT (PENDING_DESIGN)"
         ],
         "holds": [
-          "HOLD-S101-PATCH"
+          "HOLD-FD-S101-12"
         ]
       },
       {
@@ -2610,9 +2610,7 @@
           "LW-PROP-KAI-PLIERS (PENDING_DESIGN)",
           "LW-VOICE-GRANDMOTHER (PENDING_PRODUCTION)"
         ],
-        "holds": [
-          "HOLD-S101-PATCH"
-        ]
+        "holds": []
       },
       {
         "releaseId": "S1-74",
@@ -2654,7 +2652,6 @@
           "LW-ENV-FAR-BANK (PENDING_DESIGN)"
         ],
         "holds": [
-          "HOLD-S101-PATCH",
           "HOLD-FD-S101-05",
           "HOLD-FD-18"
         ]
@@ -2705,7 +2702,20 @@
           "R-04"
         ],
         "reason": "The S1-01 packet still describes the three inhabitants as scene-scoped. Their start frames must be made as recurring identity references.",
-        "liftedBy": "Founder review of the S1-01 patch plan (PATCH-S101-01 to -07), then a packet rebuild."
+        "liftedBy": "Founder review of the S1-01 patch plan (PATCH-S101-01 to -07), then a packet rebuild.",
+        "lifted": {
+          "date": "2026-10-25",
+          "by": "Founder authorized PATCH-S101-01 to -07; the packet was rebuilt with them (P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1)."
+        }
+      },
+      {
+        "holdId": "HOLD-FD-S101-12",
+        "blocks": [
+          "S-02",
+          "R-04"
+        ],
+        "reason": "The teenager's four-count step is not choreographed (CHOREOGRAPHY_LOCK_PENDING). Its S1-01 start frame (KF-SF-SH05) and the S1-51 return wait for it.",
+        "liftedBy": "Founder locks the four counts (FD-S101-12)."
       },
       {
         "holdId": "HOLD-SONG",

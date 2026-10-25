@@ -78,11 +78,14 @@ export type Ctx = {
   placedIn: (releaseId: string) => Proposal[];
 };
 
+export const AUDITED_PACKET = 'scripts/the-exchange/living-world-audit/S1-01_PACKET_AT_AUDIT.json';
+
 export function loadCtx(root: string): Ctx {
   const read = (rel: string) => fs.readFileSync(X.repoPath(rel, root), 'utf8');
   const master = X.loadSeasonMaster(root);
   const index = JSON.parse(read(A.SCENE_INDEX)) as X.SceneIndex;
-  const raw = JSON.parse(read(A.S101_PACKET)) as {
+  /** The packet as the audit read it (sha256 at the audit baseline), frozen when the founder-authorized S1-01 patch moved the live one. */
+  const raw = JSON.parse(read(AUDITED_PACKET)) as {
     status: string;
     sections: {
       '1_SCENE_OVERVIEW': { estimatedDuration: string };

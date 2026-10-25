@@ -49,7 +49,7 @@ export type PromotionRecord = ReturnType<typeof promotionRecord>;
 function promotionRecord(p: Proposal) {
   const group = groupOf(p.id)!;
   const amendments = Object.values(LIVING_WORLD_AMENDMENTS).flat().filter((a) => a.recommendationId === p.id);
-  const holds = PRODUCTION_HOLDS.filter((h) => h.blocks.includes(p.id));
+  const holds = PRODUCTION_HOLDS.filter((h) => !h.lifted && h.blocks.includes(p.id));
   const assets = ASSET_REQUIREMENTS.filter((a) => a.proposalIds.includes(p.id));
   const productionState: ProductionState = holds.length ? 'CONDITIONAL_PRODUCTION_HOLD' : assets.every((a) => a.status === 'NOT_REQUIRED') ? 'NO_PRODUCTION_ASSET' : 'PENDING_PRODUCTION';
   return {

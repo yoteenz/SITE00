@@ -68,7 +68,7 @@ for (const unitId of Object.keys(X.DIRECTED_SCENES)) {
     review: b.review,
     budget: b.budget,
     approvedAssets: approved,
-    cast: { people, rule: 'Scene-scoped inhabitants get performance direction and no permanent package (sprint V2 §28).', registryCharacters: cast.characters.filter((c) => people.some((p) => p.registryId === c.characterId)) },
+    cast: { people, rule: b.castRule, registryCharacters: cast.characters.filter((c) => people.some((p) => p.registryId === c.characterId)) },
     assets: { sets: assets.sets.filter((s) => b.assetRefs.sets.includes(s.setId)), props: assets.props.filter((p) => b.assetRefs.props.includes(p.propId)), approvedAssetIds: [...approved].sort() },
     screenplayText: read(plan.screenplay.path),
     overview: b.overview,

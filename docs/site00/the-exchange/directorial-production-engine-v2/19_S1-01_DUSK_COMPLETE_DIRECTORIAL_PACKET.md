@@ -256,12 +256,13 @@ CUT TO BLACK.
 | E-05 | DIRECTORIAL_INTERPRETATION | The glass waits on her ledge in SC05 so the toast in SC06 is set up, not conjured. | Prop credibility (PK-005); screenplay v2 continuity rule. | S1-01-SH11 S1-01-SH16 |
 | E-06 | DIRECTORIAL_INTERPRETATION | The teenager lands the step on the downbeat where the groove starts. | Screenplay: "He lands it on the beat"; the beat is placed at frame 324. | S1-01-SH07 S1-01-MX02 |
 | E-07 | FOUNDER_APPROVAL_REQUIRED | Halcyon House appears only as a row of lit ballroom windows across the rooftops. | No approved exterior design exists; the founder confirms windows-only or supplies an exterior authority. | KF-ENV-HALCYON-EXT S1-01-SH18 |
-| E-08 | FOUNDER_APPROVAL_REQUIRED | The design of the jewel-green dress. | Open question U-4; no wardrobe design is registered. | KF-WD-GREEN-DRESS S1-01-SH08 S1-01-SH09 S1-01-SH10 S1-01-SH17 |
-| E-09 | FOUNDER_APPROVAL_REQUIRED | Looks, ages and everyday wardrobe of the five inhabitants (scene-scoped, no permanent packages). | The screenplay gives roles, not appearances; sprint V2 §28 asks for meaningful inhabitants without packages. | S1-01/WD/INHABITANTS |
-| E-10 | FOUNDER_APPROVAL_REQUIRED | Whether the tailor is Wendell Ames, the Ferry Street tailor named later in the season. | Season master names Wendell Ames, 58, as a tailor; S1-01 leaves its tailor unnamed. | S1-01-SH02 S1-01-SH03 S1-01-SH04 |
+| E-08 | FOUNDER_APPROVAL_REQUIRED | The design of the jewel-green dress: one garment for SH08 to SH10, SH17 and the S1-77 callback. KF-WD-GREEN-DRESS stays blocked by FD-S101-05. | Open question U-4; no wardrobe design is registered. Story continuity approved (FD-S101-05, R-02; founder, 2026-10-25); applied by P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 (PATCH-S101-06). | KF-WD-GREEN-DRESS S1-01-SH08 S1-01-SH09 S1-01-SH10 S1-01-SH17 |
+| E-09 | FOUNDER_APPROVAL_REQUIRED | Looks, ages and everyday wardrobe of the five inhabitants. The tailor, the grandmother and the teenager are recurring background (FD-S101-06); the woman on the balcony and the neighbour are scene-scoped. The looks are approved with the start frames. | The screenplay gives roles, not appearances; sprint V2 §28 asks for meaningful inhabitants without packages. Tier: FD-S101-06 RECURRING (founder, 2026-10-25); applied by P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 (PATCH-S101-01). | S1-01/WD/INHABITANTS |
+| E-10 | FOUNDER_DECIDED | The tailor is anonymous (FD-S101-07). He is not Wendell Ames and has no biography. | Season master names Wendell Ames, 58, as a tailor; S1-01 leaves its tailor unnamed. FD-S101-07 ANONYMOUS (founder, 2026-10-25); applied by P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 (PATCH-S101-04). | S1-01-SH02 S1-01-SH03 S1-01-SH04 |
 | E-11 | DIRECTORIAL_INTERPRETATION | Dusk compressed from golden hour to blue hour across 45 seconds. | Screenplay visual intention: "Warm dusk turning blue". | LS-GOLDEN LS-LAST-LIGHT LS-BLUE-HOUR |
 | E-12 | FOUNDER_APPROVAL_REQUIRED | Music direction and route: a big band that warms up, grooves, stops and resolves into the real Halcyon House band. | Screenplay names a big band; genre, arrangement and composer route are founder choices. | S1-01-MX01 S1-01-MX02 S1-01-MX03 |
 | E-13 | DIRECTORIAL_INTERPRETATION | Windows light one by one "like a city putting on its earrings". | Screenplay v2 line in SC01 (THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-01_DUSK.fountain); drives the SH01 action. | S1-01-SH01 |
+| E-14 | FOUNDER_APPROVAL_REQUIRED | Choreography note on SH05 to SH07: one specific four-count step, missed, tangled, then landed on the downbeat (frame 324, E-06). The same four counts return in S1-51 (R-04). The step itself is still to be choreographed. | S-02 (P-11) and R-04, founder-approved (founder, 2026-10-25); applied by P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 (PATCH-S101-05). The step: CHOREOGRAPHY_LOCK_PENDING (FD-S101-12). | S1-01-SH05 S1-01-SH06 S1-01-SH07 |
 
 ## 4. Shot storyboard
 
@@ -344,7 +345,7 @@ CUT TO BLACK.
 | Performance | Practised, unhurried; the stop is a thought, not a startle. |
 | Landmarks | tailor shop grille; mannequin in the window |
 | Lighting | LS-GOLDEN |
-| Wardrobe | Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped) |
+| Wardrobe | Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06) |
 | Prop state | Shop grille: up, then pulled halfway |
 | Coverage | SILENT_ACTION |
 | Lip-sync | NONE |
@@ -393,7 +394,7 @@ CUT TO BLACK.
 | Performance | Two small corrections; satisfaction shows in the hands, not the face. |
 | Landmarks | mannequin in the window; tailor shop grille |
 | Lighting | LS-GOLDEN |
-| Wardrobe | Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped) |
+| Wardrobe | Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06) |
 | Prop state | Shop grille: half down |
 | Coverage | SILENT_ACTION |
 | Lip-sync | NONE |
@@ -442,7 +443,7 @@ CUT TO BLACK.
 | Performance | A goodnight to the work; no smile needed. |
 | Landmarks | tailor shop grille |
 | Lighting | LS-GOLDEN |
-| Wardrobe | Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped) |
+| Wardrobe | Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06) |
 | Prop state | Shop grille: half down, then closed |
 | Coverage | SILENT_ACTION |
 | Lip-sync | NONE |
@@ -487,11 +488,11 @@ CUT TO BLACK.
 | Composition | Teenager frame right, reflection frame left in the glass |
 | Screen direction | He faces screen left into the glass |
 | Eyeline | His own reflection |
-| Blocking | He tries a two-step turn and stumbles out of it. |
+| Blocking | He tries the four-count step and stumbles out of it. |
 | Performance | Concentration, then a small wince at himself. |
 | Landmarks | bus shelter glass |
 | Lighting | LS-GOLDEN |
-| Wardrobe | Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped) |
+| Wardrobe | Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06) |
 | Prop state | NONE |
 | Coverage | SILENT_ACTION |
 | Lip-sync | NONE |
@@ -540,7 +541,7 @@ CUT TO BLACK.
 | Performance | Feet only. |
 | Landmarks | NONE |
 | Lighting | LS-GOLDEN |
-| Wardrobe | Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped) |
+| Wardrobe | Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06) |
 | Prop state | NONE |
 | Coverage | SILENT_ACTION |
 | Lip-sync | NONE |
@@ -589,7 +590,7 @@ CUT TO BLACK.
 | Performance | Private pride; the glance round is relief, not fear. |
 | Landmarks | bus shelter glass |
 | Lighting | LS-GOLDEN |
-| Wardrobe | Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped) |
+| Wardrobe | Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06) |
 | Prop state | NONE |
 | Coverage | SILENT_ACTION |
 | Lip-sync | NONE |
@@ -638,7 +639,7 @@ CUT TO BLACK.
 | Performance | Hands only: a practised shake-out. |
 | Landmarks | third-floor fire-escape rail |
 | Lighting | LS-LAST-LIGHT |
-| Wardrobe | The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (scene-scoped) |
+| Wardrobe | The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06) |
 | Prop state | Jewel-green dress: in her hands above the rail, then unfurling over it |
 | Coverage | SILENT_ACTION |
 | Lip-sync | NONE |
@@ -687,7 +688,7 @@ CUT TO BLACK.
 | Performance | Care and ownership; unhurried. |
 | Landmarks | third-floor fire-escape rail |
 | Lighting | LS-LAST-LIGHT |
-| Wardrobe | The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (scene-scoped) |
+| Wardrobe | The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06) |
 | Prop state | Jewel-green dress: hanging on the rail |
 | Coverage | SILENT_ACTION |
 | Lip-sync | NONE |
@@ -736,7 +737,7 @@ CUT TO BLACK.
 | Performance | Approval held in the eyes; the nod is tiny. |
 | Landmarks | third-floor fire-escape rail |
 | Lighting | LS-LAST-LIGHT |
-| Wardrobe | The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (scene-scoped) |
+| Wardrobe | The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06) |
 | Prop state | Jewel-green dress: hanging on the rail |
 | Coverage | SILENT_ACTION |
 | Lip-sync | NONE |
@@ -1212,9 +1213,9 @@ CUT TO BLACK.
 | KF-SF-SH02 | START_FRAME | GENERATE | S1-01-SH02 | KF-ENV-CITY-DUSK-A | 2 | KF-ENV-CITY-DUSK-A: FD-S101-08 |
 | KF-SF-SH03 | START_FRAME | GENERATE | S1-01-SH03 | KF-SF-SH02 | 1 | KF-SF-SH02: KF-ENV-CITY-DUSK-A: FD-S101-08 |
 | KF-SF-SH04 | START_FRAME | GENERATE | S1-01-SH04 | KF-SF-SH02 | 1 | KF-SF-SH02: KF-ENV-CITY-DUSK-A: FD-S101-08 |
-| KF-SF-SH05 | START_FRAME | GENERATE | S1-01-SH05 | KF-ENV-CITY-DUSK-B | 2 | KF-ENV-CITY-DUSK-B: KF-ENV-CITY-DUSK-A: FD-S101-08 |
-| KF-SF-SH06 | START_FRAME | GENERATE | S1-01-SH06 | KF-SF-SH05 | 1 | KF-SF-SH05: KF-ENV-CITY-DUSK-B: KF-ENV-CITY-DUSK-A: FD-S101-08 |
-| KF-SF-SH07 | START_FRAME | EXTRACT_FROM_APPROVED_FOOTAGE | S1-01-SH07 | S1-01-SH05 LAST_FRAME | 0 | S1-01-SH05 via KF-SF-SH05: KF-ENV-CITY-DUSK-B: KF-ENV-CITY-DUSK-A: FD-S101-08 |
+| KF-SF-SH05 | START_FRAME | GENERATE | S1-01-SH05 | KF-ENV-CITY-DUSK-B | 2 | FD-S101-12 KF-ENV-CITY-DUSK-B: KF-ENV-CITY-DUSK-A: FD-S101-08 |
+| KF-SF-SH06 | START_FRAME | GENERATE | S1-01-SH06 | KF-SF-SH05 | 1 | KF-SF-SH05: FD-S101-12 KF-SF-SH05: KF-ENV-CITY-DUSK-B: KF-ENV-CITY-DUSK-A: FD-S101-08 |
+| KF-SF-SH07 | START_FRAME | EXTRACT_FROM_APPROVED_FOOTAGE | S1-01-SH07 | S1-01-SH05 LAST_FRAME | 0 | S1-01-SH05 via KF-SF-SH05: FD-S101-12 S1-01-SH05 via KF-SF-SH05: KF-ENV-CITY-DUSK-B: KF-ENV-CITY-DUSK-A: FD-S101-08 |
 | KF-SF-SH08 | START_FRAME | GENERATE | S1-01-SH08 | KF-ENV-CITY-DUSK-A KF-WD-GREEN-DRESS | 1 | KF-ENV-CITY-DUSK-A: FD-S101-08 KF-WD-GREEN-DRESS: FD-S101-05 |
 | KF-SF-SH09 | START_FRAME | GENERATE | S1-01-SH09 | KF-SF-SH08 KF-WD-GREEN-DRESS | 1 | KF-SF-SH08: KF-ENV-CITY-DUSK-A: FD-S101-08 KF-SF-SH08: KF-WD-GREEN-DRESS: FD-S101-05 KF-WD-GREEN-DRESS: FD-S101-05 |
 | KF-SF-SH10 | START_FRAME | GENERATE | S1-01-SH10 | KF-SF-SH08 KF-WD-GREEN-DRESS | 2 | KF-SF-SH08: KF-ENV-CITY-DUSK-A: FD-S101-08 KF-SF-SH08: KF-WD-GREEN-DRESS: FD-S101-05 KF-WD-GREEN-DRESS: FD-S101-05 |
@@ -1236,14 +1237,14 @@ CUT TO BLACK.
 | KF-ENV-HALCYON-EXT | Level across the rooftops, looking east | Wide | Nobody featured | None | None | LS-BLUE-HOUR: blue sky, warm practical windows, street lamps on; no gold anywhere; tall ballroom windows glow amber | Water towers and roofs in silhouette; one row of tall arched or rectangular ballroom windows lit on the far side (window shape is a founder choice) | None | water towers; Halcyon House ballroom windows | facade detail; roofline silhouette of the hotel; signage; front steps and door |
 | KF-WD-GREEN-DRESS | Straight on, dress hanging | Full length of the dress | Nobody featured | None | The jewel-green dress (design pending, U-4) | LS-LAST-LIGHT: sun just below the roofline, warm bounce off brick, first interior lamps | Neutral brick behind | None | the whole dress; neckline; hem | a wearer |
 | KF-EMBER-LOOK | Front three-quarter on a phone camera lens | Extreme close | Nobody featured | None | None | LS-BLUE-HOUR: blue sky, warm practical windows, street lamps on; no gold anywhere; the copper glow is the brightest thing in frame | None | Neighbour's phone (PR-NEIGHBOUR-PHONE, design required) | lens ring; soft copper glow | any gold tone; any logo |
-| KF-SF-SH02 | Eye level, three-quarter front from west of the door | Medium full | Tailor frame left, arms up to the grille | Focused, end-of-day calm | Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped) | LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east | Shopfront, grille up, mannequin in the window | Grille up | tailor shop grille; mannequin in the window | the bus stop |
-| KF-SF-SH03 | Chest height through the window glass | Medium close | Hands entering frame left | Face cropped | Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped) | LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east | Window glass with street reflection, grille half down at top of frame | Grille half down | mannequin in the window; tailor shop grille | — |
-| KF-SF-SH04 | Eye level, side-on from the west | Medium | Tailor frame right, hand on the grille | Satisfied | Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped) | LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east | Shopfront along frame | Grille half down | tailor shop grille | — |
-| KF-SF-SH05 | Waist height behind his shoulder toward the shelter glass | Medium full | Teenager frame right, reflection frame left | Concentrating | Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped) | LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east | Bus shelter glass and the street behind it | None | bus shelter glass | other people waiting |
-| KF-SF-SH06 | Ground level, side-on | Insert | Feet centre | None | Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped) | LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east | Kerb and pavement | None | sneakers; kerb | his face |
-| KF-SF-SH08 | Street level looking up at the third floor | Medium wide | Grandmother's arms and the top of her head above the rail | Not readable | The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (scene-scoped) | LS-LAST-LIGHT: sun just below the roofline, warm bounce off brick, first interior lamps | Brownstone brick, third-floor fire escape | Dress in her hands, folded | third-floor fire-escape rail; the dress | — |
-| KF-SF-SH09 | Rail height, side-on along the rail | Close | Hands entering frame left | None | The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (scene-scoped) | LS-LAST-LIGHT: sun just below the roofline, warm bounce off brick, first interior lamps | Fire-escape rail | Dress hanging on the rail | third-floor fire-escape rail; skirt | her face |
-| KF-SF-SH10 | Her eye level, three-quarter front | Medium close | Face frame right, dress soft frame left | Quiet approval with a trace of mischief | The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (scene-scoped) | LS-LAST-LIGHT: sun just below the roofline, warm bounce off brick, first interior lamps | Fire escape, window behind her | Dress hanging on the rail | third-floor fire-escape rail | — |
+| KF-SF-SH02 | Eye level, three-quarter front from west of the door | Medium full | Tailor frame left, arms up to the grille | Focused, end-of-day calm | Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06) | LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east | Shopfront, grille up, mannequin in the window | Grille up | tailor shop grille; mannequin in the window | the bus stop |
+| KF-SF-SH03 | Chest height through the window glass | Medium close | Hands entering frame left | Face cropped | Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06) | LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east | Window glass with street reflection, grille half down at top of frame | Grille half down | mannequin in the window; tailor shop grille | — |
+| KF-SF-SH04 | Eye level, side-on from the west | Medium | Tailor frame right, hand on the grille | Satisfied | Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06) | LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east | Shopfront along frame | Grille half down | tailor shop grille | — |
+| KF-SF-SH05 | Waist height behind his shoulder toward the shelter glass | Medium full | Teenager frame right, reflection frame left | Concentrating | Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06) | LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east | Bus shelter glass and the street behind it | None | bus shelter glass | other people waiting |
+| KF-SF-SH06 | Ground level, side-on | Insert | Feet centre | None | Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06) | LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east | Kerb and pavement | None | sneakers; kerb | his face |
+| KF-SF-SH08 | Street level looking up at the third floor | Medium wide | Grandmother's arms and the top of her head above the rail | Not readable | The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06) | LS-LAST-LIGHT: sun just below the roofline, warm bounce off brick, first interior lamps | Brownstone brick, third-floor fire escape | Dress in her hands, folded | third-floor fire-escape rail; the dress | — |
+| KF-SF-SH09 | Rail height, side-on along the rail | Close | Hands entering frame left | None | The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06) | LS-LAST-LIGHT: sun just below the roofline, warm bounce off brick, first interior lamps | Fire-escape rail | Dress hanging on the rail | third-floor fire-escape rail; skirt | her face |
+| KF-SF-SH10 | Her eye level, three-quarter front | Medium close | Face frame right, dress soft frame left | Quiet approval with a trace of mischief | The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06) | LS-LAST-LIGHT: sun just below the roofline, warm bounce off brick, first interior lamps | Fire escape, window behind her | Dress hanging on the rail | third-floor fire-escape rail | — |
 | KF-SF-SH11 | Balcony height from outside, straight into the kitchen | Medium wide | Woman right of centre inside the door frame | Eyes half closed, pleased | Woman on the balcony: soft at-home dress, bare feet, hair loosely up (scene-scoped) | LS-LAST-LIGHT: sun just below the roofline, warm bounce off brick, first interior lamps | Fourth-floor balcony on a converted brownstone, open door, small kitchen | Glass on the ledge; spoon in her right hand | fourth-floor balcony ledge; open balcony door; wine glass; wooden spoon | — |
 | KF-SF-SH12 | Her eye level, three-quarter front | Medium close | Face centre | Laughing to herself | Woman on the balcony: soft at-home dress, bare feet, hair loosely up (scene-scoped) | LS-LAST-LIGHT: sun just below the roofline, warm bounce off brick, first interior lamps | Kitchen interior, door frame edge | Spoon in her right hand | wooden spoon | wine glass |
 | KF-SF-SH13 | His eye level from outside the window, three-quarter front | Medium | Neighbour frame right, looking screen left | Idle amusement | Neighbour: plain t-shirt, reading lamp behind him (scene-scoped) | LS-BLUE-HOUR: blue sky, warm practical windows, street lamps on; no gold anywhere | Second-floor window, reading lamp behind | Phone in his hand, lowered | neighbour's window frame; phone | her balcony |
@@ -1282,14 +1283,14 @@ Production order: KF-ENV-CITY-DUSK-A → KF-ENV-CITY-DUSK-B → KF-ENV-HALCYON-E
 
 ## 6. Characters and production assets
 
-**Rule.** Scene-scoped inhabitants get performance direction and no permanent package (sprint V2 §28).
+**Rule.** Inhabitants get performance direction. The tailor, the grandmother and the teenager keep an identity reference (face, wardrobe, mannerism) for their approved returns; no voice, biography or principal package. The woman on the balcony and the neighbour are scene-scoped.
 
 | Person | Tier | Releases |
 | --- | --- | --- |
-| GRANDMOTHER | SCENE_SCOPED | S1-01 |
+| GRANDMOTHER | RECURRING_BACKGROUND | S1-01 |
 | NEIGHBOUR | SCENE_SCOPED | S1-01 |
-| TAILOR | SCENE_SCOPED | S1-01 |
-| TEENAGER | SCENE_SCOPED | S1-01 |
+| TAILOR | RECURRING_BACKGROUND | S1-01 |
+| TEENAGER | RECURRING_BACKGROUND | S1-01 |
 | WOMAN ON THE BALCONY | SCENE_SCOPED | S1-01 |
 
 Registered characters on screen: 0. Sets: SET-CITY-DUSK (PROVISIONAL_IMPLEMENTATION), SET-HALCYON-HOUSE (APPROVED_DEVELOPMENT_DIRECTION). Props: PR-NEIGHBOUR-PHONE (DESIGN_REQUIRED).
@@ -1339,15 +1340,15 @@ Brownstone street at dusk. Scale: Two-lane residential street about 18 m between
 | Shot | Characters | Props |
 | --- | --- | --- |
 | S1-01-SH01 | — | — |
-| S1-01-SH02 | TAILOR: Z-SHOPFRONT, standing, arms up to the grille, Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped) | Shop grille: nobody at Z-SHOPFRONT, up |
-| S1-01-SH03 | TAILOR: Z-SHOPFRONT, leaning in, Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped) | Shop grille: nobody at Z-SHOPFRONT, half down |
-| S1-01-SH04 | TAILOR: Z-SHOPFRONT, standing, Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped) | Shop grille: nobody at Z-SHOPFRONT, half down |
-| S1-01-SH05 | TEENAGER: Z-BUS-STOP, set to dance, Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped) | — |
-| S1-01-SH06 | TEENAGER: Z-BUS-STOP, mid-turn, Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped) | — |
-| S1-01-SH07 | TEENAGER: Z-BUS-STOP, set to dance, Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped) | — |
-| S1-01-SH08 | GRANDMOTHER: Z-FIRE-ESCAPE, leaning over the rail, Grandmother: house cardigan, reading glasses on a chain (scene-scoped) | Jewel-green dress: GRANDMOTHER at Z-FIRE-ESCAPE, folded in her hands above the rail |
-| S1-01-SH09 | GRANDMOTHER: Z-FIRE-ESCAPE, hands on the skirt, Grandmother: house cardigan, reading glasses on a chain (scene-scoped) | Jewel-green dress: nobody at Z-FIRE-ESCAPE, hanging on the rail |
-| S1-01-SH10 | GRANDMOTHER: Z-FIRE-ESCAPE, half a pace back, Grandmother: house cardigan, reading glasses on a chain (scene-scoped) | Jewel-green dress: nobody at Z-FIRE-ESCAPE, hanging on the rail |
+| S1-01-SH02 | TAILOR: Z-SHOPFRONT, standing, arms up to the grille, Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06) | Shop grille: nobody at Z-SHOPFRONT, up |
+| S1-01-SH03 | TAILOR: Z-SHOPFRONT, leaning in, Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06) | Shop grille: nobody at Z-SHOPFRONT, half down |
+| S1-01-SH04 | TAILOR: Z-SHOPFRONT, standing, Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06) | Shop grille: nobody at Z-SHOPFRONT, half down |
+| S1-01-SH05 | TEENAGER: Z-BUS-STOP, set to dance, Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06) | — |
+| S1-01-SH06 | TEENAGER: Z-BUS-STOP, mid-turn, Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06) | — |
+| S1-01-SH07 | TEENAGER: Z-BUS-STOP, set to dance, Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06) | — |
+| S1-01-SH08 | GRANDMOTHER: Z-FIRE-ESCAPE, leaning over the rail, Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06) | Jewel-green dress: GRANDMOTHER at Z-FIRE-ESCAPE, folded in her hands above the rail |
+| S1-01-SH09 | GRANDMOTHER: Z-FIRE-ESCAPE, hands on the skirt, Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06) | Jewel-green dress: nobody at Z-FIRE-ESCAPE, hanging on the rail |
+| S1-01-SH10 | GRANDMOTHER: Z-FIRE-ESCAPE, half a pace back, Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06) | Jewel-green dress: nobody at Z-FIRE-ESCAPE, hanging on the rail |
 | S1-01-SH11 | WOMAN ON THE BALCONY: Z-BALCONY-KITCHEN, dancing, Woman on the balcony: soft at-home dress, bare feet, hair loosely up (scene-scoped) | Wine glass: nobody at Z-BALCONY-KITCHEN, full, on the ledge; Wooden spoon: WOMAN ON THE BALCONY at Z-BALCONY-KITCHEN, in her right hand |
 | S1-01-SH12 | WOMAN ON THE BALCONY: Z-BALCONY-KITCHEN, twirling, Woman on the balcony: soft at-home dress, bare feet, hair loosely up (scene-scoped) | Wine glass: nobody at Z-BALCONY-KITCHEN, full, on the ledge (unseen); Wooden spoon: WOMAN ON THE BALCONY at Z-BALCONY-KITCHEN, in her right hand |
 | S1-01-SH13 | NEIGHBOUR: Z-NEIGHBOUR-WINDOW, standing at the window, Neighbour: plain t-shirt, reading lamp behind him (scene-scoped) | Neighbour's phone: NEIGHBOUR at Z-NEIGHBOUR-WINDOW, lowered, in his hand |
@@ -1404,12 +1405,13 @@ Base estimate 3,400 OpenArt credits and $1.48 on fal; expected with revisions 4,
 | FD-S101-03 | What does the Ember look like on a lens? | It holds for the season and must never be mistaken for the gold yes revealed in S1-58. | Soft copper bloom spreading from the lens / A thin copper ring around the lens / Founder supplies a reference | Approve two KF-EMBER-LOOK candidates (80 credits) and choose one. | KEYFRAMES | OPEN |
 | FD-S101-04 | Halcyon House: windows only, or supply an exterior authority? | No approved exterior exists and the sprint forbids inventing one. | Windows only (no facade, roofline or signage) / Founder supplies an exterior reference first | Windows only for S1-01; design the exterior when S1-02 to S1-05 need the front steps. | KEYFRAMES | OPEN |
 | FD-S101-05 | Design of the jewel-green dress? | It appears in four shots and the rise; it needs one fixed design (U-4). | Approve from two generated candidates / Founder supplies a reference | Two candidates (80 credits): a 1960s satin cocktail dress and a bias-cut evening dress. | KEYFRAMES | OPEN |
-| FD-S101-06 | Approve the inhabitants' looks as planned (scene-scoped)? | Ages, looks and clothes are directorial interpretation; none of the five gets a permanent package. | Approve as directed / Adjust | Approve; faces are fixed by each vignette's first start frame. | KEYFRAMES | OPEN |
-| FD-S101-07 | Is the tailor Wendell Ames? | Yes makes him a recurring character whose identity reference must exist before S1-01 frames are generated. | No: an unnamed tailor / Yes: Wendell Ames, 58, Ferry Street | No for now: keep him scene-scoped and the shop sign unreadable so the choice stays open. | KEYFRAMES | OPEN |
+| FD-S101-06 | Approve the inhabitants' looks as planned (scene-scoped)? | Ages, looks and clothes are directorial interpretation; none of the five gets a permanent package. | Approve as directed / Adjust | Approve; faces are fixed by each vignette's first start frame. | KEYFRAMES | ANSWERED |
+| FD-S101-07 | Is the tailor Wendell Ames? | Yes makes him a recurring character whose identity reference must exist before S1-01 frames are generated. | No: an unnamed tailor / Yes: Wendell Ames, 58, Ferry Street | Answered by the founder. | KEYFRAMES | ANSWERED |
 | FD-S101-08 | How is the street seeded? | SET-CITY-DUSK has no approved reference; every frame derives from KF-ENV-CITY-DUSK-A. | Look development: two candidates from the spec / Founder supplies a street photograph as the reference | Founder photograph if one exists; otherwise two look-development candidates (80 credits). | KEYFRAMES | OPEN |
 | FD-S101-09 | Confirm 24 fps delivery? | All timing is in frames at 24 fps, matching the recorded Kling outputs (PK-007). | 24 fps / 30 fps (re-time every event) | 24 fps. | DIRECTION | OPEN |
 | FD-S101-10 | Title card at the end? | The release ends on a ringing chord over black. | No title card / THE EXCHANGE title over black | No title card in S1-01. | DIRECTION | OPEN |
 | FD-S101-11 | Authorize the generation budget? | No credits are spent until the founder authorizes an amount. | Authorize the estimate plus expected revisions / Authorize references and keyframes only / Hold | Authorize references and keyframes first, then video once frames are approved. | GENERATION_BUDGET | OPEN |
+| FD-S101-12 | Lock the teenager's four-count step? | SH05 to SH07 miss it, tangle it and land it on frame 324, and S1-51 repeats the same four counts (S-02, R-04). The step is not choreographed yet (CHOREOGRAPHY_LOCK_PENDING). | Founder supplies or approves the four counts / Hold SH05 to SH07 | Lock the step before the SH05 start frame is generated; no shot length changes. | KEYFRAMES | OPEN |
 
 ## 10. Production authorization
 

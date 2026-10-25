@@ -114,9 +114,9 @@
         "sourceFile": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json"
       },
       "facialReference": {
-        "keyframeId": "KF-SF-SH09",
+        "keyframeId": "KF-SF-SH10",
         "status": "PENDING_PRODUCTION",
-        "note": "Fixed by the SH09 start frame once generated. Not generated. The same face and performance in S1-59 and S1-77."
+        "note": "Fixed by the SH10 start frame once generated: her face first reads there (SH08 shows the top of her head, SH09 only her hands). Not generated. The same face and performance in S1-59 and S1-77."
       },
       "wardrobe": {
         "everyday": "Grandmother: house cardigan, reading glasses on a chain",

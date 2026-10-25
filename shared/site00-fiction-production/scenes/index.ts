@@ -5,7 +5,7 @@ import { newReviewState, reconcileReviewState, type ElementType, type SceneRevie
 import { buildBudget, loadQuotesV2 } from '../directorial/routing.js';
 import { DIRECTORIAL_SCHEMA_VERSION } from '../directorial/types.js';
 import { EXCHANGE_PATHS, repoPath } from '../paths.js';
-import { S1_01_DIRECTION, S1_01_OVERVIEW, S1_01_REVIEW_EXTRAS } from './s1-01/index.js';
+import { S1_01_CAST_RULE, S1_01_DIRECTION, S1_01_OVERVIEW, S1_01_REVIEW_EXTRAS } from './s1-01/index.js';
 
 export * from './s1-01/index.js';
 
@@ -15,11 +15,13 @@ export type DirectedScene = {
   reviewExtras: Array<{ elementId: string; type: ElementType }>;
   /** Registry records the packet shows in its characters-and-assets section. */
   assetRefs: { sets: string[]; props: string[] };
+  /** How the packet's cast section treats the unit's unregistered people. */
+  castRule: string;
 };
 
 /** Units planned to the frame by the directorial engine. Their auto-planned shot lists stay in SHOT_LISTS for history only. */
 export const DIRECTED_SCENES: Record<string, DirectedScene> = {
-  'S1-01': { direction: S1_01_DIRECTION, overview: S1_01_OVERVIEW, reviewExtras: S1_01_REVIEW_EXTRAS, assetRefs: { sets: ['SET-CITY-DUSK', 'SET-HALCYON-HOUSE'], props: ['PR-NEIGHBOUR-PHONE'] } },
+  'S1-01': { direction: S1_01_DIRECTION, overview: S1_01_OVERVIEW, reviewExtras: S1_01_REVIEW_EXTRAS, assetRefs: { sets: ['SET-CITY-DUSK', 'SET-HALCYON-HOUSE'], props: ['PR-NEIGHBOUR-PHONE'] }, castRule: S1_01_CAST_RULE },
 };
 
 export const PRODUCTION_SCENES_DIR = `${EXCHANGE_PATHS.season}/PRODUCTION_SCENES`;

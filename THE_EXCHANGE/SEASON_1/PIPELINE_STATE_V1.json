@@ -239,7 +239,7 @@
           "status": "DRAFT_PENDING_UPSTREAM",
           "blockers": [],
           "artifact": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/SHOT_LIST_V1.json",
-          "artifactSha256": "cf18080f3b9ed19cb0acf8f8a1b4619b3c92ae89c95ca9a3e56ba81c3023f29e",
+          "artifactSha256": "db61d903d669d60ef77dacb15bd1127f33368e7551c406ce5885246c70215935",
           "version": 1,
           "lineage": [
             "bf14febace441fde29823294ac5329656b7e31c8b933553573f88bdef443537e"

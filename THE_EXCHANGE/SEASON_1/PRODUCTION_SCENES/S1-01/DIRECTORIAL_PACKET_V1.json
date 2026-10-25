@@ -296,9 +296,9 @@
         },
         {
           "id": "E-08",
-          "description": "The design of the jewel-green dress.",
+          "description": "The design of the jewel-green dress: one garment for SH08 to SH10, SH17 and the S1-77 callback. KF-WD-GREEN-DRESS stays blocked by FD-S101-05.",
           "label": "FOUNDER_APPROVAL_REQUIRED",
-          "source": "Open question U-4; no wardrobe design is registered.",
+          "source": "Open question U-4; no wardrobe design is registered. Story continuity approved (FD-S101-05, R-02; founder, 2026-10-25); applied by P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 (PATCH-S101-06).",
           "affects": [
             "KF-WD-GREEN-DRESS",
             "S1-01-SH08",
@@ -309,18 +309,18 @@
         },
         {
           "id": "E-09",
-          "description": "Looks, ages and everyday wardrobe of the five inhabitants (scene-scoped, no permanent packages).",
+          "description": "Looks, ages and everyday wardrobe of the five inhabitants. The tailor, the grandmother and the teenager are recurring background (FD-S101-06); the woman on the balcony and the neighbour are scene-scoped. The looks are approved with the start frames.",
           "label": "FOUNDER_APPROVAL_REQUIRED",
-          "source": "The screenplay gives roles, not appearances; sprint V2 §28 asks for meaningful inhabitants without packages.",
+          "source": "The screenplay gives roles, not appearances; sprint V2 §28 asks for meaningful inhabitants without packages. Tier: FD-S101-06 RECURRING (founder, 2026-10-25); applied by P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 (PATCH-S101-01).",
           "affects": [
             "S1-01/WD/INHABITANTS"
           ]
         },
         {
           "id": "E-10",
-          "description": "Whether the tailor is Wendell Ames, the Ferry Street tailor named later in the season.",
-          "label": "FOUNDER_APPROVAL_REQUIRED",
-          "source": "Season master names Wendell Ames, 58, as a tailor; S1-01 leaves its tailor unnamed.",
+          "description": "The tailor is anonymous (FD-S101-07). He is not Wendell Ames and has no biography.",
+          "label": "FOUNDER_DECIDED",
+          "source": "Season master names Wendell Ames, 58, as a tailor; S1-01 leaves its tailor unnamed. FD-S101-07 ANONYMOUS (founder, 2026-10-25); applied by P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 (PATCH-S101-04).",
           "affects": [
             "S1-01-SH02",
             "S1-01-SH03",
@@ -356,6 +356,17 @@
           "source": "Screenplay v2 line in SC01 (THE_EXCHANGE/SEASON_1/SCREENPLAYS/S1-01_DUSK.fountain); drives the SH01 action.",
           "affects": [
             "S1-01-SH01"
+          ]
+        },
+        {
+          "id": "E-14",
+          "description": "Choreography note on SH05 to SH07: one specific four-count step, missed, tangled, then landed on the downbeat (frame 324, E-06). The same four counts return in S1-51 (R-04). The step itself is still to be choreographed.",
+          "label": "FOUNDER_APPROVAL_REQUIRED",
+          "source": "S-02 (P-11) and R-04, founder-approved (founder, 2026-10-25); applied by P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 (PATCH-S101-05). The step: CHOREOGRAPHY_LOCK_PENDING (FD-S101-12).",
+          "affects": [
+            "S1-01-SH05",
+            "S1-01-SH06",
+            "S1-01-SH07"
           ]
         }
       ],
@@ -499,7 +510,7 @@
           "performance": "Practised, unhurried; the stop is a thought, not a startle.",
           "landmarks": "tailor shop grille; mannequin in the window",
           "lighting": "LS-GOLDEN",
-          "wardrobe": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)",
+          "wardrobe": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06)",
           "propState": "Shop grille: up, then pulled halfway",
           "dialogueVisibility": "SILENT_ACTION",
           "lipSync": "NONE",
@@ -548,7 +559,7 @@
           "performance": "Two small corrections; satisfaction shows in the hands, not the face.",
           "landmarks": "mannequin in the window; tailor shop grille",
           "lighting": "LS-GOLDEN",
-          "wardrobe": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)",
+          "wardrobe": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06)",
           "propState": "Shop grille: half down",
           "dialogueVisibility": "SILENT_ACTION",
           "lipSync": "NONE",
@@ -597,7 +608,7 @@
           "performance": "A goodnight to the work; no smile needed.",
           "landmarks": "tailor shop grille",
           "lighting": "LS-GOLDEN",
-          "wardrobe": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)",
+          "wardrobe": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06)",
           "propState": "Shop grille: half down, then closed",
           "dialogueVisibility": "SILENT_ACTION",
           "lipSync": "NONE",
@@ -642,11 +653,11 @@
           "composition": "Teenager frame right, reflection frame left in the glass",
           "screenDirection": "He faces screen left into the glass",
           "eyeline": "His own reflection",
-          "blocking": "He tries a two-step turn and stumbles out of it.",
+          "blocking": "He tries the four-count step and stumbles out of it.",
           "performance": "Concentration, then a small wince at himself.",
           "landmarks": "bus shelter glass",
           "lighting": "LS-GOLDEN",
-          "wardrobe": "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)",
+          "wardrobe": "Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06)",
           "propState": "NONE",
           "dialogueVisibility": "SILENT_ACTION",
           "lipSync": "NONE",
@@ -695,7 +706,7 @@
           "performance": "Feet only.",
           "landmarks": "NONE",
           "lighting": "LS-GOLDEN",
-          "wardrobe": "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)",
+          "wardrobe": "Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06)",
           "propState": "NONE",
           "dialogueVisibility": "SILENT_ACTION",
           "lipSync": "NONE",
@@ -744,7 +755,7 @@
           "performance": "Private pride; the glance round is relief, not fear.",
           "landmarks": "bus shelter glass",
           "lighting": "LS-GOLDEN",
-          "wardrobe": "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)",
+          "wardrobe": "Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06)",
           "propState": "NONE",
           "dialogueVisibility": "SILENT_ACTION",
           "lipSync": "NONE",
@@ -793,7 +804,7 @@
           "performance": "Hands only: a practised shake-out.",
           "landmarks": "third-floor fire-escape rail",
           "lighting": "LS-LAST-LIGHT",
-          "wardrobe": "The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (scene-scoped)",
+          "wardrobe": "The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)",
           "propState": "Jewel-green dress: in her hands above the rail, then unfurling over it",
           "dialogueVisibility": "SILENT_ACTION",
           "lipSync": "NONE",
@@ -842,7 +853,7 @@
           "performance": "Care and ownership; unhurried.",
           "landmarks": "third-floor fire-escape rail",
           "lighting": "LS-LAST-LIGHT",
-          "wardrobe": "The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (scene-scoped)",
+          "wardrobe": "The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)",
           "propState": "Jewel-green dress: hanging on the rail",
           "dialogueVisibility": "SILENT_ACTION",
           "lipSync": "NONE",
@@ -891,7 +902,7 @@
           "performance": "Approval held in the eyes; the nod is tiny.",
           "landmarks": "third-floor fire-escape rail",
           "lighting": "LS-LAST-LIGHT",
-          "wardrobe": "The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (scene-scoped)",
+          "wardrobe": "The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)",
           "propState": "Jewel-green dress: hanging on the rail",
           "dialogueVisibility": "SILENT_ACTION",
           "lipSync": "NONE",
@@ -1567,7 +1578,9 @@
             "KF-ENV-CITY-DUSK-A"
           ],
           "candidates": 2,
-          "reusableBeyondUnit": [],
+          "reusableBeyondUnit": [
+            "S1-77 (R-03): the tailor's identity reference, once this frame is generated and approved"
+          ],
           "blockedBy": [],
           "keyframeId": "KF-SF-SH02",
           "kind": "START_FRAME",
@@ -1579,7 +1592,7 @@
           "spec": {
             "characterPlacement": "Tailor frame left, arms up to the grille",
             "expression": "Focused, end-of-day calm",
-            "wardrobe": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)",
+            "wardrobe": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06)",
             "lighting": "LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east",
             "architecture": "Shopfront, grille up, mannequin in the window",
             "propOwnership": "Grille up",
@@ -1616,7 +1629,7 @@
           "spec": {
             "characterPlacement": "Hands entering frame left",
             "expression": "Face cropped",
-            "wardrobe": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)",
+            "wardrobe": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06)",
             "lighting": "LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east",
             "architecture": "Window glass with street reflection, grille half down at top of frame",
             "propOwnership": "Grille half down",
@@ -1651,7 +1664,7 @@
           "spec": {
             "characterPlacement": "Tailor frame right, hand on the grille",
             "expression": "Satisfied",
-            "wardrobe": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)",
+            "wardrobe": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06)",
             "lighting": "LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east",
             "architecture": "Shopfront along frame",
             "propOwnership": "Grille half down",
@@ -1673,8 +1686,12 @@
             "KF-ENV-CITY-DUSK-B"
           ],
           "candidates": 2,
-          "reusableBeyondUnit": [],
-          "blockedBy": [],
+          "reusableBeyondUnit": [
+            "S1-51 (R-04): the teenager's identity reference, once this frame is generated and approved"
+          ],
+          "blockedBy": [
+            "FD-S101-12"
+          ],
           "keyframeId": "KF-SF-SH05",
           "kind": "START_FRAME",
           "title": "Teenager and his reflection at the shelter",
@@ -1685,7 +1702,7 @@
           "spec": {
             "characterPlacement": "Teenager frame right, reflection frame left",
             "expression": "Concentrating",
-            "wardrobe": "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)",
+            "wardrobe": "Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06)",
             "lighting": "LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east",
             "architecture": "Bus shelter glass and the street behind it",
             "propOwnership": "None",
@@ -1700,6 +1717,7 @@
           },
           "output": null,
           "effectiveBlockers": [
+            "FD-S101-12",
             "KF-ENV-CITY-DUSK-B: KF-ENV-CITY-DUSK-A: FD-S101-08"
           ]
         },
@@ -1721,7 +1739,7 @@
           "spec": {
             "characterPlacement": "Feet centre",
             "expression": "None",
-            "wardrobe": "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)",
+            "wardrobe": "Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06)",
             "lighting": "LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east",
             "architecture": "Kerb and pavement",
             "propOwnership": "None",
@@ -1737,6 +1755,7 @@
           },
           "output": null,
           "effectiveBlockers": [
+            "KF-SF-SH05: FD-S101-12",
             "KF-SF-SH05: KF-ENV-CITY-DUSK-B: KF-ENV-CITY-DUSK-A: FD-S101-08"
           ]
         },
@@ -1760,6 +1779,7 @@
           },
           "output": null,
           "effectiveBlockers": [
+            "S1-01-SH05 via KF-SF-SH05: FD-S101-12",
             "S1-01-SH05 via KF-SF-SH05: KF-ENV-CITY-DUSK-B: KF-ENV-CITY-DUSK-A: FD-S101-08"
           ]
         },
@@ -1782,7 +1802,7 @@
           "spec": {
             "characterPlacement": "Grandmother's arms and the top of her head above the rail",
             "expression": "Not readable",
-            "wardrobe": "The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (scene-scoped)",
+            "wardrobe": "The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)",
             "lighting": "LS-LAST-LIGHT: sun just below the roofline, warm bounce off brick, first interior lamps",
             "architecture": "Brownstone brick, third-floor fire escape",
             "propOwnership": "Dress in her hands, folded",
@@ -1819,7 +1839,7 @@
           "spec": {
             "characterPlacement": "Hands entering frame left",
             "expression": "None",
-            "wardrobe": "The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (scene-scoped)",
+            "wardrobe": "The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)",
             "lighting": "LS-LAST-LIGHT: sun just below the roofline, warm bounce off brick, first interior lamps",
             "architecture": "Fire-escape rail",
             "propOwnership": "Dress hanging on the rail",
@@ -1847,7 +1867,10 @@
             "KF-WD-GREEN-DRESS"
           ],
           "candidates": 2,
-          "reusableBeyondUnit": [],
+          "reusableBeyondUnit": [
+            "S1-59 (R-01): the grandmother's identity reference, once this frame is generated and approved",
+            "S1-77 (R-02): the grandmother's identity reference, once this frame is generated and approved"
+          ],
           "blockedBy": [],
           "keyframeId": "KF-SF-SH10",
           "kind": "START_FRAME",
@@ -1859,7 +1882,7 @@
           "spec": {
             "characterPlacement": "Face frame right, dress soft frame left",
             "expression": "Quiet approval with a trace of mischief",
-            "wardrobe": "The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (scene-scoped)",
+            "wardrobe": "The jewel-green dress (design pending, U-4); Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)",
             "lighting": "LS-LAST-LIGHT: sun just below the roofline, warm bounce off brick, first interior lamps",
             "architecture": "Fire escape, window behind her",
             "propOwnership": "Dress hanging on the rail",
@@ -2292,7 +2315,7 @@
           ],
           "productionAssetRequirement": [
             "KF-ENV-CITY-DUSK-A",
-            "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)"
+            "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06)"
           ],
           "continuityNotes": [
             "Grille height must match SH03",
@@ -2337,7 +2360,7 @@
           ],
           "productionAssetRequirement": [
             "KF-SF-SH02",
-            "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)"
+            "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06)"
           ],
           "continuityNotes": [
             "Grille stays half down"
@@ -2383,7 +2406,7 @@
           ],
           "productionAssetRequirement": [
             "KF-SF-SH02",
-            "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)"
+            "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06)"
           ],
           "continuityNotes": [],
           "coverage": "SILENT_ACTION",
@@ -2403,7 +2426,7 @@
           "durationSec": 1.625,
           "narrativeBeat": "S1-01-SC03-B1: Meet the teenager rehearsing in private.",
           "visibleAction": "He tries the step and misses it",
-          "characterPosition": "He tries a two-step turn and stumbles out of it.",
+          "characterPosition": "He tries the four-count step and stumbles out of it.",
           "cameraPosition": "Medium full, teenager and his reflection; Waist height; Three-quarter behind his shoulder toward the shelter glass",
           "cameraMovement": "Locked off (Static)",
           "dialogue": [
@@ -2425,7 +2448,7 @@
           ],
           "productionAssetRequirement": [
             "KF-ENV-CITY-DUSK-B",
-            "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)"
+            "Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06)"
           ],
           "continuityNotes": [
             "Reflection must mirror his movement",
@@ -2470,7 +2493,7 @@
           ],
           "productionAssetRequirement": [
             "KF-SF-SH05",
-            "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)"
+            "Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06)"
           ],
           "continuityNotes": [],
           "coverage": "SILENT_ACTION",
@@ -2513,7 +2536,7 @@
           ],
           "productionAssetRequirement": [
             "KF-SF-SH05",
-            "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)"
+            "Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06)"
           ],
           "continuityNotes": [
             "Must match SH05 framing",
@@ -2562,7 +2585,7 @@
             "KF-ENV-CITY-DUSK-A",
             "KF-WD-GREEN-DRESS",
             "The jewel-green dress (design pending, U-4)",
-            "Grandmother: house cardigan, reading glasses on a chain (scene-scoped)"
+            "Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)"
           ],
           "continuityNotes": [
             "Dress design must match KF-WD-GREEN-DRESS in every shot",
@@ -2611,7 +2634,7 @@
             "KF-SF-SH08",
             "KF-WD-GREEN-DRESS",
             "The jewel-green dress (design pending, U-4)",
-            "Grandmother: house cardigan, reading glasses on a chain (scene-scoped)"
+            "Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)"
           ],
           "continuityNotes": [],
           "coverage": "SILENT_ACTION",
@@ -2655,7 +2678,7 @@
             "KF-SF-SH08",
             "KF-WD-GREEN-DRESS",
             "The jewel-green dress (design pending, U-4)",
-            "Grandmother: house cardigan, reading glasses on a chain (scene-scoped)"
+            "Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)"
           ],
           "continuityNotes": [
             "Her face is scene-scoped; it must hold from SH08 to SH10"
@@ -3715,7 +3738,7 @@
           {
             "personId": "scene:S1-01:grandmother",
             "name": "GRANDMOTHER",
-            "tier": "SCENE_SCOPED",
+            "tier": "RECURRING_BACKGROUND",
             "registryId": null,
             "releases": [
               "S1-01"
@@ -3741,7 +3764,7 @@
           {
             "personId": "scene:S1-01:tailor",
             "name": "TAILOR",
-            "tier": "SCENE_SCOPED",
+            "tier": "RECURRING_BACKGROUND",
             "registryId": null,
             "releases": [
               "S1-01"
@@ -3754,7 +3777,7 @@
           {
             "personId": "scene:S1-01:teenager",
             "name": "TEENAGER",
-            "tier": "SCENE_SCOPED",
+            "tier": "RECURRING_BACKGROUND",
             "registryId": null,
             "releases": [
               "S1-01"
@@ -3778,7 +3801,7 @@
             ]
           }
         ],
-        "rule": "Scene-scoped inhabitants get performance direction and no permanent package (sprint V2 §28).",
+        "rule": "Inhabitants get performance direction. The tailor, the grandmother and the teenager keep an identity reference (face, wardrobe, mannerism) for their approved returns; no voice, biography or principal package. The woman on the balcony and the neighbour are scene-scoped.",
         "registryCharacters": []
       },
       "assets": {
@@ -4107,8 +4130,8 @@
               "zone": "Z-SHOPFRONT",
               "orientation": "faces screen right",
               "posture": "standing, arms up to the grille",
-              "wardrobeState": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)",
-              "hair": "As fixed by the vignette's first start frame (scene-scoped, FD-S101-06)",
+              "wardrobeState": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06)",
+              "hair": "As fixed by the vignette's first start frame, kept as the identity reference for their later returns (recurring background, FD-S101-06)",
               "visible": true
             }
           },
@@ -4131,8 +4154,8 @@
               "zone": "Z-SHOPFRONT",
               "orientation": "faces the window",
               "posture": "leaning in",
-              "wardrobeState": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)",
-              "hair": "As fixed by the vignette's first start frame (scene-scoped, FD-S101-06)",
+              "wardrobeState": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06)",
+              "hair": "As fixed by the vignette's first start frame, kept as the identity reference for their later returns (recurring background, FD-S101-06)",
               "visible": true
             }
           },
@@ -4155,8 +4178,8 @@
               "zone": "Z-SHOPFRONT",
               "orientation": "faces screen right",
               "posture": "standing",
-              "wardrobeState": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)",
-              "hair": "As fixed by the vignette's first start frame (scene-scoped, FD-S101-06)",
+              "wardrobeState": "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06)",
+              "hair": "As fixed by the vignette's first start frame, kept as the identity reference for their later returns (recurring background, FD-S101-06)",
               "visible": true
             }
           },
@@ -4179,8 +4202,8 @@
               "zone": "Z-BUS-STOP",
               "orientation": "faces screen left into the glass",
               "posture": "set to dance",
-              "wardrobeState": "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)",
-              "hair": "As fixed by the vignette's first start frame (scene-scoped, FD-S101-06)",
+              "wardrobeState": "Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06)",
+              "hair": "As fixed by the vignette's first start frame, kept as the identity reference for their later returns (recurring background, FD-S101-06)",
               "visible": true
             }
           },
@@ -4196,8 +4219,8 @@
               "zone": "Z-BUS-STOP",
               "orientation": "feet only",
               "posture": "mid-turn",
-              "wardrobeState": "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)",
-              "hair": "As fixed by the vignette's first start frame (scene-scoped, FD-S101-06)",
+              "wardrobeState": "Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06)",
+              "hair": "As fixed by the vignette's first start frame, kept as the identity reference for their later returns (recurring background, FD-S101-06)",
               "visible": true
             }
           },
@@ -4213,8 +4236,8 @@
               "zone": "Z-BUS-STOP",
               "orientation": "faces screen left into the glass",
               "posture": "set to dance",
-              "wardrobeState": "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)",
-              "hair": "As fixed by the vignette's first start frame (scene-scoped, FD-S101-06)",
+              "wardrobeState": "Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06)",
+              "hair": "As fixed by the vignette's first start frame, kept as the identity reference for their later returns (recurring background, FD-S101-06)",
               "visible": true
             }
           },
@@ -4230,8 +4253,8 @@
               "zone": "Z-FIRE-ESCAPE",
               "orientation": "faces the street",
               "posture": "leaning over the rail",
-              "wardrobeState": "Grandmother: house cardigan, reading glasses on a chain (scene-scoped)",
-              "hair": "As fixed by the vignette's first start frame (scene-scoped, FD-S101-06)",
+              "wardrobeState": "Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)",
+              "hair": "As fixed by her first face-readable start frame (KF-SF-SH10), kept as the identity reference for her later returns (recurring background, FD-S101-06)",
               "visible": true
             }
           },
@@ -4254,8 +4277,8 @@
               "zone": "Z-FIRE-ESCAPE",
               "orientation": "side-on",
               "posture": "hands on the skirt",
-              "wardrobeState": "Grandmother: house cardigan, reading glasses on a chain (scene-scoped)",
-              "hair": "As fixed by the vignette's first start frame (scene-scoped, FD-S101-06)",
+              "wardrobeState": "Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)",
+              "hair": "As fixed by her first face-readable start frame (KF-SF-SH10), kept as the identity reference for her later returns (recurring background, FD-S101-06)",
               "visible": true
             }
           },
@@ -4278,8 +4301,8 @@
               "zone": "Z-FIRE-ESCAPE",
               "orientation": "faces screen left toward the dress",
               "posture": "half a pace back",
-              "wardrobeState": "Grandmother: house cardigan, reading glasses on a chain (scene-scoped)",
-              "hair": "As fixed by the vignette's first start frame (scene-scoped, FD-S101-06)",
+              "wardrobeState": "Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)",
+              "hair": "As fixed by her first face-readable start frame (KF-SF-SH10), kept as the identity reference for her later returns (recurring background, FD-S101-06)",
               "visible": true
             }
           },
@@ -4522,7 +4545,53 @@
           "method": "OFF_SCREEN_DECLARED",
           "note": "She picks it up while the picture is on the neighbour (SH13 to SH15)."
         }
-      ]
+      ],
+      "forwardReferences": {
+        "note": "Forward references: the grandmother in S1-59 (R-01, with her existing line) and S1-77 (R-02, in the jewel-green dress); the tailor in S1-77 (R-03); the teenager in S1-51 (R-04). None of them meet, and none is named.",
+        "references": [
+          {
+            "subject": "GRANDMOTHER",
+            "censusPersonId": "scene:S1-01:grandmother",
+            "releaseId": "S1-59",
+            "proposalId": "R-01",
+            "appearance": "Beats 4 and 5, on a bench on the promenade; she speaks her one existing master line, no other dialogue.",
+            "reuses": [
+              "KF-SF-SH10"
+            ]
+          },
+          {
+            "subject": "GRANDMOTHER",
+            "censusPersonId": "scene:S1-01:grandmother",
+            "releaseId": "S1-77",
+            "proposalId": "R-02",
+            "appearance": "Beat 10, in the far-bank crowd on the public riverbank, wearing the jewel-green dress (design pending, FD-S101-05).",
+            "reuses": [
+              "KF-SF-SH10",
+              "KF-WD-GREEN-DRESS"
+            ]
+          },
+          {
+            "subject": "TAILOR",
+            "censusPersonId": "scene:S1-01:tailor",
+            "releaseId": "S1-77",
+            "proposalId": "R-03",
+            "appearance": "Beat 10, in the far-bank crowd on the public riverbank, separately from the grandmother; anonymous (FD-S101-07).",
+            "reuses": [
+              "KF-SF-SH02"
+            ]
+          },
+          {
+            "subject": "TEENAGER",
+            "censusPersonId": "scene:S1-01:teenager",
+            "releaseId": "S1-51",
+            "proposalId": "R-04",
+            "appearance": "Beat 6, among the kids following the drumline; the same four counts (E-14).",
+            "reuses": [
+              "KF-SF-SH05"
+            ]
+          }
+        ]
+      }
     },
     "7_MUSIC_AND_SOUND": {
       "music": [
@@ -5839,6 +5908,11 @@
         "refs": [
           "E-08"
         ],
+        "note": "Story continuity approved (founder, 2026-10-25); the design is chosen at S1-01 visual development, and the chosen garment is the one S1-77 uses (R-02). No candidate is chosen.",
+        "progress": [
+          "STORY_CONTINUITY_APPROVED",
+          "VISUAL_DESIGN_PENDING"
+        ],
         "status": "OPEN",
         "answer": null
       },
@@ -5857,8 +5931,8 @@
         "refs": [
           "E-09"
         ],
-        "status": "OPEN",
-        "answer": null
+        "answer": "RECURRING (founder, 2026-10-25): the tailor, the grandmother and the teenager keep reusable recurring-background identities; the woman on the balcony and the neighbour stay scene-scoped.",
+        "status": "ANSWERED"
       },
       {
         "decisionId": "FD-S101-07",
@@ -5868,15 +5942,15 @@
           "No: an unnamed tailor",
           "Yes: Wendell Ames, 58, Ferry Street"
         ],
-        "recommendation": "No for now: keep him scene-scoped and the shop sign unreadable so the choice stays open.",
+        "recommendation": "Answered by the founder.",
         "blocks": [
           "KEYFRAMES"
         ],
         "refs": [
           "E-10"
         ],
-        "status": "OPEN",
-        "answer": null
+        "answer": "No: an unnamed tailor (ANONYMOUS, founder, 2026-10-25). The shop sign stays unreadable.",
+        "status": "ANSWERED"
       },
       {
         "decisionId": "FD-S101-08",
@@ -5943,6 +6017,24 @@
           "GENERATION_BUDGET"
         ],
         "refs": [],
+        "status": "OPEN",
+        "answer": null
+      },
+      {
+        "decisionId": "FD-S101-12",
+        "question": "Lock the teenager's four-count step?",
+        "why": "SH05 to SH07 miss it, tangle it and land it on frame 324, and S1-51 repeats the same four counts (S-02, R-04). The step is not choreographed yet (CHOREOGRAPHY_LOCK_PENDING).",
+        "options": [
+          "Founder supplies or approves the four counts",
+          "Hold SH05 to SH07"
+        ],
+        "recommendation": "Lock the step before the SH05 start frame is generated; no shot length changes.",
+        "blocks": [
+          "KEYFRAMES"
+        ],
+        "refs": [
+          "E-14"
+        ],
         "status": "OPEN",
         "answer": null
       }

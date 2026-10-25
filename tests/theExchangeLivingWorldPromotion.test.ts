@@ -61,10 +61,14 @@ describe('THE EXCHANGE living-world promotion: records', () => {
     expect(future.livingWorld).toEqual(JSON.parse(JSON.stringify(P.livingWorldDependencies(X.loadSeasonMaster(root)))));
   });
 
-  it('keeps the S1-01 packet as reviewed: FD-S101-06 and -07 stay open there until the founder accepts the patch', () => {
+  it('applies the founder-authorized S1-01 patch: FD-S101-06 and -07 answered in the packet, every other decision still open', () => {
     const packet = JSON.parse(read('THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json')) as { sections: { '9_FOUNDER_DECISIONS': Array<{ decisionId: string; status: string }> } };
-    for (const d of packet.sections['9_FOUNDER_DECISIONS']) expect(d.status, d.decisionId).toBe('OPEN');
-    expect(P.S101_PATCH.every((x) => x.status === 'PROPOSED_PENDING_FOUNDER_PACKET_REVIEW')).toBe(true);
+    const status = Object.fromEntries(packet.sections['9_FOUNDER_DECISIONS'].map((d) => [d.decisionId, d.status]));
+    for (const id of P.S101_GUARDS.answeredBySprint) expect(status[id], id).toBe('ANSWERED');
+    for (const id of P.S101_GUARDS.stillOpen) expect(status[id], id).toBe('OPEN');
+    expect(Object.keys(status)).toHaveLength(P.S101_GUARDS.answeredBySprint.length + P.S101_GUARDS.stillOpen.length);
+    expect(P.S101_PATCH.every((x) => x.status === 'APPLIED_FOUNDER_AUTHORIZED' && x.applied?.date === '2026-10-25')).toBe(true);
+    expect(P.PRODUCTION_HOLDS.find((h) => h.holdId === 'HOLD-S101-PATCH')!.lifted?.date).toBe('2026-10-25');
   });
 
   it('commits the ledger and the registry exactly as built', () => {
@@ -117,7 +121,9 @@ describe('THE EXCHANGE living-world promotion: each check can fail', () => {
 
   it('ASSETS and S1-01_PATCH: an asset that does not exist, a patch quoting text the packet lacks', () => {
     expect(errorsAfter('ASSETS', (d) => (d.assets[0].status = 'EXISTS_VERIFIED'))).toContain(`${P.ASSET_REQUIREMENTS[0].assetId}: claims EXISTS_VERIFIED`);
-    expect(errorsAfter('S1-01_PATCH', (d) => (d.patch[0].before = ['A line the packet never had']))).toContain('PATCH-S101-01: "A line the packet never had" is not in the packet');
+    expect(errorsAfter('S1-01_PATCH', (d) => (d.patch[0].applied!.present = ['A line the packet never had']))).toContain('PATCH-S101-01: applied text "A line the packet never had" is not in the packet');
+    expect(errorsAfter('S1-01_PATCH', (d) => (d.patch[4].applied!.absent = ['He tries the four-count step and stumbles out of it.']))).toContain('PATCH-S101-05: replaced text "He tries the four-count step and stumbles out of it." is still in the packet');
+    expect(errorsAfter('S1-01_PATCH', (d) => { d.patch[0].status = 'PROPOSED_PENDING_FOUNDER_PACKET_REVIEW'; d.patch[0].before = ['A line the packet never had']; })).toContain('PATCH-S101-01: "A line the packet never had" is not in the packet');
   });
 });
 

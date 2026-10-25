@@ -484,6 +484,21 @@
       "label": "Emmett Hale's identity (U-3). FD-09 approved his function only."
     },
     {
+      "id": "scene:S1-01:grandmother",
+      "kind": "PERSON",
+      "label": "GRANDMOTHER"
+    },
+    {
+      "id": "scene:S1-01:tailor",
+      "kind": "PERSON",
+      "label": "TAILOR"
+    },
+    {
+      "id": "scene:S1-01:teenager",
+      "kind": "PERSON",
+      "label": "TEENAGER"
+    },
+    {
       "id": "gideon-shaw",
       "kind": "PERSON",
       "label": "Gideon"
@@ -2542,6 +2557,45 @@
       "from": "KF-08",
       "to": "S1-05",
       "source": "KF-08: Sloane (Reads the note.)"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "scene:S1-01:grandmother",
+      "to": "S1-01",
+      "source": "screenplay S1-01: PRODUCTION.characters"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "scene:S1-01:grandmother",
+      "to": "S1-01",
+      "source": "RECURRING_BACKGROUND; appears in 1 release(s)",
+      "jitTrigger": "S1-01 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "scene:S1-01:tailor",
+      "to": "S1-01",
+      "source": "screenplay S1-01: PRODUCTION.characters"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "scene:S1-01:tailor",
+      "to": "S1-01",
+      "source": "RECURRING_BACKGROUND; appears in 1 release(s)",
+      "jitTrigger": "S1-01 enters active production"
+    },
+    {
+      "type": "FIRST_APPEARANCE",
+      "from": "scene:S1-01:teenager",
+      "to": "S1-01",
+      "source": "screenplay S1-01: PRODUCTION.characters"
+    },
+    {
+      "type": "ASSET_NEEDED",
+      "from": "scene:S1-01:teenager",
+      "to": "S1-01",
+      "source": "RECURRING_BACKGROUND; appears in 1 release(s)",
+      "jitTrigger": "S1-01 enters active production"
     },
     {
       "type": "FIRST_APPEARANCE",

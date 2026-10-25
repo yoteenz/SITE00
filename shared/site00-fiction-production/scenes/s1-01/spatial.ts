@@ -50,7 +50,16 @@ export const SPATIAL: SpatialAuthority[] = [
   },
 ];
 
-const c = (zone: string, orientation: string, posture: string, wardrobeState: string, visible = true): CharacterState => ({ zone, orientation, posture, wardrobeState, hair: 'As fixed by the vignette\'s first start frame (scene-scoped, FD-S101-06)', visible });
+/** Hair is fixed by the start frames. The three recurring inhabitants keep that frame as their identity reference (PATCH-S101-02); the grandmother's face first reads in SH10. */
+const HAIR = {
+  RECURRING: 'As fixed by the vignette\'s first start frame, kept as the identity reference for their later returns (recurring background, FD-S101-06)',
+  GRANDMOTHER: 'As fixed by her first face-readable start frame (KF-SF-SH10), kept as the identity reference for her later returns (recurring background, FD-S101-06)',
+  SCENE_SCOPED: 'As fixed by the vignette\'s first start frame (scene-scoped, FD-S101-06)',
+} as const;
+const c = (zone: string, orientation: string, posture: string, wardrobeState: string, visible = true, hair: string = HAIR.SCENE_SCOPED): CharacterState => ({ zone, orientation, posture, wardrobeState, hair, visible });
+const tailor = (zone: string, orientation: string, posture: string) => c(zone, orientation, posture, WD.TAILOR, true, HAIR.RECURRING);
+const teen = (zone: string, orientation: string, posture: string) => c(zone, orientation, posture, WD.TEENAGER, true, HAIR.RECURRING);
+const gran = (zone: string, orientation: string, posture: string) => c(zone, orientation, posture, WD.GRANDMOTHER, true, HAIR.GRANDMOTHER);
 const p = (holder: string | null, location: string, state: string, visible = true): PropStateRecord => ({ holder, location, state, visible });
 const W = 'WOMAN ON THE BALCONY';
 const GRILLE = 'Shop grille';
@@ -63,15 +72,15 @@ const st = (n: number, characters: ContinuityState['characters'], props: Continu
 /** State at the start of each shot. */
 export const CONTINUITY: ContinuityState[] = [
   st(1, {}, {}, 'LS-GOLDEN; a few windows lit, more lighting during the shot'),
-  st(2, { TAILOR: c('Z-SHOPFRONT', 'faces screen right', 'standing, arms up to the grille', WD.TAILOR) }, { [GRILLE]: p(null, 'Z-SHOPFRONT', 'up') }, 'LS-GOLDEN'),
-  st(3, { TAILOR: c('Z-SHOPFRONT', 'faces the window', 'leaning in', WD.TAILOR) }, { [GRILLE]: p(null, 'Z-SHOPFRONT', 'half down') }, 'LS-GOLDEN'),
-  st(4, { TAILOR: c('Z-SHOPFRONT', 'faces screen right', 'standing', WD.TAILOR) }, { [GRILLE]: p(null, 'Z-SHOPFRONT', 'half down') }, 'LS-GOLDEN'),
-  st(5, { TEENAGER: c('Z-BUS-STOP', 'faces screen left into the glass', 'set to dance', WD.TEENAGER) }, {}, 'LS-GOLDEN'),
-  st(6, { TEENAGER: c('Z-BUS-STOP', 'feet only', 'mid-turn', WD.TEENAGER) }, {}, 'LS-GOLDEN'),
-  st(7, { TEENAGER: c('Z-BUS-STOP', 'faces screen left into the glass', 'set to dance', WD.TEENAGER) }, {}, 'LS-GOLDEN'),
-  st(8, { GRANDMOTHER: c('Z-FIRE-ESCAPE', 'faces the street', 'leaning over the rail', WD.GRANDMOTHER) }, { [DRESS]: p('GRANDMOTHER', 'Z-FIRE-ESCAPE', 'folded in her hands above the rail') }, 'LS-LAST-LIGHT'),
-  st(9, { GRANDMOTHER: c('Z-FIRE-ESCAPE', 'side-on', 'hands on the skirt', WD.GRANDMOTHER) }, { [DRESS]: p(null, 'Z-FIRE-ESCAPE', 'hanging on the rail') }, 'LS-LAST-LIGHT'),
-  st(10, { GRANDMOTHER: c('Z-FIRE-ESCAPE', 'faces screen left toward the dress', 'half a pace back', WD.GRANDMOTHER) }, { [DRESS]: p(null, 'Z-FIRE-ESCAPE', 'hanging on the rail') }, 'LS-LAST-LIGHT'),
+  st(2, { TAILOR: tailor('Z-SHOPFRONT', 'faces screen right', 'standing, arms up to the grille') }, { [GRILLE]: p(null, 'Z-SHOPFRONT', 'up') }, 'LS-GOLDEN'),
+  st(3, { TAILOR: tailor('Z-SHOPFRONT', 'faces the window', 'leaning in') }, { [GRILLE]: p(null, 'Z-SHOPFRONT', 'half down') }, 'LS-GOLDEN'),
+  st(4, { TAILOR: tailor('Z-SHOPFRONT', 'faces screen right', 'standing') }, { [GRILLE]: p(null, 'Z-SHOPFRONT', 'half down') }, 'LS-GOLDEN'),
+  st(5, { TEENAGER: teen('Z-BUS-STOP', 'faces screen left into the glass', 'set to dance') }, {}, 'LS-GOLDEN'),
+  st(6, { TEENAGER: teen('Z-BUS-STOP', 'feet only', 'mid-turn') }, {}, 'LS-GOLDEN'),
+  st(7, { TEENAGER: teen('Z-BUS-STOP', 'faces screen left into the glass', 'set to dance') }, {}, 'LS-GOLDEN'),
+  st(8, { GRANDMOTHER: gran('Z-FIRE-ESCAPE', 'faces the street', 'leaning over the rail') }, { [DRESS]: p('GRANDMOTHER', 'Z-FIRE-ESCAPE', 'folded in her hands above the rail') }, 'LS-LAST-LIGHT'),
+  st(9, { GRANDMOTHER: gran('Z-FIRE-ESCAPE', 'side-on', 'hands on the skirt') }, { [DRESS]: p(null, 'Z-FIRE-ESCAPE', 'hanging on the rail') }, 'LS-LAST-LIGHT'),
+  st(10, { GRANDMOTHER: gran('Z-FIRE-ESCAPE', 'faces screen left toward the dress', 'half a pace back') }, { [DRESS]: p(null, 'Z-FIRE-ESCAPE', 'hanging on the rail') }, 'LS-LAST-LIGHT'),
   st(11, { [W]: c('Z-BALCONY-KITCHEN', 'moving screen right', 'dancing', WD.WOMAN) }, { [GLASS]: p(null, 'Z-BALCONY-KITCHEN', 'full, on the ledge'), [SPOON]: p(W, 'Z-BALCONY-KITCHEN', 'in her right hand') }, 'LS-LAST-LIGHT'),
   st(12, { [W]: c('Z-BALCONY-KITCHEN', 'turning screen right', 'twirling', WD.WOMAN) }, { [GLASS]: p(null, 'Z-BALCONY-KITCHEN', 'full, on the ledge', false), [SPOON]: p(W, 'Z-BALCONY-KITCHEN', 'in her right hand') }, 'LS-LAST-LIGHT'),
   st(13, { NEIGHBOUR: c('Z-NEIGHBOUR-WINDOW', 'looks screen left', 'standing at the window', WD.NEIGHBOUR) }, { [PHONE]: p('NEIGHBOUR', 'Z-NEIGHBOUR-WINDOW', 'lowered, in his hand') }, 'LS-BLUE-HOUR'),

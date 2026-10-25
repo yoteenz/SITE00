@@ -8,19 +8,20 @@
 
 | Person | Tier | Existing | Gaps |
 | --- | --- | --- | --- |
-| GRANDMOTHER | SCENE_SCOPED | none | scene-scoped look (designed inside the scene packet) |
+| GRANDMOTHER | RECURRING_BACKGROUND | none | identity reference (face, wardrobe, mannerism) from the scene's start frames, kept for approved returns |
 | NEIGHBOUR | SCENE_SCOPED | none | scene-scoped look (designed inside the scene packet) |
-| TAILOR | SCENE_SCOPED | none | scene-scoped look (designed inside the scene packet) |
-| TEENAGER | SCENE_SCOPED | none | scene-scoped look (designed inside the scene packet) |
+| TAILOR | RECURRING_BACKGROUND | none | identity reference (face, wardrobe, mannerism) from the scene's start frames, kept for approved returns |
+| TEENAGER | RECURRING_BACKGROUND | none | identity reference (face, wardrobe, mannerism) from the scene's start frames, kept for approved returns |
 | WOMAN ON THE BALCONY | SCENE_SCOPED | none | scene-scoped look (designed inside the scene packet) |
 
 ## Cast census (whole season)
 
 | Tier | People |
 | --- | --- |
+| RECURRING_BACKGROUND | 3 |
 | RECURRING_UNREGISTERED | 25 |
 | REGISTERED | 8 |
-| SCENE_SCOPED | 74 |
+| SCENE_SCOPED | 71 |
 | SINGLE_RELEASE | 7 |
 
 Scene-scoped people deferred to their own release: 69. A scene-scoped person never gets a permanent package; asking for one returns `SCENE_SCOPED_NO_PERMANENT_PACKAGE` and spends nothing.

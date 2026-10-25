@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 import fs from 'node:fs';
-import { PROTECTED_BASELINE } from '../audit/baseline.js';
+import { baselineState, PROTECTED_BASELINE } from '../audit/baseline.js';
 import { PROPOSALS } from '../audit/proposals/index.js';
 import { validateAudit } from '../audit/validate.js';
 import { EXCHANGE_PATHS, repoPath } from '../paths.js';
@@ -252,16 +252,28 @@ export function validatePromotion(root = process.cwd(), data: PromotionData = PR
     ...(master.releases.reduce((n, r) => n + r.runtimeTargetSec, 0) !== 7660 ? ['season runtime changed'] : []),
   ]);
 
-  const protectedFiles = [...PROTECTED_BASELINE.filter((f) => f.path !== EXCHANGE_PATHS.master), ...UNCHANGED_BY_PROMOTION];
-  check('UNCHANGED_FILES', 'The S1-01 packet, the five Fountain drafts, the approval book, registries, ledgers and active production are untouched', protectedFiles.length, protectedFiles.filter((f) => sha256(fs.readFileSync(repoPath(f.path, root))) !== f.sha256).map((f) => `changed: ${f.path}`));
+  const audited = PROTECTED_BASELINE.filter((f) => f.path !== EXCHANGE_PATHS.master);
+  check('UNCHANGED_FILES', 'The five Fountain drafts, the approval book, registries, ledgers and active production are untouched; the S1-01 packet is as audited or as the founder-authorized patch left it', audited.length + UNCHANGED_BY_PROMOTION.length, [
+    ...audited.filter((f) => baselineState(f, root) === 'CHANGED').map((f) => `changed: ${f.path}`),
+    ...UNCHANGED_BY_PROMOTION.filter((f) => sha256(fs.readFileSync(repoPath(f.path, root))) !== f.sha256).map((f) => `changed: ${f.path}`),
+  ]);
 
   const packetStrings = strings(JSON.parse(read(`${S}/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json`)));
   const shotIds = new Set(plan.shots.map((s) => s.shotId));
   const kfIds = new Set(plan.keyframes.map((k) => k.keyframeId));
-  const decisions = (JSON.parse(read(`${S}/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json`)) as { sections: { '9_FOUNDER_DECISIONS': Array<{ decisionId: string; status: string }> } }).sections['9_FOUNDER_DECISIONS'];
+  const packetJson = JSON.parse(read(`${S}/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json`)) as { sections: { '6_CHARACTERS_AND_ASSETS': { cast: { people: Array<{ personId: string; tier: string }> } }; '9_FOUNDER_DECISIONS': Array<{ decisionId: string; status: string }> } };
+  const decisions = packetJson.sections['9_FOUNDER_DECISIONS'];
+  const people = packetJson.sections['6_CHARACTERS_AND_ASSETS'].cast.people;
   const g = S101_GUARDS.baseline;
-  check('S1-01_PATCH', 'The S1-01 patch plan quotes the current packet, touches real shots and keyframes, and leaves shots, frames, cues and open decisions as they are', S101_PATCH.length, [
-    ...S101_PATCH.flatMap((x) => x.before.filter((b) => !packetStrings.some((s) => s.includes(b))).map((b) => `${x.patchId}: "${b}" is not in the packet`)),
+  const pending = S101_PATCH.filter((x) => x.status === 'PROPOSED_PENDING_FOUNDER_PACKET_REVIEW');
+  const done = S101_PATCH.filter((x) => x.status === 'APPLIED_FOUNDER_AUTHORIZED');
+  check('S1-01_PATCH', 'Each S1-01 patch either quotes the packet it would change or is applied (its text present, its replaced text gone); it touches real shots and keyframes and leaves shots, frames, cues and open decisions as they are', S101_PATCH.length, [
+    ...pending.flatMap((x) => x.before.filter((b) => !packetStrings.some((s) => s.includes(b))).map((b) => `${x.patchId}: "${b}" is not in the packet`)),
+    ...done.filter((x) => !x.applied).map((x) => `${x.patchId}: applied with no record of how`),
+    ...done.flatMap((x) => (x.applied?.present ?? []).filter((t) => !packetStrings.some((s) => s.includes(t))).map((t) => `${x.patchId}: applied text "${t}" is not in the packet`)),
+    ...done.flatMap((x) => (x.applied?.absent ?? []).filter((t) => packetStrings.includes(t)).map((t) => `${x.patchId}: replaced text "${t}" is still in the packet`)),
+    ...(done.length ? S101_GUARDS.answeredBySprint.filter((id) => decisions.find((d) => d.decisionId === id)?.status !== 'ANSWERED').map((id) => `${id} is not answered in the packet`) : []),
+    ...(done.length ? Object.entries(S101_TIERS).filter(([id, f]) => people.find((p) => p.personId === id)?.tier !== f[0]).map(([id, f]) => `${id}: packet tier is not ${f[0]}`) : []),
     ...S101_PATCH.flatMap((x) => x.affects.filter((a) => a.startsWith('S1-01-SH') && !shotIds.has(a)).map((a) => `${x.patchId}: no shot ${a}`)),
     ...S101_PATCH.flatMap((x) => x.affects.filter((a) => a.startsWith('KF-') && !kfIds.has(a)).map((a) => `${x.patchId}: no keyframe ${a}`)),
     ...S101_PATCH.flatMap((x) => x.proposals.filter((p) => !approved.has(p)).map((p) => `${x.patchId}: serves unapproved ${p}`)),
@@ -270,7 +282,7 @@ export function validatePromotion(root = process.cwd(), data: PromotionData = PR
     ...S101_GUARDS.stillOpen.filter((id) => decisions.find((d) => d.decisionId === id)?.status !== 'OPEN').map((id) => `${id} is no longer open`),
   ]);
 
-  const holdIds = new Set(PRODUCTION_HOLDS.map((h) => h.holdId));
+  const holdIds = new Set(PRODUCTION_HOLDS.filter((h) => !h.lifted).map((h) => h.holdId));
   check('ASSETS', 'No approved direction claims an asset that does not exist, invents a location for one, or spends anything', ASSET_REQUIREMENTS.length, [
     ...ASSET_REQUIREMENTS.filter((a) => a.status === 'EXISTS_VERIFIED' || a.status === 'FOUNDER_APPROVED').map((a) => `${a.assetId}: claims ${a.status}`),
     ...ASSET_REQUIREMENTS.flatMap((a) => a.holds.filter((h) => !holdIds.has(h)).map((h) => `${a.assetId}: unknown hold ${h}`)),

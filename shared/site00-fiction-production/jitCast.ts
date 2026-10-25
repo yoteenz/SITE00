@@ -1,4 +1,5 @@
 import type { CastRegistry, CastAssetRef } from './castRegistry.js';
+import { RECURRING_BACKGROUND_PERSONS } from './promotion/background.js';
 import type { ScreenplayDocument, SeasonMaster } from './types.js';
 
 /**
@@ -6,7 +7,8 @@ import type { ScreenplayDocument, SeasonMaster } from './types.js';
  * developed when a release that needs it enters active production. Everyone else is tracked silently.
  */
 export const JIT_STEPS = ['IDENTIFY', 'CHECK_EXISTING', 'FIND_GAPS', 'GENERATE_ONLY_NEEDED', 'FOUNDER_APPROVAL', 'LOCK', 'REUSE'] as const;
-export type CastTier = 'REGISTERED' | 'RECURRING_UNREGISTERED' | 'SINGLE_RELEASE' | 'SCENE_SCOPED';
+/** RECURRING_BACKGROUND: an unnamed inhabitant the founder kept for later returns. An identity reference, never a principal package. */
+export type CastTier = 'REGISTERED' | 'RECURRING_UNREGISTERED' | 'RECURRING_BACKGROUND' | 'SINGLE_RELEASE' | 'SCENE_SCOPED';
 export type CensusPerson = { personId: string; name: string; tier: CastTier; registryId: string | null; releases: string[]; firstRelease: string; mentions: string[] };
 
 /** Split a featured-characters line at top-level commas and semicolons; parentheticals stay with their name. */
@@ -32,7 +34,7 @@ const isGroup = (s: string) => !s || /^[a-z]/.test(s) || /^(the|a|an|his|her|the
 const namedInDescriptor = (s: string) => s.match(/'s [a-z -]+ ([A-Z][a-z]+)$/)?.[1] ?? null;
 const personKey = (s: string) => (/^(Dr|Mr|Mrs|Ms)\./.test(s) ? s : s.split(' ')[0]);
 
-export function buildCastCensus(master: SeasonMaster, screenplays: ScreenplayDocument[], cast: CastRegistry): CensusPerson[] {
+export function buildCastCensus(master: SeasonMaster, screenplays: ScreenplayDocument[], cast: CastRegistry, recurringBackground: ReadonlySet<string> = RECURRING_BACKGROUND_PERSONS): CensusPerson[] {
   const byCue = new Map(cast.characters.filter((c) => c.cue).map((c) => [String(c.cue).toUpperCase(), c.characterId]));
   const people = new Map<string, CensusPerson>();
   const add = (key: string, name: string, tier: CastTier, registryId: string | null, release: string, mention: string) => {
@@ -68,20 +70,21 @@ export function buildCastCensus(master: SeasonMaster, screenplays: ScreenplayDoc
   return [...people.values()]
     .map((p) => {
       const releases = [...p.releases].sort((a, b) => order.get(a)! - order.get(b)!);
-      const tier: CastTier = p.tier === 'SINGLE_RELEASE' && releases.length > 1 ? 'RECURRING_UNREGISTERED' : p.tier;
+      const tier: CastTier = p.tier === 'SINGLE_RELEASE' && releases.length > 1 ? 'RECURRING_UNREGISTERED' : p.tier === 'SCENE_SCOPED' && recurringBackground.has(p.personId) ? 'RECURRING_BACKGROUND' : p.tier;
       return { ...p, releases, firstRelease: releases[0], tier };
     })
     .sort((a, b) => order.get(a.firstRelease)! - order.get(b.firstRelease)! || a.personId.localeCompare(b.personId));
 }
 
 export type PackageRequest = { personId: string; scope: 'PERMANENT' | 'SCENE_SCOPED'; activeReleaseId: string; founderPromotion?: string };
-export type PackageDecision = { allowed: boolean; code: 'OK' | 'FUTURE_CAST_NOT_JUSTIFIED' | 'SCENE_SCOPED_NO_PERMANENT_PACKAGE' | 'UNKNOWN_PERSON'; detail: string; creditsSpent: 0 };
+export type PackageDecision = { allowed: boolean; code: 'OK' | 'FUTURE_CAST_NOT_JUSTIFIED' | 'SCENE_SCOPED_NO_PERMANENT_PACKAGE' | 'RECURRING_BACKGROUND_NO_PRINCIPAL_PACKAGE' | 'UNKNOWN_PERSON'; detail: string; creditsSpent: 0 };
 
 export function requestCastPackage(req: PackageRequest, census: CensusPerson[]): PackageDecision {
   const p = census.find((x) => x.personId === req.personId);
   if (!p) return { allowed: false, code: 'UNKNOWN_PERSON', detail: `${req.personId} is not in the season census`, creditsSpent: 0 };
   if (!p.releases.includes(req.activeReleaseId)) return { allowed: false, code: 'FUTURE_CAST_NOT_JUSTIFIED', detail: `${p.name} first appears in ${p.firstRelease}; develop when that release enters production`, creditsSpent: 0 };
   if (req.scope === 'PERMANENT' && p.tier === 'SCENE_SCOPED' && !req.founderPromotion) return { allowed: false, code: 'SCENE_SCOPED_NO_PERMANENT_PACKAGE', detail: `${p.name} belongs to ${req.activeReleaseId} only; a permanent package needs a founder promotion`, creditsSpent: 0 };
+  if (req.scope === 'PERMANENT' && p.tier === 'RECURRING_BACKGROUND' && !req.founderPromotion) return { allowed: false, code: 'RECURRING_BACKGROUND_NO_PRINCIPAL_PACKAGE', detail: `${p.name} keeps an identity reference from the scene's start frames; a voice, biography or principal package needs a founder promotion`, creditsSpent: 0 };
   return { allowed: true, code: 'OK', detail: req.scope === 'SCENE_SCOPED' ? 'Design lives in the scene packet; nothing enters the permanent registry.' : 'Permanent package for an active-release character.', creditsSpent: 0 };
 }
 
@@ -97,7 +100,8 @@ export function jitPlan(activeReleaseId: string, census: CensusPerson[], cast: C
       if (!refs(c, 'facialMasters').some((r) => r.status === 'APPROVED')) gaps.push('approved facial master');
       if (refs(c, 'angleReferences').some((r) => r.status === 'UNIMPORTED')) gaps.push('founder-held angle references to import');
       if (!c.voice?.voiceId) gaps.push('linked voice');
-    } else gaps.push('scene-scoped look (designed inside the scene packet)');
+    } else if (p.tier === 'RECURRING_BACKGROUND') gaps.push('identity reference (face, wardrobe, mannerism) from the scene\'s start frames, kept for approved returns');
+    else gaps.push('scene-scoped look (designed inside the scene packet)');
     return { personId: p.personId, name: p.name, tier: p.tier, existing: c ? 'cast registry' : 'none', gaps, steps: JIT_STEPS };
   });
   const deferred = census.filter((p) => !p.releases.includes(activeReleaseId) && p.tier !== 'SCENE_SCOPED').map((p) => ({ personId: p.personId, name: p.name, tier: p.tier, trigger: `${p.firstRelease} enters active production`, releases: p.releases.length }));

@@ -1,8 +1,8 @@
 /**
  * Recurring background identities (founder §10). A stable reference, not a biography: no name unless the source gives
  * one, no relationships the source does not state, no voice unless one is authorized. A tier can change later by founder
- * decision; `tierHistory` keeps every earlier state. S1-01 references point at the directorial packet, which is
- * unchanged until the founder reviews the patch plan (PATCH-S101-*).
+ * decision; `tierHistory` keeps every earlier state. S1-01 references point at the directorial packet, which carries
+ * the founder-authorized patch (PATCH-S101-01 to -07, applied 2026-10-25).
  */
 export const BACKGROUND_TIERS = ['RECURRING_BACKGROUND', 'SCENE_SCOPED'] as const;
 export type BackgroundTier = (typeof BACKGROUND_TIERS)[number];
@@ -70,7 +70,7 @@ export const BACKGROUND_IDENTITIES: BackgroundIdentity[] = [
     tier: 'RECURRING_BACKGROUND',
     flags: ['SPEAKING_IN_S1-59', 'DRESS_DESIGN_PENDING'],
     originalScene: { releaseId: 'S1-01', sceneId: 'S1-01-SC04', shots: ['S1-01-SH08', 'S1-01-SH09', 'S1-01-SH10', 'S1-01-SH17'], sourceQuote: 'The grandmother smooths the skirt with both hands.', sourceFile: PACKET },
-    facialReference: { keyframeId: 'KF-SF-SH09', status: 'PENDING_PRODUCTION', note: 'Fixed by the SH09 start frame once generated. Not generated. The same face and performance in S1-59 and S1-77.' },
+    facialReference: { keyframeId: 'KF-SF-SH10', status: 'PENDING_PRODUCTION', note: 'Fixed by the SH10 start frame once generated: her face first reads there (SH08 shows the top of her head, SH09 only her hands). Not generated. The same face and performance in S1-59 and S1-77.' },
     wardrobe: {
       everyday: 'Grandmother: house cardigan, reading glasses on a chain',
       signature: 'The jewel-green dress: one garment, design not chosen (FD-S101-05). The S1-01 packet names two candidates, a 1960s satin cocktail dress and a bias-cut evening dress; neither is chosen.',
@@ -176,3 +176,6 @@ export const BACKGROUND_IDENTITIES: BackgroundIdentity[] = [
     founderDecisions: [],
   },
 ];
+
+/** Census people who keep a recurring-background identity of their own. A group the register draws one face from (FROM_A_GROUP) stays as the census found it. */
+export const RECURRING_BACKGROUND_PERSONS: ReadonlySet<string> = new Set(BACKGROUND_IDENTITIES.filter((b) => b.tier === 'RECURRING_BACKGROUND' && !b.flags.includes('FROM_A_GROUP')).map((b) => b.censusPersonId));

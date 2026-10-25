@@ -26,16 +26,30 @@ export const PROTECTED_BASELINE: Array<{ path: string; sha256: string }> = [
   { path: FOUNTAIN('S1-05_UNUSUAL_REQUEST'), sha256: '0db6d6b21b6d3edb1a9331e687d29abb7a8e9d6f168e93855d43c261e951c743' },
 ];
 
-export type BaselineState = 'UNCHANGED' | 'UNCHANGED_EXCEPT_FOUNDER_PROMOTION' | 'CHANGED';
+/**
+ * sha256 of the S1-01 packet files that the founder-authorized patch moved (PATCH-S101-01 to -07, 2026-10-25). The audit
+ * hashes above stay as the record of what the audit read; a file may match either, and nothing else.
+ */
+export const FOUNDER_S101_PATCH_BASELINE: Record<string, string> = {
+  [S101('packet')]: '4509b8aa667252abf3b72bbfa695d605f4ac1f67a4f27efb3f6f7813ae5c5e95',
+  [S101('keyframes')]: 'a63d928ff38097554f73e4099424cb76d440f74ef5ea662872fe4f26a2994472',
+  [S101('shotListCsv')]: '9942a4d270a37c42f30d0d0752fc8f2ed465f37b85f4326a259addc4c702db49',
+  [S101('shotList')]: 'db61d903d669d60ef77dacb15bd1127f33368e7551c406ce5885246c70215935',
+  [S101('timeline')]: 'ab26861564ac7c286787f7ac784603c56132bc55b4c9722d8bdbe307765f7e0a',
+};
+
+export type BaselineState = 'UNCHANGED' | 'UNCHANGED_EXCEPT_FOUNDER_PROMOTION' | 'FOUNDER_S101_PATCH' | 'CHANGED';
 
 /**
  * A protected file compared with its baseline. The master may since have gained the founder-promoted living-world
- * amendments (2026-10-25); with those removed it must still be byte-identical. Any other difference is CHANGED.
+ * amendments (2026-10-25); with those removed it must still be byte-identical. An S1-01 packet file may instead match
+ * its founder-authorized patched hash. Any other difference is CHANGED.
  */
 export function baselineState(f: { path: string; sha256: string }, root = process.cwd()): BaselineState {
   const body = fs.readFileSync(repoPath(f.path, root));
   const hash = (b: string | Buffer) => crypto.createHash('sha256').update(b).digest('hex');
   if (hash(body) === f.sha256) return 'UNCHANGED';
+  if (FOUNDER_S101_PATCH_BASELINE[f.path] === hash(body)) return 'FOUNDER_S101_PATCH';
   if (f.path !== EXCHANGE_PATHS.master) return 'CHANGED';
   const view = `${JSON.stringify(withoutLivingWorldAmendments(JSON.parse(body.toString('utf8'))), null, 2)}\n`;
   return hash(view) === f.sha256 ? 'UNCHANGED_EXCEPT_FOUNDER_PROMOTION' : 'CHANGED';

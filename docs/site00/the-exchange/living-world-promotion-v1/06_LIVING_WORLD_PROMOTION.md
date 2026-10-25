@@ -56,7 +56,7 @@ Promoted in this order: W-01 before R-02 and R-03, S-02 before R-04; R-01 and R-
 - **Runtime impact:** 0 s
 - **Continuity implications:** REWATCH recognition; PUBLIC venue (A public promenade.); speaks: EXISTING_MASTER_LINE. Needs the S1-01 face to be kept as a reference, which FD-S101-06 currently does not plan.
 - **Asset implications:** LW-FACE-GRANDMOTHER: The grandmother's facial reference and performance — PENDING_PRODUCTION; LW-WD-GRANDMOTHER: The grandmother's everyday look — PROVISIONAL; LW-VOICE-GRANDMOTHER: The grandmother's voice for her one S1-59 line — PENDING_PRODUCTION
-- **Production hold status:** CONDITIONAL_PRODUCTION_HOLD (HOLD-S101-PATCH)
+- **Production hold status:** PENDING_PRODUCTION (no hold)
 - **Implemented in:** master amendments AM-LW-S1-59-R01; background identities BG-S101-GRANDMOTHER; S1-01 patch PATCH-S101-01, PATCH-S101-02, PATCH-S101-03, PATCH-S101-07 (proposed, not applied)
 - **Dependencies:** WAITS_ON_DECISION FD-S101-06: FD-S101-06 answered RECURRING.
 - **Source evidence:**
@@ -74,7 +74,7 @@ Promoted in this order: W-01 before R-02 and R-03, S-02 before R-04; R-01 and R-
 - **Runtime impact:** 0 s
 - **Continuity implications:** DELIBERATE recognition; PUBLIC venue (The public riverbank; no invitation implied.); speaks: NO. It must not imply that S1-01's "date" was the Grand Exchange, which is ninety-two days away. Her date tonight is her own business; this is simply a later night out in the same dress.
 - **Asset implications:** LW-FACE-GRANDMOTHER: The grandmother's facial reference and performance — PENDING_PRODUCTION; LW-WD-GREEN-DRESS: The jewel-green dress — PENDING_DESIGN; LW-ENV-FAR-BANK: The public riverbank celebration — PENDING_DESIGN
-- **Production hold status:** CONDITIONAL_PRODUCTION_HOLD (HOLD-FD-S101-05, HOLD-S101-PATCH)
+- **Production hold status:** CONDITIONAL_PRODUCTION_HOLD (HOLD-FD-S101-05)
 - **Implemented in:** master amendments AM-LW-S1-77-R02; background identities BG-S101-GRANDMOTHER; S1-01 patch PATCH-S101-01, PATCH-S101-02, PATCH-S101-03, PATCH-S101-06, PATCH-S101-07 (proposed, not applied)
 - **Dependencies:** DEPENDS_ON W-01: W-01 is founder-approved and promoted first. WAITS_ON_DECISION FD-S101-05: FD-S101-05 answered DRESS_DESIGN_LATER. Still open: the garment design, chosen at S1-01 visual development with founder visual approval. WAITS_ON_DECISION FD-S101-06: FD-S101-06 answered RECURRING.
 - **Source evidence:**
@@ -93,7 +93,7 @@ Promoted in this order: W-01 before R-02 and R-03, S-02 before R-04; R-01 and R-
 - **Runtime impact:** 0 s
 - **Continuity implications:** REWATCH recognition; PUBLIC venue (The public riverbank.); speaks: NO. Whether he is Wendell Ames is open (FD-S101-07, recommendation "No for now"). Orange, a sign or a look at Sloane would answer it by accident.
 - **Asset implications:** LW-FACE-TAILOR: The tailor's facial reference — PENDING_PRODUCTION; LW-WD-TAILOR: The tailor's recognizable appearance — PROVISIONAL; LW-ENV-FAR-BANK: The public riverbank celebration — PENDING_DESIGN
-- **Production hold status:** CONDITIONAL_PRODUCTION_HOLD (HOLD-S101-PATCH)
+- **Production hold status:** PENDING_PRODUCTION (no hold)
 - **Implemented in:** master amendments AM-LW-S1-77-R03; background identities BG-S101-TAILOR; S1-01 patch PATCH-S101-01, PATCH-S101-02, PATCH-S101-03, PATCH-S101-04, PATCH-S101-07 (proposed, not applied)
 - **Dependencies:** DEPENDS_ON W-01: W-01 is founder-approved and promoted first. WAITS_ON_DECISION FD-S101-06: FD-S101-06 answered RECURRING. WAITS_ON_DECISION FD-S101-07: FD-S101-07 answered ANONYMOUS. CONFLICTS_WITH R-12: R-12 stays unapproved and is not promoted.
 - **Source evidence:**
@@ -112,7 +112,7 @@ Promoted in this order: W-01 before R-02 and R-03, S-02 before R-04; R-01 and R-
 - **Runtime impact:** 0 s
 - **Continuity implications:** No change to shot count, timing or framing.
 - **Asset implications:** LW-DANCE-FOUR-COUNT: The teenager's four-count step — PENDING_DESIGN
-- **Production hold status:** CONDITIONAL_PRODUCTION_HOLD (HOLD-S101-PATCH)
+- **Production hold status:** CONDITIONAL_PRODUCTION_HOLD (HOLD-FD-S101-12)
 - **Implemented in:** master amendments AM-LW-S1-01-S02; S1-01 patch PATCH-S101-01, PATCH-S101-02, PATCH-S101-03, PATCH-S101-05 (proposed, not applied)
 - **Dependencies:** WAITS_ON_DECISION FD-S101-06: FD-S101-06 answered RECURRING.
 - **Source evidence:**
@@ -131,7 +131,7 @@ Promoted in this order: W-01 before R-02 and R-03, S-02 before R-04; R-01 and R-
 - **Runtime impact:** 0 s
 - **Continuity implications:** REWATCH recognition; PUBLIC venue (A public street market.); speaks: NO. Keep him away from Sloane's ending beat so the two do not read as connected.
 - **Asset implications:** LW-FACE-TEENAGER: The teenager's facial reference — PENDING_PRODUCTION; LW-DANCE-FOUR-COUNT: The teenager's four-count step — PENDING_DESIGN
-- **Production hold status:** CONDITIONAL_PRODUCTION_HOLD (HOLD-S101-PATCH)
+- **Production hold status:** CONDITIONAL_PRODUCTION_HOLD (HOLD-FD-S101-12)
 - **Implemented in:** master amendments AM-LW-S1-51-R04; background identities BG-S101-TEENAGER; S1-01 patch PATCH-S101-01, PATCH-S101-02, PATCH-S101-03, PATCH-S101-05, PATCH-S101-07 (proposed, not applied)
 - **Dependencies:** DEPENDS_ON S-02: S-02 is founder-approved and promoted first. WAITS_ON_DECISION FD-S101-06: FD-S101-06 answered RECURRING.
 - **Source evidence:**

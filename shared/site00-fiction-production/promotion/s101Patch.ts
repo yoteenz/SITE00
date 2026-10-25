@@ -1,8 +1,9 @@
 /**
- * The S1-01 Dusk packet stays exactly as the founder last reviewed it. This is the update the founder's decisions call
- * for, written as a patch plan: each `before` is quoted from the current packet (the validator checks it), each `after`
- * is what the packet would say once the founder accepts the revision. Applying it changes no shot, frame, keyframe
- * count, cue or runtime. Every S1-01 decision this sprint did not settle stays open.
+ * The update the founder's decisions call for, written as a patch plan: each `before` is quoted from the packet the founder
+ * reviewed, each `after` is what the packet says once the revision is accepted. The founder authorized all seven on
+ * 2026-10-25 and they are applied: `applied.present` must now appear in the packet and `applied.absent` must not (the
+ * validator checks both). Applying it changes no shot, frame, keyframe count, cue or runtime. Every S1-01 decision the
+ * founder did not settle stays open.
  */
 export type PatchItem = {
   patchId: string;
@@ -15,7 +16,9 @@ export type PatchItem = {
   after: string[];
   affects: string[];
   unchanged: string;
-  status: 'PROPOSED_PENDING_FOUNDER_PACKET_REVIEW';
+  status: 'PROPOSED_PENDING_FOUNDER_PACKET_REVIEW' | 'APPLIED_FOUNDER_AUTHORIZED';
+  /** How the patch landed: exact packet strings that must now be present, `before` strings that must be gone, and any deviation. */
+  applied?: { authority: string; date: string; present: string[]; absent: string[]; note?: string };
 };
 
 const PACKET = 'THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json';
@@ -25,7 +28,9 @@ const SHOTS = 'shared/site00-fiction-production/scenes/s1-01/shotsA.ts';
 const BUILD = 'scripts/the-exchange/build-directorial-production.ts';
 const JIT = 'shared/site00-fiction-production/jitCast.ts';
 const NO_TIMING = 'No shot, frame, keyframe count, cue, dialogue or runtime changes.';
-const STATUS = 'PROPOSED_PENDING_FOUNDER_PACKET_REVIEW' as const;
+const STATUS = 'APPLIED_FOUNDER_AUTHORIZED' as const;
+const AUTH = 'Founder sprint P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 §03 A';
+const applied = (present: string[], absent: string[], note?: string) => ({ authority: AUTH, date: '2026-10-25', present, absent, ...(note ? { note } : {}) });
 
 export const S101_PATCH: PatchItem[] = [
   {
@@ -45,6 +50,10 @@ export const S101_PATCH: PatchItem[] = [
     affects: ['S1-01-SH02', 'S1-01-SH03', 'S1-01-SH04', 'S1-01-SH05', 'S1-01-SH06', 'S1-01-SH07', 'S1-01-SH08', 'S1-01-SH09', 'S1-01-SH10', 'S1-01-SH17'],
     unchanged: NO_TIMING,
     status: STATUS,
+    applied: applied([
+      'RECURRING (founder, 2026-10-25): the tailor, the grandmother and the teenager keep reusable recurring-background identities; the woman on the balcony and the neighbour stay scene-scoped.',
+      'Looks, ages and everyday wardrobe of the five inhabitants. The tailor, the grandmother and the teenager are recurring background (FD-S101-06); the woman on the balcony and the neighbour are scene-scoped. The looks are approved with the start frames.',
+    ], ['Looks, ages and everyday wardrobe of the five inhabitants (scene-scoped, no permanent packages).'], 'The FD-S101-06 question keeps its original wording; the decision now reads ANSWERED with the founder\'s answer.'),
   },
   {
     patchId: 'PATCH-S101-02',
@@ -72,6 +81,21 @@ export const S101_PATCH: PatchItem[] = [
     affects: ['KF-SF-SH02', 'KF-SF-SH05', 'KF-SF-SH09'],
     unchanged: `${NO_TIMING} The woman on the balcony and the neighbour keep their scene-scoped labels.`,
     status: STATUS,
+    applied: applied([
+      'Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06)',
+      'Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06)',
+      'Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)',
+      "As fixed by the vignette's first start frame, kept as the identity reference for their later returns (recurring background, FD-S101-06)",
+      'As fixed by her first face-readable start frame (KF-SF-SH10), kept as the identity reference for her later returns (recurring background, FD-S101-06)',
+      "S1-77 (R-03): the tailor's identity reference, once this frame is generated and approved",
+      "S1-51 (R-04): the teenager's identity reference, once this frame is generated and approved",
+      "S1-59 (R-01): the grandmother's identity reference, once this frame is generated and approved",
+      "S1-77 (R-02): the grandmother's identity reference, once this frame is generated and approved",
+    ], [
+      'Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)',
+      'Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)',
+      'Grandmother: house cardigan, reading glasses on a chain (scene-scoped)',
+    ], "Deviation: the plan named KF-SF-SH09 for the grandmother, but that frame shows only her hands (spec hides her face) and SH08 only the top of her head. Her reuse and identity reference sit on KF-SF-SH10, her first face-readable start frame. The woman on the balcony and the neighbour keep the scene-scoped hair note."),
   },
   {
     patchId: 'PATCH-S101-03',
@@ -90,6 +114,10 @@ export const S101_PATCH: PatchItem[] = [
     affects: ['scene:S1-01:tailor', 'scene:S1-01:grandmother', 'scene:S1-01:teenager'],
     unchanged: NO_TIMING,
     status: STATUS,
+    applied: applied([
+      'Inhabitants get performance direction. The tailor, the grandmother and the teenager keep an identity reference (face, wardrobe, mannerism) for their approved returns; no voice, biography or principal package. The woman on the balcony and the neighbour are scene-scoped.',
+      'RECURRING_BACKGROUND',
+    ], ['Scene-scoped inhabitants get performance direction and no permanent package (sprint V2 §28).']),
   },
   {
     patchId: 'PATCH-S101-04',
@@ -108,6 +136,10 @@ export const S101_PATCH: PatchItem[] = [
     affects: ['S1-01-SH02', 'S1-01-SH03', 'S1-01-SH04'],
     unchanged: NO_TIMING,
     status: STATUS,
+    applied: applied([
+      'No: an unnamed tailor (ANONYMOUS, founder, 2026-10-25). The shop sign stays unreadable.',
+      'The tailor is anonymous (FD-S101-07). He is not Wendell Ames and has no biography.',
+    ], ['No for now: keep him scene-scoped and the shop sign unreadable so the choice stays open.', 'Whether the tailor is Wendell Ames, the Ferry Street tailor named later in the season.'], 'E-10 is labelled FOUNDER_DECIDED.'),
   },
   {
     patchId: 'PATCH-S101-05',
@@ -120,6 +152,11 @@ export const S101_PATCH: PatchItem[] = [
     affects: ['S1-01-SH05', 'S1-01-SH06', 'S1-01-SH07'],
     unchanged: `${NO_TIMING} E-06 keeps the downbeat at frame 324.`,
     status: STATUS,
+    applied: applied([
+      'Choreography note on SH05 to SH07: one specific four-count step, missed, tangled, then landed on the downbeat (frame 324, E-06). The same four counts return in S1-51 (R-04). The step itself is still to be choreographed.',
+      'He tries the four-count step and stumbles out of it.',
+      'CHOREOGRAPHY_LOCK_PENDING',
+    ], ['He tries a two-step turn and stumbles out of it.'], "The note is embellishment E-14. The step's lock is open founder decision FD-S101-12, which also blocks KF-SF-SH05; SH06 and SH07 inherit the block. No move is invented."),
   },
   {
     patchId: 'PATCH-S101-06',
@@ -138,6 +175,11 @@ export const S101_PATCH: PatchItem[] = [
     affects: ['KF-WD-GREEN-DRESS', 'S1-01-SH08', 'S1-01-SH09', 'S1-01-SH10', 'S1-01-SH17'],
     unchanged: `${NO_TIMING} KF-WD-GREEN-DRESS stays blocked and is not production-ready.`,
     status: STATUS,
+    applied: applied([
+      'Story continuity approved (founder, 2026-10-25); the design is chosen at S1-01 visual development, and the chosen garment is the one S1-77 uses (R-02). No candidate is chosen.',
+      'VISUAL_DESIGN_PENDING',
+      'The design of the jewel-green dress: one garment for SH08 to SH10, SH17 and the S1-77 callback. KF-WD-GREEN-DRESS stays blocked by FD-S101-05.',
+    ], ['The design of the jewel-green dress.'], 'FD-S101-05 stays OPEN with progress STORY_CONTINUITY_APPROVED, VISUAL_DESIGN_PENDING.'),
   },
   {
     patchId: 'PATCH-S101-07',
@@ -150,6 +192,7 @@ export const S101_PATCH: PatchItem[] = [
     affects: ['S1-01-SC02', 'S1-01-SC03', 'S1-01-SC04'],
     unchanged: NO_TIMING,
     status: STATUS,
+    applied: applied(['Forward references: the grandmother in S1-59 (R-01, with her existing line) and S1-77 (R-02, in the jewel-green dress); the tailor in S1-77 (R-03); the teenager in S1-51 (R-04). None of them meet, and none is named.'], [], 'Section 6 carries forwardReferences: the note plus one structured return per appearance, in the background register\'s wording.'),
   },
 ];
 
@@ -157,7 +200,9 @@ export const S101_PATCH: PatchItem[] = [
 export const S101_GUARDS = {
   baseline: { durationSec: 45, shots: 19, frames: 1080, fps: 24, keyframes: 22, musicCues: 3, silences: 1, soundCues: 13 },
   untouchedEmbellishments: ['E-02', 'E-03', 'E-07'],
-  stillOpen: ['FD-S101-01', 'FD-S101-02', 'FD-S101-03', 'FD-S101-04', 'FD-S101-05', 'FD-S101-08', 'FD-S101-09', 'FD-S101-10', 'FD-S101-11'],
+  stillOpen: ['FD-S101-01', 'FD-S101-02', 'FD-S101-03', 'FD-S101-04', 'FD-S101-05', 'FD-S101-08', 'FD-S101-09', 'FD-S101-10', 'FD-S101-11', 'FD-S101-12'],
   answeredBySprint: ['FD-S101-06', 'FD-S101-07'],
+  /** Opened by the patch: the four-count step must be locked before the SH05 start frame (PATCH-S101-05). */
+  addedByPatch: ['FD-S101-12'],
   notes: ["The Ember's look (E-02, E-03, FD-S101-03) is unchanged; the privacy rule WR-03 is not visual.", 'Halcyon House stays windows only (E-07, FD-S101-04).', 'No shot is added, the runtime stays 45 s, and no dialogue is added.'],
 };

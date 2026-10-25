@@ -53,7 +53,7 @@ One scene is in review. Everything else in the season is tracked silently. Deep 
 | Sound | A big band warming up out of sight becomes the groove of the street, stops dead on the Ember, and returns as the real band heard from the ballroom. |
 | Ending | The audience should want to go where everyone is going: across the rooftops to the lit windows of Halcyon House, on a night that is about to begin. |
 
-Creative choices are labelled: 2 SOURCE_ESTABLISHED, 6 FOUNDER_APPROVAL_REQUIRED, 5 DIRECTORIAL_INTERPRETATION. The inhabitants are directed as people with lives and get no permanent packages. The Ember look and Halcyon House exterior are not invented: both wait for you (FD-S101-03, FD-S101-04).
+Creative choices are labelled: 2 SOURCE_ESTABLISHED, 6 FOUNDER_APPROVAL_REQUIRED, 5 DIRECTORIAL_INTERPRETATION, 1 FOUNDER_DECIDED. The inhabitants are directed as people with lives and get no permanent packages. The Ember look and Halcyon House exterior are not invented: both wait for you (FD-S101-03, FD-S101-04).
 
 ## F. Timeline
 
@@ -107,11 +107,12 @@ Reply with the decision id and your choice, for example "FD-S101-01 approve v2".
 | FD-S101-04 | Halcyon House: windows only, or supply an exterior authority? | Windows only for S1-01; design the exterior when S1-02 to S1-05 need the front steps. | KEYFRAMES |
 | FD-S101-05 | Design of the jewel-green dress? | Two candidates (80 credits): a 1960s satin cocktail dress and a bias-cut evening dress. | KEYFRAMES |
 | FD-S101-06 | Approve the inhabitants' looks as planned (scene-scoped)? | Approve; faces are fixed by each vignette's first start frame. | KEYFRAMES |
-| FD-S101-07 | Is the tailor Wendell Ames? | No for now: keep him scene-scoped and the shop sign unreadable so the choice stays open. | KEYFRAMES |
+| FD-S101-07 | Is the tailor Wendell Ames? | Answered by the founder. | KEYFRAMES |
 | FD-S101-08 | How is the street seeded? | Founder photograph if one exists; otherwise two look-development candidates (80 credits). | KEYFRAMES |
 | FD-S101-09 | Confirm 24 fps delivery? | 24 fps. | DIRECTION |
 | FD-S101-10 | Title card at the end? | No title card in S1-01. | DIRECTION |
 | FD-S101-11 | Authorize the generation budget? | Authorize references and keyframes first, then video once frames are approved. | GENERATION_BUDGET |
+| FD-S101-12 | Lock the teenager's four-count step? | Lock the step before the SH05 start frame is generated; no shot length changes. | KEYFRAMES |
 
 ## I. Expected cost
 

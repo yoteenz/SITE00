@@ -22,9 +22,9 @@ export const shot = (s: Authored): ShotDesign => ({
 });
 
 export const WD = {
-  TAILOR: 'Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)',
-  TEENAGER: 'Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)',
-  GRANDMOTHER: 'Grandmother: house cardigan, reading glasses on a chain (scene-scoped)',
+  TAILOR: 'Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06)',
+  TEENAGER: 'Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06)',
+  GRANDMOTHER: 'Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)',
   DRESS: 'The jewel-green dress (design pending, U-4)',
   WOMAN: 'Woman on the balcony: soft at-home dress, bare feet, hair loosely up (scene-scoped)',
   NEIGHBOUR: 'Neighbour: plain t-shirt, reading lamp behind him (scene-scoped)',

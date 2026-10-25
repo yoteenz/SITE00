@@ -4,7 +4,7 @@
 
 > **FOUNDER-APPROVED PROMOTION, 2026-10-25.** Nineteen Living World Audit V1 proposals are approved by the founder at the creative-proposal level and promoted into canon and planning records. Production readiness is tracked separately and may lag. The other 53 proposals are not approved and are not promoted. No media was generated and no credit was spent.
 
-S1-01 Dusk is in founder review. Its directorial packet is not rewritten: its nine files are byte-identical to the audit baseline (validator UNCHANGED_FILES). This is the update the founder's decisions call for, to apply only after the founder reviews it.
+S1-01 Dusk is in founder review. The founder authorized all seven patch items on 2026-10-25 and they are applied: the packet was rebuilt from the edited source modules, and its moved files are the new founder-authorized baseline (FOUNDER_S101_PATCH_BASELINE). Shots, frames, cues and runtime are unchanged. The "before" lines below quote the packet the founder reviewed.
 
 ## 1. Baseline the patch must keep
 
@@ -24,19 +24,20 @@ S1-01 Dusk is in founder review. Its directorial packet is not rewritten: its ni
 
 ## 2. S1-01 founder decisions
 
-| Decision | Question | In the packet now | After this sprint |
+| Decision | Question | In the packet now | Founder answer (2026-10-25) |
 | --- | --- | --- | --- |
 | FD-S101-01 | Approve the S1-01 screenplay v2 (still DRAFT)? | OPEN | Unchanged: still open |
 | FD-S101-02 | Music direction and composer route? | OPEN | Unchanged: still open |
 | FD-S101-03 | What does the Ember look like on a lens? | OPEN | Unchanged: still open |
 | FD-S101-04 | Halcyon House: windows only, or supply an exterior authority? | OPEN | Unchanged: still open |
 | FD-S101-05 | Design of the jewel-green dress? | OPEN | DRESS_DESIGN_LATER (still open: the garment design, chosen at S1-01 visual development with founder visual approval.) |
-| FD-S101-06 | Approve the inhabitants' looks as planned (scene-scoped)? | OPEN | RECURRING |
-| FD-S101-07 | Is the tailor Wendell Ames? | OPEN | ANONYMOUS |
+| FD-S101-06 | Approve the inhabitants' looks as planned (scene-scoped)? | ANSWERED | RECURRING |
+| FD-S101-07 | Is the tailor Wendell Ames? | ANSWERED | ANONYMOUS |
 | FD-S101-08 | How is the street seeded? | OPEN | Unchanged: still open |
 | FD-S101-09 | Confirm 24 fps delivery? | OPEN | Unchanged: still open |
 | FD-S101-10 | Title card at the end? | OPEN | Unchanged: still open |
 | FD-S101-11 | Authorize the generation budget? | OPEN | Unchanged: still open |
+| FD-S101-12 | Lock the teenager's four-count step? | OPEN | Unchanged: still open |
 
 ## 3. Dependency order
 
@@ -55,13 +56,14 @@ S1-01 Dusk is in founder review. Its directorial packet is not rewritten: its ni
 - **Edit:** `shared/site00-fiction-production/scenes/s1-01/decisions.ts` (FOUNDER_DECISIONS › FD-S101-06 (section 9)) → `THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json`; `shared/site00-fiction-production/scenes/s1-01/decisions.ts` (EMBELLISHMENTS › E-09) → `THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json`
 - **Affects:** S1-01-SH02, S1-01-SH03, S1-01-SH04, S1-01-SH05, S1-01-SH06, S1-01-SH07, S1-01-SH08, S1-01-SH09, S1-01-SH10, S1-01-SH17
 - **Unchanged:** No shot, frame, keyframe count, cue, dialogue or runtime changes.
-- **Status:** PROPOSED_PENDING_FOUNDER_PACKET_REVIEW
-- **Before (quoted from the current packet):**
+- **Status:** APPLIED_FOUNDER_AUTHORIZED
+- **Before (quoted from the packet the founder reviewed):**
   - "Approve the inhabitants' looks as planned (scene-scoped)?"
   - "Looks, ages and everyday wardrobe of the five inhabitants (scene-scoped, no permanent packages)."
 - **After:**
   - FD-S101-06 status ANSWERED, answer "RECURRING (founder, 2026-10-25): the tailor, the grandmother and the teenager keep reusable recurring-background identities; the woman on the balcony and the neighbour stay scene-scoped."
   - E-09: Looks, ages and everyday wardrobe of the five inhabitants. The tailor, the grandmother and the teenager are recurring background (FD-S101-06); the woman on the balcony and the neighbour are scene-scoped. The looks are approved with the start frames.
+- **Applied:** 2026-10-25, Founder sprint P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 §03 A. The validator checks 2 exact text(s) present and 1 replaced text(s) gone. The FD-S101-06 question keeps its original wording; the decision now reads ANSWERED with the founder's answer.
 
 ### PATCH-S101-02. Label the three recurring wardrobes and hair notes, and keep their start frames as identity references after S1-01.
 
@@ -70,8 +72,8 @@ S1-01 Dusk is in founder review. Its directorial packet is not rewritten: its ni
 - **Edit:** `shared/site00-fiction-production/scenes/s1-01/shotsA.ts` (shots SH02 to SH10 and SH17 › wardrobe) → `THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json`; `shared/site00-fiction-production/scenes/s1-01/spatial.ts` (character states › hair) → `THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json`; `shared/site00-fiction-production/scenes/s1-01/keyframes.ts` (KF-SF-SH02, KF-SF-SH05, KF-SF-SH09) → `THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/KEYFRAME_MANIFEST_V1.json`
 - **Affects:** KF-SF-SH02, KF-SF-SH05, KF-SF-SH09
 - **Unchanged:** No shot, frame, keyframe count, cue, dialogue or runtime changes. The woman on the balcony and the neighbour keep their scene-scoped labels.
-- **Status:** PROPOSED_PENDING_FOUNDER_PACKET_REVIEW
-- **Before (quoted from the current packet):**
+- **Status:** APPLIED_FOUNDER_AUTHORIZED
+- **Before (quoted from the packet the founder reviewed):**
   - "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)"
   - "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)"
   - "Grandmother: house cardigan, reading glasses on a chain (scene-scoped)"
@@ -82,6 +84,7 @@ S1-01 Dusk is in founder review. Its directorial packet is not rewritten: its ni
   - Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)
   - For the tailor, the teenager and the grandmother: as fixed by the vignette's first start frame, kept as the identity reference for their later returns (recurring background, FD-S101-06). For the woman on the balcony and the neighbour: unchanged (scene-scoped).
   - reusableBeyondUnit: KF-SF-SH02 (tailor) gains S1-77; KF-SF-SH05 (teenager) gains S1-51; KF-SF-SH09 (grandmother) gains S1-59 and S1-77. Still to be generated, and still blocked by the open S1-01 decisions.
+- **Applied:** 2026-10-25, Founder sprint P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 §03 A. The validator checks 9 exact text(s) present and 3 replaced text(s) gone. Deviation: the plan named KF-SF-SH09 for the grandmother, but that frame shows only her hands (spec hides her face) and SH08 only the top of her head. Her reuse and identity reference sit on KF-SF-SH10, her first face-readable start frame. The woman on the balcony and the neighbour keep the scene-scoped hair note.
 
 ### PATCH-S101-03. Let the packet's cast section show the three as recurring background, without a principal package.
 
@@ -90,13 +93,14 @@ S1-01 Dusk is in founder review. Its directorial packet is not rewritten: its ni
 - **Edit:** `scripts/the-exchange/build-directorial-production.ts` (section 6 › cast.rule) → `THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json`; `shared/site00-fiction-production/jitCast.ts` (section 6 › cast.people[].tier (season cast census)) → `THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json`
 - **Affects:** scene:S1-01:tailor, scene:S1-01:grandmother, scene:S1-01:teenager
 - **Unchanged:** No shot, frame, keyframe count, cue, dialogue or runtime changes.
-- **Status:** PROPOSED_PENDING_FOUNDER_PACKET_REVIEW
-- **Before (quoted from the current packet):**
+- **Status:** APPLIED_FOUNDER_AUTHORIZED
+- **Before (quoted from the packet the founder reviewed):**
   - "Scene-scoped inhabitants get performance direction and no permanent package (sprint V2 §28)."
   - "SCENE_SCOPED"
 - **After:**
   - Inhabitants get performance direction. The tailor, the grandmother and the teenager keep an identity reference (face, wardrobe, mannerism) for their approved returns; no voice, biography or principal package. The woman on the balcony and the neighbour are scene-scoped.
   - Census tier RECURRING_BACKGROUND for scene:S1-01:tailor, scene:S1-01:grandmother and scene:S1-01:teenager; SCENE_SCOPED for the other two.
+- **Applied:** 2026-10-25, Founder sprint P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 §03 A. The validator checks 2 exact text(s) present and 1 replaced text(s) gone.
 
 ### PATCH-S101-04. Record the answer to FD-S101-07 and close E-10.
 
@@ -105,13 +109,14 @@ S1-01 Dusk is in founder review. Its directorial packet is not rewritten: its ni
 - **Edit:** `shared/site00-fiction-production/scenes/s1-01/decisions.ts` (FOUNDER_DECISIONS › FD-S101-07 (section 9)) → `THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json`; `shared/site00-fiction-production/scenes/s1-01/decisions.ts` (EMBELLISHMENTS › E-10) → `THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json`
 - **Affects:** S1-01-SH02, S1-01-SH03, S1-01-SH04
 - **Unchanged:** No shot, frame, keyframe count, cue, dialogue or runtime changes.
-- **Status:** PROPOSED_PENDING_FOUNDER_PACKET_REVIEW
-- **Before (quoted from the current packet):**
+- **Status:** APPLIED_FOUNDER_AUTHORIZED
+- **Before (quoted from the packet the founder reviewed):**
   - "No for now: keep him scene-scoped and the shop sign unreadable so the choice stays open."
   - "Whether the tailor is Wendell Ames, the Ferry Street tailor named later in the season."
 - **After:**
   - FD-S101-07 status ANSWERED, answer "No: an unnamed tailor (ANONYMOUS, founder, 2026-10-25)." The shop sign stays unreadable.
   - E-10: The tailor is anonymous (FD-S101-07). He is not Wendell Ames and has no biography.
+- **Applied:** 2026-10-25, Founder sprint P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 §03 A. The validator checks 2 exact text(s) present and 2 replaced text(s) gone. E-10 is labelled FOUNDER_DECIDED.
 
 ### PATCH-S101-05. Attach the four-count step to the teenager's three shots.
 
@@ -120,11 +125,12 @@ S1-01 Dusk is in founder review. Its directorial packet is not rewritten: its ni
 - **Edit:** `shared/site00-fiction-production/scenes/s1-01/shotsA.ts` (shots SH05 to SH07 › a choreography note (new embellishment)) → `THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json`
 - **Affects:** S1-01-SH05, S1-01-SH06, S1-01-SH07
 - **Unchanged:** No shot, frame, keyframe count, cue, dialogue or runtime changes. E-06 keeps the downbeat at frame 324.
-- **Status:** PROPOSED_PENDING_FOUNDER_PACKET_REVIEW
-- **Before (quoted from the current packet):**
+- **Status:** APPLIED_FOUNDER_AUTHORIZED
+- **Before (quoted from the packet the founder reviewed):**
   - "He tries a two-step turn and stumbles out of it."
 - **After:**
   - Choreography note on SH05 to SH07: one specific four-count step, missed, tangled, then landed on the downbeat (frame 324, E-06). The same four counts return in S1-51 (R-04). The step itself is still to be choreographed.
+- **Applied:** 2026-10-25, Founder sprint P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 §03 A. The validator checks 3 exact text(s) present and 1 replaced text(s) gone. The note is embellishment E-14. The step's lock is open founder decision FD-S101-12, which also blocks KF-SF-SH05; SH06 and SH07 inherit the block. No move is invented.
 
 ### PATCH-S101-06. Record that the dress has a later callback, without choosing its design.
 
@@ -133,12 +139,13 @@ S1-01 Dusk is in founder review. Its directorial packet is not rewritten: its ni
 - **Edit:** `shared/site00-fiction-production/scenes/s1-01/decisions.ts` (FOUNDER_DECISIONS › FD-S101-05 (section 9)) → `THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json`; `shared/site00-fiction-production/scenes/s1-01/decisions.ts` (EMBELLISHMENTS › E-08) → `THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json`
 - **Affects:** KF-WD-GREEN-DRESS, S1-01-SH08, S1-01-SH09, S1-01-SH10, S1-01-SH17
 - **Unchanged:** No shot, frame, keyframe count, cue, dialogue or runtime changes. KF-WD-GREEN-DRESS stays blocked and is not production-ready.
-- **Status:** PROPOSED_PENDING_FOUNDER_PACKET_REVIEW
-- **Before (quoted from the current packet):**
+- **Status:** APPLIED_FOUNDER_AUTHORIZED
+- **Before (quoted from the packet the founder reviewed):**
   - "The design of the jewel-green dress."
 - **After:**
   - FD-S101-05 stays OPEN. Note: story continuity approved (founder, 2026-10-25); the design is chosen at S1-01 visual development, and the chosen garment is the one S1-77 uses (R-02). No candidate is chosen.
   - E-08: The design of the jewel-green dress: one garment for SH08 to SH10, SH17 and the S1-77 callback. KF-WD-GREEN-DRESS stays blocked by FD-S101-05.
+- **Applied:** 2026-10-25, Founder sprint P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 §03 A. The validator checks 3 exact text(s) present and 1 replaced text(s) gone. FD-S101-05 stays OPEN with progress STORY_CONTINUITY_APPROVED, VISUAL_DESIGN_PENDING.
 
 ### PATCH-S101-07. Name the later appearances in the continuity section, so the S1-01 frames are made knowing they will be reused.
 
@@ -147,17 +154,18 @@ S1-01 Dusk is in founder review. Its directorial packet is not rewritten: its ni
 - **Edit:** `shared/site00-fiction-production/scenes/s1-01/index.ts` (section 6 › continuity (forward references)) → `THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json`
 - **Affects:** S1-01-SC02, S1-01-SC03, S1-01-SC04
 - **Unchanged:** No shot, frame, keyframe count, cue, dialogue or runtime changes.
-- **Status:** PROPOSED_PENDING_FOUNDER_PACKET_REVIEW
-- **Before (quoted from the current packet):**
+- **Status:** APPLIED_FOUNDER_AUTHORIZED
+- **Before (quoted from the packet the founder reviewed):**
   - Nothing: a new note.
 - **After:**
   - Forward references: the grandmother in S1-59 (R-01, with her existing line) and S1-77 (R-02, in the jewel-green dress); the tailor in S1-77 (R-03); the teenager in S1-51 (R-04). None of them meet, and none is named.
+- **Applied:** 2026-10-25, Founder sprint P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1 §03 A. The validator checks 1 exact text(s) present and 0 replaced text(s) gone. Section 6 carries forwardReferences: the note plus one structured return per appearance, in the background register's wording.
 
 ## 5. Applying it
 
-- Founder reviews this plan. Nothing in the packet changes until then.
-- Edit the named source modules, then run `build-directorial-production.ts`. The packet, keyframe manifest and shot list change; frames, shots and cues do not.
-- The packet's files are protected by the audit baseline and by this promotion's validator. Applying the patch is the one change that should move them, so the founder-reviewed revision becomes the new baseline in the same commit.
-- FD-S101-01 to -04 and -08 to -11 stay open, and the S1-01 budget is untouched: no keyframe is generated by applying the patch.
+- The founder authorized the seven items on 2026-10-25 (founder sprint P0.SITE00.STUDIOWORLD.PRODUCTION-SPINE-AND-EXCHANGE-S101-PACKET-ALIGNMENT.V1, §03 A).
+- The named source modules were edited and `build-directorial-production.ts` re-run. The packet, keyframe manifest, shot list and timeline events changed; frames, shots, cues, budget and review state did not.
+- The packet's moved files are hashed as the founder-authorized baseline in the same commit (`audit/baseline.ts`, FOUNDER_S101_PATCH_BASELINE); the audit's own hashes stay as the record of what it read.
+- FD-S101-01 to -04 and -08 to -11 stay open, and so does FD-S101-12, opened by PATCH-S101-05 for the four-count step. The S1-01 budget is untouched: applying the patch generates nothing.
 
 IMPLEMENT ONLY WHAT THE FOUNDER AUTHORIZED. PRESERVE THE 86 RELEASES AND 127:40. FOUNDER APPROVAL REMAINS THE FINAL CREATIVE AUTHORITY.
