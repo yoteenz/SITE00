@@ -16,8 +16,10 @@ export class JsonFileBackend implements StoreBackend {
   readonly durable = false;
   constructor(readonly root: string) {}
 
+  /** Names the folder without exposing the server's filesystem layout. */
   get description() {
-    return `repository JSON at ${this.root}`;
+    const rel = path.relative(process.cwd(), path.resolve(this.root));
+    return rel && !rel.startsWith('..') && !path.isAbsolute(rel) ? `repository JSON (${rel})` : 'JSON files in a temporary directory';
   }
 
   private file(kind: StoredKind, id: string) {

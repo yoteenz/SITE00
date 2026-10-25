@@ -128,6 +128,8 @@ export class FakeProviderTransport implements ProviderTransport {
     readonly provider: string,
     private readonly output: { bytes: Uint8Array; mimeType: string },
     readonly behaviour: FakeBehaviour = {},
+    /** Operation ids are unique per provider; two fakes standing in for one provider need different prefixes. */
+    private readonly opPrefix = 'FAKE-OP',
   ) {}
 
   status() {
@@ -149,7 +151,7 @@ export class FakeProviderTransport implements ProviderTransport {
     if (known) return { operationId: known };
     this.received.push(req);
     if (this.behaviour.failSubmit) throw new ProviderSubmitError('REJECTED', 'PROVIDER_SUBMIT_FAILED', this.behaviour.failSubmit, 'UNKNOWN');
-    const operationId = `FAKE-OP-${String(this.received.length).padStart(3, '0')}`;
+    const operationId = `${this.opPrefix}-${String(this.received.length).padStart(3, '0')}`;
     this.ops.set(operationId, req);
     this.byKey.set(req.idempotencyKey, operationId);
     if (this.behaviour.loseSubmitResponse) throw new Error('fake network: timed out waiting for the provider’s answer');

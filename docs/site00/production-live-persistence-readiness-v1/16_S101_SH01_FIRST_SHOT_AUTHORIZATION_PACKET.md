@@ -1,0 +1,33 @@
+# 16 — S1-01 SH01 first-shot authorization packet
+
+For the founder: the exact production transaction SH01 would be. Nothing here is authorized, and nothing has been generated or quoted in this sprint. Generated from canon and the SH01 production records.
+
+| Field | Value |
+| --- | --- |
+| **EPISODE** | S1-01 DUSK (1080 frames, 45 s, 19 shots) |
+| **SHOT** | SH01 (S1-01-SH01), S1-01-SC01: Establish the street, the hour and the copper light before anyone appears. |
+| **CURRENT SCRIPT STATUS** | Screenplay v2 DRAFT — FOUNDER REVIEW REQUIRED. FD-S101-01 is open. The SCREENPLAY step is PENDING. |
+| **VISUAL AUTHORITY STATUS** | No approved reference for SET-CITY-DUSK. KF-ENV-CITY-DUSK-A is NOT_CREATED and blocked by FD-S101-08. It needs a founder photograph or one of 2 look-development candidates, approved by the founder. |
+| **INTENDED SHOT DURATION** | 4 s (96 frames) on screen, at 24 fps |
+| **EXPECTED GENERATED SOURCE DURATION** | 5 s (one 5 s generation, trimmed to 4 s in the edit) |
+| **CAMERA INSTRUCTIONS** | Wide. Camera: High, about fifth-floor level across the street; Slightly high, looking east along the street. Lens intent: Long view that stacks the tower over the brownstones. Depth of field: Deep: tower and street both sharp. Movement: Tilt down from the tower glass to the street, Slow and even. Composition: Tower glass fills the top third at the start; the street lands on the lower third by the end. Action: Windows light one by one as the camera tilts down. Edit: FADE IN from black over the first 12 frames. |
+| **ENVIRONMENT REFERENCE** | KF-ENV-CITY-DUSK-A: North side of the street at golden hour (also the SH01 start frame). LS-GOLDEN: low sun from the west, copper on glass, warm stone, long shadows east. Visible: glass tower (copper reflection), brownstone stoops, street lamps, tailor shop grille, third-floor fire-escape rail, fourth-floor balcony ledge. Hidden: Halcyon House, any principal, any readable signage brand. |
+| **PROVIDER** | OpenArt, route OA-K3O-I2V-PRO. Execution is DISABLED: the deployed API has no OpenArt executor, and the founder's connected app is not server authentication. |
+| **MODEL** | Video: kling-3-omni image2video, videoCount 1, resolution pro, duration 5, generateSound false. References: nano-banana-pro image2image (imageCount 1, resolution 2K, aspectRatio 9:16). |
+| **OUTPUT FORMAT** | Video 9:16, pro, 5 s, sound off, MP4. Reference images 9:16 2K. |
+| **CURRENT QUOTE** | None current. The records hold the 24 Oct planning quotes: REF-01 40 cr, REF-02 40 cr and VIDEO-01 175 cr, 255 cr in total, quoted 2026-10-24T14:47Z. The gate treats a quote older than 24 h as planning information (QUOTE_STALE). Each job is quoted again before authorization. |
+| **MAXIMUM PROPOSED SPEND** | Proposed for the founder's decision, not authorized. Two steps: (1) references up to 80 cr (2 × 40, or 0 with a founder photograph); (2) after a reference is approved, the video up to the re-read quote, planned at 175 cr. Each job's ceiling equals its fresh quote. One authorization buys one attempt. |
+| **PRODUCTION ASSET DESTINATION** | Private Supabase Storage bucket `site00-production-masters`, object `the-exchange/<sha256>.mp4` (content-addressed, re-read and hash-verified). Reads are signed links that expire within 5 minutes (900 s maximum). The bucket exists only once migration 20261026100000 is deployed. |
+| **CONTINUITY REQUIREMENTS** | Windows lit here set the count of lit windows for SH17. Lighting LS-GOLDEN. Screen direction: North side of the street on the left, south side on the right; held for the whole release. KF-ENV-CITY-DUSK-A is also the root of 19 later keyframes, so its approval fixes the street for the release. Nobody is featured. |
+| **RETAKE POLICY** | No automatic retry. A failed, uncertain or rejected attempt never resubmits. A retake is a new founder request and a new authorization against a fresh quote. Spend on a failed attempt counts at its quote when the provider reports none. A capture failure is recaptured from the stored output and never regenerated. |
+| **REVIEW WORKFLOW** | Take arrives READY FOR REVIEW. A reviewer may HOLD and record continuity findings. The founder APPROVES or REJECTS. The founder or an authorized editor may SELECT FOR EDIT (one take per shot). Each decision is an append-only event naming its before and after state and the take version. A canonical continuity frame for SH02 comes only from an approved take. |
+| **UNRESOLVED BLOCKERS** | FD-S101-01 Approve the S1-01 screenplay v2 (still DRAFT)?; FD-S101-09 Confirm 24 fps delivery?; FD-S101-11 Authorize the generation budget?; SCREENPLAY step; DIRECTION step (at least S1-01/INTENT and S1-01-SH01); Spine budget BUDGET-S1-01-SH01-PILOT authorized by the founder; Durable record store deployed (migration 20261026100000, staging then production); Private media bucket site00-production-masters live and verified; Provider execution route (OpenArt) for the deployed API; FD-S101-08 How is the street seeded?; S1-01-SH01 shot element approved; KF-ENV-CITY-DUSK-A spec approved; S1-01/ENV/SET-CITY-DUSK approved; KEYFRAMES step scoped to KF-ENV-CITY-DUSK-A and S1-01/ENV/SET-CITY-DUSK; GENERATION_BUDGET step scoped to KF-ENV-CITY-DUSK-A; Reference image: founder photograph, or 2 look-development candidates (REF-01, REF-02); Founder approves the reference (APPROVE_REFERENCE); PRODUCTION step scoped to S1-01-SH01; Current quotes read within 24 h for each SH01 job; Founder authorization of JOB-S1-01-SH01-VIDEO-01 (one attempt, ceiling, expiry) |
+| **APPROVAL STATE** | Steps: SCREENPLAY PENDING, DIRECTION PENDING, KEYFRAMES PENDING, GENERATION_BUDGET PENDING, PRODUCTION PENDING. Spine budget PLANNING_ESTIMATE_ONLY, authorized 0 cr. Jobs: REF-01 DRAFT, REF-02 DRAFT, VIDEO-01 DRAFT. Shot PRODUCTION_SETUP_READY / GENERATION_AUTHORIZATION_PENDING. |
+
+## What authorizing would mean, step by step
+
+1. **Founder decides FD-S101-01, FD-S101-09 and FD-S101-08**, and authorizes SCREENPLAY, DIRECTION (at least S1-01/INTENT and SH01) and KEYFRAMES (for KF-ENV-CITY-DUSK-A and SET-CITY-DUSK).
+2. **References are quoted again**, and the founder answers FD-S101-11 for the references. Then GENERATION_BUDGET is authorized (scoped) and the spine budget is authorized.
+3. **Reference images are generated**, or the founder supplies a photograph. The founder approves one as KF-ENV-CITY-DUSK-A.
+4. **The video is quoted again.** The founder authorizes PRODUCTION for SH01 and the one VIDEO-01 attempt, with its ceiling and expiry.
+5. **The infrastructure must already be live** before any of this spends: the durable store, the private bucket and an enabled provider route. Today none is deployed, and the route is BLOCKED (deliverable 19).

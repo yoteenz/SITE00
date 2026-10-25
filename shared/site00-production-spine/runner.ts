@@ -352,7 +352,18 @@ export class ProductionRunner {
       const next = transitionJob({ ...failed, errors: [...failed.errors, { at: this.now, code, message: errText(e) }] }, 'FAILED', SYSTEM_ACTOR, this.now, `${certainty === 'NOT_SENT' ? 'nothing left this process' : 'the provider refused the request'}; no automatic retry`, { error: errText(e) });
       return { outcome: 'FAILED', job: await this.d.store.update(next, queued.revision) };
     }
-    return { outcome: 'SUBMITTED', job: await this.d.store.update(this.toRunning(queued, operationId, 'provider accepted the request'), queued.revision) };
+    try {
+      return { outcome: 'SUBMITTED', job: await this.d.store.update(this.toRunning(queued, operationId, 'provider accepted the request'), queued.revision) };
+    } catch (e) {
+      // The provider has the request but the ledger did not take the operation id: never resend; reconcile instead.
+      const note = `provider accepted the request as ${operationId}, but recording it failed: ${errText(e)}`;
+      try {
+        const open = { ...queued, attempts: queued.attempts.map((a) => (a.attempt === attempt.attempt ? { ...a, outcome: 'UNCERTAIN' as const, chargedCredits: UNKNOWN } : a)), errors: [...queued.errors, { at: this.now, code: 'OPERATION_RECORD_FAILED', message: note }] };
+        return { outcome: 'RECONCILIATION_REQUIRED', job: await this.d.store.update(transitionJob(open, 'RECONCILIATION_REQUIRED', SYSTEM_ACTOR, this.now, note, { error: note }), queued.revision) };
+      } catch {
+        throw e; // the job stays QUEUED; recoverInterrupted() moves it to reconciliation later
+      }
+    }
   }
 
   private toRunning(job: GenerationJobRecord, operationId: string, reason: string, actor: Actor = SYSTEM_ACTOR): GenerationJobRecord {

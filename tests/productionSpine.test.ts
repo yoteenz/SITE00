@@ -38,7 +38,9 @@ import { FfmpegFrameExtractor, FfprobeMediaProbe } from '../shared/site00-produc
 import { jsonFileStore } from '../shared/site00-production-spine/node/jsonStore.js';
 import { LocalPrivateMediaStore } from '../shared/site00-production-spine/node/localMedia.js';
 import { SupabasePrivateMediaStore, type StorageClient } from '../shared/site00-production-spine/node/supabaseMedia.js';
-import { buildSh01Records, EXCHANGE_PROJECT_ID, EXCHANGE_RECORDS_DIR, exchangeActorAdapter, SH01 } from '../shared/site00-production-spine/projects/theExchange.js';
+import { buildSh01Records, EXCHANGE_PROJECT_ID, EXCHANGE_RECORDS_DIR, exchangeActorAdapter, SH01, sceneGateFrom } from '../shared/site00-production-spine/projects/theExchange.js';
+import { authorizeStep, decideElement } from '../shared/site00-fiction-production/directorial/review.js';
+import { loadSceneReviewState } from '../shared/site00-fiction-production/scenes/index.js';
 import { theExchangeGraphPart } from '../shared/site00-production-spine/projects/theExchangeGraph.js';
 import { getStudioWorldActorCatalogue } from '../shared/site00-studio-world/acting-catalogue/seedCatalogue.js';
 import { getSite00ManagedProject, listDesignEnabledManagedProjects } from '../shared/site00-studio-world-production/visualReconstruction/p0vr3m/managedProjectRegistry.js';
@@ -452,6 +454,19 @@ describe('dispatch-time authorization (§14–§15)', () => {
     expect(evaluateGate(gi, { forAuthorization: true }).reasons.map((r) => r.code)).toEqual(['QUOTE_STALE']);
   });
 
+  it('scene gate: an unknown quote stays unknown, and a scoped budget step covers only its scope', () => {
+    let review = loadSceneReviewState(SH01.releaseId, root);
+    const at = '2026-10-25T13:00:00Z';
+    review = authorizeStep(authorizeStep(review, 'SCREENPLAY', FOUNDER_ACTOR, at, 'TEST'), 'DIRECTION', FOUNDER_ACTOR, at, 'TEST');
+    for (const e of review.elements) if (e.state !== 'APPROVED') review = decideElement(review, e.elementId, 'APPROVED', FOUNDER_ACTOR, at, 'TEST');
+    review = authorizeStep(authorizeStep(review, 'KEYFRAMES', FOUNDER_ACTOR, at, 'TEST'), 'GENERATION_BUDGET', FOUNDER_ACTOR, at, 'TEST', ['KF-ENV-CITY-DUSK-A']);
+    const gate = sceneGateFrom(review);
+    const { shot, jobs } = buildSh01Records(root);
+    expect(gate(jobs[0]!, shot)).toEqual({ valid: true, reasons: [] });
+    expect(gate({ ...jobs[0]!, quotedCost: { ...jobs[0]!.quotedCost, credits: null } }, shot).reasons).toEqual(['price UNKNOWN: quote before authorizing']);
+    expect(gate({ ...jobs[0]!, producesReferenceId: 'KF-ENV-HALCYON-EXT' }, shot).reasons).toEqual(['KF-ENV-HALCYON-EXT is outside the authorized generation budget scope']);
+  });
+
   it('never counts an unknown cost as zero', () => {
     const j = buildSh01Records(root).jobs[2]!;
     const unknown = { ...j, quotedCost: { ...j.quotedCost, credits: null }, attempts: [{ attempt: 1, authorizationId: 'A', ticketId: 'T', operationId: 'X', outcome: 'FAILED' as const, quotedCredits: null, chargedCredits: 'UNKNOWN' as const }] };
@@ -522,6 +537,23 @@ describe('duplicate and retry protection (§16–§17)', () => {
     expect(await restarted.recoverInterrupted()).toEqual([{ jobId: VIDEO, from: 'QUEUED', to: 'RECONCILIATION_REQUIRED' }]);
     expect((await restarted.dispatch(VIDEO, FOUNDER)).outcome).toBe('DUPLICATE_IDEMPOTENT');
     expect(h.fake.calls.submit).toBe(0);
+  });
+
+  it('provider accepted but the ledger write failed: reconciliation, never a resend', async () => {
+    const h = await harness({ approve: true });
+    const realUpdate = h.store.update.bind(h.store);
+    let failOnce = true;
+    h.store.update = (async (rec: AnyRecord, rev: number) => {
+      if (failOnce && rec.kind === 'GENERATION_JOB' && rec.status === 'RUNNING') {
+        failOnce = false;
+        throw new Error('TEST: database unavailable for one write');
+      }
+      return realUpdate(rec, rev);
+    }) as typeof h.store.update;
+    const out = await h.runner.dispatch(VIDEO, FOUNDER);
+    expect([out.outcome, out.job.status, out.job.errors.at(-1)?.code]).toEqual(['RECONCILIATION_REQUIRED', 'RECONCILIATION_REQUIRED', 'OPERATION_RECORD_FAILED']);
+    expect((await h.runner.reconcile(VIDEO, SYSTEM)).status).toBe('RUNNING');
+    expect(h.fake.calls.submit).toBe(1);
   });
 
   it('double callback and polling race: one result recorded, one take', async () => {

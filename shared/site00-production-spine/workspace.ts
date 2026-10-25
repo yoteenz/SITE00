@@ -36,8 +36,8 @@ export function shotReadiness(a: { shot: ShotRecord; jobs: readonly GenerationJo
   };
   return [
     stage('TECHNICALLY_READY', 'Technically ready', [
-      check('Durable record store', store.durable && !store.readOnlyReason, store.durable ? (store.readOnlyReason ?? store.description) : `${store.description}: not durable${store.readOnlyReason ? `; ${store.readOnlyReason}` : ''}`),
-      check('Private master storage', media.live, media.live ? `${media.adapter} ${media.bucket}` : `${media.adapter}: test storage only`),
+      check('Durable record store', store.durable && !store.readOnlyReason, store.durable ? (store.readOnlyReason ? 'read-only' : store.description) : `${store.description} · not durable${store.readOnlyReason ? ' · read-only' : ''}`),
+      check('Private master storage', media.live && media.adapter === 'SUPABASE_PRIVATE', media.live && media.adapter === 'SUPABASE_PRIVATE' ? `private bucket ${media.bucket}` : media.live ? `${media.adapter}: not the production private bucket` : `${media.adapter}: test storage only`),
       check('Production setup records', shot.setup === 'PRODUCTION_SETUP_READY', shot.setup),
       check('Provider route available', routeEnabled.enabled, routeEnabled.reason),
     ]),
