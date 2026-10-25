@@ -2366,5 +2366,364 @@
         "person:grace (PERSON Grace Okafor)"
       ]
     }
-  ]
+  ],
+  "livingWorld": {
+    "rule": "Founder-approved living-world directions (2026-10-25). Identity references, designs and holds reach the founder only when their release enters active production.",
+    "recurringBackground": [
+      {
+        "identityId": "BG-S101-TAILOR",
+        "censusPersonId": "scene:S1-01:tailor",
+        "flags": [
+          "ANONYMOUS"
+        ],
+        "facialReference": {
+          "keyframeId": "KF-SF-SH02",
+          "status": "PENDING_PRODUCTION",
+          "note": "Fixed by the SH02 start frame once generated. Not generated."
+        },
+        "releases": [
+          "S1-01",
+          "S1-77"
+        ]
+      },
+      {
+        "identityId": "BG-S101-GRANDMOTHER",
+        "censusPersonId": "scene:S1-01:grandmother",
+        "flags": [
+          "SPEAKING_IN_S1-59",
+          "DRESS_DESIGN_PENDING"
+        ],
+        "facialReference": {
+          "keyframeId": "KF-SF-SH09",
+          "status": "PENDING_PRODUCTION",
+          "note": "Fixed by the SH09 start frame once generated. Not generated. The same face and performance in S1-59 and S1-77."
+        },
+        "releases": [
+          "S1-01",
+          "S1-59",
+          "S1-77"
+        ]
+      },
+      {
+        "identityId": "BG-S101-TEENAGER",
+        "censusPersonId": "scene:S1-01:teenager",
+        "flags": [
+          "FOUR_COUNT_DANCE"
+        ],
+        "facialReference": {
+          "keyframeId": "KF-SF-SH05",
+          "status": "PENDING_PRODUCTION",
+          "note": "Fixed by the SH05 start frame once generated. Not generated."
+        },
+        "releases": [
+          "S1-01",
+          "S1-51"
+        ]
+      },
+      {
+        "identityId": "BG-S122-PLIERS-GIRL",
+        "censusPersonId": "scene:S1-22:four neighbourhood kids",
+        "flags": [
+          "FROM_A_GROUP"
+        ],
+        "facialReference": {
+          "keyframeId": null,
+          "status": "PENDING_PRODUCTION",
+          "note": "S1-22 is not in production; her face is fixed when it is, and S1-59 reuses it."
+        },
+        "releases": [
+          "S1-22",
+          "S1-59"
+        ]
+      }
+    ],
+    "byRelease": [
+      {
+        "releaseId": "S1-01",
+        "identities": [
+          "BG-S101-TAILOR",
+          "BG-S101-GRANDMOTHER",
+          "BG-S101-TEENAGER"
+        ],
+        "assets": [
+          "LW-FACE-TAILOR (PENDING_PRODUCTION)",
+          "LW-FACE-GRANDMOTHER (PENDING_PRODUCTION)",
+          "LW-FACE-TEENAGER (PENDING_PRODUCTION)",
+          "LW-DANCE-FOUR-COUNT (PENDING_DESIGN)",
+          "LW-WD-TAILOR (PROVISIONAL)",
+          "LW-WD-GRANDMOTHER (PROVISIONAL)",
+          "LW-WD-GREEN-DRESS (PENDING_DESIGN)"
+        ],
+        "holds": [
+          "HOLD-S101-PATCH",
+          "HOLD-FD-S101-05"
+        ]
+      },
+      {
+        "releaseId": "S1-07",
+        "identities": [],
+        "assets": [
+          "LW-PROP-COPPER-SEAL (PENDING_DESIGN)"
+        ],
+        "holds": []
+      },
+      {
+        "releaseId": "S1-11",
+        "identities": [],
+        "assets": [
+          "LW-PROP-COPPER-SEAL (PENDING_DESIGN)"
+        ],
+        "holds": []
+      },
+      {
+        "releaseId": "S1-12",
+        "identities": [],
+        "assets": [
+          "LW-MUS-TRUCK-SONG (PENDING_DESIGN)",
+          "LW-SFX-TRUCK-CAB (PENDING_PRODUCTION)"
+        ],
+        "holds": [
+          "HOLD-SONG"
+        ]
+      },
+      {
+        "releaseId": "S1-15",
+        "identities": [],
+        "assets": [
+          "LW-VFX-RELAY (PENDING_DESIGN)"
+        ],
+        "holds": []
+      },
+      {
+        "releaseId": "S1-17",
+        "identities": [],
+        "assets": [
+          "LW-PROP-COPPER-SEAL (PENDING_DESIGN)"
+        ],
+        "holds": []
+      },
+      {
+        "releaseId": "S1-20",
+        "identities": [],
+        "assets": [
+          "LW-MUS-TRUCK-SONG (PENDING_DESIGN)",
+          "LW-MUS-TWO-BARS (PENDING_DESIGN)"
+        ],
+        "holds": [
+          "HOLD-SONG"
+        ]
+      },
+      {
+        "releaseId": "S1-22",
+        "identities": [
+          "BG-S122-PLIERS-GIRL"
+        ],
+        "assets": [
+          "LW-FACE-PLIERS-GIRL (PENDING_PRODUCTION)",
+          "LW-PROP-KAI-PLIERS (PENDING_DESIGN)"
+        ],
+        "holds": []
+      },
+      {
+        "releaseId": "S1-33",
+        "identities": [],
+        "assets": [
+          "LW-PERF-YAZ-LAUGH (PENDING_PRODUCTION)"
+        ],
+        "holds": []
+      },
+      {
+        "releaseId": "S1-34",
+        "identities": [],
+        "assets": [
+          "LW-VFX-RELAY (PENDING_DESIGN)"
+        ],
+        "holds": []
+      },
+      {
+        "releaseId": "S1-35",
+        "identities": [],
+        "assets": [
+          "LW-MUS-TWO-BARS (PENDING_DESIGN)"
+        ],
+        "holds": []
+      },
+      {
+        "releaseId": "S1-37",
+        "identities": [],
+        "assets": [
+          "LW-SFX-1985-CROWD (PENDING_PRODUCTION)"
+        ],
+        "holds": []
+      },
+      {
+        "releaseId": "S1-50",
+        "identities": [],
+        "assets": [
+          "LW-PERF-YAZ-LAUGH (PENDING_PRODUCTION)"
+        ],
+        "holds": []
+      },
+      {
+        "releaseId": "S1-51",
+        "identities": [
+          "BG-S101-TEENAGER"
+        ],
+        "assets": [
+          "LW-FACE-TEENAGER (PENDING_PRODUCTION)",
+          "LW-DANCE-FOUR-COUNT (PENDING_DESIGN)"
+        ],
+        "holds": [
+          "HOLD-S101-PATCH"
+        ]
+      },
+      {
+        "releaseId": "S1-57",
+        "identities": [],
+        "assets": [
+          "LW-PROP-COPPER-SEAL (PENDING_DESIGN)"
+        ],
+        "holds": []
+      },
+      {
+        "releaseId": "S1-58",
+        "identities": [],
+        "assets": [
+          "LW-FLASHBACK-S1-58 (PENDING_DESIGN)"
+        ],
+        "holds": [
+          "HOLD-FD-18"
+        ]
+      },
+      {
+        "releaseId": "S1-59",
+        "identities": [
+          "BG-S101-GRANDMOTHER",
+          "BG-S122-PLIERS-GIRL"
+        ],
+        "assets": [
+          "LW-FACE-GRANDMOTHER (PENDING_PRODUCTION)",
+          "LW-FACE-PLIERS-GIRL (PENDING_PRODUCTION)",
+          "LW-WD-GRANDMOTHER (PROVISIONAL)",
+          "LW-VFX-LANTERN-FLICKER (PENDING_DESIGN)",
+          "LW-SFX-GOLD-HUM (PENDING_DESIGN)",
+          "LW-PROP-KAI-PLIERS (PENDING_DESIGN)",
+          "LW-VOICE-GRANDMOTHER (PENDING_PRODUCTION)"
+        ],
+        "holds": [
+          "HOLD-S101-PATCH"
+        ]
+      },
+      {
+        "releaseId": "S1-74",
+        "identities": [],
+        "assets": [
+          "LW-MUS-TWO-BARS (PENDING_DESIGN)"
+        ],
+        "holds": []
+      },
+      {
+        "releaseId": "S1-75",
+        "identities": [],
+        "assets": [
+          "LW-CROWD-S1-75 (PENDING_PRODUCTION)"
+        ],
+        "holds": []
+      },
+      {
+        "releaseId": "S1-76",
+        "identities": [],
+        "assets": [
+          "LW-VFX-LANTERN-FLICKER (PENDING_DESIGN)"
+        ],
+        "holds": []
+      },
+      {
+        "releaseId": "S1-77",
+        "identities": [
+          "BG-S101-TAILOR",
+          "BG-S101-GRANDMOTHER"
+        ],
+        "assets": [
+          "LW-FACE-TAILOR (PENDING_PRODUCTION)",
+          "LW-FACE-GRANDMOTHER (PENDING_PRODUCTION)",
+          "LW-WD-TAILOR (PROVISIONAL)",
+          "LW-WD-GREEN-DRESS (PENDING_DESIGN)",
+          "LW-SFX-GOLD-HUM (PENDING_DESIGN)",
+          "LW-FLASHBACK-S1-77 (PENDING_PRODUCTION)",
+          "LW-ENV-FAR-BANK (PENDING_DESIGN)"
+        ],
+        "holds": [
+          "HOLD-S101-PATCH",
+          "HOLD-FD-S101-05",
+          "HOLD-FD-18"
+        ]
+      },
+      {
+        "releaseId": "S1-78",
+        "identities": [],
+        "assets": [
+          "LW-PROP-COPPER-SEAL (PENDING_DESIGN)"
+        ],
+        "holds": []
+      },
+      {
+        "releaseId": "S1-82",
+        "identities": [],
+        "assets": [
+          "LW-MUS-TWO-BARS (PENDING_DESIGN)"
+        ],
+        "holds": []
+      },
+      {
+        "releaseId": "S1-86",
+        "identities": [],
+        "assets": [
+          "LW-PROP-COPPER-SEAL (PENDING_DESIGN)",
+          "LW-SFX-SEAL-CRACK (PENDING_DESIGN)",
+          "LW-VFX-RELAY (PENDING_DESIGN)"
+        ],
+        "holds": []
+      }
+    ],
+    "holds": [
+      {
+        "holdId": "HOLD-FD-S101-05",
+        "blocks": [
+          "R-02"
+        ],
+        "reason": "The jewel-green dress has no approved design. No dress reference, keyframe (KF-WD-GREEN-DRESS) or S1-77 callback shot may be generated.",
+        "liftedBy": "Founder visual approval of the garment at S1-01 visual development (FD-S101-05)."
+      },
+      {
+        "holdId": "HOLD-S101-PATCH",
+        "blocks": [
+          "S-02",
+          "R-01",
+          "R-02",
+          "R-03",
+          "R-04"
+        ],
+        "reason": "The S1-01 packet still describes the three inhabitants as scene-scoped. Their start frames must be made as recurring identity references.",
+        "liftedBy": "Founder review of the S1-01 patch plan (PATCH-S101-01 to -07), then a packet rebuild."
+      },
+      {
+        "holdId": "HOLD-SONG",
+        "blocks": [
+          "F-01"
+        ],
+        "reason": "The fruit-truck song is not chosen; it must be one song for S1-12 and S1-20.",
+        "liftedBy": "Founder chooses or commissions the song."
+      },
+      {
+        "holdId": "HOLD-FD-18",
+        "blocks": [
+          "F-06",
+          "F-07"
+        ],
+        "reason": "S1-58 and S1-77 need face locks for Vivienne at 34 and Celestine at 33 (FD-18, still open).",
+        "liftedBy": "Founder face locks for the memory faces."
+      }
+    ]
+  }
 }

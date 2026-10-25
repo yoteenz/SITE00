@@ -4,6 +4,7 @@ import { dialogueLines, notes } from './fountain.js';
 import { KNOWLEDGE_FACTS, type KnowledgeFact } from './knowledge.js';
 import type { AssetRegistry } from './registries.js';
 import { DRAFT_STATUS, estimateRuntime } from './screenplay.js';
+import { WORLD_RULES } from './promotion/rules.js';
 import type { MasterRelease, ScreenplayDocument, SeasonMaster } from './types.js';
 
 /** Level A (sprint V2 §01): one writing brief per release. Master text is SOURCE-ESTABLISHED; identity notes are DIRECTORIAL INTERPRETATION. */
@@ -96,6 +97,11 @@ export function buildSceneIndex(input: IndexInput) {
       whatHappens: { text: r.narrativeDevelopment, label: 'SOURCE-ESTABLISHED' },
       whyItMatters: { purpose: r.characterPurpose, payoff: r.payoff, label: 'SOURCE-ESTABLISHED' },
       beats: sentences(r.narrativeDevelopment),
+      developmentRequirements: {
+        amendments: r.approvedAmendments.map((a) => ({ amendmentId: a.amendmentId, recommendationId: a.recommendationId, text: a.text, classification: a.classification, productionHold: a.productionHold ?? null })),
+        worldRules: WORLD_RULES.filter((w) => w.appliesTo.includes(r.id)).map((w) => ({ ruleId: w.ruleId, subject: w.subject })),
+        label: 'FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting',
+      },
       scenes,
       knowledge: {
         audienceKnows: known.filter((f) => ord(f.audienceFrom) < here).map((f) => f.factId),
