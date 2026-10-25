@@ -5,7 +5,8 @@
  * Production authority frame. This module maps a resolved route to its family body and keeps the previous
  * sub-screen exports + test ids (expression-sub-screen-*) so existing links and checks keep working.
  * Reads canonical Entry 002 data; the only writes are the existing founder actions (narrative judgment,
- * storyboard decision) — no provider dispatch.
+ * storyboard decision) — no provider dispatch. A production-spine project's TAKES route renders ProductionTakes,
+ * whose decisions are written by the spine API.
  */
 import { useMemo, type ComponentType } from 'react';
 import { CastingFamily } from '../productionAuthority/expression/families/CastingFamily';
@@ -13,6 +14,7 @@ import { DownstreamFamily } from '../productionAuthority/expression/families/Dow
 import { LookFamily } from '../productionAuthority/expression/families/LookFamily';
 import { NarrativeFamily } from '../productionAuthority/expression/families/NarrativeFamily';
 import { PerformanceFamily } from '../productionAuthority/expression/families/PerformanceFamily';
+import { ProductionTakes } from '../productionAuthority/expression/families/ProductionTakes';
 import { ReviewFamily } from '../productionAuthority/expression/families/ReviewFamily';
 import { SetsFamily } from '../productionAuthority/expression/families/SetsFamily';
 import { StoryboardFamily } from '../productionAuthority/expression/families/StoryboardFamily';
@@ -26,6 +28,7 @@ import {
   type ExpressionFamilyId,
   type ResolvedExpressionRoute,
 } from '../productionAuthority/expression/expressionRoutes';
+import { hasProductionSpine } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/managedProjectRegistry.js';
 import '../../styles/site00-production-expression-family.css';
 
 const BODIES: Record<ExpressionFamilyId, ComponentType<FamilyProps>> = {
@@ -74,9 +77,11 @@ export function ExpressionFamilyScreen({ slug, entry, resolved }: { slug: string
   const d = useExpressionData(slug);
   const go = useMemo(() => (f: ExpressionFamilyId, id = 'root', param?: string) => expressionHref(slug, f, id, param, entry), [slug, entry]);
   const Body = BODIES[resolved.family.id];
+  // A project on the production record spine gets its own Takes workspace; its other families stay project-scoped.
+  const spineTakes = resolved.family.id === 'performance' && resolved.route.id === 'takes' && hasProductionSpine(slug);
   return (
     <ExpressionFamilyShell resolved={resolved} slug={slug} entry={entry} legacyTestId={resolved.family.legacy ? LEGACY_TESTID[resolved.family.legacy] : undefined} detailName={detailName(d, resolved)}>
-      <Body d={d} r={resolved} entry={entry} go={go} />
+      {spineTakes ? <ProductionTakes slug={slug} /> : <Body d={d} r={resolved} entry={entry} go={go} />}
     </ExpressionFamilyShell>
   );
 }

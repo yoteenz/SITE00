@@ -72,6 +72,15 @@ export const PROJECT_DOMAIN_CAPABILITY_MAP: readonly ProjectCapability[] = [
     },
   },
   {
+    project_id: 'the-exchange',
+    label: 'THE EXCHANGE',
+    domains: {
+      DESIGN: { applicability: 'NOT_APPLICABLE', scope: 'Serialized fiction: no site or page families.' },
+      EXPERIENCE: { applicability: 'CONDITIONAL', scope: 'Only if a spatial experience of the world is developed.' },
+      EXPRESSION: { applicability: 'PRIMARY', scope: 'Season production: shots, generation jobs, takes and approvals on the production record spine.' },
+    },
+  },
+  {
     project_id: 'site00',
     label: 'SITE 00',
     domains: {

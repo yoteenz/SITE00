@@ -6,6 +6,7 @@ import sessionCookieHandler from '../api/session-cookie.js';
 import sessionRestoreHandler from '../api/session-restore.js';
 import site00ProductionHandler from '../api/admin/site00-production.js';
 import site00AsstsHandler from '../api/admin/site00-assts.js';
+import site00ProductionSpineHandler from '../api/site00/production-spine.js';
 import site00AccessHandler from '../api/site00-access.js';
 import site00AccessCredentialsAdminHandler from '../api/admin/site00-access-credentials.js';
 import site00ClientProductionHandler from '../api/site00/client-production.js';
@@ -119,6 +120,7 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/site00/page-mirror', handler: site00PageMirrorHandler },
   { path: '/api/site00/experience-engine', handler: site00ExperienceEngineHandler },
   { path: '/api/site00/expression-engine', handler: site00ExpressionEngineHandler },
+  { path: '/api/site00/production-spine', handler: site00ProductionSpineHandler },
   { path: '/api/site00/experience-compiler-creative-director', handler: site00ExperienceCompilerCreativeDirectorHandler },
   { path: '/api/site00/campaign-package', handler: site00CampaignPackageHandler },
   { path: '/api/site00/design-control-plane', handler: site00DesignControlPlaneHandler },

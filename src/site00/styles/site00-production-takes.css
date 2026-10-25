@@ -1,0 +1,134 @@
+/*
+ * EXPRESSION → CAST + PERFORMANCE → TAKES on the production record spine. Adds only what the family primitives lack:
+ * the take stage (preview + facts), requirement / job / history lists, and the test-fixture label. Same grid, panels,
+ * buttons and type scale as every Expression route; nothing here scrolls the page.
+ */
+.pxa .exf-takes-stage {
+  display: flex;
+  gap: var(--exf-gap);
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.pxa .exf-panel__body > .exf-takes-stage {
+  flex-shrink: 1;
+}
+.pxa .exf-takes-stage__media {
+  flex: none;
+  height: 100%;
+  max-width: 46%;
+  aspect-ratio: 9 / 16;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background: #14141a;
+  overflow: hidden;
+}
+.pxa .exf-takes-stage__media video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.pxa .exf-takes-stage__none {
+  padding: 8px;
+  font-size: var(--exf-fs-xs);
+  letter-spacing: 0.1em;
+  color: #c9c9cf;
+  text-align: center;
+}
+.pxa .exf-takes-stage__info {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+.pxa .exf-takes-reqs,
+.pxa .exf-takes-jobs,
+.pxa .exf-takes-history {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pxa .exf-takes-reqs li {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  gap: 6px;
+  align-items: center;
+  font-size: var(--exf-fs-s);
+}
+.pxa .exf-takes-reqs li span,
+.pxa .exf-takes-history li span,
+.pxa .exf-takes-history li small {
+  min-width: 0;
+  color: var(--pxa-mute);
+  overflow-wrap: anywhere;
+}
+.pxa .exf-takes-jobs li {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr) auto auto;
+  gap: 6px;
+  align-items: center;
+  font-size: var(--exf-fs-s);
+}
+.pxa .exf-takes-history li {
+  display: grid;
+  gap: 1px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--pxa-line-2);
+  font-size: var(--exf-fs-s);
+}
+.pxa .exf-takes-purpose,
+.pxa .exf-takes-notice {
+  margin: 0;
+  font-size: var(--exf-fs-s);
+  line-height: 1.35;
+  color: var(--pxa-mute);
+}
+.pxa .exf-takes-notice {
+  color: var(--pxa-red);
+}
+.pxa .exf-takes-fixture {
+  outline: 2px dashed var(--pxa-red);
+  outline-offset: -2px;
+}
+.pxa .exf-takes-fixture__banner {
+  margin: 0;
+  padding: 4px 6px;
+  border-radius: 3px;
+  background: var(--pxa-red);
+  color: #fff;
+  font-size: var(--exf-fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+@media (max-width: 699px) {
+  /* Type follows the shared HUB density authority; decision controls get a taller touch target. */
+  .pxa .exf-panel.exf-takes-panel {
+    --exf-btn-h: 28px;
+  }
+  .pxa .exf-takes-stage__media {
+    max-width: 40%;
+  }
+  .pxa .exf-takes-panel .exf-chip {
+    height: auto;
+    min-height: 1.8em;
+    white-space: normal;
+    line-height: 1.25;
+  }
+  .pxa .exf-takes-reqs li {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .pxa .exf-takes-reqs li span {
+    grid-column: 1 / -1;
+  }
+  .pxa .exf-takes-jobs li {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
+  .pxa .exf-takes-jobs li span:nth-of-type(1) {
+    display: none;
+  }
+}

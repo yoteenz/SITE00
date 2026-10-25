@@ -7,6 +7,7 @@
  *   jurnl                   family production contracts F01–F16 (src/projects/families.ts)      → DESIGN
  *   all-in-one-enterprises  AIO IFTA visual-authority package (shared/studioos-visual-authority)  → DESIGN
  *   astral-world            Astral World scene system (shared/site00-astral-world/scenes)         → EXPERIENCE
+ *   the-exchange            production record spine Takes workspace (shared/site00-production-spine)   → EXPRESSION
  *   ndxbook                 Entry 002 expression production — live, built from HubData (see useProjectGraph)
  */
 import { evaluateFamilyGate } from '../../../shared/site00-product-families/familyGate.js';
@@ -23,6 +24,7 @@ import { AIO_IFTA_AUTHORITIES, AIO_IFTA_FOUNDER_DECISIONS, AIO_IFTA_CLIENT_REFER
 import { AIO_IFTA_DECISIONS } from '../../../shared/studioos-visual-authority/projects/aio/ifta-authority/decisions.js';
 import { ASTRAL_HOTSPOTS, ASTRAL_SCENE_CONTRACTS, ASTRAL_SCENE_OBJECTS } from '../../../shared/site00-astral-world/scenes/index.js';
 import { ASTRAL_REFERENCE_MANIFEST } from '../../../shared/site00-astral-world/scenes/referenceManifest.js';
+import { theExchangeGraphPart } from '../../../shared/site00-production-spine/projects/theExchangeGraph.js';
 import { projectFamilies } from '../../projects/families';
 
 export const AIO_PROJECT_ID = 'all-in-one-enterprises';
@@ -74,6 +76,7 @@ const STATIC: Record<string, (projectId: string) => GraphPart[]> = {
   jurnl: jurnlParts,
   [AIO_PROJECT_ID]: aioParts,
   'astral-world': astralParts,
+  'the-exchange': (projectId) => [theExchangeGraphPart(projectId)],
 };
 
 const cache = new Map<string, GraphPart[]>();

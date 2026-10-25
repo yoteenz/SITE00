@@ -190,7 +190,8 @@ export type SourceTruthRef = {
     | 'PRODUCTION_REQUEST'
     | 'WORKSPACE_LEDGER'
     | 'MANAGED_PROJECT_REGISTRY'
-    | 'DESIGN_CHAMBER';
+    | 'DESIGN_CHAMBER'
+    | 'PRODUCTION_RECORD_SPINE';
   path: string;
   label: string;
 };
