@@ -1,4 +1,7 @@
-import { EXCHANGE_PATHS } from '../paths.js';
+import crypto from 'node:crypto';
+import fs from 'node:fs';
+import { EXCHANGE_PATHS, repoPath } from '../paths.js';
+import { withoutLivingWorldAmendments } from '../promotion/amendments.js';
 import { scenePath, SCENE_FILES } from '../scenes/index.js';
 
 const S101 = (f: keyof typeof SCENE_FILES) => scenePath('S1-01', SCENE_FILES[f]);
@@ -22,3 +25,18 @@ export const PROTECTED_BASELINE: Array<{ path: string; sha256: string }> = [
   { path: FOUNTAIN('S1-04_THE_HOST'), sha256: '73e943b347173e797f27cb2eaa33837a0f9d275476ba66c5ec67fe90cd23dad7' },
   { path: FOUNTAIN('S1-05_UNUSUAL_REQUEST'), sha256: '0db6d6b21b6d3edb1a9331e687d29abb7a8e9d6f168e93855d43c261e951c743' },
 ];
+
+export type BaselineState = 'UNCHANGED' | 'UNCHANGED_EXCEPT_FOUNDER_PROMOTION' | 'CHANGED';
+
+/**
+ * A protected file compared with its baseline. The master may since have gained the founder-promoted living-world
+ * amendments (2026-10-25); with those removed it must still be byte-identical. Any other difference is CHANGED.
+ */
+export function baselineState(f: { path: string; sha256: string }, root = process.cwd()): BaselineState {
+  const body = fs.readFileSync(repoPath(f.path, root));
+  const hash = (b: string | Buffer) => crypto.createHash('sha256').update(b).digest('hex');
+  if (hash(body) === f.sha256) return 'UNCHANGED';
+  if (f.path !== EXCHANGE_PATHS.master) return 'CHANGED';
+  const view = `${JSON.stringify(withoutLivingWorldAmendments(JSON.parse(body.toString('utf8'))), null, 2)}\n`;
+  return hash(view) === f.sha256 ? 'UNCHANGED_EXCEPT_FOUNDER_PROMOTION' : 'CHANGED';
+}

@@ -16733,3 +16733,19 @@ Composer built the audit and handed off before shipping; a Claude Code session f
 - **Tests:** 23 new; 105 of 105 Exchange tests in 13 files. `npx tsc --noEmit` exits 0.
 - **Lesson:** Composer's local commit `71a339f49` was never pushed. A handoff's snapshot plus its patch can rebuild such a commit; check the patch's `index` blob hashes with `git hash-object` before trusting it.
 - **Founder next:** Read `00_FOUNDER_REVIEW_LIVING_WORLD_AUDIT.md` and rule on the 12 priorities (deliverable 14) before any canon or screenplay change.
+
+---
+
+## 2026-10-25 — THE EXCHANGE living-world founder approval and canon promotion (PR #1694, stacked on #1693)
+
+Sprint `P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1`. The founder approved 12 priority groups from Living World Audit V1 (19 proposals) and answered FD-S101-05 (story continuity only; dress design later), FD-S101-06 RECURRING, FD-S101-07 ANONYMOUS and R-01 SPEAKING. A Claude Code session implemented it.
+
+- **Branch:** `claude/the-exchange-living-world-promotion`, based on `claude/ready-r60enh` (PR #1693, `f43aa1f07`). Do not merge #1690, #1692, #1693 or this PR without founder instruction.
+- **Records:** `shared/site00-fiction-production/promotion/`, exported as `X.Promotion`. 30 master amendments (`AM-LW-*`) in 22 releases, merged by `seasonMaster.ts` after the canon-lock ones. Seven season rules (WR-01 to WR-07), seven sound motifs, a recurring-background register, an S1-01 patch plan, an asset ledger and four production holds. Canonical files: `LIVING_WORLD_PROMOTION_LEDGER_V1.json`, `RECURRING_BACKGROUND_REGISTRY_V1.json`.
+- **States:** decision FOUNDER_APPROVED / FOUNDER_HELD / FOUNDER_REJECTED / PENDING_FOUNDER; production NO_PRODUCTION_ASSET / PENDING_PRODUCTION / CONDITIONAL_PRODUCTION_HOLD. 19 approved, 53 PENDING_FOUNDER (audit recommendation kept), 8 approved items production-held.
+- **Validator:** `X.Promotion.validatePromotion()`, 17 checks. The master minus the AM-LW amendments must hash to the audit baseline; the audit's PROTECTED_FILES uses the same rule (`baselineState`).
+- **S1-01:** packet untouched; FD-S101-06 and -07 still read OPEN inside it. Applying PATCH-S101-01 to -07 after founder review is the one change that should move the packet, and the baselines must be re-taken in the same commit.
+- **Briefs:** each scene-index brief carries `developmentRequirements`; `FUTURE_PRODUCTION_DEPENDENCIES_V1.json` has a `livingWorld` section.
+- **Rebuild order:** `build-season1-production.ts`, `build-directorial-production.ts`, `build-living-world-promotion.ts`, then `render-directorial-docs.ts`, `render-living-world-audit.ts`, `render-living-world-promotion.ts`. Do not regenerate `founder-canon-lock-v1/`: it is that sprint's snapshot and five files were already stale.
+- **Tests:** 19 new; 124 of 124 Exchange tests in 14 files. Full suite 11,331 pass / 91 fail in 60 files, all unrelated to Exchange code.
+- **Founder next:** read `living-world-promotion-v1/03`, `08`, `12` and `13`; decide the dress design, the fruit-truck song, FD-18 face locks and the S1-01 patch.

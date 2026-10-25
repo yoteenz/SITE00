@@ -10,7 +10,7 @@ Result: **PASS (21 of 21 checks)**. The validator reads the audit records and th
 | --- | --- | --- | --- |
 | SOURCES | Every source the audit cites exists, and every recorded disagreement between sources is quoted verbatim from both | 30 | PASS |
 | MASTER_LOCK | The master still has 86 releases and 7,660 s | 1 | PASS |
-| PROTECTED_FILES | Master, S1-01 packet files and the five Fountain drafts are byte-identical to the baseline | 15 | PASS |
+| PROTECTED_FILES | Master, S1-01 packet files and the five Fountain drafts are byte-identical to the baseline (the master apart from founder-promoted amendments) | 15 | PASS |
 | RELEASE_COVERAGE | One judgment per release, in master order, naming only real proposals | 86 | PASS |
 | PROPOSAL_IDS | Proposal IDs are unique | 72 | PASS |
 | CITATIONS | Every citation resolves to a real release, scene and beat, and its quote is verbatim | 165 | PASS |
@@ -56,11 +56,11 @@ Result: **PASS (21 of 21 checks)**. The validator reads the audit records and th
 
 ## 3. Protected files
 
-Each file is hashed on every render and compared with the baseline taken at b0a63b952 (head of PR #1692).
+Each file is hashed on every render and compared with the baseline taken at b0a63b952 (head of PR #1692). UNCHANGED_EXCEPT_FOUNDER_PROMOTION means the master is byte-identical once the founder-promoted living-world amendments (2026-10-25) are removed.
 
 | File | Baseline sha256 | Now |
 | --- | --- | --- |
-| `THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json` | `9a9039bef2384d9a…` | UNCHANGED |
+| `THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json` | `9a9039bef2384d9a…` | UNCHANGED_EXCEPT_FOUNDER_PROMOTION |
 | `THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json` | `a5ebb48547bdaf44…` | UNCHANGED |
 | `THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/CUE_SHEET_V1.csv` | `0e5962de8f65f292…` | UNCHANGED |
 | `THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/KEYFRAME_MANIFEST_V1.json` | `c42c79b99b9527cb…` | UNCHANGED |
