@@ -1,0 +1,46 @@
+{
+  "id": "JURNL_CURRENT_STATE_FEATURE_MATRIX_V1",
+  "main_baseline_sha": "e413590e1318be18c41e59c598880322c1f10a5c",
+  "generated_at_utc": "2026-11-02T23:30:00Z",
+  "evidence_classifications": [
+    "IMPLEMENTED_VERIFIED",
+    "IMPLEMENTED_UNVERIFIED",
+    "PARTIAL",
+    "MOCK_ONLY",
+    "DOCUMENTED_ONLY",
+    "NOT_IMPLEMENTED",
+    "BLOCKED",
+    "UNKNOWN"
+  ],
+  "families": {
+    "F01_ENTRY": { "routes": ["entry/*"], "status": "IMPLEMENTED_VERIFIED", "persistence": "session/device local", "notes": "Auth + ENTRY v2 live; not financial core" },
+    "F02_SETUP": { "routes": ["setup/*"], "status": "IMPLEMENTED_VERIFIED", "persistence": "setup draft + repo seed", "notes": "Obligations seeded without amounts unless MOCK match" },
+    "F03_TODAY": { "routes": ["today"], "status": "IMPLEMENTED_VERIFIED", "persistence": "derived", "notes": "Safe signal + upcoming preview; uses MOCK when empty" },
+    "F04_ACTIVITY": { "routes": ["activity"], "status": "IMPLEMENTED_VERIFIED", "persistence": "device repository ledger", "notes": "Manual + seeded transactions" },
+    "F05_MONEY": { "routes": ["money"], "status": "PARTIAL", "persistence": "accounts in device repo", "notes": "No live bank aggregation" },
+    "F06_INCOME": { "routes": ["income"], "status": "IMPLEMENTED_VERIFIED", "persistence": "device repository", "notes": "CRUD income sources" },
+    "F07_UPCOMING": { "routes": ["upcoming"], "status": "IMPLEMENTED_VERIFIED", "persistence": "obligations owner F07", "notes": "Projection-only view; add/edit obligation" },
+    "F08_PLAN": { "routes": ["plan"], "status": "PARTIAL", "persistence": "plan intentions", "notes": "linked_obligation_id unused in UI" },
+    "F09_SAFE_TO_SPEND": { "routes": ["safe"], "status": "IMPLEMENTED_VERIFIED", "persistence": "formula derived", "notes": "Deducts full obligation amounts" },
+    "F10_PURCHASES": { "routes": ["purchases"], "status": "IMPLEMENTED_VERIFIED", "persistence": "device repository", "notes": "Reserve + purchase flow" },
+    "F11_TRIPS": { "routes": ["trips"], "status": "IMPLEMENTED_VERIFIED", "persistence": "device repository", "notes": "Per-trip funding %" },
+    "F12_CREDIT": { "routes": ["credit"], "status": "IMPLEMENTED_VERIFIED", "persistence": "device repository", "notes": "Credit payments feed upcoming" },
+    "F13_PAYDOWN": { "routes": ["paydown"], "status": "IMPLEMENTED_VERIFIED", "persistence": "device repository", "notes": "What-if read-only balance" },
+    "F14_GOALS": { "routes": ["goals"], "status": "IMPLEMENTED_VERIFIED", "persistence": "device repository", "notes": "Set-aside reduces STS" },
+    "F15_AHEAD": { "routes": ["ahead"], "status": "IMPLEMENTED_VERIFIED", "persistence": "derived projection", "notes": "No write path" },
+    "F16_RECORDS": { "routes": ["records"], "status": "IMPLEMENTED_VERIFIED", "persistence": "metadata only", "notes": "No file upload" }
+  },
+  "global_systems": {
+    "quick_add": "IMPLEMENTED_VERIFIED",
+    "ask_jurnl": "PARTIAL",
+    "navigation": "IMPLEMENTED_VERIFIED",
+    "financial_repository": "IMPLEMENTED_VERIFIED",
+    "server_financial_sync": "PARTIAL",
+    "bank_provider_integration": "NOT_IMPLEMENTED"
+  },
+  "persistence_truth": {
+    "primary_store": "localStorage device repository (deviceRepository.ts)",
+    "server_sync": "serverSyncCoordinator optional; not production bank feed",
+    "mock_fallback": "MOCK_CASH / MOCK_UPCOMING when setup incomplete"
+  }
+}
