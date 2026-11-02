@@ -1,0 +1,9 @@
+{
+  "sprig_layer_vs_lockup_crop_mae_rgb": 0.0,
+  "word_layer_vs_lockup_crop_mae_rgb": 0.0,
+  "component_fidelity_pass": true,
+  "reextract_sprig_matches_committed": true,
+  "reextract_word_matches_committed": true,
+  "full_frame_note": "F09_LOCKUP.png includes plaster behind the mark. Recompositing layers alone cannot reproduce the full frame without that background.",
+  "tolerance_note": "Layers are deterministic cuts from F09_LOCKUP with haze removal (export_assets.py). No generative fill."
+}
