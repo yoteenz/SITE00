@@ -430,6 +430,27 @@
 }
 .jrn .jrn-field__input[type='password'] {
   letter-spacing: 0.3em;
+  text-transform: none;
+}
+.jrn .jrn-field__input:-webkit-autofill,
+.jrn .jrn-field__input:-webkit-autofill:hover,
+.jrn .jrn-field__input:-webkit-autofill:focus,
+.jrn .jrn-field__input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--jrn-field) inset;
+  box-shadow: 0 0 0 1000px var(--jrn-field) inset;
+  -webkit-text-fill-color: var(--jrn-ink);
+  caret-color: var(--jrn-ink);
+  font-family: var(--jrn-sans);
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  transition: background-color 99999s ease-out 0s;
+}
+.jrn .jrn-field__input[type='password']:-webkit-autofill,
+.jrn .jrn-field__input[type='password']:-webkit-autofill:hover,
+.jrn .jrn-field__input[type='password']:-webkit-autofill:focus,
+.jrn .jrn-field__input[type='password']:-webkit-autofill:active {
+  letter-spacing: 0.3em;
+  text-transform: none;
 }
 .jrn .jrn-field__input:focus-visible {
   outline: none;

@@ -185,12 +185,33 @@
   font-family: 'JURNL Authority Serif', 'JURNL Display', serif;
   font-weight: 400;
   letter-spacing: 2px;
-  text-transform: none;
+  text-transform: uppercase;
   -webkit-appearance: none;
   appearance: none;
 }
 .jrn .jrn-e2__input[type='password'] {
   letter-spacing: 6px;
+  text-transform: none;
+}
+.jrn .jrn-e2__input:-webkit-autofill,
+.jrn .jrn-e2__input:-webkit-autofill:hover,
+.jrn .jrn-e2__input:-webkit-autofill:focus,
+.jrn .jrn-e2__input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px transparent inset;
+  box-shadow: 0 0 0 1000px transparent inset;
+  -webkit-text-fill-color: var(--e2-ink);
+  caret-color: var(--e2-ink);
+  font-family: 'JURNL Authority Serif', 'JURNL Display', serif;
+  font-weight: 400;
+  letter-spacing: 2px;
+  transition: background-color 99999s ease-out 0s;
+}
+.jrn .jrn-e2__input[type='password']:-webkit-autofill,
+.jrn .jrn-e2__input[type='password']:-webkit-autofill:hover,
+.jrn .jrn-e2__input[type='password']:-webkit-autofill:focus,
+.jrn .jrn-e2__input[type='password']:-webkit-autofill:active {
+  letter-spacing: 6px;
+  text-transform: none;
 }
 .jrn .jrn-e2__field .jrn-e2__rule {
   color: #2b2722;
