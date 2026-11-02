@@ -10,7 +10,10 @@
     "path": "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png",
     "source_commit": "f297747195d2a5e5cded7039cbd48c360eebbc04",
     "source_checksum_sha256": "de0b877a2b5477f27753dd5fe2bef49ca94904e9e8789bc2b1710dffced404e2",
-    "dimensions": { "w": 282, "h": 118 },
+    "dimensions": {
+      "w": 282,
+      "h": 118
+    },
     "parent_authorities": [
       "JURNL/F09_SAFE/REFERENCE_REPLICA1/REFERENCES/01_SAFE_TO_SPEND.png",
       "ENTRY v2/01_WELCOME/authority/entry-v2-welcome-authority.png"
@@ -44,8 +47,32 @@
     }
   ],
   "superseded_predecessor": "public/site00/projects/jurnl/brand/jurnl-logo-official.png",
-  "clean_isolated_lockup_without_plaster": null,
+  "clean_isolated_lockup_without_plaster": "JURNL/MANIFEST/IDENTITY_RECOVERY_V2/assets/LOCKUP_HORIZONTAL.v2_candidate.png",
   "official_tagline": "PLAN TODAY. GROW FREELY.",
   "page_descriptor_on_lockup": "FINANCIAL LIFE. BEAUTIFULLY ORGANIZED.",
-  "descriptor_classification": "PAGE_SPECIFIC_COMPOSITION_NOT_SUBSTITUTED_FOR_TAGLINE"
+  "descriptor_classification": "PAGE_SPECIFIC_COMPOSITION_NOT_SUBSTITUTED_FOR_TAGLINE",
+  "sprint_v2": "P0.JURNL.IDENTITY.CANONICAL-APPROVAL-AND-CLEAN-ASSET-EXTRACTION1",
+  "identity_design_status": "CONFIRMED_EXISTING_AUTHORITY",
+  "source_provenance_status": "VERIFIED",
+  "component_fidelity_status": "PASS",
+  "transparency_status": "PARTIAL",
+  "production_asset_status": "PARTIAL",
+  "production_asset_note": "Layer pair is reproducible for ReferenceLockup with documented edge tolerance. Full F09_LOCKUP frame remains blocked for universal import.",
+  "runtime_migration_status": "NOT_STARTED",
+  "founder_review_status": "PENDING_CONFIRMATION",
+  "canonical_identity_lineage": "CANONICAL_IDENTITY_LINEAGE_CONFIRMED",
+  "technical_report_v2": "JURNL/MANIFEST/IDENTITY_RECOVERY_V2/reports/JURNL_CANONICAL_ASSET_TECHNICAL_REPORT.json",
+  "v2_assets": {
+    "horizontal_composite_candidate": "JURNL/MANIFEST/IDENTITY_RECOVERY_V2/assets/LOCKUP_HORIZONTAL.v2_candidate.png",
+    "sprig_candidate": "JURNL/MANIFEST/IDENTITY_RECOVERY_V2/assets/LOCKUP_SPRIG.v2_candidate.png",
+    "word_candidate": "JURNL/MANIFEST/IDENTITY_RECOVERY_V2/assets/LOCKUP_WORD.v2_candidate.png"
+  },
+  "asset_architecture": {
+    "canonical_logo": "Deterministic horizontal composite of sprig + word (no new geometry)",
+    "wordmark_component": "src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_WORD.png",
+    "botanical_component": "src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_SPRIG.png",
+    "decorative_lockup": "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png",
+    "page_specific_composition": "Per-screen ReferenceLockup placement + live descriptor/tagline type",
+    "superseded_asset": "public/site00/projects/jurnl/brand/jurnl-logo-official.png"
+  }
 }

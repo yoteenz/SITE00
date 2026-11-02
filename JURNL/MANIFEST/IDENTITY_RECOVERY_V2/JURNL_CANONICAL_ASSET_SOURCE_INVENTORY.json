@@ -1,0 +1,304 @@
+{
+  "id": "JURNL_CANONICAL_ASSET_SOURCE_INVENTORY_V1",
+  "generated_at_utc": "2026-11-02T16:42:06Z",
+  "repository_head": "4e11ece9441a369847c86e991105c6ebc8eb7061",
+  "entries": [
+    {
+      "asset_id": "ID-002",
+      "source_path": "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png",
+      "source_commit": "f297747195d2a5e5cded7039cbd48c360eebbc04",
+      "content_sha256": "de0b877a2b5477f27753dd5fe2bef49ca94904e9e8789bc2b1710dffced404e2",
+      "width": 282,
+      "height": 118,
+      "color_mode": "RGBA",
+      "alpha_present": true,
+      "alpha_coverage_ratio": 0.270826,
+      "fully_transparent_pixels": 22454,
+      "visible_pixels": 9012,
+      "partial_alpha_pixels": 7208,
+      "opaque_pixels": 1798,
+      "visible_lum_min": 0.3333333333333333,
+      "visible_lum_max": 239.0,
+      "background_contamination": {
+        "edge_pixels": 6101,
+        "plaster_tinted_edge_pixels": 4623,
+        "high_luminance_visible_pixels": 521,
+        "plaster_reference_rgb": [
+          219.0,
+          202.0,
+          185.0
+        ]
+      },
+      "parent_authority": null,
+      "approval_evidence": [
+        "JURNL/F09_SAFE/REFERENCE_REPLICA1/REFERENCES/01_SAFE_TO_SPEND.png",
+        "ENTRY v2/01_WELCOME/authority/entry-v2-welcome-authority.png"
+      ],
+      "recovery_method": "founder_approved_authority",
+      "candidate_role": "CANONICAL_EDITORIAL_LOCKUP_FRAME",
+      "technical_status": "SOURCE_LIMITATION"
+    },
+    {
+      "asset_id": "ID-003",
+      "source_path": "src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_SPRIG.png",
+      "source_commit": "f297747195d2a5e5cded7039cbd48c360eebbc04",
+      "content_sha256": "5765fc55186fd1cdee779c98c2a3d13628b6b808a226f474576b883b72ad7e34",
+      "width": 82,
+      "height": 78,
+      "color_mode": "RGBA",
+      "alpha_present": true,
+      "alpha_coverage_ratio": 0.242652,
+      "fully_transparent_pixels": 4789,
+      "visible_pixels": 1552,
+      "partial_alpha_pixels": 963,
+      "opaque_pixels": 583,
+      "visible_lum_min": 14.666666666666666,
+      "visible_lum_max": 199.33333333333334,
+      "background_contamination": {
+        "edge_pixels": 901,
+        "plaster_tinted_edge_pixels": 64,
+        "high_luminance_visible_pixels": 0,
+        "plaster_reference_rgb": [
+          219.0,
+          202.0,
+          185.0
+        ]
+      },
+      "parent_authority": "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png",
+      "approval_evidence": [
+        "JURNL/F09_SAFE/REFERENCE_REPLICA1/REFERENCES/01_SAFE_TO_SPEND.png",
+        "ENTRY v2/01_WELCOME/authority/entry-v2-welcome-authority.png"
+      ],
+      "recovery_method": "export_assets_haze_cut",
+      "candidate_role": "BOTANICAL_COMPONENT",
+      "technical_status": "TECHNICALLY_READY_LAYER"
+    },
+    {
+      "asset_id": "ID-004",
+      "source_path": "src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_WORD.png",
+      "source_commit": "f297747195d2a5e5cded7039cbd48c360eebbc04",
+      "content_sha256": "d68f1a04f0feabf8c68644f37fa91d9d098f431ea22396b8716db9e37c551e88",
+      "width": 196,
+      "height": 42,
+      "color_mode": "RGBA",
+      "alpha_present": true,
+      "alpha_coverage_ratio": 0.184888,
+      "fully_transparent_pixels": 6694,
+      "visible_pixels": 1522,
+      "partial_alpha_pixels": 307,
+      "opaque_pixels": 1215,
+      "visible_lum_min": 0.3333333333333333,
+      "visible_lum_max": 211.0,
+      "background_contamination": {
+        "edge_pixels": 284,
+        "plaster_tinted_edge_pixels": 22,
+        "high_luminance_visible_pixels": 0,
+        "plaster_reference_rgb": [
+          219.0,
+          202.0,
+          185.0
+        ]
+      },
+      "parent_authority": "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png",
+      "approval_evidence": [
+        "JURNL/F09_SAFE/REFERENCE_REPLICA1/REFERENCES/01_SAFE_TO_SPEND.png",
+        "ENTRY v2/01_WELCOME/authority/entry-v2-welcome-authority.png"
+      ],
+      "recovery_method": "export_assets_haze_cut",
+      "candidate_role": "WORDMARK_COMPONENT",
+      "technical_status": "TECHNICALLY_READY_LAYER"
+    },
+    {
+      "asset_id": "ID-003-V2",
+      "source_path": "JURNL/MANIFEST/IDENTITY_RECOVERY_V2/assets/LOCKUP_SPRIG.v2_candidate.png",
+      "source_commit": "4e11ece9441a369847c86e991105c6ebc8eb7061",
+      "content_sha256": "5765fc55186fd1cdee779c98c2a3d13628b6b808a226f474576b883b72ad7e34",
+      "width": 82,
+      "height": 78,
+      "color_mode": "RGBA",
+      "alpha_present": true,
+      "alpha_coverage_ratio": 0.242652,
+      "fully_transparent_pixels": 4789,
+      "visible_pixels": 1552,
+      "partial_alpha_pixels": 963,
+      "opaque_pixels": 583,
+      "visible_lum_min": 14.666666666666666,
+      "visible_lum_max": 199.33333333333334,
+      "background_contamination": {
+        "edge_pixels": 901,
+        "plaster_tinted_edge_pixels": 64,
+        "high_luminance_visible_pixels": 0,
+        "plaster_reference_rgb": [
+          219.0,
+          202.0,
+          185.0
+        ]
+      },
+      "parent_authority": "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png",
+      "approval_evidence": [],
+      "recovery_method": "canonical_extraction_v2_replicate",
+      "candidate_role": "BOTANICAL_COMPONENT_CANDIDATE",
+      "technical_status": "TECHNICALLY_READY_LAYER"
+    },
+    {
+      "asset_id": "ID-004-V2",
+      "source_path": "JURNL/MANIFEST/IDENTITY_RECOVERY_V2/assets/LOCKUP_WORD.v2_candidate.png",
+      "source_commit": "4e11ece9441a369847c86e991105c6ebc8eb7061",
+      "content_sha256": "d68f1a04f0feabf8c68644f37fa91d9d098f431ea22396b8716db9e37c551e88",
+      "width": 196,
+      "height": 42,
+      "color_mode": "RGBA",
+      "alpha_present": true,
+      "alpha_coverage_ratio": 0.184888,
+      "fully_transparent_pixels": 6694,
+      "visible_pixels": 1522,
+      "partial_alpha_pixels": 307,
+      "opaque_pixels": 1215,
+      "visible_lum_min": 0.3333333333333333,
+      "visible_lum_max": 211.0,
+      "background_contamination": {
+        "edge_pixels": 284,
+        "plaster_tinted_edge_pixels": 22,
+        "high_luminance_visible_pixels": 0,
+        "plaster_reference_rgb": [
+          219.0,
+          202.0,
+          185.0
+        ]
+      },
+      "parent_authority": "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png",
+      "approval_evidence": [],
+      "recovery_method": "canonical_extraction_v2_replicate",
+      "candidate_role": "WORDMARK_COMPONENT_CANDIDATE",
+      "technical_status": "TECHNICALLY_READY_LAYER"
+    },
+    {
+      "asset_id": "ID-005",
+      "source_path": "JURNL/MANIFEST/IDENTITY_RECOVERY_V2/assets/LOCKUP_HORIZONTAL.v2_candidate.png",
+      "source_commit": "4e11ece9441a369847c86e991105c6ebc8eb7061",
+      "content_sha256": "d97e6fb22ddd02dedd900c7eeb1811c73257e2c0e52dd4946e0224e4dbd3723d",
+      "width": 282,
+      "height": 120,
+      "color_mode": "RGBA",
+      "alpha_present": true,
+      "alpha_coverage_ratio": 0.090839,
+      "fully_transparent_pixels": 30695,
+      "visible_pixels": 3074,
+      "partial_alpha_pixels": 1270,
+      "opaque_pixels": 1798,
+      "visible_lum_min": 0.3333333333333333,
+      "visible_lum_max": 211.0,
+      "background_contamination": {
+        "edge_pixels": 1185,
+        "plaster_tinted_edge_pixels": 86,
+        "high_luminance_visible_pixels": 0,
+        "plaster_reference_rgb": [
+          219.0,
+          202.0,
+          185.0
+        ]
+      },
+      "parent_authority": "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png",
+      "approval_evidence": [],
+      "recovery_method": "deterministic_layer_compose",
+      "candidate_role": "HORIZONTAL_COMPOSITE_CANDIDATE",
+      "technical_status": "BLOCKED_BACKGROUND_CONTAMINATION"
+    },
+    {
+      "asset_id": "ID-001",
+      "source_path": "public/site00/projects/jurnl/brand/jurnl-logo-official.png",
+      "source_commit": "4e11ece9441a369847c86e991105c6ebc8eb7061",
+      "content_sha256": "d0f706ebcd132562f233ed955e5670c0ff9309d9db6ef85c9d2650b72a16e188",
+      "width": 319,
+      "height": 512,
+      "color_mode": "RGBA",
+      "alpha_present": true,
+      "alpha_coverage_ratio": 0.195459,
+      "fully_transparent_pixels": 128308,
+      "visible_pixels": 31924,
+      "partial_alpha_pixels": 10559,
+      "opaque_pixels": 20785,
+      "visible_lum_min": 28.333333333333332,
+      "visible_lum_max": 170.0,
+      "background_contamination": {
+        "edge_pixels": 6712,
+        "plaster_tinted_edge_pixels": 0,
+        "high_luminance_visible_pixels": 0,
+        "plaster_reference_rgb": [
+          219.0,
+          202.0,
+          185.0
+        ]
+      },
+      "parent_authority": null,
+      "approval_evidence": [],
+      "recovery_method": "historical_runtime",
+      "candidate_role": "SUPERSEDED_VERTICAL_MARK",
+      "technical_status": "BLOCKED_BACKGROUND_CONTAMINATION"
+    },
+    {
+      "asset_id": "ID-STS",
+      "source_path": "JURNL/F09_SAFE/REFERENCE_REPLICA1/REFERENCES/01_SAFE_TO_SPEND.png",
+      "source_commit": "f297747195d2a5e5cded7039cbd48c360eebbc04",
+      "content_sha256": "3d597fba02d16d4f761a1e23ebdc89d8698254a07b30265862501cb066343e51",
+      "width": 852,
+      "height": 1847,
+      "color_mode": "RGBA",
+      "alpha_present": true,
+      "alpha_coverage_ratio": 1.0,
+      "fully_transparent_pixels": 0,
+      "visible_pixels": 1573644,
+      "partial_alpha_pixels": 0,
+      "opaque_pixels": 1573644,
+      "visible_lum_min": 0.0,
+      "visible_lum_max": 255.0,
+      "background_contamination": {
+        "edge_pixels": 0,
+        "plaster_tinted_edge_pixels": 0,
+        "high_luminance_visible_pixels": 982765,
+        "plaster_reference_rgb": [
+          219.0,
+          202.0,
+          185.0
+        ]
+      },
+      "parent_authority": "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png",
+      "approval_evidence": [],
+      "recovery_method": "reference_crop",
+      "candidate_role": "APPROVAL_EVIDENCE",
+      "technical_status": "BLOCKED_BACKGROUND_CONTAMINATION"
+    },
+    {
+      "asset_id": "ID-ENTRY",
+      "source_path": "ENTRY v2/01_WELCOME/authority/entry-v2-welcome-authority.png",
+      "source_commit": "4e11ece9441a369847c86e991105c6ebc8eb7061",
+      "content_sha256": "ab039a826c7a5b7df5030051594468efc6b036c2587ac94833145179b87f0770",
+      "width": 2016,
+      "height": 3584,
+      "color_mode": "RGBA",
+      "alpha_present": true,
+      "alpha_coverage_ratio": 1.0,
+      "fully_transparent_pixels": 0,
+      "visible_pixels": 7225344,
+      "partial_alpha_pixels": 0,
+      "opaque_pixels": 7225344,
+      "visible_lum_min": 0.0,
+      "visible_lum_max": 255.0,
+      "background_contamination": {
+        "edge_pixels": 0,
+        "plaster_tinted_edge_pixels": 0,
+        "high_luminance_visible_pixels": 397933,
+        "plaster_reference_rgb": [
+          219.0,
+          202.0,
+          185.0
+        ]
+      },
+      "parent_authority": "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png",
+      "approval_evidence": [],
+      "recovery_method": "reference_crop",
+      "candidate_role": "APPROVAL_EVIDENCE",
+      "technical_status": "BLOCKED_BACKGROUND_CONTAMINATION"
+    }
+  ]
+}

@@ -1,6 +1,10 @@
 # JURNL identity forensic recovery
 
-No image generation. Reproduces lockup layer extraction and writes reports under `JURNL/MANIFEST/IDENTITY_RECOVERY_V1/`.
+No image generation.
+
+- **V1 forensic:** `forensic_recovery.py` → `JURNL/MANIFEST/IDENTITY_RECOVERY_V1/`
+- **V2 canonical QA:** `canonical_extraction_v2.py` → `JURNL/MANIFEST/IDENTITY_RECOVERY_V2/` + updates `RECOVERED_IDENTITY_REGISTRY.json`
+- **Review ZIPs:** `package_founder_review_v2.sh`
 
 ```bash
 pip install pillow numpy

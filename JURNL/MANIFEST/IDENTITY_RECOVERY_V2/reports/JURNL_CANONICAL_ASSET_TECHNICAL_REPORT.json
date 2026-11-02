@@ -1,0 +1,94 @@
+{
+  "id": "JURNL_CANONICAL_ASSET_TECHNICAL_REPORT_V2",
+  "generated_at_utc": "2026-11-02T16:42:06Z",
+  "source_authority": "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png",
+  "canonical_identity_lineage": "CONFIRMED_EXISTING_AUTHORITY",
+  "extraction_recipe": {
+    "haze_luminance_cut": 236,
+    "haze_span": 56,
+    "sprig_box": [
+      0,
+      0,
+      82,
+      78
+    ],
+    "word_box": [
+      0,
+      78,
+      196,
+      120
+    ],
+    "script": "scripts/jurnl/identity-recovery/canonical_extraction_v2.py",
+    "matches_reference_replica_export": true
+  },
+  "v2_candidate_matches_committed_layers": true,
+  "fidelity": {
+    "sprig_vs_committed_mae_rgb": 0.0,
+    "word_vs_committed_mae_rgb": 0.0,
+    "composite_vs_lockup_haze_mae_rgb": 0.0,
+    "component_layer_fidelity": true,
+    "full_frame_plaster_present_on_F09_LOCKUP": true
+  },
+  "transparency_qa": {
+    "sprig": {
+      "edge_pixels": 901,
+      "plaster_tinted_edge_pixels": 64,
+      "high_luminance_visible_pixels": 0,
+      "plaster_reference_rgb": [
+        219.0,
+        202.0,
+        185.0
+      ]
+    },
+    "wordmark": {
+      "edge_pixels": 284,
+      "plaster_tinted_edge_pixels": 22,
+      "high_luminance_visible_pixels": 0,
+      "plaster_reference_rgb": [
+        219.0,
+        202.0,
+        185.0
+      ]
+    },
+    "horizontal_composite": {
+      "edge_pixels": 1185,
+      "plaster_tinted_edge_pixels": 86,
+      "high_luminance_visible_pixels": 0,
+      "plaster_reference_rgb": [
+        219.0,
+        202.0,
+        185.0
+      ]
+    },
+    "full_lockup_frame": {
+      "edge_pixels": 6101,
+      "plaster_tinted_edge_pixels": 4623,
+      "high_luminance_visible_pixels": 521,
+      "plaster_reference_rgb": [
+        219.0,
+        202.0,
+        185.0
+      ]
+    }
+  },
+  "component_results": {
+    "clean_botanical_component": "PARTIAL",
+    "clean_wordmark": "PARTIAL",
+    "clean_primary_horizontal_logo": "PARTIAL"
+  },
+  "background_contamination_summary": "PARTIAL",
+  "production_readiness": {
+    "F09_LOCKUP_full_frame": "BLOCKED_BACKGROUND_CONTAMINATION",
+    "layer_pair_for_runtime_ReferenceLockup": "TECHNICALLY_READY_WITH_EDGE_TOLERANCE",
+    "isolated_logo_without_plaster": "LAYER_COMPOSITE_ONLY"
+  },
+  "limitations": [
+    "No separate vector or pre-composited transparent master exists in repo.",
+    "Anti-aliased edge pixels may retain low-alpha plaster tint; counts documented in transparency_qa.",
+    "Recomposed composite does not recreate plaster matte behind the mark inside F09_LOCKUP.png."
+  ],
+  "qa_artifacts": {
+    "transparency_board": "JURNL/MANIFEST/IDENTITY_RECOVERY_V2/JURNL_CANONICAL_IDENTITY_TRANSPARENCY_QA.jpg",
+    "fidelity_board": "JURNL/MANIFEST/IDENTITY_RECOVERY_V2/JURNL_CANONICAL_IDENTITY_FIDELITY_BOARD.jpg"
+  }
+}

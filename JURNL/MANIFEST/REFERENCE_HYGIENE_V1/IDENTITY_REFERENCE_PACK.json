@@ -10,6 +10,11 @@
   "clean_reusable_decorative_asset": "src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_SPRIG.png + LOCKUP_WORD.png",
   "provenance_registry": "JURNL/MANIFEST/IDENTITY_RECOVERY_V1/RECOVERED_IDENTITY_REGISTRY.json",
   "fidelity_report": "JURNL/MANIFEST/IDENTITY_RECOVERY_V1/reports/JURNL_IDENTITY_FIDELITY_REPORT.json",
+  "technical_report_v2": "JURNL/MANIFEST/IDENTITY_RECOVERY_V2/reports/JURNL_CANONICAL_ASSET_TECHNICAL_REPORT.json",
+  "transparency_qa_v2": "JURNL/MANIFEST/IDENTITY_RECOVERY_V2/JURNL_CANONICAL_IDENTITY_TRANSPARENCY_QA.jpg",
+  "ready_for_reference_use": "LAYER_PAIR_WITH_DOCUMENTED_EDGE_TOLERANCE",
+  "ready_for_production_import": "PARTIAL",
+  "ready_for_corrected_generation_note": "Unchanged — requires founder confirmation and page-authority gates",
   "excluded": [
     "public/site00/projects/jurnl/brand/jurnl-logo-official.png",
     "public/site00/projects/jurnl/brand/jurnl-cover.png",
