@@ -16682,3 +16682,12 @@ Summary of the whole conversation in this chat.
 - **Decisions / outcomes:** Strip `-webkit-autofill` yellow via inset box-shadow on `.jrn-e2__input` and `.jrn-field__input`; non-password typed values uppercased in `E2Field` and `JurnlInput` `onChange`; e2 CSS `text-transform: uppercase` with password exception; Supabase auth adapter still lowercases email on sign-in.
 - **Changes:** `jurnl-entry-v2.css`, `jurnl-runtime.css`, `EntryV2Parts.tsx`, `primitives.tsx`, `jurnlEntryV2FirstSeven1.test.tsx`.
 - **Conventions:** Keep Authority Serif on e2 autofill pseudo-states; do not revert e2 inputs to `text-transform: none`.
+
+---
+
+## 2026-11-02 — JURNL product utility forensic audit
+
+- **Sprint:** P0.JURNL.PRODUCT-UTILITY.PERSONAL-ACCOUNTING-ASSISTANT-AND-PLAIN-LANGUAGE-FORENSIC-AUDIT1. Read-only; draft PR; no deploy, DB, UI, or formula changes.
+- **Findings:** F07 owns obligations; Journey A (add recurring charge) Playwright PASS; no subscription hub, no per-bill funded/remaining, no mark-paid; STS deducts full obligation amounts; persistence is device localStorage; 245 UI strings extracted.
+- **Deliverables:** `JURNL/MANIFEST/PRODUCT_UTILITY_AUDIT_V1/`, audit scripts, `jurnl-product-utility-journeys.e2e.ts`, `jurnlProductUtilityAudit1.test.ts`.
+- **Next:** Founder picks funding model + Sprint A/B order from implementation roadmap.
