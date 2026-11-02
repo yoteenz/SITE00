@@ -131,6 +131,11 @@ describe('ENTRY v2: live copy and controls', () => {
   it('inputs are real controls whose computed size never triggers iOS zoom (≥ 16 px; the stage scale is a transform)', () => {
     const css = readFileSync('src/projects/jurnl/runtime/jurnl-entry-v2.css', 'utf8');
     expect(css).toContain('.jrn .jrn-e2__input {');
+    expect(css).toContain('text-transform: uppercase');
+    expect(css).toMatch(/jrn-e2__input\[type='password'\][\s\S]*text-transform: none/);
+    expect(css).toContain('-webkit-autofill');
+    const runtimeCss = readFileSync('src/projects/jurnl/runtime/jurnl-runtime.css', 'utf8');
+    expect(runtimeCss).toContain('.jrn .jrn-field__input:-webkit-autofill');
     // iOS decides focus zoom from the input's computed font-size; the stage's scale transform does not change it.
     for (const route of ['entry/create', 'entry/sign-in']) {
       const sizes = [...render(route).matchAll(/class="jrn-e2__input"[^>]*font-size:(\d+(?:\.\d+)?)px/g)].map((m) => +m[1]!);

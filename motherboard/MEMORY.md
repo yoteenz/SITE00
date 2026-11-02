@@ -16672,3 +16672,13 @@ Summary of the whole conversation in this chat.
 - **Staging Auth:** one user, email confirmed, matches the default founder admin address, last sign-in is the confirmation click (2026-10-15 00:51 UTC). No recovery email has been sent. Production passwords are not this project's passwords.
 - **Code:** signup and password reset now send `https://<browser-origin>/origin/sign-in?returnTo=...` and refuse to invent `localhost:3000`. Recovery hash shows a new-password form and does not bounce away before the password is saved. Draft branch `cursor/staging-auth-redirect-be3b`. Not deployed.
 - **Dashboard (manual):** Site URL and redirect allowlist must be the carefree-luck origin. Until that is saved, new confirmation links still fall back to localhost.
+
+---
+
+## 2026-11-02 — JURNL input autofill + uppercase (ENTRY sign-in)
+
+- **Context:** Founder screenshot on sign-in showed Chrome yellow autofill on email/password, lowercase autofill email, and inputs not matching ENTRY serif typography.
+- **Topics covered:** Prior thread work (TODAY/ACTIVITY world-editorial draft PR, reference hygiene merge, logo forensic recovery draft PR); this turn shipped sign-in input polish.
+- **Decisions / outcomes:** Strip `-webkit-autofill` yellow via inset box-shadow on `.jrn-e2__input` and `.jrn-field__input`; non-password typed values uppercased in `E2Field` and `JurnlInput` `onChange`; e2 CSS `text-transform: uppercase` with password exception; Supabase auth adapter still lowercases email on sign-in.
+- **Changes:** `jurnl-entry-v2.css`, `jurnl-runtime.css`, `EntryV2Parts.tsx`, `primitives.tsx`, `jurnlEntryV2FirstSeven1.test.tsx`.
+- **Conventions:** Keep Authority Serif on e2 autofill pseudo-states; do not revert e2 inputs to `text-transform: none`.

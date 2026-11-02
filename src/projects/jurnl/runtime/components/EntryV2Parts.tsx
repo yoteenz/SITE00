@@ -147,7 +147,7 @@ export function E2Field({
         aria-describedby={error ? errorId : undefined}
         autoComplete={autoComplete}
         spellCheck={false}
-        onChange={(e) => onValue(e.target.value)}
+        onChange={(e) => onValue(type === 'password' ? e.target.value : e.target.value.toUpperCase())}
         onFocus={() => {
           setFocused(true);
           onFocusChange?.(true);
