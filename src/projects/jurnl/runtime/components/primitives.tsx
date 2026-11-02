@@ -254,7 +254,7 @@ export function JurnlInput({
             data-jrn-trigger={trigger}
             aria-invalid={error || invalid ? true : undefined}
             aria-describedby={error ? errorId : undefined}
-            onChange={(e) => onValue(e.target.value)}
+            onChange={(e) => onValue(type === 'password' ? e.target.value : e.target.value.toUpperCase())}
             onFocus={() => {
               setFocused(true);
               onFocusChange?.(true);
