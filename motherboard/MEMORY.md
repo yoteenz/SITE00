@@ -16682,3 +16682,12 @@ Summary of the whole conversation in this chat.
 - **Decisions / outcomes:** Strip `-webkit-autofill` yellow via inset box-shadow on `.jrn-e2__input` and `.jrn-field__input`; non-password typed values uppercased in `E2Field` and `JurnlInput` `onChange`; e2 CSS `text-transform: uppercase` with password exception; Supabase auth adapter still lowercases email on sign-in.
 - **Changes:** `jurnl-entry-v2.css`, `jurnl-runtime.css`, `EntryV2Parts.tsx`, `primitives.tsx`, `jurnlEntryV2FirstSeven1.test.tsx`.
 - **Conventions:** Keep Authority Serif on e2 autofill pseudo-states; do not revert e2 inputs to `text-transform: none`.
+
+---
+
+## 2026-11-02 — JURNL identity canonical extraction V2
+
+- **Sprint:** P0.JURNL.IDENTITY.CANONICAL-APPROVAL-AND-CLEAN-ASSET-EXTRACTION1. Stacked on open PR #1701 forensic branch; draft PR only; no merge/deploy/generation.
+- **Outcomes:** Lineage `CANONICAL_IDENTITY_LINEAGE_CONFIRMED`; layer ink fidelity PASS (MAE 0); transparency PARTIAL (documented plaster-tinted edge pixels); full F09 frame BLOCKED for universal logo; `production_asset_status: PARTIAL`; `runtime_migration_status: NOT_STARTED`.
+- **Deliverables:** `JURNL/MANIFEST/IDENTITY_RECOVERY_V2/` (inventory, QA boards, technical report, migration matrix); updated `RECOVERED_IDENTITY_REGISTRY.json` and pack metadata; `canonical_extraction_v2.py`; review ZIPs on GitHub release.
+- **Conventions:** Do not treat crop-identical layers as fully clean universal PNGs; do not swap `JurnlLogo` without founder gate.
