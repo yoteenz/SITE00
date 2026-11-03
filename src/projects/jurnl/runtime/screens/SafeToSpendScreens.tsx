@@ -5,6 +5,7 @@
 
 import { useState } from 'react';
 import { COMPLETENESS_LABEL, SOURCE_LABEL, computeSafeToSpend, type SafeToSpendBreakdown } from '../../data/f09/safeToSpend';
+import { SafeHorizonSheet, horizonLine } from '../finance/SafeHorizonSheet';
 import { patchSetup, useSetup } from '../../data/f02/setupDraft';
 import { formatAmountInput, formatMoney, parseAmountInput, useCurrency } from '../../data/home/money';
 import f09Plate from '../../families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_AUTHORITY_PLATE.png';
@@ -25,7 +26,7 @@ import { ReferenceStage, RefIcon, RefText, at } from '../components/ReferenceSta
 import { ReferenceLockup } from '../components/ReferenceLockup';
 
 /** Founder-approved availability line on the F09 parent authority. The formula has no horizon field. */
-const AUTHORITY_THROUGH = 'AVAILABLE THROUGH OCT 18';
+
 
 /**
  * One plate per breakpoint. Scenery and the blank physical folio are in the photograph.
@@ -69,6 +70,7 @@ function useParentFigures() {
   // Bills and card minimums due in the window (money set aside is inside these, never extra).
   const bills = signal.completeness === 'UNSTATED' ? 0 : signal.upcoming + signal.cardPayments;
   return {
+    windowEnd: signal.windowEnd,
     below,
     amount: formatMoney(below ? -signal.value : signal.value),
     folio: [
@@ -86,7 +88,7 @@ function useParentFigures() {
  */
 export function SafeToSpendReferenceScreen() {
   const { go, openOverlay, closeOverlay, overlay } = useJurnl();
-  const { below, amount, folio } = useParentFigures();
+  const { below, amount, folio, windowEnd } = useParentFigures();
   const L = REF_PARENT;
   return (
     <ReferenceStage
@@ -106,7 +108,7 @@ export function SafeToSpendReferenceScreen() {
         <section data-jrn-panel="signal" data-below={below ? 'true' : 'false'}>
           <RefText t={L.text.signal} as="h1">{below ? 'OVER BY' : 'SAFE TO SPEND'}</RefText>
           <RefText t={L.text.amount} className="jrn-ref__amount-hero">{amount}</RefText>
-          <RefText t={L.text.through} className="jrn-ref__soft">{AUTHORITY_THROUGH}</RefText>
+          <RefText t={L.text.through} className="jrn-ref__soft">{horizonLine(windowEnd)}</RefText>
           <button type="button" className="jrn-ref__ghost jrn-ref__why" data-jrn-trigger="safe-see-why" onClick={() => go('safe/why')} style={at(L.box.why)}>
             <RefText t={L.text.why} origin={L.box.why} as="span">SEE WHY THIS AMOUNT</RefText>
             <RefIcon name="arrow" box={L.box.whyArrow} origin={L.box.why} stroke={2} />
@@ -154,6 +156,7 @@ function SafeToSpendAuthority() {
   const draft = useSetup();
   useCurrency();
   const signal = computeSafeToSpend(draft);
+  const [horizonOpen, setHorizonOpen] = useState(false);
   const below = signal.value < 0;
   const amount = formatMoney(below ? -signal.value : signal.value);
   // Bills and card minimums due in the window (money set aside is inside these, never extra).
@@ -175,8 +178,11 @@ function SafeToSpendAuthority() {
         </header>
         <section className="jrn-f09a__signal" data-jrn-panel="signal" data-below={below ? 'true' : 'false'}>
           <h1>{below ? 'OVER BY' : 'SAFE TO SPEND'}</h1>
-          <p className="jrn-f09a__amount">{amount}</p>
-          <p className="jrn-f09a__through">{AUTHORITY_THROUGH}</p>
+          <p className="jrn-f09a__amount" data-jrn-value="safe-to-spend" data-jrn-amount-cents={Math.round(signal.value * 100)}>{amount}</p>
+          {/* Live period (was a printed reference date). Opens the 30-day / before-next-income reading. */}
+          <button type="button" className="jrn-f09a__through jrn-f09a__horizon" data-jrn-trigger="safe-open-horizon" aria-label="CHANGE PLANNING PERIOD" onClick={() => setHorizonOpen(true)}>
+            {`${horizonLine(signal.windowEnd)} · CHANGE`}
+          </button>
           <button type="button" className="jrn-f09a__why" data-jrn-trigger="safe-see-why" onClick={() => go('safe/why')}>
             SEE WHY THIS AMOUNT <span aria-hidden>→</span>
           </button>
@@ -211,6 +217,7 @@ function SafeToSpendAuthority() {
       <JurnlProductNav marks="authority" current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
       {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F09" onClose={closeOverlay} /> : null}
       {overlay === 'ask' ? <AskJurnlSheet familyId="F09" nodeId="F09.00" onClose={closeOverlay} /> : null}
+      {horizonOpen ? <SafeHorizonSheet onClose={() => setHorizonOpen(false)} /> : null}
     </JurnlScreen>
   );
 }

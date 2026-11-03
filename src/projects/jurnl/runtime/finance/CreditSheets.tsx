@@ -12,7 +12,9 @@ import { interestGuidance, overallUtilization, paymentSafety, paymentSourcePlan,
 import { getRepository } from '../../data/repository/deviceRepository';
 import { JurnlButton, JurnlDrawer, JurnlInput } from '../components/primitives';
 import { useJurnl } from '../state/store';
-import { AccountChips, Chips, SetAsideSheet, money } from './FinanceSheets';
+import { AccountChips, Chips, SetAsideSheet, money, startOptions } from './FinanceSheets';
+import type { TransferStart } from '../../data/ledger/transferSettlement';
+import { CARD_PAYMENT_STATE_LABEL } from '../../data/ledger/transferSettlement';
 
 function Rows({ rows }: { rows: [string, string][] }) {
   return (
@@ -41,7 +43,8 @@ export function cardFactRows(card: JurnlAccountRecord): [string, string][] {
     ['STATEMENT CLOSED', f.statementClosingDate ? formatCalendarDate(f.statementClosingDate) : 'NOT ENTERED'],
     ['PAYMENT DUE', f.dueDate ? `${formatCalendarDate(f.dueDate)} (${formatRelativeDate(f.dueDate, today)})` : 'NOT ENTERED'],
     ['MINIMUM PAYMENT', or(f.minimum)],
-    ['PAID SINCE STATEMENT', money(f.paidSinceStatement)],
+    ['PAID SINCE STATEMENT', `${money(f.paidSinceStatement)} CONFIRMED BY THE CARD`],
+    ...(f.pendingPayments > 0 ? ([['PAYMENTS ON THEIR WAY', `${money(f.pendingPayments)} · NOT CONFIRMED BY THE CARD`]] as [string, string][]) : []),
     ['MINIMUM STILL DUE', or(f.remainingMinimum)],
     ['APR', f.apr != null ? `${f.apr}%` : 'NOT ENTERED'],
     ...(f.promoApr != null ? ([['PROMO APR', `${f.promoApr}%${f.promoAprEnd ? ` UNTIL ${formatCalendarDate(f.promoAprEnd)}` : ''}`]] as [string, string][]) : []),
@@ -137,9 +140,11 @@ export function CardPaymentSheet({ card, onClose }: { card: JurnlAccountRecord; 
   const [from, setFrom] = useState<string | null>(f?.paymentAccount?.account_id ?? null);
   const [amount, setAmount] = useState(f?.remainingMinimum ? String(f.remainingMinimum) : '');
   const [date, setDate] = useState<string>(getTodayKey());
+  const [start, setStart] = useState<TransferStart>('COMPLETED');
   const [allowDup, setAllowDup] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const value = parseMoneyInput(amount);
+  const fromName = getRepository().listAccounts().find((a) => a.account_id === from)?.display_name ?? 'THE ACCOUNT';
   return (
     <JurnlDrawer
       expression="form"
@@ -153,10 +158,14 @@ export function CardPaymentSheet({ card, onClose }: { card: JurnlAccountRecord; 
           {error ? <p className="jrn-field__error" role="alert">{error}</p> : null}
           {error && /ALREADY RECORDED/.test(error) ? <JurnlButton variant="secondary" trigger="card-pay-duplicate" onClick={() => setAllowDup(true)}>{allowDup ? 'IT HAPPENED TWICE ✓' : 'IT HAPPENED TWICE'}</JurnlButton> : null}
           <JurnlButton trigger="card-pay-save" disabled={value == null} onClick={() => {
-            const r = recordTransfer({ from_account_id: from, to_account_id: card.account_id, amount: value ?? 0, occurred_on: (isCalendarDate(date.trim()) ? date.trim() : getTodayKey()) as CalendarDate, allowDuplicate: allowDup, origin_family: 'F12' });
+            const r = recordTransfer({ from_account_id: from, to_account_id: card.account_id, amount: value ?? 0, occurred_on: (isCalendarDate(date.trim()) ? date.trim() : getTodayKey()) as CalendarDate, start, allowDuplicate: allowDup, origin_family: 'F12' });
             if (!r.ok) return setError(r.error);
             const next = cardFactsFor(card);
-            showToast({ tone: 'success', title: 'CARD PAYMENT RECORDED', body: `${card.display_name} NOW OWES ${money(next?.owed ?? 0)}.${next?.remainingMinimum != null ? ` MINIMUM STILL DUE ${money(next.remainingMinimum)}.` : ''}`, testId: 'card-pay-result' });
+            const body =
+              start === 'COMPLETED' ?
+                `${card.display_name} NOW OWES ${money(next?.owed ?? 0)}.${next?.remainingMinimum != null ? ` MINIMUM STILL DUE ${money(next.remainingMinimum)}.` : ''}`
+              : `${CARD_PAYMENT_STATE_LABEL[start]}. ${card.display_name} STILL OWES ${money(next?.owed ?? 0)} UNTIL THE CARD CONFIRMS IT.`;
+            showToast({ tone: 'success', title: 'CARD PAYMENT RECORDED', body, testId: 'card-pay-result' });
             onClose();
           }}>RECORD PAYMENT</JurnlButton>
         </>
@@ -165,6 +174,9 @@ export function CardPaymentSheet({ card, onClose }: { card: JurnlAccountRecord; 
       <AccountChips label="PAID FROM" value={from} onChange={setFrom} trigger="card-pay-from" filter={(a) => accountNature(a.account_type) === 'ASSET'} />
       <JurnlInput label="AMOUNT" value={amount} onValue={setAmount} trigger="card-pay-amount" inputMode="decimal" />
       <JurnlInput label="DATE PAID (YYYY-MM-DD)" value={date} onValue={setDate} trigger="card-pay-date" inputMode="numeric" />
+      <p className="jrn-eyebrow">WHERE IS THIS PAYMENT?</p>
+      <Chips label="WHERE IS THIS PAYMENT" value={start} options={startOptions(fromName, true)} onChange={setStart} trigger="card-pay-status" />
+      <p className="jrn-currency__note">THE MINIMUM COUNTS AS PAID ONLY WHEN THE CARD CONFIRMS THE PAYMENT. UNTIL THEN IT SHOWS AS ON ITS WAY.</p>
     </JurnlDrawer>
   );
 }

@@ -9,7 +9,9 @@ import { parseMoneyInput, renameAccount, setAccountBalance } from '../../data/le
 import { PURPOSE_LABEL } from '../../data/ledger/purposes';
 import { entryWhenLabel } from '../../data/home/money';
 import { formatRelativeDate, getTodayKey } from '../../data/foundation/dates';
-import { Chips, PurposeSheet, TransferSheet } from '../finance/FinanceSheets';
+import { Chips, OpenTransfersPanel, PurposeSheet, TransferDetailSheet, TransferSheet } from '../finance/FinanceSheets';
+import { computeMoneyPicture } from '../../data/ledger/moneyPicture';
+import { useRepoTick } from '../../data/home/money';
 import { listActiveAccounts, accountById } from '../../data/foundation/accounts';
 import { archiveAccount, createManualAccount } from '../../data/foundation/accountMutations';
 import { formatMoney, ledgerEntries, useCurrency } from '../../data/home/money';
@@ -231,13 +233,21 @@ export function MoneyPlacesScreen() {
   const [addOpen, setAddOpen] = useState(false);
   const [moveOpen, setMoveOpen] = useState(params.has('move'));
   const [purposeOpen, setPurposeOpen] = useState(false);
+  const [openTransfer, setOpenTransfer] = useState<string | null>(null);
+  useRepoTick();
   const today = getTodayKey();
+  const snap = getRepository().getSnapshot();
+  const pic = computeMoneyPicture(snap.accounts, snap.creditAttributes, snap.transactions, today);
   return (
     <MoneyShell screenId="F05.ACCOUNTS" nav="MONEY">
       <FamilyChrome familyId="F05" nodeId="F05.ACCOUNTS" backLabel="BACK TO MONEY" onBack={() => go('money')} onAsk={() => openOverlay('ask')} />
       <div className="jrn-home__intro" data-jrn-zone="intro">
         <h1 className="jrn-home__h">PLACES</h1>
-        <p className="jrn-home__sub">{accounts.length ? `${formatMoney(totals.ownedAssets)} HELD · ${formatMoney(totals.cashOnHand)} IN CASH${totals.owed > 0 ? ` · ${formatMoney(totals.owed)} OWED ON CARDS` : ''}` : 'YOUR ACCOUNTS, CARDS AND CASH.'}</p>
+        <p className="jrn-home__sub" data-testid="places-summary">
+          {accounts.length ?
+            `${formatMoney(pic.availableInAccounts)} AVAILABLE IN ACCOUNTS · ${formatMoney(totals.cashOnHand)} IN CASH${pic.inTransit > 0 ? ` · ${formatMoney(pic.inTransit)} IN TRANSIT · ${formatMoney(pic.trackedAssets)} TOTAL TRACKED` : ''}${totals.owed > 0 ? ` · ${formatMoney(totals.owed)} OWED ON CARDS` : ''}`
+          : 'YOUR ACCOUNTS, CARDS AND CASH.'}
+        </p>
       </div>
       <div className="jrn-parent__rail" data-jrn-zone="content-rail">
         {accounts.length === 0 ?
@@ -247,16 +257,19 @@ export function MoneyPlacesScreen() {
           </JurnlPanel>
         : accounts.map((a) => {
             const p = positions.find((x) => x.account_id === a.account_id);
+            const t = pic.transferTotals.byAccount.get(a.account_id);
+            const moving = [t && t.incoming > 0 ? `${formatMoney(t.incoming)} ON ITS WAY IN` : '', t && t.waitingToLeave > 0 ? `${formatMoney(t.waitingToLeave)} NOT SENT YET` : '', t && t.inTransitOut > 0 ? `${formatMoney(t.inTransitOut)} SENT, NOT ARRIVED` : ''].filter(Boolean).join(' · ');
             return (
               <button key={a.account_id} type="button" className="jrn-tx jrn-row" data-jrn-trigger={`money-place-${a.account_id}`} onClick={() => go(`money/places/${a.account_id}`)}>
                 <span className="jrn-tx__copy">
                   <span className="jrn-tx__name">{a.display_name}</span>
-                  <small>{p ? `${LOCATION_KIND_LABEL[p.kind]} · ${p.updatedOn ? `UPDATED ${formatRelativeDate(p.updatedOn, today)}` : BALANCE_BASIS_LABEL[p.basis]}` : a.account_type}</small>
+                  <small>{p ? `${LOCATION_KIND_LABEL[p.kind]} · ${p.updatedOn ? `UPDATED ${formatRelativeDate(p.updatedOn, today)}` : BALANCE_BASIS_LABEL[p.basis]}${moving ? ` · ${moving}` : ''}` : a.account_type}</small>
                 </span>
                 <span className="jrn-tx__amt">{p?.nature === 'LIABILITY' ? `${formatMoney(p.owed)} OWED` : formatMoney(p?.held ?? a.available_balance)}</span>
               </button>
             );
           })}
+        <OpenTransfersPanel onOpen={setOpenTransfer} />
         {unassigned.count ? <JurnlPanel role="detail" className="jrn-home__panel"><b>{`${unassigned.count} ${unassigned.count === 1 ? 'ENTRY HAS' : 'ENTRIES HAVE'} NO ACCOUNT`}</b><p>OPEN ACTIVITY AND CHOOSE AN ACCOUNT FOR THEM.</p></JurnlPanel> : null}
         <JurnlButton trigger="money-add-place" onClick={() => setAddOpen(true)}>
           ADD A PLACE
@@ -269,6 +282,7 @@ export function MoneyPlacesScreen() {
       : null}
       {moveOpen ? <TransferSheet fromId={params.get('move') || undefined} toId={params.get('to') || undefined} onClose={() => setMoveOpen(false)} /> : null}
       {purposeOpen ? <PurposeSheet onClose={() => setPurposeOpen(false)} /> : null}
+      {openTransfer ? <TransferDetailSheet linkId={openTransfer} onClose={() => setOpenTransfer(null)} /> : null}
     </MoneyShell>
   );
 }

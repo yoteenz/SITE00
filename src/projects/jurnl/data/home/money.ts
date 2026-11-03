@@ -5,7 +5,7 @@
 
 import { useSyncExternalStore } from 'react';
 import { getSetupDraft, type SetupDraft } from '../f02/setupDraft';
-import { computeSafeToSpend, setupObligationsAsUpcoming } from '../f09/safeToSpend';
+import { cashForSafeToSpend, computeSafeToSpend, setupObligationsAsUpcoming } from '../f09/safeToSpend';
 import { projectUpcoming } from '../foundation/upcomingProjection';
 import { cachedRepoView } from '../repository/cachedRepoView';
 import { getRepository, getRepositoryPersistRevision } from '../repository/deviceRepository';
@@ -104,7 +104,9 @@ export function upcomingFor(draft: SetupDraft = getSetupDraft()): UpcomingItem[]
     });
   }
   if (draft.obligations.length) return setupObligationsAsUpcoming(draft);
-  return MOCK_UPCOMING;
+  // Sample bills only go with sample cash (the preview). Real balances never sit next to fictional bills — Safe to
+  // Spend makes the same choice and deducts nothing for bills that were never entered.
+  return cashForSafeToSpend(getRepository().listTransactions()).source === 'MOCK' ? MOCK_UPCOMING : [];
 }
 
 export function ledgerEntries(): LedgerEntry[] {

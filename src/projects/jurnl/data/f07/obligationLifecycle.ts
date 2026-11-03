@@ -133,6 +133,8 @@ export type ObligationInput = {
   category?: string | null;
   trial_end_date?: CalendarDate | null;
   notes?: string;
+  /** This bill is the payment of this credit card (counted once, through the card). */
+  linked_card_account_id?: string | null;
 };
 
 export function validateObligationInput(input: ObligationInput): string | null {
@@ -167,6 +169,7 @@ export function buildCreateObligation(input: ObligationInput): OpResult<JurnlObl
     notes: (input.notes ?? '').trim().toUpperCase(),
     price_history: [],
     occurrence_log: [],
+    linked_card_account_id: input.linked_card_account_id ?? null,
   };
   return { ok: true, commit: { reason: 'OBLIGATION_CREATED', obligations: { upsert: [ob] } }, value: ob };
 }
@@ -194,6 +197,7 @@ export function buildEditObligation(entries: LedgerEntry[], reservations: JurnlR
     trial_end_date: input.trial_end_date ?? null,
     notes: (input.notes ?? '').trim().toUpperCase(),
     anchor_day: dateChanged ? Number(input.next_due_date.slice(8, 10)) : anchorDayOf(ob),
+    linked_card_account_id: input.linked_card_account_id === undefined ? ob.linked_card_account_id ?? null : input.linked_card_account_id,
     price_history: priceChanged ? [...(ob.price_history ?? []), { at: now, from: toCents(ob.amount), to: amount, effective: input.next_due_date }] : ob.price_history ?? [],
     updated_at: now,
   };
@@ -446,6 +450,12 @@ export function skipObligationOccurrence(ob: JurnlObligation): OpResult<JurnlObl
 export function rescheduleObligationOccurrence(ob: JurnlObligation, date: CalendarDate): OpResult<JurnlObligation> {
   const snap = s();
   return applyOp(buildRescheduleOccurrence(snap.transactions, snap.reservations, ob, date));
+}
+
+/** Links (or unlinks with null) a bill to the card whose payment it is. */
+export function linkObligationToCard(ob: JurnlObligation, cardAccountId: string | null): OpResult<JurnlObligation> {
+  const next: JurnlObligation = { ...ob, linked_card_account_id: cardAccountId, updated_at: new Date().toISOString() };
+  return applyOp({ ok: true, commit: { reason: cardAccountId ? 'OBLIGATION_LINKED_TO_CARD' : 'OBLIGATION_UNLINKED', obligations: { upsert: [next] } }, value: next });
 }
 
 export function setObligationStatus(ob: JurnlObligation, status: 'ACTIVE' | 'PAUSED' | 'CANCELLED', today: CalendarDate = getTodayKey()): OpResult<JurnlObligation> {

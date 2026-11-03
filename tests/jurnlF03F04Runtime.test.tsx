@@ -84,7 +84,8 @@ describe('F03 and F04 live routes', () => {
     const plusMarks = (add.match(/data-jrn-icon="plus"/g)?.length ?? 0) + (add.includes('jrn-nav__plus') ? 1 : 0);
     expect(plusMarks).toBe(1);
     expect(add).not.toMatch(/>\s*\+\s*</);
-    expect(html.match(/data-jrn-role="panel_header_action"/g)?.length).toBe(4);
+    // MORE on the TODAY sheet is now a real action (it opens ASK JURNL and the rest of TODAY), so 5 header actions.
+    expect(html.match(/data-jrn-role="panel_header_action"/g)?.length).toBe(5);
     expect(html).toContain('data-jrn-trigger="today-why"');
     expect(html).not.toContain('F03.00_TODAY_PARENT');
     expect(html).not.toContain('AUTHORITIES');

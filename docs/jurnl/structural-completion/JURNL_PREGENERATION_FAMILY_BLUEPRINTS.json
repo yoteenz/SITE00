@@ -656,7 +656,7 @@
     {
       "family_id": "F05",
       "parent_contract": {
-        "question": "WHAT DO I HAVE, AND WHERE IS IT?",
+        "question": "YOUR ACCOUNTS, CARDS AND CASH.",
         "primary_action": "OPEN A PLACE",
         "secondary_action": "ADD A PLACE",
         "data": [
@@ -760,7 +760,7 @@
     {
       "family_id": "F06",
       "parent_contract": {
-        "question": "WHERE IS IT COMING FROM?",
+        "question": "YOUR INCOME AND DAILY EARNINGS.",
         "primary_action": "READ A SOURCE",
         "secondary_action": "ADD A SOURCE",
         "data": [
@@ -863,7 +863,7 @@
     {
       "family_id": "F07",
       "parent_contract": {
-        "question": "WHAT IS COMING, AND WHEN?",
+        "question": "UPCOMING PAYMENTS AND INCOME.",
         "primary_action": "OPEN THE NEXT",
         "secondary_action": "ADD WHAT REPEATS",
         "data": [
@@ -967,7 +967,7 @@
     {
       "family_id": "F08",
       "parent_contract": {
-        "question": "WHAT DO I WANT IT TO DO?",
+        "question": "MONEY SET ASIDE FOR BILLS, PLANS AND GOALS.",
         "primary_action": "MOVE A PIECE",
         "secondary_action": "ADD AN INTENTION",
         "data": [
@@ -1069,7 +1069,7 @@
     {
       "family_id": "F09",
       "parent_contract": {
-        "question": "WHAT CAN I SPEND WITHOUT UNDOING THE PLAN?",
+        "question": "WHAT YOU CAN SPEND AFTER BILLS AND PLANS.",
         "primary_action": "SEE THE HOLD",
         "secondary_action": "CHANGE THE HOLD",
         "data": [
@@ -1156,7 +1156,7 @@
     {
       "family_id": "F10",
       "parent_contract": {
-        "question": "CAN I BUY THIS, AND WHAT CHANGES?",
+        "question": "CHECK A PURCHASE BEFORE YOU BUY.",
         "primary_action": "DECIDE",
         "secondary_action": "CONSIDER SOMETHING",
         "data": [
@@ -1247,7 +1247,7 @@
     {
       "family_id": "F11",
       "parent_contract": {
-        "question": "CAN I TAKE THIS, AND WHAT DOES IT CHANGE?",
+        "question": "PLAN AND SAVE FOR A TRIP.",
         "primary_action": "FUND THE TRIP",
         "secondary_action": "NAME A TRIP",
         "data": [
@@ -1338,7 +1338,7 @@
     {
       "family_id": "F12",
       "parent_contract": {
-        "question": "WHAT IS HAPPENING, AND WHAT MATTERS?",
+        "question": "YOUR CARDS, WHAT YOU OWE AND WHEN.",
         "primary_action": "OPEN AN ACCOUNT",
         "secondary_action": "ADD A CARD OR LOAN",
         "data": [
@@ -1428,7 +1428,7 @@
     {
       "family_id": "F13",
       "parent_contract": {
-        "question": "HOW DOES THIS COME DOWN?",
+        "question": "A PLAN TO PAY DOWN WHAT YOU OWE.",
         "primary_action": "CHANGE THE PATH",
         "secondary_action": "KEEP THIS PATH",
         "data": [
@@ -1513,7 +1513,7 @@
     {
       "family_id": "F14",
       "parent_contract": {
-        "question": "WHAT AM I BUILDING TOWARD?",
+        "question": "YOUR SAVINGS GOALS.",
         "primary_action": "NAME ONE",
         "secondary_action": "SET ASIDE",
         "data": [
@@ -1618,7 +1618,7 @@
     {
       "family_id": "F15",
       "parent_contract": {
-        "question": "WHERE AM I HEADED IF THIS CONTINUES?",
+        "question": "YOUR MONEY OVER THE NEXT 30 DAYS.",
         "primary_action": "TRY ANOTHER PATH",
         "secondary_action": "CHANGE AN ASSUMPTION",
         "data": [
@@ -1707,7 +1707,7 @@
     {
       "family_id": "F16",
       "parent_contract": {
-        "question": "WHERE IS THE PROOF?",
+        "question": "YOUR STATEMENTS AND RECEIPTS.",
         "primary_action": "OPEN A DOCUMENT",
         "secondary_action": "FILE A DOCUMENT",
         "data": [

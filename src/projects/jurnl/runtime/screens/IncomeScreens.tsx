@@ -5,7 +5,7 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { earningsBreakdown, earningsPeriods, useDailyEarnings } from '../../data/f06/dailyEarnings';
 import type { JurnlDailyEarnings } from '../../data/foundation/dailyEarnings';
 import { AfterEarningsSheet, DailyEarningsSheet, EarningsDetailSheet } from '../finance/FinanceSheets';
-import { formatRelativeDate, getTodayKey, type RecurrenceType } from '../../data/foundation/dates';
+import { formatRelativeDate, getTodayKey, isCalendarDate, type CalendarDate, type RecurrenceType } from '../../data/foundation/dates';
 import { createIncomeSource, incomeById, receiveIncome, useIncomeSources } from '../../data/f06/incomeStore';
 import { formatMoney, useCurrency } from '../../data/home/money';
 import { PARENT_PLATES } from '../../data/parents/plates';
@@ -47,8 +47,8 @@ export function IncomeHubScreen() {
   useCurrency();
   const sources = useIncomeSources();
   const spec = parentById('F06')!;
-  const [addOpen, setAddOpen] = useState(false);
   const [params] = useSearchParams();
+  const [addOpen, setAddOpen] = useState(params.get('add') === 'expected');
   const days = useDailyEarnings();
   const [earningsOpen, setEarningsOpen] = useState<{ edit: JurnlDailyEarnings | null } | null>(params.get('add') === 'earnings' ? { edit: null } : null);
   const [detail, setDetail] = useState<JurnlDailyEarnings | null>(null);
@@ -197,17 +197,24 @@ export function IncomeSourceScreen() {
 function AddIncomeSheet({ onClose }: { onClose: () => void }) {
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
-  const [cadence, setCadence] = useState<RecurrenceType>('MONTHLY');
-  const valid = name.trim().length > 0 && /^\d+(\.\d{1,2})?$/.test(amount.trim());
+  const [cadence, setCadence] = useState<RecurrenceType>('BIWEEKLY');
+  const [date, setDate] = useState<string>(getTodayKey());
+  const amountOk = amount.trim() === '' || /^\d+(\.\d{1,2})?$/.test(amount.trim());
+  const dateOk = isCalendarDate(date.trim()) && date.trim() >= getTodayKey();
+  const valid = name.trim().length > 0 && amountOk && dateOk;
   return (
-    <JurnlDrawer size="long" testId="income-add-sheet" title="ADD EXPECTED INCOME" lead="A PAYCHECK OR PAYMENT YOU EXPECT ON A SCHEDULE. FOR MONEY YOU ALREADY EARNED TODAY, USE ADD DAILY EARNINGS." onClose={onClose} footer={
-      <JurnlButton disabled={!valid} trigger="income-add-save" onClick={() => { createIncomeSource({ source_name: name, amount: Number(amount), cadence, next_due_date: getTodayKey() }); onClose(); }}>SAVE</JurnlButton>
+    <JurnlDrawer size="long" testId="income-add-sheet" title="ADD EXPECTED INCOME" lead="A PAYCHECK OR PAYMENT YOU EXPECT ON A DATE. IT IS PLANNED, NOT RECEIVED, AND NEVER ADDED TO YOUR BALANCES. FOR MONEY YOU ALREADY EARNED TODAY, USE ADD DAILY EARNINGS." onClose={onClose} footer={
+      <>
+        {!dateOk && date.trim() ? <p className="jrn-field__error" role="alert">ENTER TODAY OR A LATER DATE AS YYYY-MM-DD.</p> : null}
+        <JurnlButton disabled={!valid} trigger="income-add-save" onClick={() => { createIncomeSource({ source_name: name, amount: amount.trim() ? Number(amount) : 0, cadence, next_due_date: date.trim() as CalendarDate }); onClose(); }}>SAVE</JurnlButton>
+      </>
     }>
       <JurnlInput label="NAME" value={name} onValue={setName} trigger="income-add-name" />
-      <JurnlInput label="AMOUNT" value={amount} onValue={setAmount} trigger="income-add-amount" inputMode="decimal" />
-      <div className="jrn-home__choices" role="radiogroup" aria-label="CADENCE">
-        {(['WEEKLY', 'BIWEEKLY', 'MONTHLY'] as RecurrenceType[]).map((c) => (
-          <button key={c} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={cadence === c} onClick={() => setCadence(c)}>{c}</button>
+      <JurnlInput label="NEXT DATE (YYYY-MM-DD)" value={date} onValue={setDate} trigger="income-add-date" inputMode="numeric" />
+      <JurnlInput label="AMOUNT (LEAVE EMPTY IF NOT KNOWN)" value={amount} onValue={setAmount} trigger="income-add-amount" inputMode="decimal" />
+      <div className="jrn-home__choices" role="group" aria-label="HOW OFTEN">
+        {(['WEEKLY', 'BIWEEKLY', 'MONTHLY', 'NONE'] as RecurrenceType[]).map((c) => (
+          <button key={c} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={cadence === c} data-jrn-trigger={`income-add-cadence-${c.toLowerCase()}`} onClick={() => setCadence(c)}>{CADENCE[c]}</button>
         ))}
       </div>
     </JurnlDrawer>
@@ -216,11 +223,13 @@ function AddIncomeSheet({ onClose }: { onClose: () => void }) {
 
 function EditIncomeSheet({ source, onClose }: { source: NonNullable<ReturnType<typeof incomeById>>; onClose: () => void }) {
   const [amount, setAmount] = useState(String(source.amount));
+  const [date, setDate] = useState<string>(source.next_due_date);
   return (
     <JurnlDrawer size="long" testId="income-edit-sheet" title="EDIT EXPECTED INCOME" onClose={onClose} footer={
-      <JurnlButton trigger="income-edit-save" onClick={() => { getRepository().upsertIncomeSource({ ...source, amount: Number(amount) }); onClose(); }}>SAVE</JurnlButton>
+      <JurnlButton trigger="income-edit-save" disabled={!isCalendarDate(date.trim())} onClick={() => { getRepository().upsertIncomeSource({ ...source, amount: Number(amount) || 0, next_due_date: date.trim() as CalendarDate }); onClose(); }}>SAVE</JurnlButton>
     }>
       <JurnlInput label="AMOUNT" value={amount} onValue={setAmount} trigger="income-edit-amount" inputMode="decimal" />
+      <JurnlInput label="NEXT DATE (YYYY-MM-DD)" value={date} onValue={setDate} trigger="income-edit-date" inputMode="numeric" />
     </JurnlDrawer>
   );
 }

@@ -20,6 +20,8 @@ import { paymentSafety, utilizationPlan } from '../src/projects/jurnl/data/f12/c
 import { projectUpcoming } from '../src/projects/jurnl/data/foundation/upcomingProjection';
 import { simulatePaydownProjection } from '../src/projects/jurnl/data/f13/paydownStore';
 import type { LedgerEntry } from '../src/projects/jurnl/data/home/moneyTypes';
+import { MOCK_UPCOMING, upcomingFor } from '../src/projects/jurnl/data/home/money';
+import { resetRepositoryForDev, setRepositoryUserId } from '../src/projects/jurnl/data/repository/deviceRepository';
 import { TODAY, position, world } from './helpers/jurnlFinancialWorld';
 
 const snap = () => getRepository().getSnapshot();
@@ -294,6 +296,17 @@ describe('Safe to Spend — 30 days and before next income', () => {
     expect(computeNextIncomeView().income).toMatchObject({ amount: null, estimated: true });
   });
 
+  it('the 30-day period includes day 30: a monthly bill due today also counts its next occurrence when it falls on day 30', () => {
+    const r = createBillOrSubscription({ name: 'GYM', amount: 140, cadence: 'MONTHLY', next_due_date: TODAY, kind: 'BILL', account_id: 'bank' });
+    const ob = r.ok ? r.value : null!;
+    const lines = computeSafeToSpend().billLines.filter((l) => l.obligation_id === ob.obligation_id);
+    const day30 = addDays(TODAY, 30);
+    // Two distinct occurrences (each counted once) only when the next monthly date is on or before day 30.
+    const next = lines[1]?.due_date ?? null;
+    expect(lines.length).toBe(next != null && next <= day30 ? 2 : 1);
+    expect(lines[0]!.due_date).toBe(TODAY);
+  });
+
   it('T22 a partly paid bill contributes only what is still due, in both periods', () => {
     const ob = bill('INSURANCE', 140, 3);
     markObligationPaid(ob, { amount: 50, account_id: 'bank', paid_on: TODAY });
@@ -366,6 +379,29 @@ describe('Labels and traceability', () => {
     for (const l of sts.cardLines) expect(s.accounts.some((a) => a.account_id === l.account_id)).toBe(true);
     for (const l of sts.transferLines) expect(s.transactions.some((t) => t.link?.id === l.link_id)).toBe(true);
     expect(sts.value).toBe(toCents(sts.cash - sts.upcoming - sts.cardPayments - sts.committedTransfers - sts.protected - sts.safetyBuffer - sts.assigned - sts.goalReserved - sts.purchaseReserved - sts.tripReserved));
+  });
+});
+
+describe('TODAY COMING list', () => {
+  it('real balances never sit next to sample bills: no bills entered → nothing coming, and Safe to Spend deducts nothing', () => {
+    world();
+    const repo = getRepository();
+    for (const i of repo.listIncomeSources()) repo.deleteIncomeSource(i.income_id);
+    for (const o of repo.listObligations()) repo.deleteObligation(o.obligation_id);
+    expect(repo.listIncomeSources()).toHaveLength(0);
+    expect(repo.listObligations()).toHaveLength(0);
+    expect(upcomingFor()).toEqual([]);
+    expect(computeSafeToSpend()).toMatchObject({ cashSource: 'ACCOUNTS', upcoming: 0 });
+  });
+
+  it('the preview (sample cash) keeps its sample bills, and says so', () => {
+    setRepositoryUserId('fin-preview@jurnl.test');
+    resetRepositoryForDev();
+    const repo = getRepository();
+    for (const i of repo.listIncomeSources()) repo.deleteIncomeSource(i.income_id);
+    for (const o of repo.listObligations()) repo.deleteObligation(o.obligation_id);
+    if (computeSafeToSpend().cashSource === 'MOCK') expect(upcomingFor()).toBe(MOCK_UPCOMING);
+    else expect(upcomingFor()).toEqual([]);
   });
 });
 

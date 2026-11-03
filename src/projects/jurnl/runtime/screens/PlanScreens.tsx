@@ -19,6 +19,9 @@ import { JurnlProductNav } from '../components/ProductNav';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
 import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
 import { JurnlFamilyShell } from '../components/FamilyFrame';
+import { useBillSetAsideRows } from '../../data/f08/billSetAsides';
+import { SetAsideSheet, obligationTarget } from '../finance/FinanceSheets';
+import { formatRelativeDate, getTodayKey } from '../../data/foundation/dates';
 import { useJurnl } from '../state/store';
 
 function PlanShell({ screenId, children }: { screenId: string; children: ReactNode }) {
@@ -184,13 +187,39 @@ export function PlanIntentionScreen() {
   );
 }
 
+/**
+ * F08 → SET MONEY ASIDE (D3). Two entry points into one reservation model: FOR A BILL opens the same set-aside sheet the
+ * bill page uses (same records, same rules, same numbers); FOR SOMETHING ELSE is a plan line (unchanged).
+ */
 function AddIntentionSheet({ onClose }: { onClose: () => void }) {
   const [title, setTitle] = useState('');
+  const [billId, setBillId] = useState<string | null>(null);
   const { go } = useJurnl();
+  useCurrency();
+  const rows = useBillSetAsideRows();
+  const today = getTodayKey();
+  const chosen = billId ? rows.find((r) => r.obligation.obligation_id === billId) : null;
+  if (chosen) {
+    return <SetAsideSheet target={obligationTarget(chosen.obligation)} defaultAccountId={chosen.obligation.account_id} onClose={() => setBillId(null)} />;
+  }
   return (
-    <JurnlDrawer expression="form" size="long" testId="plan-add" title="SET MONEY ASIDE" lead="NAME WHAT THE MONEY IS FOR. YOU CAN ASSIGN AN AMOUNT NEXT." onClose={onClose}
+    <JurnlDrawer expression="form" size="long" testId="plan-add" title="SET MONEY ASIDE" lead="FOR A BILL, OR FOR SOMETHING ELSE. EARMARKS MONEY YOU HAVE; IT DOES NOT MOVE OR PAY ANYTHING." onClose={onClose}
       footer={<JurnlButton trigger="plan-add-save" disabled={!title.trim()} onClick={() => { const p = createPlanIntention({ title }); onClose(); go(`plan/${p.plan_id}`); }}>SAVE</JurnlButton>}>
-      <JurnlInput label="NAME" value={title} onValue={setTitle} trigger="plan-add-name" />
+      <p className="jrn-eyebrow">FOR A BILL</p>
+      {rows.length === 0 ? <p className="jrn-currency__note">NO BILLS WITH MONEY STILL DUE. ADD BILLS IN UPCOMING.</p> : null}
+      <ul className="jrn-why" data-testid="plan-bill-set-asides">
+        {rows.map((r) => (
+          <li key={r.obligation.obligation_id}>
+            <button type="button" className="jrn-btn jrn-btn--inline" data-jrn-trigger={`plan-bill-${r.obligation.obligation_id}`} onClick={() => setBillId(r.obligation.obligation_id)}>
+              {`${r.obligation.name} · DUE ${formatRelativeDate(r.obligation.next_due_date, today)}`}
+            </button>
+            <b data-testid={`plan-bill-funding-${r.obligation.obligation_id}`}>{r.funding.label}</b>
+            {r.pieces.length ? <small>{r.pieces.map((p) => `${formatMoney(p.reservation.amount)} IN ${p.accountName}`).join(' · ')}</small> : null}
+          </li>
+        ))}
+      </ul>
+      <p className="jrn-eyebrow">FOR SOMETHING ELSE</p>
+      <JurnlInput label="WHAT IS THE MONEY FOR?" value={title} onValue={setTitle} trigger="plan-add-name" />
     </JurnlDrawer>
   );
 }
@@ -199,7 +228,7 @@ function AssignSheet({ plan, onClose }: { plan: ReturnType<typeof planById>; onC
   const [amount, setAmount] = useState(String(plan?.assigned_amount ?? 0));
   if (!plan) return null;
   return (
-    <JurnlDrawer expression="form" size="long" testId="plan-assign" title="ASSIGN" lead="COMMITTED AMOUNT REDUCES SAFE TO SPEND." onClose={onClose}
+    <JurnlDrawer expression="form" size="long" testId="plan-assign" title="ASSIGN AN AMOUNT" lead="THIS AMOUNT IS HELD BACK FROM SAFE TO SPEND." onClose={onClose}
       footer={<JurnlButton trigger="plan-assign-save" onClick={() => { updatePlanIntention({ ...plan, assigned_amount: Math.max(0, Number(amount) || 0) }); onClose(); }}>SAVE</JurnlButton>}>
       <JurnlInput label="AMOUNT" value={amount} onValue={setAmount} trigger="plan-assign-amount" inputMode="decimal" />
     </JurnlDrawer>
