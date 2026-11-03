@@ -109,6 +109,24 @@ const MANAGED_PROJECTS: Site00ManagedProjectRecord[] = [
     relationship: 'PERSONAL',
     projectRuntime: true,
   },
+  {
+    // Independent serialized fiction — Studio World is the workspace, not the rights holder.
+    projectId: 'the-exchange',
+    displayName: 'THE EXCHANGE',
+    projectType: 'SERIALIZED_FICTION',
+    websiteDesignAuthority: 'SITE00',
+    platformRole: 'NONE',
+    managedWebsiteRole: 'NONE',
+    designEnabled: false,
+    marketingEnabled: false,
+    projectAccent: 'PROJECT_CANONICAL',
+    routeAuthority: 'SITE00',
+    status: 'ACTIVE',
+    legacyDesignRoutes: [],
+    ownership: 'FOUNDER',
+    relationship: 'PERSONAL',
+    productionSpine: true,
+  },
 ];
 
 export function listSite00ManagedProjects(): Site00ManagedProjectRecord[] {
@@ -121,6 +139,21 @@ export function getSite00ManagedProject(projectId: string): Site00ManagedProject
 
 export function listDesignEnabledManagedProjects(): Site00ManagedProjectRecord[] {
   return listSite00ManagedProjects().filter((p) => p.designEnabled);
+}
+
+/** Design-enabled brands plus fiction/spine projects selectable in Production (not children of Studio World). */
+export function listProductionManagedProjects(): Site00ManagedProjectRecord[] {
+  return listSite00ManagedProjects().filter((p) => p.designEnabled || p.productionSpine);
+}
+
+export function hasProductionSpine(projectId: string): boolean {
+  return getSite00ManagedProject(projectId.toLowerCase())?.productionSpine === true;
+}
+
+export function isIndependentMediaProductionProject(projectId: string): boolean {
+  const m = getSite00ManagedProject(projectId.toLowerCase());
+  if (!m) return false;
+  return m.projectType === 'SERIALIZED_FICTION' || m.projectId === 'ndxbook';
 }
 
 export function isKnownManagedProject(projectId: string): boolean {

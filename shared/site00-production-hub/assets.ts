@@ -22,6 +22,7 @@ export const HUB_STORYBOARD_FRAME_TARGET = 16 as const;
 
 export const HUB_PROJECT_COVER_IDS = [
   'ndxbook',
+  'the-exchange',
   'studio-world',
   'frontal-slayer',
   'astral-world',

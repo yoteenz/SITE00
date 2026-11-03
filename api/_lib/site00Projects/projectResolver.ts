@@ -153,6 +153,26 @@ async function buildSurfaces(slug: Site00FounderProjectSlug, isClient: boolean):
     });
   }
 
+  if (slug === 'the-exchange') {
+    surfaces.push(
+      {
+        id: 'studio-world-production',
+        label: 'STUDIO WORLD PRODUCTION',
+        route: '/production?project=the-exchange',
+        available: true,
+        description:
+          'Independent scripted series — use Studio World production tools with THE EXCHANGE project context (canon, cast, seasons).',
+      },
+      {
+        id: 'fiction-canon',
+        label: 'FICTION CANON',
+        route: detailRoute(slug),
+        available: true,
+        description: 'Project-scoped canon and ingestion — isolated from NDXBOOK and Studio World IP.',
+      },
+    );
+  }
+
   if (slug === 'all-in-one-enterprises') {
     surfaces.push({
       id: 'operations',
@@ -192,6 +212,10 @@ async function resolveProjectPhase(
     const profile = await getProfileByOrgId(orgIdFromSlug('all-in-one-enterprises')!);
     if (profile?.lifecycle_stage === 'POST_LAUNCH') return 'POST LAUNCH — CORE SERVICE OPERATIONS';
     return profile?.lifecycle_stage?.replace(/_/g, ' ') ?? 'CORE SERVICE OPERATIONS';
+  }
+
+  if (slug === 'the-exchange') {
+    return 'SEASON 1 — CANON & PRODUCTION READINESS';
   }
 
   return 'ACTIVE INFRASTRUCTURE';
@@ -247,6 +271,14 @@ async function buildActivity(
     events.push({
       id: 'sw-boundary',
       summary: 'PRODUCTION INFRASTRUCTURE REGISTERED — RUNTIME BOUNDARY MAINTAINED',
+      timestamp: null,
+    });
+  }
+
+  if (slug === 'the-exchange') {
+    events.push({
+      id: 'exchange-media-boundary',
+      summary: 'INDEPENDENT MEDIA PROJECT — STUDIO WORLD IS WORKSPACE ONLY',
       timestamp: null,
     });
   }
@@ -491,6 +523,13 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
   } else if (slug === 'all-in-one-enterprises') {
     production = {
       launchState: profile?.lifecycle_stage === 'POST_LAUNCH' ? 'POST-LAUNCH OPERATIONS' : 'PRE-LAUNCH',
+      page001: null,
+      publishingEnabled: false,
+      crossPostingEnabled: false,
+    };
+  } else if (slug === 'the-exchange') {
+    production = {
+      launchState: 'SEASON 1 PRE-PRODUCTION',
       page001: null,
       publishingEnabled: false,
       crossPostingEnabled: false,

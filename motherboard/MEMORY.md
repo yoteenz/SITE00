@@ -16665,6 +16665,17 @@ Summary of the whole conversation in this chat.
 
 ---
 
+## 2026-10-25 — Studio World media project ownership (THE EXCHANGE independence)
+
+- **Sprint:** `P0.SITE00.STUDIOWORLD.MEDIA-PROJECT-OWNERSHIP-AND-EXCHANGE-INDEPENDENCE.V1` — forensic + registry repair so **THE EXCHANGE** is an independent media project (peer discovery to NDXBOOK), not a Studio World subproject. **No merge, no deploy, no media spend, no DB migration.**
+- **Root cause:** Fragmented registries — `the-exchange` in founder `projectRegistry` but missing from `managedProjectRegistry`, `projectIndexOrder`, and `orgRegistry` (index entry null); Production switcher used design-enabled list only.
+- **Fix:** `productionSpine` managed row, `listProductionManagedProjects()`, org UUID + `SERIALIZED_FICTION` class, index order, resolver surfaces → `/production?project=the-exchange`, Hub cover slot, `shared/site00-media-projects/independentMediaProjects.ts`, tests `tests/mediaProjectExchangeIndependence.test.ts`.
+- **Deliverables:** `docs/site00/studioworld/media-project-ownership-v1/01–16`.
+- **Security:** D-I ungated provider paths remain outstanding; fiction excluded from EVOLVE marketing client surfaces only.
+- **Branch:** `cursor/studioworld-media-project-exchange-independence-8aec` → PR to `main` (review only).
+
+---
+
 ## 2026-10-15 — Staging auth redirect and founder login
 
 - **Sprint:** P0.SITE00.IDNTY.STAGING-AUTH-REDIRECT-AND-FOUNDER-LOGIN-RECOVERY1. Staging only. No production writes. No merge.
