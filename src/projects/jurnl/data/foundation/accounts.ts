@@ -40,6 +40,8 @@ export type JurnlAccountRecord = {
    * CREDIT_CARD stays a liability). Each payout card is its own account; JURNL never merges two of them.
    */
   is_payout_card?: boolean;
+  /** Set once the user enters or corrects this account's balance (turns a seeded sample account into a real one). */
+  balance_entered_by_user?: boolean;
 };
 
 export function accountTypeFromSetupKind(kind: SetupDraft['accountKind']): AccountType {

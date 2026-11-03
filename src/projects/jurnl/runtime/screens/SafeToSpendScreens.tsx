@@ -202,7 +202,7 @@ function SafeToSpendAuthority() {
           <span className="jrn-f09a__spark" aria-hidden>
             <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 1.4 13.8 9.2 21.6 12 13.8 14.8 12 22.6 10.2 14.8 2.4 12 10.2 9.2Z" fill="none" stroke="#6a5c42" strokeWidth="1.35" strokeLinejoin="round" /></svg>
           </span>
-          <p><b>WANT TO SPEND ON SOMETHING?</b> CHECK HOW IT FITS YOUR PLAN BEFORE YOU BUY.</p>
+          <p><b>WANT TO SPEND ON SOMETHING?</b> CHECK THE PRICE AGAINST SAFE TO SPEND BEFORE YOU BUY.</p>
           <button type="button" data-jrn-trigger="safe-check-purchase" onClick={() => go('safe/check')}>
             CHECK A PURCHASE <span aria-hidden>→</span>
           </button>

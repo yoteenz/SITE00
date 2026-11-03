@@ -16682,3 +16682,13 @@ Summary of the whole conversation in this chat.
 - **Decisions / outcomes:** Strip `-webkit-autofill` yellow via inset box-shadow on `.jrn-e2__input` and `.jrn-field__input`; non-password typed values uppercased in `E2Field` and `JurnlInput` `onChange`; e2 CSS `text-transform: uppercase` with password exception; Supabase auth adapter still lowercases email on sign-in.
 - **Changes:** `jurnl-entry-v2.css`, `jurnl-runtime.css`, `EntryV2Parts.tsx`, `primitives.tsx`, `jurnlEntryV2FirstSeven1.test.tsx`.
 - **Conventions:** Keep Authority Serif on e2 autofill pseudo-states; do not revert e2 inputs to `text-transform: none`.
+
+---
+
+## 2026-11-03 — JURNL personal financial operating system (unified accounting)
+
+- **Context:** Sprint P0.JURNL.PERSONAL-FINANCIAL-OPERATING-SYSTEM.UNIFIED-ACCOUNTING-AND-UTILITY-CONVERGENCE1. Founder wants JURNL to organize where money is held, earned, spent, owed and set aside, with plain functional language. One draft PR, no merge, no deploy, no DB mutations, no new images. Branch `claude/jurnl-financial-os-unification-um0u93`.
+- **Topics covered:** Reconciled main `e413590e` and draft PR #1704 (audit imported verbatim, not its MEMORY change); canonical accounting engine; daily earnings; bills, subscriptions and per-bill set-asides; Safe to Spend invariant; credit guidance; TODAY drawer; copy matrix; invariant + Playwright suites; evidence package.
+- **Decisions / outcomes:** One ledger (`transactions`), balances derived per account (`data/ledger/accounting.ts`): assets = money held, cards/loans = amount owed; credit purchases never lower cash. Linked two-leg transfers and card payments. Atomic `JurnlRepository.commit`. Set-asides are part of a bill's still-due amount, never deducted twice; STS counts bill occurrences due in the next 30 days plus card minimums still due. No sample bills against real balances. No invented card terms. Schema stays v5 (additive `dailyEarnings`, `reservations`).
+- **Changes:** `src/projects/jurnl/data/{ledger,f03,f06,f07,f09,f12,foundation,repository}`, `runtime/finance/*`, Home/Money/Income/Upcoming/Credit/SafeToSpend/Plan/Goals/Ahead screens, `e2e/jurnl/jurnl-financial-os.e2e.ts`, `tests/jurnlFinancialInvariants.test.ts`, evidence `JURNL/MANIFEST/FINANCIAL_OS_UNIFICATION_V1/`.
+- **Conventions:** Write money through `data/ledger/ledgerOps.ts` builders (plain-language errors, one commit). Never overwrite an entered balance once entries exist — record a BALANCE CORRECTION. No literal `$<digit>` in `src/projects/jurnl` (monetization guard): use `formatMoney`. Live RLS proof still BLOCKED (no QA secrets).

@@ -37,10 +37,14 @@ export type HoldingClass = 'EXTERNAL_ACCOUNT' | 'MANUAL_CASH_LOCATION';
  * How sure a balance is. BANK_CONFIRMED is never produced in this build (no provider). ENTERED_BY_YOU: the user typed it.
  * NOT_VERIFIED: a registry or preview value nobody confirmed.
  */
-export type BalanceBasis = 'ENTERED_BY_YOU' | 'NOT_VERIFIED' | 'BANK_CONFIRMED';
+export type BalanceBasis = 'ENTERED_BY_YOU' | 'NOT_VERIFIED' | 'SAMPLE' | 'BANK_CONFIRMED';
+
+/** Accounts every new repository is seeded with (accountSeed.ts). Their balances are sample numbers until the user enters one. */
+export const SAMPLE_ACCOUNT_IDS: ReadonlySet<string> = new Set(['acct-checking', 'acct-card']);
 
 export const BALANCE_BASIS_LABEL: Record<BalanceBasis, string> = {
   ENTERED_BY_YOU: 'ENTERED BY YOU',
+  SAMPLE: 'SAMPLE BALANCE',
   NOT_VERIFIED: 'NOT CONFIRMED BY A BANK',
   BANK_CONFIRMED: 'CONFIRMED BY YOUR BANK',
 };
@@ -99,9 +103,10 @@ export function holdingClass(a: Pick<JurnlAccountRecord, 'account_type'>): Holdi
   return a.account_type === 'CASH' ? 'MANUAL_CASH_LOCATION' : 'EXTERNAL_ACCOUNT';
 }
 
-export function balanceBasis(a: Pick<JurnlAccountRecord, 'is_manual' | 'is_connected'>): BalanceBasis {
+export function balanceBasis(a: Pick<JurnlAccountRecord, 'is_manual' | 'is_connected'> & Partial<Pick<JurnlAccountRecord, 'account_id' | 'balance_entered_by_user'>>): BalanceBasis {
   // No bank aggregation provider exists (JURNL_BANK_CONNECTION_PROVIDER = PROVIDER_UNAVAILABLE). A "connected" preview
   // account is still not bank-confirmed.
+  if (a.account_id && SAMPLE_ACCOUNT_IDS.has(a.account_id) && !a.balance_entered_by_user) return 'SAMPLE';
   if (a.is_manual) return 'ENTERED_BY_YOU';
   return 'NOT_VERIFIED';
 }

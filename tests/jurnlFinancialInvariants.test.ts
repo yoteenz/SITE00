@@ -598,6 +598,9 @@ describe('JURNL financial invariants — integrity across time, users and roundi
     const pos = computeLedgerPositions(s2.accounts, s2.creditAttributes, s2.transactions, TODAY).positions;
     expect(pos.every((p) => p.basis !== 'BANK_CONFIRMED')).toBe(true);
     expect(balanceBasis({ is_manual: false, is_connected: true })).toBe('NOT_VERIFIED');
+    // Seeded sample accounts read SAMPLE until the user enters their own balance.
+    expect(balanceBasis({ account_id: 'acct-checking', is_manual: true, is_connected: false })).toBe('SAMPLE');
+    expect(balanceBasis({ account_id: 'acct-checking', is_manual: true, is_connected: false, balance_entered_by_user: true })).toBe('ENTERED_BY_YOU');
     expect(pos.find((p) => p.account_id === 'bank')).toMatchObject({ freshness: 'OLDER', daysSinceUpdate: 20 });
   });
 

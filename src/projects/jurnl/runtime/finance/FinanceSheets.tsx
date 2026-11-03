@@ -455,7 +455,8 @@ export function ObligationFormSheet({ existing, defaultKind = 'BILL', onClose, o
     if (value == null) return;
     const input = { name, amount: value, cadence, next_due_date: due.trim() as CalendarDate, kind, account_id: account, category, trial_end_date: trial.trim() ? (trial.trim() as CalendarDate) : null, notes };
     run(existing ? editBillOrSubscription(existing, input) : createBillOrSubscription(input), (o) => {
-      showToast({ tone: 'success', title: existing ? 'SAVED' : kind === 'SUBSCRIPTION' ? 'SUBSCRIPTION ADDED' : 'BILL ADDED', body: `${o.name} · ${money(o.amount)} · DUE ${formatCalendarDate(o.next_due_date)}` });
+      // The new row already shows the name; the toast states amount and date only (no duplicate label on screen).
+      showToast({ tone: 'success', title: existing ? 'SAVED' : kind === 'SUBSCRIPTION' ? 'SUBSCRIPTION ADDED' : 'BILL ADDED', body: `${money(o.amount)} · DUE ${formatCalendarDate(o.next_due_date)}` });
       onSaved?.(o);
       onClose();
     });

@@ -347,19 +347,23 @@ export function setAccountBalance(accountId: string, target: number, today: Cale
     const value = toCents(target);
     const now = new Date().toISOString();
     if (pos.nature === 'ASSET') {
-      getRepository().commit({ reason: 'BALANCE_ENTERED', accounts: { upsert: [{ ...account, balance: value, available_balance: value, as_of: today, updated_at: now }] } });
+      getRepository().commit({ reason: 'BALANCE_ENTERED', accounts: { upsert: [{ ...account, balance: value, available_balance: value, as_of: today, updated_at: now, balance_entered_by_user: true }] } });
     } else {
       const attrs = s.creditAttributes.find((c) => c.account_id === accountId);
       const base = attrs ?? { account_id: accountId, credit_limit: account.credit_limit, current_balance: null, minimum_payment: null, payment_due_day: null, statement_day: null, apr: null, updated_at: now };
       getRepository().commit({
         reason: 'BALANCE_ENTERED',
         creditAttributes: { upsert: [{ ...base, current_balance: value, terms_entered_at: now, updated_at: now }] },
-        accounts: { upsert: [{ ...account, balance: value, as_of: today, updated_at: now }] },
+        accounts: { upsert: [{ ...account, balance: value, as_of: today, updated_at: now, balance_entered_by_user: true }] },
       });
     }
     return { ok: true, commit: { reason: 'BALANCE_ENTERED' }, value: null };
   }
-  return correctAccountBalance(accountId, target, today);
+  const r = correctAccountBalance(accountId, target, today);
+  if (r.ok && !account.balance_entered_by_user) {
+    getRepository().commit({ reason: 'BALANCE_CONFIRMED', accounts: { upsert: [{ ...getRepository().getSnapshot().accounts.find((a) => a.account_id === accountId)!, balance_entered_by_user: true }] } });
+  }
+  return r;
 }
 
 /**

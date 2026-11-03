@@ -145,7 +145,9 @@ export function cashForSafeToSpend(entries: LedgerEntry[], today: CalendarDate =
   const totalAssets = sumCents(assets.map((p) => p.held));
   const owed = sumCents(positions.map((p) => p.owed));
   if (eligible.length) {
-    return { cash: toCents(sumCents(eligible.map((p) => p.held)) + unassigned.delta), source: 'ACCOUNTS', unassigned: unassigned.count, totalAssets, owed };
+    // Only seeded sample accounts → this is the preview, and the number says so (SAMPLE), with sample bills.
+    const source: SafeToSpendBreakdown['cashSource'] = eligible.some((p) => p.basis !== 'SAMPLE') ? 'ACCOUNTS' : 'MOCK';
+    return { cash: toCents(sumCents(eligible.map((p) => p.held)) + unassigned.delta), source, unassigned: unassigned.count, totalAssets, owed };
   }
   // Preview: no eligible account → the sample cash figure plus everything the user recorded on asset accounts.
   const recorded = sumCents(assets.map((p) => p.recordedDelta));
@@ -201,9 +203,14 @@ export function computeSafeToSpend(draft: SetupDraft = getSetupDraft(), entries:
       if (item.amount > 0) upcoming += item.amount;
       else unknownUpcoming = true;
     }
-  } else {
+  } else if (cashSource === 'MOCK') {
+    // Full preview (sample cash): the sample bills go with it.
     upcomingSource = 'MOCK';
     upcoming = MOCK_UPCOMING.reduce((sum, item) => sum + item.amount, 0);
+  } else {
+    // Real accounts and no bills entered: nothing is deducted for bills (no sample bills against real balances).
+    upcomingSource = 'DERIVED';
+    upcoming = 0;
   }
 
   const cardLines: CardPaymentLine[] = creditPaymentProjections(today)
