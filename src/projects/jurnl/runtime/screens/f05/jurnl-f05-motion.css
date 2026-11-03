@@ -188,7 +188,8 @@
   border-radius: 14px;
 }
 .jrn .jrn-f05m__metric-label {
-  font: 500 22px/1 'JURNL Authority Serif', 'JURNL Display', serif;
+  /* never below 9.5 screen px on the narrowest phone */
+  font: 500 max(22px, calc(9.5px / var(--f05m-u, 1))) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.12em;
   margin-top: 12px;
   opacity: 0.92;
@@ -261,7 +262,7 @@
   position: absolute;
   left: 40px;
   top: calc(50% + 62px);
-  font: italic 500 18px/1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: italic 500 max(18px, calc(7.5px / var(--f05m-u, 1))) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.24em;
   white-space: nowrap;
 }
@@ -295,7 +296,7 @@
   position: absolute;
   left: 40px;
   bottom: 30px;
-  font: 500 17px/1 'JURNL Sans', sans-serif;
+  font: 500 max(17px, calc(7.5px / var(--f05m-u, 1))) / 1 'JURNL Sans', sans-serif;
   letter-spacing: 0.18em;
   color: #6a5640;
 }
@@ -406,7 +407,22 @@
 .jrn .jrn-f05m__chip::before {
   content: '';
   position: absolute;
-  inset: -16px;
+  /* touch target ≥ 44 screen px whatever the board scale */
+  inset: min(-16px, calc((76px - 44px / var(--f05m-u, 1)) / 2));
+}
+.jrn .jrn-f05m__metric::before,
+.jrn .jrn-f05m__dots::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: max(100%, calc(44px / var(--f05m-u, 1)));
+  transform: translateY(-50%);
+}
+.jrn .jrn-f05m__metric,
+.jrn .jrn-f05m__dots {
+  isolation: isolate;
 }
 .jrn .jrn-f05m__chip svg {
   width: 40px;
@@ -415,7 +431,7 @@
 .jrn[data-jrn-f05-motion] .jrn-corner .jrn-f09a__menu {
   position: fixed;
   left: var(--f05m-menu-x);
-  top: var(--f05m-menu-y);
+  top: max(var(--f05m-menu-y), calc(env(safe-area-inset-top, 0px) + 8px));
   right: auto;
   width: var(--f05m-chip);
   height: var(--f05m-chip);
@@ -434,7 +450,8 @@
   right: auto;
   width: var(--f05m-nav-w);
   height: var(--f05m-nav-h);
-  bottom: var(--f05m-nav-b);
+  /* on the nav paper, but never inside the home-indicator zone */
+  bottom: max(var(--f05m-nav-b), env(safe-area-inset-bottom, 0px));
   transform: none;
   padding: 0;
   border-radius: 0;

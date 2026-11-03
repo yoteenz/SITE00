@@ -48,6 +48,8 @@ const CHIP = 76;
 const CHIP_GAP = 23;
 const CHIP_TOP = 32;
 const CHIP_RIGHT = 979;
+/** Approved top, but never under a notch or status bar (board px = screen px / u). */
+const CHIP_TOP_SAFE = `max(${CHIP_TOP}px, calc((env(safe-area-inset-top, 0px) + 8px) / var(--f05m-u, 1)))`;
 /** Approved metric column centres (source px). */
 const METRIC_X = [176, 405, 638, 875];
 const DIVIDERS = [297, 515, 757];
@@ -321,7 +323,7 @@ export function MoneyMotionParent() {
                   onClick={(e) => openPlace(a, e.currentTarget)}
                 >
                   <img className="jrn-f05m__paper-art" src={ART[a.art]} alt="" draggable={false} />
-                  <span className="jrn-f05m__paper-name" style={{ fontSize: 29 * k }}>
+                  <span className="jrn-f05m__paper-name" style={{ fontSize: `max(${29 * k}px, calc(${(11 * k).toFixed(2)}px / var(--f05m-u, 1)))` }}>
                     {lines.map((l) => (
                       <span key={l}>{l}</span>
                     ))}
@@ -344,10 +346,10 @@ export function MoneyMotionParent() {
           : null}
 
           {/* L4 — corner chips (approved squares; the global menu takes the far-right one) */}
-          <button type="button" className="jrn-f05m__chip" data-jrn-trigger="f05m-search" aria-label="SEARCH ACTIVITY" style={at({ x: searchX, y: CHIP_TOP, w: CHIP, h: CHIP })} onClick={() => go('activity')}>
+          <button type="button" className="jrn-f05m__chip" data-jrn-trigger="f05m-search" aria-label="SEARCH ACTIVITY" style={{ ...at({ x: searchX, y: CHIP_TOP, w: CHIP, h: CHIP }), top: CHIP_TOP_SAFE }} onClick={() => go('activity')}>
             <svg viewBox="0 0 24 24" aria-hidden><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" strokeWidth="1.8" /><path d="M15.5 15.5L21 21" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
           </button>
-          <button type="button" className="jrn-f05m__chip" data-jrn-trigger="f05m-actions" aria-label="ADD A PLACE OR MOVE MONEY" style={at({ x: plusX, y: CHIP_TOP, w: CHIP, h: CHIP })} onClick={() => setSheet('actions')}>
+          <button type="button" className="jrn-f05m__chip" data-jrn-trigger="f05m-actions" aria-label="ADD A PLACE OR MOVE MONEY" style={{ ...at({ x: plusX, y: CHIP_TOP, w: CHIP, h: CHIP }), top: CHIP_TOP_SAFE }} onClick={() => setSheet('actions')}>
             <svg viewBox="0 0 24 24" aria-hidden><path d="M12 4v16M4 12h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
           </button>
         </div>

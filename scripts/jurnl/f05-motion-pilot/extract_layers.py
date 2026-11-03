@@ -489,7 +489,8 @@ def main():
 
     # texture tile for CSS papers (empty slots, action papers): clean parchment of the bank card
     bx0, by0, bx1, by1 = (int(round(v)) for v in card_geo['bank'])
-    paper_tile = card_clean[by0 + 26:by0 + 26 + 128, bx0 + 26:bx0 + 26 + 208]
+    # clean parchment only: left of the village painting's torn edge (x ≈ 270 at the card's foot)
+    paper_tile = card_clean[by0 + 20:by0 + 140, bx0 + 20:bx0 + 176]
     # elastic panel tile (repeat-y), from the reconstructed panel interior
     panel_tile = seamless_tile(env_covered, SEAM_A, SEAM_C)
     edge_strip = torn_edge_strip(env_covered)
