@@ -21,6 +21,7 @@ import type { LedgerEntry } from '../home/moneyTypes';
 import { ceilCents, sumCents, toCents, type AccountPosition } from '../ledger/accounting';
 import { money } from '../ledger/ledgerOps';
 import { suggestAccountForPurpose } from '../ledger/purposes';
+import { legSettlement, transferViews, CARD_PAYMENT_STATE_LABEL, type TransferView } from '../ledger/transferSettlement';
 import { reservedFor, reservedInAccount } from '../f07/reservations';
 import { scheduledOccurrences } from '../f07/obligationLifecycle';
 
@@ -58,9 +59,20 @@ export type CardFacts = {
   statementClosingDate: CalendarDate | null;
   dueDate: CalendarDate | null;
   minimum: number | null;
-  /** Card payments recorded since the statement closed (or in the 30 days before the due date when no statement date). */
+  /**
+   * Payments the card has CONFIRMED (both legs settled) dated after the statement closed. Only these satisfy the
+   * minimum. Without a statement closing date no payment can be matched to the cycle, so this is 0.
+   */
   paidSinceStatement: number;
+  /** Card payments in this cycle that are planned, submitted, or left the account but not yet confirmed by the card. */
+  pendingPayments: number;
+  pendingPaymentViews: TransferView[];
+  /** Confirmed payments that could not be matched to a billing cycle (no statement closing date entered). */
+  unmatchedPayments: number;
+  /** Minimum still officially due: minimum − confirmed payments. */
   remainingMinimum: number | null;
+  /** For planning (Safe to Spend, upcoming): minimum − confirmed − payments already on their way. Counted once. */
+  remainingMinimumAfterPending: number | null;
   remainingStatement: number | null;
   daysUntilDue: number | null;
   apr: number | null;
@@ -94,21 +106,28 @@ export function cardFacts(
   if (attrs?.payment_due_date && isCalendarDate(attrs.payment_due_date)) dueDate = attrs.payment_due_date;
   else if (dueDay && statementClosingDate) dueDate = firstDayAfter(dueDay, statementClosingDate);
   else if (dueDay) dueDate = nextDayOnOrAfter(dueDay, today);
-  const cycleStart = statementClosingDate ?? (dueDate ? addMonthsClamped(dueDate, -1) : null);
-  const paidSinceStatement = sumCents(
-    entries
-      .filter(
-        (e) =>
-          e.source === 'ADDED'
-          && e.account_id === account.account_id
-          && (e.txn_class === 'CREDIT_PAYMENT' || e.txn_class === 'DEBT_PAYMENT')
-          && e.direction === 'INCOME'
-          && e.occurred_on != null
-          && compareCalendarDates(e.occurred_on, today) <= 0
-          && (cycleStart == null ? daysUntil(e.occurred_on, today) <= 30 : compareCalendarDates(e.occurred_on, cycleStart) > 0),
-      )
-      .map((e) => e.amount),
+  // Card payments into this card, by settlement. A payment counts toward this statement only when the statement
+  // closing date is known and the payment is dated after it.
+  const views = transferViews(entries, today).filter((v) => v.kind === 'CARD_PAYMENT' && v.toId === account.account_id);
+  const inCycle = (d: CalendarDate | null) => d != null && statementClosingDate != null && compareCalendarDates(d, statementClosingDate) > 0;
+  const confirmedIns = entries.filter(
+    (e) =>
+      e.source === 'ADDED'
+      && e.account_id === account.account_id
+      && (e.txn_class === 'CREDIT_PAYMENT' || e.txn_class === 'DEBT_PAYMENT')
+      && e.direction === 'INCOME'
+      && e.occurred_on != null
+      && compareCalendarDates(e.occurred_on, today) <= 0
+      && legSettlement(e, today) === 'SETTLED',
   );
+  const paidSinceStatement = sumCents(confirmedIns.filter((e) => inCycle(e.occurred_on ?? null)).map((e) => e.amount));
+  const unmatchedPayments = statementClosingDate ? 0 : sumCents(confirmedIns.filter((e) => daysUntil(e.occurred_on!, today) <= 31).map((e) => e.amount));
+  const pendingPaymentViews = views.filter(
+    (v) =>
+      (v.state === 'PENDING' || v.state === 'IN_TRANSIT' || v.state === 'NEEDS_RECONCILIATION' || (v.state === 'SCHEDULED' && (!dueDate || (v.date != null && compareCalendarDates(v.date, dueDate) <= 0))))
+      && (statementClosingDate == null || v.date == null || compareCalendarDates(v.date, statementClosingDate) > 0),
+  );
+  const pendingPayments = sumCents(pendingPaymentViews.map((v) => v.amount));
   const minimum = attrs?.minimum_payment != null && attrs.minimum_payment >= 0 ? toCents(attrs.minimum_payment) : null;
   const statementBalance = attrs?.statement_balance != null && attrs.statement_balance >= 0 ? toCents(attrs.statement_balance) : null;
   const suggestion = suggestAccountForPurpose('CARD_PAYMENTS', accounts, purposeAccounts);
@@ -130,7 +149,11 @@ export function cardFacts(
     dueDate,
     minimum,
     paidSinceStatement,
+    pendingPayments,
+    pendingPaymentViews,
+    unmatchedPayments,
     remainingMinimum: minimum == null ? null : toCents(Math.max(0, minimum - paidSinceStatement)),
+    remainingMinimumAfterPending: minimum == null ? null : toCents(Math.max(0, minimum - paidSinceStatement - pendingPayments)),
     remainingStatement: statementBalance == null ? null : toCents(Math.max(0, statementBalance - paidSinceStatement)),
     daysUntilDue: dueDate ? daysUntil(today, dueDate) : null,
     apr: attrs?.apr ?? null,
@@ -147,7 +170,7 @@ export function cardFacts(
 
 // ─── A. Payment safety ───────────────────────────────────────────────────────
 
-export type SafetyState = 'PAST_DUE' | 'DUE_SOON' | 'SCHEDULED' | 'MINIMUM_PAID' | 'MISSING_DATA';
+export type SafetyState = 'PAST_DUE' | 'DUE_SOON' | 'SCHEDULED' | 'PAYMENT_PENDING' | 'MINIMUM_PAID' | 'MISSING_DATA';
 
 export type SafetyGuidance = { state: SafetyState; line: string; detail: string[] };
 
@@ -159,12 +182,24 @@ export function paymentSafety(f: CardFacts, today: CalendarDate): SafetyGuidance
   const detail = [
     `MINIMUM DUE ${money(f.minimum)}`,
     `DUE ${when}${f.daysUntilDue != null && f.daysUntilDue > 1 ? ` (${f.daysUntilDue} DAYS)` : ''}`,
-    f.paidSinceStatement > 0 ? `${money(f.paidSinceStatement)} PAID SINCE THE STATEMENT` : 'NO PAYMENT RECORDED SINCE THE STATEMENT',
+    f.paidSinceStatement > 0 ? `${money(f.paidSinceStatement)} CONFIRMED BY THE CARD SINCE THE STATEMENT` : 'NO CONFIRMED PAYMENT SINCE THE STATEMENT',
   ];
-  if ((f.remainingMinimum ?? 0) <= 0) return { state: 'MINIMUM_PAID', line: `THE MINIMUM FOR ${when} IS PAID.`, detail };
+  if (f.pendingPayments > 0) {
+    detail.push(`${money(f.pendingPayments)} ON ITS WAY: ${f.pendingPaymentViews.map((v) => CARD_PAYMENT_STATE_LABEL[v.state]).join(', ')}`);
+  }
+  if (f.unmatchedPayments > 0) detail.push(`${money(f.unmatchedPayments)} PAID RECENTLY, NOT MATCHED TO A STATEMENT (ADD THE STATEMENT CLOSING DATE)`);
+  if ((f.remainingMinimum ?? 0) <= 0) return { state: 'MINIMUM_PAID', line: `THE MINIMUM FOR ${when} IS PAID AND CONFIRMED.`, detail };
+  if ((f.remainingMinimumAfterPending ?? 0) <= 0) {
+    return {
+      state: 'PAYMENT_PENDING',
+      line: `A ${money(f.pendingPayments)} PAYMENT IS ON ITS WAY. ${f.account.display_name} HAS NOT CONFIRMED IT YET. THE MINIMUM OF ${money(f.minimum)} IS DUE ${when}.`,
+      detail,
+    };
+  }
   if (compareCalendarDates(f.dueDate, today) < 0) return { state: 'PAST_DUE', line: `${money(f.remainingMinimum!)} OF THE MINIMUM WAS DUE ${when} AND IS NOT RECORDED AS PAID.`, detail };
-  if ((f.daysUntilDue ?? 99) <= 7) return { state: 'DUE_SOON', line: `YOUR CARD PAYMENT IS DUE ${when}. THE MINIMUM REMAINING IS ${money(f.remainingMinimum!)}.`, detail };
-  return { state: 'SCHEDULED', line: `${money(f.remainingMinimum!)} MINIMUM REMAINING, DUE ${when}.`, detail };
+  const extra = f.pendingPayments > 0 ? ` ${money(f.remainingMinimumAfterPending!)} IS STILL NEEDED BEYOND PAYMENTS ON THEIR WAY.` : '';
+  if ((f.daysUntilDue ?? 99) <= 7) return { state: 'DUE_SOON', line: `YOUR CARD PAYMENT IS DUE ${when}. THE MINIMUM REMAINING IS ${money(f.remainingMinimum!)}.${extra}`, detail };
+  return { state: 'SCHEDULED', line: `${money(f.remainingMinimum!)} MINIMUM REMAINING, DUE ${when}.${extra}`, detail };
 }
 
 // ─── B. Interest management ──────────────────────────────────────────────────

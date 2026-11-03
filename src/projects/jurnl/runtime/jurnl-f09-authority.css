@@ -1011,3 +1011,23 @@ body:has([data-jrn-screen='F09.00']),
     width: 18px;
   }
 }
+
+/* Stabilization: the period line is a live control (was printed reference text). Same type and place; a larger
+   tap area without moving anything below it. */
+.jrn button.jrn-f09a__horizon {
+  display: block;
+  background: none;
+  border: 0;
+  padding: 8px 0 8px;
+  margin-top: 0;
+  margin-bottom: -8px;
+  cursor: pointer;
+  text-align: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+/* The art layer passes pointer events through except for its own controls; the period line is one of them. */
+.jrn .jrn-f09a__art .jrn-f09a__horizon {
+  pointer-events: auto;
+}

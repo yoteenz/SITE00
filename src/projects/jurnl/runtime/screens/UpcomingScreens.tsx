@@ -5,7 +5,9 @@ import { useParams } from 'react-router-dom';
 import { formatCalendarDate, formatRelativeDate, getTodayKey } from '../../data/foundation/dates';
 import { groupUpcoming, projectUpcoming } from '../../data/foundation/upcomingProjection';
 import { obligationById, useObligations } from '../../data/f07/obligationsStore';
-import { CADENCE_LABEL, obligationFunding } from '../../data/f07/obligationLifecycle';
+import { CADENCE_LABEL, linkObligationToCard, obligationFunding } from '../../data/f07/obligationLifecycle';
+import { computeSafeToSpend } from '../../data/f09/safeToSpend';
+import { CardPaymentSheet } from '../finance/CreditSheets';
 import { SUBSCRIPTION_VIEW_LABEL, annualEquivalent, monthlyEquivalent, subscriptionTotals, subscriptionsIn, type SubscriptionView } from '../../data/f07/subscriptions';
 import { useRepoTick } from '../../data/home/money';
 import { Chips, ObligationFormSheet, ObligationMoreSheet, PayObligationSheet, SetAsideSheet, obligationTarget } from '../finance/FinanceSheets';
@@ -184,6 +186,9 @@ function ObligationDetail({ ob, sheet, setSheet }: { ob: JurnlObligation; sheet:
   const today = getTodayKey();
   const account = snap.accounts.find((a) => a.account_id === ob.account_id);
   const active = ob.status === 'ACTIVE';
+  const [cardPay, setCardPay] = useState(false);
+  const linkedCard = ob.linked_card_account_id ? snap.accounts.find((a) => a.account_id === ob.linked_card_account_id && a.status === 'ACTIVE') ?? null : null;
+  const duplicateOf = active && !linkedCard ? computeSafeToSpend().possibleDuplicates.find((d) => d.obligation_id === ob.obligation_id) ?? null : null;
   const statusWord = ob.status === 'ACTIVE' ? (ob.next_due_date < today ? 'OVERDUE' : ob.next_due_date === today ? 'DUE TODAY' : 'UPCOMING') : ob.status === 'PAUSED' ? 'PAUSED' : ob.status === 'COMPLETED' ? 'PAID' : 'NOT TRACKED';
   return (
     <UpcomingShell screenId="F07.ITEM">
@@ -207,13 +212,28 @@ function ObligationDetail({ ob, sheet, setSheet }: { ob: JurnlObligation; sheet:
           {ob.trial_end_date ? (<><b>FREE TRIAL ENDS</b><p>{formatCalendarDate(ob.trial_end_date)}</p></>) : null}
           {ob.status === 'CANCELLED' ? <p>TRACKING STOPPED IN JURNL. THIS DOES NOT CANCEL IT WITH THE COMPANY.</p> : null}
         </JurnlPanel>
-        {active && f.remaining > 0 ? <JurnlButton trigger="upcoming-set-aside" onClick={() => setSheet('aside')}>SET MONEY ASIDE</JurnlButton> : null}
-        {active ? <JurnlButton variant="secondary" trigger="upcoming-mark-paid" onClick={() => setSheet('pay')}>MARK PAID</JurnlButton> : null}
+        {linkedCard ? (
+          <JurnlPanel role="detail" className="jrn-home__panel" data-testid="obligation-linked-card">
+            <b>COUNTED THROUGH {linkedCard.display_name}</b>
+            <p>{`THIS IS THE ${linkedCard.display_name} PAYMENT. IT IS COUNTED ONCE, AS THE CARD'S MINIMUM STILL DUE.`}</p>
+          </JurnlPanel>
+        ) : null}
+        {duplicateOf ? (
+          <JurnlPanel role="detail" className="jrn-home__panel" data-testid="obligation-possible-duplicate">
+            <b>{`IS THIS THE ${duplicateOf.card_name} PAYMENT?`}</b>
+            <p>{`${duplicateOf.card_name}'S MINIMUM IS ALREADY COUNTED. LINK THIS BILL SO THE PAYMENT IS COUNTED ONCE.`}</p>
+            <JurnlButton variant="secondary" trigger="upcoming-link-card" onClick={() => linkObligationToCard(ob, duplicateOf.card_account_id)}>{`LINK TO ${duplicateOf.card_name}`}</JurnlButton>
+          </JurnlPanel>
+        ) : null}
+        {active && f.remaining > 0 && !linkedCard ? <JurnlButton trigger="upcoming-set-aside" onClick={() => setSheet('aside')}>SET MONEY ASIDE</JurnlButton> : null}
+        {active ? <JurnlButton variant="secondary" trigger="upcoming-mark-paid" onClick={() => (linkedCard ? setCardPay(true) : setSheet('pay'))}>MARK PAID</JurnlButton> : null}
+        <JurnlButton variant="secondary" trigger="upcoming-edit" onClick={() => setSheet('edit')}>EDIT</JurnlButton>
         <JurnlButton variant="secondary" trigger="upcoming-more" onClick={() => setSheet('more')}>MORE</JurnlButton>
       </div>
       {sheet === 'edit' ? <ObligationFormSheet existing={ob} onClose={() => setSheet(null)} /> : null}
       {sheet === 'pay' ? <PayObligationSheet obligation={ob} onClose={() => setSheet(null)} /> : null}
       {sheet === 'aside' ? <SetAsideSheet target={obligationTarget(ob)} defaultAccountId={ob.account_id} onClose={() => setSheet(null)} /> : null}
+      {cardPay && linkedCard ? <CardPaymentSheet card={linkedCard} onClose={() => setCardPay(false)} /> : null}
       {sheet === 'more' ? <ObligationMoreSheet obligation={ob} onClose={() => setSheet(null)} onEdit={() => setSheet('edit')} onEnded={() => { setSheet(null); go('upcoming'); }} /> : null}
     </UpcomingShell>
   );

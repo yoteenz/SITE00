@@ -12,6 +12,8 @@ import { getRepository } from '../repository/deviceRepository';
 import { newEntityId } from '../repository/ids';
 import type { FinancialCommit } from '../repository/types';
 import { accountNature, computeLedgerPositions, resolveEntryAccount, toCents } from './accounting';
+import type { LegSettlement } from '../home/moneyTypes';
+import { buildTransferAction, canRemoveTransfer, transferViews, TRANSFER_STATE_LABEL, type TransferAction, type TransferStart } from './transferSettlement';
 
 export type OpResult<T = undefined> = { ok: true; commit: FinancialCommit; value: T } | { ok: false; error: string };
 
@@ -47,6 +49,7 @@ type EntryInput = {
   occurrence_date?: CalendarDate | null;
   counterparty_account_id?: string | null;
   pending?: boolean;
+  settlement?: LegSettlement;
   id?: string;
   recorded_at?: string;
 };
@@ -61,7 +64,7 @@ export function buildEntry(input: EntryInput): LedgerEntry {
     account: input.account.display_name,
     account_id: input.account.account_id,
     category: input.category,
-    status: input.pending ? 'PENDING' : 'CLEARED',
+    status: input.pending || (input.settlement != null && input.settlement !== 'SETTLED') ? 'PENDING' : 'CLEARED',
     recurring: false,
     memo: (input.memo ?? '').trim().toUpperCase(),
     source: 'ADDED',
@@ -75,6 +78,7 @@ export function buildEntry(input: EntryInput): LedgerEntry {
     obligation_id: input.obligation_id ?? null,
     occurrence_date: input.occurrence_date ?? null,
     counterparty_account_id: input.counterparty_account_id ?? null,
+    ...(input.settlement ? { settlement: input.settlement, settlement_history: [{ at: input.recorded_at ?? new Date().toISOString(), state: input.settlement, action: 'RECORDED' }] } : {}),
   };
 }
 
@@ -119,7 +123,16 @@ export type TransferInput = {
   amount: number;
   occurred_on: CalendarDate;
   memo?: string;
-  /** User says the money has not arrived yet. Both legs still apply; the status reads PENDING. */
+  /**
+   * Where the money is when this is recorded (stabilization sprint):
+   *   COMPLETED  — left the source and arrived (both legs apply);
+   *   IN_TRANSIT — left the source, not arrived (source reduced; destination unchanged; amount in transit);
+   *   PENDING    — started, has not left the source (no balance changes);
+   *   SCHEDULED  — planned for the date (no balance changes).
+   * Defaults to COMPLETED, or SCHEDULED for a future date.
+   */
+  start?: TransferStart;
+  /** @deprecated pre-stabilization flag ("STILL ON ITS WAY"): treated as PENDING — it never proved the money left. */
   pending?: boolean;
   origin_family?: string;
   /** Re-uses an existing transfer id (edit). */
@@ -166,7 +179,15 @@ export function buildTransfer(accounts: JurnlAccountRecord[], entries: LedgerEnt
   const toLiability = accountNature(to.account_type) === 'LIABILITY';
   const kind: TransferValue['kind'] = toLiability ? 'CARD_PAYMENT' : 'TRANSFER';
   const cls: TxnClass = !toLiability ? 'TRANSFER' : to.account_type === 'LOAN' ? 'DEBT_PAYMENT' : 'CREDIT_PAYMENT';
-  const duplicate = findDuplicateTransfer(entries, from.account_id, to.account_id, input.amount, input.occurred_on, input.link_id);
+  const today = getTodayKey();
+  const start: TransferStart = input.start ?? (input.pending ? 'PENDING' : compareCalendarDates(input.occurred_on, today) > 0 ? 'SCHEDULED' : 'COMPLETED');
+  if (start !== 'SCHEDULED' && compareCalendarDates(input.occurred_on, today) > 0) {
+    return { ok: false, error: 'A FUTURE DATE CAN ONLY BE PLANNED. CHOOSE PLANNED, OR USE TODAY OR AN EARLIER DATE.' };
+  }
+  const outSettlement: LegSettlement = start === 'COMPLETED' || start === 'IN_TRANSIT' ? 'SETTLED' : start;
+  const inSettlement: LegSettlement = start === 'COMPLETED' ? 'SETTLED' : start === 'IN_TRANSIT' ? 'PENDING' : start;
+  const live = new Set(transferViews(entries, today).filter((v) => v.state !== 'CANCELLED' && v.state !== 'FAILED' && v.state !== 'REVERSED').map((v) => v.linkId));
+  const duplicate = findDuplicateTransfer(entries.filter((e) => !e.link || live.has(e.link.id)), from.account_id, to.account_id, input.amount, input.occurred_on, input.link_id);
   if (duplicate && !input.allowDuplicate) {
     return {
       ok: false,
@@ -192,7 +213,7 @@ export function buildTransfer(accounts: JurnlAccountRecord[], entries: LedgerEnt
     origin_family: origin,
     link: { kind, id: linkId, leg: 'OUT' },
     counterparty_account_id: to.account_id,
-    pending: input.pending,
+    settlement: outSettlement,
   });
   const inn = buildEntry({
     id: inId,
@@ -207,7 +228,7 @@ export function buildTransfer(accounts: JurnlAccountRecord[], entries: LedgerEnt
     origin_family: origin,
     link: { kind, id: linkId, leg: 'IN' },
     counterparty_account_id: from.account_id,
-    pending: input.pending,
+    settlement: inSettlement,
   });
   const stale = existing.map((e) => e.id).filter((id) => id !== out.id && id !== inn.id);
   return {
@@ -217,22 +238,24 @@ export function buildTransfer(accounts: JurnlAccountRecord[], entries: LedgerEnt
   };
 }
 
-/** Removes every leg of a linked event (transfer, card payment, balance correction) together. */
-export function buildRemoveLinkedEvent(entries: LedgerEntry[], linkId: string): OpResult<string[]> {
+/**
+ * Removes every leg of a linked event (transfer, card payment, balance correction) together. A transfer whose money
+ * is between accounts (in transit, or failed and coming back) cannot be removed: that would recreate or erase money.
+ */
+export function buildRemoveLinkedEvent(entries: LedgerEntry[], linkId: string, today: CalendarDate = getTodayKey()): OpResult<string[]> {
   const ids = entries.filter((e) => e.link?.id === linkId).map((e) => e.id);
   if (!ids.length) return { ok: false, error: 'THIS ENTRY WAS ALREADY REMOVED.' };
+  const view = transferViews(entries, today).find((v) => v.linkId === linkId);
+  if (view && !canRemoveTransfer(view.state)) {
+    return { ok: false, error: `THIS MONEY IS ${TRANSFER_STATE_LABEL[view.state]}. RECORD WHETHER IT ARRIVED OR CAME BACK FIRST.` };
+  }
   return { ok: true, commit: { reason: 'LINKED_EVENT_REMOVED', transactions: { remove: ids } }, value: ids };
 }
 
-/** Marks a pending transfer as arrived (status only; balances already include both legs). */
-export function buildConfirmTransferArrived(entries: LedgerEntry[], linkId: string): OpResult {
-  const legs = entries.filter((e) => e.link?.id === linkId);
-  if (!legs.length) return { ok: false, error: 'TRANSFER NOT FOUND.' };
-  return {
-    ok: true,
-    commit: { reason: 'TRANSFER_ARRIVED', transactions: { upsert: legs.map((e) => ({ ...e, status: 'CLEARED' as const, confirmation: 'RECORDED_BY_YOU' as const })) } },
-    value: undefined,
-  };
+/** Marks a transfer as arrived: both legs settle once (repeating it changes nothing). */
+export function buildConfirmTransferArrived(entries: LedgerEntry[], linkId: string, today: CalendarDate = getTodayKey()): OpResult {
+  const r = buildTransferAction(entries, linkId, 'RECEIVED', today);
+  return r.ok ? { ok: true, commit: r.commit, value: undefined } : r;
 }
 
 // ─── Balance correction ──────────────────────────────────────────────────────
@@ -326,6 +349,13 @@ export function removeLinkedEvent(linkId: string): OpResult<string[]> {
 
 export function confirmTransferArrived(linkId: string): OpResult {
   return applyOp(buildConfirmTransferArrived(snap().transactions, linkId));
+}
+
+/** Records one settlement step (money left, arrived, cancelled, failed, came back, reversed). Idempotent. */
+export function recordTransferStep(linkId: string, action: TransferAction, opts: { returned?: boolean } = {}, today: CalendarDate = getTodayKey()) {
+  const r = buildTransferAction(snap().transactions, linkId, action, today, opts);
+  if (r.ok && r.changed) getRepository().commit(r.commit);
+  return r;
 }
 
 export function correctAccountBalance(accountId: string, target: number, today: CalendarDate = getTodayKey()): OpResult<LedgerEntry | null> {

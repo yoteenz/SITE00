@@ -43,7 +43,9 @@ import { useJurnl } from '../state/store';
 import { accountDisplayOptions } from '../../data/foundation/accounts';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
 import { TodayMoneySheet } from '../finance/TodayMoneySheet';
-import { SpendingSheet } from '../finance/FinanceSheets';
+import { SpendingSheet, TransferDetailSheet } from '../finance/FinanceSheets';
+import { legSettlement, transferViews, CARD_PAYMENT_STATE_LABEL, TRANSFER_STATE_LABEL } from '../../data/ledger/transferSettlement';
+import { getTodayKey } from '../../data/foundation/dates';
 import { computeTodayOperating } from '../../data/f03/todayOperating';
 import { TXN_CLASS_LABEL, entryClass, resolveEntryAccount } from '../../data/ledger/accounting';
 import { linkedEntries, removeLinkedEvent } from '../../data/ledger/ledgerOps';
@@ -108,6 +110,7 @@ export function TodayScreen() {
           {overlay === 'see-why' ? <TodayMoneySheet onClose={closeOverlay} /> : null}
           {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F03" onClose={closeOverlay} /> : null}
           {overlay === 'ask' ? <AskJurnlSheet familyId="F03" nodeId="F03.00" onClose={closeOverlay} /> : null}
+          {overlay === 'today-more' ? <TodayMoreSheet onClose={closeOverlay} onAsk={() => openOverlay('ask')} /> : null}
         </>
       }
     >
@@ -126,7 +129,7 @@ export function TodayScreen() {
             aria-label="TODAY"
           >
             <RefText t={W.kicker} as="h1">TODAY</RefText>
-            <RefText t={W.head} as="p">WHAT IS TRUE.</RefText>
+            <RefText t={W.head} as="p">YOUR MONEY.</RefText>
             {showSignal ?
               <div data-jrn-panel="signal">
                 <RefText t={W.label} as="p">SAFE TO SPEND</RefText>
@@ -199,6 +202,12 @@ export function TodayScreen() {
                   ))}
                 {!openUpcoming && upcoming.length > 1 ? <RaRule from={[S.box.rule1[0], sheetY(S.box.rule1[1]) + 3]} to={[S.box.rule1[2], sheetY(S.box.rule1[1]) + 3]} soft /> : null}
                 {!upcoming.length && mode === 'PARTIAL' ? <RefText t={onSheet(rows.w1)} as="p" className="jrn-ra__soft">NO OBLIGATIONS YET</RefText> : null}
+                {!upcoming.length && showSignal ?
+                  <div data-testid="today-coming-empty">
+                    <RefText t={onSheet(rows.n1)} as="span">NO BILLS ADDED</RefText>
+                    <RefText t={onSheet(rows.w1)} as="span" className="jrn-ra__soft">ADD ONE IN UPCOMING</RefText>
+                  </div>
+                : null}
                 <button type="button" className="jrn-ra__hit" data-jrn-role="panel_header_action" data-jrn-trigger="today-upcoming" data-expanded={openUpcoming ? 'true' : undefined} onClick={() => setOpenUpcoming((v) => !v)} style={at([rows.more.ink[0] - 14, sheetY(rows.more.ink[1]) - 16, S.box.moreArrow[2] + 14, sheetY(rows.more.ink[1]) + 32])}>
                   <RefText t={{ ...rows.more, top: 16 - (rows.more.ink[1] - rows.more.top), left: 14 }} as="span">{openUpcoming ? 'LESS' : 'MORE'}</RefText>
                   <RefIcon name="arrow" box={[S.box.moreArrow[0] - rows.more.ink[0] + 14, 18, S.box.moreArrow[2] - rows.more.ink[0] + 14, 32]} stroke={2} />
@@ -239,7 +248,10 @@ export function TodayScreen() {
                       </button>
                     );
                   })}
-                  <RefText t={onSheet(rows.f3)} as="span">MORE</RefText>
+                  {/* MORE was printed text with nothing behind it; it now opens the rest of TODAY (incl. ASK JURNL). */}
+                  <button type="button" className="jrn-ra__hit" data-jrn-role="panel_header_action" data-jrn-trigger="today-more" onClick={() => openOverlay('today-more')} style={at([rows.f3.ink[0] - 16, sheetY(rows.f3.ink[1]) - 16, rows.f3.ink[2] + 16, sheetY(rows.f3.ink[1]) + 30])}>
+                    <RefText t={{ ...rows.f3, left: 16, top: 16 - (rows.f3.ink[1] - rows.f3.top) }} as="span">MORE</RefText>
+                  </button>
                   <RaRule from={[S.box.fdiv1[0] + 1, sheetY(S.box.fdiv1[1])]} to={[S.box.fdiv1[0] + 1, sheetY(S.box.fdiv1[3])]} soft />
                   <RaRule from={[S.box.fdiv2[0] + 1, sheetY(S.box.fdiv2[1])]} to={[S.box.fdiv2[0] + 1, sheetY(S.box.fdiv2[3])]} soft />
                 </nav>
@@ -249,6 +261,26 @@ export function TodayScreen() {
         </>
       )}
     </RootAuthorityStage>
+  );
+}
+
+/** TODAY → MORE: the actions that do not fit on the clipboard sheet. */
+function TodayMoreSheet({ onClose, onAsk }: { onClose: () => void; onAsk: () => void }) {
+  const { go } = useJurnl();
+  const links: [string, string, string, Record<string, string>?][] = [
+    ['today-more-earnings', 'ADD DAILY EARNINGS', 'income', { add: 'earnings' }],
+    ['today-more-spending', 'RECORD SPENDING', 'activity', { record: 'spending' }],
+    ['today-more-move', 'MOVE MONEY', 'money/places', { move: '' }],
+    ['today-more-subscriptions', 'SUBSCRIPTIONS', 'upcoming/subscriptions'],
+    ['today-more-credit', 'CREDIT CARDS', 'credit'],
+  ];
+  return (
+    <JurnlDrawer expression="detail" size="long" testId="today-more" title="MORE" onClose={onClose}>
+      <JurnlButton variant="secondary" trigger="today-ask" onClick={onAsk}>ASK JURNL</JurnlButton>
+      {links.map(([trigger, label, route, query]) => (
+        <JurnlButton key={trigger} variant="secondary" trigger={trigger} onClick={() => { onClose(); go(route, query); }}>{label}</JurnlButton>
+      ))}
+    </JurnlDrawer>
   );
 }
 
@@ -485,7 +517,8 @@ function DetailSheet({
   const owner = linkKind ? OWNER_OF[linkKind] : null;
   const editable = entry.source === 'ADDED' && !linkKind;
   const removableTogether = entry.source === 'ADDED' && (linkKind === 'TRANSFER' || linkKind === 'CARD_PAYMENT' || linkKind === 'BALANCE_CORRECTION');
-  const [mode, setMode] = useState<'view' | 'edit' | 'delete'>('view');
+  const [mode, setMode] = useState<'view' | 'edit' | 'delete' | 'transfer'>('view');
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   const [merchant, setMerchant] = useState(entry.merchant);
   const [amount, setAmount] = useState(String(entry.amount));
   const [account2, setAccount] = useState(entry.account);
@@ -498,14 +531,24 @@ function DetailSheet({
     ['WHEN', entryWhenLabel(entry)],
     ['ACCOUNT', account?.display_name ?? `${entry.account || 'NONE'} (NOT FOUND)`],
     ['CATEGORY', entry.category],
-    ['STATUS', entry.status === 'PENDING' ? 'PENDING' : 'CLEARED'],
-    ['SOURCE', CONFIRMATION_LABEL[entry.confirmation ?? (entry.source === 'MOCK' ? 'SAMPLE' : 'RECORDED_BY_YOU')] ?? 'RECORDED BY YOU'],
+    ['STATUS', (() => {
+      if (entry.link && (linkKind === 'TRANSFER' || linkKind === 'CARD_PAYMENT')) {
+        const v = transferViews(getRepository().listTransactions(), getTodayKey()).find((x) => x.linkId === entry.link!.id);
+        if (v) return (linkKind === 'CARD_PAYMENT' ? CARD_PAYMENT_STATE_LABEL : TRANSFER_STATE_LABEL)[v.state];
+      }
+      return legSettlement(entry, getTodayKey()) === 'SCHEDULED' ? 'SCHEDULED' : entry.status === 'PENDING' ? 'PENDING' : 'CLEARED';
+    })()],
+    ['SOURCE', entry.source === 'MOCK' ? CONFIRMATION_LABEL.SAMPLE : 'RECORDED BY YOU · NOT CONFIRMED BY A BANK'],
   ];
   if (entry.memo) rows.push(['NOTE', entry.memo]);
   if (entry.recurring) rows.push(['REPEATS', 'YES']);
   for (const l of legs) rows.push(['OTHER SIDE', `${l.merchant} · ${formatMoney(l.amount, l.direction === 'INCOME')} · ${resolveEntryAccount(l, accounts)?.display_name ?? l.account}`]);
   if (cls === 'TRANSFER' || cls === 'CREDIT_PAYMENT') rows.push(['COUNTS AS', 'NOT INCOME AND NOT SPENDING']);
   if (cls === 'ADJUSTMENT') rows.push(['COUNTS AS', 'A BALANCE CORRECTION. NOT INCOME OR SPENDING.']);
+
+  if (mode === 'transfer' && entry.link) {
+    return <TransferDetailSheet linkId={entry.link.id} onClose={() => setMode('view')} />;
+  }
 
   if (mode === 'delete') {
     return (
@@ -518,8 +561,14 @@ function DetailSheet({
         onClose={() => setMode('view')}
         footer={
           <>
+            {deleteError ? <p className="jrn-field__error" role="alert">{deleteError}</p> : null}
             <JurnlButton trigger="activity-delete-confirm" onClick={() => {
-              if (removableTogether && entry.link) { if (removeLinkedEvent(entry.link.id).ok) onDeleted(); return; }
+              if (removableTogether && entry.link) {
+                const r = removeLinkedEvent(entry.link.id);
+                if (r.ok) onDeleted();
+                else setDeleteError(r.error);
+                return;
+              }
               if (deleteLedgerEntry(entry.id)) onDeleted();
             }}>
               DELETE
@@ -597,6 +646,11 @@ function DetailSheet({
           </>
         : owner && entry.source === 'ADDED' ?
           <>
+            {linkKind === 'TRANSFER' || linkKind === 'CARD_PAYMENT' ? (
+              <JurnlButton variant="secondary" trigger="activity-open-transfer" onClick={() => setMode('transfer')}>
+                {linkKind === 'CARD_PAYMENT' ? 'PAYMENT STATUS' : 'TRANSFER STATUS'}
+              </JurnlButton>
+            ) : null}
             <JurnlButton variant="secondary" trigger="activity-open-owner" onClick={() => { onClose(); go(owner.route(entry)); }}>
               {owner.label}
             </JurnlButton>

@@ -11,7 +11,8 @@ import type { EarningsSourceKind, JurnlDailyEarnings, TipsMode } from '../../dat
 import type { JurnlObligation, ObligationKind } from '../../data/foundation/obligations';
 import { formatMoney, useCurrency, useRepoTick } from '../../data/home/money';
 import { accountNature, BALANCE_BASIS_LABEL, LOCATION_KIND_LABEL, computeLedgerPositions, type AccountPosition } from '../../data/ledger/accounting';
-import { parseMoneyInput, recordExpense, recordTransfer, type OpResult } from '../../data/ledger/ledgerOps';
+import { parseMoneyInput, recordExpense, recordTransfer, recordTransferStep, type OpResult } from '../../data/ledger/ledgerOps';
+import { allowedActions, transferViews, CARD_PAYMENT_STATE_LABEL, TRANSFER_ACTION_LABEL, TRANSFER_STATE_LABEL, type TransferAction, type TransferStart, type TransferState } from '../../data/ledger/transferSettlement';
 import { ledgerPositions, setPurposeAccount, suggestAccount, purposeAccounts } from '../../data/ledger/moneyPositions';
 import { PURPOSE_LABEL, PURPOSE_ORDER, SPENDING_CATEGORY_CHOICES, accountFitsPurpose, type MoneyPurpose } from '../../data/ledger/purposes';
 import { EARNINGS_SOURCE_PRESETS, deleteDailyEarnings, earningsBreakdown, saveDailyEarnings } from '../../data/f06/dailyEarnings';
@@ -30,7 +31,7 @@ import {
 import { buildReduceReservation, buildReleaseReservations, buildSetAside, reservationsFor, type ReservationTarget } from '../../data/f07/reservations';
 import { applyOp } from '../../data/ledger/ledgerOps';
 import { getRepository } from '../../data/repository/deviceRepository';
-import { JurnlButton, JurnlDrawer, JurnlInput } from '../components/primitives';
+import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
 import { useJurnl } from '../state/store';
 
 // ─── Small shared pieces ─────────────────────────────────────────────────────
@@ -287,6 +288,22 @@ export function AfterEarningsSheet({ record, onClose }: { record: JurnlDailyEarn
 
 // ─── F05 Transfers ───────────────────────────────────────────────────────────
 
+export function startOptions(fromName: string, toCard: boolean): { id: TransferStart; label: string }[] {
+  return toCard ?
+      [
+        { id: 'COMPLETED', label: 'CARD CONFIRMED IT' },
+        { id: 'IN_TRANSIT', label: `PAID FROM ${fromName} · CARD NOT CONFIRMED` },
+        { id: 'PENDING', label: `SUBMITTED · NOT TAKEN FROM ${fromName} YET` },
+        { id: 'SCHEDULED', label: 'SCHEDULED FOR LATER' },
+      ]
+    : [
+        { id: 'COMPLETED', label: 'ARRIVED' },
+        { id: 'IN_TRANSIT', label: `LEFT ${fromName} · NOT ARRIVED YET` },
+        { id: 'PENDING', label: `STARTED · NOT LEFT ${fromName} YET` },
+        { id: 'SCHEDULED', label: 'PLANNED FOR LATER' },
+      ];
+}
+
 export function TransferSheet({ fromId, toId, onClose }: { fromId?: string | null; toId?: string | null; onClose: () => void }) {
   useCurrency();
   useRepoTick();
@@ -296,7 +313,7 @@ export function TransferSheet({ fromId, toId, onClose }: { fromId?: string | nul
   const [to, setTo] = useState<string | null>(toId ?? suggestAccount('BILLS').account?.account_id ?? null);
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState<string>(today);
-  const [pending, setPending] = useState(false);
+  const [start, setStart] = useState<TransferStart>('COMPLETED');
   const [memo, setMemo] = useState('');
   const [allowDup, setAllowDup] = useState(false);
   const { error, run } = useResult();
@@ -304,12 +321,19 @@ export function TransferSheet({ fromId, toId, onClose }: { fromId?: string | nul
   const fromPos = positionsNow().find((p) => p.account_id === from);
   const toAccount = getRepository().listAccounts().find((a) => a.account_id === to);
   const toCard = toAccount ? accountNature(toAccount.account_type) === 'LIABILITY' : false;
+  const fromName = fromPos?.account.display_name ?? 'THE ACCOUNT';
+  const effect: Record<TransferStart, string> = {
+    COMPLETED: `${fromName} GOES DOWN AND ${toAccount?.display_name ?? 'THE OTHER ACCOUNT'} ${toCard ? 'OWES LESS' : 'GOES UP'} NOW.`,
+    IN_TRANSIT: `${fromName} GOES DOWN NOW. ${toAccount?.display_name ?? 'THE OTHER ACCOUNT'} ${toCard ? 'STILL OWES THE SAME' : 'DOES NOT GO UP'} UNTIL YOU MARK IT ARRIVED. THE MONEY SHOWS AS IN TRANSIT.`,
+    PENDING: 'NO BALANCE CHANGES YET. MARK WHEN THE MONEY LEAVES AND WHEN IT ARRIVES.',
+    SCHEDULED: 'NO BALANCE CHANGES. MARK IT WHEN IT HAPPENS.',
+  };
   return (
     <JurnlDrawer
       expression="form"
       size="long"
       testId="transfer-sheet"
-      title="MOVE MONEY"
+      title={toCard ? 'PAY A CARD' : 'MOVE MONEY'}
       lead="BETWEEN YOUR OWN ACCOUNTS. THIS IS NOT INCOME OR SPENDING. JURNL RECORDS IT; IT DOES NOT MOVE REAL MONEY."
       onClose={onClose}
       footer={
@@ -322,8 +346,8 @@ export function TransferSheet({ fromId, toId, onClose }: { fromId?: string | nul
             trigger="transfer-save"
             disabled={value == null || !isCalendarDate(date.trim())}
             onClick={() =>
-              run(recordTransfer({ from_account_id: from, to_account_id: to, amount: value ?? 0, occurred_on: date.trim() as CalendarDate, pending, memo, allowDuplicate: allowDup }), (v) => {
-                showToast({ tone: 'success', title: v.kind === 'CARD_PAYMENT' ? 'CARD PAYMENT RECORDED' : 'TRANSFER RECORDED', body: `${money(value ?? 0)} · RECORDED BY YOU, NOT CONFIRMED BY A BANK.` });
+              run(recordTransfer({ from_account_id: from, to_account_id: to, amount: value ?? 0, occurred_on: date.trim() as CalendarDate, start, memo, allowDuplicate: allowDup }), (v) => {
+                showToast({ tone: 'success', title: v.kind === 'CARD_PAYMENT' ? 'CARD PAYMENT RECORDED' : 'TRANSFER RECORDED', body: `${money(value ?? 0)} · ${(v.kind === 'CARD_PAYMENT' ? CARD_PAYMENT_STATE_LABEL : TRANSFER_STATE_LABEL)[start]} · RECORDED BY YOU, NOT CONFIRMED BY A BANK.`, testId: 'transfer-result' });
                 onClose();
               })
             }
@@ -338,10 +362,113 @@ export function TransferSheet({ fromId, toId, onClose }: { fromId?: string | nul
       <AccountChips label="TO" value={to} onChange={setTo} trigger="transfer-to" filter={(a) => a.account_id !== from} />
       <JurnlInput label="AMOUNT" value={amount} onValue={setAmount} trigger="transfer-amount" inputMode="decimal" />
       <JurnlInput label="DATE (YYYY-MM-DD)" value={date} onValue={setDate} trigger="transfer-date" inputMode="numeric" />
-      <Chips label="STATUS" value={pending ? 'PENDING' : 'DONE'} options={[{ id: 'DONE', label: 'ARRIVED' }, { id: 'PENDING', label: 'STILL ON ITS WAY' }]} onChange={(v) => setPending(v === 'PENDING')} trigger="transfer-status" />
+      <p className="jrn-eyebrow">WHERE IS THE MONEY NOW?</p>
+      <Chips label="WHERE IS THE MONEY NOW" value={start} options={startOptions(fromName, toCard)} onChange={setStart} trigger="transfer-status" />
+      <p className="jrn-currency__note" data-testid="transfer-effect">{effect[start]}</p>
       <JurnlInput label="NOTE (OPTIONAL)" value={memo} onValue={setMemo} trigger="transfer-memo" />
       {toCard ? <p className="jrn-currency__note">PAYING A CARD LOWERS WHAT IT OWES. IT IS NOT A SECOND PURCHASE.</p> : null}
     </JurnlDrawer>
+  );
+}
+
+/** One transfer or card payment: where the money is, its history, and the steps that are valid from here. */
+export function TransferDetailSheet({ linkId, onClose }: { linkId: string; onClose: () => void }) {
+  useCurrency();
+  useRepoTick();
+  const { showToast } = useJurnl();
+  const today = getTodayKey();
+  const [askReturned, setAskReturned] = useState(false);
+  const { error, run } = useResult();
+  const v = transferViews(getRepository().listTransactions(), today).find((x) => x.linkId === linkId);
+  if (!v) return null;
+  const name = (id: string | null) => getRepository().listAccounts().find((a) => a.account_id === id)?.display_name ?? '—';
+  const labels = v.kind === 'CARD_PAYMENT' ? CARD_PAYMENT_STATE_LABEL : TRANSFER_STATE_LABEL;
+  const step = (action: TransferAction, opts: { returned?: boolean } = {}) => {
+    const r = recordTransferStep(linkId, action, opts);
+    if (!r.ok) return run(r as OpResult<TransferState>, () => undefined);
+    setAskReturned(false);
+    showToast({ tone: 'success', title: r.changed ? labels[r.value] : 'ALREADY RECORDED', body: r.changed ? `${money(v.amount)} · ${name(v.fromId)} → ${name(v.toId)}` : 'NOTHING CHANGED.', testId: 'transfer-step-result' });
+  };
+  const actions = allowedActions(v.state);
+  const where: Record<TransferState, string> = {
+    SCHEDULED: `PLANNED. ${name(v.fromId)} AND ${name(v.toId)} ARE UNCHANGED.`,
+    PENDING: `STARTED. THE MONEY HAS NOT LEFT ${name(v.fromId)} YET.`,
+    IN_TRANSIT: `${money(v.amount)} LEFT ${name(v.fromId)} AND HAS NOT REACHED ${name(v.toId)}. IT IS NOT AVAILABLE IN EITHER ACCOUNT.`,
+    COMPLETED: `${money(v.amount)} LEFT ${name(v.fromId)} AND ARRIVED IN ${name(v.toId)}.`,
+    CANCELLED: 'CANCELLED. NO MONEY MOVED.',
+    FAILED: `FAILED. ${name(v.fromId)} HAS THE MONEY.`,
+    RETURNING: `FAILED AFTER LEAVING ${name(v.fromId)}. ${money(v.amount)} IS ON ITS WAY BACK.`,
+    REVERSED: `REVERSED. THE MONEY IS BACK IN ${name(v.fromId)}.`,
+    NEEDS_RECONCILIATION: 'RECORDED BEFORE JURNL TRACKED WHERE MONEY IS. SAY WHAT HAPPENED; UNTIL THEN NEITHER ACCOUNT CHANGES.',
+  };
+  return (
+    <JurnlDrawer
+      expression="detail"
+      size="long"
+      testId="transfer-detail"
+      title={v.kind === 'CARD_PAYMENT' ? `PAYMENT TO ${name(v.toId)}` : `${name(v.fromId)} → ${name(v.toId)}`}
+      lead={where[v.state]}
+      onClose={onClose}
+      footer={
+        <>
+          <ErrorLine error={error} />
+          {askReturned ? (
+            <>
+              <p className="jrn-currency__note">DID THE MONEY COME BACK TO {name(v.fromId)}?</p>
+              <JurnlButton variant="secondary" trigger="transfer-fail-returned" onClick={() => step('FAIL', { returned: true })}>YES, IT IS BACK</JurnlButton>
+              <JurnlButton variant="secondary" trigger="transfer-fail-not-returned" onClick={() => step('FAIL')}>NOT YET</JurnlButton>
+            </>
+          ) : (
+            actions.map((a) => (
+              <JurnlButton key={a} variant={a === 'RECEIVED' ? 'primary' : 'secondary'} trigger={`transfer-step-${a.toLowerCase().replace(/_/g, '-')}`} onClick={() => (a === 'FAIL' && v.state === 'IN_TRANSIT' ? setAskReturned(true) : step(a))}>
+                {v.kind === 'CARD_PAYMENT' && a === 'RECEIVED' ? 'CARD CONFIRMED IT' : TRANSFER_ACTION_LABEL[a]}
+              </JurnlButton>
+            ))
+          )}
+        </>
+      }
+    >
+      <ul className="jrn-why" data-testid="transfer-detail-facts" data-state={v.state}>
+        <li><span>STATUS</span><b>{labels[v.state]}</b></li>
+        <li><span>AMOUNT</span><b>{money(v.amount)}</b></li>
+        <li><span>FROM</span><b>{name(v.fromId)}</b></li>
+        <li><span>TO</span><b>{name(v.toId)}</b></li>
+        <li><span>DATE</span><b>{v.date ? formatCalendarDate(v.date) : '—'}</b></li>
+        <li><span>RECORDED</span><b>BY YOU · NOT CONFIRMED BY A BANK</b></li>
+      </ul>
+      {v.history.length ? (
+        <>
+          <p className="jrn-eyebrow">HISTORY</p>
+          <ul className="jrn-why">
+            {v.history.map((h, i) => (
+              <li key={`${h.at}-${i}`}><span>{formatCalendarDate(h.at.slice(0, 10) as CalendarDate)}</span><b>{h.action === 'RECORDED' ? 'RECORDED' : TRANSFER_ACTION_LABEL[h.action as TransferAction] ?? h.action}</b></li>
+            ))}
+          </ul>
+        </>
+      ) : null}
+    </JurnlDrawer>
+  );
+}
+
+/** Transfers and card payments that are not finished: in transit, not sent yet, or needing confirmation. */
+export function OpenTransfersPanel({ onOpen, accountId }: { onOpen: (linkId: string) => void; accountId?: string }) {
+  useCurrency();
+  useRepoTick();
+  const today = getTodayKey();
+  const name = (id: string | null) => getRepository().listAccounts().find((a) => a.account_id === id)?.display_name ?? '—';
+  const open = transferViews(getRepository().listTransactions(), today).filter(
+    (v) => (v.state === 'IN_TRANSIT' || v.state === 'RETURNING' || v.state === 'PENDING' || v.state === 'SCHEDULED' || v.state === 'NEEDS_RECONCILIATION') && (!accountId || v.fromId === accountId || v.toId === accountId),
+  );
+  if (!open.length) return null;
+  return (
+    <JurnlPanel role="detail" className="jrn-home__panel" data-testid="open-transfers">
+      <b>NOT FINISHED</b>
+      {open.map((v) => (
+        <button key={v.linkId} type="button" className="jrn-btn jrn-btn--inline" data-jrn-trigger={`open-transfer-${v.linkId}`} onClick={() => onOpen(v.linkId)}>
+          {`${(v.kind === 'CARD_PAYMENT' ? CARD_PAYMENT_STATE_LABEL : TRANSFER_STATE_LABEL)[v.state]} · ${money(v.amount)} · ${name(v.fromId)} → ${name(v.toId)}`}
+        </button>
+      ))}
+    </JurnlPanel>
   );
 }
 
@@ -449,11 +576,13 @@ export function ObligationFormSheet({ existing, defaultKind = 'BILL', onClose, o
   const [notes, setNotes] = useState(existing?.notes ?? '');
   const suggested = suggestAccount(kind === 'SUBSCRIPTION' ? 'SUBSCRIPTIONS' : 'BILLS');
   const [account, setAccount] = useState<string | null>(existing ? existing.account_id : suggested.account?.account_id ?? null);
+  const [card, setCard] = useState<string | null>(existing?.linked_card_account_id ?? null);
+  const cards = getRepository().listAccounts().filter((a) => a.status === 'ACTIVE' && accountNature(a.account_type) === 'LIABILITY');
   const { error, run } = useResult();
   const value = parseMoneyInput(amount, true);
   const save = () => {
     if (value == null) return;
-    const input = { name, amount: value, cadence, next_due_date: due.trim() as CalendarDate, kind, account_id: account, category, trial_end_date: trial.trim() ? (trial.trim() as CalendarDate) : null, notes };
+    const input = { name, amount: value, cadence, next_due_date: due.trim() as CalendarDate, kind, account_id: account, category, trial_end_date: trial.trim() ? (trial.trim() as CalendarDate) : null, notes, linked_card_account_id: kind === 'BILL' ? card : null };
     run(existing ? editBillOrSubscription(existing, input) : createBillOrSubscription(input), (o) => {
       // The new row already shows the name; the toast states amount and date only (no duplicate label on screen).
       showToast({ tone: 'success', title: existing ? 'SAVED' : kind === 'SUBSCRIPTION' ? 'SUBSCRIPTION ADDED' : 'BILL ADDED', body: `${money(o.amount)} · DUE ${formatCalendarDate(o.next_due_date)}` });
@@ -485,6 +614,13 @@ export function ObligationFormSheet({ existing, defaultKind = 'BILL', onClose, o
       {!existing && suggested.status !== 'MISSING' ? <p className="jrn-currency__note">{suggested.reason}</p> : null}
       <JurnlInput label="CATEGORY (OPTIONAL)" value={category ?? ''} onValue={setCategory} trigger="upcoming-category" />
       {kind === 'SUBSCRIPTION' ? <JurnlInput label="FREE TRIAL ENDS (OPTIONAL, YYYY-MM-DD)" value={trial ?? ''} onValue={setTrial} trigger="upcoming-trial" inputMode="numeric" /> : null}
+      {kind === 'BILL' && cards.length ? (
+        <>
+          <p className="jrn-eyebrow">IS THIS A CREDIT CARD PAYMENT?</p>
+          <Chips label="CREDIT CARD PAYMENT" value={card ?? 'NONE'} options={[{ id: 'NONE', label: 'NO' }, ...cards.map((c) => ({ id: c.account_id, label: `YES · ${c.display_name}` }))]} onChange={(v) => setCard(v === 'NONE' ? null : v)} trigger="upcoming-card-link" />
+          {card ? <p className="jrn-currency__note">COUNTED ONCE, THROUGH THE CARD'S MINIMUM. PAYING IT LOWERS WHAT THE CARD OWES.</p> : null}
+        </>
+      ) : null}
       <JurnlInput label="NOTES (OPTIONAL)" value={notes} onValue={setNotes} trigger="upcoming-notes" />
     </JurnlDrawer>
   );
@@ -672,7 +808,7 @@ export function ObligationMoreSheet({ obligation, onClose, onEdit, onEnded }: { 
   }
   return (
     <JurnlDrawer expression="detail" size="long" testId="obligation-more" title={obligation.name} onClose={onClose} footer={<ErrorLine error={error} />}>
-      <JurnlButton variant="secondary" trigger="upcoming-edit" onClick={onEdit}>EDIT AMOUNT, DATE OR ACCOUNT</JurnlButton>
+      <JurnlButton variant="secondary" trigger="upcoming-more-edit" onClick={onEdit}>EDIT AMOUNT, DATE OR ACCOUNT</JurnlButton>
       <JurnlButton variant="secondary" trigger="upcoming-history" onClick={() => setMode('history')}>PAYMENT HISTORY</JurnlButton>
       {obligation.status === 'ACTIVE' ? (
         <>

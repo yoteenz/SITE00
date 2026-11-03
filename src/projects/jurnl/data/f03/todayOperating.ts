@@ -74,6 +74,7 @@ export function computeTodayOperating(today: CalendarDate = getTodayKey()): Toda
   if (pastDueCard) attention = 'CARD PAYMENT PAST DUE';
   else if (overdueBills.length) attention = `${overdueBills.length} ${overdueBills.length === 1 ? 'BILL IS' : 'BILLS ARE'} OVERDUE`;
   else if (billsThisWeek.length) attention = `${billsThisWeek.length} ${billsThisWeek.length === 1 ? 'BILL' : 'BILLS'} DUE THIS WEEK`;
+  else if (sts.transfersToConfirm > 0) attention = `${sts.transfersToConfirm} ${sts.transfersToConfirm === 1 ? 'TRANSFER' : 'TRANSFERS'} TO CONFIRM`;
   else if (soonCard && soonCard.due_date) attention = `CARD DUE ${formatRelativeDate(soonCard.due_date, today)}`;
 
   const actions: TodayAction[] = [];
@@ -84,6 +85,7 @@ export function computeTodayOperating(today: CalendarDate = getTodayKey()): Toda
   if (card && card.remaining) actions.push({ id: 'card', label: `PAY ${card.name} — ${money(card.remaining)} MINIMUM LEFT`, route: `credit/${card.account_id}` });
   const short = sts.accountShortfalls[0];
   if (short) actions.push({ id: 'shortfall', label: `MOVE MONEY: ${short.name} IS ${money(short.short)} SHORT FOR BILLS`, route: 'money/places', query: { move: '', to: short.account_id } });
+  if (sts.transfersToConfirm > 0 || sts.inTransit > 0) actions.push({ id: 'transfers', label: sts.transfersToConfirm > 0 ? 'CONFIRM WHAT HAPPENED TO A TRANSFER' : `MARK MONEY IN TRANSIT AS ARRIVED (${money(sts.inTransit)})`, route: 'money/places' });
   actions.push({ id: 'spend', label: 'RECORD SPENDING', route: 'activity', query: { record: 'spending' } });
 
   return {

@@ -20,7 +20,7 @@ import type { JurnlAccountRecord } from '../foundation/accounts';
 import type { AccountType, TxnClass } from '../foundation/categories';
 import type { JurnlCreditAttributes } from '../foundation/creditAttributes';
 import { compareCalendarDates, daysUntil, normalizeDateInput, parseCalendarDate, type CalendarDate } from '../foundation/dates';
-import type { LedgerEntry } from '../home/moneyTypes';
+import type { LedgerEntry, LegSettlement } from '../home/moneyTypes';
 
 export type AccountNature = 'ASSET' | 'LIABILITY';
 
@@ -151,12 +151,36 @@ export function entryDate(entry: Pick<LedgerEntry, 'occurred_on' | 'when'>, toda
   return normalizeDateInput(entry.when, today);
 }
 
-/** Recorded by the user and not scheduled for a later date. */
+export function isTwoLegKind(e: Pick<LedgerEntry, 'link'>): boolean {
+  return e.link?.kind === 'TRANSFER' || e.link?.kind === 'CARD_PAYMENT';
+}
+
+/**
+ * Settlement of one leg, with the deterministic legacy mapping (see transferSettlement.ts):
+ *  - explicit `settlement` wins;
+ *  - dated after today → SCHEDULED (future entries never changed balances);
+ *  - a two-leg transfer recorded before the stabilization sprint with status PENDING ("STILL ON ITS WAY") →
+ *    NEEDS_RECONCILIATION: the old record cannot say whether money left the source, so neither leg applies;
+ *  - everything else → SETTLED.
+ */
+export function legSettlement(e: Pick<LedgerEntry, 'settlement' | 'occurred_on' | 'status' | 'link'>, today: CalendarDate): LegSettlement {
+  if (e.settlement) return e.settlement;
+  const d = e.occurred_on ? parseCalendarDate(e.occurred_on) : null;
+  if (d && compareCalendarDates(d, today) > 0) return 'SCHEDULED';
+  if (isTwoLegKind(e) && e.status === 'PENDING') return 'NEEDS_RECONCILIATION';
+  return 'SETTLED';
+}
+
+export function legApplies(e: Pick<LedgerEntry, 'settlement' | 'occurred_on' | 'status' | 'link'>, today: CalendarDate): boolean {
+  return legSettlement(e, today) === 'SETTLED';
+}
+
+/** Recorded by the user, settled, and not scheduled for a later date. Only these change a balance. */
 export function isEffective(entry: LedgerEntry, today: CalendarDate): boolean {
   if (entry.source !== 'ADDED') return false;
   const d = entry.occurred_on ? parseCalendarDate(entry.occurred_on) : null;
   if (d && compareCalendarDates(d, today) > 0) return false;
-  return true;
+  return legApplies(entry, today);
 }
 
 /**

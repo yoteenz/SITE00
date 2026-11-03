@@ -10,6 +10,7 @@ import { useRepoTick } from '../../data/home/money';
 import { parseMoneyInput } from '../../data/ledger/ledgerOps';
 import { paymentSafety } from '../../data/f12/creditGuidance';
 import { CardPaymentSheet, CardPlanSheet, CardTermsSheet, OverallUtilizationRows, cardFactRows } from '../finance/CreditSheets';
+import { OpenTransfersPanel, TransferDetailSheet } from '../finance/FinanceSheets';
 import { formatMoney, useCurrency } from '../../data/home/money';
 import { PARENT_PLATES } from '../../data/parents/plates';
 import { SIDEKICK_PLATES } from '../../data/parents/sidekickPlates';
@@ -178,6 +179,7 @@ export function CreditAccountScreen() {
   useRepoTick();
   const account = accountId ? accountById(accountId) : null;
   const [sheet, setSheet] = useState<'terms' | 'plan' | 'pay' | null>(null);
+  const [openTransfer, setOpenTransfer] = useState<string | null>(null);
   if (!account || (account.account_type !== 'CREDIT_CARD' && account.account_type !== 'LOAN')) {
     return (
       <CreditShell screenId="F12.ACCOUNT">
@@ -204,6 +206,7 @@ export function CreditAccountScreen() {
             <span key={k}><b>{k}</b><p>{v}</p></span>
           ))}
         </JurnlPanel>
+        <OpenTransfersPanel accountId={account.account_id} onOpen={setOpenTransfer} />
         <JurnlButton trigger="credit-plan" onClick={() => setSheet('plan')}>PLAN A PAYMENT</JurnlButton>
         <JurnlButton variant="secondary" trigger="credit-record-payment" onClick={() => setSheet('pay')}>RECORD PAYMENT</JurnlButton>
         <JurnlButton variant="secondary" trigger="credit-edit-terms" onClick={() => setSheet('terms')}>CARD TERMS</JurnlButton>
@@ -212,6 +215,7 @@ export function CreditAccountScreen() {
       {sheet === 'terms' ? <CardTermsSheet card={account} onClose={() => setSheet(null)} /> : null}
       {sheet === 'plan' ? <CardPlanSheet card={account} onClose={() => setSheet(null)} onRecord={() => setSheet('pay')} /> : null}
       {sheet === 'pay' ? <CardPaymentSheet card={account} onClose={() => setSheet(null)} /> : null}
+      {openTransfer ? <TransferDetailSheet linkId={openTransfer} onClose={() => setOpenTransfer(null)} /> : null}
     </CreditShell>
   );
 }
