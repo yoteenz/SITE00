@@ -50,10 +50,11 @@ CARDS = {
     'credit': (522, 946, 951, 1163),
 }
 CARD_TEXT = {
-    'bank': (104, 762, 292, 908),
-    'payout': (554, 762, 752, 908),
-    'cash': (104, 972, 288, 1136),
-    'credit': (554, 972, 690, 1136),
+    # one or more boxes per card; the bank amount box stops before the village painting's torn edge (x ≈ 266)
+    'bank': [(104, 762, 284, 832), (104, 838, 262, 908)],
+    'payout': [(554, 762, 752, 908)],
+    'cash': [(104, 972, 288, 1136)],
+    'credit': [(554, 972, 690, 1136)],
 }
 CHEVRONS = {'bank': (448, 868, 478, 910), 'payout': (898, 868, 928, 910), 'cash': (448, 1106, 478, 1148), 'credit': (898, 1106, 928, 1148)}
 DOTS = (466, 1200, 558, 1226)
@@ -474,11 +475,17 @@ def main():
     for k in CARDS:
         rect = card_geo[k]
         rm = rounded_rect_mask(shape, rect, 19)
-        txt = cv2.bitwise_and(ink_mask(src, CARD_TEXT[k], dark=True, thr=9, dil=7), (rm > 250).astype(np.uint8) * 255)
+        txt = np.zeros(shape[:2], np.uint8)
+        for b in CARD_TEXT[k]:
+            txt |= ink_mask(src, b, dark=True, thr=9, dil=7)
+        txt = cv2.bitwise_and(txt, (rm > 250).astype(np.uint8) * 255)
+        # ink is dark marks on light parchment only: never the card's own imagery
+        bgL = cv2.medianBlur(lab_L(src).clip(0, 255).astype(np.uint8), 31)
+        txt = cv2.bitwise_and(txt, ((bgL > 150).astype(np.uint8) * 255))
         chev = ink_mask(src, CHEVRONS[k], dark=True, thr=14, dil=5)
         x0, y0, x1, y1 = (int(round(v)) for v in rect)
         excl = cv2.dilate(txt | chev, np.ones((9, 9), np.uint8)) | cv2.bitwise_not(cv2.erode((rm > 250).astype(np.uint8) * 255, np.ones((21, 21), np.uint8)))
-        donor = near_color((x0, y0, min(x1, CARD_TEXT[k][2] + 30), y1), excl, 26)
+        donor = near_color((x0, y0, min(x1, max(b[2] for b in CARD_TEXT[k]) + 30), y1), excl, 26)
         card_clean = synth_fill(card_clean, txt, donor, seed_offset=10 + len(k), P=8)
         chev_donor = near_color((CHEVRONS[k][0] - 26, CHEVRONS[k][1] - 22, CHEVRONS[k][2] + 10, CHEVRONS[k][3] + 8), cv2.dilate(chev, np.ones((7, 7), np.uint8)), 30)
         if np.count_nonzero(chev) and len(window_ok(chev_donor, 5)[0]):
