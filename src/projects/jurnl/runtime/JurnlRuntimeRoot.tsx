@@ -25,8 +25,8 @@ import { PARENTS } from '../data/parents/catalog';
 import { ActivityScreen, TodayScreen } from './screens/HomeScreens';
 import { AccountScreen } from './screens/AccountScreens';
 import { ParentAuthorityScreen, ParentReviewBoard } from './screens/ParentScreens';
-import { MoneyPlaceDetailScreen, MoneyPlacesScreen } from './screens/MoneyScreens';
 import { MoneyParentRoute } from './screens/f05/MoneyParentRoute';
+import { F05PlaceRoute, F05PlacesRoute } from './screens/f05/dot01/Dot01Routes';
 import { IncomeHubScreen, IncomeSourceScreen } from './screens/IncomeScreens';
 import { SubscriptionsScreen, UpcomingHubScreen, UpcomingItemScreen } from './screens/UpcomingScreens';
 import { PlanHubScreen, PlanIntentionScreen } from './screens/PlanScreens';
@@ -121,8 +121,8 @@ function JurnlRoutes() {
       <Route path="account" element={<AccountScreen />} />
       <Route path="parents" element={<ParentReviewBoard />} />
       <Route path="money" element={<MoneyParentRoute />} />
-      <Route path="money/places" element={<MoneyPlacesScreen />} />
-      <Route path="money/places/:placeId" element={<MoneyPlaceDetailScreen />} />
+      <Route path="money/places" element={<F05PlacesRoute />} />
+      <Route path="money/places/:placeId" element={<F05PlaceRoute />} />
       <Route path="income" element={<IncomeHubScreen />} />
       <Route path="income/:sourceId" element={<IncomeSourceScreen />} />
       <Route path="upcoming" element={<UpcomingHubScreen />} />

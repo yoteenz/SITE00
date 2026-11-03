@@ -640,7 +640,7 @@
   to { transform: none; filter: drop-shadow(0 0 0 rgba(20, 12, 6, 0)); }
 }
 @keyframes f05m-seal {
-  from { transform: scale(1.06) rotate(-3deg); }
+  from { transform: scale(1.04) rotate(0deg); }
   to { transform: none; }
 }
 @keyframes f05m-reveal {

@@ -82,7 +82,12 @@ def main():
     ap.add_argument('--outlook', required=True)
     ap.add_argument('--out', required=True)
     ap.add_argument('--qa', required=True)
+    ap.add_argument('--geometry', help='F05_MOTION_GEOMETRY.json: land the papers in its card rects (default: the V2 slots)')
     a = ap.parse_args()
+    if a.geometry:
+        g = json.load(open(a.geometry))
+        for i, k in enumerate(('card_bank', 'card_payout', 'card_cash', 'card_credit')):
+            SLOT[i] = tuple(round(v) for v in g[k]['rect'])
     os.makedirs(a.out, exist_ok=True)
     os.makedirs(a.qa, exist_ok=True)
     report = {'seed': X.SEED, 'papers': {}}

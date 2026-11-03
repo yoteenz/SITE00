@@ -36,7 +36,6 @@ import paperTile from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_PAPER
 import tornEdge from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_TORN_EDGE.webp';
 import titlePaper from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_TITLE_PAPER.webp';
 import waxSeal from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_WAX_SEAL.webp';
-import tagPaper from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_TAG_PAPER.webp';
 import cardBank from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_BANK.webp';
 import cardPayout from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_PAYOUT.webp';
 import cardCash from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_CASH.webp';
@@ -51,7 +50,6 @@ const box = (r: { box: number[] }): Rect => ({ x: r.box[0]!, y: r.box[1]!, w: r.
 const at = (r: Rect): CSSProperties => ({ left: r.x, top: r.y, width: r.w, height: r.h });
 const TITLE = box(geometry.title_paper);
 const SEAL = box(geometry.wax_seal);
-const TAG = box(geometry.tag_paper);
 /** Approved chip squares (source px). The global menu takes the far-right square; search and add move one left. */
 const CHIP = C.chips.size;
 const CHIP_GAP = C.chips.gap;
@@ -174,9 +172,10 @@ export function MoneyMotionParent() {
   // Every collection is the same 2 x 2 grid in the same places: the shell never moves between collections.
   const L = useMemo(() => computeF05MotionLayout(vp.w, vp.h, PAPERS_PER_COLLECTION), [vp.w, vp.h]);
   // A place just added is shown even when there are more than four (it takes the third paper beside ALL PLACES).
+  // A place just added is shown even when it is beyond the first four (it takes the fourth paper until the page changes).
   const baseItems = accountItems(reading.accounts.length);
   const freshIndex = fresh ? reading.accounts.findIndex((a) => a.account_id === fresh) : -1;
-  const items = freshIndex >= PAPERS_PER_COLLECTION - 1 && baseItems.some((it) => it.kind === 'more') ? baseItems.map((it, i) => (i === PAPERS_PER_COLLECTION - 2 ? { kind: 'account' as const, index: freshIndex } : it)) : baseItems;
+  const items = freshIndex >= PAPERS_PER_COLLECTION ? baseItems.map((it, i) => (i === PAPERS_PER_COLLECTION - 1 ? { kind: 'account' as const, index: freshIndex } : it)) : baseItems;
 
   // Threads for unfinished transfers whose two places both have a paper (canonical state only).
   const slotOf = new Map<string, Rect>();
@@ -363,16 +362,6 @@ export function MoneyMotionParent() {
               <svg className="jrn-f05m__move" viewBox="0 0 40 28" aria-hidden><path d="M3 9h30m-7-6 7 6-7 6M37 19H7m7-6-7 6 7 6" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
           );
-        if (item.kind === 'more')
-          return (
-            <button key="more" type="button" className="jrn-f05m__paper jrn-f05m__paper--add" data-jrn-trigger="f05m-all-places" data-testid="f05m-all-places" aria-label={`ALL PLACES: ${reading.accounts.length} PLACES, ${item.hidden} MORE THAN SHOWN HERE. OPENS THE FULL LIST.`} style={{ ...at(slot), backgroundImage: `url("${paperTile}")`, ['--i' as string]: i } as CSSProperties} onClick={() => go('money/places')}>
-              <span className="jrn-f05m__paper-name"><span>ALL PLACES</span></span>
-              <span className="jrn-f05m__add-sub">+{item.hidden} MORE</span>
-              <svg className="jrn-f05m__chev" viewBox="0 0 14 24" aria-hidden>
-                <path d="M2 2l10 10L2 22" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-          );
         const a = reading.accounts[item.index]!;
         const lines = a.lines;
         const transit = a.transferLine;
@@ -410,6 +399,27 @@ export function MoneyMotionParent() {
           </button>
         );
       })}
+      {/* VIEW ALL ACCOUNTS (authority 01): the whole directory, any number of places; part of this collection */}
+      <button
+        type="button"
+        className="jrn-f05m__viewall"
+        data-jrn-trigger="f05m-view-all"
+        aria-label={`VIEW ALL ACCOUNTS: ${reading.accounts.length} ${reading.accounts.length === 1 ? 'PLACE' : 'PLACES'}. OPENS THE FULL LIST.`}
+        style={{ ...at(L.viewAll), backgroundImage: `url("${paperTile}")`, ['--i' as string]: 4 } as CSSProperties}
+        onClick={() => go('money/places')}
+      >
+        <svg className="jrn-f05m__viewall-icon" viewBox="0 0 48 40" aria-hidden>
+          <rect x="9" y="4" width="34" height="22" rx="4" fill="none" stroke="currentColor" strokeWidth="2.6" />
+          <rect x="5" y="9" width="34" height="22" rx="4" fill="#efe3cb" stroke="currentColor" strokeWidth="2.6" />
+          <rect x="1.5" y="14" width="34" height="22" rx="4" fill="#efe3cb" stroke="currentColor" strokeWidth="2.6" />
+          <path d="M1.5 21h34" stroke="currentColor" strokeWidth="2.6" />
+        </svg>
+        <span className="jrn-f05m__viewall-rule" aria-hidden />
+        <span className="jrn-f05m__viewall-label">VIEW ALL ACCOUNTS</span>
+        <svg className="jrn-f05m__viewall-arrow" viewBox="0 0 44 28" aria-hidden>
+          <path d="M2 14h38M28 3l12 11-12 11" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
       {/* transfer threads: they show the recorded settlement state and never change it */}
       {threads.length || ghosts.length ?
         <svg className="jrn-f05m__threads" width={SRC_W} height={L.boardH} viewBox={`0 0 ${SRC_W} ${L.boardH}`} aria-hidden>
@@ -486,7 +496,6 @@ export function MoneyMotionParent() {
           {/* L1 — collage objects with real alpha */}
           <img className="jrn-f05m__obj jrn-f05m__title-paper" data-layer="L1" src={titlePaper} alt="" draggable={false} style={at(TITLE)} />
           <img className="jrn-f05m__obj jrn-f05m__seal" data-layer="L1" src={waxSeal} alt="" draggable={false} style={at(SEAL)} />
-          <img className="jrn-f05m__obj jrn-f05m__tag" data-layer="L1" src={tagPaper} alt="" draggable={false} style={at(TAG)} />
 
           {/* L2 — live type */}
           <p className="jrn-f05m__mark" aria-label="JURNL" style={{ left: C.mark.left, top: C.mark.top, fontSize: C.mark.size, letterSpacing: `${C.mark.ls}em`, transform: `rotate(${C.mark.rot}deg)` }}>JURNL</p>
@@ -503,7 +512,7 @@ export function MoneyMotionParent() {
                 <span className="jrn-f05m__metric-label">{m.label}</span>
                 {unknown && (m.id === 'committed' || m.id === 'available') ?
                   <b className="jrn-f05m__metric-value" data-jrn-value={`money-${m.id}`} data-jrn-unknown="true">—</b>
-                : <b className="jrn-f05m__metric-value" data-jrn-value={`money-${m.id}`} data-jrn-amount-cents={Math.round(m.value * 100)} style={{ fontSize: amountSize(formatMoney(m.value), 52) }}>{formatMoney(m.value)}</b>}
+                : <b className="jrn-f05m__metric-value" data-jrn-value={`money-${m.id}`} data-jrn-amount-cents={Math.round(m.value * 100)} style={{ fontSize: amountSize(formatMoney(m.value), C.band.valueSize) }}>{formatMoney(m.value)}</b>}
               </button>
             ))}
             {unknown ? <p className="jrn-f05m__basis" data-testid="f05m-unknown">ADD A PLACE TO SEE WHAT IS COMMITTED AND AVAILABLE.</p> : null}

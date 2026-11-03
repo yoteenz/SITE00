@@ -11,6 +11,7 @@
  *            HELD − COMMITTED differs from AVAILABLE whenever an account is outside Safe to Spend.
  */
 
+import { orderAccounts } from './dot01/accountOrder';
 import type { AccountType } from '../foundation/categories';
 import { listActiveAccounts } from '../foundation/accounts';
 import { getTodayKey, type CalendarDate } from '../foundation/dates';
@@ -145,7 +146,7 @@ export function computeMoneyParentReading(today: CalendarDate = getTodayKey()): 
   const heldBack = sts.protected + sts.safetyBuffer + sts.assigned + sts.goalReserved + sts.purchaseReserved + sts.tripReserved;
   const committed = Math.round((sts.upcoming + sts.cardPayments + sts.committedTransfers + heldBack) * 100) / 100;
   const transfers = openTransfers(picture.transfers);
-  const accounts = listActiveAccounts().map((a): MoneyParentAccount => {
+  const accounts = orderAccounts(listActiveAccounts()).map((a): MoneyParentAccount => {
     const p = positions.find((x) => x.account_id === a.account_id);
     const nature = p?.nature ?? (a.account_type === 'CREDIT_CARD' || a.account_type === 'LOAN' ? 'LIABILITY' : 'ASSET');
     const t = picture.transferTotals.byAccount.get(a.account_id);

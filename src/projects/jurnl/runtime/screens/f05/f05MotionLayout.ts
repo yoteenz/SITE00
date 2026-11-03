@@ -62,6 +62,8 @@ export type F05MotionLayout = {
   wide: Rect;
   /** collection indicator row (source px) */
   dots: Rect;
+  /** VIEW ALL ACCOUNTS strip (ACCOUNTS collection) */
+  viewAll: Rect;
   /** nav paper zone in source px (the live dock sits on it) */
   navZone: Rect;
 };
@@ -122,22 +124,22 @@ export function computeF05MotionLayout(W: number, H: number, items: number): F05
     slots,
     wide,
     dots: { x: C.dots.x, y: C.dots.y + extra, w: C.dots.w, h: C.dots.h },
+    viewAll: { x: C.viewAll.x, y: C.viewAll.y + extra, w: C.viewAll.w, h: C.viewAll.h },
     navZone: { x: C.nav.x, y: C.nav.y + extra, w: C.nav.w, h: C.nav.h },
   };
 }
 
 /**
- * The ACCOUNTS collection's four papers. 0 places: one wide ADD paper. 1-3: the places, then ADD A PLACE and (with two
- * or more) MOVE MONEY in the free slots. 4: the four places. 5 or more: three places and ALL PLACES (+n MORE), which
- * opens the full list; the dots stay four, one per collection.
+ * The ACCOUNTS collection's four papers (authority 01). 0 places: one wide ADD paper. 1-3: the places, then ADD A PLACE
+ * and (with two or more) MOVE MONEY in the free slots. 4 or more: the first four places in the user's order; every
+ * place is one tap away through VIEW ALL ACCOUNTS, and the dots stay four, one per collection.
  */
-export type PaperItem = { kind: 'account'; index: number } | { kind: 'add' } | { kind: 'move' } | { kind: 'empty' } | { kind: 'more'; hidden: number };
+export type PaperItem = { kind: 'account'; index: number } | { kind: 'add' } | { kind: 'move' } | { kind: 'empty' };
 
 export function accountItems(total: number): PaperItem[] {
   if (total === 0) return [{ kind: 'empty' }];
   const n = PAPERS_PER_COLLECTION;
-  if (total > n) return [...Array.from({ length: n - 1 }, (_, i) => ({ kind: 'account' as const, index: i })), { kind: 'more', hidden: total - (n - 1) }];
-  const items: PaperItem[] = Array.from({ length: total }, (_, i) => ({ kind: 'account' as const, index: i }));
+  const items: PaperItem[] = Array.from({ length: Math.min(total, n) }, (_, i) => ({ kind: 'account' as const, index: i }));
   if (items.length < n) items.push({ kind: 'add' });
   if (total >= 2 && items.length < n) items.push({ kind: 'move' });
   return items;

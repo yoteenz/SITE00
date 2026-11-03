@@ -255,7 +255,8 @@ describe('Layout', () => {
     expect(accountItems(2).map((i) => i.kind)).toEqual(['account', 'account', 'add', 'move']);
     expect(accountItems(3).map((i) => i.kind)).toEqual(['account', 'account', 'account', 'add']);
     expect(accountItems(4).map((i) => i.kind)).toEqual(['account', 'account', 'account', 'account']);
-    expect(accountItems(7)).toEqual([{ kind: 'account', index: 0 }, { kind: 'account', index: 1 }, { kind: 'account', index: 2 }, { kind: 'more', hidden: 4 }]);
+    // DOT 01 authority 01: four places, then VIEW ALL ACCOUNTS (a strip under the papers) opens the rest
+    expect(accountItems(7)).toEqual([{ kind: 'account', index: 0 }, { kind: 'account', index: 1 }, { kind: 'account', index: 2 }, { kind: 'account', index: 3 }]);
     expect(pageAccounts([1, 2, 3, 4, 5], 4)).toEqual([[1, 2, 3, 4], [5]]);
   });
 });
@@ -280,10 +281,11 @@ describe('Opt-in route and assets', () => {
 
   it('every runtime layer exists and the geometry matches the layer sizes', () => {
     const geo = JSON.parse(readFileSync(path.join(ASSET_DIR, 'F05_MOTION_GEOMETRY.json'), 'utf8'));
-    for (const f of ['SIDEKICK', 'PANEL_TILE', 'PAPER_TILE', 'TORN_EDGE', 'TITLE_PAPER', 'WAX_SEAL', 'TAG_PAPER', 'CARD_BANK', 'CARD_PAYOUT', 'CARD_CASH', 'CARD_CREDIT']) {
+    for (const f of ['SIDEKICK', 'PANEL_TILE', 'PAPER_TILE', 'TORN_EDGE', 'TITLE_PAPER', 'WAX_SEAL', 'CARD_BANK', 'CARD_PAYOUT', 'CARD_CASH', 'CARD_CREDIT']) {
       expect(existsSync(path.join(ASSET_DIR, `F05_MOTION_${f}.webp`)), f).toBe(true);
     }
-    expect(geo.source).toMatchObject({ w: SRC_W, h: SRC_H, profile: '9x16' });
+    // DOT 01: the founder's SK01 SIDEKICK (it carries its own JURNL tag paper, so no tag layer is lifted)
+    expect(geo.source).toMatchObject({ w: SRC_W, h: SRC_H, profile: 'SK01' });
     expect([SRC_W, SRC_H]).toEqual([941, 1672]);
     expect(geo.envelopes.title_paper.rotate_deg).toBe(0);
     expect(geo.envelopes.title_paper.scale).toBeGreaterThan(1);
