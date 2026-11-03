@@ -31,6 +31,21 @@ export type EntryConfirmation = 'RECORDED_BY_YOU' | 'PENDING_CONFIRMATION' | 'BA
 
 /** Groups the legs of one financial event (one daily earnings save, one transfer, one card payment, one bill payment). */
 export type EntryLinkKind = 'DAILY_EARNINGS' | 'TRANSFER' | 'CARD_PAYMENT' | 'BILL_PAYMENT' | 'BALANCE_CORRECTION';
+
+/**
+ * Settlement of one ledger leg (transfers and card payments). Only SETTLED legs change a balance.
+ *   SCHEDULED: planned for a date; nothing has moved.
+ *   PENDING: started, money has not left (OUT) / not arrived (IN).
+ *   SETTLED: money left the source (OUT) / arrived at the destination (IN).
+ *   CANCELLED: did not happen (only before any money moved).
+ *   FAILED: did not complete.
+ *   REVERSED: had moved, then came back (effect removed; history kept).
+ *   NEEDS_RECONCILIATION: legacy record that cannot say whether money moved (pre-stabilization "STILL ON ITS WAY").
+ * Entries without the field are SETTLED, except legacy PENDING transfer legs (NEEDS_RECONCILIATION) and future dates (SCHEDULED).
+ */
+export type LegSettlement = 'SCHEDULED' | 'PENDING' | 'SETTLED' | 'CANCELLED' | 'FAILED' | 'REVERSED' | 'NEEDS_RECONCILIATION';
+
+export type SettlementEvent = { at: string; state: LegSettlement; action: string };
 export type EntryLink = { kind: EntryLinkKind; id: string; leg?: 'OUT' | 'IN' | 'DIGITAL' | 'CASH' | 'SINGLE' };
 
 export type LedgerEntry = {
@@ -67,4 +82,7 @@ export type LedgerEntry = {
   occurrence_date?: CalendarDate | null;
   /** The other account in a transfer or card payment. */
   counterparty_account_id?: string | null;
+  /** Settlement of this leg (see LegSettlement). */
+  settlement?: LegSettlement;
+  settlement_history?: SettlementEvent[];
 };

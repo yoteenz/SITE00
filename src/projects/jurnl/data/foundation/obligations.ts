@@ -48,4 +48,9 @@ export type JurnlObligation = {
   occurrence_log?: ObligationOccurrenceLog[];
   cancelled_at?: string | null;
   paused_at?: string | null;
+  /**
+   * This bill IS a credit card's payment (stable card reference). While the card's minimum is known, the payment is
+   * counted once, through the card (F12): the bill is not deducted again and "mark paid" records a card payment.
+   */
+  linked_card_account_id?: string | null;
 };

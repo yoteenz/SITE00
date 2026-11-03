@@ -3,7 +3,7 @@
 import { compareCalendarDates, getTodayKey, parseCalendarDate, type CalendarDate } from './dates';
 import type { JurnlIncomeSource } from './income';
 import type { JurnlObligation } from './obligations';
-import { creditPaymentProjections } from '../f12/creditStore';
+import { cardsWithKnownMinimum, creditPaymentProjections } from '../f12/creditStore';
 
 export type UpcomingDirection = 'MONEY_IN' | 'MONEY_OUT';
 
@@ -30,8 +30,11 @@ export function projectUpcoming(income: JurnlIncomeSource[], obligations: JurnlO
     if (src.status === 'ARCHIVED' || src.status === 'PAUSED' || src.status === 'RECEIVED') continue;
     items.push(projectIncome(src, today));
   }
+  // A bill linked to a card whose minimum is known is the card's payment: one row (the card's), never two.
+  const knownCards = cardsWithKnownMinimum(today);
   for (const ob of obligations) {
     if (ob.status !== 'ACTIVE') continue;
+    if (ob.linked_card_account_id && knownCards.has(ob.linked_card_account_id)) continue;
     items.push(projectObligation(ob, today));
   }
   for (const pay of creditPaymentProjections(today)) {

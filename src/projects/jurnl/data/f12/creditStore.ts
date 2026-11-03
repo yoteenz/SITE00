@@ -92,22 +92,46 @@ export function nextPaymentDueDate(dueDay: number | null, today: CalendarDate = 
 }
 
 /**
- * Card payments for UPCOMING and Safe to Spend: the minimum still left after payments recorded since the statement,
- * at the card's due date. A minimum that is fully paid drops out (no second deduction).
+ * Card payments for UPCOMING and Safe to Spend — one commitment per card per billing cycle:
+ *   amount = minimum − payments the card confirmed − payments already on their way (scheduled before the due date,
+ *   submitted, or left the account). A paid minimum drops out; an extra payment never adds a second minimum.
+ * `linked_obligation_id` names a tracked bill that describes this same payment (the bill is then not counted again).
  */
 export function creditPaymentProjections(today: CalendarDate = getTodayKey()) {
-  const items: { account_id: string; label: string; amount: number; due_date: CalendarDate; minimum: number; paid: number; payment_account_id: string | null }[] = [];
+  const items: {
+    account_id: string;
+    label: string;
+    amount: number;
+    due_date: CalendarDate;
+    minimum: number;
+    paid: number;
+    pending: number;
+    payment_account_id: string | null;
+    cycle_key: string;
+    linked_obligation_id: string | null;
+  }[] = [];
+  const linked = getRepository()
+    .getSnapshot()
+    .obligations.filter((o) => o.status === 'ACTIVE' && o.linked_card_account_id);
   for (const f of allCardFacts(today)) {
-    if (!f.dueDate || f.minimum == null || f.minimum <= 0 || (f.remainingMinimum ?? 0) <= 0) continue;
+    if (!f.dueDate || f.minimum == null || f.minimum <= 0 || (f.remainingMinimumAfterPending ?? 0) <= 0) continue;
     items.push({
       account_id: f.account.account_id,
       label: `${f.account.display_name} PAYMENT`,
-      amount: f.remainingMinimum!,
+      amount: f.remainingMinimumAfterPending!,
       due_date: f.dueDate,
       minimum: f.minimum,
       paid: f.paidSinceStatement,
+      pending: f.pendingPayments,
       payment_account_id: f.paymentAccount?.account_id ?? null,
+      cycle_key: `${f.account.account_id}:${f.statementClosingDate ?? 'NO_STATEMENT'}:${f.dueDate}`,
+      linked_obligation_id: linked.find((o) => o.linked_card_account_id === f.account.account_id)?.obligation_id ?? null,
     });
   }
   return items;
+}
+
+/** Cards whose minimum is known: a tracked bill linked to one of these is the same payment and is counted through the card. */
+export function cardsWithKnownMinimum(today: CalendarDate = getTodayKey()): Set<string> {
+  return new Set(allCardFacts(today).filter((f) => f.minimum != null && f.minimum > 0 && f.dueDate).map((f) => f.account.account_id));
 }

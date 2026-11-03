@@ -240,6 +240,11 @@ export function buildMarkPaid(
   input: PayInput,
 ): OpResult<PayValue> {
   if (ob.status !== 'ACTIVE') return { ok: false, error: 'RESUME THIS BEFORE RECORDING A PAYMENT.' };
+  if (ob.linked_card_account_id) {
+    const card = accounts.find((a) => a.account_id === ob.linked_card_account_id);
+    // Paying a card is a CARD PAYMENT (owed goes down), never spending — recorded through the card so it counts once.
+    return { ok: false, error: `THIS IS THE ${card?.display_name ?? 'CARD'} PAYMENT. RECORD IT AS A CARD PAYMENT SO THE CARD BALANCE GOES DOWN.` };
+  }
   const account = accounts.find((a) => a.account_id === input.account_id && a.status === 'ACTIVE');
   if (!account) return { ok: false, error: 'CHOOSE THE ACCOUNT THIS WAS PAID FROM.' };
   if (!isCalendarDate(input.paid_on)) return { ok: false, error: 'ENTER THE PAYMENT DATE AS YYYY-MM-DD.' };
