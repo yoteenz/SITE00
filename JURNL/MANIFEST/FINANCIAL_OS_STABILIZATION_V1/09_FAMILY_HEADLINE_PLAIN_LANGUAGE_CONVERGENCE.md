@@ -1,0 +1,55 @@
+# 09 — Family headline plain-language convergence (D4)
+
+Founder decision D4: replace vague family headlines with straightforward functional language. Keep `PLAN TODAY. GROW FREELY.` and approved editorial copy.
+
+Sources inspected:
+
+- `data/parents/catalog.ts` (the family questions)
+- the PR #1705 functional copy matrix (`FINANCIAL_OS_UNIFICATION_V1/12_*`)
+- the PR #1704 plain-language extraction
+- the live strings in every runtime screen (grep over `src/projects/jurnl/runtime`)
+
+Only current strings were changed; older audit strings were not assumed to be present.
+
+Classification counts: KEPT_APPROVED_EDITORIAL 5, KEPT_CLEAR 4, REPLACED 19. BLOCKED_VISUAL_AUTHORITY 0, UNRESOLVED 0.
+
+Every replacement is tier `FUNCTIONAL` and awaits founder review (`PENDING_REVIEW`). None is presented as final brand copy.
+
+Machine-readable copy: `09_FAMILY_HEADLINE_PLAIN_LANGUAGE_CONVERGENCE.csv`.
+
+| FAMILY | ROUTE | STRING_ID | SOURCE_PATH | CURRENT_TEXT | RECOMMENDED_TEXT | REASON | COPY_TIER | IMPLEMENTATION_STATUS | VISUAL_AUTHORITY_IMPACT | FOUNDER_APPROVAL_STATE |
+|---|---|---|---|---|---|---|---|---|---|---|
+| F03 TODAY | /today | F03.00.wall.head | src/projects/jurnl/runtime/screens/HomeScreens.tsx | WHAT IS TRUE. | YOUR MONEY. | VAGUE HEADLINE; SAYS WHAT THE SCREEN SHOWS. "YOUR MONEY NOW." WAS TRIED AND RAN ~60PX WIDER INTO THE PLATE ART, SO IT WAS NOT USED | FUNCTIONAL | REPLACED | NONE — MEASURED NARROWER THAN THE ORIGINAL AT 360/393/834/1440 | PENDING_REVIEW |
+| F05 MONEY | /money | F05.question | src/projects/jurnl/data/parents/catalog.ts | WHAT DO I HAVE, AND WHERE IS IT? | YOUR ACCOUNTS, CARDS AND CASH. | QUESTION FORM IS INDIRECT; NAMES WHAT IS LISTED | FUNCTIONAL | REPLACED | TEXT ONLY; SAME BOX, SAME TYPE STYLE; PIXEL DIFF VS #1705 < 1% (DOC 13) | PENDING_REVIEW |
+| F06 INCOME | /income | F06.question | src/projects/jurnl/data/parents/catalog.ts | WHERE IS IT COMING FROM? | YOUR INCOME AND DAILY EARNINGS. | "IT" IS UNDEFINED; NAMES BOTH INCOME KINDS THE FAMILY HOLDS | FUNCTIONAL | REPLACED | TEXT ONLY; SAME BOX, SAME TYPE STYLE; PIXEL DIFF VS #1705 < 1% (DOC 13) | PENDING_REVIEW |
+| F07 UPCOMING | /upcoming | F07.question | src/projects/jurnl/data/parents/catalog.ts | WHAT IS COMING, AND WHEN? | UPCOMING PAYMENTS AND INCOME. | NAMES WHAT IS COMING | FUNCTIONAL | REPLACED | TEXT ONLY; SAME BOX, SAME TYPE STYLE; PIXEL DIFF VS #1705 < 1% (DOC 13) | PENDING_REVIEW |
+| F08 PLAN | /plan | F08.question | src/projects/jurnl/data/parents/catalog.ts | WHAT DO I WANT IT TO DO? | MONEY SET ASIDE FOR BILLS, PLANS AND GOALS. | VAGUE; STATES WHAT PLAN HOLDS AFTER D3 (BILL SET-ASIDES INCLUDED). SHOWN ONLY WHEN NO PLAN LINE EXISTS; FITS THE RIGHT PAGE AT 360 AND 1440 | FUNCTIONAL | REPLACED | TEXT ONLY; SAME BOX, SAME TYPE STYLE; PIXEL DIFF VS #1705 < 1% (DOC 13) | PENDING_REVIEW |
+| F09 SAFE TO SPEND | /safe (generic parent fallback only) | F09.question | src/projects/jurnl/data/parents/catalog.ts | WHAT CAN I SPEND WITHOUT UNDOING THE PLAN? | WHAT YOU CAN SPEND AFTER BILLS AND PLANS. | STATEMENT, NOT A QUESTION; THE F09 AUTHORITY PARENT DOES NOT RENDER IT | FUNCTIONAL | REPLACED | TEXT ONLY; SAME BOX, SAME TYPE STYLE; PIXEL DIFF VS #1705 < 1% (DOC 13) | PENDING_REVIEW |
+| F10 PURCHASES | /purchases | F10.question | src/projects/jurnl/data/parents/catalog.ts | CAN I BUY THIS, AND WHAT CHANGES? | CHECK A PURCHASE BEFORE YOU BUY. | NAMES THE ACTION | FUNCTIONAL | REPLACED | TEXT ONLY; SAME BOX, SAME TYPE STYLE; PIXEL DIFF VS #1705 < 1% (DOC 13) | PENDING_REVIEW |
+| F11 TRIPS | /trips | F11.question | src/projects/jurnl/data/parents/catalog.ts | CAN I TAKE THIS, AND WHAT DOES IT CHANGE? | PLAN AND SAVE FOR A TRIP. | NAMES THE ACTION | FUNCTIONAL | REPLACED | TEXT ONLY; SAME BOX, SAME TYPE STYLE; PIXEL DIFF VS #1705 < 1% (DOC 13) | PENDING_REVIEW |
+| F12 CREDIT | /credit | F12.question | src/projects/jurnl/data/parents/catalog.ts | WHAT IS HAPPENING, AND WHAT MATTERS? | YOUR CARDS, WHAT YOU OWE AND WHEN. | VAGUE; KEEPS THE TWO-LINE COMMA SPLIT THE REFERENCE USES | FUNCTIONAL | REPLACED | TEXT ONLY; SAME BOX, SAME TYPE STYLE; PIXEL DIFF VS #1705 < 1% (DOC 13) | PENDING_REVIEW |
+| F13 PAYDOWN | /paydown | F13.question | src/projects/jurnl/data/parents/catalog.ts | HOW DOES THIS COME DOWN? | A PLAN TO PAY DOWN WHAT YOU OWE. | "THIS" IS UNDEFINED | FUNCTIONAL | REPLACED | TEXT ONLY; SAME BOX, SAME TYPE STYLE; PIXEL DIFF VS #1705 < 1% (DOC 13) | PENDING_REVIEW |
+| F14 GOALS | /goals | F14.question | src/projects/jurnl/data/parents/catalog.ts | WHAT AM I BUILDING TOWARD? | YOUR SAVINGS GOALS. | NAMES WHAT IS LISTED | FUNCTIONAL | REPLACED | TEXT ONLY; SAME BOX, SAME TYPE STYLE; PIXEL DIFF VS #1705 < 1% (DOC 13) | PENDING_REVIEW |
+| F15 AHEAD | /ahead | F15.question | src/projects/jurnl/data/parents/catalog.ts | WHERE AM I HEADED IF THIS CONTINUES? | YOUR MONEY OVER THE NEXT 30 DAYS. | STATES THE PERIOD (MATCHES D1) | FUNCTIONAL | REPLACED | TEXT ONLY; SAME BOX, SAME TYPE STYLE; PIXEL DIFF VS #1705 < 1% (DOC 13) | PENDING_REVIEW |
+| F16 RECORDS | /records | F16.question | src/projects/jurnl/data/parents/catalog.ts | WHERE IS THE PROOF? | YOUR STATEMENTS AND RECEIPTS. | NAMES WHAT IS KEPT | FUNCTIONAL | REPLACED | TEXT ONLY; SAME BOX, SAME TYPE STYLE; PIXEL DIFF VS #1705 < 1% (DOC 13) | PENDING_REVIEW |
+| F13 PAYDOWN | /paydown | F13.00.editorial.prefix | src/projects/jurnl/runtime/screens/PaydownScreens.tsx | THE DESCENT · HOW DOES THIS COME DOWN? | A PLAN TO PAY DOWN WHAT YOU OWE. | METAPHOR PREFIX HIDES THE MEANING | FUNCTIONAL | REPLACED | TEXT ONLY; SAME BOX, SAME TYPE STYLE; PIXEL DIFF VS #1705 < 1% (DOC 13) | PENDING_REVIEW |
+| F09 SAFE TO SPEND | /safe | F09.00.through | src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx | AVAILABLE THROUGH OCT 18 | NEXT 30 DAYS · TO {DATE} · CHANGE | HARDCODED DATE FROM THE REFERENCE IMAGE, FALSE ON EVERY OTHER DAY; NOW LIVE AND OPENS THE PLANNING PERIOD (D1) | FUNCTIONAL | REPLACED | SAME LINE BOX; NOW A BUTTON WITH A THIN UNDERLINE | PENDING_REVIEW |
+| F08 PLAN | /plan (SET MONEY ASIDE sheet) | plan-add.lead | src/projects/jurnl/runtime/screens/PlanScreens.tsx | NAME WHAT THE MONEY IS FOR. YOU CAN ASSIGN AN AMOUNT NEXT. | FOR A BILL, OR FOR SOMETHING ELSE. EARMARKS MONEY YOU HAVE; IT DOES NOT MOVE OR PAY ANYTHING. | THE SHEET NOW OFFERS BILL SET-ASIDES (D3); SAYS WHAT A SET-ASIDE DOES | FUNCTIONAL | REPLACED | DRAWER COPY; NO PLATE IMPACT | PENDING_REVIEW |
+| F08 PLAN | /plan (assign sheet) | plan-assign.title | src/projects/jurnl/runtime/screens/PlanScreens.tsx | ASSIGN | ASSIGN AN AMOUNT | ONE-WORD TITLE WITHOUT AN OBJECT | FUNCTIONAL | REPLACED | DRAWER COPY; NO PLATE IMPACT | PENDING_REVIEW |
+| F08 PLAN | /plan (assign sheet) | plan-assign.lead | src/projects/jurnl/runtime/screens/PlanScreens.tsx | COMMITTED AMOUNT REDUCES SAFE TO SPEND. | THIS AMOUNT IS HELD BACK FROM SAFE TO SPEND. | PLAIN VERB, NAMES THE EFFECT | FUNCTIONAL | REPLACED | DRAWER COPY; NO PLATE IMPACT | PENDING_REVIEW |
+| GLOBAL | lockup (TODAY, MONEY, PLAN, CREDIT, F10 checked) | lockup.tag | src/projects/jurnl/runtime/components/ReferenceLockup.tsx; PurchaseCheckedScreen.tsx | PLAN TODAY. GROW FREELY. | PLAN TODAY. GROW FREELY. | FOUNDER-APPROVED EDITORIAL; PRESERVED BY INSTRUCTION | EDITORIAL | KEPT_APPROVED_EDITORIAL | NONE | APPROVED |
+| GLOBAL | lockup | lockup.desc | src/projects/jurnl/runtime/components/ReferenceLockup.tsx | FINANCIAL LIFE. BEAUTIFULLY ORGANIZED. | FINANCIAL LIFE. BEAUTIFULLY ORGANIZED. | PART OF THE APPROVED LOCKUP | EDITORIAL | KEPT_APPROVED_EDITORIAL | NONE | APPROVED |
+| F08 PLAN | /plan | F08.00.l1 | src/projects/jurnl/runtime/screens/PlanScreens.tsx | YOUR MONEY HAS A PLAN. | YOUR MONEY HAS A PLAN. | APPROVED REFERENCE HEADLINE; ALREADY CLEAR | EDITORIAL | KEPT_APPROVED_EDITORIAL | NONE | APPROVED |
+| F08 PLAN | /plan | F08.00.l2 | src/projects/jurnl/runtime/screens/PlanScreens.tsx | WHERE YOUR MONEY IS ASSIGNED. | WHERE YOUR MONEY IS ASSIGNED. | ALREADY FUNCTIONAL | FUNCTIONAL | KEPT_CLEAR | NONE | APPROVED |
+| F08 PLAN | /plan | F08.00.aside | src/projects/jurnl/runtime/screens/PlanScreens.tsx | A CLEARER TOMORROW BEGINS HERE. | A CLEARER TOMORROW BEGINS HERE. | APPROVED EDITORIAL ASIDE ON THE LEFT PAGE; NOT A HEADLINE | EDITORIAL | KEPT_APPROVED_EDITORIAL | NONE | APPROVED |
+| F09 SAFE TO SPEND | /safe | F09.00.dossier | src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx | ORGANIZED. THEN YOURS. | ORGANIZED. THEN YOURS. | APPROVED F09 AUTHORITY EDITORIAL ON THE DOSSIER | EDITORIAL | KEPT_APPROVED_EDITORIAL | NONE | APPROVED |
+| F09 SAFE TO SPEND | /safe | F09.00.label | src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx | SAFE TO SPEND | SAFE TO SPEND | THE PRODUCT TERM; CLEAR | FUNCTIONAL | KEPT_CLEAR | NONE | APPROVED |
+| F03 / F05 / F08 / F12 | root hubs | kicker | HomeScreens.tsx; MoneyScreens.tsx; PlanScreens.tsx; CreditScreens.tsx | TODAY · MONEY · PLAN. · CREDIT | TODAY · MONEY · PLAN. · CREDIT | FAMILY NAMES; CLEAR | FUNCTIONAL | KEPT_CLEAR | NONE | APPROVED |
+| F03 TODAY | /today | F03.00.sheet | src/projects/jurnl/runtime/screens/HomeScreens.tsx | COMING · MOVED · ACTIVITY · UPCOMING · MORE | COMING · MOVED · ACTIVITY · UPCOMING · MORE | CLEAR LABELS; MORE NOW OPENS A DRAWER (ASK JURNL AND SHORTCUTS) | FUNCTIONAL | KEPT_CLEAR | NONE | APPROVED |
+| F03 TODAY | /today | F03.00.coming.empty | src/projects/jurnl/runtime/screens/HomeScreens.tsx | (SAMPLE RENT $1,800 / GROCERIES $120 SHOWN AGAINST REAL BALANCES) | NO BILLS ADDED · ADD ONE IN UPCOMING | SAMPLE BILLS NEXT TO REAL BALANCES WERE FICTIONAL; SAFE TO SPEND ALREADY DEDUCTED NOTHING FOR THEM | FUNCTIONAL | REPLACED | USES THE EXISTING FIRST COMING ROW SLOT | PENDING_REVIEW |
+
+## Visual-authority check
+
+- **TODAY headline.** Text right edge in the browser, `WHAT IS TRUE.` → `YOUR MONEY.` (px, same left edge): 360: 220 → 208 · 393: 241 → 227 · 834: 497 → 473 · 1440: 781 → 762. `YOUR MONEY.` is narrower at every viewport. `YOUR MONEY NOW.` (278 / 303 / 611 / 866) ran into the olive branch and statue and was not used.
+- **F08 empty-state question.** It is split over two lines on the book's right page and is shown only when no plan line exists. Checked at 360 and 1440: it stays inside the page and clear of the index tabs.
+- **All family hubs, ×4 viewports.** The pixel diff against #1705 is under 1% on every hub (doc 13). Only text changed. No plate, layout box or type style moved.

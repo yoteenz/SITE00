@@ -31,7 +31,7 @@ test.describe('Product utility audit journeys', () => {
     await page.locator('[data-jrn-trigger="upcoming-add-name"]').fill('CAR INSURANCE');
     await page.locator('[data-jrn-trigger="upcoming-add-amount"]').fill('140');
     // Due in 3 days: exactly one occurrence falls in the 30-day period (a monthly bill due TODAY also has its next
-    // occurrence on day 30, which the period includes — see JURNL_DUAL_HORIZON_SAFE_TO_SPEND_CONTRACT.md).
+    // occurrence on day 30, which the period includes — see JURNL/MANIFEST/FINANCIAL_OS_STABILIZATION_V1/03_DUAL_HORIZON_SAFE_TO_SPEND_CONTRACT.md).
     await page.locator('[data-jrn-trigger="upcoming-due"]').fill(addDays(getTodayKey(), 3));
     await clickTrigger(page, 'upcoming-add-save');
     const stored = await storedSnapshot(page);
