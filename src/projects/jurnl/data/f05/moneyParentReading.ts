@@ -79,7 +79,7 @@ export function openTransfers(views: TransferView[]): MoneyParentTransfer[] {
     }));
 }
 
-/** "→ $80 IN TRANSIT" (leaving this place) · "← $45 CARD NOT CONFIRMED" (coming to it) · "+1" when there are more. */
+/** "→ {amount} IN TRANSIT" (leaving this place) · "← {amount} CARD NOT CONFIRMED" (coming to it) · "+1" when there are more. */
 export function paperTransferLine(accountId: string, transfers: MoneyParentTransfer[], money: (n: number) => string): string | null {
   const mine = transfers.filter((t) => t.fromId === accountId || t.toId === accountId);
   if (!mine.length) return null;
