@@ -181,8 +181,11 @@ test.describe('F05 MONEY parent motion pilot', () => {
     const sheet = page.locator('[data-jrn-overlay="f05m-actions-sheet"]');
     await expect(sheet).toBeVisible();
     await shot(page, '12-money-actions-sheet');
+    // focus is inside the sheet while it is open, and comes back to the chip that opened it
+    expect(await page.evaluate(() => !!document.activeElement?.closest('[data-jrn-overlay="f05m-actions-sheet"]'))).toBe(true);
     await page.keyboard.press('Escape');
     await expect(sheet).toHaveCount(0);
+    await expect.poll(() => page.evaluate(() => document.activeElement?.getAttribute('data-jrn-trigger'))).toBe('f05m-actions');
     await clickTrigger(page, 'f05m-actions');
     await clickTrigger(page, 'f05m-actions-add');
     await expect(page.locator('[data-jrn-overlay="money-add-place"]')).toBeVisible();

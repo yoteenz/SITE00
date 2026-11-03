@@ -337,11 +337,17 @@ def seamless_tile(env, y0, y1, x0=0, x1=W_SRC, blend=56):
     return np.clip(t, 0, 255).astype(np.uint8)
 
 
-def torn_edge_strip(img, y0=676, y1=772, x0=36, x1=982):
-    """The panel paper's torn top edge with real alpha (parchment against the dark band), for dressing paper sheets."""
+def torn_edge_strip(img, y0=676, y1=772, x0=56, x1=958):
+    """The panel paper's torn top edge with real alpha (parchment against the dark band), for dressing paper sheets.
+    Only parchment-coloured pixels are kept (no leaf or stone at the ends)."""
     roi = img[y0:y1].copy()
     L = lab_L(roi)
-    a = np.clip((L - 95.0) / 45.0, 0, 1)
+    hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV).astype(np.float32)
+    h, sat = hsv[..., 0], hsv[..., 1]
+    foreign = (((h > 32) & (h < 100) & (sat > 50)) | (((h < 4) | (h > 165)) & (sat > 90))).astype(np.uint8)
+    foreign = cv2.morphologyEx(foreign, cv2.MORPH_OPEN, np.ones((3, 3), np.uint8))
+    parchment = 1.0 - cv2.GaussianBlur(foreign.astype(np.float32), (0, 0), 0.8)
+    a = np.clip((L - 95.0) / 45.0, 0, 1) * parchment
     a[:, :x0] = 0
     a[:, x1:] = 0
     # below the edge the panel is solid parchment
