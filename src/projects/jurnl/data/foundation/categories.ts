@@ -23,15 +23,18 @@ export type DataDomainId =
   | 'REFUND'
   | 'OTHER';
 
-export type AccountType = 'CHECKING' | 'SAVINGS' | 'CREDIT_CARD' | 'CASH' | 'INVESTMENT' | 'LOAN' | 'BUSINESS' | 'OTHER';
+/** DEBIT_CARD: a card-based asset account that is not a bank checking account (e.g. a payout or prepaid debit card). */
+export type AccountType = 'CHECKING' | 'SAVINGS' | 'DEBIT_CARD' | 'CREDIT_CARD' | 'CASH' | 'INVESTMENT' | 'LOAN' | 'BUSINESS' | 'OTHER';
 export type TransactionKind = 'EXPENSE' | 'INCOME' | 'TRANSFER';
+/** Accounting class of one ledger entry (see data/ledger/accounting.ts). */
+export type TxnClass = 'INCOME' | 'EXPENSE' | 'TRANSFER' | 'CREDIT_PURCHASE' | 'CREDIT_PAYMENT' | 'DEBT_PAYMENT' | 'REFUND' | 'ADJUSTMENT';
 export type ObligationKind = 'BILL' | 'SUBSCRIPTION';
 export type IncomeType = 'WORK' | 'PRACTICE' | 'OTHER';
 export type DebtType = 'CREDIT_CARD' | 'LOAN' | 'OTHER';
 export type GoalType = 'SAVINGS' | 'PAYDOWN' | 'PURCHASE' | 'OTHER';
 export type RecordType = 'STATEMENT' | 'RECEIPT' | 'TAX' | 'OTHER';
 export type SourceType = 'MANUAL' | 'IMPORT' | 'CONNECTED' | 'MOCK';
-export type RecurrenceType = 'NONE' | 'WEEKLY' | 'BIWEEKLY' | 'MONTHLY' | 'ANNUAL' | 'IRREGULAR';
+export type RecurrenceType = 'NONE' | 'WEEKLY' | 'BIWEEKLY' | 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'IRREGULAR';
 
 export type SpendCategoryId =
   | 'HOUSING'

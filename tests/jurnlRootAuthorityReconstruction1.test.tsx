@@ -25,7 +25,7 @@ const render = (route: string, query = '') =>
 const visible = (html: string) => html.replace(/<style[\s\S]*?<\/style>/g, '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
 
 const HUBS = [
-  { route: 'today', screen: 'F03.00', family: 'F03', asset: 'TODAY.ENVIRONMENT.DAY.001', nav: 'nav-home', copy: ['TODAY', 'WHAT IS TRUE.', 'SAFE TO SPEND', 'A COMPUTED SIGNAL. PREVIEW.', 'SEE WHY', 'COMING', 'MOVED', 'ACTIVITY', 'UPCOMING', 'MORE'] },
+  { route: 'today', screen: 'F03.00', family: 'F03', asset: 'TODAY.ENVIRONMENT.DAY.001', nav: 'nav-home', copy: ['TODAY', 'WHAT IS TRUE.', 'SAFE TO SPEND', 'BALANCES YOU ENTERED.', 'SEE WHY', 'COMING', 'MOVED', 'ACTIVITY', 'UPCOMING', 'MORE'] },
   { route: 'money', screen: 'F05.00', family: 'F05', asset: 'MONEY.ENVIRONMENT.CABINET.001', nav: 'nav-money', copy: ['MONEY', 'HELD', 'OWED', 'WHAT DO I HAVE, AND WHERE IS IT?', 'EVERYDAY', 'ADD A PLACE', 'SEE ALL PLACES.', 'NO BANK CONNECTED.', 'NEXT'] },
   { route: 'plan', screen: 'F08.00', family: 'F08', asset: 'PLAN.ENVIRONMENT.FOLIO.001', nav: 'nav-plan', copy: ['PLAN.', 'YOUR MONEY HAS A PLAN.', 'HERE IS WHAT YOU ARE ARRANGING.', 'NOTHING IS', 'ARRANGED YET.', 'ADD AN INTENTION', 'GOALS', 'PURCHASES', 'TRIPS', 'AHEAD'] },
   { route: 'credit', screen: 'F12.00', family: 'F12', asset: 'CREDIT.ENVIRONMENT.DOSSIER.001', nav: 'nav-credit', copy: ['CREDIT', 'WHAT IS HAPPENING,', 'AND WHAT MATTERS?', 'ADD A CARD OR LOAN', 'PAYDOWN'] },

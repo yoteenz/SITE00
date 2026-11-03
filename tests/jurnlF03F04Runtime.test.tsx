@@ -74,8 +74,8 @@ describe('F03 and F04 live routes', () => {
     expect(html).toContain('data-jrn-screen="F03.00"');
     expect(html).toContain('data-asset-id="TODAY.ENVIRONMENT.DAY.001"');
     expect(html).toContain('SAFE TO SPEND');
-    expect(html).toContain('A COMPUTED SIGNAL');
-    expect(html).toContain('PREVIEW');
+    // Plain-language convergence: the status line states where the number comes from.
+    expect(html).toMatch(/FROM BALANCES YOU ENTERED\.|SAMPLE NUMBERS\. ADD ACCOUNTS\./);
     expect(html).toContain(formatMoney(signal.value));
     expect(html).toContain('data-jrn-zone="intro"');
     expect(html).toContain('data-jrn-zone="content-rail"');
@@ -100,8 +100,9 @@ describe('F03 and F04 live routes', () => {
     const why = renderRuntime('today', 'overlay=see-why');
     expect(why).toContain('data-jrn-overlay="see-why"');
     expect(why).toContain('data-jrn-expression="analysis"');
-    expect(why).toContain('CASH POSITION');
-    expect(why).toContain('DERIVED');
+    expect(why).toMatch(/MONEY IN YOUR ACCOUNTS|SAMPLE CASH/);
+    expect(why).toContain('BILLS DUE BY');
+    expect(why).toContain('WHERE YOUR MONEY IS');
     expect(visibleText(why).match(/[a-z]/g)).toBeNull();
   });
 
@@ -116,10 +117,10 @@ describe('F03 and F04 live routes', () => {
     expect(html).toContain('data-jrn-trigger="activity-filter"');
     expect(html).not.toContain('F04.00_ACTIVITY_PARENT');
     expect(visibleText(html).match(/[a-z]/g)).toBeNull();
-    expect(renderRuntime('activity', 'state=empty')).toContain('NO MOVEMENT YET');
+    expect(renderRuntime('activity', 'state=empty')).toContain('NO TRANSACTIONS YET');
     expect(html).not.toContain('ALL ACCOUNTS');
     expect(renderRuntime('activity', 'state=no_results')).toContain('NO MATCHES');
-    expect(renderRuntime('activity', 'state=no_results')).toContain('NOTHING IN THIS LEDGER FITS');
+    expect(renderRuntime('activity', 'state=no_results')).toContain('NO TRANSACTION MATCHES THIS SEARCH OR FILTER');
     expect(renderRuntime('activity', 'state=error')).toContain('COULD NOT READ ACTIVITY');
     const filter = renderRuntime('activity', 'overlay=filter');
     expect(filter).toContain('data-jrn-overlay="activity-filter-sheet"');

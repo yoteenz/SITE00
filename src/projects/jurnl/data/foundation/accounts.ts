@@ -34,6 +34,12 @@ export type JurnlAccountRecord = {
   created_at: string;
   updated_at: string;
   archived_at: string | null;
+  /**
+   * Marks a card-based asset account that receives rideshare / gig payouts (e.g. an UBER or LYFT card). Purely a
+   * preference flag: the account's accounting nature still comes from `account_type` (a payout card set up as a
+   * CREDIT_CARD stays a liability). Each payout card is its own account; JURNL never merges two of them.
+   */
+  is_payout_card?: boolean;
 };
 
 export function accountTypeFromSetupKind(kind: SetupDraft['accountKind']): AccountType {
@@ -63,6 +69,13 @@ export function safeToSpendEligibleAccounts(): JurnlAccountRecord[] {
 
 export function accountById(id: string): JurnlAccountRecord | null {
   return listActiveAccounts().find((a) => a.account_id === id) ?? null;
+}
+
+/** Active accounts as stable-id options (canonical). */
+export function accountIdOptions(filter: (a: JurnlAccountRecord) => boolean = () => true): { id: string; label: string; account: JurnlAccountRecord }[] {
+  return listActiveAccounts()
+    .filter(filter)
+    .map((a) => ({ id: a.account_id, label: a.display_name, account: a }));
 }
 
 export function accountDisplayOptions(): { id: string; label: string }[] {

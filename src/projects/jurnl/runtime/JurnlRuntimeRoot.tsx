@@ -27,7 +27,7 @@ import { AccountScreen } from './screens/AccountScreens';
 import { ParentAuthorityScreen, ParentReviewBoard } from './screens/ParentScreens';
 import { MoneyHubScreen, MoneyPlaceDetailScreen, MoneyPlacesScreen } from './screens/MoneyScreens';
 import { IncomeHubScreen, IncomeSourceScreen } from './screens/IncomeScreens';
-import { UpcomingHubScreen, UpcomingItemScreen } from './screens/UpcomingScreens';
+import { SubscriptionsScreen, UpcomingHubScreen, UpcomingItemScreen } from './screens/UpcomingScreens';
 import { PlanHubScreen, PlanIntentionScreen } from './screens/PlanScreens';
 import { SafeToSpendHubScreen, SafeToSpendReferenceScreen, SafeToSpendWhyScreen } from './screens/SafeToSpendScreens';
 import { CheckPurchaseScreen } from './screens/CheckPurchaseScreens';
@@ -125,6 +125,7 @@ function JurnlRoutes() {
       <Route path="income" element={<IncomeHubScreen />} />
       <Route path="income/:sourceId" element={<IncomeSourceScreen />} />
       <Route path="upcoming" element={<UpcomingHubScreen />} />
+      <Route path="upcoming/subscriptions" element={<SubscriptionsScreen />} />
       <Route path="upcoming/:itemId" element={<UpcomingItemScreen />} />
       <Route path="plan" element={<PlanHubScreen />} />
       <Route path="plan/:intentionId" element={<PlanIntentionScreen />} />

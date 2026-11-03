@@ -1,7 +1,10 @@
 /** F06 INCOME — structural completion (Wave 2). */
 
 import { useState, type ReactNode } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
+import { earningsBreakdown, earningsPeriods, useDailyEarnings } from '../../data/f06/dailyEarnings';
+import type { JurnlDailyEarnings } from '../../data/foundation/dailyEarnings';
+import { AfterEarningsSheet, DailyEarningsSheet, EarningsDetailSheet } from '../finance/FinanceSheets';
 import { formatRelativeDate, getTodayKey, type RecurrenceType } from '../../data/foundation/dates';
 import { createIncomeSource, incomeById, receiveIncome, useIncomeSources } from '../../data/f06/incomeStore';
 import { formatMoney, useCurrency } from '../../data/home/money';
@@ -36,7 +39,7 @@ function IncomeShell({ screenId, children }: { screenId: string; children: React
   );
 }
 
-const CADENCE: Record<string, string> = { NONE: 'ONCE', WEEKLY: 'WEEKLY', BIWEEKLY: 'EVERY 2 WEEKS', MONTHLY: 'MONTHLY', ANNUAL: 'YEARLY', IRREGULAR: 'IRREGULAR' };
+const CADENCE: Record<string, string> = { NONE: 'ONCE', WEEKLY: 'WEEKLY', BIWEEKLY: 'EVERY 2 WEEKS', MONTHLY: 'MONTHLY', QUARTERLY: 'EVERY 3 MONTHS', ANNUAL: 'YEARLY', IRREGULAR: 'IRREGULAR' };
 
 /** F06 INCOME — LEDGER / GRID. An arrivals ledger: source, rhythm, next date, amount — ruled like a ledger page. */
 export function IncomeHubScreen() {
@@ -45,7 +48,13 @@ export function IncomeHubScreen() {
   const sources = useIncomeSources();
   const spec = parentById('F06')!;
   const [addOpen, setAddOpen] = useState(false);
+  const [params] = useSearchParams();
+  const days = useDailyEarnings();
+  const [earningsOpen, setEarningsOpen] = useState<{ edit: JurnlDailyEarnings | null } | null>(params.get('add') === 'earnings' ? { edit: null } : null);
+  const [detail, setDetail] = useState<JurnlDailyEarnings | null>(null);
+  const [saved, setSaved] = useState<JurnlDailyEarnings | null>(null);
   const today = getTodayKey();
+  const periods = earningsPeriods(days, today);
   const next = [...sources].sort((a, b) => a.next_due_date.localeCompare(b.next_due_date))[0] ?? null;
   return (
     <JurnlFamilyFrame
@@ -61,26 +70,62 @@ export function IncomeHubScreen() {
           {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F06" onClose={closeOverlay} /> : null}
           {overlay === 'ask' ? <AskJurnlSheet familyId="F06" nodeId="F06.00" onClose={closeOverlay} /> : null}
           {addOpen ? <AddIncomeSheet onClose={() => setAddOpen(false)} /> : null}
+          {earningsOpen ? (
+            <DailyEarningsSheet
+              existing={earningsOpen.edit}
+              onClose={() => setEarningsOpen(null)}
+              onSaved={(r) => { const wasEdit = Boolean(earningsOpen.edit); setEarningsOpen(null); if (!wasEdit) setSaved(r); }}
+            />
+          ) : null}
+          {detail ? <EarningsDetailSheet record={detail} onClose={() => setDetail(null)} onEdit={() => { setEarningsOpen({ edit: detail }); setDetail(null); }} /> : null}
+          {saved ? <AfterEarningsSheet record={saved} onClose={() => setSaved(null)} /> : null}
         </>
       }
     >
       <FramePanel id="intro">
         <header className="jrn-ledg__intro" data-jrn-zone="intro">
           <h1 className="jrn-ledg__h">INCOME</h1>
-          <p className="jrn-lang__state">
-            {sources.length ?
-              `${sources.length} INCOME ${sources.length === 1 ? 'SOURCE' : 'SOURCES'}. NEXT: ${next!.source_name}, ${formatRelativeDate(next!.next_due_date, today)}.`
-            : 'NO INCOME IS ADDED YET.'}
+          <p className="jrn-lang__state" data-testid="income-state">
+            {periods.today.total > 0 ?
+              `${formatMoney(periods.today.total)} EARNED TODAY. ${formatMoney(periods.week.total)} THIS WEEK.`
+            : sources.length ?
+              `${sources.length} EXPECTED INCOME ${sources.length === 1 ? 'SOURCE' : 'SOURCES'}. NEXT: ${next!.source_name}, ${formatRelativeDate(next!.next_due_date, today)}.`
+            : days.length ? `${formatMoney(periods.week.total)} EARNED THIS WEEK.` : 'NO INCOME IS RECORDED YET.'}
           </p>
-          <p className="jrn-lang__task">{sources.length ? 'OPEN A SOURCE TO SEE ITS PATTERN AND WHAT HAS ARRIVED.' : 'ADD EACH PLACE MONEY COMES FROM SO JURNL CAN PLAN AROUND IT.'}</p>
+          <p className="jrn-lang__task">{periods.today.total > 0 ? 'OPEN A DAY TO EDIT OR REMOVE IT.' : 'AT THE END OF YOUR WORKDAY, ADD WHAT YOU EARNED IN ONE ENTRY.'}</p>
           <p className="jrn-lang__editorial">{spec.question}</p>
         </header>
       </FramePanel>
+      <FramePanel id="earnings">
+        <section className="jrn-ledg" aria-label="DAILY EARNINGS" data-testid="earnings-panel">
+          <p className="jrn-ledg__head" aria-hidden>
+            <span>EARNED</span>
+            <span>DAYS</span>
+            <span>TOTAL</span>
+          </p>
+          {([['TODAY', periods.today], ['THIS WEEK', periods.week], ['THIS MONTH', periods.month]] as const).map(([label, t]) => (
+            <div key={label} className="jrn-ledg__row" data-testid={`earnings-${label.toLowerCase().replace(' ', '-')}`}>
+              <span className="jrn-ledg__name">{label}</span>
+              <span className="jrn-ledg__sub">{`${formatMoney(t.digital)} DIGITAL · ${formatMoney(t.cash)} CASH`}</span>
+              <span className="jrn-ledg__date">{t.days}</span>
+              <span className="jrn-ledg__amt">{formatMoney(t.total)}</span>
+            </div>
+          ))}
+          {days.slice(0, 4).map((d) => (
+            <button key={d.earnings_id} type="button" className="jrn-ledg__row" data-jrn-trigger={`earnings-day-${d.earnings_id}`} onClick={() => setDetail(d)}>
+              <span className="jrn-ledg__name">{d.income_source}</span>
+              <span className="jrn-ledg__sub">{`${formatMoney(earningsBreakdown(d).digitalReceived)} DIGITAL · ${formatMoney(d.cash_tips)} CASH`}</span>
+              <span className="jrn-ledg__date">{formatRelativeDate(d.work_date, today)}</span>
+              <span className="jrn-ledg__amt">{formatMoney(earningsBreakdown(d).totalEarned, true)}</span>
+            </button>
+          ))}
+        </section>
+      </FramePanel>
       {sources.length ?
         <FramePanel id="ledger">
-          <section className="jrn-ledg" aria-label="INCOME SOURCES">
+          <section className="jrn-ledg" aria-label="EXPECTED INCOME">
             <p className="jrn-ledg__head" aria-hidden>
-              <span>SOURCE</span>
+              <span>EXPECTED</span>
               <span>NEXT</span>
               <span>AMOUNT</span>
             </p>
@@ -97,7 +142,8 @@ export function IncomeHubScreen() {
       : null}
       <FramePanel id="actions">
         <div className="jrn-ledg__actions">
-          <JurnlButton trigger="income-add" onClick={() => setAddOpen(true)}>ADD A SOURCE</JurnlButton>
+          <JurnlButton trigger="income-add-earnings" onClick={() => setEarningsOpen({ edit: null })}>ADD DAILY EARNINGS</JurnlButton>
+          <JurnlButton variant="secondary" trigger="income-add" onClick={() => setAddOpen(true)}>ADD EXPECTED INCOME</JurnlButton>
           <JurnlButton variant="secondary" trigger="income-upcoming" onClick={() => go('upcoming')}>UPCOMING</JurnlButton>
         </div>
       </FramePanel>
@@ -125,15 +171,15 @@ export function IncomeSourceScreen() {
       <FamilyChrome familyId="F06" nodeId="F06.SOURCE" backLabel="BACK TO INCOME" onBack={() => go('income')} onAsk={() => openOverlay('ask')} />
       <div className="jrn-home__intro" data-jrn-zone="intro">
         <h1 className="jrn-home__h">{src.source_name}</h1>
-        <p className="jrn-home__sub">{src.status} · {src.cadence}</p>
+        <p className="jrn-home__sub">{src.status} · {CADENCE[src.cadence] ?? src.cadence}</p>
       </div>
       <div className="jrn-parent__rail" data-jrn-zone="content-rail">
         <JurnlPanel role="detail" className="jrn-home__panel">
           <b>EXPECTED</b>
           <p>{formatMoney(src.amount, true)}</p>
           <b>NEXT</b>
-          <p>{src.next_due_date}</p>
-          {src.linked_transaction_id ? <p>LINKED MOVEMENT · {src.linked_transaction_id}</p> : null}
+          <p>{formatRelativeDate(src.next_due_date, getTodayKey())}</p>
+          {src.linked_transaction_id ? <p>RECORDED IN ACTIVITY</p> : null}
         </JurnlPanel>
         {src.status === 'EXPECTED' ?
           <JurnlButton trigger="income-receive" onClick={() => receiveIncome(src.income_id, accounts[0]?.id ?? 'CHECKING')}>
@@ -154,11 +200,11 @@ function AddIncomeSheet({ onClose }: { onClose: () => void }) {
   const [cadence, setCadence] = useState<RecurrenceType>('MONTHLY');
   const valid = name.trim().length > 0 && /^\d+(\.\d{1,2})?$/.test(amount.trim());
   return (
-    <JurnlDrawer size="long" testId="income-add-sheet" title="ADD A SOURCE" onClose={onClose} footer={
+    <JurnlDrawer size="long" testId="income-add-sheet" title="ADD EXPECTED INCOME" lead="A PAYCHECK OR PAYMENT YOU EXPECT ON A SCHEDULE. FOR MONEY YOU ALREADY EARNED TODAY, USE ADD DAILY EARNINGS." onClose={onClose} footer={
       <JurnlButton disabled={!valid} trigger="income-add-save" onClick={() => { createIncomeSource({ source_name: name, amount: Number(amount), cadence, next_due_date: getTodayKey() }); onClose(); }}>SAVE</JurnlButton>
     }>
       <JurnlInput label="NAME" value={name} onValue={setName} trigger="income-add-name" />
-      <JurnlInput label="AMOUNT USD" value={amount} onValue={setAmount} trigger="income-add-amount" inputMode="decimal" />
+      <JurnlInput label="AMOUNT" value={amount} onValue={setAmount} trigger="income-add-amount" inputMode="decimal" />
       <div className="jrn-home__choices" role="radiogroup" aria-label="CADENCE">
         {(['WEEKLY', 'BIWEEKLY', 'MONTHLY'] as RecurrenceType[]).map((c) => (
           <button key={c} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={cadence === c} onClick={() => setCadence(c)}>{c}</button>
@@ -171,10 +217,10 @@ function AddIncomeSheet({ onClose }: { onClose: () => void }) {
 function EditIncomeSheet({ source, onClose }: { source: NonNullable<ReturnType<typeof incomeById>>; onClose: () => void }) {
   const [amount, setAmount] = useState(String(source.amount));
   return (
-    <JurnlDrawer size="long" testId="income-edit-sheet" title="EDIT SOURCE" onClose={onClose} footer={
+    <JurnlDrawer size="long" testId="income-edit-sheet" title="EDIT EXPECTED INCOME" onClose={onClose} footer={
       <JurnlButton trigger="income-edit-save" onClick={() => { getRepository().upsertIncomeSource({ ...source, amount: Number(amount) }); onClose(); }}>SAVE</JurnlButton>
     }>
-      <JurnlInput label="AMOUNT USD" value={amount} onValue={setAmount} trigger="income-edit-amount" inputMode="decimal" />
+      <JurnlInput label="AMOUNT" value={amount} onValue={setAmount} trigger="income-edit-amount" inputMode="decimal" />
     </JurnlDrawer>
   );
 }
