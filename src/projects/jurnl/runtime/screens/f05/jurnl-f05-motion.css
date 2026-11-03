@@ -266,11 +266,23 @@
   letter-spacing: 0.24em;
   white-space: nowrap;
 }
+/* The transfer slip: a small paper pinned under the card's bottom edge (legible over any art). */
 .jrn .jrn-f05m__paper-note--transit {
-  top: calc(50% + 72px);
-  letter-spacing: 0.08em;
-  font-size: 17px;
-  color: #6b4a22;
+  top: auto;
+  bottom: calc(-0.62em - 6px);
+  left: 30px;
+  z-index: 1;
+  max-width: 318px;
+  padding: 6px 10px 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 6px;
+  background: #efe3cb;
+  box-shadow: 0 3px 6px rgba(40, 26, 12, 0.3), inset 0 0 0 1.5px rgba(110, 76, 40, 0.28);
+  font: 600 max(16px, calc(8.5px / var(--f05m-u, 1))) / 1 'JURNL Sans', sans-serif;
+  font-style: normal;
+  letter-spacing: 0.1em;
+  color: #3b2a16;
 }
 .jrn .jrn-f05m__chev {
   position: absolute;
@@ -363,6 +375,104 @@
   z-index: 2;
 }
 
+/* L3.5 transfer threads: they draw the recorded settlement state between two papers and never change it.
+   Not left yet: dashed, token at the source · In transit: solid to the token, dashed onwards · Returning: wine. */
+.jrn .jrn-f05m__threads {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+.jrn .jrn-f05m__thread path {
+  fill: none;
+  stroke-linecap: round;
+}
+.jrn .jrn-f05m__thread-planned {
+  stroke: rgba(40, 28, 16, 0.55);
+  stroke-width: 3;
+  stroke-dasharray: 1.4 2.2;
+}
+.jrn .jrn-f05m__thread[data-state='NEEDS_RECONCILIATION'] .jrn-f05m__thread-planned {
+  stroke: #b8862f;
+}
+.jrn .jrn-f05m__thread-left {
+  stroke: #3b3a2d;
+  stroke-width: 3.6;
+}
+.jrn .jrn-f05m__thread[data-state='RETURNING'] .jrn-f05m__thread-left {
+  stroke: #7a2f2a;
+}
+.jrn .jrn-f05m__thread-pin {
+  fill: #3b3a2d;
+}
+.jrn .jrn-f05m__thread-ghost {
+  fill: none;
+  stroke-width: 3.6;
+  stroke-linecap: round;
+  stroke: #3b3a2d;
+  opacity: 0;
+}
+.jrn .jrn-f05m__thread-ghost--closed {
+  stroke: rgba(40, 28, 16, 0.45);
+  stroke-dasharray: 1.4 2.2;
+}
+.jrn .jrn-f05m__token {
+  position: absolute;
+  z-index: 3;
+  min-width: 132px;
+  height: 48px;
+  padding: 0 14px;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 2px;
+  border: 2px dashed rgba(40, 28, 16, 0.6);
+  border-radius: 12px;
+  background-color: #efe3cb;
+  background-size: cover;
+  color: var(--f05m-ink);
+  box-shadow: 0 6px 12px rgba(40, 26, 12, 0.28);
+  cursor: pointer;
+}
+.jrn .jrn-f05m__token::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100%, calc(44px / var(--f05m-u, 1)));
+  height: max(100%, calc(44px / var(--f05m-u, 1)));
+  transform: translate(-50%, -50%);
+}
+.jrn .jrn-f05m__token[data-state='IN_TRANSIT'] {
+  border-style: solid;
+  border-color: #3b3a2d;
+}
+.jrn .jrn-f05m__token[data-state='RETURNING'] {
+  border-style: solid;
+  border-color: #7a2f2a;
+}
+.jrn .jrn-f05m__token[data-state='NEEDS_RECONCILIATION'] {
+  border-color: #b8862f;
+}
+.jrn .jrn-f05m__token b {
+  font: 500 max(21px, calc(9px / var(--f05m-u, 1))) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+}
+.jrn .jrn-f05m__token span {
+  font: 600 max(11px, calc(7px / var(--f05m-u, 1))) / 1 'JURNL Sans', sans-serif;
+  letter-spacing: 0.14em;
+}
+.jrn .jrn-f05m__token:focus-visible {
+  outline: 5px solid var(--f05m-gold);
+  outline-offset: 4px;
+}
+.jrn .jrn-f05m__token--ghost {
+  pointer-events: none;
+  opacity: 0;
+  border-style: solid;
+}
 .jrn .jrn-f05m__dots {
   position: absolute;
   display: flex;
@@ -537,6 +647,23 @@
     /* papers settle 340–610 ms: the stagger shrinks with the number of papers so the last one lands by 610 ms */
     animation: f05m-paper 200ms var(--f05m-ease) calc(340ms + var(--i, 0) * var(--f05m-stagger, 45ms)) backwards;
   }
+  /* threads appear with the papers (ends ≤ 640 ms) and only when the recorded state is open */
+  .jrn .jrn-f05m__thread {
+    animation: f05m-fade 200ms ease-out 440ms backwards;
+  }
+  .jrn .jrn-f05m__token:not(.jrn-f05m__token--ghost) {
+    animation: f05m-token 200ms ease-out 440ms backwards;
+  }
+  /* COMPLETED: the token goes on to the destination and the thread resolves (the balance already moved) */
+  .jrn .jrn-f05m__thread-ghost--resolved {
+    animation: f05m-ghost 480ms ease-out both;
+  }
+  .jrn .jrn-f05m__thread-ghost--closed {
+    animation: f05m-ghost 300ms ease-out both;
+  }
+  .jrn .jrn-f05m__token--ghost {
+    animation: f05m-arrive 480ms var(--f05m-ease) both;
+  }
   .jrn .jrn-f05m__paper[data-return='true'],
   .jrn .jrn-f05m__paper[data-fresh='true'] {
     animation: f05m-return 420ms var(--f05m-ease) backwards;
@@ -566,6 +693,22 @@
 @keyframes f05m-paper {
   from { opacity: 0; transform: translateY(14px) scale(0.985); }
   to { opacity: 1; transform: none; }
+}
+@keyframes f05m-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes f05m-token {
+  from { opacity: 0; transform: translate(-50%, calc(-50% + 5px)); }
+  to { opacity: 1; transform: translate(-50%, -50%); }
+}
+@keyframes f05m-ghost {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@keyframes f05m-arrive {
+  from { opacity: 1; transform: translate(-50%, -50%); }
+  to { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.8); }
 }
 @keyframes f05m-return {
   from { transform: translateY(-7px) scale(1.035); filter: drop-shadow(0 18px 16px rgba(48, 30, 12, 0.36)); }

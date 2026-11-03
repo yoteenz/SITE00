@@ -5,7 +5,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { artFor, computeMoneyParentReading, nameLines, pageAccounts } from '../src/projects/jurnl/data/f05/moneyParentReading';
+import { artFor, computeMoneyParentReading, nameLines, OPEN_TRANSFER_STATES, pageAccounts } from '../src/projects/jurnl/data/f05/moneyParentReading';
 import { computeSafeToSpend } from '../src/projects/jurnl/data/f09/safeToSpend';
 import { recordTransfer, recordTransferStep } from '../src/projects/jurnl/data/ledger/ledgerOps';
 import { getRepository } from '../src/projects/jurnl/data/repository/deviceRepository';
@@ -99,6 +99,99 @@ describe('F05 parent figures come from the canonical model', () => {
     expect(r.held).toBe(0);
     expect(r.owed).toBe(0);
     expect(r.cashSource).toBe('MOCK');
+  });
+});
+
+describe('Transfer and card-payment states on the page follow the #1706 settlement model', () => {
+  beforeEach(() => approvedWorld());
+  const linkOf = (r: ReturnType<typeof recordTransfer>) => (r.ok ? r.value.linkId : '');
+  const read = () => computeMoneyParentReading(TODAY);
+  const acc = (id: string) => read().accounts.find((a) => a.account_id === id)!;
+
+  it('scheduled: a planned connection, no money moved', () => {
+    recordTransfer({ from_account_id: 'ride', to_account_id: 'bank', amount: 80, occurred_on: addDays(TODAY, 2), start: 'SCHEDULED' });
+    const r = read();
+    expect(r.transfers).toMatchObject([{ state: 'SCHEDULED', amount: 80, fromId: 'ride', toId: 'bank', label: 'PLANNED', confirmation: 'RECORDED_BY_YOU' }]);
+    expect([acc('ride').amount, acc('bank').amount, r.held]).toEqual([840, 1260, 2450]);
+    expect(acc('ride').transferLine).toBe('→ $80 PLANNED');
+    expect(acc('bank').transferLine).toBe('← $80 PLANNED');
+  });
+
+  it('pending (source not debited): balances unchanged', () => {
+    recordTransfer({ from_account_id: 'ride', to_account_id: 'bank', amount: 80, occurred_on: TODAY, start: 'PENDING' });
+    expect([acc('ride').amount, acc('bank').amount, read().held]).toEqual([840, 1260, 2450]);
+    expect(acc('bank').transferLine).toBe('← $80 NOT LEFT YET');
+  });
+
+  it('in transit → completed → the line disappears; failed and cancelled close with balances from the ledger', () => {
+    const t = linkOf(recordTransfer({ from_account_id: 'ride', to_account_id: 'bank', amount: 80, occurred_on: TODAY, start: 'IN_TRANSIT' }));
+    expect(read().transfers[0]).toMatchObject({ state: 'IN_TRANSIT', label: 'IN TRANSIT' });
+    expect([acc('ride').amount, acc('bank').amount]).toEqual([760, 1260]);
+    recordTransferStep(t, 'RECEIVED');
+    expect(read().transfers).toEqual([]);
+    expect(read().transferStates[t]).toBe('COMPLETED');
+    expect([acc('ride').amount, acc('bank').amount, acc('bank').transferLine]).toEqual([760, 1340, null]);
+
+    const f = linkOf(recordTransfer({ from_account_id: 'cash', to_account_id: 'bank', amount: 50, occurred_on: TODAY, start: 'IN_TRANSIT' }));
+    recordTransferStep(f, 'FAIL');
+    expect(read().transfers[0]).toMatchObject({ state: 'RETURNING', label: 'FAILED · MONEY COMING BACK' });
+    expect(acc('cash').amount).toBe(300); // not restored until the money is recorded as back
+    recordTransferStep(f, 'MONEY_RETURNED');
+    expect(read().transferStates[f]).toBe('FAILED');
+    expect(acc('cash').amount).toBe(350);
+
+    const c = linkOf(recordTransfer({ from_account_id: 'bank', to_account_id: 'cash', amount: 20, occurred_on: TODAY, start: 'PENDING' }));
+    recordTransferStep(c, 'CANCEL');
+    expect(read().transferStates[c]).toBe('CANCELLED');
+    expect(read().transfers).toEqual([]);
+    expect([acc('bank').amount, acc('cash').amount]).toEqual([1340, 350]);
+  });
+
+  it('card payment: submitted and paid-not-confirmed never lower the debt; issuer confirmation does; never spending', () => {
+    const p = linkOf(recordTransfer({ from_account_id: 'bank', to_account_id: 'visa', amount: 35, occurred_on: TODAY, start: 'PENDING' }));
+    expect(read().transfers[0]).toMatchObject({ kind: 'CARD_PAYMENT', state: 'PENDING', label: 'PAYMENT SUBMITTED' });
+    expect([acc('bank').amount, acc('visa').amount, read().owed]).toEqual([1260, 780, 780]);
+    expect(acc('visa').transferLine).toBe('← $35 PAYMENT SUBMITTED');
+    recordTransferStep(p, 'LEFT_SOURCE');
+    expect(read().transfers[0]).toMatchObject({ state: 'IN_TRANSIT', label: 'PAID FROM ACCOUNT · CARD NOT CONFIRMED' });
+    expect([acc('bank').amount, acc('visa').amount, read().owed]).toEqual([1225, 780, 780]);
+    expect(acc('visa').transferLine).toBe('← $35 CARD NOT CONFIRMED');
+    recordTransferStep(p, 'RECEIVED');
+    expect(read().transferStates[p]).toBe('COMPLETED');
+    expect([acc('visa').amount, read().owed]).toEqual([745, 745]);
+    const legs = snap().transactions.filter((x) => x.link?.id === p);
+    expect(legs.every((l) => l.txn_class !== 'EXPENSE' && l.txn_class !== 'CREDIT_PURCHASE')).toBe(true);
+    // reversal goes through the accounting operation, and the debt returns
+    recordTransferStep(p, 'REVERSE');
+    expect(read().transferStates[p]).toBe('REVERSED');
+    expect(read().owed).toBe(780);
+  });
+
+  it('legacy unconfirmed records show as NEEDS CONFIRMATION and move nothing', () => {
+    const now = new Date().toISOString();
+    const leg = (id: string, account: string, counter: string, dir: 'INCOME' | 'EXPENSE', side: 'OUT' | 'IN') => ({
+      id, merchant: 'OLD TRANSFER', amount: 40, direction: dir, when: TODAY, account: account.toUpperCase(), account_id: account, category: 'TRANSFER',
+      status: 'PENDING' as const, recurring: false, memo: '', source: 'ADDED' as const, related: null, txn_class: 'TRANSFER' as const, occurred_on: TODAY, recorded_at: now,
+      confirmation: 'PENDING_CONFIRMATION' as const, origin_family: 'F05', link: { kind: 'TRANSFER' as const, id: 'legacy-1', leg: side }, counterparty_account_id: counter,
+    });
+    getRepository().commit({ reason: 'LEGACY', transactions: { upsert: [leg('l-out', 'ride', 'bank', 'EXPENSE', 'OUT'), leg('l-in', 'bank', 'ride', 'INCOME', 'IN')] as never } });
+    expect(read().transfers[0]).toMatchObject({ state: 'NEEDS_RECONCILIATION', label: 'NEEDS CONFIRMATION' });
+    expect([acc('ride').amount, acc('bank').amount]).toEqual([840, 1260]);
+    expect(OPEN_TRANSFER_STATES).toEqual(['SCHEDULED', 'PENDING', 'IN_TRANSIT', 'RETURNING', 'NEEDS_RECONCILIATION']);
+  });
+});
+
+describe('Single financial-state owner', () => {
+  it('the pilot page, layout and reading never write or compute balances themselves', () => {
+    const files = ['src/projects/jurnl/runtime/screens/f05/MoneyMotionParent.tsx', 'src/projects/jurnl/runtime/screens/f05/f05MotionLayout.ts', 'src/projects/jurnl/data/f05/moneyParentReading.ts', 'src/projects/jurnl/runtime/screens/f05/MoneyParentRoute.tsx'];
+    for (const f of files) {
+      const src = readFileSync(path.resolve(f), 'utf8');
+      // no write operations (the existing TransferSheet / TransferDetailSheet / AddPlaceSheet do every write)
+      expect(src, f).not.toMatch(/\b(recordTransfer|recordTransferStep|buildTransferAction|createManualAccount|setAccountBalance|renameAccount|archiveAccount|applyOp)\s*\(/);
+      expect(src, f).not.toMatch(/\.commit\(|localStorage|upsert/);
+      // no balance arithmetic outside the canonical selectors
+      expect(src, f).not.toMatch(/available_balance\s*[-+]|\.balance\s*[-+]/);
+    }
   });
 });
 

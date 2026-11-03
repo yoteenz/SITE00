@@ -174,6 +174,93 @@ test.describe('F05 MONEY parent motion pilot', () => {
     await shot(page, '10-transfer-in-transit');
   });
 
+  test('transfer states drive the thread; only recorded steps move money', async ({ page }) => {
+    await open(page);
+    const amount = (id: string) => cents(page, `[data-account-id="${id}"] [data-jrn-amount-cents]`);
+    const legs = async () => ((await storedSnapshot(page)) as unknown as { transactions: { link?: { kind: string; leg: string; id: string }; settlement?: string }[] }).transactions.filter((t) => t.link);
+    const move = async (from: string, to: string, value: string, status: string) => {
+      await clickTrigger(page, 'f05m-actions');
+      await clickTrigger(page, 'f05m-actions-move');
+      await clickTrigger(page, `transfer-from-${from}`);
+      await clickTrigger(page, `transfer-to-${to}`);
+      await trigger(page, 'transfer-amount').first().fill(value);
+      await clickTrigger(page, `transfer-status-${status}`);
+      await clickTrigger(page, 'transfer-save');
+      await settle(page);
+    };
+    const token = () => page.locator('.jrn-f05m__token:not(.jrn-f05m__token--ghost)');
+    const step = async (name: string) => {
+      await token().first().click();
+      await clickTrigger(page, name);
+      await page.keyboard.press('Escape');
+      await settle(page);
+    };
+
+    // SCHEDULED: a planned connection, no money moved.
+    await move('ride', 'bank', '80', 'scheduled');
+    await expect(page.locator('.jrn-f05m__thread')).toHaveAttribute('data-state', 'SCHEDULED');
+    await expect(token()).toHaveAttribute('data-state', 'SCHEDULED');
+    expect([await amount('ride'), await amount('bank'), await metric(page, 'held')]).toEqual([84_000, 126_000, 245_000]);
+    await expect(page.locator('[data-account-id="ride"]')).toContainText('→ $80 PLANNED');
+    await expect(page.locator('[data-account-id="bank"]')).toContainText('← $80 PLANNED');
+    // the token rests on the source paper (nothing has left)
+    const rest = await page.evaluate(() => {
+      const t = document.querySelector('.jrn-f05m__token')!.getBoundingClientRect();
+      const r = document.querySelector('[data-account-id="ride"]')!.getBoundingClientRect();
+      return { overSource: t.left + t.width / 2 > r.left && t.left + t.width / 2 < r.right, nearTop: Math.abs(t.bottom - r.top) < 12 };
+    });
+    expect(rest).toEqual({ overSource: true, nearTop: true });
+    await shot(page, '20-transfer-scheduled');
+
+    // LEFT THE SOURCE (recorded step): the source is debited, the destination is not credited, the token sits between.
+    await step('transfer-step-left-source');
+    await expect(page.locator('.jrn-f05m__thread')).toHaveAttribute('data-state', 'IN_TRANSIT');
+    expect([await amount('ride'), await amount('bank'), await metric(page, 'held')]).toEqual([76_000, 126_000, 237_000]);
+    await expect(page.locator('[data-account-id="bank"]')).toContainText('← $80 IN TRANSIT');
+    expect((await legs()).map((l) => `${l.link!.leg}:${l.settlement}`).sort()).toEqual(['IN:PENDING', 'OUT:SETTLED']);
+    await shot(page, '21-transfer-in-transit');
+
+    // ARRIVED (recorded step): credited exactly once, the thread resolves.
+    await step('transfer-step-received');
+    await expect(page.locator('.jrn-f05m__thread')).toHaveCount(0);
+    expect([await amount('ride'), await amount('bank'), await metric(page, 'held')]).toEqual([76_000, 134_000, 245_000]);
+    await expect(page.locator('[data-account-id="bank"]')).not.toContainText('IN TRANSIT');
+
+    // FAILED, money returned (recorded step): restored by the accounting operation, never by the animation.
+    await move('cash', 'bank', '50', 'in-transit');
+    expect([await amount('cash'), await amount('bank')]).toEqual([30_000, 134_000]);
+    await token().first().click();
+    await clickTrigger(page, 'transfer-step-fail');
+    await clickTrigger(page, 'transfer-fail-returned');
+    await page.keyboard.press('Escape');
+    await settle(page);
+    await expect(page.locator('.jrn-f05m__thread')).toHaveCount(0);
+    expect([await amount('cash'), await amount('bank')]).toEqual([35_000, 134_000]);
+
+    // CARD PAYMENT: submitted → paid from the bank, card not confirmed → card confirmed. The debt falls only at the end.
+    await move('bank', 'visa', '35', 'pending');
+    await expect(token()).toHaveAttribute('data-kind', 'CARD_PAYMENT');
+    await expect(page.locator('[data-account-id="visa"]')).toContainText('← $35 PAYMENT SUBMITTED');
+    expect([await amount('bank'), await amount('visa'), await metric(page, 'owed')]).toEqual([134_000, 78_000, 78_000]);
+    await step('transfer-step-left-source');
+    await expect(page.locator('[data-account-id="visa"]')).toContainText('← $35 CARD NOT CONFIRMED');
+    await expect(token()).toContainText('NOT CONFIRMED');
+    await expect(token()).toHaveAttribute('aria-label', /^PAID FROM ACCOUNT · CARD NOT CONFIRMED: \$35/);
+    expect([await amount('bank'), await amount('visa'), await metric(page, 'owed')]).toEqual([130_500, 78_000, 78_000]);
+    await expect(token()).toHaveAttribute('aria-label', /RECORDED BY YOU, NOT CONFIRMED BY A BANK/);
+    await shot(page, '22-card-payment-not-confirmed');
+    await step('transfer-step-received');
+    expect([await amount('bank'), await amount('visa'), await metric(page, 'owed')]).toEqual([130_500, 74_500, 74_500]);
+    await expect(page.locator('.jrn-f05m__thread')).toHaveCount(0);
+
+    // The page itself never wrote anything: every leg came from the sheets' recorded steps.
+    const before = JSON.stringify(await storedSnapshot(page));
+    await page.reload({ waitUntil: 'networkidle' });
+    await page.locator('[data-jrn-f05-stage]').waitFor({ state: 'attached' });
+    await settle(page);
+    expect(JSON.stringify(await storedSnapshot(page))).toBe(before);
+  });
+
   test('12 · overlays open, trap focus, close on Escape and return focus to the trigger', async ({ page }) => {
     await open(page);
     await trigger(page, 'f05m-actions').focus();

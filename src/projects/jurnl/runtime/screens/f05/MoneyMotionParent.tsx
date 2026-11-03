@@ -12,12 +12,12 @@
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent } from 'react';
 import { flushSync } from 'react-dom';
-import { computeMoneyParentReading, type MoneyParentAccount, type MoneyPaperArt } from '../../../data/f05/moneyParentReading';
+import { computeMoneyParentReading, type MoneyParentAccount, type MoneyParentTransfer, type MoneyPaperArt } from '../../../data/f05/moneyParentReading';
 import { formatMoney, useCurrency, useRepoTick } from '../../../data/home/money';
 import { JurnlButton, JurnlDrawer } from '../../components/primitives';
 import { JurnlProductNav } from '../../components/ProductNav';
 import { SafeHorizonSheet } from '../../finance/SafeHorizonSheet';
-import { TransferSheet } from '../../finance/FinanceSheets';
+import { TransferDetailSheet, TransferSheet } from '../../finance/FinanceSheets';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../../global/GlobalSheets';
 import { useJurnl } from '../../state/store';
 import { JurnlScreen, type FamilyPlate } from '../JurnlScreen';
@@ -76,12 +76,49 @@ function readReturn(): string | null {
   }
 }
 
-function transitLine(a: MoneyParentAccount): string | null {
-  if (a.incoming > 0) return `${formatMoney(a.incoming)} ON ITS WAY IN`;
-  if (a.inTransitOut > 0) return `${formatMoney(a.inTransitOut)} SENT, NOT ARRIVED`;
-  if (a.waitingToLeave > 0) return `${formatMoney(a.waitingToLeave)} NOT SENT YET`;
-  return null;
+type Pt = { x: number; y: number };
+type Thread = { t: MoneyParentTransfer; a: Pt; c: Pt; b: Pt; token: Pt };
+
+const bez = (p: Thread, k: number): Pt => ({
+  x: (1 - k) * (1 - k) * p.a.x + 2 * (1 - k) * k * p.c.x + k * k * p.b.x,
+  y: (1 - k) * (1 - k) * p.a.y + 2 * (1 - k) * k * p.c.y + k * k * p.b.y,
+});
+
+/**
+ * Where a transfer's thread runs, from its canonical state only. Not left yet (scheduled, submitted, unconfirmed):
+ * the token rests at the source. In transit / returning: the token rests between the papers. Finished: no thread.
+ */
+function threadFor(t: MoneyParentTransfer, A: Rect, B: Rect): Thread {
+  const sameRow = Math.abs(A.y - B.y) < 20;
+  let a: Pt;
+  let b: Pt;
+  let c: Pt;
+  let outward: number; // which side of the source edge a resting token sits on (−1 above, +1 below)
+  if (sameRow) {
+    a = { x: A.x + A.w / 2, y: A.y };
+    b = { x: B.x + B.w / 2, y: B.y };
+    c = { x: (a.x + b.x) / 2, y: Math.min(a.y, b.y) - 74 };
+    outward = -1;
+  } else {
+    const down = A.y < B.y;
+    // right of the transfer slip (bottom-left) and left of the chevron
+    a = { x: A.x + A.w * 0.86, y: down ? A.y + A.h : A.y };
+    b = { x: B.x + B.w * 0.86, y: down ? B.y : B.y + B.h };
+    c = { x: (a.x + b.x) / 2 + (Math.abs(a.x - b.x) < 1 ? 70 : 0), y: (a.y + b.y) / 2 };
+    outward = down ? 1 : -1;
+  }
+  const between = t.state === 'IN_TRANSIT' || t.state === 'RETURNING';
+  const th: Thread = { t, a, c, b, token: { x: 0, y: 0 } };
+  // Not left yet: the token rests on the source paper's edge. Left, not arrived: it rests between the papers.
+  th.token = between ? bez(th, 0.5) : { x: a.x, y: a.y + outward * 26 };
+  return th;
 }
+
+/** Token words: a display of the canonical state, in the words of its kind (#1706 labels, shortened). */
+const SHORT: Record<'TRANSFER' | 'CARD_PAYMENT', Record<string, string>> = {
+  TRANSFER: { SCHEDULED: 'PLANNED', PENDING: 'NOT LEFT', IN_TRANSIT: 'IN TRANSIT', RETURNING: 'COMING BACK', NEEDS_RECONCILIATION: 'CONFIRM?' },
+  CARD_PAYMENT: { SCHEDULED: 'SCHEDULED', PENDING: 'SUBMITTED', IN_TRANSIT: 'NOT CONFIRMED', RETURNING: 'FAILED', NEEDS_RECONCILIATION: 'CONFIRM?' },
+};
 
 /** Long amounts shrink to stay inside their column; the value itself is never abbreviated. */
 function amountSize(text: string, base: number): number {
@@ -109,6 +146,9 @@ export function MoneyMotionParent() {
   const [pressed, setPressed] = useState<string | null>(null);
   const [returned] = useState(readReturn);
   const [fresh, setFresh] = useState<string | null>(null);
+  const [detail, setDetail] = useState<string | null>(null);
+  const [ghosts, setGhosts] = useState<(Thread & { outcome: 'resolved' | 'closed' })[]>([]);
+  const prevThreads = useRef<Thread[]>([]);
   const navigating = useRef(false);
   const swipe = useRef<{ x: number; y: number } | null>(null);
 
@@ -133,6 +173,24 @@ export function MoneyMotionParent() {
   const items = pageItems(total, perPage, pageIndex);
   const L = useMemo(() => computeF05MotionLayout(vp.w, vp.h, items.length), [vp.w, vp.h, items.length]);
   const pages = Array.from({ length: pageCount }, (_, i) => i);
+  // Threads for unfinished transfers whose two places are both on this page (canonical state only).
+  const slotOf = new Map<string, Rect>();
+  items.forEach((it, i) => {
+    if (it.kind === 'account' && L.slots[i]) slotOf.set(reading.accounts[it.index]!.account_id, L.slots[i]!);
+  });
+  const threads: Thread[] = reading.transfers.filter((t) => t.fromId && t.toId && slotOf.has(t.fromId) && slotOf.has(t.toId)).map((t) => threadFor(t, slotOf.get(t.fromId!)!, slotOf.get(t.toId!)!));
+  const threadKey = threads.map((t) => `${t.t.linkId}:${t.t.state}`).join('|');
+  // A thread that leaves the open set resolves only after the ledger says so: COMPLETED resolves into the
+  // destination, anything else (cancelled, failed, reversed) simply closes. The balances have already changed.
+  useEffect(() => {
+    const gone = prevThreads.current.filter((p) => !threads.some((t) => t.t.linkId === p.t.linkId));
+    prevThreads.current = threads;
+    if (!gone.length || reduced) return;
+    setGhosts(gone.map((g) => ({ ...g, outcome: reading.transferStates[g.t.linkId] === 'COMPLETED' ? 'resolved' : 'closed' })));
+    const id = window.setTimeout(() => setGhosts([]), 520);
+    return () => window.clearTimeout(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [threadKey]);
 
   // Chips: the approved two squares, shifted one square left so the global menu sits where the approved "+" was.
   const chipRight = Math.min(CHIP_RIGHT, L.visibleX[1] - 14);
@@ -302,7 +360,7 @@ export function MoneyMotionParent() {
               const a = reading.accounts[item.index]!;
               const lines = a.lines;
               const k = nameScale(lines);
-              const transit = transitLine(a);
+              const transit = a.transferLine;
               return (
                 <button
                   key={a.account_id}
@@ -329,7 +387,8 @@ export function MoneyMotionParent() {
                     ))}
                   </span>
                   <b className="jrn-f05m__paper-amount" data-jrn-amount-cents={Math.round(a.amount * 100)} style={{ fontSize: amountSize(formatMoney(a.amount), 48) }}>{formatMoney(a.amount)}</b>
-                  {a.nature === 'LIABILITY' ? <i className="jrn-f05m__paper-note">OWED</i> : transit ? <i className="jrn-f05m__paper-note jrn-f05m__paper-note--transit" data-testid="f05m-transit">{transit}</i> : null}
+                  {a.nature === 'LIABILITY' ? <i className="jrn-f05m__paper-note">OWED</i> : null}
+                  {transit ? <i className="jrn-f05m__paper-note jrn-f05m__paper-note--transit" data-testid="f05m-transit">{transit}</i> : null}
                   <svg className="jrn-f05m__chev" viewBox="0 0 14 24" aria-hidden>
                     <path d="M2 2l10 10L2 22" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
@@ -337,6 +396,46 @@ export function MoneyMotionParent() {
               );
             })}
           </div>
+          {/* L3.5 — transfer threads: they show the recorded settlement state and never change it */}
+          {threads.length || ghosts.length ?
+            <svg className="jrn-f05m__threads" width={SRC_W} height={L.boardH} viewBox={`0 0 ${SRC_W} ${L.boardH}`} aria-hidden>
+              {threads.map((th) => {
+                const mid = th.t.state === 'IN_TRANSIT' || th.t.state === 'RETURNING';
+                const d = `M${th.a.x},${th.a.y} Q${th.c.x},${th.c.y} ${th.b.x},${th.b.y}`;
+                return (
+                  <g key={`${th.t.linkId}:${th.t.state}`} className="jrn-f05m__thread" data-state={th.t.state} data-link={th.t.linkId}>
+                    <path className="jrn-f05m__thread-planned" d={d} pathLength={100} />
+                    {mid ? <path className="jrn-f05m__thread-left" d={d} pathLength={100} strokeDasharray="50 100" /> : null}
+                    <circle cx={th.a.x} cy={th.a.y} r={5} className="jrn-f05m__thread-pin" />
+                    <circle cx={th.b.x} cy={th.b.y} r={5} className="jrn-f05m__thread-pin" />
+                  </g>
+                );
+              })}
+              {ghosts.map((g) => (
+                <path key={`ghost-${g.t.linkId}`} className={`jrn-f05m__thread-ghost jrn-f05m__thread-ghost--${g.outcome}`} d={`M${g.a.x},${g.a.y} Q${g.c.x},${g.c.y} ${g.b.x},${g.b.y}`} pathLength={100} />
+              ))}
+            </svg>
+          : null}
+          {threads.map((th) => (
+            <button
+              key={`token-${th.t.linkId}:${th.t.state}`}
+              type="button"
+              className="jrn-f05m__token"
+              data-jrn-trigger={`f05m-transfer-${th.t.linkId}`}
+              data-state={th.t.state}
+              data-kind={th.t.kind}
+              aria-label={`${th.t.label}: ${formatMoney(th.t.amount)} FROM ${reading.accounts.find((x) => x.account_id === th.t.fromId)?.name ?? ''} TO ${reading.accounts.find((x) => x.account_id === th.t.toId)?.name ?? ''}. RECORDED BY YOU, NOT CONFIRMED BY A BANK. OPEN TO RECORD WHAT HAPPENED.`}
+              style={{ left: th.token.x, top: th.token.y, backgroundImage: `url("${paperTile}")` }}
+              onClick={() => setDetail(th.t.linkId)}
+            >
+              <b>{formatMoney(th.t.amount)}</b>
+              <span>{SHORT[th.t.kind][th.t.state] ?? th.t.label}</span>
+            </button>
+          ))}
+          {ghosts.filter((g) => g.outcome === 'resolved').map((g) => {
+            const end = g.b;
+            return <span key={`gtoken-${g.t.linkId}`} className="jrn-f05m__token jrn-f05m__token--ghost" aria-hidden style={{ left: g.token.x, top: g.token.y, ['--dx' as string]: `${end.x - g.token.x}px`, ['--dy' as string]: `${end.y - g.token.y}px`, backgroundImage: `url("${paperTile}")` } as CSSProperties}><b>{formatMoney(g.t.amount)}</b></span>;
+          })}
           {pages.length > 1 ?
             <button type="button" className="jrn-f05m__dots" data-jrn-trigger="f05m-next-page" aria-label={`PLACES PAGE ${pageIndex + 1} OF ${pages.length}. SHOW NEXT.`} style={at(L.dots)} onClick={nextPage}>
               {pages.map((_, i) => (
@@ -380,6 +479,7 @@ export function MoneyMotionParent() {
       : null}
       {sheet === 'move' ? <TransferSheet onClose={() => setSheet(null)} /> : null}
       {sheet === 'period' ? <SafeHorizonSheet onClose={() => setSheet(null)} /> : null}
+      {detail ? <TransferDetailSheet linkId={detail} onClose={() => setDetail(null)} /> : null}
     </JurnlScreen>
   );
 }

@@ -17,7 +17,9 @@ import { getTodayKey, type CalendarDate } from '../foundation/dates';
 import { computeSafeToSpend } from '../f09/safeToSpend';
 import { summarizePositions, type AccountPosition, type BalanceBasis } from '../ledger/accounting';
 import { computeMoneyPicture } from '../ledger/moneyPicture';
+import { CARD_PAYMENT_STATE_LABEL, TRANSFER_STATE_LABEL, type TransferState, type TransferView } from '../ledger/transferSettlement';
 import { getRepository } from '../repository/deviceRepository';
+import { formatMoney } from '../home/money';
 
 export type MoneyPaperArt = 'bank' | 'payout' | 'cash' | 'credit';
 
@@ -36,7 +38,57 @@ export type MoneyParentAccount = {
   incoming: number;
   inTransitOut: number;
   waitingToLeave: number;
+  /** One short line for the paper, from the canonical settlement state of its open transfers (null when none). */
+  transferLine: string | null;
 };
+
+/** States that are not finished (the same set as #1706's OPEN TRANSFERS panel). */
+export const OPEN_TRANSFER_STATES: TransferState[] = ['SCHEDULED', 'PENDING', 'IN_TRANSIT', 'RETURNING', 'NEEDS_RECONCILIATION'];
+
+/** Short paper wording for each open state. A display mapping of the canonical state, never a state of its own. */
+const PAPER_WORDS: Record<'TRANSFER' | 'CARD_PAYMENT', Partial<Record<TransferState, string>>> = {
+  TRANSFER: { SCHEDULED: 'PLANNED', PENDING: 'NOT LEFT YET', IN_TRANSIT: 'IN TRANSIT', RETURNING: 'COMING BACK', NEEDS_RECONCILIATION: 'NEEDS CONFIRMATION' },
+  CARD_PAYMENT: { SCHEDULED: 'PAYMENT SCHEDULED', PENDING: 'PAYMENT SUBMITTED', IN_TRANSIT: 'CARD NOT CONFIRMED', RETURNING: 'PAYMENT FAILED', NEEDS_RECONCILIATION: 'NEEDS CONFIRMATION' },
+};
+
+export type MoneyParentTransfer = {
+  linkId: string;
+  kind: 'TRANSFER' | 'CARD_PAYMENT';
+  state: TransferState;
+  amount: number;
+  fromId: string | null;
+  toId: string | null;
+  /** The canonical label (#1706) for this kind and state. */
+  label: string;
+  /** Every step is recorded by the person; JURNL never claims bank or card-issuer confirmation. */
+  confirmation: 'RECORDED_BY_YOU';
+};
+
+export function openTransfers(views: TransferView[]): MoneyParentTransfer[] {
+  return views
+    .filter((v) => OPEN_TRANSFER_STATES.includes(v.state))
+    .map((v) => ({
+      linkId: v.linkId,
+      kind: v.kind,
+      state: v.state,
+      amount: v.amount,
+      fromId: v.fromId,
+      toId: v.toId,
+      label: (v.kind === 'CARD_PAYMENT' ? CARD_PAYMENT_STATE_LABEL : TRANSFER_STATE_LABEL)[v.state],
+      confirmation: 'RECORDED_BY_YOU' as const,
+    }));
+}
+
+/** "→ $80 IN TRANSIT" (leaving this place) · "← $45 CARD NOT CONFIRMED" (coming to it) · "+1" when there are more. */
+export function paperTransferLine(accountId: string, transfers: MoneyParentTransfer[], money: (n: number) => string): string | null {
+  const mine = transfers.filter((t) => t.fromId === accountId || t.toId === accountId);
+  if (!mine.length) return null;
+  const rank: Record<TransferState, number> = { IN_TRANSIT: 0, RETURNING: 1, NEEDS_RECONCILIATION: 2, PENDING: 3, SCHEDULED: 4, COMPLETED: 9, CANCELLED: 9, FAILED: 9, REVERSED: 9 };
+  const t = [...mine].sort((a, b) => rank[a.state] - rank[b.state])[0]!;
+  const arrow = t.fromId === accountId ? '→' : '←';
+  const words = PAPER_WORDS[t.kind][t.state] ?? t.label;
+  return `${arrow} ${money(t.amount)} ${words}${mine.length > 1 ? ` +${mine.length - 1}` : ''}`;
+}
 
 export type MoneyParentReading = {
   held: number;
@@ -48,6 +100,10 @@ export type MoneyParentReading = {
   /** MOCK when Safe to Spend is reading the sample preview (no real accounts yet). */
   cashSource: 'MOCK' | 'ACCOUNTS' | 'DERIVED';
   inTransit: number;
+  /** Unfinished transfers and card payments, in canonical settlement states. */
+  transfers: MoneyParentTransfer[];
+  /** Every link's canonical state (finished ones included), so the page can tell COMPLETED from CANCELLED / FAILED. */
+  transferStates: Record<string, TransferState>;
   committedParts: { bills: number; cardMinimums: number; transfersNotSent: number; heldBack: number };
   accounts: MoneyParentAccount[];
 };
@@ -88,6 +144,7 @@ export function computeMoneyParentReading(today: CalendarDate = getTodayKey()): 
   const sts = computeSafeToSpend();
   const heldBack = sts.protected + sts.safetyBuffer + sts.assigned + sts.goalReserved + sts.purchaseReserved + sts.tripReserved;
   const committed = Math.round((sts.upcoming + sts.cardPayments + sts.committedTransfers + heldBack) * 100) / 100;
+  const transfers = openTransfers(picture.transfers);
   const accounts = listActiveAccounts().map((a): MoneyParentAccount => {
     const p = positions.find((x) => x.account_id === a.account_id);
     const nature = p?.nature ?? (a.account_type === 'CREDIT_CARD' || a.account_type === 'LOAN' ? 'LIABILITY' : 'ASSET');
@@ -104,6 +161,7 @@ export function computeMoneyParentReading(today: CalendarDate = getTodayKey()): 
       incoming: t?.incoming ?? 0,
       inTransitOut: t?.inTransitOut ?? 0,
       waitingToLeave: t?.waitingToLeave ?? 0,
+      transferLine: paperTransferLine(a.account_id, transfers, formatMoney),
     };
   });
   return {
@@ -115,6 +173,8 @@ export function computeMoneyParentReading(today: CalendarDate = getTodayKey()): 
     windowEnd: sts.windowEnd,
     cashSource: sts.cashSource,
     inTransit: picture.inTransit,
+    transfers,
+    transferStates: Object.fromEntries(picture.transfers.map((v) => [v.linkId, v.state])),
     committedParts: { bills: sts.upcoming, cardMinimums: sts.cardPayments, transfersNotSent: sts.committedTransfers, heldBack: Math.round(heldBack * 100) / 100 },
     accounts,
   };
