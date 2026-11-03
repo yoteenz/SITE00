@@ -1,6 +1,6 @@
 /** F05 MONEY — structural completion (Wave 2). */
 
-import { useMemo, useState, type ReactNode } from 'react';
+import { useMemo, useState, type CSSProperties, type ReactNode } from 'react';
 import { getRepository } from '../../data/repository/deviceRepository';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useLedgerPositions, usualPurposesFor } from '../../data/ledger/moneyPositions';
@@ -320,7 +320,8 @@ export function MoneyPlaceDetailScreen() {
     <MoneyShell screenId="F05.ACCOUNT" nav="MONEY">
       <FamilyChrome familyId="F05" nodeId="F05.ACCOUNT" backLabel="BACK TO PLACES" onBack={() => go('money/places')} onAsk={() => openOverlay('ask')} />
       <div className="jrn-home__intro" data-jrn-zone="intro">
-        <h1 className="jrn-home__h">{account.display_name}</h1>
+        {/* Shared-element boundary for the F05 motion pilot (the selected paper becomes this title). */}
+        <h1 className="jrn-home__h" style={{ viewTransitionName: 'jrn-place' } as CSSProperties}>{account.display_name}</h1>
         <p className="jrn-home__sub">{p ? `${LOCATION_KIND_LABEL[p.kind]} · ${BALANCE_BASIS_LABEL[p.basis]}` : account.account_type}</p>
       </div>
       <div className="jrn-parent__rail" data-jrn-zone="content-rail">
@@ -387,7 +388,7 @@ const PLACE_KINDS: { id: AccountType; label: string }[] = [
   { id: 'CASH', label: 'CASH' },
 ];
 
-function AddPlaceSheet({ onClose, onSaved }: { onClose: () => void; onSaved: (id: string) => void }) {
+export function AddPlaceSheet({ onClose, onSaved }: { onClose: () => void; onSaved: (id: string) => void }) {
   const [name, setName] = useState('');
   const [balance, setBalance] = useState('');
   const [limit, setLimit] = useState('');

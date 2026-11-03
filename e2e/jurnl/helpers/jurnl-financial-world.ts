@@ -6,7 +6,7 @@ import { addDays, getTodayKey } from '../../../src/projects/jurnl/data/foundatio
 
 const TODAY = getTodayKey();
 
-function acct(id: string, name: string, type: JurnlAccountRecord['account_type'], balance: number, extra: Partial<JurnlAccountRecord> = {}): JurnlAccountRecord {
+export function acct(id: string, name: string, type: JurnlAccountRecord['account_type'], balance: number, extra: Partial<JurnlAccountRecord> = {}): JurnlAccountRecord {
   const now = new Date().toISOString();
   return {
     account_id: id,
