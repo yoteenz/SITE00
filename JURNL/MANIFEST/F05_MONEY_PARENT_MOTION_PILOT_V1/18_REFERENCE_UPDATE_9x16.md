@@ -47,3 +47,10 @@ The title paper, band, card faces and nav paper are blank. The card imagery (vil
 - **Phones:** 4 papers per page, as in the reference, with the page dots. A third row appears only when the elastic panel has room for it plus 80 source px of breathing space; otherwise the two rows spread.
 - **Chips:** the reference has a bare search glyph and a "+" square. As in V1, the pilot uses three rounded squares (search, +, global menu): no circular controls, and the account-drawer menu is kept.
 - **Previous 2:3 assets:** these are no longer used at runtime. `extract_layers.py` still reproduces them exactly, and they remain in this package (04, 05) for comparison.
+
+## Later in this sprint (kept here so the pilot record stays complete)
+
+- **Runtime switched to the 9:16 composition** in commit `bf5e4396`. The live type was re-measured against the 9:16 reference: median offset 2 px; MONEY, script and nav within 1–2 px.
+- **Superseded by the carousel sprint.** The carousel's evidence is in `JURNL/MANIFEST/F05_MONEY_PARENT_CAROUSEL_V1/`. Where it differs from docs 06, 09 and 16 here, the carousel docs are current. This record is otherwise unchanged.
+  - **Pages of places → ALL PLACES.** The parent no longer pages places. The four dots are the four collections.
+  - **Fixed 2 × 2 grid.** Every collection is the 2 × 2 grid, so tall phones no longer get a third row (doc 16 question 4).
