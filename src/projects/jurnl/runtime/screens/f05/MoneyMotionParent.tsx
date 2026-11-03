@@ -218,7 +218,9 @@ export function MoneyMotionParent() {
   ];
 
   const S = L.u;
-  const boardStyle: CSSProperties = { width: SRC_W, height: L.boardH, transform: `translate(${L.ox}px, 0) scale(${S})` };
+  // Stagger: at most 45 ms, and the last paper starts by 410 ms (ends by 610 ms) however many papers the page holds.
+  const stagger = items.length > 1 ? Math.min(45, 70 / (items.length - 1)) : 0;
+  const boardStyle: CSSProperties = { width: SRC_W, height: L.boardH, transform: `translate(${L.ox}px, 0) scale(${S})`, ['--f05m-stagger' as string]: `${stagger}ms` } as CSSProperties;
   const visible = L.visibleX;
 
   return (
@@ -268,7 +270,7 @@ export function MoneyMotionParent() {
           </section>
 
           {/* L3 — account papers */}
-          <div className="jrn-f05m__papers" role="group" aria-label={`PLACES${pageCount > 1 ? `, PAGE ${pageIndex + 1} OF ${pageCount}` : ''}`} data-jrn-zone="content-rail" onPointerDown={onPanelDown} onPointerUp={onPanelUp} onKeyDown={onPanelKey} key={`page-${pageIndex}`}>
+          <div className="jrn-f05m__papers" role="group" aria-label={`PLACES${pageCount > 1 ? `, PAGE ${pageIndex + 1} OF ${pageCount}` : ''}`} data-jrn-zone="content-rail" tabIndex={-1} onPointerDown={onPanelDown} onPointerUp={onPanelUp} onKeyDown={onPanelKey} key={`page-${pageIndex}`}>
             {items.map((item, i) => {
               if (item.kind === 'empty')
                 return (

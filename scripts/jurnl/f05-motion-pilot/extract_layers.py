@@ -327,7 +327,13 @@ def seamless_tile(env, y0, y1, x0=0, x1=W_SRC, blend=56):
     below = env[y1:y1 + blend, x0:x1].astype(np.float32)
     w = np.linspace(1, 0, blend, dtype=np.float32)[:, None, None]
     t[:blend] = below * w + t[:blend] * (1 - w)
-    return t.astype(np.uint8)
+    # Flatten the vertical lighting ramp so repeats do not read as bands: each row's (smoothed) mean over the panel
+    # parchment is moved to the mean of the tile's last rows, which meet the bottom slice.
+    cols = slice(60, 960)
+    row_mean = cv2.GaussianBlur(t[:, cols].mean(axis=1, keepdims=True), (0, 0), sigmaX=0.1, sigmaY=24)
+    target = row_mean[-8:].mean(axis=0, keepdims=True)
+    t += (target - row_mean)
+    return np.clip(t, 0, 255).astype(np.uint8)
 
 
 def torn_edge_strip(img, y0=676, y1=772, x0=36, x1=982):

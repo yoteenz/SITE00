@@ -1,0 +1,203 @@
+/**
+ * P0.JURNL.F05-MONEY.PARENT-ANIMATED-COLLAGE-RECONSTRUCTION-AND-FIDELITY-PILOT — data binding, layout and assets.
+ * Synthetic world only (tests/helpers/jurnlFinancialWorld.ts).
+ */
+import { existsSync, readFileSync } from 'node:fs';
+import path from 'node:path';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { artFor, computeMoneyParentReading, nameLines, pageAccounts } from '../src/projects/jurnl/data/f05/moneyParentReading';
+import { computeSafeToSpend } from '../src/projects/jurnl/data/f09/safeToSpend';
+import { recordTransfer, recordTransferStep } from '../src/projects/jurnl/data/ledger/ledgerOps';
+import { getRepository } from '../src/projects/jurnl/data/repository/deviceRepository';
+import { upsertCreditTerms } from '../src/projects/jurnl/data/f12/creditStore';
+import { addDays } from '../src/projects/jurnl/data/foundation/dates';
+import { APPROVED_SLOTS, capacityFor, computeF05MotionLayout, CROP, pageItems, SRC_H, SRC_W } from '../src/projects/jurnl/runtime/screens/f05/f05MotionLayout';
+import { resolveF05ParentVariant } from '../src/projects/jurnl/runtime/screens/f05/MoneyParentRoute';
+import { TODAY, acct, position, world } from './helpers/jurnlFinancialWorld';
+
+const ASSET_DIR = path.resolve('src/projects/jurnl/families/F05_MONEY/MOTION_PILOT');
+const snap = () => getRepository().getSnapshot();
+
+function approvedWorld() {
+  world({
+    user: 'f05-pilot@jurnl.test',
+    accounts: [
+      acct('bank', 'BANK ACCOUNT', 'CHECKING', 1260),
+      acct('ride', 'RIDESHARE CARD', 'DEBIT_CARD', 840, { is_payout_card: true }),
+      acct('cash', 'CASH ON HAND', 'CASH', 350),
+      acct('visa', 'CREDIT CARD', 'CREDIT_CARD', 780, { credit_limit: 2000, include_in_safe_to_spend: false }),
+    ],
+  });
+  upsertCreditTerms('visa', { credit_limit: 2000, current_balance: 780, minimum_payment: 35, payment_due_date: addDays(TODAY, 5), statement_closing_date: addDays(TODAY, -10) });
+}
+
+describe('F05 parent figures come from the canonical model', () => {
+  beforeEach(() => approvedWorld());
+
+  it('HELD is money in asset accounts, OWED is card and loan debt; they are never netted', () => {
+    const r = computeMoneyParentReading(TODAY);
+    expect(r.held).toBe(1260 + 840 + 350);
+    expect(r.owed).toBe(780);
+    expect(r.accounts.find((a) => a.account_id === 'visa')).toMatchObject({ nature: 'LIABILITY', amount: 780, art: 'credit' });
+    expect(r.accounts.filter((a) => a.nature === 'ASSET').map((a) => a.amount)).toEqual([1260, 840, 350]);
+  });
+
+  it('AVAILABLE is F09 Safe to Spend (30 days) and COMMITTED is exactly what Safe to Spend holds back', () => {
+    const r = computeMoneyParentReading(TODAY);
+    const sts = computeSafeToSpend();
+    expect(r.available).toBe(sts.value);
+    expect(r.availableBasis).toBe('SAFE_TO_SPEND_NEXT_30_DAYS');
+    const heldBack = sts.protected + sts.safetyBuffer + sts.assigned + sts.goalReserved + sts.purchaseReserved + sts.tripReserved;
+    expect(r.committed).toBeCloseTo(sts.upcoming + sts.cardPayments + sts.committedTransfers + heldBack, 2);
+    // AVAILABLE = Safe to Spend cash − COMMITTED (the one formula), not HELD − OWED − COMMITTED.
+    expect(r.available).toBeCloseTo(sts.cash - r.committed, 2);
+    expect(r.committedParts.cardMinimums).toBe(35);
+  });
+
+  it('a transfer on its way is shown as on its way: the destination is not credited, HELD drops by the amount in transit', () => {
+    const t = recordTransfer({ from_account_id: 'ride', to_account_id: 'bank', amount: 80, occurred_on: TODAY, start: 'IN_TRANSIT' });
+    expect(t.ok).toBe(true);
+    const r = computeMoneyParentReading(TODAY);
+    const bank = r.accounts.find((a) => a.account_id === 'bank')!;
+    const ride = r.accounts.find((a) => a.account_id === 'ride')!;
+    expect(bank).toMatchObject({ amount: 1260, incoming: 80 });
+    expect(ride).toMatchObject({ amount: 760, inTransitOut: 80 });
+    expect(r.held).toBe(2450 - 80);
+    expect(r.inTransit).toBe(80);
+    recordTransferStep(t.ok ? t.value.linkId : '', 'RECEIVED');
+    const after = computeMoneyParentReading(TODAY);
+    expect(after.accounts.find((a) => a.account_id === 'bank')).toMatchObject({ amount: 1340, incoming: 0 });
+    expect(after.held).toBe(2450);
+  });
+
+  it('reading the page changes no record', () => {
+    const before = JSON.stringify(snap());
+    computeMoneyParentReading(TODAY);
+    computeMoneyParentReading(TODAY);
+    expect(JSON.stringify(snap())).toBe(before);
+    expect(position('bank')).toBe(1260);
+  });
+
+  it('accounts keep their own ids, names and order; art follows the kind of place', () => {
+    const r = computeMoneyParentReading(TODAY);
+    expect(r.accounts.map((a) => [a.account_id, a.name, a.art])).toEqual([
+      ['bank', 'BANK ACCOUNT', 'bank'],
+      ['ride', 'RIDESHARE CARD', 'payout'],
+      ['cash', 'CASH ON HAND', 'cash'],
+      ['visa', 'CREDIT CARD', 'credit'],
+    ]);
+    expect(artFor('SAVINGS', false)).toBe('bank');
+    expect(artFor('CHECKING', true)).toBe('payout');
+    expect(artFor('LOAN', false)).toBe('credit');
+    expect(artFor('OTHER', false)).toBe('bank');
+  });
+
+  it('zero accounts: no figures are invented', () => {
+    world({ user: 'f05-empty@jurnl.test', accounts: [] });
+    const r = computeMoneyParentReading(TODAY);
+    expect(r.accounts).toEqual([]);
+    expect(r.held).toBe(0);
+    expect(r.owed).toBe(0);
+    expect(r.cashSource).toBe('MOCK');
+  });
+});
+
+describe('Name lines', () => {
+  it('keeps the approved breaks and balances other names', () => {
+    expect(nameLines('BANK ACCOUNT')).toEqual(['BANK', 'ACCOUNT']);
+    expect(nameLines('RIDESHARE CARD')).toEqual(['RIDESHARE', 'CARD']);
+    expect(nameLines('CASH ON HAND')).toEqual(['CASH', 'ON HAND']);
+    expect(nameLines('CREDIT CARD')).toEqual(['CREDIT', 'CARD']);
+    expect(nameLines('savings')).toEqual(['SAVINGS']);
+    expect(nameLines('  my   bank of america account ')).toEqual(['MY BANK OF', 'AMERICA ACCOUNT']);
+  });
+});
+
+describe('Layout', () => {
+  it('at 2:3 the four papers sit exactly on the approved card rects', () => {
+    const L = computeF05MotionLayout(512, 768, 4);
+    expect(L.u).toBeCloseTo(0.5, 5);
+    expect(L.ox).toBeCloseTo(0, 5);
+    expect(L.extra).toBe(0);
+    expect(L.sliced).toBe(false);
+    expect(L.slots.map(({ x, y, w, h }) => ({ x, y, w, h }))).toEqual(APPROVED_SLOTS);
+  });
+
+  it('phones fit the width with at most the crop allowance; the extra height is elastic, never stretched', () => {
+    for (const [w, h] of [[360, 780], [393, 852]] as const) {
+      const L = computeF05MotionLayout(w, h, 6);
+      expect(L.u).toBeCloseTo(w / (SRC_W - 2 * CROP), 5);
+      expect(L.visibleX[0]).toBeCloseTo(CROP, 3);
+      expect(L.boardH * L.u).toBeCloseTo(h, 3);
+      expect(L.sliced).toBe(true);
+      expect(L.capacityRows).toBe(3);
+      for (const s of L.slots) {
+        expect(s.x).toBeGreaterThanOrEqual(L.visibleX[0]);
+        expect(s.x + s.w).toBeLessThanOrEqual(L.visibleX[1]);
+        expect((s.y + s.h) * L.u).toBeLessThan(L.navZone.y * L.u);
+      }
+    }
+  });
+
+  it('tablet and desktop keep the 2:3 composition at full height, centred', () => {
+    for (const [w, h] of [[834, 1194], [1440, 900]] as const) {
+      const L = computeF05MotionLayout(w, h, 4);
+      expect(L.u).toBeCloseTo(h / SRC_H, 5);
+      expect(L.extra).toBe(0);
+      expect(L.ox).toBeGreaterThan(0);
+      expect(L.ox * 2 + SRC_W * L.u).toBeCloseTo(w, 3);
+    }
+  });
+
+  it('pages: capacity by size; ADD and MOVE fill free slots on the last page only', () => {
+    expect(capacityFor(512, 768)).toBe(4);
+    expect(capacityFor(393, 852)).toBe(6);
+    expect(pageItems(0, 4, 0)).toEqual([{ kind: 'empty' }]);
+    expect(pageItems(1, 4, 0).map((i) => i.kind)).toEqual(['account', 'add']);
+    expect(pageItems(2, 4, 0).map((i) => i.kind)).toEqual(['account', 'account', 'add', 'move']);
+    expect(pageItems(4, 4, 0).map((i) => i.kind)).toEqual(['account', 'account', 'account', 'account']);
+    expect(pageItems(7, 6, 1).map((i) => (i.kind === 'account' ? i.index : i.kind))).toEqual([6, 'add', 'move']);
+    expect(pageAccounts([1, 2, 3, 4, 5], 4)).toEqual([[1, 2, 3, 4], [5]]);
+  });
+});
+
+describe('Opt-in route and assets', () => {
+  it('the cabinet hub stays the default; ?parent=motion opts in for the session', () => {
+    const mem = new Map<string, string>();
+    vi.stubGlobal('sessionStorage', { getItem: (k: string) => mem.get(k) ?? null, setItem: (k: string, v: string) => void mem.set(k, v), removeItem: (k: string) => void mem.delete(k), clear: () => mem.clear() });
+    expect(resolveF05ParentVariant(null)).toBe('cabinet');
+    expect(resolveF05ParentVariant('motion')).toBe('motion');
+    expect(resolveF05ParentVariant(null)).toBe('motion');
+    expect(resolveF05ParentVariant('cabinet')).toBe('cabinet');
+    expect(resolveF05ParentVariant(null)).toBe('cabinet');
+    expect(resolveF05ParentVariant('anything')).toBe('cabinet');
+    vi.unstubAllGlobals();
+    // Storage unavailable (private mode): the query alone decides, and the default stays the cabinet.
+    vi.stubGlobal('sessionStorage', undefined);
+    expect(resolveF05ParentVariant('motion')).toBe('motion');
+    expect(resolveF05ParentVariant(null)).toBe('cabinet');
+    vi.unstubAllGlobals();
+  });
+
+  it('every runtime layer exists and the geometry matches the layer sizes', () => {
+    const geo = JSON.parse(readFileSync(path.join(ASSET_DIR, 'F05_MOTION_GEOMETRY.json'), 'utf8'));
+    for (const f of ['SIDEKICK', 'PANEL_TILE', 'PAPER_TILE', 'TORN_EDGE', 'TITLE_PAPER', 'WAX_SEAL', 'CARD_BANK', 'CARD_PAYOUT', 'CARD_CASH', 'CARD_CREDIT']) {
+      expect(existsSync(path.join(ASSET_DIR, `F05_MOTION_${f}.webp`)), f).toBe(true);
+    }
+    expect(geo.source).toEqual({ w: SRC_W, h: SRC_H });
+    expect(geo.envelopes.title_paper.rotate_deg).toBe(0);
+    expect(geo.envelopes.title_paper.scale).toBeGreaterThan(1);
+  });
+
+  it('the stylesheet keeps the scale-only envelopes it was verified with, and honours reduced motion', () => {
+    const geo = JSON.parse(readFileSync(path.join(ASSET_DIR, 'F05_MOTION_GEOMETRY.json'), 'utf8'));
+    const css = readFileSync(path.resolve('src/projects/jurnl/runtime/screens/f05/jurnl-f05-motion.css'), 'utf8');
+    expect(css).toContain(`from { transform: scale(${geo.envelopes.title_paper.scale}); `);
+    expect(css).toContain(`from { transform: scale(${geo.envelopes.wax_seal.scale}) rotate(${geo.envelopes.wax_seal.rotate_deg}deg); }`);
+    expect(css).toContain('transform-origin: 18% 70%;');
+    expect(css).toMatch(/@media \(prefers-reduced-motion: no-preference\) \{[\s\S]*f05m-paper/);
+    expect(css).toMatch(/@media \(prefers-reduced-motion: reduce\)/);
+    // numbers never count up
+    expect(css).not.toMatch(/counter|@property --num/);
+  });
+});

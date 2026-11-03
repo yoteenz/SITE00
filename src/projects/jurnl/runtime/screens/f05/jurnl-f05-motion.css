@@ -75,6 +75,9 @@
 }
 .jrn[data-jrn-f05-motion] .jrn-screen[data-jrn-screen='F05.00'] {
   background: #241a13;
+  /* The layered entrance below is this screen's entrance; the shell's 700 ms blur-fade would hide it and delay the
+     first legible figures past the 650 ms budget. */
+  animation: none;
 }
 .jrn[data-jrn-f05-motion] .jrn-screen[data-jrn-screen='F05.00'] .jrn-env {
   left: 0 !important;
@@ -491,33 +494,35 @@
   pointer-events: none;
 }
 
-/* ─────────── Motion (entrance ≤ 650 ms; selection; return) ─────────── */
+/* ─────────── Motion (entrance ≤ 650 ms; selection; return). Fill is backwards: once an animation ends it leaves no
+   style behind (no held transforms). ─────────── */
 @media (prefers-reduced-motion: no-preference) {
   .jrn .jrn-f05m__env {
-    animation: f05m-env 240ms ease-out both;
+    animation: f05m-env 240ms ease-out backwards;
   }
   .jrn .jrn-f05m__title-paper {
-    animation: f05m-title 320ms var(--f05m-ease) 100ms both;
+    animation: f05m-title 320ms var(--f05m-ease) 100ms backwards;
   }
   .jrn .jrn-f05m__seal {
-    animation: f05m-seal 300ms var(--f05m-ease) 180ms both;
+    animation: f05m-seal 300ms var(--f05m-ease) 180ms backwards;
   }
   .jrn .jrn-f05m__money {
-    animation: f05m-reveal 300ms var(--f05m-ease) 200ms both;
+    animation: f05m-reveal 300ms var(--f05m-ease) 200ms backwards;
   }
   .jrn .jrn-f05m__script {
-    animation: f05m-reveal 340ms ease-out 280ms both;
+    animation: f05m-reveal 340ms ease-out 280ms backwards;
   }
   .jrn .jrn-f05m__metric,
   .jrn .jrn-f05m__divider {
-    animation: f05m-rise 200ms ease-out 270ms both;
+    animation: f05m-rise 200ms ease-out 270ms backwards;
   }
   .jrn .jrn-f05m__paper {
-    animation: f05m-paper 260ms var(--f05m-ease) calc(340ms + var(--i, 0) * 45ms) both;
+    /* papers settle 340–610 ms: the stagger shrinks with the number of papers so the last one lands by 610 ms */
+    animation: f05m-paper 200ms var(--f05m-ease) calc(340ms + var(--i, 0) * var(--f05m-stagger, 45ms)) backwards;
   }
   .jrn .jrn-f05m__paper[data-return='true'],
   .jrn .jrn-f05m__paper[data-fresh='true'] {
-    animation: f05m-return 420ms var(--f05m-ease) both;
+    animation: f05m-return 420ms var(--f05m-ease) backwards;
   }
 }
 @keyframes f05m-env {
@@ -550,19 +555,19 @@
   to { transform: none; }
 }
 
-/* Shared-element transition into the account route. */
-::view-transition-group(jrn-place) {
+/* Shared-element transition into the account route (root pseudo-elements, scoped to a mounted JURNL screen). */
+html:has([data-jrn-screen])::view-transition-group(jrn-place) {
   animation-duration: 420ms;
   animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-::view-transition-old(root),
-::view-transition-new(root) {
+html:has([data-jrn-screen])::view-transition-old(root),
+html:has([data-jrn-screen])::view-transition-new(root) {
   animation-duration: 260ms;
 }
 @media (prefers-reduced-motion: reduce) {
-  ::view-transition-group(*),
-  ::view-transition-old(*),
-  ::view-transition-new(*) {
+  html:has([data-jrn-screen])::view-transition-group(*),
+  html:has([data-jrn-screen])::view-transition-old(*),
+  html:has([data-jrn-screen])::view-transition-new(*) {
     animation: none !important;
   }
   .jrn .jrn-f05m__paper {
