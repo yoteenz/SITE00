@@ -44,24 +44,19 @@
 .jrn .jrn-f05m__slice {
   position: absolute;
   left: 0;
-  width: 1024px;
   overflow: hidden;
 }
 .jrn .jrn-f05m__slice img {
   position: absolute;
   left: 0;
   top: 0;
-  width: 1024px;
-  height: 1536px;
   max-width: none;
   user-select: none;
 }
 .jrn .jrn-f05m__tile {
   position: absolute;
   left: 0;
-  width: 1024px;
   background-repeat: repeat-y;
-  background-size: 1024px 290px;
   /* Bottom-aligned: the last tile row (source row 1089) meets the bottom slice (row 1090) exactly. The top junction
      sits on the top slice and fades in over 48 rows, so a partial first tile never shows a seam. */
   background-position: 0 100%;
@@ -106,6 +101,9 @@
 .jrn .jrn-f05m__seal {
   transform-origin: 50% 50%;
 }
+.jrn .jrn-f05m__tag {
+  transform-origin: 30% 60%;
+}
 
 /* L2 live type (source px) */
 .jrn .jrn-f05m__mark {
@@ -114,7 +112,6 @@
   font: 500 42px/1 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.17em;
   color: #1f1a14;
-  transform: rotate(-3.2deg);
   transform-origin: 0 50%;
   white-space: nowrap;
 }
@@ -122,23 +119,18 @@
   position: absolute;
   left: 0;
   top: 0;
-  width: 1024px;
+  width: 100%;
   height: 0;
 }
 .jrn .jrn-f05m__money {
   position: absolute;
-  left: 178px;
-  top: 338px;
   margin: 0;
   font: 500 108px/1 'JURNL Authority Serif', 'JURNL Display', serif;
-  letter-spacing: 0.035em;
   color: #1b150f;
   white-space: nowrap;
 }
 .jrn .jrn-f05m__script {
   position: absolute;
-  left: 192px;
-  top: 452px;
   margin: 0;
   font: 400 45px/1.1 'JURNL Script', cursive;
   text-transform: none;
@@ -149,8 +141,8 @@
 .jrn .jrn-f05m__basis {
   position: absolute;
   left: 0;
-  width: 1024px;
-  top: 664px;
+  width: 100%;
+  top: var(--f05m-caption-top, 664px);
   text-align: center;
   margin: 0;
   font: 500 16px/1 'JURNL Sans', sans-serif;
@@ -161,20 +153,16 @@
   position: absolute;
   left: 0;
   top: 0;
-  width: 1024px;
+  width: 100%;
   height: 0;
 }
 .jrn .jrn-f05m__divider {
   position: absolute;
-  top: 580px;
   width: 1.6px;
-  height: 78px;
   background: rgba(240, 228, 206, 0.32);
 }
 .jrn .jrn-f05m__metric {
   position: absolute;
-  top: 566px;
-  width: 210px;
   height: 104px;
   padding: 0;
   border: 0;
@@ -183,19 +171,19 @@
   display: grid;
   justify-items: center;
   align-content: start;
-  gap: 10px;
+  gap: var(--f05m-value-gap, 10px);
   cursor: pointer;
   border-radius: 14px;
 }
 .jrn .jrn-f05m__metric-label {
   /* never below 9.5 screen px on the narrowest phone */
-  font: 500 max(22px, calc(9.5px / var(--f05m-u, 1))) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 500 max(var(--f05m-label-size, 22px), calc(9.5px / var(--f05m-u, 1))) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.12em;
   margin-top: 12px;
   opacity: 0.92;
 }
 .jrn .jrn-f05m__metric-value {
-  font: 400 52px/1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 400 var(--f05m-value-size, 52px) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.005em;
 }
 .jrn .jrn-f05m__metric[data-metric='available'] {
@@ -236,11 +224,11 @@
 }
 .jrn .jrn-f05m__paper-name {
   position: absolute;
-  left: 38px;
-  top: 24px;
+  left: var(--f05m-name-left, 38px);
+  top: var(--f05m-name-top, 24px);
   display: grid;
-  font: 500 29px/1.17 'JURNL Authority Serif', 'JURNL Display', serif;
-  letter-spacing: 0.025em;
+  font: 500 var(--f05m-name-size, 29px) / var(--f05m-name-line, 1.17) 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: var(--f05m-name-ls, 0.025em);
   white-space: nowrap;
   max-width: 250px;
 }
@@ -250,18 +238,18 @@
 }
 .jrn .jrn-f05m__paper-amount {
   position: absolute;
-  left: 38px;
-  top: calc(50% + 16px);
+  left: var(--f05m-name-left, 38px);
+  top: var(--f05m-amount-top, calc(50% + 16px));
   font: 500 48px/1 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.005em;
 }
 .jrn .jrn-f05m__paper[data-nature='LIABILITY'] .jrn-f05m__paper-amount {
-  top: calc(50% + 6px);
+  top: calc(var(--f05m-amount-top, calc(50% + 16px)) - 4px);
 }
 .jrn .jrn-f05m__paper-note {
   position: absolute;
-  left: 40px;
-  top: calc(50% + 62px);
+  left: calc(var(--f05m-name-left, 38px) + 2px);
+  top: var(--f05m-note-top, calc(50% + 62px));
   font: italic 500 max(18px, calc(7.5px / var(--f05m-u, 1))) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.24em;
   white-space: nowrap;
@@ -286,8 +274,8 @@
 }
 .jrn .jrn-f05m__chev {
   position: absolute;
-  right: 23px;
-  bottom: 18px;
+  right: var(--f05m-chev-right, 23px);
+  bottom: var(--f05m-chev-bottom, 18px);
   width: 15px;
   height: 25px;
 }
@@ -509,6 +497,7 @@
 }
 .jrn .jrn-f05m__chip {
   position: absolute;
+  border-radius: var(--f05m-chip-radius, 18px);
   display: grid;
   place-items: center;
   padding: 0;
@@ -535,8 +524,8 @@
   isolation: isolate;
 }
 .jrn .jrn-f05m__chip svg {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
 }
 .jrn[data-jrn-f05-motion] .jrn-corner .jrn-f09a__menu {
   position: fixed;
@@ -571,12 +560,12 @@
 .jrn[data-jrn-f05-motion] .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn {
   height: 100%;
   min-height: 44px;
-  width: calc(var(--f05m-u) * 184px);
+  width: calc(var(--f05m-u) * 175px);
   min-width: 52px;
   max-width: 100%;
   padding: 0;
-  gap: calc(var(--f05m-u) * 18px);
-  font: 600 max(9px, calc(var(--f05m-u) * 28px)) / 1 'JURNL Sans', sans-serif;
+  gap: calc(var(--f05m-u) * var(--f05m-nav-gap, 18) * 1px);
+  font: 600 max(9px, calc(var(--f05m-u) * var(--f05m-nav-label, 30) * 1px)) / 1 'JURNL Sans', sans-serif;
   letter-spacing: 0.14em;
   color: #1b1814;
   border-radius: calc(var(--f05m-u) * 30px);

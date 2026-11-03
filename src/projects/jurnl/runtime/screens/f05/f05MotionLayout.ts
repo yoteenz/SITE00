@@ -1,23 +1,26 @@
 /**
  * F05 MONEY motion pilot — responsive geometry of the layered parent.
  *
- * Everything is laid out in SOURCE px of the founder-approved composite (1024 x 1536) and drawn inside one board that
- * is scaled by `u` (screen px per source px). The approved composition is reproduced exactly at a 2:3 viewport.
+ * Everything is laid out in SOURCE px of the founder's 9:16 MONEY reference (941 x 1672; text-free SIDEKICK of the
+ * same composition) and drawn inside one board scaled by `u` (screen px per source px). The composition is reproduced
+ * exactly at a 9:16 viewport.
  *
- * Phones (taller than 2:3): the board fits the width with at most CROP source px trimmed from each side (stone edges,
- * nothing interactive), and the extra height goes to an elastic panel: the SIDEKICK is drawn as a top slice, a seamless
- * panel tile and a bottom slice, so no pixel is stretched. The account papers keep the approved size and use the extra
- * height for a third row (more places per page, or MOVE MONEY / ADD A PLACE papers).
- * Tablet / desktop (wider than 2:3): the board fits the height and is centred; the sides are an ambient, blurred,
+ * Phones (taller than 9:16): the board fits the width with at most `crop` source px trimmed from each side (stone and
+ * red paper, nothing interactive), and the extra height goes to an elastic panel: the SIDEKICK is drawn as a top slice,
+ * a seamless panel tile and a bottom slice, so no pixel is stretched. Papers keep their size; a third row appears only
+ * when the panel has room for it with breathing space.
+ * Tablet / desktop (wider than 9:16): the board fits the height and is centred; the sides are an ambient, blurred,
  * darkened copy of the same environment.
  */
 
 import geometry from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_GEOMETRY.json';
+import { F05_COMPOSITION as C } from './f05Composition';
 
-export const SRC_W = 1024;
-export const SRC_H = 1536;
+export const SRC_W = geometry.source.w;
+export const SRC_H = geometry.source.h;
 /** Source px that may be cropped from each side on narrow screens. */
-export const CROP = 35;
+export const CROP = C.crop;
+export const SEAM_A = geometry.seams.a;
 export const SEAM_C = geometry.seams.c;
 
 export type Rect = { x: number; y: number; w: number; h: number };
@@ -67,7 +70,7 @@ export type F05MotionLayout = {
 export function capacityFor(W: number, H: number): number {
   const u = Math.min(Math.max(1, W) / (SRC_W - 2 * CROP), Math.max(1, H) / SRC_H);
   const extra = Math.max(0, Math.max(1, H) / u - SRC_H);
-  return (extra >= ROW_H[1]! + ROW_GAP ? 3 : 2) * 2;
+  return (extra >= ROW_H[1]! + ROW_GAP + C.thirdRowSlack ? 3 : 2) * 2;
 }
 
 /** `items` papers on this page (accounts plus any ADD / MOVE papers). */
@@ -80,7 +83,7 @@ export function computeF05MotionLayout(W: number, H: number, items: number): F05
   const extra = Math.max(0, h / u - SRC_H);
   const sliced = extra >= 1;
   const visibleX: [number, number] = [Math.max(0, -ox / u), Math.min(SRC_W, (w - ox) / u)];
-  const capacityRows = extra >= ROW_H[1]! + ROW_GAP ? 3 : 2;
+  const capacityRows = extra >= ROW_H[1]! + ROW_GAP + C.thirdRowSlack ? 3 : 2;
   const rows = Math.min(capacityRows, Math.max(1, Math.ceil(items / 2)));
   const heights = Array.from({ length: rows }, (_, r) => ROW_H[Math.min(r, 1)]!);
   const contentH = PANEL_BOTTOM - ROW_TOP + extra;
@@ -115,8 +118,8 @@ export function computeF05MotionLayout(W: number, H: number, items: number): F05
     rows,
     slots,
     wide,
-    dots: { x: 412, y: 1196 + extra, w: 200, h: 34 },
-    navZone: { x: 60, y: 1356 + extra, w: 904, h: 140 },
+    dots: { x: C.dots.x, y: C.dots.y + extra, w: C.dots.w, h: C.dots.h },
+    navZone: { x: C.nav.x, y: C.nav.y + extra, w: C.nav.w, h: C.nav.h },
   };
 }
 

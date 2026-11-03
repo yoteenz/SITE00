@@ -207,10 +207,10 @@ describe('Name lines', () => {
 });
 
 describe('Layout', () => {
-  it('at 2:3 the four papers sit exactly on the approved card rects', () => {
-    const L = computeF05MotionLayout(512, 768, 4);
+  it('at 9:16 the four papers sit exactly on the reference card rects', () => {
+    const L = computeF05MotionLayout(471, 836, 4);
     expect(L.u).toBeCloseTo(0.5, 5);
-    expect(L.ox).toBeCloseTo(0, 5);
+    expect(Math.abs(L.ox)).toBeLessThan(1);
     expect(L.extra).toBe(0);
     expect(L.sliced).toBe(false);
     expect(L.slots.map(({ x, y, w, h }) => ({ x, y, w, h }))).toEqual(APPROVED_SLOTS);
@@ -223,7 +223,8 @@ describe('Layout', () => {
       expect(L.visibleX[0]).toBeCloseTo(CROP, 3);
       expect(L.boardH * L.u).toBeCloseTo(h, 3);
       expect(L.sliced).toBe(true);
-      expect(L.capacityRows).toBe(3);
+      // 9:16 composition: phones keep the reference's two rows of papers (4 per page)
+      expect(L.capacityRows).toBe(2);
       for (const s of L.slots) {
         expect(s.x).toBeGreaterThanOrEqual(L.visibleX[0]);
         expect(s.x + s.w).toBeLessThanOrEqual(L.visibleX[1]);
@@ -244,7 +245,9 @@ describe('Layout', () => {
 
   it('pages: capacity by size; ADD and MOVE fill free slots on the last page only', () => {
     expect(capacityFor(512, 768)).toBe(4);
-    expect(capacityFor(393, 852)).toBe(6);
+    expect(capacityFor(393, 852)).toBe(4);
+    // a much taller screen gets a third row only with breathing room
+    expect(capacityFor(360, 900)).toBe(6);
     expect(pageItems(0, 4, 0)).toEqual([{ kind: 'empty' }]);
     expect(pageItems(1, 4, 0).map((i) => i.kind)).toEqual(['account', 'add']);
     expect(pageItems(2, 4, 0).map((i) => i.kind)).toEqual(['account', 'account', 'add', 'move']);
@@ -274,10 +277,11 @@ describe('Opt-in route and assets', () => {
 
   it('every runtime layer exists and the geometry matches the layer sizes', () => {
     const geo = JSON.parse(readFileSync(path.join(ASSET_DIR, 'F05_MOTION_GEOMETRY.json'), 'utf8'));
-    for (const f of ['SIDEKICK', 'PANEL_TILE', 'PAPER_TILE', 'TORN_EDGE', 'TITLE_PAPER', 'WAX_SEAL', 'CARD_BANK', 'CARD_PAYOUT', 'CARD_CASH', 'CARD_CREDIT']) {
+    for (const f of ['SIDEKICK', 'PANEL_TILE', 'PAPER_TILE', 'TORN_EDGE', 'TITLE_PAPER', 'WAX_SEAL', 'TAG_PAPER', 'CARD_BANK', 'CARD_PAYOUT', 'CARD_CASH', 'CARD_CREDIT']) {
       expect(existsSync(path.join(ASSET_DIR, `F05_MOTION_${f}.webp`)), f).toBe(true);
     }
-    expect(geo.source).toEqual({ w: SRC_W, h: SRC_H });
+    expect(geo.source).toMatchObject({ w: SRC_W, h: SRC_H, profile: '9x16' });
+    expect([SRC_W, SRC_H]).toEqual([941, 1672]);
     expect(geo.envelopes.title_paper.rotate_deg).toBe(0);
     expect(geo.envelopes.title_paper.scale).toBeGreaterThan(1);
   });

@@ -22,7 +22,8 @@ import { AskJurnlSheet, QuickAddV2Sheet } from '../../global/GlobalSheets';
 import { useJurnl } from '../../state/store';
 import { JurnlScreen, type FamilyPlate } from '../JurnlScreen';
 import { AddPlaceSheet } from '../MoneyScreens';
-import { capacityFor, computeF05MotionLayout, pageItems, SEAM_C, SRC_H, SRC_W, toScreen, type Rect } from './f05MotionLayout';
+import { capacityFor, computeF05MotionLayout, pageItems, SEAM_A, SEAM_C, SRC_H, SRC_W, toScreen, type Rect } from './f05MotionLayout';
+import { F05_COMPOSITION as C } from './f05Composition';
 import geometry from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_GEOMETRY.json';
 import sidekick from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_SIDEKICK.webp';
 import panelTile from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_PANEL_TILE.webp';
@@ -30,6 +31,7 @@ import paperTile from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_PAPER
 import tornEdge from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_TORN_EDGE.webp';
 import titlePaper from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_TITLE_PAPER.webp';
 import waxSeal from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_WAX_SEAL.webp';
+import tagPaper from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_TAG_PAPER.webp';
 import cardBank from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_BANK.webp';
 import cardPayout from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_PAYOUT.webp';
 import cardCash from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_CASH.webp';
@@ -43,16 +45,17 @@ const box = (r: { box: number[] }): Rect => ({ x: r.box[0]!, y: r.box[1]!, w: r.
 const at = (r: Rect): CSSProperties => ({ left: r.x, top: r.y, width: r.w, height: r.h });
 const TITLE = box(geometry.title_paper);
 const SEAL = box(geometry.wax_seal);
+const TAG = box(geometry.tag_paper);
 /** Approved chip squares (source px). The global menu takes the far-right square; search and add move one left. */
-const CHIP = 76;
-const CHIP_GAP = 23;
-const CHIP_TOP = 32;
-const CHIP_RIGHT = 979;
+const CHIP = C.chips.size;
+const CHIP_GAP = C.chips.gap;
+const CHIP_TOP = C.chips.top;
+const CHIP_RIGHT = C.chips.right;
 /** Approved top, but never under a notch or status bar (board px = screen px / u). */
 const CHIP_TOP_SAFE = `max(${CHIP_TOP}px, calc((env(safe-area-inset-top, 0px) + 8px) / var(--f05m-u, 1)))`;
 /** Approved metric column centres (source px). */
-const METRIC_X = [176, 405, 638, 875];
-const DIVIDERS = [297, 515, 757];
+const METRIC_X = C.band.centers;
+const DIVIDERS = C.band.dividers;
 
 function useReducedMotion(): boolean {
   const [reduced, setReduced] = useState(() => typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
@@ -214,6 +217,8 @@ export function MoneyMotionParent() {
       '--f05m-menu-y': `${menu.y}px`,
       '--f05m-chip': `${menu.w}px`,
       '--f05m-u': String(L.u),
+      '--f05m-nav-gap': String(C.nav.gap),
+      '--f05m-nav-label': String(C.nav.labelSize),
       '--f05m-paper-url': `url("${paperTile}")`,
       '--f05m-edge-url': `url("${tornEdge}")`,
     };
@@ -280,8 +285,30 @@ export function MoneyMotionParent() {
   const S = L.u;
   // Stagger: at most 45 ms, and the last paper starts by 410 ms (ends by 610 ms) however many papers the page holds.
   const stagger = items.length > 1 ? Math.min(45, 70 / (items.length - 1)) : 0;
-  const boardStyle: CSSProperties = { width: SRC_W, height: L.boardH, transform: `translate(${L.ox}px, 0) scale(${S})`, ['--f05m-stagger' as string]: `${stagger}ms` } as CSSProperties;
-  const visible = L.visibleX;
+  const boardStyle: CSSProperties = {
+    width: SRC_W,
+    height: L.boardH,
+    transform: `translate(${L.ox}px, 0) scale(${S})`,
+    ['--f05m-stagger' as string]: `${stagger}ms`,
+    // composition (source px) for the stylesheet
+    ['--f05m-w' as string]: `${SRC_W}px`,
+    ['--f05m-h' as string]: `${SRC_H}px`,
+    ['--f05m-label-size' as string]: `${C.band.labelSize}px`,
+    ['--f05m-value-size' as string]: `${C.band.valueSize}px`,
+    ['--f05m-value-gap' as string]: `${C.band.valueTop - C.band.labelTop - C.band.labelSize}px`,
+    ['--f05m-caption-top' as string]: `${C.band.captionTop}px`,
+    ['--f05m-name-left' as string]: `${C.card.nameLeft}px`,
+    ['--f05m-name-top' as string]: `${C.card.nameTop}px`,
+    ['--f05m-name-line' as string]: String(C.card.nameLine),
+    ['--f05m-name-size' as string]: `${C.card.nameSize}px`,
+    ['--f05m-name-ls' as string]: `${C.card.nameLs}em`,
+    ['--f05m-amount-size' as string]: `${C.card.amountSize}px`,
+    ['--f05m-amount-top' as string]: `${C.card.amountTop}px`,
+    ['--f05m-note-top' as string]: `${C.card.noteTop}px`,
+    ['--f05m-chev-right' as string]: `${C.card.chevRight}px`,
+    ['--f05m-chev-bottom' as string]: `${C.card.chevBottom}px`,
+    ['--f05m-chip-radius' as string]: `${C.chips.radius}px`,
+  } as CSSProperties;
 
   return (
     <JurnlScreen screenId="F05.00" familyPlate={F05_MOTION_PLATE} family productNav singlePlate>
@@ -291,35 +318,36 @@ export function MoneyMotionParent() {
           <div className="jrn-f05m__env" aria-hidden data-layer="L0">
             {L.sliced ?
               <>
-                <div className="jrn-f05m__slice" style={{ top: 0, height: SEAM_C }}>
-                  <img src={sidekick} alt="" width={SRC_W} height={SRC_H} draggable={false} />
+                <div className="jrn-f05m__slice" style={{ top: 0, height: SEAM_C, width: SRC_W }}>
+                  <img src={sidekick} alt="" width={SRC_W} height={SRC_H} draggable={false} style={{ width: SRC_W, height: SRC_H }} />
                 </div>
-                <div className="jrn-f05m__tile" style={{ top: SEAM_C - 48, height: L.extra + 48 + 6, backgroundImage: `url("${panelTile}")`, backgroundPosition: `0 calc(100% - 6px)` }} />
-                <div className="jrn-f05m__slice" style={{ top: SEAM_C + L.extra, height: SRC_H - SEAM_C }}>
-                  <img src={sidekick} alt="" width={SRC_W} height={SRC_H} draggable={false} style={{ top: -SEAM_C }} />
+                <div className="jrn-f05m__tile" style={{ top: SEAM_C - 48, height: L.extra + 48 + 6, width: SRC_W, backgroundImage: `url("${panelTile}")`, backgroundSize: `${SRC_W}px ${SEAM_C - SEAM_A}px`, backgroundPosition: `0 calc(100% - 6px)` }} />
+                <div className="jrn-f05m__slice" style={{ top: SEAM_C + L.extra, height: SRC_H - SEAM_C, width: SRC_W }}>
+                  <img src={sidekick} alt="" width={SRC_W} height={SRC_H} draggable={false} style={{ top: -SEAM_C, width: SRC_W, height: SRC_H }} />
                 </div>
               </>
-            : <div className="jrn-f05m__slice" style={{ top: 0, height: SRC_H }}>
-                <img src={sidekick} alt="" width={SRC_W} height={SRC_H} draggable={false} />
+            : <div className="jrn-f05m__slice" style={{ top: 0, height: SRC_H, width: SRC_W }}>
+                <img src={sidekick} alt="" width={SRC_W} height={SRC_H} draggable={false} style={{ width: SRC_W, height: SRC_H }} />
               </div>}
           </div>
 
           {/* L1 — collage objects with real alpha */}
           <img className="jrn-f05m__obj jrn-f05m__title-paper" data-layer="L1" src={titlePaper} alt="" draggable={false} style={at(TITLE)} />
           <img className="jrn-f05m__obj jrn-f05m__seal" data-layer="L1" src={waxSeal} alt="" draggable={false} style={at(SEAL)} />
+          <img className="jrn-f05m__obj jrn-f05m__tag" data-layer="L1" src={tagPaper} alt="" draggable={false} style={at(TAG)} />
 
           {/* L2 — live type */}
-          <p className="jrn-f05m__mark" aria-label="JURNL" style={{ left: Math.max(64, visible[0] + 30), top: 92 }}>JURNL</p>
+          <p className="jrn-f05m__mark" aria-label="JURNL" style={{ left: C.mark.left, top: C.mark.top, fontSize: C.mark.size, letterSpacing: `${C.mark.ls}em`, transform: `rotate(${C.mark.rot}deg)` }}>JURNL</p>
           <header className="jrn-f05m__title" data-jrn-zone="intro">
-            <h1 className="jrn-f05m__money">MONEY</h1>
-            <p className="jrn-f05m__script" lang="en">where your money lives</p>
+            <h1 className="jrn-f05m__money" style={{ left: C.money.left, top: C.money.top, fontSize: C.money.size, letterSpacing: `${C.money.ls}em` }}>MONEY</h1>
+            <p className="jrn-f05m__script" lang="en" style={{ left: C.script.left, top: C.script.top, fontSize: C.script.size, letterSpacing: `${C.script.ls}em` }}>where your money lives</p>
           </header>
           <section className="jrn-f05m__band" aria-label="MONEY SUMMARY" data-jrn-zone="summary">
             {DIVIDERS.map((x) => (
-              <span key={x} className="jrn-f05m__divider" aria-hidden style={{ left: x }} />
+              <span key={x} className="jrn-f05m__divider" aria-hidden style={{ left: x, top: C.band.dividerTop, height: C.band.dividerH }} />
             ))}
             {metrics.map((m, i) => (
-              <button key={m.id} type="button" className="jrn-f05m__metric" data-metric={m.id} data-jrn-trigger={`f05m-metric-${m.id}`} aria-label={m.aria} onClick={m.onOpen} style={{ left: METRIC_X[i]! - 105 }}>
+              <button key={m.id} type="button" className="jrn-f05m__metric" data-metric={m.id} data-jrn-trigger={`f05m-metric-${m.id}`} aria-label={m.aria} onClick={m.onOpen} style={{ left: METRIC_X[i]! - C.band.width / 2, width: C.band.width, top: C.band.labelTop - 12 }}>
                 <span className="jrn-f05m__metric-label">{m.label}</span>
                 {unknown && (m.id === 'committed' || m.id === 'available') ?
                   <b className="jrn-f05m__metric-value" data-jrn-value={`money-${m.id}`} data-jrn-unknown="true">—</b>
@@ -381,13 +409,13 @@ export function MoneyMotionParent() {
                   onClick={(e) => openPlace(a, e.currentTarget)}
                 >
                   <img className="jrn-f05m__paper-art" src={ART[a.art]} alt="" draggable={false} />
-                  <span className="jrn-f05m__paper-name" style={{ fontSize: `max(${29 * k}px, calc(${(11 * k).toFixed(2)}px / var(--f05m-u, 1)))` }}>
+                  <span className="jrn-f05m__paper-name" style={{ fontSize: `max(${C.card.nameSize * k}px, calc(${(11 * k).toFixed(2)}px / var(--f05m-u, 1)))` }}>
                     {lines.map((l) => (
                       <span key={l}>{l}</span>
                     ))}
                   </span>
-                  <b className="jrn-f05m__paper-amount" data-jrn-amount-cents={Math.round(a.amount * 100)} style={{ fontSize: amountSize(formatMoney(a.amount), 48) }}>{formatMoney(a.amount)}</b>
-                  {a.nature === 'LIABILITY' ? <i className="jrn-f05m__paper-note">OWED</i> : null}
+                  <b className="jrn-f05m__paper-amount" data-jrn-amount-cents={Math.round(a.amount * 100)} style={{ fontSize: amountSize(formatMoney(a.amount), C.card.amountSize), top: C.card.nameTop + lines.length * C.card.namePitch + C.card.amountGap - (a.nature === 'LIABILITY' ? 4 : 0) }}>{formatMoney(a.amount)}</b>
+                  {a.nature === 'LIABILITY' ? <i className="jrn-f05m__paper-note" style={{ top: C.card.nameTop + lines.length * C.card.namePitch + C.card.amountGap + C.card.amountSize + 4 }}>OWED</i> : null}
                   {transit ? <i className="jrn-f05m__paper-note jrn-f05m__paper-note--transit" data-testid="f05m-transit">{transit}</i> : null}
                   <svg className="jrn-f05m__chev" viewBox="0 0 14 24" aria-hidden>
                     <path d="M2 2l10 10L2 22" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
