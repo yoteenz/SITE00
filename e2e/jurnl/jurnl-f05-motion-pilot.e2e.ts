@@ -168,8 +168,9 @@ test.describe('F05 MONEY parent motion pilot', () => {
     await settle(page);
     expect(await cents(page, '[data-account-id="bank"] [data-jrn-amount-cents]')).toBe(126_000);
     expect(await cents(page, '[data-account-id="ride"] [data-jrn-amount-cents]')).toBe(76_000);
-    await expect(page.locator('[data-account-id="bank"]')).toContainText('$80 ON ITS WAY IN');
-    await expect(page.locator('[data-account-id="ride"]')).toContainText('$80 SENT, NOT ARRIVED');
+    // the papers name the canonical #1706 state: arriving at the bank, leaving the rideshare card, not received
+    await expect(page.locator('[data-account-id="bank"]')).toContainText('← $80 IN TRANSIT');
+    await expect(page.locator('[data-account-id="ride"]')).toContainText('→ $80 IN TRANSIT');
     expect(await metric(page, 'held')).toBe(245_000 - 8_000);
     await shot(page, '10-transfer-in-transit');
   });
