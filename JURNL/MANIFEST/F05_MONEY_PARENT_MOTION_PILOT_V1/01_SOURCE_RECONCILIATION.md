@@ -35,6 +35,10 @@ No asset in the package has an alpha channel. Every alpha in this pilot was prod
 - **Branch:** `claude/jurnl-f05-money-motion-pilot-um0u93`.
 - **Draft PR:** stacked on #1706. Merge order is #1705 → #1706 → this PR.
 
+## Addendum: financial source reconciliation
+
+After the first delivery, an in-flight addendum named PR #1706 (`274d7956`) as the authoritative financial baseline. The pilot was already based on exactly that commit, and #1706 has not moved since, so nothing was reset, rebased or cherry-picked. The transfer and card-payment visuals were then bound to #1706's settlement states. Doc 17 has the details and the retest results.
+
 ## What already existed (inspected before building)
 
 | Area | Existing | Used by the pilot |

@@ -23,7 +23,8 @@ When there are no places of the person's own, Safe to Spend reads the sample pre
 | name and lines | `display_name` → `nameLines()` | Two balanced lines: BANK / ACCOUNT, RIDESHARE / CARD, CASH / ON HAND, CREDIT / CARD. Any name works; long names shrink (×0.84 / 0.7 / 0.6) and clip, and the full name stays in the accessible name. |
 | amount | position: `held` (asset) or `owed` (liability) | money-formatted in the user's currency; never animated |
 | OWED tag | `nature === 'LIABILITY'` | credit cards and loans |
-| transfer state line | `transferTotals.byAccount` (#1706) | `$X ON ITS WAY IN` · `$X SENT, NOT ARRIVED` · `$X NOT SENT YET`. **A pending transfer is never shown as received** (E2E 10/11). |
+| transfer slip | `computeMoneyPicture().transfers` (#1706 `transferViews`) → `openTransfers()` → `paperTransferLine()` | `→ {amount} IN TRANSIT` (leaving) · `← {amount} CARD NOT CONFIRMED` (arriving) · `+n`; words are a display of the canonical state (doc 17). **A pending transfer is never shown as received.** |
+| threads and tokens | the same `openTransfers()` list, with #1706 labels | position from the state (rest on source vs between); never from time |
 | artwork | `artFor(type, isPayout)` | Decoration only: bank → village · debit / payout → olive and lemon · cash → amphora · credit card / loan → coin · savings / investment / business / other → village |
 | order | registry order | pages of 4 (2:3, tablet, desktop) or 6 (tall phones) |
 

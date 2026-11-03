@@ -6,6 +6,7 @@ The approved picture does not move as one image. Motion lives on separate layers
 - **L1 collage objects:** title paper and wax seal (true alpha).
 - **L2 live type:** wordmark, MONEY, the script line, the four figures.
 - **L3 papers:** one button per account, plus the ADD and MOVE papers.
+- **L3.5 transfer threads:** one thread and token per unfinished transfer or card payment, drawn from its recorded settlement state (doc 17).
 - **L4 chrome:** chips and the global dock (never animated); overlays use the shared drawer motion.
 
 Implementation: CSS keyframes in `src/projects/jurnl/runtime/screens/f05/jurnl-f05-motion.css`, all inside `@media (prefers-reduced-motion: no-preference)`, with `animation-fill-mode: backwards`. A finished animation leaves no style behind (E2E check 19).
@@ -25,6 +26,7 @@ Implementation: CSS keyframes in `src/projects/jurnl/runtime/screens/f05/jurnl-f
 | Script reveals | L2 | 280 → 620 | mask, like ink | lowercase DOM text |
 | Figures appear | L2 | 270 → 470 | opacity 0 → 1, 5 px rise | **values never count up**; the final number is the only number |
 | Papers settle | L3 | 340 → ≤ 610 | 14 px rise, scale 0.985 → 1, opacity; stagger `min(45 ms, 70 ms / (n − 1))` | The stagger shrinks with the number of papers, so the last always lands by 610 ms (a fixed 45 ms reached 825 ms with 6 papers; the test caught it) |
+| Transfer threads / tokens | L3.5 | 440 → 640 | fade / 5 px rise | shown only for recorded open states; position set by the state, not by time |
 | Navigation | L4 | 0 | none | always available and never waits |
 
 The app shell's own 700 ms blur-fade (`jrn-family` on `.jrn-screen`) is disabled on this screen only. It would have hidden the layered sequence and held the first legible figures past the budget.
@@ -51,6 +53,17 @@ Selection is bound to the paper's `data-account-id`. The click handler reads the
 5. **Fallback:** without the View Transitions API, or under reduced motion, the route changes at once.
 6. **Return:** the selected id is kept in `sessionStorage` (a UI convenience, not data). On return, that paper plays a 420 ms settle from its lifted pose.
 7. **Clean-up:** E2E checks 13 and 19 confirm no transforms are held, no element keeps the `jrn-place` name, and no animation is still running.
+
+## C2. Transfer state motion (doc 17)
+
+- **Placement follows the recorded state, never a timer:**
+  - not left yet → the token rests on the source paper's edge;
+  - in transit / returning → it rests midway, with the thread solid up to it.
+- **When the recorded state leaves the open set:**
+  - COMPLETED → the token travels on into the destination and fades (≤ 480 ms);
+  - CANCELLED / FAILED / REVERSED → the thread just fades.
+- **Order of events:** in both cases the balances already changed in the ledger *before* the motion plays; the motion only reports it.
+- **Reduced motion:** threads and tokens still show (they are state); their fade-in and resolve animations are off.
 
 ## D. Environmental depth
 

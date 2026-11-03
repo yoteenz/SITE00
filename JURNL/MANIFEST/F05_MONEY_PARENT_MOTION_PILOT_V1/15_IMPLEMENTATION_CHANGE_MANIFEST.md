@@ -47,4 +47,7 @@
 | `edbff1ac` | Unit and E2E coverage, entrance budget, transition frames |
 | `3e8ce83d` | Type floors, 44 px hit areas, safe-area chips and dock, clean paper tile |
 | `2648182b` | Card ink masks keep imagery edges intact |
-| (final) | Torn-edge key, focus assertion, evidence package (see the PR) |
+| `0d271a13` | Evidence package (first delivery) |
+| `f16be3a7` | **Addendum:** transfer and card-payment visuals bound to #1706 settlement states (threads, tokens, slips, detail-sheet steps), state tests, single-owner guard |
+| `faf6272c` | No literal amounts in comments (monetization guard) |
+| (final) | Addendum evidence: doc 17, updated 01 / 06 / 07 / 08 / 12 / 16, ZIPs (see the PR) |

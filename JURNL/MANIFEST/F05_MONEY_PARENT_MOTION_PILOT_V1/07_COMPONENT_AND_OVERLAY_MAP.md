@@ -22,6 +22,8 @@ The choice is a display preference in `sessionStorage` (`jurnl.f05.parent`). It 
 | `button` per account `f05m-place-{account_id}` | account paper | shared-element route to `money/places/{id}` | `MoneyPlaceDetailScreen` (unchanged except the title's transition name) |
 | `button` `f05m-add-slot` | ADD A PLACE paper (free slot), or NO PLACES YET (zero accounts) | add-place sheet | `AddPlaceSheet` (exported, unchanged) |
 | `button` `f05m-move` | MOVE MONEY paper (free slot, 2+ accounts) | transfer sheet | `TransferSheet` (unchanged; the #1706 settlement states) |
+| `button` `f05m-transfer-{linkId}` (token on a thread) | one unfinished transfer or card payment, in its canonical state | #1706's transfer detail sheet: only `allowedActions(state)`, each a `recordTransferStep` | `TransferDetailSheet` (unchanged) |
+| `i.jrn-f05m__paper-note--transit` (slip under a paper) | that paper's open transfer state (`→ / ← {amount} {STATE}`, `+n` for more) | — | — |
 | `button` `f05m-next-page` | page dots (more than one page) | next page; ← / → also page | — |
 | `button` `f05m-search` | SEARCH ACTIVITY chip | Activity (its search field) | `ActivityScreen` |
 | `button` `f05m-actions` | "+" chip | MONEY actions sheet → ADD A PLACE · MOVE MONEY | `JurnlDrawer`, `JurnlButton` |
@@ -36,6 +38,7 @@ The choice is a display preference in `sessionStorage` (`jurnl.f05.parent`). It 
 | ADD A PLACE | `AddPlaceSheet` (name · kind · balance · optional limit · payout) | existing `createManualAccount`; success toast `PLACE ADDED`, and the new paper settles in, marked `data-fresh` |
 | ACCOUNT SELECTION | the FROM / TO account chips inside `TransferSheet`, and the account papers themselves | — |
 | ACCOUNT DETAILS ENTRY | the `AddPlaceSheet` fields (decimal input, validation unchanged) | — |
+| TRANSFER STATE STEP | `TransferDetailSheet` from a token: MONEY LEFT THE ACCOUNT · MONEY ARRIVED / CARD CONFIRMED IT · IT FAILED (back / not back) · CANCEL · THE MONEY CAME BACK · IT WAS REVERSED | existing `recordTransferStep` (idempotent) |
 | ACTION SUCCESS / ERROR | existing toasts (`transfer-result`, `f05m-added`) and inline field errors | — |
 | Planning period | `SafeHorizonSheet` (30 days / before next income) | read only |
 

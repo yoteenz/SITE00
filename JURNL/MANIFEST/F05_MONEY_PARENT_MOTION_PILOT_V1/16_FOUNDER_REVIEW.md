@@ -18,8 +18,15 @@
    - coming back, it settles home.
 
    The whole entrance takes 650 ms, the dock never waits, and reduced-motion mode turns all of it off without losing anything.
-4. **Money stays correct.** A transfer on its way shows "$80 ON ITS WAY IN" on the bank paper and does not add to it. AVAILABLE is exactly the Safe to Spend number. Nothing on the page changes a record by itself.
-5. **It holds up beyond the approved picture.** It handles 0, 1, 4 and 7 places, long names and big amounts, all four screen sizes, and keyboard use. Every test passes: 54 E2E across four sizes, 721 unit, and 83 E2E on mobile including the full journey.
+4. **Money stays correct, and the motion follows it (#1706 settlement).**
+   - A thread between two papers shows each unfinished transfer or card payment as recorded:
+     - planned or submitted: the token rests on the paper the money will leave;
+     - left but not arrived: the token sits midway, and the receiving paper says `← $80 IN TRANSIT` without adding to it;
+     - arrived: the thread resolves into the destination, after the ledger has recorded it.
+   - Failed or cancelled simply close; any money coming back is recorded by the accounting step, never by the animation.
+   - A card payment says `CARD NOT CONFIRMED` until you confirm it, and only then does the debt fall.
+   - Tapping a token opens the existing step sheet. AVAILABLE is exactly the Safe to Spend number, and nothing on the page changes a record by itself (doc 17).
+5. **It holds up beyond the approved picture.** It handles 0, 1, 4 and 7 places, long names and big amounts, all four screen sizes, and keyboard use. Tests were rerun on this branch, not inherited (doc 12).
 
 ## What it is not (yet)
 
