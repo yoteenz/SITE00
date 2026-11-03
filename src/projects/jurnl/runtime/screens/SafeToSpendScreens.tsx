@@ -4,7 +4,7 @@
  */
 
 import { useState } from 'react';
-import { computeSafeToSpend, type SafeToSpendBreakdown } from '../../data/f09/safeToSpend';
+import { COMPLETENESS_LABEL, SOURCE_LABEL, computeSafeToSpend, type SafeToSpendBreakdown } from '../../data/f09/safeToSpend';
 import { patchSetup, useSetup } from '../../data/f02/setupDraft';
 import { formatAmountInput, formatMoney, parseAmountInput, useCurrency } from '../../data/home/money';
 import f09Plate from '../../families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_AUTHORITY_PLATE.png';
@@ -66,7 +66,8 @@ function useParentFigures() {
   useCurrency();
   const signal = computeSafeToSpend(draft);
   const below = signal.value < 0;
-  const bills = signal.completeness === 'UNSTATED' ? 0 : signal.upcoming;
+  // Bills and card minimums due in the window (money set aside is inside these, never extra).
+  const bills = signal.completeness === 'UNSTATED' ? 0 : signal.upcoming + signal.cardPayments;
   return {
     below,
     amount: formatMoney(below ? -signal.value : signal.value),
@@ -155,7 +156,8 @@ function SafeToSpendAuthority() {
   const signal = computeSafeToSpend(draft);
   const below = signal.value < 0;
   const amount = formatMoney(below ? -signal.value : signal.value);
-  const bills = signal.completeness === 'UNSTATED' ? 0 : signal.upcoming;
+  // Bills and card minimums due in the window (money set aside is inside these, never extra).
+  const bills = signal.completeness === 'UNSTATED' ? 0 : signal.upcoming + signal.cardPayments;
   const folio = [
     { id: 'bills', label: 'BILLS', amount: formatMoney(bills) },
     { id: 'plans', label: 'PLANS', amount: formatMoney(signal.assigned) },
@@ -200,7 +202,7 @@ function SafeToSpendAuthority() {
           <span className="jrn-f09a__spark" aria-hidden>
             <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 1.4 13.8 9.2 21.6 12 13.8 14.8 12 22.6 10.2 14.8 2.4 12 10.2 9.2Z" fill="none" stroke="#6a5c42" strokeWidth="1.35" strokeLinejoin="round" /></svg>
           </span>
-          <p><b>WANT TO SPEND ON SOMETHING?</b> CHECK HOW IT FITS YOUR PLAN BEFORE YOU BUY.</p>
+          <p><b>WANT TO SPEND ON SOMETHING?</b> CHECK THE PRICE AGAINST SAFE TO SPEND BEFORE YOU BUY.</p>
           <button type="button" data-jrn-trigger="safe-check-purchase" onClick={() => go('safe/check')}>
             CHECK A PURCHASE <span aria-hidden>→</span>
           </button>
@@ -225,11 +227,11 @@ export function SafeToSpendWhyScreen() {
   const [holdOpen, setHoldOpen] = useState(false);
   const W = REF_WHY;
   const rows = [
-    { id: 'Cash', label: 'CASH', amount: formatMoney(signal.cash), source: signal.cashSource },
-    { id: 'Upcoming', label: 'UPCOMING', amount: formatMoney(signal.upcoming), source: signal.upcomingSource },
-    { id: 'Held', label: 'HELD', amount: formatMoney(signal.protected), source: signal.protected > 0 ? signal.protectedSource : 'NONE' },
-    { id: 'Assigned', label: 'ASSIGNED', amount: formatMoney(signal.assigned), source: signal.assignedSource },
-    { id: 'Goal', label: 'GOAL SET ASIDE', amount: formatMoney(signal.goalReserved), source: signal.goalReservedSource },
+    { id: 'Cash', label: 'CASH', amount: formatMoney(signal.cash), source: SOURCE_LABEL[signal.cashSource] },
+    { id: 'Upcoming', label: 'BILLS DUE', amount: formatMoney(signal.upcoming + signal.cardPayments), source: signal.reservedForPayments > 0 ? `${formatMoney(signal.reservedForPayments)} SET ASIDE INSIDE` : SOURCE_LABEL[signal.upcomingSource] },
+    { id: 'Held', label: 'HELD', amount: formatMoney(signal.protected), source: signal.protected > 0 ? 'YOUR SETUP' : 'NONE' },
+    { id: 'Assigned', label: 'PLANS', amount: formatMoney(signal.assigned), source: SOURCE_LABEL[signal.assignedSource] },
+    { id: 'Goal', label: 'GOALS', amount: formatMoney(signal.goalReserved), source: SOURCE_LABEL[signal.goalReservedSource] },
     { id: 'Buffer', label: 'SAFETY BUFFER', amount: signal.safetyBuffer > 0 ? formatMoney(signal.safetyBuffer) : null, source: null },
   ] as const;
   return (
@@ -282,7 +284,7 @@ export function SafeToSpendWhyScreen() {
           ))}
           <div data-row="completeness">
             <RefText t={W.text.lblComplete} as="dt">COMPLETENESS</RefText>
-            <RefText t={W.text.valComplete} as="dd" className="jrn-ref__muted">{signal.completeness}</RefText>
+            <RefText t={W.text.valComplete} as="dd" className="jrn-ref__muted">{COMPLETENESS_LABEL[signal.completeness]}</RefText>
             <RefIcon name="chevron" box={W.box.chevComplete} stroke={2} />
           </div>
         </dl>

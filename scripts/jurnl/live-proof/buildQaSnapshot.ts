@@ -173,6 +173,8 @@ export function buildQaLiveSnapshot(userId: string): RepositorySnapshot {
     trips,
     paydownPlan: null,
     records,
+    dailyEarnings: [],
+    reservations: [],
     updatedAt: now,
   };
 }

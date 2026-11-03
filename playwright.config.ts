@@ -24,6 +24,8 @@ export default defineConfig({
     actionTimeout: 20_000,
   },
   projects: [
+    // 360 × 780: smallest supported phone, used by the financial operating system journeys.
+    { name: 'small', testMatch: '**/jurnl-financial-os.e2e.ts', use: { ...devices['Pixel 5'], viewport: { width: 360, height: 780 } } },
     { name: 'mobile', use: { ...devices['Pixel 5'], viewport: { width: 393, height: 852 } } },
     { name: 'tablet', use: { ...devices['Desktop Chrome'], viewport: { width: 834, height: 1194 } } },
     { name: 'desktop', use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } } },

@@ -82,10 +82,10 @@ export function PlanHubScreen() {
           <RaLayer transform={wallTransform(fit, 0, hangY(fit, PLAN_SCENE.hang))} data-jrn-zone="intro">
             <RefText t={W.title} as="h1">PLAN.</RefText>
             <RefText t={W.sub} as="p">YOUR MONEY HAS A PLAN.</RefText>
-            <RefText t={W.line} as="p">HERE IS WHAT YOU ARE ARRANGING.</RefText>
+            <RefText t={W.line} as="p">WHERE YOUR MONEY IS ASSIGNED.</RefText>
           </RaLayer>
 
-          <section data-jrn-zone="content-rail" data-jrn-panel="signal" aria-label="INTENTIONS">
+          <section data-jrn-zone="content-rail" data-jrn-panel="signal" aria-label="PLAN">
             {/* Left page: the botanical print and the quiet line under it. */}
             <RaLayer transform={objectTransform(fit, left)}>
               <img className="jrn-ra__img jrn-ra__leaf" src={sprig} alt="" draggable={false} style={at(PLAN_LEAF)} />
@@ -108,7 +108,7 @@ export function PlanHubScreen() {
               {plans.length ?
                 <>
                   <RefText t={R.l1} as="p">{`${formatMoney(assigned)} ASSIGNED`}</RefText>
-                  <RefText t={R.l2} as="p">{`ACROSS ${plans.length} ${plans.length === 1 ? 'INTENTION' : 'INTENTIONS'}.`}</RefText>
+                  <RefText t={R.l2} as="p">{`ACROSS ${plans.length} ${plans.length === 1 ? 'PLAN LINE' : 'PLAN LINES'}.`}</RefText>
                 </>
               : <>
                   <RefText t={R.l1} as="p">NOTHING IS</RefText>
@@ -131,7 +131,7 @@ export function PlanHubScreen() {
                   <RefText t={R.q2} as="p">{spec.question.split(' ').slice(4).join(' ')}</RefText>
                 </>}
               <button type="button" className="jrn-ra__cta" data-jrn-trigger="plan-add-intention" onClick={() => setAddOpen(true)} style={at(add)}>
-                <RefText t={R.add} origin={add} as="span">ADD AN INTENTION</RefText>
+                <RefText t={R.add} origin={add} as="span">SET MONEY ASIDE</RefText>
               </button>
             </RaLayer>
           </section>
@@ -152,7 +152,7 @@ export function PlanIntentionScreen() {
     return (
       <PlanShell screenId="F08.ITEM">
         <FamilyChrome familyId="F08" nodeId="F08.ITEM" backLabel="BACK" onBack={() => go('plan')} onAsk={() => openOverlay('ask')} />
-        <JurnlPanel role="empty" className="jrn-home__panel"><b>INTENTION NOT FOUND</b></JurnlPanel>
+        <JurnlPanel role="empty" className="jrn-home__panel"><b>PLAN LINE NOT FOUND</b></JurnlPanel>
       </PlanShell>
     );
   }
@@ -161,7 +161,7 @@ export function PlanIntentionScreen() {
       <FamilyChrome familyId="F08" nodeId="F08.ITEM" backLabel="BACK TO PLAN" onBack={() => go('plan')} onAsk={() => openOverlay('ask')} />
       <div className="jrn-home__intro" data-jrn-zone="intro">
         <h1 className="jrn-home__h">{plan.title}</h1>
-        <p className="jrn-home__sub">INTENTION</p>
+        <p className="jrn-home__sub">PLAN LINE</p>
       </div>
       <div className="jrn-parent__rail" data-jrn-zone="content-rail">
         <JurnlPanel role="detail" className="jrn-home__panel">
@@ -175,7 +175,7 @@ export function PlanIntentionScreen() {
         <AssignSheet plan={plan} onClose={() => setAssignOpen(false)} />
       : null}
       {removeOpen ?
-        <JurnlDrawer expression="confirmation" size="long" testId="plan-remove" title="REMOVE AN INTENTION" lead="FREES ITS AMOUNT." onClose={() => setRemoveOpen(false)}
+        <JurnlDrawer expression="confirmation" size="long" testId="plan-remove" title="REMOVE FROM PLAN" lead="ITS AMOUNT COUNTS AS AVAILABLE AGAIN." onClose={() => setRemoveOpen(false)}
           footer={<JurnlButton trigger="plan-remove-confirm" onClick={() => { archivePlanIntention(plan.plan_id); setRemoveOpen(false); go('plan'); }}>REMOVE</JurnlButton>}>
           <p>REMOVE {plan.title}?</p>
         </JurnlDrawer>
@@ -188,7 +188,7 @@ function AddIntentionSheet({ onClose }: { onClose: () => void }) {
   const [title, setTitle] = useState('');
   const { go } = useJurnl();
   return (
-    <JurnlDrawer expression="form" size="long" testId="plan-add" title="ADD AN INTENTION" onClose={onClose}
+    <JurnlDrawer expression="form" size="long" testId="plan-add" title="SET MONEY ASIDE" lead="NAME WHAT THE MONEY IS FOR. YOU CAN ASSIGN AN AMOUNT NEXT." onClose={onClose}
       footer={<JurnlButton trigger="plan-add-save" disabled={!title.trim()} onClick={() => { const p = createPlanIntention({ title }); onClose(); go(`plan/${p.plan_id}`); }}>SAVE</JurnlButton>}>
       <JurnlInput label="NAME" value={title} onValue={setTitle} trigger="plan-add-name" />
     </JurnlDrawer>

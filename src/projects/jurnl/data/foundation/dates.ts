@@ -8,7 +8,7 @@ export type MonthKey = string & { readonly __brand: 'MonthKey' };
 export type DayKey = string & { readonly __brand: 'DayKey' };
 
 export type DateSource = 'USER' | 'IMPORT' | 'SYSTEM' | 'ESTIMATED' | 'LEGACY_DISPLAY';
-export type RecurrenceType = 'NONE' | 'WEEKLY' | 'BIWEEKLY' | 'MONTHLY' | 'ANNUAL' | 'IRREGULAR';
+export type RecurrenceType = 'NONE' | 'WEEKLY' | 'BIWEEKLY' | 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'IRREGULAR';
 
 export type JurnlDateFields = {
   calendar_date?: CalendarDate | null;
@@ -137,6 +137,12 @@ export function resolveRecurringOccurrence(rule: RecurrenceRule, after: Calendar
     }
     return candidate;
   }
+  if (rule.type === 'QUARTERLY') {
+    const anchorDay = Number(anchor.slice(8, 10));
+    let candidate = anchor;
+    while (compareCalendarDates(candidate, after) <= 0) candidate = addMonthsClamped(candidate, 3, anchorDay);
+    return candidate;
+  }
   if (rule.type === 'ANNUAL') {
     const [, mo, d] = anchor.split('-').map(Number);
     let cy = Number(after.slice(0, 4));
@@ -153,9 +159,54 @@ function calendarFromParts(y: number, mo: number, d: number): CalendarDate {
   return `${y}-${String(mo).padStart(2, '0')}-${String(day).padStart(2, '0')}` as CalendarDate;
 }
 
-function addDays(date: CalendarDate, days: number): CalendarDate {
+export function addDays(date: CalendarDate, days: number): CalendarDate {
   const t = Date.parse(`${date}T00:00:00.000Z`) + days * 86_400_000;
   return new Date(t).toISOString().slice(0, 10) as CalendarDate;
+}
+
+/**
+ * Adds whole months and clamps to the month's last day, keeping the original day of month (`anchorDay`) so a bill
+ * anchored on the 31st lands on Feb 28 (or Feb 29 in a leap year) and returns to Mar 31, not Mar 28.
+ */
+export function addMonthsClamped(date: CalendarDate, months: number, anchorDay: number = Number(date.slice(8, 10))): CalendarDate {
+  const y = Number(date.slice(0, 4));
+  const m = Number(date.slice(5, 7)) - 1 + months;
+  const ny = y + Math.floor(m / 12);
+  const nm = ((m % 12) + 12) % 12;
+  return calendarFromParts(ny, nm + 1, anchorDay);
+}
+
+/** The occurrence after `date` for a cadence. NONE / IRREGULAR have no next occurrence. */
+export function nextOccurrenceAfter(date: CalendarDate, cadence: RecurrenceType, anchorDay: number = Number(date.slice(8, 10))): CalendarDate | null {
+  switch (cadence) {
+    case 'WEEKLY':
+      return addDays(date, 7);
+    case 'BIWEEKLY':
+      return addDays(date, 14);
+    case 'MONTHLY':
+      return addMonthsClamped(date, 1, anchorDay);
+    case 'QUARTERLY':
+      return addMonthsClamped(date, 3, anchorDay);
+    case 'ANNUAL':
+      return addMonthsClamped(date, 12, anchorDay);
+    default:
+      return null;
+  }
+}
+
+/** Every occurrence from `first` up to and including `through` (bounded, so a bad cadence cannot loop forever). */
+export function occurrencesThrough(first: CalendarDate, cadence: RecurrenceType, through: CalendarDate, anchorDay: number = Number(first.slice(8, 10)), limit = 60): CalendarDate[] {
+  const out: CalendarDate[] = [];
+  let cur: CalendarDate | null = first;
+  while (cur && compareCalendarDates(cur, through) <= 0 && out.length < limit) {
+    out.push(cur);
+    cur = nextOccurrenceAfter(cur, cadence, anchorDay);
+  }
+  return out;
+}
+
+export function isLeapYear(year: number): boolean {
+  return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
 }
 
 export function sortByDate<T>(items: T[], pick: (item: T) => CalendarDate | null | undefined): T[] {

@@ -40,6 +40,8 @@ function hasMaterialDeviceData(snap: RepositorySnapshot): boolean {
     || snap.trips.length > 0
     || snap.goals.length > 0
     || snap.records.length > 0
+    || (snap.obligations?.length ?? 0) > 0
+    || (snap.dailyEarnings?.length ?? 0) > 0
     || snap.setup.started
   );
 }

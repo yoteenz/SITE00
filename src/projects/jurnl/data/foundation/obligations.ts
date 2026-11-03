@@ -4,7 +4,24 @@ import type { CalendarDate, RecurrenceType } from './dates';
 
 export type ObligationKind = 'BILL' | 'SUBSCRIPTION';
 
-export type ObligationStatus = 'ACTIVE' | 'PAUSED' | 'ARCHIVED';
+/**
+ * ACTIVE: tracked and counted. PAUSED: kept, not counted until resumed. CANCELLED: tracking stopped in JURNL (does not
+ * cancel anything with the merchant); history is kept. COMPLETED: a one-time bill that was paid. ARCHIVED: legacy end.
+ */
+export type ObligationStatus = 'ACTIVE' | 'PAUSED' | 'CANCELLED' | 'COMPLETED' | 'ARCHIVED';
+
+/** What happened to one dated occurrence of a bill or subscription. */
+export type ObligationOccurrenceOutcome = 'PAID' | 'SKIPPED' | 'RESCHEDULED' | 'PAYMENT_UNDONE';
+
+export type ObligationOccurrenceLog = {
+  due_date: CalendarDate;
+  outcome: ObligationOccurrenceOutcome;
+  /** For RESCHEDULED: the new date of this occurrence. */
+  moved_to?: CalendarDate | null;
+  at: string;
+};
+
+export type ObligationPriceChange = { at: string; from: number; to: number; effective: CalendarDate };
 
 export type JurnlObligation = {
   obligation_id: string;
@@ -20,4 +37,15 @@ export type JurnlObligation = {
   created_at: string;
   updated_at: string;
   archived_at: string | null;
+  /** Original day of month the bill is anchored to, so month-end dates survive short months (31 → Feb 28 → Mar 31). */
+  anchor_day?: number | null;
+  /** Spending category label (e.g. INSURANCE, STREAMING). */
+  category?: string | null;
+  /** For subscriptions on a free trial: the date the trial ends. */
+  trial_end_date?: CalendarDate | null;
+  notes?: string;
+  price_history?: ObligationPriceChange[];
+  occurrence_log?: ObligationOccurrenceLog[];
+  cancelled_at?: string | null;
+  paused_at?: string | null;
 };
