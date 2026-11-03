@@ -94,25 +94,19 @@ test.describe('F05 MONEY parent motion pilot', () => {
     await shot(page, '03-four-accounts');
   });
 
-  test('4 · many accounts: pages of papers, swipe-free paging by button and keyboard', async ({ page }) => {
+  test('4 · many accounts: three places and ALL PLACES; more places never add pages or dots', async ({ page }) => {
+    // Carousel sprint: the dots are the four collections. More than four places is a nested route, not pagination.
     await open(page, 'many');
-    const first = await paperIds(page);
-    expect(first.length).toBeGreaterThanOrEqual(4);
-    await expect(trigger(page, 'f05m-next-page')).toBeVisible();
-    await shot(page, '04-many-accounts-page-1');
-    const checkLong = () => expect(page.locator('[data-account-id="long"]')).toHaveAttribute('aria-label', /NEIGHBOURHOOD CREDIT UNION EVERYDAY CHECKING/);
-    if (first.includes('long')) await checkLong();
-    await clickTrigger(page, 'f05m-next-page');
-    const second = await paperIds(page);
-    expect(second.length).toBeGreaterThan(0);
-    expect(second.some((id) => first.includes(id))).toBe(false);
-    expect([...first, ...second].sort()).toEqual(['bank', 'cash', 'loan', 'long', 'ride', 'save', 'visa']);
-    await expect(page.locator('[data-account-id="loan"]')).toHaveAttribute('data-nature', 'LIABILITY');
-    // Long names are clipped visually, never dropped from the accessible name.
-    if (second.includes('long')) await checkLong();
-    await page.locator('[data-account-id]').first().focus();
-    await page.keyboard.press('ArrowRight');
-    expect(await paperIds(page)).toEqual(first);
+    expect(await paperIds(page)).toEqual(['bank', 'ride', 'cash']);
+    await expect(trigger(page, 'f05m-all-places')).toBeVisible();
+    await expect(trigger(page, 'f05m-all-places')).toHaveAttribute('aria-label', /7 PLACES, 4 MORE/);
+    await expect(page.locator('.jrn-f05m__dot')).toHaveCount(4);
+    await expect(page.locator('[data-jrn-trigger="f05m-next-page"]')).toHaveCount(0);
+    await shot(page, '04-many-accounts');
+    await clickTrigger(page, 'f05m-all-places');
+    await page.waitForURL(/\/money\/places$/);
+    // every place is on the full list, long names in full
+    for (const name of ['EMERGENCY SAVINGS', 'NEIGHBOURHOOD CREDIT UNION EVERYDAY CHECKING', 'CAR LOAN']) await expect(page.getByText(name, { exact: false }).first()).toBeAttached();
   });
 
   test('7 · the global dock keeps its five destinations, MONEY active, ADD opens Quick Add', async ({ page }) => {

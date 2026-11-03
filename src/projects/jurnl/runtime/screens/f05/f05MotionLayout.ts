@@ -7,8 +7,8 @@
  *
  * Phones (taller than 9:16): the board fits the width with at most `crop` source px trimmed from each side (stone and
  * red paper, nothing interactive), and the extra height goes to an elastic panel: the SIDEKICK is drawn as a top slice,
- * a seamless panel tile and a bottom slice, so no pixel is stretched. Papers keep their size; a third row appears only
- * when the panel has room for it with breathing space.
+ * a seamless panel tile and a bottom slice, so no pixel is stretched. Papers keep their size and the 2 x 2 grid; the
+ * gaps and margins grow.
  * Tablet / desktop (wider than 9:16): the board fits the height and is centred; the sides are an ambient, blurred,
  * darkened copy of the same environment.
  */
@@ -52,7 +52,7 @@ export type F05MotionLayout = {
   sliced: boolean;
   /** visible part of the board in source px (x range) */
   visibleX: [number, number];
-  /** rows the panel can hold at this size (2, or 3 on tall phones) */
+  /** rows the panel holds: always 2 (the reference grid) */
   capacityRows: number;
   /** rows laid out for this page */
   rows: number;
@@ -60,17 +60,20 @@ export type F05MotionLayout = {
   slots: Slot[];
   /** one paper across both columns (no places yet) */
   wide: Rect;
-  /** page indicator row (source px), drawn only with more than one page */
+  /** collection indicator row (source px) */
   dots: Rect;
   /** nav paper zone in source px (the live dock sits on it) */
   navZone: Rect;
 };
 
-/** How many papers a page holds at this size, before any extra (ADD / MOVE) papers. */
-export function capacityFor(W: number, H: number): number {
-  const u = Math.min(Math.max(1, W) / (SRC_W - 2 * CROP), Math.max(1, H) / SRC_H);
-  const extra = Math.max(0, Math.max(1, H) / u - SRC_H);
-  return (extra >= ROW_H[1]! + ROW_GAP + C.thirdRowSlack ? 3 : 2) * 2;
+/**
+ * Papers per collection: always the reference's 2 x 2. Every carousel collection (accounts, transfers, commitments,
+ * outlook) is four papers in the same four places; a taller screen grows the gaps, it never adds a row, and more than
+ * four accounts open the full list from the fourth paper instead of adding pages.
+ */
+export const PAPERS_PER_COLLECTION = 4;
+export function capacityFor(_W: number, _H: number): number {
+  return PAPERS_PER_COLLECTION;
 }
 
 /** `items` papers on this page (accounts plus any ADD / MOVE papers). */
@@ -83,7 +86,7 @@ export function computeF05MotionLayout(W: number, H: number, items: number): F05
   const extra = Math.max(0, h / u - SRC_H);
   const sliced = extra >= 1;
   const visibleX: [number, number] = [Math.max(0, -ox / u), Math.min(SRC_W, (w - ox) / u)];
-  const capacityRows = extra >= ROW_H[1]! + ROW_GAP + C.thirdRowSlack ? 3 : 2;
+  const capacityRows = 2;
   const rows = Math.min(capacityRows, Math.max(1, Math.ceil(items / 2)));
   const heights = Array.from({ length: rows }, (_, r) => ROW_H[Math.min(r, 1)]!);
   const contentH = PANEL_BOTTOM - ROW_TOP + extra;
@@ -123,17 +126,20 @@ export function computeF05MotionLayout(W: number, H: number, items: number): F05
   };
 }
 
-/** Papers on the page: the accounts, then ADD A PLACE and MOVE MONEY in the free slots when they fit. */
-export type PaperItem = { kind: 'account'; index: number } | { kind: 'add' } | { kind: 'move' } | { kind: 'empty' };
+/**
+ * The ACCOUNTS collection's four papers. 0 places: one wide ADD paper. 1-3: the places, then ADD A PLACE and (with two
+ * or more) MOVE MONEY in the free slots. 4: the four places. 5 or more: three places and ALL PLACES (+n MORE), which
+ * opens the full list; the dots stay four, one per collection.
+ */
+export type PaperItem = { kind: 'account'; index: number } | { kind: 'add' } | { kind: 'move' } | { kind: 'empty' } | { kind: 'more'; hidden: number };
 
-export function pageItems(total: number, perPage: number, page: number): PaperItem[] {
+export function accountItems(total: number): PaperItem[] {
   if (total === 0) return [{ kind: 'empty' }];
-  const start = page * perPage;
-  const onPage = Math.max(0, Math.min(perPage, total - start));
-  const items: PaperItem[] = Array.from({ length: onPage }, (_, i) => ({ kind: 'account' as const, index: start + i }));
-  const last = start + onPage >= total;
-  if (last && items.length < perPage) items.push({ kind: 'add' });
-  if (last && total >= 2 && items.length < perPage) items.push({ kind: 'move' });
+  const n = PAPERS_PER_COLLECTION;
+  if (total > n) return [...Array.from({ length: n - 1 }, (_, i) => ({ kind: 'account' as const, index: i })), { kind: 'more', hidden: total - (n - 1) }];
+  const items: PaperItem[] = Array.from({ length: total }, (_, i) => ({ kind: 'account' as const, index: i }));
+  if (items.length < n) items.push({ kind: 'add' });
+  if (total >= 2 && items.length < n) items.push({ kind: 'move' });
   return items;
 }
 

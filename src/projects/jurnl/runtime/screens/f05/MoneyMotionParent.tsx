@@ -5,14 +5,17 @@
  *   L0 environment   text-free SIDEKICK (top slice · elastic panel tile · bottom slice), ambient copy on wide screens
  *   L1 collage       title paper and wax seal: real alpha, independent entrance (scale-only envelopes, verified)
  *   L2 live type     JURNL, MONEY, the lowercase script line, HELD / OWED / COMMITTED / AVAILABLE — DOM text
- *   L3 papers        one button per account (id-bound), approved card art by kind of place, live name and amount
+ *   L3 carousel      four collections of four papers in one region: ACCOUNTS (id-bound places) · TRANSFERS ·
+ *                    COMMITMENTS · OUTLOOK. Only this layer moves between collections; four dots name the active one.
  *   L4 chrome        corner chips, the global five-item dock (re-seated on the nav paper), overlays
  * The page is opt-in (?parent=motion) until the founder approves it; the cabinet hub stays the default.
+ * The active collection lives in the URL (?c=), so overlays, child routes and back return to it.
  */
 
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type ReactNode } from 'react';
 import { flushSync } from 'react-dom';
-import { computeMoneyParentReading, type MoneyParentAccount, type MoneyParentTransfer, type MoneyPaperArt } from '../../../data/f05/moneyParentReading';
+import { COLLECTIONS, computeMoneyCarousel, type CarouselPanel, type CollectionId } from '../../../data/f05/moneyCarousel';
+import { type MoneyParentAccount, type MoneyParentTransfer, type MoneyPaperArt } from '../../../data/f05/moneyParentReading';
 import { formatMoney, useCurrency, useRepoTick } from '../../../data/home/money';
 import { JurnlButton, JurnlDrawer } from '../../components/primitives';
 import { JurnlProductNav } from '../../components/ProductNav';
@@ -22,8 +25,10 @@ import { AskJurnlSheet, QuickAddV2Sheet } from '../../global/GlobalSheets';
 import { useJurnl } from '../../state/store';
 import { JurnlScreen, type FamilyPlate } from '../JurnlScreen';
 import { AddPlaceSheet } from '../MoneyScreens';
-import { capacityFor, computeF05MotionLayout, pageItems, SEAM_A, SEAM_C, SRC_H, SRC_W, toScreen, type Rect } from './f05MotionLayout';
+import { accountItems, computeF05MotionLayout, PAPERS_PER_COLLECTION, SEAM_A, SEAM_C, SRC_H, SRC_W, toScreen, type Rect } from './f05MotionLayout';
 import { F05_COMPOSITION as C } from './f05Composition';
+import { amountSize, CarouselPanelPaper, nameFont } from './CarouselPanelPaper';
+import { useMoneyCarousel } from './useMoneyCarousel';
 import geometry from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_GEOMETRY.json';
 import sidekick from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_SIDEKICK.webp';
 import panelTile from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_PANEL_TILE.webp';
@@ -37,6 +42,7 @@ import cardPayout from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD
 import cardCash from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_CASH.webp';
 import cardCredit from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_CREDIT.webp';
 import './jurnl-f05-motion.css';
+import './jurnl-f05-carousel.css';
 
 export const F05_MOTION_PLATE: FamilyPlate = { family: 'F05', scene: 'ENV.MOTION_PILOT', src: sidekick, assetId: 'MONEY.ENVIRONMENT.MOTION_PILOT.SIDEKICK.V1', width: SRC_W, height: SRC_H };
 const ART: Record<MoneyPaperArt, string> = { bank: cardBank, payout: cardPayout, cash: cardCash, credit: cardCredit };
@@ -123,29 +129,21 @@ const SHORT: Record<'TRANSFER' | 'CARD_PAYMENT', Record<string, string>> = {
   CARD_PAYMENT: { SCHEDULED: 'SCHEDULED', PENDING: 'SUBMITTED', IN_TRANSIT: 'NOT CONFIRMED', RETURNING: 'FAILED', NEEDS_RECONCILIATION: 'CONFIRM?' },
 };
 
-/** Long amounts shrink to stay inside their column; the value itself is never abbreviated. */
-function amountSize(text: string, base: number): number {
-  const n = text.length;
-  return n <= 7 ? base : n <= 9 ? base * 0.84 : n <= 11 ? base * 0.72 : base * 0.62;
-}
-
-function nameScale(lines: string[]): number {
-  const longest = Math.max(...lines.map((l) => l.length));
-  return longest <= 11 ? 1 : longest <= 14 ? 0.84 : longest <= 18 ? 0.7 : 0.6;
-}
-
 type Sheet = null | 'actions' | 'add' | 'move' | 'period';
+
+const COLLECTION_LABEL: Record<CollectionId, string> = Object.fromEntries(COLLECTIONS.map((c) => [c.id, c.label])) as Record<CollectionId, string>;
+const slideLabel = (id: CollectionId) => `${COLLECTION_LABEL[id]}, ${COLLECTIONS.findIndex((c) => c.id === id) + 1} OF ${COLLECTIONS.length}`;
 
 export function MoneyMotionParent() {
   const { go, overlay, openOverlay, closeOverlay, showToast } = useJurnl();
   useCurrency();
   useRepoTick();
   const reduced = useReducedMotion();
-  const reading = computeMoneyParentReading();
+  const carousel = computeMoneyCarousel(undefined, formatMoney);
+  const reading = carousel.reading;
   const stageRef = useRef<HTMLDivElement>(null);
   const [vp, setVp] = useState({ w: 393, h: 852 });
   const [sheet, setSheet] = useState<Sheet>(null);
-  const [page, setPage] = useState(0);
   const [pressed, setPressed] = useState<string | null>(null);
   const [returned] = useState(readReturn);
   const [fresh, setFresh] = useState<string | null>(null);
@@ -153,7 +151,11 @@ export function MoneyMotionParent() {
   const [ghosts, setGhosts] = useState<(Thread & { outcome: 'resolved' | 'closed' })[]>([]);
   const prevThreads = useRef<Thread[]>([]);
   const navigating = useRef(false);
-  const swipe = useRef<{ x: number; y: number } | null>(null);
+  const { active, index: activeIndex, transition, surface, step, select, handlers } = useMoneyCarousel(reduced);
+  const [moved, setMoved] = useState(false);
+  const [announce, setAnnounce] = useState('');
+  const firstActive = useRef(active);
+  const focusAfter = useRef<number | null>(null);
 
   useLayoutEffect(() => {
     const el = stageRef.current;
@@ -169,14 +171,14 @@ export function MoneyMotionParent() {
     return () => ro.disconnect();
   }, []);
 
-  const total = reading.accounts.length;
-  const perPage = capacityFor(vp.w, vp.h);
-  const pageCount = Math.max(1, Math.ceil(total / perPage));
-  const pageIndex = Math.min(page, pageCount - 1);
-  const items = pageItems(total, perPage, pageIndex);
-  const L = useMemo(() => computeF05MotionLayout(vp.w, vp.h, items.length), [vp.w, vp.h, items.length]);
-  const pages = Array.from({ length: pageCount }, (_, i) => i);
-  // Threads for unfinished transfers whose two places are both on this page (canonical state only).
+  // Every collection is the same 2 x 2 grid in the same places: the shell never moves between collections.
+  const L = useMemo(() => computeF05MotionLayout(vp.w, vp.h, PAPERS_PER_COLLECTION), [vp.w, vp.h]);
+  // A place just added is shown even when there are more than four (it takes the third paper beside ALL PLACES).
+  const baseItems = accountItems(reading.accounts.length);
+  const freshIndex = fresh ? reading.accounts.findIndex((a) => a.account_id === fresh) : -1;
+  const items = freshIndex >= PAPERS_PER_COLLECTION - 1 && baseItems.some((it) => it.kind === 'more') ? baseItems.map((it, i) => (i === PAPERS_PER_COLLECTION - 2 ? { kind: 'account' as const, index: freshIndex } : it)) : baseItems;
+
+  // Threads for unfinished transfers whose two places both have a paper (canonical state only).
   const slotOf = new Map<string, Rect>();
   items.forEach((it, i) => {
     if (it.kind === 'account' && L.slots[i]) slotOf.set(reading.accounts[it.index]!.account_id, L.slots[i]!);
@@ -194,6 +196,31 @@ export function MoneyMotionParent() {
     return () => window.clearTimeout(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [threadKey]);
+
+  // A collection change is announced once, politely; the first collection on arrival is not.
+  useEffect(() => {
+    if (active === firstActive.current && !moved) return;
+    setMoved(true);
+    setAnnounce(`${slideLabel(active)}.`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active]);
+
+  // Keyboard: focus follows the change to the paper in the same place of the new collection.
+  const surfaceEl = useRef<HTMLDivElement | null>(null);
+  useLayoutEffect(() => {
+    const k = focusAfter.current;
+    focusAfter.current = null;
+    if (k == null) return;
+    const papers = surfaceEl.current?.querySelectorAll<HTMLElement>('.jrn-f05m__paper');
+    papers?.[Math.min(k, papers.length - 1)]?.focus({ preventScroll: true });
+  }, [active]);
+  const onCarouselKey = (e: KeyboardEvent<HTMLElement>) => {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    const t = e.target as HTMLElement;
+    const paper = t.closest('.jrn-f05m__paper');
+    if (paper && surfaceEl.current) focusAfter.current = Array.from(surfaceEl.current.querySelectorAll('.jrn-f05m__paper')).indexOf(paper);
+    handlers.onKeyDown(e);
+  };
 
   // Chips: the approved two squares, shifted one square left so the global menu sits where the approved "+" was.
   const chipRight = Math.min(CHIP_RIGHT, L.visibleX[1] - 14);
@@ -255,22 +282,12 @@ export function MoneyMotionParent() {
     [go, reduced],
   );
 
-  const nextPage = () => setPage((p) => (pages.length > 1 ? (Math.min(p, pages.length - 1) + 1) % pages.length : 0));
-  const prevPage = () => setPage((p) => (pages.length > 1 ? (Math.min(p, pages.length - 1) - 1 + pages.length) % pages.length : 0));
-  const onPanelDown = (e: PointerEvent) => {
-    swipe.current = { x: e.clientX, y: e.clientY };
-  };
-  const onPanelUp = (e: PointerEvent) => {
-    const s = swipe.current;
-    swipe.current = null;
-    if (!s || pages.length < 2) return;
-    const dx = e.clientX - s.x;
-    if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(e.clientY - s.y) * 1.5) (dx < 0 ? nextPage : prevPage)();
-  };
-  const onPanelKey = (e: KeyboardEvent) => {
-    if (pages.length < 2) return;
-    if (e.key === 'ArrowRight') nextPage();
-    if (e.key === 'ArrowLeft') prevPage();
+  /** A panel opens its owner's page or sheet. Opening never writes. */
+  const openPanel = (p: CarouselPanel) => {
+    const d = p.dest;
+    if (d.kind === 'transfer') setDetail(d.linkId);
+    else if (d.kind === 'period') setSheet('period');
+    else go(d.route, d.query);
   };
 
   // With no places of the user's own, Safe to Spend reads the sample preview: say nothing rather than a sample figure.
@@ -282,9 +299,11 @@ export function MoneyMotionParent() {
     { id: 'available', label: 'AVAILABLE', value: reading.available, aria: unknown ? 'AVAILABLE: NOT KNOWN UNTIL YOU ADD A PLACE.' : `AVAILABLE: ${formatMoney(reading.available)}, SAFE TO SPEND FOR THE NEXT 30 DAYS. OPENS THE PLANNING PERIOD.`, onOpen: () => setSheet('period') },
   ];
 
+  // A summary column never reaches past the visible board (narrow phones crop the sides).
+  const metricW = (i: number) => Math.min(C.band.width, 2 * Math.min(METRIC_X[i]! - L.visibleX[0], L.visibleX[1] - METRIC_X[i]!) - 4);
   const S = L.u;
-  // Stagger: at most 45 ms, and the last paper starts by 410 ms (ends by 610 ms) however many papers the page holds.
-  const stagger = items.length > 1 ? Math.min(45, 70 / (items.length - 1)) : 0;
+  // Entrance stagger: the last of the four papers starts by 410 ms (ends by 610 ms).
+  const stagger = Math.min(45, 70 / (PAPERS_PER_COLLECTION - 1));
   const boardStyle: CSSProperties = {
     width: SRC_W,
     height: L.boardH,
@@ -309,6 +328,139 @@ export function MoneyMotionParent() {
     ['--f05m-chev-bottom' as string]: `${C.card.chevBottom}px`,
     ['--f05m-chip-radius' as string]: `${C.chips.radius}px`,
   } as CSSProperties;
+
+  // Carousel geometry (source px): the swipe zone covers the papers and the dots; steps sit at the visible edges.
+  const gridTop = L.slots[0]!.y;
+  const gridBottom = Math.max(...L.slots.map((r) => r.y + r.h));
+  const swipeZone: Rect = { x: L.visibleX[0], y: gridTop - 24, w: L.visibleX[1] - L.visibleX[0], h: L.dots.y + L.dots.h + 12 - (gridTop - 24) };
+  const stepTop = (gridTop + gridBottom) / 2;
+
+  const renderAccounts = (): ReactNode => (
+    <>
+      {items.map((item, i) => {
+        if (item.kind === 'empty')
+          return (
+            <button key="empty" type="button" className="jrn-f05m__paper jrn-f05m__paper--add jrn-f05m__paper--wide" data-jrn-trigger="f05m-add-slot" data-testid="f05m-empty" style={{ ...at(L.wide), backgroundImage: `url("${paperTile}")`, ['--i' as string]: 0 } as CSSProperties} onClick={() => setSheet('add')}>
+              <span className="jrn-f05m__paper-name"><span>NO PLACES YET</span></span>
+              <span className="jrn-f05m__add-sub">ADD A BANK ACCOUNT, CARD OR CASH. NO BANK CONNECTION NEEDED.</span>
+              <span className="jrn-f05m__plus" aria-hidden />
+            </button>
+          );
+        const slot = L.slots[i]!;
+        if (item.kind === 'add')
+          return (
+            <button key="add" type="button" className="jrn-f05m__paper jrn-f05m__paper--add" data-jrn-trigger="f05m-add-slot" style={{ ...at(slot), backgroundImage: `url("${paperTile}")`, ['--i' as string]: i } as CSSProperties} onClick={() => setSheet('add')}>
+              <span className="jrn-f05m__paper-name"><span>ADD A PLACE</span></span>
+              <span className="jrn-f05m__add-sub">BANK, CARD OR CASH</span>
+              <span className="jrn-f05m__plus" aria-hidden />
+            </button>
+          );
+        if (item.kind === 'move')
+          return (
+            <button key="move" type="button" className="jrn-f05m__paper jrn-f05m__paper--add" data-jrn-trigger="f05m-move" style={{ ...at(slot), backgroundImage: `url("${paperTile}")`, ['--i' as string]: i } as CSSProperties} onClick={() => setSheet('move')}>
+              <span className="jrn-f05m__paper-name"><span>MOVE MONEY</span></span>
+              <span className="jrn-f05m__add-sub">BETWEEN YOUR PLACES</span>
+              <svg className="jrn-f05m__move" viewBox="0 0 40 28" aria-hidden><path d="M3 9h30m-7-6 7 6-7 6M37 19H7m7-6-7 6 7 6" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
+          );
+        if (item.kind === 'more')
+          return (
+            <button key="more" type="button" className="jrn-f05m__paper jrn-f05m__paper--add" data-jrn-trigger="f05m-all-places" data-testid="f05m-all-places" aria-label={`ALL PLACES: ${reading.accounts.length} PLACES, ${item.hidden} MORE THAN SHOWN HERE. OPENS THE FULL LIST.`} style={{ ...at(slot), backgroundImage: `url("${paperTile}")`, ['--i' as string]: i } as CSSProperties} onClick={() => go('money/places')}>
+              <span className="jrn-f05m__paper-name"><span>ALL PLACES</span></span>
+              <span className="jrn-f05m__add-sub">+{item.hidden} MORE</span>
+              <svg className="jrn-f05m__chev" viewBox="0 0 14 24" aria-hidden>
+                <path d="M2 2l10 10L2 22" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          );
+        const a = reading.accounts[item.index]!;
+        const lines = a.lines;
+        const transit = a.transferLine;
+        return (
+          <button
+            key={a.account_id}
+            type="button"
+            className="jrn-f05m__paper"
+            data-jrn-trigger={`f05m-place-${a.account_id}`}
+            data-account-id={a.account_id}
+            data-art={a.art}
+            data-nature={a.nature}
+            data-pressed={pressed === a.account_id ? 'true' : undefined}
+            data-return={returned === a.account_id ? 'true' : undefined}
+            data-fresh={fresh === a.account_id ? 'true' : undefined}
+            aria-label={`${a.name}. ${a.nature === 'LIABILITY' ? `${formatMoney(a.amount)} OWED` : `${formatMoney(a.amount)} HELD`}${transit ? `. ${transit}` : ''}. OPEN.`}
+            style={{ ...at(slot), ['--i' as string]: i } as CSSProperties}
+            onPointerDown={() => setPressed(a.account_id)}
+            onPointerUp={() => setPressed(null)}
+            onPointerLeave={() => setPressed(null)}
+            onClick={(e) => openPlace(a, e.currentTarget)}
+          >
+            <img className="jrn-f05m__paper-art" src={ART[a.art]} alt="" draggable={false} />
+            <span className="jrn-f05m__paper-name" style={{ fontSize: nameFont(lines) }}>
+              {lines.map((l) => (
+                <span key={l}>{l}</span>
+              ))}
+            </span>
+            <b className="jrn-f05m__paper-amount" data-jrn-amount-cents={Math.round(a.amount * 100)} style={{ fontSize: amountSize(formatMoney(a.amount), C.card.amountSize), top: C.card.nameTop + lines.length * C.card.namePitch + C.card.amountGap - (a.nature === 'LIABILITY' ? 4 : 0) }}>{formatMoney(a.amount)}</b>
+            {a.nature === 'LIABILITY' ? <i className="jrn-f05m__paper-note" style={{ top: C.card.nameTop + lines.length * C.card.namePitch + C.card.amountGap + C.card.amountSize + 4 }}>OWED</i> : null}
+            {transit ? <i className="jrn-f05m__paper-note jrn-f05m__paper-note--transit" data-testid="f05m-transit">{transit}</i> : null}
+            <svg className="jrn-f05m__chev" viewBox="0 0 14 24" aria-hidden>
+              <path d="M2 2l10 10L2 22" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        );
+      })}
+      {/* transfer threads: they show the recorded settlement state and never change it */}
+      {threads.length || ghosts.length ?
+        <svg className="jrn-f05m__threads" width={SRC_W} height={L.boardH} viewBox={`0 0 ${SRC_W} ${L.boardH}`} aria-hidden>
+          {threads.map((th) => {
+            const mid = th.t.state === 'IN_TRANSIT' || th.t.state === 'RETURNING';
+            const d = `M${th.a.x},${th.a.y} Q${th.c.x},${th.c.y} ${th.b.x},${th.b.y}`;
+            return (
+              <g key={`${th.t.linkId}:${th.t.state}`} className="jrn-f05m__thread" data-state={th.t.state} data-link={th.t.linkId}>
+                <path className="jrn-f05m__thread-planned" d={d} pathLength={100} />
+                {mid ? <path className="jrn-f05m__thread-left" d={d} pathLength={100} strokeDasharray="50 100" /> : null}
+                <circle cx={th.a.x} cy={th.a.y} r={5} className="jrn-f05m__thread-pin" />
+                <circle cx={th.b.x} cy={th.b.y} r={5} className="jrn-f05m__thread-pin" />
+              </g>
+            );
+          })}
+          {ghosts.map((g) => (
+            <path key={`ghost-${g.t.linkId}`} className={`jrn-f05m__thread-ghost jrn-f05m__thread-ghost--${g.outcome}`} d={`M${g.a.x},${g.a.y} Q${g.c.x},${g.c.y} ${g.b.x},${g.b.y}`} pathLength={100} />
+          ))}
+        </svg>
+      : null}
+      {threads.map((th) => (
+        <button
+          key={`token-${th.t.linkId}:${th.t.state}`}
+          type="button"
+          className="jrn-f05m__token"
+          data-jrn-trigger={`f05m-transfer-${th.t.linkId}`}
+          data-state={th.t.state}
+          data-kind={th.t.kind}
+          aria-label={`${th.t.label}: ${formatMoney(th.t.amount)} FROM ${reading.accounts.find((x) => x.account_id === th.t.fromId)?.name ?? ''} TO ${reading.accounts.find((x) => x.account_id === th.t.toId)?.name ?? ''}. RECORDED BY YOU, NOT CONFIRMED BY A BANK. OPEN TO RECORD WHAT HAPPENED.`}
+          style={{ left: th.token.x, top: th.token.y, backgroundImage: `url("${paperTile}")` }}
+          onClick={() => setDetail(th.t.linkId)}
+        >
+          <b>{formatMoney(th.t.amount)}</b>
+          <span>{SHORT[th.t.kind][th.t.state] ?? th.t.label}</span>
+        </button>
+      ))}
+      {ghosts.filter((g) => g.outcome === 'resolved').map((g) => {
+        const end = g.b;
+        return <span key={`gtoken-${g.t.linkId}`} className="jrn-f05m__token jrn-f05m__token--ghost" aria-hidden style={{ left: g.token.x, top: g.token.y, ['--dx' as string]: `${end.x - g.token.x}px`, ['--dy' as string]: `${end.y - g.token.y}px`, backgroundImage: `url("${paperTile}")` } as CSSProperties}><b>{formatMoney(g.t.amount)}</b></span>;
+      })}
+    </>
+  );
+
+  const renderCollection = (id: CollectionId): ReactNode =>
+    id === 'accounts' ? renderAccounts() : carousel[id].map((panel, i) => <CarouselPanelPaper key={panel.id} panel={panel} slot={L.slots[i]!} index={i} fmt={formatMoney} collection={id} onOpen={openPanel} />);
+
+  // The exiting collection (during a change) and the active one; keyed so each keeps its element through the change.
+  const groups: { id: CollectionId; phase: 'exit' | 'enter' | 'idle' | 'load' }[] = [
+    ...(transition ? [{ id: transition.from, phase: 'exit' as const }] : []),
+    { id: active, phase: transition ? 'enter' : moved ? 'idle' : 'load' },
+  ];
 
   return (
     <JurnlScreen screenId="F05.00" familyPlate={F05_MOTION_PLATE} family productNav singlePlate>
@@ -347,7 +499,7 @@ export function MoneyMotionParent() {
               <span key={x} className="jrn-f05m__divider" aria-hidden style={{ left: x, top: C.band.dividerTop, height: C.band.dividerH }} />
             ))}
             {metrics.map((m, i) => (
-              <button key={m.id} type="button" className="jrn-f05m__metric" data-metric={m.id} data-jrn-trigger={`f05m-metric-${m.id}`} aria-label={m.aria} onClick={m.onOpen} style={{ left: METRIC_X[i]! - C.band.width / 2, width: C.band.width, top: C.band.labelTop - 12 }}>
+              <button key={m.id} type="button" className="jrn-f05m__metric" data-metric={m.id} data-jrn-trigger={`f05m-metric-${m.id}`} aria-label={m.aria} onClick={m.onOpen} style={{ left: METRIC_X[i]! - metricW(i) / 2, width: metricW(i), top: C.band.labelTop - 12 }}>
                 <span className="jrn-f05m__metric-label">{m.label}</span>
                 {unknown && (m.id === 'committed' || m.id === 'available') ?
                   <b className="jrn-f05m__metric-value" data-jrn-value={`money-${m.id}`} data-jrn-unknown="true">—</b>
@@ -357,120 +509,64 @@ export function MoneyMotionParent() {
             {unknown ? <p className="jrn-f05m__basis" data-testid="f05m-unknown">ADD A PLACE TO SEE WHAT IS COMMITTED AND AVAILABLE.</p> : null}
           </section>
 
-          {/* L3 — account papers */}
-          <div className="jrn-f05m__papers" role="group" aria-label={`PLACES${pageCount > 1 ? `, PAGE ${pageIndex + 1} OF ${pageCount}` : ''}`} data-jrn-zone="content-rail" tabIndex={-1} onPointerDown={onPanelDown} onPointerUp={onPanelUp} onKeyDown={onPanelKey} key={`page-${pageIndex}`}>
-            {items.map((item, i) => {
-              if (item.kind === 'empty')
-                return (
-                  <button key="empty" type="button" className="jrn-f05m__paper jrn-f05m__paper--add jrn-f05m__paper--wide" data-jrn-trigger="f05m-add-slot" data-testid="f05m-empty" style={{ ...at(L.wide), backgroundImage: `url("${paperTile}")`, ['--i' as string]: 0 } as CSSProperties} onClick={() => setSheet('add')}>
-                    <span className="jrn-f05m__paper-name"><span>NO PLACES YET</span></span>
-                    <span className="jrn-f05m__add-sub">ADD A BANK ACCOUNT, CARD OR CASH. NO BANK CONNECTION NEEDED.</span>
-                    <span className="jrn-f05m__plus" aria-hidden />
-                  </button>
-                );
-              const slot = L.slots[i]!;
-              if (item.kind === 'add')
-                return (
-                  <button key="add" type="button" className="jrn-f05m__paper jrn-f05m__paper--add" data-jrn-trigger="f05m-add-slot" style={{ ...at(slot), backgroundImage: `url("${paperTile}")`, ['--i' as string]: i } as CSSProperties} onClick={() => setSheet('add')}>
-                    <span className="jrn-f05m__paper-name"><span>ADD A PLACE</span></span>
-                    <span className="jrn-f05m__add-sub">BANK, CARD OR CASH</span>
-                    <span className="jrn-f05m__plus" aria-hidden />
-                  </button>
-                );
-              if (item.kind === 'move')
-                return (
-                  <button key="move" type="button" className="jrn-f05m__paper jrn-f05m__paper--add" data-jrn-trigger="f05m-move" style={{ ...at(slot), backgroundImage: `url("${paperTile}")`, ['--i' as string]: i } as CSSProperties} onClick={() => setSheet('move')}>
-                    <span className="jrn-f05m__paper-name"><span>MOVE MONEY</span></span>
-                    <span className="jrn-f05m__add-sub">BETWEEN YOUR PLACES</span>
-                    <svg className="jrn-f05m__move" viewBox="0 0 40 28" aria-hidden><path d="M3 9h30m-7-6 7 6-7 6M37 19H7m7-6-7 6 7 6" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  </button>
-                );
-              const a = reading.accounts[item.index]!;
-              const lines = a.lines;
-              const k = nameScale(lines);
-              const transit = a.transferLine;
-              return (
-                <button
-                  key={a.account_id}
-                  type="button"
-                  className="jrn-f05m__paper"
-                  data-jrn-trigger={`f05m-place-${a.account_id}`}
-                  data-account-id={a.account_id}
-                  data-art={a.art}
-                  data-nature={a.nature}
-                  data-pressed={pressed === a.account_id ? 'true' : undefined}
-                  data-return={returned === a.account_id ? 'true' : undefined}
-                  data-fresh={fresh === a.account_id ? 'true' : undefined}
-                  aria-label={`${a.name}. ${a.nature === 'LIABILITY' ? `${formatMoney(a.amount)} OWED` : `${formatMoney(a.amount)} HELD`}${transit ? `. ${transit}` : ''}. OPEN.`}
-                  style={{ ...at(slot), ['--i' as string]: i } as CSSProperties}
-                  onPointerDown={() => setPressed(a.account_id)}
-                  onPointerUp={() => setPressed(null)}
-                  onPointerLeave={() => setPressed(null)}
-                  onClick={(e) => openPlace(a, e.currentTarget)}
-                >
-                  <img className="jrn-f05m__paper-art" src={ART[a.art]} alt="" draggable={false} />
-                  <span className="jrn-f05m__paper-name" style={{ fontSize: `max(${C.card.nameSize * k}px, calc(${(11 * k).toFixed(2)}px / var(--f05m-u, 1)))` }}>
-                    {lines.map((l) => (
-                      <span key={l}>{l}</span>
-                    ))}
-                  </span>
-                  <b className="jrn-f05m__paper-amount" data-jrn-amount-cents={Math.round(a.amount * 100)} style={{ fontSize: amountSize(formatMoney(a.amount), C.card.amountSize), top: C.card.nameTop + lines.length * C.card.namePitch + C.card.amountGap - (a.nature === 'LIABILITY' ? 4 : 0) }}>{formatMoney(a.amount)}</b>
-                  {a.nature === 'LIABILITY' ? <i className="jrn-f05m__paper-note" style={{ top: C.card.nameTop + lines.length * C.card.namePitch + C.card.amountGap + C.card.amountSize + 4 }}>OWED</i> : null}
-                  {transit ? <i className="jrn-f05m__paper-note jrn-f05m__paper-note--transit" data-testid="f05m-transit">{transit}</i> : null}
-                  <svg className="jrn-f05m__chev" viewBox="0 0 14 24" aria-hidden>
-                    <path d="M2 2l10 10L2 22" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-              );
-            })}
-          </div>
-          {/* L3.5 — transfer threads: they show the recorded settlement state and never change it */}
-          {threads.length || ghosts.length ?
-            <svg className="jrn-f05m__threads" width={SRC_W} height={L.boardH} viewBox={`0 0 ${SRC_W} ${L.boardH}`} aria-hidden>
-              {threads.map((th) => {
-                const mid = th.t.state === 'IN_TRANSIT' || th.t.state === 'RETURNING';
-                const d = `M${th.a.x},${th.a.y} Q${th.c.x},${th.c.y} ${th.b.x},${th.b.y}`;
-                return (
-                  <g key={`${th.t.linkId}:${th.t.state}`} className="jrn-f05m__thread" data-state={th.t.state} data-link={th.t.linkId}>
-                    <path className="jrn-f05m__thread-planned" d={d} pathLength={100} />
-                    {mid ? <path className="jrn-f05m__thread-left" d={d} pathLength={100} strokeDasharray="50 100" /> : null}
-                    <circle cx={th.a.x} cy={th.a.y} r={5} className="jrn-f05m__thread-pin" />
-                    <circle cx={th.b.x} cy={th.b.y} r={5} className="jrn-f05m__thread-pin" />
-                  </g>
-                );
-              })}
-              {ghosts.map((g) => (
-                <path key={`ghost-${g.t.linkId}`} className={`jrn-f05m__thread-ghost jrn-f05m__thread-ghost--${g.outcome}`} d={`M${g.a.x},${g.a.y} Q${g.c.x},${g.c.y} ${g.b.x},${g.b.y}`} pathLength={100} />
-              ))}
-            </svg>
-          : null}
-          {threads.map((th) => (
-            <button
-              key={`token-${th.t.linkId}:${th.t.state}`}
-              type="button"
-              className="jrn-f05m__token"
-              data-jrn-trigger={`f05m-transfer-${th.t.linkId}`}
-              data-state={th.t.state}
-              data-kind={th.t.kind}
-              aria-label={`${th.t.label}: ${formatMoney(th.t.amount)} FROM ${reading.accounts.find((x) => x.account_id === th.t.fromId)?.name ?? ''} TO ${reading.accounts.find((x) => x.account_id === th.t.toId)?.name ?? ''}. RECORDED BY YOU, NOT CONFIRMED BY A BANK. OPEN TO RECORD WHAT HAPPENED.`}
-              style={{ left: th.token.x, top: th.token.y, backgroundImage: `url("${paperTile}")` }}
-              onClick={() => setDetail(th.t.linkId)}
-            >
-              <b>{formatMoney(th.t.amount)}</b>
-              <span>{SHORT[th.t.kind][th.t.state] ?? th.t.label}</span>
+          {/* L3 — the carousel: four collections, one region; only the papers move */}
+          <section
+            className="jrn-f05m__carousel"
+            aria-roledescription="carousel"
+            aria-label="MONEY COLLECTIONS"
+            data-jrn-zone="content-rail"
+            data-active={active}
+            data-moving={transition ? 'true' : 'false'}
+            onPointerDown={handlers.onPointerDown}
+            onPointerMove={handlers.onPointerMove}
+            onPointerUp={handlers.onPointerUp}
+            onPointerCancel={handlers.onPointerCancel}
+            onClickCapture={handlers.onClickCapture}
+            onWheel={handlers.onWheel}
+            onKeyDown={onCarouselKey}
+          >
+            <div className="jrn-f05m__swipe" aria-hidden style={at(swipeZone)} />
+            {groups.map((g) => (
+              <div
+                key={g.id}
+                ref={
+                  g.phase === 'exit' ? undefined : (
+                    (el) => {
+                      surface.current = el;
+                      surfaceEl.current = el;
+                    }
+                  )
+                }
+                id={`f05m-collection-${g.id}`}
+                className="jrn-f05m__collection"
+                role="group"
+                aria-roledescription="slide"
+                aria-label={slideLabel(g.id)}
+                aria-hidden={g.phase === 'exit' ? true : undefined}
+                {...(g.phase === 'exit' ? ({ inert: true } as Record<string, unknown>) : {})}
+                data-collection={g.id}
+                data-phase={g.phase}
+                data-dir={transition?.dir}
+                style={g.phase === 'exit' ? ({ ['--f05m-drag' as string]: `${transition?.drag ?? 0}px` } as CSSProperties) : undefined}
+              >
+                {renderCollection(g.id)}
+              </div>
+            ))}
+            <button type="button" className="jrn-f05m__step jrn-f05m__step--prev" data-jrn-trigger="f05m-prev" aria-label={activeIndex > 0 ? `PREVIOUS: ${slideLabel(COLLECTIONS[activeIndex - 1]!.id)}` : 'PREVIOUS: THIS IS THE FIRST COLLECTION'} aria-disabled={activeIndex === 0 ? true : undefined} aria-controls={`f05m-collection-${active}`} style={{ left: L.visibleX[0] + 6, top: stepTop }} onClick={() => step(-1)}>
+              <svg viewBox="0 0 14 24" aria-hidden><path d="M12 2L2 12l10 10" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
-          ))}
-          {ghosts.filter((g) => g.outcome === 'resolved').map((g) => {
-            const end = g.b;
-            return <span key={`gtoken-${g.t.linkId}`} className="jrn-f05m__token jrn-f05m__token--ghost" aria-hidden style={{ left: g.token.x, top: g.token.y, ['--dx' as string]: `${end.x - g.token.x}px`, ['--dy' as string]: `${end.y - g.token.y}px`, backgroundImage: `url("${paperTile}")` } as CSSProperties}><b>{formatMoney(g.t.amount)}</b></span>;
-          })}
-          {pages.length > 1 ?
-            <button type="button" className="jrn-f05m__dots" data-jrn-trigger="f05m-next-page" aria-label={`PLACES PAGE ${pageIndex + 1} OF ${pages.length}. SHOW NEXT.`} style={at(L.dots)} onClick={nextPage}>
-              {pages.map((_, i) => (
-                <span key={i} data-on={i === pageIndex ? 'true' : 'false'} />
-              ))}
+            <button type="button" className="jrn-f05m__step jrn-f05m__step--next" data-jrn-trigger="f05m-next" aria-label={activeIndex < COLLECTIONS.length - 1 ? `NEXT: ${slideLabel(COLLECTIONS[activeIndex + 1]!.id)}` : 'NEXT: THIS IS THE LAST COLLECTION'} aria-disabled={activeIndex === COLLECTIONS.length - 1 ? true : undefined} aria-controls={`f05m-collection-${active}`} style={{ right: SRC_W - L.visibleX[1] + 6, top: stepTop }} onClick={() => step(1)}>
+              <svg viewBox="0 0 14 24" aria-hidden><path d="M2 2l10 10L2 22" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
-          : null}
+            <div className="jrn-f05m__dotrow" role="group" aria-label="CHOOSE A COLLECTION" style={{ left: L.dots.x + L.dots.w / 2, top: L.dots.y + L.dots.h / 2 }}>
+              {COLLECTIONS.map((c) => (
+                <button key={c.id} type="button" className="jrn-f05m__dot" data-jrn-trigger={`f05m-dot-${c.id}`} data-collection={c.id} aria-label={slideLabel(c.id)} aria-current={c.id === active ? 'true' : undefined} aria-controls={`f05m-collection-${active}`} onClick={() => select(c.id)} />
+              ))}
+            </div>
+            <p className="jrn-f05m__sr" aria-live="polite" aria-atomic="true" data-testid="f05m-announce">
+              {announce}
+            </p>
+          </section>
 
           {/* L4 — corner chips (approved squares; the global menu takes the far-right one) */}
           <button type="button" className="jrn-f05m__chip" data-jrn-trigger="f05m-search" aria-label="SEARCH ACTIVITY" style={{ ...at({ x: searchX, y: CHIP_TOP, w: CHIP, h: CHIP }), top: CHIP_TOP_SAFE }} onClick={() => go('activity')}>
@@ -498,8 +594,8 @@ export function MoneyMotionParent() {
           onClose={() => setSheet(null)}
           onSaved={(id) => {
             setSheet(null);
-            const n = listIndex(id);
-            if (n >= 0) setPage(Math.floor(n / perPage));
+            // the new place is shown on ACCOUNTS (or counted in ALL PLACES when more than four)
+            if (active !== 'accounts') select('accounts');
             setFresh(id);
             showToast({ tone: 'success', title: 'PLACE ADDED', body: 'THE BALANCE IS WHAT YOU ENTERED. NO BANK IS CONNECTED.', testId: 'f05m-added' });
           }}
@@ -511,8 +607,3 @@ export function MoneyMotionParent() {
     </JurnlScreen>
   );
 }
-
-function listIndex(id: string): number {
-  return computeMoneyParentReading().accounts.findIndex((a) => a.account_id === id);
-}
-

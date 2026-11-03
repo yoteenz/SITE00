@@ -11,7 +11,7 @@ import { recordTransfer, recordTransferStep } from '../src/projects/jurnl/data/l
 import { getRepository } from '../src/projects/jurnl/data/repository/deviceRepository';
 import { upsertCreditTerms } from '../src/projects/jurnl/data/f12/creditStore';
 import { addDays } from '../src/projects/jurnl/data/foundation/dates';
-import { APPROVED_SLOTS, capacityFor, computeF05MotionLayout, CROP, pageItems, SRC_H, SRC_W } from '../src/projects/jurnl/runtime/screens/f05/f05MotionLayout';
+import { accountItems, APPROVED_SLOTS, capacityFor, computeF05MotionLayout, CROP, SRC_H, SRC_W } from '../src/projects/jurnl/runtime/screens/f05/f05MotionLayout';
 import { resolveF05ParentVariant } from '../src/projects/jurnl/runtime/screens/f05/MoneyParentRoute';
 import { TODAY, acct, position, world } from './helpers/jurnlFinancialWorld';
 
@@ -243,16 +243,19 @@ describe('Layout', () => {
     }
   });
 
-  it('pages: capacity by size; ADD and MOVE fill free slots on the last page only', () => {
-    expect(capacityFor(512, 768)).toBe(4);
-    expect(capacityFor(393, 852)).toBe(4);
-    // a much taller screen gets a third row only with breathing room
-    expect(capacityFor(360, 900)).toBe(6);
-    expect(pageItems(0, 4, 0)).toEqual([{ kind: 'empty' }]);
-    expect(pageItems(1, 4, 0).map((i) => i.kind)).toEqual(['account', 'add']);
-    expect(pageItems(2, 4, 0).map((i) => i.kind)).toEqual(['account', 'account', 'add', 'move']);
-    expect(pageItems(4, 4, 0).map((i) => i.kind)).toEqual(['account', 'account', 'account', 'account']);
-    expect(pageItems(7, 6, 1).map((i) => (i.kind === 'account' ? i.index : i.kind))).toEqual([6, 'add', 'move']);
+  it('collections: always the 2 x 2 grid; ADD and MOVE fill free slots; more than four places open the full list', () => {
+    // Carousel sprint design change: every collection is four papers in the same places. A taller screen grows the
+    // gaps (elastic panel), never adds a third row, and extra places never add pages (the dots are the collections).
+    for (const [w, h] of [[512, 768], [393, 852], [360, 780], [360, 900], [834, 1194], [1440, 900]] as const) {
+      expect(capacityFor(w, h)).toBe(4);
+      expect(computeF05MotionLayout(w, h, 4).rows).toBe(2);
+    }
+    expect(accountItems(0)).toEqual([{ kind: 'empty' }]);
+    expect(accountItems(1).map((i) => i.kind)).toEqual(['account', 'add']);
+    expect(accountItems(2).map((i) => i.kind)).toEqual(['account', 'account', 'add', 'move']);
+    expect(accountItems(3).map((i) => i.kind)).toEqual(['account', 'account', 'account', 'add']);
+    expect(accountItems(4).map((i) => i.kind)).toEqual(['account', 'account', 'account', 'account']);
+    expect(accountItems(7)).toEqual([{ kind: 'account', index: 0 }, { kind: 'account', index: 1 }, { kind: 'account', index: 2 }, { kind: 'more', hidden: 4 }]);
     expect(pageAccounts([1, 2, 3, 4, 5], 4)).toEqual([[1, 2, 3, 4], [5]]);
   });
 });

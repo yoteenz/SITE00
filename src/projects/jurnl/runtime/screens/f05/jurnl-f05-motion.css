@@ -190,12 +190,7 @@
   color: var(--f05m-gold);
 }
 
-/* L3 account papers */
-.jrn .jrn-f05m__papers {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
+/* L3 papers (account papers; collections 02–04 share these styles) */
 .jrn .jrn-f05m__paper {
   position: absolute;
   pointer-events: auto;
@@ -340,8 +335,7 @@
 }
 .jrn .jrn-f05m__paper:focus-visible,
 .jrn .jrn-f05m__metric:focus-visible,
-.jrn .jrn-f05m__chip:focus-visible,
-.jrn .jrn-f05m__dots:focus-visible {
+.jrn .jrn-f05m__chip:focus-visible {
   outline: 5px solid var(--f05m-gold);
   outline-offset: 5px;
 }
@@ -461,28 +455,6 @@
   opacity: 0;
   border-style: solid;
 }
-.jrn .jrn-f05m__dots {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  border-radius: 12px;
-}
-.jrn .jrn-f05m__dots span {
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  border: 2px solid #2a2016;
-  background: transparent;
-}
-.jrn .jrn-f05m__dots span[data-on='true'] {
-  background: #2a2016;
-}
 
 /* L4 corner chips (approved rounded squares) and the global menu re-seated beside them */
 .jrn .jrn-f05m__chip,
@@ -509,8 +481,7 @@
   /* touch target ≥ 44 screen px whatever the board scale */
   inset: min(-16px, calc((76px - 44px / var(--f05m-u, 1)) / 2));
 }
-.jrn .jrn-f05m__metric::before,
-.jrn .jrn-f05m__dots::before {
+.jrn .jrn-f05m__metric::before {
   content: '';
   position: absolute;
   left: 0;
@@ -519,8 +490,7 @@
   height: max(100%, calc(44px / var(--f05m-u, 1)));
   transform: translateY(-50%);
 }
-.jrn .jrn-f05m__metric,
-.jrn .jrn-f05m__dots {
+.jrn .jrn-f05m__metric {
   isolation: isolate;
 }
 .jrn .jrn-f05m__chip svg {
@@ -632,15 +602,16 @@
   .jrn .jrn-f05m__divider {
     animation: f05m-rise 200ms ease-out 270ms backwards;
   }
-  .jrn .jrn-f05m__paper {
-    /* papers settle 340–610 ms: the stagger shrinks with the number of papers so the last one lands by 610 ms */
+  /* page arrival only (a collection change has its own motion, jurnl-f05-carousel.css) */
+  .jrn .jrn-f05m__collection[data-phase='load'] .jrn-f05m__paper {
+    /* the four papers settle 340–610 ms */
     animation: f05m-paper 200ms var(--f05m-ease) calc(340ms + var(--i, 0) * var(--f05m-stagger, 45ms)) backwards;
   }
   /* threads appear with the papers (ends ≤ 640 ms) and only when the recorded state is open */
-  .jrn .jrn-f05m__thread {
+  .jrn .jrn-f05m__collection[data-phase='load'] .jrn-f05m__thread {
     animation: f05m-fade 200ms ease-out 440ms backwards;
   }
-  .jrn .jrn-f05m__token:not(.jrn-f05m__token--ghost) {
+  .jrn .jrn-f05m__collection[data-phase='load'] .jrn-f05m__token:not(.jrn-f05m__token--ghost) {
     animation: f05m-token 200ms ease-out 440ms backwards;
   }
   /* COMPLETED: the token goes on to the destination and the thread resolves (the balance already moved) */
@@ -653,8 +624,9 @@
   .jrn .jrn-f05m__token--ghost {
     animation: f05m-arrive 480ms var(--f05m-ease) both;
   }
-  .jrn .jrn-f05m__paper[data-return='true'],
-  .jrn .jrn-f05m__paper[data-fresh='true'] {
+  .jrn .jrn-f05m__collection[data-phase='load'] .jrn-f05m__paper[data-return='true'],
+  .jrn .jrn-f05m__collection[data-phase='load'] .jrn-f05m__paper[data-fresh='true'],
+  .jrn .jrn-f05m__collection[data-phase='idle'] .jrn-f05m__paper[data-fresh='true'] {
     animation: f05m-return 420ms var(--f05m-ease) backwards;
   }
 }
