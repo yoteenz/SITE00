@@ -22,6 +22,7 @@ import { Icon } from '../icons';
 import { Alert, Button, CARD_SRC, ChipChoice, Paper, Row, TextInput } from '../kit';
 import { V3Caution, V3Pill, V3Row, V3RuleLabel } from '../../../../surfaces/v3/V3Surfaces';
 import type { ArchiveBlockerKind } from '../../../../../data/f05/dot01/archive';
+import { ART, EdArt, REGION } from '../../../../surfaces/editorial/Editorial';
 
 /** Each blocker's line icon on the caution surface. */
 const BLOCKER_ICON: Record<ArchiveBlockerKind, string> = {
@@ -287,6 +288,8 @@ export function ArchiveOverlay({ accountId, onClose, mode = 'archive', onDone }:
             /* V3 · F: the terracotta / oxblood caution surface (bronze warning seal, BLOCKERS between rules, the
                resolution first, then the safe way out) inside the V9 overlay frame */
             <V3Caution testId="d01-blocked-why" role={del ? 'alert' : 'status'} title={`THIS ${W} CANNOT BE ${del ? 'DELETED' : 'ARCHIVED'} YET`} body={`IT HAS OUTSTANDING ITEMS. THESE MUST BE RESOLVED BEFORE IT CAN BE ${del ? 'DELETED' : 'ARCHIVED'}.`}>
+              {/* founder board 07: the classical stone beside the oxblood caution (V9 temple composition, decorative) */}
+              <EdArt art={ART.templeCoast} region={REGION.templeColumns} className="jed-caution-stone" torn={17} />
               <V3RuleLabel>BLOCKERS</V3RuleLabel>
               <div className="jv3-caution__rows">
                 {blockers.map((b) => (

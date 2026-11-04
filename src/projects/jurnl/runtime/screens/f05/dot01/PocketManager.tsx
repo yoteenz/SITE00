@@ -10,7 +10,8 @@
  * Nothing here computes or moves money.
  */
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactNode } from 'react';
-import { accountView } from '../../../../data/f05/dot01/accountView';
+import { accountView, kindOf, type Dot01Kind } from '../../../../data/f05/dot01/accountView';
+import { ART, EdArt, KIND_ART, REGION } from '../../../surfaces/editorial/Editorial';
 import { getTodayKey } from '../../../../data/foundation/dates';
 import { renameAccount } from '../../../../data/ledger/ledgerOps';
 import { checkPocketName, POCKET_NAME_MAX } from '../../../../data/f05/dot01/pocketName';
@@ -117,7 +118,7 @@ export function useLongPress(onLongPress: (el: HTMLElement, key: string) => void
 }
 
 /** MANAGE POCKET: a parchment menu anchored to the Pocket (or its chip). */
-function PocketMenu({ anchor, name, onRename, onDelete, onClose }: { anchor: HTMLElement; name: string; onRename: () => void; onDelete: () => void; onClose: (refocus: boolean) => void }) {
+function PocketMenu({ anchor, name, kind, onRename, onDelete, onClose }: { anchor: HTMLElement; name: string; kind: Dot01Kind; onRename: () => void; onDelete: () => void; onClose: (refocus: boolean) => void }) {
   const ref = useRef<HTMLElement | null>(anchor);
   ref.current = anchor;
   const box = useRef<HTMLDivElement | null>(null);
@@ -155,6 +156,10 @@ function PocketMenu({ anchor, name, onRename, onDelete, onClose }: { anchor: HTM
   return (
     <JurnlPopover anchor={ref} onDismiss={() => onClose(false)} minWidth={292} want={240} className="jrn-pop--menu jv3-fragment" testId="d01-pocket-menu">
       <div ref={attach} role="menu" aria-label={`MANAGE POCKET: ${name}`} onKeyDown={onKey}>
+        {/* founder board 04: the fragment is clipped on (the binder clip of the V9 receipt stack) and carries this
+            pocket's own 06 illustration; decorative only */}
+        <EdArt art={ART.paperStack} region={REGION.clip} className="jed-pop-clip" />
+        <span className="jed-pop-art" aria-hidden><EdArt art={KIND_ART[kind].art} region={KIND_ART[kind].region} className="jed-art--kind" /></span>
         <p className="jrn-menu__title" aria-hidden>MANAGE POCKET</p>
         <p className="jrn-menu__sub" aria-hidden>{name}</p>
         <button type="button" role="menuitem" className="jrn-menu__item" data-jrn-trigger="d01-pocket-rename" onClick={onRename}>
@@ -239,7 +244,7 @@ export function usePocketManager(where: 'detail' | 'directory' | 'parent') {
   let node: ReactNode = null;
   if (st && v && !v.archived) {
     if (st.step === 'menu' && st.anchor)
-      node = <PocketMenu anchor={st.anchor} name={v.account.display_name} onClose={close} onRename={() => setSt({ ...st, step: 'rename' })} onDelete={() => setSt({ ...st, step: 'delete' })} />;
+      node = <PocketMenu anchor={st.anchor} name={v.account.display_name} kind={kindOf(v.account)} onClose={close} onRename={() => setSt({ ...st, step: 'rename' })} onDelete={() => setSt({ ...st, step: 'delete' })} />;
     else if (st.step === 'rename')
       node = (
         <RenamePocketOverlay

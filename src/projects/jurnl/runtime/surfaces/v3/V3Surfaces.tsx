@@ -108,7 +108,7 @@ export function tornClip(seed: number, sides: ('top' | 'right' | 'bottom' | 'lef
 }
 
 /** useOverlayFocus with a stable close: a caller's inline handler never re-runs the trap (which would refocus). */
-function useStableFocus(onClose: () => void) {
+export function useStableFocus(onClose: () => void) {
   const latest = useRef(onClose);
   latest.current = onClose;
   const close = useCallback(() => latest.current(), []);

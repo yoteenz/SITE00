@@ -1,0 +1,793 @@
+/* JURNL editorial-collage overlays — composition geometry per `data-jed` (Editorial.tsx). The behaviour host imposes
+ * nothing visual: every composition places its own ground, headline fragment, artifacts and live zone here. */
+.jrn .jed-host {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(10px, env(safe-area-inset-top)) 10px max(10px, env(safe-area-inset-bottom));
+  --jed-olive: #1f200e;
+  --jed-olive-2: #2b2810;
+  --jed-ink: #1c1610;
+  --jed-ink-soft: #3a2e20;
+  --jed-cream: #f1e6cc;
+  --jed-gold: #dcab4f;
+  --jed-oxblood: #70200d;
+  --jed-terracotta: #a8401f;
+  --jed-terracotta-pill: #f3b08b;
+}
+.jrn .jed-host[data-place='bottom'] {
+  align-items: flex-end;
+}
+.jrn .jed-scrim {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 80% at 50% 40%, rgba(20, 18, 8, 0.55), rgba(10, 9, 4, 0.8));
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+.jrn .jed-folio {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: min(404px, 100%);
+  max-height: calc(var(--jrn-vvh, 100dvh) - 20px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  color: var(--jed-ink);
+  isolation: isolate;
+  animation: jed-in 260ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+/* the exposed dark environmental ground: olive field with a torn silhouette (never a beige rectangle) */
+.jrn .jed-ground {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  clip-path: var(--jed-ground);
+  background:
+    radial-gradient(80% 60% at 30% 20%, rgba(220, 171, 79, 0.08), transparent 60%),
+    url('../../../families/F05_MONEY/DOT01/F05_DOT01_SK02_FIELD_TILE.webp') center / 260px auto,
+    var(--jed-olive);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+}
+.jrn .jed-decor {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.jrn .jed-art {
+  position: absolute;
+  display: block;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+/* headline: torn parchment with a live uppercase title and one lowercase cursive line */
+.jrn .jed-head {
+  position: relative;
+  z-index: 1;
+  justify-self: end;
+  width: 66%;
+  margin: 22px 8px 0 0;
+  padding: 18px 18px 16px 22px;
+  transform: rotate(-1.6deg);
+}
+.jrn .jed-head__paper {
+  position: absolute;
+  inset: -6px -8px -8px -10px;
+  z-index: -1;
+  background-size: 100% 100%;
+  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.45));
+}
+.jrn .jed-head__title {
+  display: grid;
+  margin: 0;
+  font: 600 clamp(25px, 7.4vw, 32px) / 0.98 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--jed-ink);
+}
+.jrn .jed-script {
+  margin: 4px 0 0;
+  font: 400 clamp(15px, 4.4vw, 18px) / 1.15 'JURNL Script', cursive;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--jed-ink-soft);
+}
+.jrn .jed-body {
+  position: relative;
+  z-index: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 10px 16px 6px;
+  scrollbar-width: thin;
+}
+.jrn .jed-foot {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 16px 18px;
+}
+.jrn .jed-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(220, 171, 79, 0.6);
+  border-radius: 12px;
+  background: rgba(31, 32, 14, 0.86);
+  color: var(--jed-cream);
+  cursor: pointer;
+}
+.jrn .jed-close svg {
+  width: 20px;
+  height: 20px;
+}
+.jrn .jed-close:focus-visible,
+.jrn .jed-action:focus-visible,
+.jrn .jed-choice:focus-visible,
+.jrn .jed-pick:focus-visible,
+.jrn .jed-row:focus-visible {
+  outline: 3px solid var(--jed-gold);
+  outline-offset: 2px;
+}
+
+/* ── action fragments ── */
+.jrn .jed-action {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 52px;
+  margin: 0;
+  padding: 12px 18px;
+  border: 0;
+  background: none;
+  color: var(--jed-ink);
+  text-align: left;
+  cursor: pointer;
+  isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
+}
+.jrn .jed-action__paper,
+.jrn .jed-action__strip {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-size: 100% 100%;
+  filter: drop-shadow(0 5px 7px rgba(0, 0, 0, 0.45));
+}
+.jrn .jed-action[data-material='olive'] {
+  color: var(--jed-cream);
+  justify-content: center;
+}
+.jrn .jed-action[data-material='terracotta'] {
+  color: #5a1405;
+}
+.jrn .jed-action[data-material='terracotta']::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  z-index: -1;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #f6bd98, var(--jed-terracotta-pill));
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
+}
+.jrn .jed-action__art {
+  position: absolute;
+  pointer-events: none;
+}
+.jrn .jed-action__text {
+  position: relative;
+  display: grid;
+  flex: 1;
+  min-width: 0;
+}
+.jrn .jed-action__title {
+  font: 600 clamp(15px, 4.4vw, 17px) / 1.05 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.jrn .jed-action__note {
+  margin: 2px 0 0;
+  font-size: clamp(14px, 4vw, 16px);
+}
+.jrn .jed-chev {
+  position: relative;
+  flex: none;
+  width: 9px;
+  height: 15px;
+  opacity: 0.8;
+}
+.jrn .jed-action[data-material='olive'] .jed-chev,
+.jrn .jed-foot .jed-chev {
+  display: none;
+}
+.jrn .jed-action:active:not(:disabled) {
+  transform: translateY(1px);
+  filter: brightness(0.97);
+}
+.jrn .jed-action:disabled {
+  cursor: default;
+}
+.jrn .jed-action:disabled .jed-action__text,
+.jrn .jed-action:disabled .jed-action__art {
+  opacity: 0.5;
+}
+
+/* ── live form parts ── */
+.jrn .jed-sheet {
+  position: relative;
+  padding: 14px 14px 12px;
+  border-style: solid;
+  border-width: 16px 18px;
+  border-image: url('../../../families/F05_MONEY/DOT01/F05_DOT01_14_LARGE_PARCHMENT_SHEET.webp') 64 70 fill / 16px 18px / 0 stretch;
+  filter: drop-shadow(0 6px 9px rgba(0, 0, 0, 0.45));
+}
+.jrn .jed-label {
+  display: block;
+  margin: 10px 0 5px;
+  font: 600 12.5px/1.1 'JURNL Sans', sans-serif;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--jed-ink-soft);
+}
+.jrn .jed-label:first-child {
+  margin-top: 0;
+}
+.jrn .jed-field .jrn-field {
+  margin: 0;
+}
+.jrn .jed-field .jrn-field__label {
+  font: 600 12.5px/1.1 'JURNL Sans', sans-serif;
+  letter-spacing: 0.14em;
+  color: var(--jed-ink-soft);
+}
+.jrn .jed-field input {
+  min-height: 46px;
+  font-size: 16px;
+  background: rgba(255, 248, 232, 0.72);
+  border: 1px solid rgba(60, 44, 24, 0.28);
+  border-radius: 10px;
+  box-shadow: inset 0 1px 3px rgba(60, 40, 10, 0.18);
+}
+.jrn .jed-choices {
+  display: grid;
+  grid-template-columns: repeat(var(--jed-cols, 2), minmax(0, 1fr));
+  gap: 7px;
+}
+.jrn .jed-choice {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 6px 10px;
+  border: 1px solid rgba(60, 44, 24, 0.3);
+  border-radius: 10px;
+  background: rgba(255, 248, 232, 0.66);
+  color: var(--jed-ink);
+  font: 600 12.5px/1.08 'JURNL Sans', sans-serif;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.jrn .jed-choice[data-wide='true'] {
+  grid-column: 1 / -1;
+}
+.jrn .jed-choice[data-active='true'] {
+  border-color: transparent;
+  background: linear-gradient(180deg, #34331a, var(--jed-olive));
+  color: var(--jed-cream);
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.35);
+}
+.jrn .jed-choice__icon {
+  flex: none;
+  width: 22px;
+  height: 22px;
+}
+.jrn .jed-choice__check {
+  position: absolute;
+  top: 4px;
+  right: 5px;
+  width: 15px;
+  height: 15px;
+  color: var(--jed-gold);
+}
+.jrn .jed-glyph {
+  width: 100%;
+  height: 100%;
+}
+.jrn .jed-note {
+  margin: 8px 0 0;
+  font: 500 12.5px/1.35 'JURNL Sans', sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--jed-ink-soft);
+}
+.jrn .jed-note--ground {
+  color: rgba(241, 230, 204, 0.86);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+.jrn .jed-foot .jed-action__title {
+  white-space: nowrap;
+  font-size: clamp(13px, 3.7vw, 15px);
+  letter-spacing: 0.06em;
+}
+.jrn .jed-foot .jed-action {
+  min-height: 52px;
+  padding: 10px 14px;
+  justify-content: center;
+  text-align: center;
+}
+.jrn .jed-foot .jed-action__text {
+  flex: none;
+}
+.jrn .jed-error {
+  margin: 0 0 6px;
+  grid-column: 1 / -1;
+  font: 600 13px/1.3 'JURNL Sans', sans-serif;
+  letter-spacing: 0.08em;
+  color: #8a2112;
+}
+.jrn .jed-seal {
+  position: relative;
+  display: block;
+}
+.jrn .jed-seal img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 5px 6px rgba(0, 0, 0, 0.45));
+}
+.jrn .jed-seal__glyph {
+  position: absolute;
+  left: 26%;
+  top: 25%;
+  width: 48% !important;
+  filter: sepia(1) saturate(2) hue-rotate(-12deg) brightness(0.55) !important;
+  mix-blend-mode: multiply;
+}
+
+/* ══ 01 MONEY ACTION SHEET — a compact editorial choice scene ══ */
+.jrn [data-jed='action'] .jed-folio {
+  min-height: min(540px, calc(var(--jrn-vvh, 100dvh) - 20px));
+}
+.jrn [data-jed='action'] .jed-head {
+  width: 60%;
+  margin-top: 46px;
+}
+.jrn [data-jed='action'] .jed-art--bust {
+  left: -4%;
+  top: 0;
+  width: 54%;
+  height: 210px;
+  filter: drop-shadow(4px 6px 8px rgba(0, 0, 0, 0.5));
+}
+.jrn [data-jed='action'] .jed-art--lemon {
+  right: -6%;
+  top: -16px;
+  width: 30%;
+  height: 160px;
+  background-size: contain !important;
+  background-position: center !important;
+  transform: rotate(18deg);
+}
+.jrn [data-jed='action'] .jed-art--oxblood {
+  left: -12%;
+  top: 200px;
+  width: 44%;
+  height: 360px;
+  background-size: contain !important;
+  background-position: center !important;
+  transform: rotate(-8deg);
+}
+.jrn [data-jed='action'] .jed-art--coast {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 86px;
+  background-size: cover !important;
+  background-position: center !important;
+  opacity: 0.95;
+}
+.jrn [data-jed='action'] .jed-body {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+  padding: 18px 16px 96px;
+  overflow: visible;
+}
+.jrn [data-jed='action'] .jed-action {
+  min-height: 112px;
+  padding: 16px 44% 16px 22px;
+}
+.jrn [data-jed='action'] .jed-action__title {
+  font-size: clamp(22px, 6.6vw, 27px);
+  letter-spacing: 0.04em;
+  line-height: 0.98;
+}
+.jrn [data-jed='action'] .jed-action--add {
+  width: 92%;
+  transform: rotate(-1.4deg);
+}
+.jrn [data-jed='action'] .jed-action--move {
+  width: 92%;
+  justify-self: end;
+  transform: rotate(1.2deg);
+}
+.jrn [data-jed='action'] .jed-action__art {
+  right: -4%;
+  top: -16px;
+  width: 44%;
+  height: calc(100% + 26px);
+  filter: drop-shadow(-3px 6px 7px rgba(0, 0, 0, 0.45));
+}
+.jrn [data-jed='action'] .jed-action__art .jed-art {
+  inset: 0;
+}
+.jrn [data-jed='action'] .jed-action--move .jed-action__art {
+  right: -2%;
+  width: 42%;
+}
+.jrn [data-jed='action'] .jed-action .jed-chev {
+  position: absolute;
+  right: 46%;
+  bottom: 18px;
+}
+
+/* ══ 02 ADD A POCKET — an editorial registration folio ══ */
+.jrn [data-jed='register'] .jed-head {
+  width: 70%;
+  margin-top: 18px;
+}
+.jrn [data-jed='register'] .jed-art--seal {
+  left: 3%;
+  top: 8px;
+  width: 92px;
+  height: 86px;
+  z-index: 2;
+  background-size: contain !important;
+}
+.jrn [data-jed='register'] .jed-decor {
+  z-index: 0;
+}
+.jrn [data-jed='register'] .jed-art--oxblood {
+  left: -10%;
+  top: 90px;
+  width: 30%;
+  height: 340px;
+  background-size: contain !important;
+  background-position: center !important;
+  transform: rotate(-6deg);
+  z-index: -1;
+}
+.jrn [data-jed='register'] .jed-art--foliage {
+  right: -8%;
+  bottom: 60px;
+  width: 34%;
+  height: 160px;
+  background-size: contain !important;
+  background-position: center !important;
+  transform: rotate(-20deg);
+  z-index: -1;
+}
+.jrn [data-jed='register'] .jed-body,
+.jrn [data-jed='transfer'] .jed-body,
+.jrn [data-jed='search'] .jed-body,
+.jrn [data-jed='account'] .jed-body {
+  padding: 6px 12px 4px;
+}
+.jrn [data-jed='register'] .jed-balance {
+  position: relative;
+}
+.jrn [data-jed='register'] .jed-balance .jed-art--coins {
+  right: -6px;
+  bottom: -4px;
+  width: 78px;
+  height: 64px;
+  background-size: contain !important;
+  background-position: center bottom !important;
+  z-index: 1;
+}
+
+/* ══ 03 MOVE MONEY — two pockets and the direction between them ══ */
+.jrn [data-jed='transfer'] .jed-head {
+  width: 64%;
+  margin-top: 30px;
+}
+.jrn [data-jed='transfer'] .jed-art--bust {
+  left: -6%;
+  top: 0;
+  width: 44%;
+  height: 170px;
+}
+.jrn [data-jed='transfer'] .jed-art--arch {
+  right: 0;
+  top: 0;
+  width: 40%;
+  height: 150px;
+  opacity: 0.85;
+}
+.jrn [data-jed='transfer'] .jed-art--lemon {
+  right: -8%;
+  top: 220px;
+  width: 26%;
+  height: 150px;
+  background-size: contain !important;
+  background-position: center !important;
+  transform: rotate(24deg);
+}
+.jrn .jed-pick {
+  position: relative;
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  min-height: 66px;
+  padding: 8px 14px 8px 8px;
+  border-style: solid;
+  border-width: 10px 12px;
+  border-image: url('../../../families/F05_MONEY/DOT01/F05_DOT01_13_TORN_PARCHMENT_PANEL.webp') 60 70 fill / 10px 12px / 0 stretch;
+  filter: drop-shadow(0 5px 7px rgba(0, 0, 0, 0.45));
+}
+.jrn .jed-pick__art {
+  position: relative;
+  width: 76px;
+  height: 54px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.jrn .jed-pick__art .jed-art {
+  inset: 0;
+}
+.jrn .jed-pick__name {
+  display: block;
+  overflow: hidden;
+  font: 600 15px/1.1 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.jrn .jed-pick__value {
+  display: block;
+  font: 600 19px/1.1 'JURNL Authority Serif', 'JURNL Display', serif;
+}
+.jrn .jed-pick__dir {
+  font: 600 11.5px/1 'JURNL Sans', sans-serif;
+  letter-spacing: 0.16em;
+  color: var(--jed-ink-soft);
+}
+.jrn .jed-pick--from {
+  margin-right: 9%;
+  transform: rotate(-0.8deg);
+}
+.jrn .jed-pick--to {
+  margin-left: 9%;
+  transform: rotate(0.8deg);
+}
+.jrn .jed-strip {
+  display: flex;
+  gap: 6px;
+  margin: 6px 0 2px;
+  padding: 2px 2px 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.jrn .jed-strip::-webkit-scrollbar {
+  display: none;
+}
+.jrn .jed-strip .jed-choice {
+  flex: none;
+  min-height: 40px;
+  max-width: 62%;
+  white-space: nowrap;
+}
+.jrn .jed-strip .jed-choice__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.jrn .jed-direction {
+  position: relative;
+  z-index: 2;
+  width: 62px;
+  height: 62px;
+  margin: -12px auto -12px;
+}
+.jrn .jed-ledger {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+.jrn .jed-ledger > .jed-field-wide {
+  grid-column: 1 / -1;
+}
+
+/* ══ 05 SEARCH DRAWER ══ */
+.jrn [data-jed='search'] .jed-head {
+  width: 68%;
+}
+.jrn [data-jed='search'] .jed-art--stack {
+  left: -10%;
+  bottom: 40px;
+  width: 38%;
+  height: 230px;
+  background-size: contain !important;
+  background-position: center bottom !important;
+  transform: rotate(-6deg);
+  opacity: 0.95;
+}
+.jrn [data-jed='search'] .jed-art--arch {
+  left: 0;
+  top: 0;
+  width: 34%;
+  height: 190px;
+}
+.jrn .jed-row {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 46px;
+  padding: 8px 10px;
+  border: 0;
+  border-bottom: 1px solid rgba(60, 44, 24, 0.18);
+  background: none;
+  color: var(--jed-ink);
+  font: 600 13.5px/1.2 'JURNL Sans', sans-serif;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.jrn .jed-row small {
+  display: block;
+  margin-top: 2px;
+  font-weight: 500;
+  font-size: 11.5px;
+  color: var(--jed-ink-soft);
+}
+.jrn .jed-row b {
+  font: 600 14px/1 'JURNL Authority Serif', serif;
+  white-space: nowrap;
+}
+.jrn .jed-row__icon {
+  width: 22px;
+  height: 22px;
+  color: var(--jed-ink-soft);
+}
+
+/* ══ 06 ACCOUNT / SETTINGS ══ */
+.jrn [data-jed='account'] .jed-art--medallion {
+  left: 3%;
+  top: 6px;
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5), inset 0 0 0 3px rgba(122, 64, 22, 0.6);
+  z-index: 2;
+}
+.jrn [data-jed='account'] .jed-art--temple {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 110px;
+  background-size: cover !important;
+  background-position: center !important;
+}
+.jrn [data-jed='account'] .jed-decor {
+  z-index: 0;
+}
+.jrn [data-jed='account'] .jed-foot {
+  grid-template-columns: 1fr;
+  padding-bottom: 112px;
+}
+
+@keyframes jed-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .jrn .jed-folio { animation: none; }
+}
+
+/* ══ 04 MANAGE POCKET — the anchored fragment, clipped on, with the pocket's own illustration ══ */
+.jrn .jrn-pop.jv3-fragment {
+  overflow: visible;
+}
+.jrn .jrn-pop.jv3-fragment .jed-pop-clip {
+  left: 12px;
+  top: -30px;
+  width: 58px;
+  height: 46px;
+  background-size: cover;
+  transform: rotate(-14deg);
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.4));
+  z-index: 2;
+}
+.jrn .jrn-pop.jv3-fragment .jed-pop-art {
+  position: absolute;
+  right: 12px;
+  top: 10px;
+  width: 78px;
+  height: 52px;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+.jrn .jrn-pop.jv3-fragment .jed-pop-art .jed-art {
+  inset: 0;
+}
+.jrn .jrn-pop.jv3-fragment .jrn-menu__title,
+.jrn .jrn-pop.jv3-fragment .jrn-menu__sub {
+  padding-right: 92px;
+}
+
+/* ══ 07 ARCHIVE BLOCKED — the stone beside the oxblood caution ══ */
+.jrn .jv3-caution {
+  position: relative;
+}
+.jrn .jv3-caution .jed-caution-stone {
+  right: 6px;
+  bottom: 8px;
+  width: 92px;
+  height: 150px;
+  background-size: cover;
+  filter: drop-shadow(-3px 5px 6px rgba(0, 0, 0, 0.45)) sepia(0.15);
+  opacity: 0.9;
+  /* the caution's clip-path makes it a stacking context: the stone paints above its oxblood, below its text */
+  z-index: -1;
+}
+
+/* ══ 08 GLOBAL MENU — the classical head above the sections ══ */
+.jrn .jed-menu-head {
+  position: relative;
+  height: 148px;
+  margin: -6px -6px 4px;
+  pointer-events: none;
+}
+.jrn .jed-menu-head .jed-art--bust {
+  left: -4px;
+  top: 0;
+  width: 50%;
+  height: 148px;
+}
+.jrn .jed-menu-head .jed-art--lemon {
+  right: -14px;
+  top: -18px;
+  width: 30%;
+  height: 120px;
+  background-size: contain;
+  background-position: center;
+  transform: rotate(16deg);
+}
+.jrn .jed-menu-head__title {
+  position: absolute;
+  right: 14px;
+  bottom: 6px;
+  width: 58%;
+  padding: 14px 14px 12px 18px;
+  transform: rotate(-2deg);
+  color: var(--jed-ink, #1c1610);
+}
+.jrn .jed-menu-head__title .jed-head__title {
+  font-size: clamp(24px, 7vw, 30px);
+}
+.jrn .jed-menu-head__title .jv3-t-script {
+  margin: 2px 0 0;
+  color: #3a2e20;
+}
