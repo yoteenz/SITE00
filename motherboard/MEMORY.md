@@ -16782,3 +16782,12 @@ Summary of the whole conversation in this chat.
 - **Decisions / outcomes:** Combined branch `cursor/jurnl-tunnel-opus-v3-overlays-4e5a` merges Opus V3 onto the money-family integration tip. Kept snap-scroll pockets rail, two-line MOVE / MONEY and ADD A POCKET, PENDING / INCOMING, and the 2px type nudge. Kept Opus global menu (no dock duplication), membership / add-ons / unlock, pocket long-press, archive blockers, and DOT 01 authority compositions. Not merged to `main`. `preview/tunnel` stays on `main`; the canonical connector is pinned to this branch.
 - **Changes:** Merge of Opus V3 into the money-family line, conflict resolution in MONEY parent, DOT 01 pages, cabinet archive, and this memory entry. Long-press manage-pocket handlers on the accounts rail.
 - **Conventions:** Unmerged founder preview of this work uses the pin script, not a rewrite of `preview/tunnel`. Phases 4–5 family convergence and founder gates U1–U3 stay open.
+
+---
+
+## 2026-11-04 — F05 carousel panel row alignment (tunnel preview)
+
+- **Context:** Founder reported middle-row values (`NONE`, `$0`, `—`) and bottom captions (`OWED`, `ADD A POCKET FIRST`, `NEXT 30 DAYS`, link copy) misaligned across the 2×2 carousel panels on the pinned Opus V3 + MONEY preview.
+- **Root cause:** `paperRhythm()` positioned amounts/captions from each panel’s actual title line count (1 vs 2); link panels anchored captions to the paper bottom; empty states used a smaller font than live amounts.
+- **Changes:** `CarouselPanelPaper.tsx` — fixed `PANEL_TITLE_LINES = 2`, unified caption row for link panels, empty values at full amount size; `MoneyMotionParent.tsx` — `ACCOUNT_PAPER_TITLE_LINES` for rail amounts/`OWED`; `jurnl-f05-carousel.css` — panel empty states inherit inline size; test in `jurnlF05Carousel.test.ts`. Commit `1ce6e6366` on `cursor/jurnl-tunnel-opus-v3-overlays-4e5a`; PR #1714 updated; preview worktree SHA `1ce6e6366`.
+- **Conventions:** Carousel collection grids always reserve two title lines for shared value/caption rows; do not reintroduce per-panel `linkCaptionTop` for 2×2 alignment.
