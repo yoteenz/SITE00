@@ -27,7 +27,7 @@ import { DOT01, DOT01_GEOMETRY } from './dot01Assets';
 import { microAssetSrc } from '../microAssets';
 import paperTile from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_PAPER_TILE.webp';
 import tornEdge from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_TORN_EDGE.webp';
-import { computeF05BoardScale } from '../f05MotionLayout';
+import { CROP as F05_CROP, computeF05BoardScale } from '../f05MotionLayout';
 import './jurnl-f05-dot01.css';
 
 export const SRC_W = 941;
@@ -97,7 +97,7 @@ function useDot01Layout(crop: number, ey: number, z0: number | null) {
   }, []);
   const L = useMemo<Dot01Layout>(() => {
     const avail = Math.max(1, vp.h);
-    const { u, ox } = computeF05BoardScale(vp.w, vp.h, crop, avail);
+    const { u, ox } = computeF05BoardScale(vp.w, vp.h, crop as typeof F05_CROP, avail);
     const extra = Math.max(0, avail / u - SRC_H);
     return { u, ox, extra, boardH: SRC_H + extra, w: vp.w, h: vp.h, ey, z0: z0 != null && z0 < ey ? z0 : null };
   }, [vp.w, vp.h, crop, ey, z0]);

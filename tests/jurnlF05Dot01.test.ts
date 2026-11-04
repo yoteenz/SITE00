@@ -491,6 +491,9 @@ describe('Card payments and transfers (17, 20) — recorded, scheduled, in trans
     const over = previewTransfer({ from_account_id: 'bank', to_account_id: 'visa', amount: 450, occurred_on: TODAY, start: 'COMPLETED' }, TODAY);
     expect(over.ok).toBe(false);
     expect(over.ok ? '' : over.error).toMatch(/MORE THAN VISA OWES/);
+    const direct = recordTransfer({ from_account_id: 'bank', to_account_id: 'visa', amount: 450, occurred_on: TODAY, start: 'COMPLETED' });
+    expect(direct.ok).toBe(false);
+    expect(direct.ok ? '' : direct.error).toMatch(/MORE THAN VISA OWES/);
     const pending = previewTransfer({ from_account_id: 'bank', to_account_id: 'visa', amount: 300, occurred_on: TODAY, start: 'PENDING' }, TODAY);
     if (!pending.ok) throw new Error(pending.error);
     saveTransfer(pending.value);
