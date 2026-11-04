@@ -170,8 +170,8 @@ describe('VIEWPORT renders the JURNL project runtime', () => {
     expect(why).toMatch(/<option value="F09" selected="">F09 SAFE TO SPEND<\/option>/);
     const place = render('jurnl', 'viewport', '&screen=F05.ACCOUNT');
     expect(place).toMatch(/src="\/production\/jurnl\/runtime\/money\/places\/preview"/);
-    expect(place).toContain('>F05.ACCOUNTS PLACES</option>');
-    expect(place).toContain('>F05.ACCOUNT PLACE</option>');
+    expect(place).toContain('>F05.ACCOUNTS POCKETS</option>');
+    expect(place).toContain('>F05.ACCOUNT POCKET</option>');
     const checked = render('jurnl', 'viewport', '&family=F10&screen=F10.CHECKED');
     expect(checked).toMatch(/src="\/production\/jurnl\/runtime\/purchases\/checked"/);
     expect(checked).toContain('>F10.CHECKED CHECK A PURCHASE</option>');

@@ -19,6 +19,9 @@ import { JurnlProductNav } from '../components/ProductNav';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
 import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
 import { JurnlFamilyShell } from '../components/FamilyFrame';
+import { useBillSetAsideRows } from '../../data/f08/billSetAsides';
+import { SetAsideSheet, obligationTarget } from '../finance/FinanceSheets';
+import { formatRelativeDate, getTodayKey } from '../../data/foundation/dates';
 import { useJurnl } from '../state/store';
 
 function PlanShell({ screenId, children }: { screenId: string; children: ReactNode }) {
@@ -82,10 +85,10 @@ export function PlanHubScreen() {
           <RaLayer transform={wallTransform(fit, 0, hangY(fit, PLAN_SCENE.hang))} data-jrn-zone="intro">
             <RefText t={W.title} as="h1">PLAN.</RefText>
             <RefText t={W.sub} as="p">YOUR MONEY HAS A PLAN.</RefText>
-            <RefText t={W.line} as="p">HERE IS WHAT YOU ARE ARRANGING.</RefText>
+            <RefText t={W.line} as="p">WHERE YOUR MONEY IS ASSIGNED.</RefText>
           </RaLayer>
 
-          <section data-jrn-zone="content-rail" data-jrn-panel="signal" aria-label="INTENTIONS">
+          <section data-jrn-zone="content-rail" data-jrn-panel="signal" aria-label="PLAN">
             {/* Left page: the botanical print and the quiet line under it. */}
             <RaLayer transform={objectTransform(fit, left)}>
               <img className="jrn-ra__img jrn-ra__leaf" src={sprig} alt="" draggable={false} style={at(PLAN_LEAF)} />
@@ -108,7 +111,7 @@ export function PlanHubScreen() {
               {plans.length ?
                 <>
                   <RefText t={R.l1} as="p">{`${formatMoney(assigned)} ASSIGNED`}</RefText>
-                  <RefText t={R.l2} as="p">{`ACROSS ${plans.length} ${plans.length === 1 ? 'INTENTION' : 'INTENTIONS'}.`}</RefText>
+                  <RefText t={R.l2} as="p">{`ACROSS ${plans.length} ${plans.length === 1 ? 'PLAN LINE' : 'PLAN LINES'}.`}</RefText>
                 </>
               : <>
                   <RefText t={R.l1} as="p">NOTHING IS</RefText>
@@ -131,7 +134,7 @@ export function PlanHubScreen() {
                   <RefText t={R.q2} as="p">{spec.question.split(' ').slice(4).join(' ')}</RefText>
                 </>}
               <button type="button" className="jrn-ra__cta" data-jrn-trigger="plan-add-intention" onClick={() => setAddOpen(true)} style={at(add)}>
-                <RefText t={R.add} origin={add} as="span">ADD AN INTENTION</RefText>
+                <RefText t={R.add} origin={add} as="span">SET MONEY ASIDE</RefText>
               </button>
             </RaLayer>
           </section>
@@ -152,7 +155,7 @@ export function PlanIntentionScreen() {
     return (
       <PlanShell screenId="F08.ITEM">
         <FamilyChrome familyId="F08" nodeId="F08.ITEM" backLabel="BACK" onBack={() => go('plan')} onAsk={() => openOverlay('ask')} />
-        <JurnlPanel role="empty" className="jrn-home__panel"><b>INTENTION NOT FOUND</b></JurnlPanel>
+        <JurnlPanel role="empty" className="jrn-home__panel"><b>PLAN LINE NOT FOUND</b></JurnlPanel>
       </PlanShell>
     );
   }
@@ -161,7 +164,7 @@ export function PlanIntentionScreen() {
       <FamilyChrome familyId="F08" nodeId="F08.ITEM" backLabel="BACK TO PLAN" onBack={() => go('plan')} onAsk={() => openOverlay('ask')} />
       <div className="jrn-home__intro" data-jrn-zone="intro">
         <h1 className="jrn-home__h">{plan.title}</h1>
-        <p className="jrn-home__sub">INTENTION</p>
+        <p className="jrn-home__sub">PLAN LINE</p>
       </div>
       <div className="jrn-parent__rail" data-jrn-zone="content-rail">
         <JurnlPanel role="detail" className="jrn-home__panel">
@@ -175,7 +178,7 @@ export function PlanIntentionScreen() {
         <AssignSheet plan={plan} onClose={() => setAssignOpen(false)} />
       : null}
       {removeOpen ?
-        <JurnlDrawer expression="confirmation" size="long" testId="plan-remove" title="REMOVE AN INTENTION" lead="FREES ITS AMOUNT." onClose={() => setRemoveOpen(false)}
+        <JurnlDrawer expression="confirmation" size="long" testId="plan-remove" title="REMOVE FROM PLAN" lead="ITS AMOUNT COUNTS AS AVAILABLE AGAIN." onClose={() => setRemoveOpen(false)}
           footer={<JurnlButton trigger="plan-remove-confirm" onClick={() => { archivePlanIntention(plan.plan_id); setRemoveOpen(false); go('plan'); }}>REMOVE</JurnlButton>}>
           <p>REMOVE {plan.title}?</p>
         </JurnlDrawer>
@@ -184,13 +187,39 @@ export function PlanIntentionScreen() {
   );
 }
 
+/**
+ * F08 → SET MONEY ASIDE (D3). Two entry points into one reservation model: FOR A BILL opens the same set-aside sheet the
+ * bill page uses (same records, same rules, same numbers); FOR SOMETHING ELSE is a plan line (unchanged).
+ */
 function AddIntentionSheet({ onClose }: { onClose: () => void }) {
   const [title, setTitle] = useState('');
+  const [billId, setBillId] = useState<string | null>(null);
   const { go } = useJurnl();
+  useCurrency();
+  const rows = useBillSetAsideRows();
+  const today = getTodayKey();
+  const chosen = billId ? rows.find((r) => r.obligation.obligation_id === billId) : null;
+  if (chosen) {
+    return <SetAsideSheet target={obligationTarget(chosen.obligation)} defaultAccountId={chosen.obligation.account_id} onClose={() => setBillId(null)} />;
+  }
   return (
-    <JurnlDrawer expression="form" size="long" testId="plan-add" title="ADD AN INTENTION" onClose={onClose}
+    <JurnlDrawer expression="form" size="long" testId="plan-add" title="SET MONEY ASIDE" lead="FOR A BILL, OR FOR SOMETHING ELSE. EARMARKS MONEY YOU HAVE; IT DOES NOT MOVE OR PAY ANYTHING." onClose={onClose}
       footer={<JurnlButton trigger="plan-add-save" disabled={!title.trim()} onClick={() => { const p = createPlanIntention({ title }); onClose(); go(`plan/${p.plan_id}`); }}>SAVE</JurnlButton>}>
-      <JurnlInput label="NAME" value={title} onValue={setTitle} trigger="plan-add-name" />
+      <p className="jrn-eyebrow">FOR A BILL</p>
+      {rows.length === 0 ? <p className="jrn-currency__note">NO BILLS WITH MONEY STILL DUE. ADD BILLS IN UPCOMING.</p> : null}
+      <ul className="jrn-why" data-testid="plan-bill-set-asides">
+        {rows.map((r) => (
+          <li key={r.obligation.obligation_id}>
+            <button type="button" className="jrn-btn jrn-btn--inline" data-jrn-trigger={`plan-bill-${r.obligation.obligation_id}`} onClick={() => setBillId(r.obligation.obligation_id)}>
+              {`${r.obligation.name} · DUE ${formatRelativeDate(r.obligation.next_due_date, today)}`}
+            </button>
+            <b data-testid={`plan-bill-funding-${r.obligation.obligation_id}`}>{r.funding.label}</b>
+            {r.pieces.length ? <small>{r.pieces.map((p) => `${formatMoney(p.reservation.amount)} IN ${p.accountName}`).join(' · ')}</small> : null}
+          </li>
+        ))}
+      </ul>
+      <p className="jrn-eyebrow">FOR SOMETHING ELSE</p>
+      <JurnlInput label="WHAT IS THE MONEY FOR?" value={title} onValue={setTitle} trigger="plan-add-name" />
     </JurnlDrawer>
   );
 }
@@ -199,7 +228,7 @@ function AssignSheet({ plan, onClose }: { plan: ReturnType<typeof planById>; onC
   const [amount, setAmount] = useState(String(plan?.assigned_amount ?? 0));
   if (!plan) return null;
   return (
-    <JurnlDrawer expression="form" size="long" testId="plan-assign" title="ASSIGN" lead="COMMITTED AMOUNT REDUCES SAFE TO SPEND." onClose={onClose}
+    <JurnlDrawer expression="form" size="long" testId="plan-assign" title="ASSIGN AN AMOUNT" lead="THIS AMOUNT IS HELD BACK FROM SAFE TO SPEND." onClose={onClose}
       footer={<JurnlButton trigger="plan-assign-save" onClick={() => { updatePlanIntention({ ...plan, assigned_amount: Math.max(0, Number(amount) || 0) }); onClose(); }}>SAVE</JurnlButton>}>
       <JurnlInput label="AMOUNT" value={amount} onValue={setAmount} trigger="plan-assign-amount" inputMode="decimal" />
     </JurnlDrawer>

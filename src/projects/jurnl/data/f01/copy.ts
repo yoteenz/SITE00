@@ -37,7 +37,7 @@ export const F01_COPY = {
     headline: ['WHAT JURNL', 'HELPS YOU DO.'],
     items: [
       ['SEE WHAT IS', 'SAFE TO SPEND.'],
-      ['KEEP PLACES', 'AND DEBTS APART.'],
+      ['KEEP POCKETS', 'AND DEBTS APART.'],
       ['GIVE YOUR MONEY', 'A PLAN.'],
       ['CHECK A', 'PURCHASE FIRST.'],
     ],

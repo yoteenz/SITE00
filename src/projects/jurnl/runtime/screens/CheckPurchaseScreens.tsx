@@ -157,7 +157,7 @@ export function CheckPurchaseScreen() {
   /** CHECK PURCHASE opens the purchase-result flow (purchases/checked) with what was entered here. */
   const check = () => {
     if (value <= 0) {
-      showToast({ tone: 'error', title: 'ENTER AN AMOUNT', body: 'ADD WHAT IT COSTS TO SEE HOW IT FITS.', testId: 'toast-check-amount' });
+      showToast({ tone: 'error', title: 'ENTER AN AMOUNT', body: 'ENTER THE PRICE TO COMPARE IT WITH SAFE TO SPEND.', testId: 'toast-check-amount' });
       return;
     }
     go('purchases/checked', { amount: String(value), category: categoryLabel ?? 'OTHER', pay: accountLabel ?? 'CHECKING' });

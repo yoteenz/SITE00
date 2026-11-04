@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { clickTrigger, expectScreen, gotoJurnl, openSeededToday, trigger } from './helpers/jurnl-page';
+import { clickTrigger, expectScreen, gotoJurnl, openSeededToday, safeToSpendCents, storedSnapshot, trigger } from './helpers/jurnl-page';
 
 test.describe('Core mutations F05–F16', () => {
   test.beforeEach(async ({ page }) => {
@@ -20,8 +20,7 @@ test.describe('Core mutations F05–F16', () => {
   });
 
   test('F11 trip reserve affects safe to spend', async ({ page }) => {
-    await gotoJurnl(page, 'safe');
-    const before = await page.locator('.jrn-home__num').first().innerText();
+    const before = await safeToSpendCents(page);
     await gotoJurnl(page, 'trips');
     await clickTrigger(page, 'trip-add');
     await page.locator('[data-jrn-trigger="trip-name"]').fill('E2E TRIP');
@@ -30,12 +29,14 @@ test.describe('Core mutations F05–F16', () => {
     await clickTrigger(page, 'trip-fund');
     await page.locator('[data-jrn-trigger="trip-reserve"]').fill('100');
     await clickTrigger(page, 'trip-fund-save');
-    await gotoJurnl(page, 'safe');
-    const after = await page.locator('.jrn-home__num').first().innerText();
-    expect(after).not.toBe(before);
+    const stored = await storedSnapshot(page);
+    expect(stored.trips.find((t) => t.title === 'E2E TRIP')?.reserved_amount).toBe(100);
+    // Reserving $100 for the trip lowers Safe to Spend by exactly $100.
+    expect(before - (await safeToSpendCents(page))).toBe(10_000);
   });
 
   test('F08 plan assign reduces STS', async ({ page }) => {
+    const before = await safeToSpendCents(page);
     await gotoJurnl(page, 'plan');
     await clickTrigger(page, 'plan-add-intention');
     await page.locator('[data-jrn-trigger="plan-add-name"]').fill('E2E PLAN');
@@ -43,8 +44,11 @@ test.describe('Core mutations F05–F16', () => {
     await clickTrigger(page, 'plan-assign');
     await page.locator('[data-jrn-trigger="plan-assign-amount"]').fill('150');
     await clickTrigger(page, 'plan-assign-save');
-    await gotoJurnl(page, 'safe');
-    await expect(page.getByText(/ASSIGNED/i)).toBeVisible();
+    const stored = await storedSnapshot(page);
+    // A plan line (not linked to any tracked bill), so it is not already inside BILLS DUE.
+    expect(stored.planIntentions.find((p) => p.title === 'E2E PLAN')).toMatchObject({ assigned_amount: 150 });
+    expect(before - (await safeToSpendCents(page))).toBe(15_000);
+    await expect(page.locator('.jrn-f09a__folio li', { hasText: 'PLANS' })).toContainText('$150');
   });
 
   test('F14 goal set aside reduces STS', async ({ page }) => {

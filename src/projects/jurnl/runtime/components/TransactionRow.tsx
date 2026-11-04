@@ -1,7 +1,8 @@
 /** Canonical JURNL transaction row. Icon, label column, and amount stay on one horizontal grid. */
 
 import type { LedgerEntry } from '../../data/home/money';
-import { formatMoney, useCurrency } from '../../data/home/money';
+import { entryWhenLabel, formatMoney, useCurrency } from '../../data/home/money';
+import { TXN_CLASS_LABEL } from '../../data/ledger/accounting';
 import { categoryIconMark, normalizeCategory } from '../../data/foundation/categories';
 import { JurnlIcon, type JurnlIconName } from './icons';
 
@@ -21,8 +22,10 @@ export function JurnlTransactionRow({ entry, onOpen }: { entry: LedgerEntry; onO
       <span className="jrn-tx__copy">
         <span className="jrn-tx__name">{entry.merchant}</span>
         <small>
-          {entry.when}
-          {entry.recurring ? ' · RECURRING' : ''}
+          {entryWhenLabel(entry)}
+          {entry.account ? ` · ${entry.account}` : ''}
+          {entry.txn_class && entry.txn_class !== 'EXPENSE' && entry.txn_class !== 'INCOME' ? ` · ${TXN_CLASS_LABEL[entry.txn_class]}` : ''}
+          {entry.recurring ? ' · REPEATS' : ''}
           {entry.status === 'PENDING' ? ' · PENDING' : ''}
         </small>
       </span>

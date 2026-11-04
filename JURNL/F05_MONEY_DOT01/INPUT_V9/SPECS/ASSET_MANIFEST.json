@@ -1,0 +1,447 @@
+{
+  "package": "JURNL_F05_DOT01_ACCOUNTS_OPUS_HANDOFF_V9",
+  "design_screen_count": 37,
+  "sidekick_count": 3,
+  "motion_png_count": 22,
+  "sidekicks": [
+    {
+      "filename": "SK01_PARENT_MONEY.png",
+      "source": "ornate_mediterranean_renaissance_collage.png",
+      "purpose": "Parent/dot carousel; four account paper panels",
+      "fidelity": "generated_text_free_candidate_not_pixel_extracted"
+    },
+    {
+      "filename": "SK02_ACCOUNT_DETAILS.png",
+      "source": "textless_mediterranean_parchment_collage.png",
+      "purpose": "Expanded account and history layout",
+      "fidelity": "generated_text_free_candidate_not_pixel_extracted"
+    },
+    {
+      "filename": "SK03_RECEIPT_OVERLAYS.png",
+      "source": "mediterranean_parchment_collage_scene.png",
+      "purpose": "Receipt capture, reviews, and overlays",
+      "fidelity": "generated_text_free_candidate_not_pixel_extracted"
+    }
+  ],
+  "assets": [
+    {
+      "id": 1,
+      "name": "01_HEADING_PARCHMENT.png",
+      "path": "03_MOTION_PNG_ASSETS/BATCH_01/01_HEADING_PARCHMENT.png",
+      "width": 1536,
+      "height": 1024,
+      "alpha_min": 0,
+      "alpha_max": 254,
+      "source": "vintage_torn_parchment_label.png",
+      "source_sha256": "3e12beb83640753ad6ef28117775dd98ab870ead9a7485a8bbb7227cb7acca80",
+      "status": "candidate_requires_alignment_qa"
+    },
+    {
+      "id": 2,
+      "name": "02_LAUREL_WAX_SEAL.png",
+      "path": "03_MOTION_PNG_ASSETS/BATCH_01/02_LAUREL_WAX_SEAL.png",
+      "width": 1254,
+      "height": 1254,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "source": "golden_olive_branch_wax_seal.png",
+      "source_sha256": "44edaa647cd1fa4109061166d84fad9bc6969a914501db4171c830b23d9d3230",
+      "status": "candidate_requires_alignment_qa"
+    },
+    {
+      "id": 3,
+      "name": "03_OLIVE_BRANCH_RED_FABRIC.png",
+      "path": "03_MOTION_PNG_ASSETS/BATCH_01/03_OLIVE_BRANCH_RED_FABRIC.png",
+      "width": 1086,
+      "height": 1448,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "source": "olive_foliage_torn_paper_collage.png",
+      "source_sha256": "104ccda81e29584f7bff9f85a41577fdf9b3efb66f58473c988e9fe6e907356b",
+      "status": "candidate_requires_alignment_qa"
+    },
+    {
+      "id": 4,
+      "name": "04_LEMON_BRANCH_BLOSSOMS.png",
+      "path": "03_MOTION_PNG_ASSETS/BATCH_01/04_LEMON_BRANCH_BLOSSOMS.png",
+      "width": 1122,
+      "height": 1402,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "source": "isolated_lemon_branch_with_blossoms.png",
+      "source_sha256": "de31039920741afcd73945c58878f0e9ca79a212134f39a05f35811e47cabd9e",
+      "status": "candidate_requires_alignment_qa"
+    },
+    {
+      "id": 5,
+      "name": "05_PARCHMENT_SCENIC_COMPOSITION_A.png",
+      "path": "03_MOTION_PNG_ASSETS/BATCH_01/05_PARCHMENT_SCENIC_COMPOSITION_A.png",
+      "width": 1448,
+      "height": 1086,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "source": "vintage_mediterranean_parchment_collage.png",
+      "source_sha256": "be22ba70c67baa3612c5852bcace3cef2113c8129f8699cc808c07c7c3ae97fb",
+      "status": "candidate_requires_alignment_qa"
+    },
+    {
+      "id": 6,
+      "name": "06_PARCHMENT_SCENIC_COMPOSITION_B.png",
+      "path": "03_MOTION_PNG_ASSETS/BATCH_01/06_PARCHMENT_SCENIC_COMPOSITION_B.png",
+      "width": 1448,
+      "height": 1086,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "source": "torn_parchment_mediterranean_archway_collage.png",
+      "source_sha256": "276156d36ddf1e8eb6f4f2169a45869746f2b7d917d73452dde3d5702dfa03f1",
+      "status": "candidate_requires_alignment_qa"
+    },
+    {
+      "id": 7,
+      "name": "07_PARCHMENT_SCENIC_COMPOSITION_C.png",
+      "path": "03_MOTION_PNG_ASSETS/BATCH_01/07_PARCHMENT_SCENIC_COMPOSITION_C.png",
+      "width": 1448,
+      "height": 1086,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "source": "mediterranean_lemon_arch_collage.png",
+      "source_sha256": "4e4b07ef32bce891a458806fac29592fa6a4ad41bdc2222ea7941ccf484c9699",
+      "status": "candidate_requires_alignment_qa"
+    },
+    {
+      "id": 8,
+      "name": "08_PARCHMENT_COASTAL_PANEL.png",
+      "path": "03_MOTION_PNG_ASSETS/BATCH_01/08_PARCHMENT_COASTAL_PANEL.png",
+      "width": 1448,
+      "height": 1086,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "source": "torn_parchment_with_mediterranean_village_scene.png",
+      "source_sha256": "63cc1e8d9a827749d5f03e6ced58ea0abdd29adb41a1806c550044103937b052",
+      "status": "candidate_requires_alignment_qa"
+    },
+    {
+      "id": 9,
+      "name": "09_BLANK_TORN_PARCHMENT.png",
+      "path": "03_MOTION_PNG_ASSETS/BATCH_01/09_BLANK_TORN_PARCHMENT.png",
+      "width": 1448,
+      "height": 1086,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "source": "aged_torn_parchment_paper.png",
+      "source_sha256": "079d393d24b9a865b92a3ee8ab19d83680a1ca2eba0f08c1c698f49f3c9b04b1",
+      "status": "candidate_requires_alignment_qa"
+    },
+    {
+      "id": 10,
+      "name": "10_SMALL_OLIVE_FOLIAGE.png",
+      "path": "03_MOTION_PNG_ASSETS/BATCH_01/10_SMALL_OLIVE_FOLIAGE.png",
+      "width": 1086,
+      "height": 1448,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "source": "vintage_olive_leaf_garnish.png",
+      "source_sha256": "e3c5c9d9405af4779b530ad894af0f628ce70dfdd380717b7046306e4c3dbbf5",
+      "status": "candidate_requires_alignment_qa"
+    },
+    {
+      "id": 11,
+      "name": "11_ENGRAVED_COASTAL_FOREGROUND.png",
+      "path": "03_MOTION_PNG_ASSETS/BATCH_02/11_ENGRAVED_COASTAL_FOREGROUND.png",
+      "width": 2172,
+      "height": 724,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "source": "engraved_mediterranean_coastal_town_parchment_stri.png",
+      "source_sha256": "da560e377db1c37abad56a090900432e2c9f65e03793ff4472e4f756bd2c184f",
+      "status": "candidate_requires_alignment_qa"
+    },
+    {
+      "id": 12,
+      "name": "12_WIDE_TORN_BANNER.png",
+      "path": "03_MOTION_PNG_ASSETS/BATCH_02/12_WIDE_TORN_BANNER.png",
+      "width": 2172,
+      "height": 724,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "source": "torn_aged_parchment_banner.png",
+      "source_sha256": "048792a44057e7c84fc92a925d34a6597d07d10a6e767a679674cac16207969a",
+      "status": "candidate_requires_alignment_qa"
+    },
+    {
+      "id": 13,
+      "name": "13_TORN_PARCHMENT_PANEL.png",
+      "path": "03_MOTION_PNG_ASSETS/BATCH_02/13_TORN_PARCHMENT_PANEL.png",
+      "width": 1448,
+      "height": 1086,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "source": "aged_torn_parchment_panel.png",
+      "source_sha256": "1abab12d740a9f96c63ff970d69efea76f0b4db9366afdad8fb4c90297da8bce",
+      "status": "candidate_requires_alignment_qa"
+    },
+    {
+      "id": 14,
+      "name": "14_LARGE_PARCHMENT_SHEET.png",
+      "path": "03_MOTION_PNG_ASSETS/BATCH_02/14_LARGE_PARCHMENT_SHEET.png",
+      "width": 1448,
+      "height": 1086,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "source": "isolated_aged_torn_parchment_sheet.png",
+      "source_sha256": "783e7d839ef8b9979ca7b3c94fa0ec9ae9e9247f8f18bb023bcd822080359a5b",
+      "status": "candidate_requires_alignment_qa"
+    },
+    {
+      "id": 15,
+      "name": "15_TEMPLE_COASTAL_COMPOSITION.png",
+      "path": "03_MOTION_PNG_ASSETS/BATCH_02/15_TEMPLE_COASTAL_COMPOSITION.png",
+      "width": 2172,
+      "height": 724,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "source": "torn_paper_mediterranean_temple_coast.png",
+      "source_sha256": "fb1f6a2c19b250b9ab0dcc9571cfdb2f6610ff73ed12cecd00b75acc95a29ae8",
+      "status": "candidate_requires_alignment_qa"
+    },
+    {
+      "id": 16,
+      "name": "16_MEDITERRANEAN_RECEIPT_FRAME.png",
+      "path": "03_MOTION_PNG_ASSETS/BATCH_02/16_MEDITERRANEAN_RECEIPT_FRAME.png",
+      "width": 1448,
+      "height": 1086,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "source": "mediterranean_torn_paper_receipt_frame.png",
+      "source_sha256": "2bbb214b638e80c7d1cae18743f2e292332641536aeb155e6384a32b4b567c25",
+      "status": "candidate_requires_alignment_qa"
+    },
+    {
+      "id": 17,
+      "name": "17_TORN_RECEIPT_STRIP.png",
+      "path": "03_MOTION_PNG_ASSETS/BATCH_02/17_TORN_RECEIPT_STRIP.png",
+      "width": 2172,
+      "height": 724,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "source": "torn_parchment_receipt_frame.png",
+      "source_sha256": "6f82cacd50aabfe5f41ddab25603a11de2f21eea478aff12ce57f2df319388ec",
+      "status": "candidate_requires_alignment_qa"
+    },
+    {
+      "id": 18,
+      "name": "18_TERRACOTTA_PLATE_RIM.png",
+      "path": "03_MOTION_PNG_ASSETS/BATCH_02/18_TERRACOTTA_PLATE_RIM.png",
+      "width": 1254,
+      "height": 1254,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "source": "terracotta_plate_rim_with_olive_vine.png",
+      "source_sha256": "285fb5c9060dfefda8773873abf0c667de349cbebe2dcaa815abc10e9f690833",
+      "status": "candidate_requires_alignment_qa"
+    },
+    {
+      "id": 19,
+      "name": "19_PARCHMENT_ACTION_STRIP.png",
+      "path": "03_MOTION_PNG_ASSETS/BATCH_02/19_PARCHMENT_ACTION_STRIP.png",
+      "width": 2172,
+      "height": 724,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "source": "torn_aged_parchment_strip.png",
+      "source_sha256": "fb06d9573f58218645ae267a4aff67be4c1d8613f52001d1a573afa37263daa9",
+      "status": "candidate_requires_alignment_qa"
+    },
+    {
+      "id": 20,
+      "name": "20_NARROW_PARCHMENT_ACTION_STRIP.png",
+      "path": "03_MOTION_PNG_ASSETS/BATCH_02/20_NARROW_PARCHMENT_ACTION_STRIP.png",
+      "width": 2172,
+      "height": 724,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "source": "aged_torn_parchment_strip.png",
+      "source_sha256": "68fa1d5b861fae7c8995247a9cc90e45bcb4f7a4a43d8b67ef61cbfc7c386284",
+      "status": "candidate_requires_alignment_qa"
+    },
+    {
+      "id": 21,
+      "name": "21_RECEIPT_CAPTURE_FRAME.png",
+      "path": "03_MOTION_PNG_ASSETS/BATCH_03/21_RECEIPT_CAPTURE_FRAME.png",
+      "width": 889,
+      "height": 872,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "source": "JURNL_F05_DOT01_MOTION_ASSETS_BATCH03/21_RECEIPT_CAPTURE_FRAME_TRANSPARENT.png",
+      "source_sha256": "67d15d3d41cc65f0649d842af3b7cd6eabb7d5f5f0af8e392a93b61f7a567d15",
+      "status": "candidate_requires_alignment_qa"
+    },
+    {
+      "id": 22,
+      "name": "22_RECEIPT_PAPER_STACK.png",
+      "path": "03_MOTION_PNG_ASSETS/BATCH_03/22_RECEIPT_PAPER_STACK.png",
+      "width": 868,
+      "height": 864,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "source": "JURNL_F05_DOT01_MOTION_ASSETS_BATCH03/22_RECEIPT_PAPER_STACK_TRANSPARENT.png",
+      "source_sha256": "54ae7eb34c4d22cc2d90bb4e8700b842a318c4545c273e38ddfe2b98dd8ad2cb",
+      "status": "candidate_requires_alignment_qa"
+    }
+  ],
+  "screen_files": [
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/01_PARENT/01_MONEY_DOT01_VIEW_ALL_ACCOUNTS.png",
+      "sha256": "12b95e927026c8dbf704f2f20db4c7cfa0fe21f3141249d20e956969ba2ee05d"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/02_EXPANDED_ACCOUNT_PAGES/02_BANK_ACCOUNT.png",
+      "sha256": "019fc2d773722ab9c838743ced53e8dbefa6f0357704c82637e02726463988a1"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/02_EXPANDED_ACCOUNT_PAGES/03_RIDESHARE_CARD.png",
+      "sha256": "68895b97db856b29296aa07de869f35514271dddc98ca5702a3c3ea74ce56c99"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/02_EXPANDED_ACCOUNT_PAGES/04_CASH_ON_HAND.png",
+      "sha256": "9ecd23edf73e12f957bc3b0b62535e1c069a60809b7c51239876de5c42be0170"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/02_EXPANDED_ACCOUNT_PAGES/05_CREDIT_CARD.png",
+      "sha256": "ec4d6ab724b599ae84204d5fbd7d94984b0f762afad1f5b0fff5a046c28cb44d"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/03_ACCOUNTS_DIRECTORY/06_ALL_ACCOUNTS.png",
+      "sha256": "4161e4075db14d2e7dd324385ab204da7dd052cc18ae8a6a63e5413f48113859"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/04_ACCOUNT_HISTORIES/07_BANK_TRANSACTION_HISTORY.png",
+      "sha256": "7f70b6cd625125081a863bcf27cb316ff344964a72278e6bdcd50de0d7689d5f"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/04_ACCOUNT_HISTORIES/08_RIDESHARE_ACTIVITY.png",
+      "sha256": "af2d15e1bb698360cee41d6f379080719f8e592f5d66426260a952ad6b7fc87f"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/04_ACCOUNT_HISTORIES/09_CASH_USAGE_HISTORY.png",
+      "sha256": "406db89d39d0bf1b4266a295f7e4a20cc021fe49ecbbb33b60920901d0567329"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/04_ACCOUNT_HISTORIES/10_CREDIT_CARD_ACTIVITY.png",
+      "sha256": "bc675a7604b0afba5805e05197c76efd94cbd951a25c6577366009a42be2aeb4"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/05_TRANSACTION_DETAILS_AND_SETTINGS/11_TRANSACTION_DETAIL.png",
+      "sha256": "ef2c511cbbe854b490c9d56d5325ac188328457bf2528049676544cf89c12e35"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/05_TRANSACTION_DETAILS_AND_SETTINGS/12_ACCOUNT_DETAILS_AND_SETTINGS.png",
+      "sha256": "13224a23c779ca78231ac4e1c218ee566abf2c652f7c9da520491bb35cbc4b86"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/05_TRANSACTION_DETAILS_AND_SETTINGS/13_ACCOUNT_BALANCE_REVIEW.png",
+      "sha256": "4921b6df6d0a6d3ef89afc143fa3d893d3252cc7f7c1fb3a9eb1b0497915d225"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/06_ACCOUNT_CREATION_AND_MANAGEMENT/14_ADD_ACCOUNT.png",
+      "sha256": "39dfbb1f46ec5e845476cf7599e10b13c98d348906fd97b9b2d04a1f201b386d"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/06_ACCOUNT_CREATION_AND_MANAGEMENT/15_EDIT_ACCOUNT.png",
+      "sha256": "4c9f849c29868efd993ddcc2254ad240097a77c989689476e7f84b5de8cae459"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/07_FINANCIAL_ENTRY/16_RECORD_BANK_TRANSACTION.png",
+      "sha256": "67fa6d71ed592d9f23d954c9db35eb23d94cddd4b386f060bf165cad1c9830b6"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/07_FINANCIAL_ENTRY/17_ADD_CASH.png",
+      "sha256": "16f57d4cf45367e64e44bea89b36e5949a3c8bbdb3afa8f90a36cf0b60eb2f43"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/07_FINANCIAL_ENTRY/18_RECORD_CASH_SPENDING.png",
+      "sha256": "58dd22f1b67dacb1698b7dd0037002605b90c8121148d2570202f56ce313f581"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/07_FINANCIAL_ENTRY/19_RECORD_CREDIT_CARD_PURCHASE.png",
+      "sha256": "6c2e155f37912619ceafe5edceebbe45c1e8ffb1acc46a23d1b5bfd3dedc94d0"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/07_FINANCIAL_ENTRY/20_RECORD_CREDIT_CARD_PAYMENT.png",
+      "sha256": "21ec530c85fe396d6409589905a69f9b5720368c0126e0e47185cd8951be7028"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/08_PREFERENCES_AND_CORRECTIONS/21_ACCOUNT_PURPOSE_PREFERENCES.png",
+      "sha256": "f8e55e1acb99b721a675e22883eb5975792786bd674809ccc7b7a71d12decf9d"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/08_PREFERENCES_AND_CORRECTIONS/22_EMPTY_ACCOUNTS.png",
+      "sha256": "4f70fa1e61de3b38d8a01564d9aec7eaf40a93e0cd4cb34c27bcfc0ed8a96a12"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/08_PREFERENCES_AND_CORRECTIONS/23_BALANCE_ADJUSTMENT_REVIEW.png",
+      "sha256": "b128a2c24d224d30142d845190144401393d59eedb09259a3a80fcba49493ae9"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/08_PREFERENCES_AND_CORRECTIONS/24_TRANSACTION_CORRECTION_REVERSAL.png",
+      "sha256": "6d03d0220a3b0841a29251ad527e11034c6c8ad2fcb944ad107eb98c845003a8"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/08_PREFERENCES_AND_CORRECTIONS/25_ACCOUNT_ARCHIVE_CONFIRMATION.png",
+      "sha256": "c226c511301675d98c857e98e5b66fa18f83ec45da60e2287e919c572b99e840"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/09_RECEIPT_SCAN_WORKFLOW/26_CAPTURE_RECEIPT.png",
+      "sha256": "8ee919a64720529fbc5f8e7af4a51fa9904f899e356ce1d8bfd09f50c8998aa2"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/09_RECEIPT_SCAN_WORKFLOW/27_SCANNING_RECEIPT.png",
+      "sha256": "d13dfcce46be6c1e6da7f3aef9a588c3d5597ab5e9277c3bed4a40b1900bfd24"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/09_RECEIPT_SCAN_WORKFLOW/28_REVIEW_EXTRACTED_PURCHASE.png",
+      "sha256": "6b552fd8d8a2bd115cb1ff8e2a8d2f83e94931cf84792ae0b40e2122164e8834"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/09_RECEIPT_SCAN_WORKFLOW/29_RECEIPT_EXCEPTION_DUPLICATE.png",
+      "sha256": "883740919c39619fe48a345276fde0457ca2da41bf19a177d22ffc3c0687e43e"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/10_ADDITIONAL_INTERACTION_STATES/30_ACCOUNT_SETUP_DETAILS.png",
+      "sha256": "c12ec558c4844e4bd4ee94e5b0bdb7b5d6d85ae46b50cd4c903e169d92fb2652"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/10_ADDITIONAL_INTERACTION_STATES/31_TRANSACTION_SEARCH_AND_FILTER.png",
+      "sha256": "341e66162b6b70c418a5fd00c7d1722ca8feabf57f277580e85882f6caf0691f"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/10_ADDITIONAL_INTERACTION_STATES/32_REORDER_ACCOUNTS.png",
+      "sha256": "0cda0a43bbe9a6fd4aa0297afd7aaca649222e25ae60573ff108432ae1827bf0"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/10_ADDITIONAL_INTERACTION_STATES/33_TRANSACTION_REVIEW.png",
+      "sha256": "3831a61bb0a281a50ee3dc88a8067a53e1d76a02f4e0b9b56ad6ba2fd1ffcd2d"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/10_ADDITIONAL_INTERACTION_STATES/34_RECEIPT_CAPTURE_FAILURE.png",
+      "sha256": "f14076c887e54ece5fcdfc792f3bfd7ec65a7ad84708650251526bd61d9ea7b8"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/10_ADDITIONAL_INTERACTION_STATES/35_ACCOUNT_NEEDS_REVIEW.png",
+      "sha256": "26b5211c5aa4560459a11496376994f882875a55157bb88304dfdf43be2c9169"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/10_ADDITIONAL_INTERACTION_STATES/36_ARCHIVE_BLOCKED.png",
+      "sha256": "e98abf8a073fce7bafc83614bc3026810c09a65cf515129cb67dba2b54498044"
+    },
+    {
+      "path": "01_MOBILE_SCREEN_AUTHORITIES/10_ADDITIONAL_INTERACTION_STATES/37_CORRECTION_REVERSAL_CONFIRMATION.png",
+      "sha256": "a0f6655e06bb5ac7b3b8b49b4a7ca7d1b84e934fcc11a47a3d4ed9229b730c35"
+    }
+  ],
+  "notes": [
+    "Only 37 current reference screens; legacy duplicated ZIPs intentionally excluded",
+    "No coded motion prototypes included",
+    "3 SIDEKICKs and 22 PNG motion layers require founder visual QA + alignment to source"
+  ]
+}

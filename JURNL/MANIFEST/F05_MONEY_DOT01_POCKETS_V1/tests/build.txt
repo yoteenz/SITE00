@@ -1,0 +1,3 @@
+npm run build (tsc + vite + verify-production-dist): exit 0
+✓ built in 22.79s
+verify-production-dist: OK (471 JS assets checked)

@@ -1,0 +1,11 @@
+{
+ "small|jurnl-f05-motion-pilot.e2e.ts|F05 MONEY parent motion pilot \u203a 3 / 5 / 6 \u00b7 four accounts: approved hierarchy, live values, assets never netted with debt": "PASS alone (11.4 s); the browser page crashed under load (\"Page crashed\" during goto)",
+ "small|jurnl-f05-dot01.e2e.ts|F05 DOT 01 \u2014 responsive (360\u00d7780 \u00b7 393\u00d7852 \u00b7 430\u00d7932 \u00b7 834\u00d71194 \u00b7 1440\u00d7900) \u203a nothing overflows sideways, controls stay on screen and touchable, inputs keep 16 px type": "PASS alone (1.7 m); \"Target crashed\" under load (and the dev server was reloading an edit)",
+ "mobile|jurnl-golden-journey.e2e.ts|JURNL golden journey \u203a F01\u2013F16 coherent path with reload verification": "PASS alone (41.7 s); the 90 s timeout under 2-worker load, as in #1706",
+ "tablet|jurnl-f05-carousel.e2e.ts|F05 MONEY carousel \u203a 07 / 08 / 09 / 10 \u00b7 environment, MONEY title, summary and the global dock never move or re-mount": "REAL REGRESSION \u2192 fixed in fc608eb3; carousel + pilot rerun on all four sizes: 135 passed, 0 failed",
+ "tablet|jurnl-f05-carousel.e2e.ts|F05 MONEY carousel \u203a 25 \u00b7 usable at this size: everything on screen, real touch targets, no page scroll": "REAL REGRESSION \u2192 fixed in fc608eb3; carousel + pilot rerun on all four sizes: 135 passed, 0 failed",
+ "tablet|jurnl-golden-journey.e2e.ts|JURNL golden journey \u203a F01\u2013F16 coherent path with reload verification": "PASS alone (45.4 s); timeout under load",
+ "desktop|jurnl-f05-carousel.e2e.ts|F05 MONEY carousel \u203a 07 / 08 / 09 / 10 \u00b7 environment, MONEY title, summary and the global dock never move or re-mount": "REAL REGRESSION \u2192 fixed in fc608eb3; carousel + pilot rerun on all four sizes: 135 passed, 0 failed",
+ "desktop|jurnl-f05-carousel.e2e.ts|F05 MONEY carousel \u203a 25 \u00b7 usable at this size: everything on screen, real touch targets, no page scroll": "REAL REGRESSION \u2192 fixed in fc608eb3; carousel + pilot rerun on all four sizes: 135 passed, 0 failed",
+ "desktop|jurnl-golden-journey.e2e.ts|JURNL golden journey \u203a F01\u2013F16 coherent path with reload verification": "PASS alone (43.1 s); timeout under load"
+}

@@ -36,6 +36,7 @@
   "dependencies": {
     "@fal-ai/client": "^1.4.0",
     "@supabase/supabase-js": "^2.45.0",
+    "@tesseract.js-data/eng": "^1.0.0",
     "@types/pixelmatch": "^5.2.6",
     "@types/pngjs": "^6.0.5",
     "express": "^4.21.2",
@@ -50,6 +51,7 @@
     "react-dom": "^19.0.0",
     "react-router-dom": "^6.8.0",
     "sharp": "^0.33.5",
+    "tesseract.js": "^7.0.0",
     "three": "0.185.1",
     "tsx": "^4.23.12",
     "ws": "^8.21.3",

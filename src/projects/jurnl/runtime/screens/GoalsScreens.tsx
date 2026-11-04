@@ -123,7 +123,7 @@ export function GoalDetailScreen() {
           <p>{formatMoney(goal.set_aside_amount)}</p>
           {goal.meaning ? <><b>MEANING</b><p>{goal.meaning}</p></> : null}
         </JurnlPanel>
-        <JurnlButton trigger="goal-set-aside" onClick={() => setAsideOpen(true)}>SET ASIDE</JurnlButton>
+        <JurnlButton trigger="goal-set-aside" onClick={() => setAsideOpen(true)}>SET MONEY ASIDE</JurnlButton>
         <JurnlButton variant="secondary" trigger="goal-edit" onClick={() => setEditOpen(true)}>EDIT</JurnlButton>
         <JurnlButton variant="secondary" trigger="goal-remove" onClick={() => setRemoveOpen(true)}>LET IT GO</JurnlButton>
       </div>

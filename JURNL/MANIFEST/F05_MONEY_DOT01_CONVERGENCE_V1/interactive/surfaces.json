@@ -1,0 +1,324 @@
+[
+ {
+  "step": "S1_record_closed",
+  "viewport": "393x852",
+  "status": "OK",
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "popover": null,
+  "popover_inside_viewport": null,
+  "side": null,
+  "focus": "d01-scan-receipt",
+  "expanded": null,
+  "activedescendant": null,
+  "options": 0
+ },
+ {
+  "step": "S2_category_open",
+  "viewport": "393x852",
+  "status": "OK",
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "popover": [
+   165,
+   590,
+   220,
+   254
+  ],
+  "popover_inside_viewport": true,
+  "side": "below",
+  "focus": "d01-category",
+  "expanded": "true",
+  "activedescendant": "_r_3_-listbox-2",
+  "options": 13
+ },
+ {
+  "step": "S3_category_selected",
+  "viewport": "393x852",
+  "status": "OK",
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "popover": null,
+  "popover_inside_viewport": null,
+  "side": null,
+  "focus": "d01-category",
+  "expanded": "false",
+  "activedescendant": null,
+  "options": 0
+ },
+ {
+  "step": "S4_type_open_keyboard",
+  "viewport": "393x852",
+  "status": "OK",
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "popover": [
+   165,
+   464,
+   220,
+   200
+  ],
+  "popover_inside_viewport": true,
+  "side": "below",
+  "focus": "d01-type",
+  "expanded": "true",
+  "activedescendant": "_r_0_-listbox-0",
+  "options": 4
+ },
+ {
+  "step": "S5_date_open",
+  "viewport": "393x852",
+  "status": "OK",
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "popover": [
+   85,
+   202,
+   300,
+   386
+  ],
+  "popover_inside_viewport": true,
+  "side": "above",
+  "focus": "d01-date",
+  "expanded": "true",
+  "activedescendant": null,
+  "options": 0
+ },
+ {
+  "step": "S6_account_open_bottom",
+  "viewport": "393x852",
+  "status": "OK",
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "popover": [
+   165,
+   716,
+   220,
+   117
+  ],
+  "popover_inside_viewport": true,
+  "side": "below",
+  "focus": "d01-account",
+  "expanded": "true",
+  "activedescendant": "_r_6_-listbox-0",
+  "options": 2
+ },
+ {
+  "step": "S7_filter_category_open",
+  "viewport": "393x852",
+  "status": "OK",
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "popover": [
+   8,
+   560,
+   220,
+   284
+  ],
+  "popover_inside_viewport": true,
+  "side": "below",
+  "focus": "d01-filter-category",
+  "expanded": "true",
+  "activedescendant": "_r_4_-listbox-0",
+  "options": 9
+ },
+ {
+  "step": "S8_filter_from_open",
+  "viewport": "393x852",
+  "status": "OK",
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "popover": [
+   8,
+   414,
+   300,
+   386
+  ],
+  "popover_inside_viewport": true,
+  "side": "below",
+  "focus": "d01-filter-from",
+  "expanded": "true",
+  "activedescendant": null,
+  "options": 0
+ },
+ {
+  "step": "S9_card_payment_status_open",
+  "viewport": "393x852",
+  "status": "OK",
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "popover": [
+   165,
+   641,
+   220,
+   154
+  ],
+  "popover_inside_viewport": true,
+  "side": "below",
+  "focus": "d01-pay-status",
+  "expanded": "true",
+  "activedescendant": "_r_4_-listbox-0",
+  "options": 3
+ },
+ {
+  "step": "S1_record_closed",
+  "viewport": "375x667",
+  "status": "OK",
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "popover": null,
+  "popover_inside_viewport": null,
+  "side": null,
+  "focus": "d01-scan-receipt",
+  "expanded": null,
+  "activedescendant": null,
+  "options": 0
+ },
+ {
+  "step": "S2_category_open",
+  "viewport": "375x667",
+  "status": "OK",
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "popover": [
+   147,
+   153,
+   220,
+   340
+  ],
+  "popover_inside_viewport": true,
+  "side": "above",
+  "focus": "d01-category",
+  "expanded": "true",
+  "activedescendant": "_r_3_-listbox-2",
+  "options": 13
+ },
+ {
+  "step": "S3_category_selected",
+  "viewport": "375x667",
+  "status": "OK",
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "popover": null,
+  "popover_inside_viewport": null,
+  "side": null,
+  "focus": "d01-category",
+  "expanded": "false",
+  "activedescendant": null,
+  "options": 0
+ },
+ {
+  "step": "S4_type_open_keyboard",
+  "viewport": "375x667",
+  "status": "OK",
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "popover": [
+   147,
+   411,
+   220,
+   200
+  ],
+  "popover_inside_viewport": true,
+  "side": "below",
+  "focus": "d01-type",
+  "expanded": "true",
+  "activedescendant": "_r_0_-listbox-0",
+  "options": 4
+ },
+ {
+  "step": "S5_date_open",
+  "viewport": "375x667",
+  "status": "OK",
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "popover": [
+   67,
+   149,
+   300,
+   386
+  ],
+  "popover_inside_viewport": true,
+  "side": "above",
+  "focus": "d01-date",
+  "expanded": "true",
+  "activedescendant": null,
+  "options": 0
+ },
+ {
+  "step": "S6_account_open_bottom",
+  "viewport": "375x667",
+  "status": "OK",
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "popover": [
+   147,
+   473,
+   220,
+   117
+  ],
+  "popover_inside_viewport": true,
+  "side": "above",
+  "focus": "d01-account",
+  "expanded": "true",
+  "activedescendant": "_r_6_-listbox-0",
+  "options": 2
+ },
+ {
+  "step": "S7_filter_category_open",
+  "viewport": "375x667",
+  "status": "OK",
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "popover": [
+   14,
+   132,
+   220,
+   340
+  ],
+  "popover_inside_viewport": true,
+  "side": "above",
+  "focus": "d01-filter-category",
+  "expanded": "true",
+  "activedescendant": "_r_4_-listbox-0",
+  "options": 9
+ },
+ {
+  "step": "S8_filter_from_open",
+  "viewport": "375x667",
+  "status": "OK",
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "popover": [
+   8,
+   382,
+   300,
+   277
+  ],
+  "popover_inside_viewport": true,
+  "side": "below",
+  "focus": "d01-filter-from",
+  "expanded": "true",
+  "activedescendant": null,
+  "options": 0
+ },
+ {
+  "step": "S9_card_payment_status_open",
+  "viewport": "375x667",
+  "status": "OK",
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "popover": [
+   147,
+   370,
+   220,
+   154
+  ],
+  "popover_inside_viewport": true,
+  "side": "above",
+  "focus": "d01-pay-status",
+  "expanded": "true",
+  "activedescendant": "_r_4_-listbox-0",
+  "options": 3
+ }
+]

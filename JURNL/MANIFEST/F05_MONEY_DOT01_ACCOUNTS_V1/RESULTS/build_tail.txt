@@ -1,0 +1,12 @@
+dist/assets/vendor.BdPRv0NP.js                                              475.83 kB │ gzip: 140.96 kB
+dist/assets/three.BJHkeCi9.js                                               534.76 kB │ gzip: 134.48 kB
+dist/assets/DesignWorkspaceCore.DFWuC0oa.js                                 653.01 kB │ gzip: 173.65 kB
+dist/assets/index.CcKmTPrV.js                                               690.74 kB │ gzip: 169.66 kB
+dist/assets/JurnlRuntimeRoot.DHgvPZY2.js                                    721.12 kB │ gzip: 212.64 kB
+dist/assets/ProductionAuthorityData.iJQ-TVmM.js                             919.31 kB │ gzip: 239.11 kB
+dist/assets/StudioWorldDesignPage.BUlHAsHX.js                               985.15 kB │ gzip: 265.72 kB
+✓ built in 34.46s
+verify-production-dist: OK (471 JS assets checked)
+Wrote /home/user/SITE00/dist/release-manifest.json (site00-v272-fc608eb)
+Wrote nested SPA .htaccess + index.html stub for 21 route prefixes + htaccess-deploy.txt
+BUILD_EXIT=0

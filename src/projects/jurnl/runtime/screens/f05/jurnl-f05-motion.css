@@ -1,0 +1,697 @@
+/* F05 MONEY parent — layered motion pilot. Board units are SOURCE px of the approved composite (1024 x 1536); the
+   board is scaled by --f05m-u. Motion runs only with prefers-reduced-motion: no-preference and never blocks input. */
+
+@font-face {
+  font-family: 'JURNL Script';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/site00/projects/jurnl/fonts/pinyon-script-400.woff2') format('woff2');
+}
+
+.jrn .jrn-f05m {
+  /* The stage is the viewport (the root-hub column rules narrow .jrn-col on wide screens). */
+  position: fixed;
+  inset: 0;
+  width: auto;
+  max-width: none;
+  margin: 0;
+  overflow: hidden;
+  touch-action: manipulation;
+  --f05m-ink: #1c1610;
+  --f05m-cream: #f3ead8;
+  --f05m-gold: #e2ae4e;
+  --f05m-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.jrn .jrn-screen .jrn-col > .jrn-f05m {
+  width: auto;
+  max-width: none;
+  margin: 0;
+}
+.jrn .jrn-f05m__board {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+}
+
+/* L0 environment */
+.jrn .jrn-f05m__env {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.jrn .jrn-f05m__slice {
+  position: absolute;
+  left: 0;
+  overflow: hidden;
+}
+.jrn .jrn-f05m__slice img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  max-width: none;
+  user-select: none;
+}
+.jrn .jrn-f05m__tile {
+  position: absolute;
+  left: 0;
+  background-repeat: repeat-y;
+  /* Bottom-aligned: the last tile row (source row 1089) meets the bottom slice (row 1090) exactly. The top junction
+     sits on the top slice and fades in over 48 rows, so a partial first tile never shows a seam. */
+  background-position: 0 100%;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 48px);
+  mask-image: linear-gradient(180deg, transparent 0, #000 48px);
+}
+/* Wider than 2:3: the board is a centred column; its edges feather into the ambient copy of the same room. */
+.jrn .jrn-f05m[data-wide='true'] .jrn-f05m__env {
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 3%, #000 97%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 3%, #000 97%, transparent 100%);
+}
+.jrn[data-jrn-f05-motion] .jrn-screen[data-jrn-screen='F05.00'] {
+  background: #241a13;
+  /* The layered entrance below is this screen's entrance; the shell's 700 ms blur-fade would hide it and delay the
+     first legible figures past the 650 ms budget. */
+  animation: none;
+}
+.jrn[data-jrn-f05-motion] .jrn-screen[data-jrn-screen='F05.00'] .jrn-env {
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  transform: none !important;
+}
+.jrn[data-jrn-f05-motion] .jrn-screen[data-jrn-screen='F05.00'] .jrn-env .jrn-plate {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(22px) brightness(0.5) saturate(0.85);
+  transform: scale(1.12);
+}
+
+/* L1 collage objects */
+.jrn .jrn-f05m__obj {
+  position: absolute;
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+}
+.jrn .jrn-f05m__title-paper {
+  transform-origin: 18% 70%;
+}
+.jrn .jrn-f05m__seal {
+  transform-origin: 50% 50%;
+}
+.jrn .jrn-f05m__tag {
+  transform-origin: 30% 60%;
+}
+
+/* L2 live type (source px) */
+.jrn .jrn-f05m__mark {
+  position: absolute;
+  margin: 0;
+  font: 500 42px/1 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.17em;
+  color: #1f1a14;
+  transform-origin: 0 50%;
+  white-space: nowrap;
+}
+.jrn .jrn-f05m__title {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 0;
+}
+.jrn .jrn-f05m__money {
+  position: absolute;
+  margin: 0;
+  font: 500 108px/1 'JURNL Authority Serif', 'JURNL Display', serif;
+  color: #1b150f;
+  white-space: nowrap;
+}
+.jrn .jrn-f05m__script {
+  position: absolute;
+  margin: 0;
+  font: 400 45px/1.1 'JURNL Script', cursive;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  color: #2a2016;
+  white-space: nowrap;
+}
+.jrn .jrn-f05m__basis {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: var(--f05m-caption-top, 664px);
+  text-align: center;
+  margin: 0;
+  font: 500 16px/1 'JURNL Sans', sans-serif;
+  letter-spacing: 0.18em;
+  color: rgba(243, 234, 216, 0.82);
+}
+.jrn .jrn-f05m__band {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 0;
+}
+.jrn .jrn-f05m__divider {
+  position: absolute;
+  width: 1.6px;
+  background: rgba(240, 228, 206, 0.32);
+}
+.jrn .jrn-f05m__metric {
+  position: absolute;
+  height: 104px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--f05m-cream);
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: var(--f05m-value-gap, 10px);
+  cursor: pointer;
+  border-radius: 14px;
+}
+.jrn .jrn-f05m__metric-label {
+  /* never below 9.5 screen px on the narrowest phone */
+  font: 500 max(var(--f05m-label-size, 22px), calc(9.5px / var(--f05m-u, 1))) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.12em;
+  margin-top: 12px;
+  opacity: 0.92;
+}
+.jrn .jrn-f05m__metric-value {
+  font: 400 var(--f05m-value-size, 52px) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.005em;
+}
+.jrn .jrn-f05m__metric[data-metric='available'] {
+  color: var(--f05m-gold);
+}
+
+/* L3 papers (account papers; collections 02–04 share these styles) */
+.jrn .jrn-f05m__paper {
+  position: absolute;
+  pointer-events: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 19px;
+  background: transparent;
+  color: var(--f05m-ink);
+  text-align: left;
+  cursor: pointer;
+  /* The approved papers sit in a soft halo of shadow on the panel (redrawn here; removed from the SIDEKICK). */
+  filter: drop-shadow(0 0 9px rgba(70, 46, 22, 0.34)) drop-shadow(0 7px 7px rgba(58, 38, 18, 0.3)) drop-shadow(0 1px 1px rgba(40, 26, 12, 0.26));
+  transition: transform 180ms var(--f05m-ease), filter 180ms var(--f05m-ease);
+  -webkit-tap-highlight-color: transparent;
+}
+.jrn .jrn-f05m__paper-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: right center;
+  border-radius: 19px;
+  pointer-events: none;
+}
+.jrn .jrn-f05m__paper-name {
+  position: absolute;
+  left: var(--f05m-name-left, 38px);
+  top: var(--f05m-name-top, 24px);
+  display: grid;
+  font: 500 var(--f05m-name-size, 29px) / var(--f05m-name-line, 1.17) 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: var(--f05m-name-ls, 0.025em);
+  white-space: nowrap;
+  max-width: 250px;
+}
+.jrn .jrn-f05m__paper-name > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.jrn .jrn-f05m__paper-amount {
+  position: absolute;
+  left: var(--f05m-name-left, 38px);
+  top: var(--f05m-amount-top, calc(50% + 16px));
+  font: 500 48px/1 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.005em;
+}
+.jrn .jrn-f05m__paper[data-nature='LIABILITY'] .jrn-f05m__paper-amount {
+  top: calc(var(--f05m-amount-top, calc(50% + 16px)) - 4px);
+}
+.jrn .jrn-f05m__paper-note {
+  position: absolute;
+  left: calc(var(--f05m-name-left, 38px) + 2px);
+  top: var(--f05m-note-top, calc(50% + 62px));
+  font: italic 500 max(18px, calc(7.5px / var(--f05m-u, 1))) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.24em;
+  white-space: nowrap;
+}
+/* The transfer slip: a small paper pinned under the card's bottom edge (legible over any art). */
+.jrn .jrn-f05m__paper-note--transit {
+  top: auto;
+  bottom: calc(-0.62em - 6px);
+  left: 30px;
+  z-index: 1;
+  max-width: 318px;
+  padding: 6px 10px 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 6px;
+  background: #efe3cb;
+  box-shadow: 0 3px 6px rgba(40, 26, 12, 0.3), inset 0 0 0 1.5px rgba(110, 76, 40, 0.28);
+  font: 600 max(16px, calc(8.5px / var(--f05m-u, 1))) / 1 'JURNL Sans', sans-serif;
+  font-style: normal;
+  letter-spacing: 0.1em;
+  color: #3b2a16;
+}
+.jrn .jrn-f05m__chev {
+  position: absolute;
+  right: var(--f05m-chev-right, 23px);
+  bottom: var(--f05m-chev-bottom, 18px);
+  width: 15px;
+  height: 25px;
+}
+.jrn .jrn-f05m__paper--add,
+.jrn .jrn-f05m__paper--action {
+  background-color: #efe3cb;
+  background-size: cover;
+  box-shadow: inset 0 0 0 2px rgba(255, 250, 238, 0.55), inset 0 -8px 16px rgba(110, 76, 40, 0.16);
+}
+.jrn .jrn-f05m__paper--action:disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+.jrn .jrn-f05m__paper--action .jrn-f05m__paper-name {
+  top: 34px;
+}
+.jrn .jrn-f05m__add-sub {
+  position: absolute;
+  left: 40px;
+  bottom: 30px;
+  font: 500 max(17px, calc(7.5px / var(--f05m-u, 1))) / 1 'JURNL Sans', sans-serif;
+  letter-spacing: 0.18em;
+  color: #6a5640;
+}
+.jrn .jrn-f05m__move {
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  width: 48px;
+  height: 34px;
+  margin-top: -17px;
+  color: var(--f05m-ink);
+}
+.jrn .jrn-f05m__paper--wide .jrn-f05m__add-sub {
+  letter-spacing: 0.14em;
+}
+.jrn .jrn-f05m__plus {
+  position: absolute;
+  right: 34px;
+  top: 50%;
+  width: 42px;
+  height: 42px;
+  margin-top: -21px;
+}
+.jrn .jrn-f05m__plus::before,
+.jrn .jrn-f05m__plus::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: var(--f05m-ink);
+}
+.jrn .jrn-f05m__plus::before {
+  width: 3px;
+  height: 42px;
+  margin: -21px 0 0 -1.5px;
+}
+.jrn .jrn-f05m__plus::after {
+  width: 42px;
+  height: 3px;
+  margin: -1.5px 0 0 -21px;
+}
+.jrn .jrn-f05m__paper:focus-visible,
+.jrn .jrn-f05m__metric:focus-visible,
+.jrn .jrn-f05m__chip:focus-visible {
+  outline: 5px solid var(--f05m-gold);
+  outline-offset: 5px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .jrn .jrn-f05m__paper:hover {
+    transform: translateY(-3px) scale(1.008);
+    filter: drop-shadow(0 11px 10px rgba(58, 38, 18, 0.3)) drop-shadow(0 1px 1px rgba(40, 26, 12, 0.24));
+  }
+}
+/* press: tactile compression; selected: advances toward the camera */
+.jrn .jrn-f05m__paper[data-pressed='true'] {
+  transform: translateY(1px) scale(0.985);
+  filter: drop-shadow(0 3px 3px rgba(58, 38, 18, 0.3)) drop-shadow(0 1px 1px rgba(40, 26, 12, 0.24));
+  transition-duration: 120ms;
+}
+.jrn .jrn-f05m__paper[data-lifted='true'] {
+  transform: translateY(-7px) scale(1.035);
+  filter: drop-shadow(0 18px 16px rgba(48, 30, 12, 0.36)) drop-shadow(0 2px 2px rgba(40, 26, 12, 0.24));
+  z-index: 2;
+}
+
+/* L3.5 transfer threads: they draw the recorded settlement state between two papers and never change it.
+   Not left yet: dashed, token at the source · In transit: solid to the token, dashed onwards · Returning: wine. */
+.jrn .jrn-f05m__threads {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+.jrn .jrn-f05m__thread path {
+  fill: none;
+  stroke-linecap: round;
+}
+.jrn .jrn-f05m__thread-planned {
+  stroke: rgba(40, 28, 16, 0.55);
+  stroke-width: 3;
+  stroke-dasharray: 1.4 2.2;
+}
+.jrn .jrn-f05m__thread[data-state='NEEDS_RECONCILIATION'] .jrn-f05m__thread-planned {
+  stroke: #b8862f;
+}
+.jrn .jrn-f05m__thread-left {
+  stroke: #3b3a2d;
+  stroke-width: 3.6;
+}
+.jrn .jrn-f05m__thread[data-state='RETURNING'] .jrn-f05m__thread-left {
+  stroke: #7a2f2a;
+}
+.jrn .jrn-f05m__thread-pin {
+  fill: #3b3a2d;
+}
+.jrn .jrn-f05m__thread-ghost {
+  fill: none;
+  stroke-width: 3.6;
+  stroke-linecap: round;
+  stroke: #3b3a2d;
+  opacity: 0;
+}
+.jrn .jrn-f05m__thread-ghost--closed {
+  stroke: rgba(40, 28, 16, 0.45);
+  stroke-dasharray: 1.4 2.2;
+}
+.jrn .jrn-f05m__token {
+  position: absolute;
+  z-index: 3;
+  min-width: 132px;
+  height: 48px;
+  padding: 0 14px;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 2px;
+  border: 2px dashed rgba(40, 28, 16, 0.6);
+  border-radius: 12px;
+  background-color: #efe3cb;
+  background-size: cover;
+  color: var(--f05m-ink);
+  box-shadow: 0 6px 12px rgba(40, 26, 12, 0.28);
+  cursor: pointer;
+}
+.jrn .jrn-f05m__token::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100%, calc(44px / var(--f05m-u, 1)));
+  height: max(100%, calc(44px / var(--f05m-u, 1)));
+  transform: translate(-50%, -50%);
+}
+.jrn .jrn-f05m__token[data-state='IN_TRANSIT'] {
+  border-style: solid;
+  border-color: #3b3a2d;
+}
+.jrn .jrn-f05m__token[data-state='RETURNING'] {
+  border-style: solid;
+  border-color: #7a2f2a;
+}
+.jrn .jrn-f05m__token[data-state='NEEDS_RECONCILIATION'] {
+  border-color: #b8862f;
+}
+.jrn .jrn-f05m__token b {
+  font: 500 max(21px, calc(9px / var(--f05m-u, 1))) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+}
+.jrn .jrn-f05m__token span {
+  font: 600 max(11px, calc(7px / var(--f05m-u, 1))) / 1 'JURNL Sans', sans-serif;
+  letter-spacing: 0.14em;
+}
+.jrn .jrn-f05m__token:focus-visible {
+  outline: 5px solid var(--f05m-gold);
+  outline-offset: 4px;
+}
+.jrn .jrn-f05m__token--ghost {
+  pointer-events: none;
+  opacity: 0;
+  border-style: solid;
+}
+
+/* L4 corner chips (approved rounded squares) and the global menu re-seated beside them */
+.jrn .jrn-f05m__chip,
+.jrn[data-jrn-f05-motion] .jrn-corner .jrn-f09a__menu {
+  border-radius: 18px;
+  border: 2px solid rgba(240, 225, 200, 0.6);
+  background: rgba(64, 44, 28, 0.55);
+  color: #f7f0e4;
+  box-shadow: 0 6px 14px rgba(20, 12, 6, 0.28);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+.jrn .jrn-f05m__chip {
+  position: absolute;
+  border-radius: var(--f05m-chip-radius, 18px);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  cursor: pointer;
+}
+.jrn .jrn-f05m__chip::before {
+  content: '';
+  position: absolute;
+  /* touch target ≥ 44 screen px whatever the board scale */
+  inset: min(-16px, calc((76px - 44px / var(--f05m-u, 1)) / 2));
+}
+.jrn .jrn-f05m__metric::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: max(100%, calc(44px / var(--f05m-u, 1)));
+  transform: translateY(-50%);
+}
+.jrn .jrn-f05m__metric {
+  isolation: isolate;
+}
+.jrn .jrn-f05m__chip svg {
+  width: 36px;
+  height: 36px;
+}
+.jrn[data-jrn-f05-motion] .jrn-corner .jrn-f09a__menu {
+  position: fixed;
+  left: var(--f05m-menu-x);
+  top: max(var(--f05m-menu-y), calc(env(safe-area-inset-top, 0px) + 8px));
+  right: auto;
+  width: var(--f05m-chip);
+  height: var(--f05m-chip);
+  border-radius: calc(var(--f05m-u) * 18px);
+  border-width: 1px;
+}
+.jrn[data-jrn-f05-motion] .jrn-corner .jrn-f09a__menu::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+}
+
+/* The global five-item dock, unchanged in behaviour, seated on the approved torn nav paper. */
+.jrn[data-jrn-f05-motion] .jrn-nav[data-jrn-nav='parent'] {
+  left: var(--f05m-nav-x);
+  right: auto;
+  width: var(--f05m-nav-w);
+  height: var(--f05m-nav-h);
+  /* on the nav paper, but never inside the home-indicator zone */
+  bottom: max(var(--f05m-nav-b), env(safe-area-inset-bottom, 0px));
+  transform: none;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.jrn[data-jrn-f05-motion] .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn {
+  height: 100%;
+  min-height: 44px;
+  width: calc(var(--f05m-u) * 175px);
+  min-width: 52px;
+  max-width: 100%;
+  padding: 0;
+  gap: calc(var(--f05m-u) * var(--f05m-nav-gap, 18) * 1px);
+  font: 600 max(9px, calc(var(--f05m-u) * var(--f05m-nav-label, 30) * 1px)) / 1 'JURNL Sans', sans-serif;
+  letter-spacing: 0.14em;
+  color: #1b1814;
+  border-radius: calc(var(--f05m-u) * 30px);
+}
+.jrn[data-jrn-f05-motion] .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn[data-active='true'] {
+  background: #3b3a2d;
+  color: #f4efe4;
+}
+.jrn[data-jrn-f05-motion] .jrn-nav[data-jrn-nav='parent'] .jrn-nav__glyph,
+.jrn[data-jrn-f05-motion] .jrn-nav[data-jrn-nav='parent'] svg {
+  width: max(18px, calc(var(--f05m-u) * 52px));
+  height: max(18px, calc(var(--f05m-u) * 52px));
+  stroke-width: 2.2;
+}
+.jrn[data-jrn-f05-motion] .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn .jrn-nav__plus svg,
+.jrn[data-jrn-f05-motion] .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn .jrn-nav__glyph svg {
+  width: 100%;
+  height: 100%;
+}
+.jrn[data-jrn-f05-motion] .jrn-nav[data-jrn-nav='parent'] .jrn-nav__plus {
+  width: max(18px, calc(var(--f05m-u) * 52px));
+  height: max(18px, calc(var(--f05m-u) * 52px));
+  background: transparent;
+  color: #1b1814;
+}
+
+/* Sheets opened from this page wear its paper (same components, same validation). */
+.jrn[data-jrn-f05-motion] .jrn-overlay .jrn-drawer {
+  background-color: #efe3cb;
+  background-image: var(--f05m-paper-url);
+  background-size: 300px auto;
+  box-shadow: 0 -22px 44px rgba(24, 14, 6, 0.34);
+}
+.jrn[data-jrn-f05-motion] .jrn-overlay .jrn-drawer::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -16px;
+  height: 22px;
+  background: var(--f05m-edge-url) top center / 100% 100% no-repeat;
+  pointer-events: none;
+}
+
+/* ─────────── Motion (entrance ≤ 650 ms; selection; return). Fill is backwards: once an animation ends it leaves no
+   style behind (no held transforms). ─────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .jrn .jrn-f05m__env {
+    animation: f05m-env 240ms ease-out backwards;
+  }
+  .jrn .jrn-f05m__title-paper {
+    animation: f05m-title 320ms var(--f05m-ease) 100ms backwards;
+  }
+  .jrn .jrn-f05m__seal {
+    animation: f05m-seal 300ms var(--f05m-ease) 180ms backwards;
+  }
+  .jrn .jrn-f05m__money {
+    animation: f05m-reveal 300ms var(--f05m-ease) 200ms backwards;
+  }
+  .jrn .jrn-f05m__script {
+    animation: f05m-reveal 340ms ease-out 280ms backwards;
+  }
+  .jrn .jrn-f05m__metric,
+  .jrn .jrn-f05m__divider {
+    animation: f05m-rise 200ms ease-out 270ms backwards;
+  }
+  /* page arrival only (a collection change has its own motion, jurnl-f05-carousel.css) */
+  .jrn .jrn-f05m__collection[data-phase='load'] .jrn-f05m__paper {
+    /* the four papers settle 340–610 ms */
+    animation: f05m-paper 200ms var(--f05m-ease) calc(340ms + var(--i, 0) * var(--f05m-stagger, 45ms)) backwards;
+  }
+  /* threads appear with the papers (ends ≤ 640 ms) and only when the recorded state is open */
+  .jrn .jrn-f05m__collection[data-phase='load'] .jrn-f05m__thread {
+    animation: f05m-fade 200ms ease-out 440ms backwards;
+  }
+  .jrn .jrn-f05m__collection[data-phase='load'] .jrn-f05m__token:not(.jrn-f05m__token--ghost) {
+    animation: f05m-token 200ms ease-out 440ms backwards;
+  }
+  /* COMPLETED: the token goes on to the destination and the thread resolves (the balance already moved) */
+  .jrn .jrn-f05m__thread-ghost--resolved {
+    animation: f05m-ghost 480ms ease-out both;
+  }
+  .jrn .jrn-f05m__thread-ghost--closed {
+    animation: f05m-ghost 300ms ease-out both;
+  }
+  .jrn .jrn-f05m__token--ghost {
+    animation: f05m-arrive 480ms var(--f05m-ease) both;
+  }
+  .jrn .jrn-f05m__collection[data-phase='load'] .jrn-f05m__paper[data-return='true'],
+  .jrn .jrn-f05m__collection[data-phase='load'] .jrn-f05m__paper[data-fresh='true'],
+  .jrn .jrn-f05m__collection[data-phase='idle'] .jrn-f05m__paper[data-fresh='true'] {
+    animation: f05m-return 420ms var(--f05m-ease) backwards;
+  }
+}
+@keyframes f05m-env {
+  from { filter: brightness(0.86) saturate(0.92); }
+  to { filter: none; }
+}
+/* Scale-only envelopes: the layer always covers its own footprint (verified by extract_layers.py envelope_check). */
+@keyframes f05m-title {
+  from { transform: scale(1.014); filter: drop-shadow(0 16px 18px rgba(20, 12, 6, 0.34)); }
+  to { transform: none; filter: drop-shadow(0 0 0 rgba(20, 12, 6, 0)); }
+}
+@keyframes f05m-seal {
+  from { transform: scale(1.04) rotate(0deg); }
+  to { transform: none; }
+}
+@keyframes f05m-reveal {
+  from { clip-path: inset(-20% 100% -20% 0); }
+  to { clip-path: inset(-20% 0 -20% 0); }
+}
+@keyframes f05m-rise {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes f05m-paper {
+  from { opacity: 0; transform: translateY(14px) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes f05m-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes f05m-token {
+  from { opacity: 0; transform: translate(-50%, calc(-50% + 5px)); }
+  to { opacity: 1; transform: translate(-50%, -50%); }
+}
+@keyframes f05m-ghost {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@keyframes f05m-arrive {
+  from { opacity: 1; transform: translate(-50%, -50%); }
+  to { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.8); }
+}
+@keyframes f05m-return {
+  from { transform: translateY(-7px) scale(1.035); filter: drop-shadow(0 18px 16px rgba(48, 30, 12, 0.36)); }
+  to { transform: none; }
+}
+
+/* Shared-element transition into the account route (root pseudo-elements, scoped to a mounted JURNL screen). */
+html:has([data-jrn-screen])::view-transition-group(jrn-place) {
+  animation-duration: 420ms;
+  animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+html:has([data-jrn-screen])::view-transition-old(root),
+html:has([data-jrn-screen])::view-transition-new(root) {
+  animation-duration: 260ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  html:has([data-jrn-screen])::view-transition-group(*),
+  html:has([data-jrn-screen])::view-transition-old(*),
+  html:has([data-jrn-screen])::view-transition-new(*) {
+    animation: none !important;
+  }
+  .jrn .jrn-f05m__paper {
+    transition: none;
+  }
+}

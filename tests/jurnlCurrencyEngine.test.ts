@@ -197,7 +197,8 @@ describe('JURNL currency conversion', () => {
     });
     expect(entry.amount).toBeCloseTo(50 / EUR, 6);
     expect(entry.amount).not.toBe(50);
-    expect(cashPosition()).toBeCloseTo(MOCK_CASH - 50 / EUR, 4);
+    // Bookkeeping rounds each entry's effect to whole cents (currency precision); the stored amount keeps full precision.
+    expect(cashPosition()).toBeCloseTo(MOCK_CASH - 50 / EUR, 2);
     expect(formatMoney(entry.amount)).not.toBe(formatMoney(50));
   });
 

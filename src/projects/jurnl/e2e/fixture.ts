@@ -107,6 +107,8 @@ export function buildJurnlE2eBootstrap(_today: CalendarDate = getTodayKey()): Ju
     trips: [],
     paydownPlan: null,
     records: [],
+    dailyEarnings: [],
+    reservations: [],
     updatedAt: now,
   };
 

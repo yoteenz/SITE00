@@ -126,7 +126,7 @@ export function AheadHubScreen() {
         ))
       : <FramePanel id="window-empty">
           <section className="jrn-hz__window" aria-label="NOTHING AHEAD">
-            <p className="jrn-lang__task">NO INCOME, BILLS OR PLANS ARE DATED YET. ADD THEM IN INCOME AND UPCOMING.</p>
+            <p className="jrn-lang__task">ADD INCOME AND BILLS WITH DATES TO SEE WHAT IS NEXT.</p>
           </section>
         </FramePanel>
       }

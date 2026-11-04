@@ -30,9 +30,27 @@ export async function bootstrapJurnl(page: Page, bootstrap: JurnlE2eBootstrap = 
   );
 }
 
-/** Clears the one-time seed flag so the next navigation re-applies bootstrap (new fixture). */
+/**
+ * Clears the one-time seed flag so the next navigation re-applies bootstrap (new fixture).
+ * A page that has not navigated yet (about:blank) has no app origin and therefore no flag to clear; reading
+ * sessionStorage there is a browser security error, so there is nothing to do.
+ */
 export async function resetJurnlE2eSeedFlag(page: Page) {
+  if (page.url() === 'about:blank') return;
   await page.evaluate((flag) => sessionStorage.removeItem(flag), E2E_SEED_FLAG);
+}
+
+/** The canonical Safe to Spend value (cents, signed) from the F09 parent's stable value hook. */
+export async function safeToSpendCents(page: Page): Promise<number> {
+  await gotoJurnl(page, 'safe');
+  const el = page.locator('[data-jrn-value="safe-to-spend"]').first();
+  await el.waitFor({ state: 'attached', timeout: 30_000 });
+  return Number(await el.getAttribute('data-jrn-amount-cents'));
+}
+
+/** The stored repository snapshot for the E2E user (device adapter), for asserting canonical state. */
+export async function storedSnapshot(page: Page): Promise<Record<string, unknown> & { trips: { title: string; reserved_amount: number }[]; planIntentions: { title: string; assigned_amount: number }[]; obligations: { name: string; amount: number; obligation_id: string }[] }> {
+  return page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? '{}'), JURNL_E2E_STORAGE.repositoryKey);
 }
 
 export async function gotoJurnl(page: Page, route = 'today') {
