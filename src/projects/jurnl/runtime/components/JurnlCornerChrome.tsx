@@ -75,6 +75,11 @@ function JurnlCornerChrome({ hidden, onMenu }: { hidden: boolean; onMenu: () => 
   const rootHub = ROOT_HUBS.has(rel);
   return (
     <div className="jrn-corner" data-jrn-corner="app">
+      <button type="button" className="jrn-f09a__menu" aria-label="MENU" data-jrn-trigger="f09-menu" onClick={onMenu}>
+        <svg viewBox="0 0 40 26" aria-hidden>
+          <path d="M0 1.5h40M0 13h40M0 24.5h40" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
+        </svg>
+      </button>
       {rootHub ? null : (
         <button type="button" className="jrn-f09a__back" aria-label="BACK TO TODAY" data-jrn-trigger="f09-back" onClick={() => go('today')}>
           <svg viewBox="0 0 16 28" aria-hidden>
@@ -82,11 +87,6 @@ function JurnlCornerChrome({ hidden, onMenu }: { hidden: boolean; onMenu: () => 
           </svg>
         </button>
       )}
-      <button type="button" className="jrn-f09a__menu" aria-label="MENU" data-jrn-trigger="f09-menu" onClick={onMenu}>
-        <svg viewBox="0 0 40 26" aria-hidden>
-          <path d="M0 1.5h40M0 13h40M0 24.5h40" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
-        </svg>
-      </button>
     </div>
   );
 }

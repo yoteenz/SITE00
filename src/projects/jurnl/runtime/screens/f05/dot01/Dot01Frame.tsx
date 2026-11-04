@@ -244,7 +244,9 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
         <div className="jrn-d01__chips">
           {(() => {
             // laid out from the right edge, each at its authority width
-            const tones = chips.map((c) => c.tone ?? (c.icon === 'search' ? 'bare' : c.icon === 'plus' ? 'amber' : chipTone));
+            const tones = chips.map((c) =>
+              c.icon === 'back' || c.icon === 'close' ? 'paper' : (c.tone ?? (c.icon === 'search' ? 'bare' : c.icon === 'plus' ? 'amber' : chipTone)),
+            );
             let right = CHIP_RIGHT;
             const lefts = tones.map(() => 0);
             for (let i = chips.length - 1; i >= 0; i--) {
@@ -391,18 +393,14 @@ export function useSearchAddChips(): Dot01Chip[] {
 }
 
 export function ChipIcon({ icon, tone = 'paper' }: { icon: Dot01Chip['icon']; tone?: Dot01ChipTone }) {
-  // Batch 05 / 01: the whole torn back tile with its ink arrow, as 02 / 14 / 26 / 27 draw it (a candidate mounted for
-  // the founder's review; the 9-sliced blank paper + Batch 01 arrow below stays as the fallback). Only BACK / CLOSE:
-  // the tile carries an arrow, so other paper chips (MANAGE POCKET) keep the blank paper.
-  const tile = icon === 'back' && tone === 'paper' ? microAssetSrc('F05.D01.CTRL.BACK.PARCHMENT.LIGHT') : null;
+  // Every BACK / CLOSE chip uses the same parchment tile and hand-ink arrow (authorities 02 / 06 / 14 / 26 / 27).
+  const tile = icon === 'back' || icon === 'close' ? microAssetSrc('F05.D01.CTRL.BACK.PARCHMENT.LIGHT') : null;
   if (tile) return <img className="jrn-d01__chip-tile" src={tile} alt="" aria-hidden draggable={false} data-micro-asset="F05.D01.CTRL.BACK.PARCHMENT.LIGHT" />;
-  // founder art where the authority draws it: the ink back arrow on the paper tile (Batch 01 / 01) and the amber add
-  // tile (Batch 01 / 04, which carries its own tile); the amber back tile stays CSS (Batch 05 / 02 needs correction)
-  const art = icon === 'back' && tone === 'paper' ? microAssetSrc('F05.D01.ICON.ARROW.HANDINK') : icon === 'plus' && tone === 'amber' ? microAssetSrc('F05.D01.ICON.PLUS.FRAMED') : null;
-  if (art) return <img className="jrn-d01__chip-art" src={art} alt="" aria-hidden draggable={false} data-micro-asset={icon === 'back' ? 'F05.D01.ICON.ARROW.HANDINK' : 'F05.D01.ICON.PLUS.FRAMED'} />;
+  const art = icon === 'plus' && tone === 'amber' ? microAssetSrc('F05.D01.ICON.PLUS.FRAMED') : null;
+  if (art) return <img className="jrn-d01__chip-art" src={art} alt="" aria-hidden draggable={false} data-micro-asset="F05.D01.ICON.PLUS.FRAMED" />;
   // MANAGE POCKET: three ink dots on the paper tile (no overflow glyph in Batches 01–04; line glyph until one exists)
   if (icon === 'more') return <svg viewBox="0 0 24 24" aria-hidden><circle cx="5" cy="12" r="1.9" fill="currentColor" /><circle cx="12" cy="12" r="1.9" fill="currentColor" /><circle cx="19" cy="12" r="1.9" fill="currentColor" /></svg>;
-  if (icon === 'back') return <svg viewBox="0 0 24 24" aria-hidden><path d="M19 12H6m6-6-6 6 6 6" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" /></svg>;
+  if (icon === 'back' || icon === 'close') return <svg viewBox="0 0 24 24" aria-hidden><path d="M19 12H6m6-6-6 6 6 6" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" /></svg>;
   if (icon === 'search') return <svg viewBox="0 0 24 24" aria-hidden><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" strokeWidth="1.8" /><path d="M15.5 15.5L21 21" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>;
   if (icon === 'close') return <svg viewBox="0 0 24 24" aria-hidden><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" /></svg>;
   return <svg viewBox="0 0 24 24" aria-hidden><path d="M12 4v16M4 12h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>;

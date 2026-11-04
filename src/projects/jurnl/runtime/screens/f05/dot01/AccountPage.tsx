@@ -175,8 +175,8 @@ export function AccountPage() {
       board={board}
       testId="d01-account"
       chips={[
-        { id: 'd01-manage', label: 'MANAGE POCKET', icon: 'more', menu: { open: manager.openFor === id }, onClick: (e) => manager.open(id, e?.currentTarget ?? null) },
         { id: 'd01-back', label: 'BACK TO MONEY', icon: 'back', onClick: () => back() || go('money') },
+        { id: 'd01-manage', label: 'MANAGE POCKET', icon: 'more', menu: { open: manager.openFor === id }, onClick: (e) => manager.open(id, e?.currentTarget ?? null) },
       ]}
       overlays={
         <>

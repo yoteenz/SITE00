@@ -211,7 +211,7 @@ test.describe('ENTRY B — the MANAGE POCKET chip', () => {
     await expect(chip).toHaveAttribute('aria-haspopup', 'menu');
     await expect(chip).toHaveAttribute('aria-expanded', 'false');
     const ids = await page.locator('.jrn-d01__chip').evaluateAll((els) => els.filter((e) => (e as HTMLElement).offsetParent !== null).map((e) => e.getAttribute('data-jrn-trigger')));
-    expect(ids).toEqual(['d01-manage', 'd01-back']);
+    expect(ids).toEqual(['d01-back', 'd01-manage']);
     const [m, b] = [await chip.boundingBox(), await trigger(page, 'd01-back').boundingBox()];
     expect(m!.x + m!.width).toBeLessThanOrEqual(b!.x + 1);
     expect(Math.abs(m!.y - b!.y)).toBeLessThan(2);

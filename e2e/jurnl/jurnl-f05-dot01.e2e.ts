@@ -599,7 +599,7 @@ test.describe('F05 DOT 01 — overlays, navigation, typography, accessibility', 
     await open(page, 'money/places/bank');
     const ids = () => page.locator('.jrn-d01__chip').evaluateAll((els) => els.filter((e) => (e as HTMLElement).offsetParent !== null).map((e) => e.getAttribute('data-jrn-trigger')));
     // a Pocket page adds the MANAGE POCKET chip beside back (POCKET-CONTEXT-MANAGEMENT sprint)
-    expect(await ids()).toEqual(['d01-manage', 'd01-back']);
+    expect(await ids()).toEqual(['d01-back', 'd01-manage']);
     await gotoJurnl(page, 'money/transactions');
     await page.locator('[data-jrn-f05-dot01-stage]').first().waitFor();
     expect(await ids()).toEqual(['d01-search', 'd01-add']);
