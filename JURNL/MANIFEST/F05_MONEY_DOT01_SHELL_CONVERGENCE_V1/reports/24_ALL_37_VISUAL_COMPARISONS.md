@@ -1,0 +1,47 @@
+# 24 · All 37 visual comparisons
+
+Method (compare_dot01_all_screens.py): each probe capture (471 × 836, DSF 1) is cut to the board rect the probe recorded and compared
+with the authority resized to the same board size, over the on-screen board: edge recall (authority Sobel edges reproduced within
+2 px), edge precision, mean |Δ| RGB. Nothing is masked (live figures differ from the authority's sample figures by design), so no
+screen reaches 1.0 and a low MAD never proves a match. Images: evidence/37/<id>_AUTHORITY_BEFORE_AFTER.webp (authority · before ·
+after, 471 × 836).
+
+| # | Screen | edge recall BEFORE | AFTER | edge precision BEFORE | AFTER | mean |Δ| BEFORE | AFTER | This sprint |
+|---|---|---|---|---|---|---|---|---|
+| 01 | MONEY DOT 01 VIEW ALL ACCOUNTS | 0.8355 | 0.8354 | 0.9625 | 0.9624 | 21.82 | 21.84 | UNCHANGED (tunnel base: Cursor accounts rail) |
+| 02 | BANK ACCOUNT | 0.948 | 0.948 | 0.9462 | 0.9462 | 17.82 | 17.82 | UNCHANGED |
+| 03 | RIDESHARE CARD | 0.8816 | 0.8816 | 0.8645 | 0.8645 | 24.49 | 24.49 | UNCHANGED (OPUS2 scene band verified) |
+| 04 | CASH ON HAND | 0.8421 | 0.8421 | 0.8736 | 0.8736 | 24.67 | 24.67 | UNCHANGED (OPUS2 scene band verified) |
+| 05 | CREDIT CARD | 0.8923 | 0.8923 | 0.9113 | 0.9113 | 25.48 | 25.48 | UNCHANGED (OPUS2 scene band verified) |
+| 06 | ALL ACCOUNTS | 0.7672 | 0.916 | 0.888 | 0.9265 | 42.73 | 28.49 | REBUILT this sprint |
+| 07 | BANK TRANSACTION HISTORY | 0.6987 | 0.6987 | 0.7699 | 0.7699 | 37.41 | 37.41 | NOT CHANGED |
+| 08 | RIDESHARE ACTIVITY | 0.6309 | 0.6309 | 0.8176 | 0.8176 | 49.69 | 49.69 | NOT CHANGED |
+| 09 | CASH USAGE HISTORY | 0.631 | 0.631 | 0.8182 | 0.8182 | 50.37 | 50.37 | NOT CHANGED |
+| 10 | CREDIT CARD ACTIVITY | 0.5992 | 0.5992 | 0.776 | 0.776 | 46.67 | 46.67 | NOT CHANGED |
+| 11 | TRANSACTION DETAIL | 0.6279 | 0.6279 | 0.793 | 0.793 | 51.9 | 51.9 | NOT CHANGED |
+| 12 | ACCOUNT DETAILS AND SETTINGS | 0.7138 | 0.7138 | 0.7601 | 0.7601 | 41.16 | 41.16 | NOT CHANGED |
+| 13 | ACCOUNT BALANCE REVIEW | 0.6209 | 0.6209 | 0.8009 | 0.8009 | 58.0 | 58.0 | NOT CHANGED |
+| 14 | ADD ACCOUNT | 0.5919 | 0.5918 | 0.7509 | 0.7509 | 67.37 | 67.35 | NOT CHANGED |
+| 15 | EDIT ACCOUNT | 0.6451 | 0.6451 | 0.7702 | 0.7702 | 53.31 | 53.31 | NOT CHANGED |
+| 16 | RECORD BANK TRANSACTION | 0.7153 | 0.7153 | 0.7697 | 0.7697 | 58.83 | 58.83 | NOT CHANGED |
+| 17 | ADD CASH | 0.5082 | 0.5082 | 0.7439 | 0.7439 | 69.8 | 69.8 | NOT CHANGED |
+| 18 | RECORD CASH SPENDING | 0.6512 | 0.6512 | 0.7457 | 0.7457 | 61.79 | 61.79 | NOT CHANGED |
+| 19 | RECORD CREDIT CARD PURCHASE | 0.6655 | 0.6655 | 0.7316 | 0.7316 | 51.86 | 51.86 | NOT CHANGED |
+| 20 | RECORD CREDIT CARD PAYMENT | 0.7097 | 0.7097 | 0.8118 | 0.8118 | 52.12 | 52.12 | NOT CHANGED |
+| 21 | ACCOUNT PURPOSE PREFERENCES | 0.6185 | 0.6185 | 0.7682 | 0.7682 | 69.91 | 69.91 | NOT CHANGED |
+| 22 | EMPTY ACCOUNTS | 0.6354 | 0.8658 | 0.7748 | 0.8694 | 65.3 | 33.01 | REBUILT this sprint |
+| 23 | BALANCE ADJUSTMENT REVIEW | 0.6038 | 0.6038 | 0.7722 | 0.7722 | 52.74 | 52.74 | NOT CHANGED |
+| 24 | TRANSACTION CORRECTION / REVERSAL | 0.6039 | 0.6039 | 0.7831 | 0.7831 | 52.59 | 52.59 | NOT CHANGED |
+| 25 | ACCOUNT ARCHIVE CONFIRMATION | 0.5731 | 0.5709 | 0.7293 | 0.7268 | 78.23 | 61.1 | NOT CHANGED (probe fixture corrected for the zero-balance policy) |
+| 26 | CAPTURE RECEIPT | 0.8796 | 0.8796 | 0.9463 | 0.9463 | 27.13 | 27.13 | NOT CHANGED |
+| 27 | SCANNING RECEIPT | 0.5969 | 0.5972 | 0.7485 | 0.725 | 57.89 | 57.04 | NOT CHANGED |
+| 28 | REVIEW EXTRACTED PURCHASE | 0.5955 | 0.5955 | 0.7578 | 0.7578 | 54.75 | 54.75 | NOT CHANGED |
+| 29 | RECEIPT EXCEPTION / DUPLICATE | 0.5518 | 0.5518 | 0.7829 | 0.7829 | 77.16 | 77.16 | NOT CHANGED |
+| 30 | ACCOUNT SETUP DETAILS | 0.6555 | 0.6554 | 0.6813 | 0.6811 | 53.81 | 53.81 | NOT CHANGED |
+| 31 | TRANSACTION SEARCH AND FILTER | 0.6792 | 0.6792 | 0.7756 | 0.7756 | 49.81 | 49.81 | NOT CHANGED |
+| 32 | REORDER ACCOUNTS | 0.6195 | 0.6195 | 0.7574 | 0.7574 | 56.53 | 56.53 | NOT CHANGED |
+| 33 | TRANSACTION REVIEW | 0.5726 | 0.5726 | 0.7137 | 0.7137 | 53.87 | 53.87 | NOT CHANGED |
+| 34 | RECEIPT CAPTURE FAILURE | 0.6156 | 0.6156 | 0.727 | 0.727 | 57.59 | 57.59 | NOT CHANGED |
+| 35 | ACCOUNT NEEDS REVIEW | 0.5826 | 0.5826 | 0.7769 | 0.7769 | 63.43 | 63.43 | NOT CHANGED |
+| 36 | ARCHIVE BLOCKED | 0.6215 | 0.6215 | 0.737 | 0.737 | 64.43 | 64.43 | NOT CHANGED (V3 caution in the V9 frame, OPUS1 V3) |
+| 37 | CORRECTION / REVERSAL CONFIRMATION | 0.6148 | 0.6148 | 0.7601 | 0.7601 | 51.26 | 51.26 | NOT CHANGED |

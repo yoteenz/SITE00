@@ -27,8 +27,13 @@ import { DOT01, DOT01_GEOMETRY } from './dot01Assets';
 import { microAssetSrc } from '../microAssets';
 import paperTile from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_PAPER_TILE.webp';
 import tornEdge from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_TORN_EDGE.webp';
+import sk01Field from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_SIDEKICK.webp';
+import sk01SheetTile from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_PANEL_TILE.webp';
+import sk01TitlePaper from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_TITLE_PAPER.webp';
+import sk01Seal from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_WAX_SEAL.webp';
+import motionGeometry from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_GEOMETRY.json';
 import { f05BoardType } from '../CarouselPanelPaper';
-import { CROP as F05_CROP, computeF05BoardScale } from '../f05MotionLayout';
+import { CROP as F05_CROP, SEAM_A as SK01_SEAM_A, SEAM_C as SK01_SEAM_C, computeF05BoardScale } from '../f05MotionLayout';
 import './jurnl-f05-dot01.css';
 
 export const SRC_W = 941;
@@ -40,12 +45,21 @@ const TILE_H = DOT01_GEOMETRY.SK02_elastic.tile_h;
  * inside the region the extraction rebuilt as plain field (SK02 22–919 × 588–1548, SK03 22–919 × 568–1530). The full
  * SK03 (papers baked) uses the gap between its frame (ends y 1040) and its strip (starts y 1042).
  */
-const SEAM: Record<'SK02' | 'SK02_FIELD' | 'SK03' | 'SK03_FIELD', number> = { SK02: 1540, SK02_FIELD: 1540, SK03: 1041, SK03_FIELD: 1520 };
+/**
+ * SK01_FIELD (the parent's text-free SK01, F05_MOTION_SIDEKICK: its account papers, title paper and seal removed, its
+ * large sheet, coastal landscape, botanicals and torn nav paper kept) grows inside that sheet at the parent's own seam
+ * (y 1190), with the parent's sheet tile (the sheet between y 900 and 1190), exactly as authority 01 does.
+ */
+const SEAM: Record<Dot01Env, number> = { SK01_FIELD: SK01_SEAM_C, SK02: 1540, SK02_FIELD: 1540, SK03: 1041, SK03_FIELD: 1520 };
 /**
  * Top of the zone whose papers share the extra height (as the parent's papers do: sizes kept, gaps grow). Only the
  * FIELD variants have one: their papers are layers over plain field. The full SIDEKICKs keep every baked paper fixed.
+ * SK01_FIELD has none: the page that uses it (06) seats its own papers from the extra height it is given.
  */
-const ZONE_TOP: Record<'SK02' | 'SK02_FIELD' | 'SK03' | 'SK03_FIELD', number | null> = { SK02: null, SK02_FIELD: 588, SK03: null, SK03_FIELD: 568 };
+const ZONE_TOP: Record<Dot01Env, number | null> = { SK01_FIELD: null, SK02: null, SK02_FIELD: 588, SK03: null, SK03_FIELD: 568 };
+/** The parent's title paper and laurel seal (SK01's own, lifted with alpha): drawn wherever SK01_FIELD is the ground. */
+const SK01_TITLE_BOX = { x: motionGeometry.title_paper.box[0]!, y: motionGeometry.title_paper.box[1]!, w: motionGeometry.title_paper.w, h: motionGeometry.title_paper.h };
+const SK01_SEAL_BOX = { x: motionGeometry.wax_seal.box[0]!, y: motionGeometry.wax_seal.box[1]!, w: motionGeometry.wax_seal.w, h: motionGeometry.wax_seal.h };
 /** With the dock: above SK01's torn nav paper (board y 1459). */
 const NAV_SEAM = 1452;
 const NAV_PAPER_BOX = { x: 19, y: 1459, w: 911, h: 203 };
@@ -56,7 +70,7 @@ export type BoardRect = { x: number; y: number; w: number; h: number };
 /** The content region of every overlay (authorities 14–37): under the overlay heading paper (board y ≈ 552) down onto
  * the top of the bottom landscape, where the authorities seat their primary action (≈ 1574). It grows with the seam. */
 export const OVERLAY_CONTENT: BoardRect = { x: 30, y: 552, w: 881, h: 1022 };
-export type Dot01Env = 'SK02' | 'SK02_FIELD' | 'SK03' | 'SK03_FIELD';
+export type Dot01Env = 'SK01_FIELD' | 'SK02' | 'SK02_FIELD' | 'SK03' | 'SK03_FIELD';
 export type Dot01Layer = { id: string; src: string; box: BoardRect; order?: number; className?: string; alt?: string; vt?: string };
 
 /** ey: board y where the elastic field tile is inserted (see SEAM); z0: top of the zone that shares it (or null). */
@@ -80,7 +94,13 @@ export function boardToScreen(L: Dot01Layout, r: BoardRect): BoardRect {
   return { x: L.ox + r.x * L.u, y: top * L.u, w: r.w * L.u, h: (bottom - top) * L.u };
 }
 
-function useDot01Layout(crop: number, ey: number, z0: number | null) {
+/**
+ * `absorb` (board px; null = off, the board's foot may fall below the fold): on a screen SHORTER than 9:16 a phone's width-first board would put its foot (the
+ * landscape, the nav paper, the dock) below the fold. A page that allows it takes up to `absorb` px out at its seam
+ * instead (the lower slice overlaps the upper one inside plain sheet / field: `extra` goes negative), and only if the
+ * foot still does not fit is the board fitted to the height (a few px of side margin, nothing cropped below).
+ */
+function useDot01Layout(crop: number, ey: number, z0: number | null, absorb: number | null = null) {
   const ref = useRef<HTMLDivElement>(null);
   const [vp, setVp] = useState({ w: 393, h: 852 });
   useLayoutEffect(() => {
@@ -98,15 +118,32 @@ function useDot01Layout(crop: number, ey: number, z0: number | null) {
   }, []);
   const L = useMemo<Dot01Layout>(() => {
     const avail = Math.max(1, vp.h);
-    const { u, ox } = computeF05BoardScale(vp.w, vp.h, crop as typeof F05_CROP, avail);
-    const extra = Math.max(0, avail / u - SRC_H);
+    let { u, ox } = computeF05BoardScale(vp.w, vp.h, crop as typeof F05_CROP, avail);
+    let extra = Math.max(0, avail / u - SRC_H);
+    const deficit = SRC_H - avail / u;
+    if (absorb != null && deficit > 0) {
+      if (deficit <= absorb) extra = -deficit;
+      else {
+        extra = -absorb;
+        u = avail / (SRC_H - absorb);
+        ox = (vp.w - SRC_W * u) / 2;
+      }
+    }
     return { u, ox, extra, boardH: SRC_H + extra, w: vp.w, h: vp.h, ey, z0: z0 != null && z0 < ey ? z0 : null };
-  }, [vp.w, vp.h, crop, ey, z0]);
+  }, [vp.w, vp.h, crop, ey, z0, absorb]);
   return { ref, L };
 }
 
-const ENV_SRC: Record<Dot01Env, string> = { SK02: DOT01.SK02, SK02_FIELD: DOT01.SK02_FIELD, SK03: DOT01.SK03, SK03_FIELD: DOT01.SK03_FIELD };
-const TILE_SRC: Record<Dot01Env, string> = { SK02: DOT01.SK02_FIELD_TILE, SK02_FIELD: DOT01.SK02_FIELD_TILE, SK03: DOT01.SK03_FIELD_TILE, SK03_FIELD: DOT01.SK03_FIELD_TILE };
+const ENV_SRC: Record<Dot01Env, string> = { SK01_FIELD: sk01Field, SK02: DOT01.SK02, SK02_FIELD: DOT01.SK02_FIELD, SK03: DOT01.SK03, SK03_FIELD: DOT01.SK03_FIELD };
+const TILE_SRC: Record<Dot01Env, string> = { SK01_FIELD: sk01SheetTile, SK02: DOT01.SK02_FIELD_TILE, SK02_FIELD: DOT01.SK02_FIELD_TILE, SK03: DOT01.SK03_FIELD_TILE, SK03_FIELD: DOT01.SK03_FIELD_TILE };
+/** The elastic insert per environment: tile height and how it is seated (the SK01 sheet tile is bottom-aligned on the
+ * seam with a 48 px overlap above it, as the parent seats it; the SK02 / SK03 field tiles repeat from the seam). */
+function tileStyle(env: Dot01Env, L: Dot01Layout, tile: string): CSSProperties {
+  if (env === 'SK01_FIELD') {
+    return { top: L.ey - 48, height: L.extra + 48 + 6, width: SRC_W, backgroundImage: `url("${tile}")`, backgroundSize: `${SRC_W}px ${SK01_SEAM_C - SK01_SEAM_A}px`, backgroundPosition: '0 calc(100% - 6px)' };
+  }
+  return { top: L.ey - 2, height: L.extra + 4, width: SRC_W, backgroundImage: `url("${tile}")`, backgroundSize: `${SRC_W}px ${TILE_H}px` };
+}
 
 /**
  * Title size. Pages (SK02): the heading paper holds up to three lines in a 430 px measure (authorities 02, 07, 12).
@@ -163,6 +200,9 @@ type BoardProps = {
   maxCrop?: number;
   /** Board y of the elastic insert (default 980). */
   elasticY?: number;
+  /** Keep the board's foot on a screen shorter than 9:16: take up to this many board px out at the seam, then fit the
+   * board to the height (0 = fit at once). Omitted: the foot may fall below the fold (content regions scroll instead). */
+  absorb?: number;
   /** Surface of the back chip on this screen (authority: amber on 06–10, paper elsewhere). */
   chipTone?: Dot01ChipTone;
   /** Field rows as separate torn strips at the authority pitch (17, 20), dense strips for the seven-row purchase form
@@ -173,8 +213,9 @@ type BoardProps = {
   stripIcons?: 'ink' | 'tiles';
 };
 
-function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, content, contentRect, contentScroll = false, label, testId, titleId, page, nav = false, onLayout, maxCrop = CROP, elasticY, chipTone = 'paper', fields = 'sheet', fieldIcons = 'ink', stripIcons = 'ink' }: BoardProps & { page: boolean; nav?: boolean; onLayout?: (L: Dot01Layout, el: HTMLDivElement | null) => void }) {
-  const { ref, L } = useDot01Layout(maxCrop, elasticY ?? (nav ? NAV_SEAM : SEAM[env]), elasticY != null ? null : ZONE_TOP[env]);
+function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, content, contentRect, contentScroll = false, label, testId, titleId, page, nav = false, onLayout, maxCrop = CROP, elasticY, absorb, chipTone = 'paper', fields = 'sheet', fieldIcons = 'ink', stripIcons = 'ink' }: BoardProps & { page: boolean; nav?: boolean; onLayout?: (L: Dot01Layout, el: HTMLDivElement | null) => void }) {
+  // SK01_FIELD carries its own torn nav paper below its seam, so a page with the dock still grows at that seam
+  const { ref, L } = useDot01Layout(maxCrop, elasticY ?? (nav && env !== 'SK01_FIELD' ? NAV_SEAM : SEAM[env]), elasticY != null ? null : ZONE_TOP[env], absorb ?? null);
   useLayoutEffect(() => onLayout?.(L, ref.current), [L, onLayout, ref]);
   // a page moves focus to its heading on arrival (overlays focus their first control instead)
   useLayoutEffect(() => {
@@ -187,6 +228,8 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
   const envSrc = ENV_SRC[env];
   const tile = TILE_SRC[env];
   const sliced = L.extra >= 1;
+  // a short screen took height out at the seam: the lower slice overlaps the upper one, feathered into it
+  const overlapped = L.extra <= -1;
   const overlayHead = env === 'SK03' || env === 'SK03_FIELD';
   const tSize = titleSize(title, overlayHead);
   const mapped = contentRect ? boardToScreen(L, contentRect) : null;
@@ -204,8 +247,17 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
               <div className="jrn-d01__slice" style={{ top: 0, height: L.ey, width: SRC_W }}>
                 <img src={envSrc} alt="" width={SRC_W} height={SRC_H} draggable={false} />
               </div>
-              <div className="jrn-d01__tile" style={{ top: L.ey - 2, height: L.extra + 4, width: SRC_W, backgroundImage: `url("${tile}")`, backgroundSize: `${SRC_W}px ${TILE_H}px` }} />
+              <div className="jrn-d01__tile" style={tileStyle(env, L, tile)} />
               <div className="jrn-d01__slice" style={{ top: L.ey + L.extra, height: SRC_H - L.ey, width: SRC_W }}>
+                <img src={envSrc} alt="" width={SRC_W} height={SRC_H} draggable={false} style={{ top: -L.ey }} />
+              </div>
+            </>
+          : overlapped ?
+            <>
+              <div className="jrn-d01__slice" style={{ top: 0, height: L.ey, width: SRC_W }}>
+                <img src={envSrc} alt="" width={SRC_W} height={SRC_H} draggable={false} />
+              </div>
+              <div className="jrn-d01__slice" data-overlap="true" style={{ top: L.ey + L.extra, height: SRC_H - L.ey, width: SRC_W }}>
                 <img src={envSrc} alt="" width={SRC_W} height={SRC_H} draggable={false} style={{ top: -L.ey }} />
               </div>
             </>
@@ -213,6 +265,12 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
               <img src={envSrc} alt="" width={SRC_W} height={SRC_H} draggable={false} />
             </div>}
         </div>
+        {env === 'SK01_FIELD' ?
+          <>
+            <img className="jrn-d01__layer" data-layer="L1" data-layer-id="sk01_title_paper" src={sk01TitlePaper} alt="" aria-hidden draggable={false} style={{ left: SK01_TITLE_BOX.x, top: SK01_TITLE_BOX.y, width: SK01_TITLE_BOX.w, height: SK01_TITLE_BOX.h, ['--i' as string]: 0 } as CSSProperties} />
+            <img className="jrn-d01__layer" data-layer="L1" data-layer-id="sk01_seal" src={sk01Seal} alt="" aria-hidden draggable={false} style={{ left: SK01_SEAL_BOX.x, top: SK01_SEAL_BOX.y, width: SK01_SEAL_BOX.w, height: SK01_SEAL_BOX.h, ['--i' as string]: 1 } as CSSProperties} />
+          </>
+        : null}
         {layers.map((l, i) => (
           <img
             key={l.id}
@@ -240,7 +298,10 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
           {subtitle ? <p className="jrn-d01__script" lang="en">{subtitle}</p> : null}
         </header>
         {board ? board(L) : null}
-        {nav ? <img className="jrn-d01__layer jrn-d01__navpaper" data-layer="L1" data-layer-id="nav_paper" src={DOT01.NAV_PAPER} alt="" aria-hidden draggable={false} style={{ left: NAV_PAPER_BOX.x, top: by(L, NAV_PAPER_BOX.y), width: NAV_PAPER_BOX.w, height: NAV_PAPER_BOX.h }} /> : null}
+        {/* the torn nav paper has one owner: SK01_FIELD has it baked (drawing it again would double it), so there only an
+            empty marker of its box is placed, for the dock's geometry */}
+        {nav && env === 'SK01_FIELD' ? <span className="jrn-d01__layer jrn-d01__navpaper" data-baked="SK01_FIELD" aria-hidden style={{ left: NAV_PAPER_BOX.x, top: by(L, NAV_PAPER_BOX.y), width: NAV_PAPER_BOX.w, height: NAV_PAPER_BOX.h }} /> : null}
+        {nav && env !== 'SK01_FIELD' ? <img className="jrn-d01__layer jrn-d01__navpaper" data-layer="L1" data-layer-id="nav_paper" src={DOT01.NAV_PAPER} alt="" aria-hidden draggable={false} style={{ left: NAV_PAPER_BOX.x, top: by(L, NAV_PAPER_BOX.y), width: NAV_PAPER_BOX.w, height: NAV_PAPER_BOX.h }} /> : null}
         <div className="jrn-d01__chips">
           {(() => {
             // laid out from the right edge, each at its authority width

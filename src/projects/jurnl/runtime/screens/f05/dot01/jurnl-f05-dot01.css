@@ -1695,3 +1695,269 @@
 .jrn .d01-filters__clear .d01-btn {
   min-height: 40px;
 }
+
+/* ─────────── 06 ALL ACCOUNTS — papers and actions seated in board px on SK01_FIELD (directoryScene.ts) ─────────── */
+.jrn .d01-dir,
+.jrn .d01-dir__grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.jrn .d01-dir__scroller {
+  position: absolute;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  pointer-events: auto;
+  touch-action: pan-y;
+  /* the third row fades under the action row: a cue that the collection continues inside its own region */
+  -webkit-mask-image: linear-gradient(#000 calc(100% - 64px), transparent);
+  mask-image: linear-gradient(#000 calc(100% - 64px), transparent);
+}
+.jrn .d01-dir__scroller::-webkit-scrollbar {
+  display: none;
+}
+.jrn .d01-dir__track {
+  position: relative;
+}
+.jrn .d01-dir__cell {
+  position: absolute;
+  pointer-events: auto;
+}
+.jrn .d01-dir__paper,
+.jrn .d01-dir__action {
+  position: absolute;
+  inset: 0;
+  /* the wrappers are pointer-transparent so the board's own chips stay reachable; each control takes its own hits */
+  pointer-events: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+.jrn .d01-dir__art,
+.jrn .d01-dir__action-art {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  pointer-events: none;
+  /* the paper's own shadow on the olive ground (06 draws a soft contact shadow under each torn paper) */
+  filter: drop-shadow(0 7px 9px rgba(16, 12, 4, 0.5));
+  transition: transform 120ms var(--d01-ease), filter 120ms var(--d01-ease);
+}
+.jrn .d01-dir__name {
+  position: absolute;
+  display: grid;
+  margin: 0;
+  font-family: 'JURNL Authority Serif', 'JURNL Display', serif;
+  font-weight: 600;
+  color: #1f1a14;
+  text-transform: uppercase;
+}
+.jrn .d01-dir__name > span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.jrn .d01-dir__figure {
+  position: absolute;
+  font-family: 'JURNL Authority Serif', 'JURNL Display', serif;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.005em;
+  white-space: nowrap;
+  color: #1a140d;
+}
+.jrn .d01-dir__owed {
+  position: absolute;
+  font: italic 500 19px/1 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.2em;
+  color: #3a2c1c;
+}
+.jrn .d01-dir__badge {
+  position: absolute;
+  padding: 5px 9px 4px;
+  border-radius: 6px;
+  font-family: 'JURNL Sans', sans-serif;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  color: #70200d;
+  background: rgba(243, 176, 139, 0.72);
+  white-space: nowrap;
+}
+.jrn .d01-dir__glyph {
+  position: absolute;
+  max-width: none;
+  pointer-events: none;
+}
+.jrn .d01-dir__label {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font: 600 calc(36px - var(--f05-type-nudge, 0px)) / 1.04 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.jrn .d01-dir__action[data-action='add'] .d01-dir__label {
+  color: #f1e6cc;
+}
+.jrn .d01-dir__action[data-action='reorder'] .d01-dir__label {
+  color: #1f1a14;
+}
+.jrn .d01-dir__paper:active .d01-dir__art,
+.jrn .d01-dir__action:active:not(:disabled) .d01-dir__action-art {
+  transform: translateY(2px);
+  filter: drop-shadow(0 4px 5px rgba(16, 12, 4, 0.45)) brightness(0.96);
+}
+.jrn .d01-dir__action:disabled {
+  cursor: default;
+}
+.jrn .d01-dir__action:disabled .d01-dir__glyph,
+.jrn .d01-dir__action:disabled .d01-dir__label {
+  opacity: 0.42;
+}
+.jrn .d01-dir__paper:focus-visible,
+.jrn .d01-dir__action:focus-visible {
+  outline: 6px solid #e2ae4e;
+  outline-offset: 2px;
+  border-radius: 24px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .jrn .d01-dir__cell {
+    animation: d01-settle 300ms var(--d01-ease) calc(120ms + var(--i, 0) * 40ms) backwards;
+  }
+  .jrn .d01-dir__action {
+    animation: d01-settle 300ms var(--d01-ease) 260ms backwards;
+  }
+}
+/* a short screen: the lower environment slice overlaps the upper one inside plain sheet, feathered so no seam shows */
+.jrn .jrn-d01__slice[data-overlap='true'] {
+  -webkit-mask-image: linear-gradient(transparent, #000 40px);
+  mask-image: linear-gradient(transparent, #000 40px);
+}
+
+/* ─────────── 22 EMPTY ACCOUNTS — its own lifted scene band, labels live (directoryScene.ts EMPTY_SCENE) ─────────── */
+.jrn .d01-empty {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.jrn .d01-empty__band {
+  position: absolute;
+  overflow: hidden;
+}
+.jrn .d01-empty__band > img {
+  position: absolute;
+  left: 0;
+  width: 941px;
+  height: 988px;
+  max-width: none;
+}
+.jrn .d01-empty__band[data-overlap='true'] {
+  -webkit-mask-image: linear-gradient(transparent, #000 12px);
+  mask-image: linear-gradient(transparent, #000 12px);
+}
+.jrn .d01-empty__tile {
+  position: absolute;
+  background-repeat: repeat-y;
+  background-size: 941px 16px;
+}
+.jrn .d01-empty__h,
+.jrn .d01-empty__copy {
+  position: absolute;
+  left: 0;
+  width: 941px;
+  margin: 0;
+  text-align: center;
+  color: var(--d01-ink);
+  text-transform: uppercase;
+  font-family: 'JURNL Authority Serif', 'JURNL Display', serif;
+}
+.jrn .d01-empty__h {
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.04em;
+}
+.jrn .d01-empty__copy {
+  display: grid;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.06em;
+}
+.jrn .d01-empty__type,
+.jrn .d01-empty__strip {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  pointer-events: auto;
+  border-radius: 18px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.jrn .d01-empty__type-name {
+  position: absolute;
+  left: 28px;
+  top: 20px;
+  display: grid;
+  text-align: left;
+  font-family: 'JURNL Authority Serif', 'JURNL Display', serif;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: #1f1a14;
+  text-transform: uppercase;
+}
+.jrn .d01-empty__strip > span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JURNL Authority Serif', 'JURNL Display', serif;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.jrn .d01-empty__strip[data-tone='dark'] > span {
+  left: 199px;
+  right: 125px;
+  color: #f1e6cc;
+}
+.jrn .d01-empty__strip[data-tone='paper'] > span {
+  left: 145px;
+  right: 73px;
+  color: #1f1a14;
+}
+.jrn .d01-empty__type:active,
+.jrn .d01-empty__strip:active {
+  background: rgba(31, 24, 16, 0.08);
+}
+.jrn .d01-empty__type:focus-visible,
+.jrn .d01-empty__strip:focus-visible {
+  outline: 6px solid #e2ae4e;
+  outline-offset: 2px;
+}
+/* SK01_FIELD's torn nav paper is baked into the environment: this empty box only marks where it is (no art) */
+.jrn .jrn-d01__navpaper[data-baked] {
+  display: block;
+  visibility: hidden;
+}

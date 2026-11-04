@@ -1,0 +1,894 @@
+{
+ "method": "Each probe capture (471 \u00d7 836, DSF 1: the board at u = 0.5346, cropped 30 board px each side as on every phone) is cut to\nthe board rect the probe recorded, and the authority is resized to the same board size. Then, over the part of the board\nthat is on screen:\n  edge_recall      the share of authority edges (Sobel) that the capture reproduces within 2 px\n  edge_precision   the share of capture edges that lie within 2 px of an authority edge\n  mean_abs_diff    mean |capture \u2212 authority| over RGB (0\u2013255)\nNothing is masked here (the live text is included, so a screen whose figures differ from the authority's sample figures\nnever reaches 1.0). The text-masked comparison of 02\u201305 is compare_dot01_account_scenes.py.",
+ "viewport": "471x836",
+ "screens": {
+  "01": {
+   "authority": "01_MONEY_DOT01_VIEW_ALL_ACCOUNTS.png",
+   "before": {
+    "edge_recall": 0.8355,
+    "edge_precision": 0.9625,
+    "mean_abs_diff": 21.82,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.8354,
+    "edge_precision": 0.9624,
+    "mean_abs_diff": 21.84,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": -0.0001,
+   "delta_precision": -0.0001,
+   "delta_mad": 0.02
+  },
+  "02": {
+   "authority": "02_BANK_ACCOUNT.png",
+   "before": {
+    "edge_recall": 0.948,
+    "edge_precision": 0.9462,
+    "mean_abs_diff": 17.82,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.948,
+    "edge_precision": 0.9462,
+    "mean_abs_diff": 17.82,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "03": {
+   "authority": "03_RIDESHARE_CARD.png",
+   "before": {
+    "edge_recall": 0.8816,
+    "edge_precision": 0.8645,
+    "mean_abs_diff": 24.49,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.8816,
+    "edge_precision": 0.8645,
+    "mean_abs_diff": 24.49,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "04": {
+   "authority": "04_CASH_ON_HAND.png",
+   "before": {
+    "edge_recall": 0.8421,
+    "edge_precision": 0.8736,
+    "mean_abs_diff": 24.67,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.8421,
+    "edge_precision": 0.8736,
+    "mean_abs_diff": 24.67,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "05": {
+   "authority": "05_CREDIT_CARD.png",
+   "before": {
+    "edge_recall": 0.8923,
+    "edge_precision": 0.9113,
+    "mean_abs_diff": 25.48,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.8923,
+    "edge_precision": 0.9113,
+    "mean_abs_diff": 25.48,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "06": {
+   "authority": "06_ALL_ACCOUNTS.png",
+   "before": {
+    "edge_recall": 0.7672,
+    "edge_precision": 0.888,
+    "mean_abs_diff": 42.73,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.916,
+    "edge_precision": 0.9265,
+    "mean_abs_diff": 28.49,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.1488,
+   "delta_precision": 0.0385,
+   "delta_mad": -14.24
+  },
+  "07": {
+   "authority": "07_BANK_TRANSACTION_HISTORY.png",
+   "before": {
+    "edge_recall": 0.6987,
+    "edge_precision": 0.7699,
+    "mean_abs_diff": 37.41,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.6987,
+    "edge_precision": 0.7699,
+    "mean_abs_diff": 37.41,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "08": {
+   "authority": "08_RIDESHARE_ACTIVITY.png",
+   "before": {
+    "edge_recall": 0.6309,
+    "edge_precision": 0.8176,
+    "mean_abs_diff": 49.69,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.6309,
+    "edge_precision": 0.8176,
+    "mean_abs_diff": 49.69,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "09": {
+   "authority": "09_CASH_USAGE_HISTORY.png",
+   "before": {
+    "edge_recall": 0.631,
+    "edge_precision": 0.8182,
+    "mean_abs_diff": 50.37,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.631,
+    "edge_precision": 0.8182,
+    "mean_abs_diff": 50.37,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "10": {
+   "authority": "10_CREDIT_CARD_ACTIVITY.png",
+   "before": {
+    "edge_recall": 0.5992,
+    "edge_precision": 0.776,
+    "mean_abs_diff": 46.67,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.5992,
+    "edge_precision": 0.776,
+    "mean_abs_diff": 46.67,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "11": {
+   "authority": "11_TRANSACTION_DETAIL.png",
+   "before": {
+    "edge_recall": 0.6279,
+    "edge_precision": 0.793,
+    "mean_abs_diff": 51.9,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.6279,
+    "edge_precision": 0.793,
+    "mean_abs_diff": 51.9,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "12": {
+   "authority": "12_ACCOUNT_DETAILS_AND_SETTINGS.png",
+   "before": {
+    "edge_recall": 0.7138,
+    "edge_precision": 0.7601,
+    "mean_abs_diff": 41.16,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.7138,
+    "edge_precision": 0.7601,
+    "mean_abs_diff": 41.16,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "13": {
+   "authority": "13_ACCOUNT_BALANCE_REVIEW.png",
+   "before": {
+    "edge_recall": 0.6209,
+    "edge_precision": 0.8009,
+    "mean_abs_diff": 58.0,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.6209,
+    "edge_precision": 0.8009,
+    "mean_abs_diff": 58.0,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "14": {
+   "authority": "14_ADD_ACCOUNT.png",
+   "before": {
+    "edge_recall": 0.5919,
+    "edge_precision": 0.7509,
+    "mean_abs_diff": 67.37,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.5918,
+    "edge_precision": 0.7509,
+    "mean_abs_diff": 67.35,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": -0.0001,
+   "delta_precision": 0.0,
+   "delta_mad": -0.02
+  },
+  "15": {
+   "authority": "15_EDIT_ACCOUNT.png",
+   "before": {
+    "edge_recall": 0.6451,
+    "edge_precision": 0.7702,
+    "mean_abs_diff": 53.31,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.6451,
+    "edge_precision": 0.7702,
+    "mean_abs_diff": 53.31,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "16": {
+   "authority": "16_RECORD_BANK_TRANSACTION.png",
+   "before": {
+    "edge_recall": 0.7153,
+    "edge_precision": 0.7697,
+    "mean_abs_diff": 58.83,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.7153,
+    "edge_precision": 0.7697,
+    "mean_abs_diff": 58.83,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "17": {
+   "authority": "17_ADD_CASH.png",
+   "before": {
+    "edge_recall": 0.5082,
+    "edge_precision": 0.7439,
+    "mean_abs_diff": 69.8,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.5082,
+    "edge_precision": 0.7439,
+    "mean_abs_diff": 69.8,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "18": {
+   "authority": "18_RECORD_CASH_SPENDING.png",
+   "before": {
+    "edge_recall": 0.6512,
+    "edge_precision": 0.7457,
+    "mean_abs_diff": 61.79,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.6512,
+    "edge_precision": 0.7457,
+    "mean_abs_diff": 61.79,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "19": {
+   "authority": "19_RECORD_CREDIT_CARD_PURCHASE.png",
+   "before": {
+    "edge_recall": 0.6655,
+    "edge_precision": 0.7316,
+    "mean_abs_diff": 51.86,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.6655,
+    "edge_precision": 0.7316,
+    "mean_abs_diff": 51.86,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "20": {
+   "authority": "20_RECORD_CREDIT_CARD_PAYMENT.png",
+   "before": {
+    "edge_recall": 0.7097,
+    "edge_precision": 0.8118,
+    "mean_abs_diff": 52.12,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.7097,
+    "edge_precision": 0.8118,
+    "mean_abs_diff": 52.12,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "21": {
+   "authority": "21_ACCOUNT_PURPOSE_PREFERENCES.png",
+   "before": {
+    "edge_recall": 0.6185,
+    "edge_precision": 0.7682,
+    "mean_abs_diff": 69.91,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.6185,
+    "edge_precision": 0.7682,
+    "mean_abs_diff": 69.91,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "22": {
+   "authority": "22_EMPTY_ACCOUNTS.png",
+   "before": {
+    "edge_recall": 0.6354,
+    "edge_precision": 0.7748,
+    "mean_abs_diff": 65.3,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.8658,
+    "edge_precision": 0.8694,
+    "mean_abs_diff": 33.01,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.2304,
+   "delta_precision": 0.0946,
+   "delta_mad": -32.29
+  },
+  "23": {
+   "authority": "23_BALANCE_ADJUSTMENT_REVIEW.png",
+   "before": {
+    "edge_recall": 0.6038,
+    "edge_precision": 0.7722,
+    "mean_abs_diff": 52.74,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.6038,
+    "edge_precision": 0.7722,
+    "mean_abs_diff": 52.74,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "24": {
+   "authority": "24_TRANSACTION_CORRECTION_REVERSAL.png",
+   "before": {
+    "edge_recall": 0.6039,
+    "edge_precision": 0.7831,
+    "mean_abs_diff": 52.59,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.6039,
+    "edge_precision": 0.7831,
+    "mean_abs_diff": 52.59,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "25": {
+   "authority": "25_ACCOUNT_ARCHIVE_CONFIRMATION.png",
+   "before": {
+    "edge_recall": 0.5731,
+    "edge_precision": 0.7293,
+    "mean_abs_diff": 78.23,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.5709,
+    "edge_precision": 0.7268,
+    "mean_abs_diff": 61.1,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": -0.0022,
+   "delta_precision": -0.0025,
+   "delta_mad": -17.13
+  },
+  "26": {
+   "authority": "26_CAPTURE_RECEIPT.png",
+   "before": {
+    "edge_recall": 0.8796,
+    "edge_precision": 0.9463,
+    "mean_abs_diff": 27.13,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.8796,
+    "edge_precision": 0.9463,
+    "mean_abs_diff": 27.13,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "27": {
+   "authority": "27_SCANNING_RECEIPT.png",
+   "before": {
+    "edge_recall": 0.5969,
+    "edge_precision": 0.7485,
+    "mean_abs_diff": 57.89,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.5972,
+    "edge_precision": 0.725,
+    "mean_abs_diff": 57.04,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0003,
+   "delta_precision": -0.0235,
+   "delta_mad": -0.85
+  },
+  "28": {
+   "authority": "28_REVIEW_EXTRACTED_PURCHASE.png",
+   "before": {
+    "edge_recall": 0.5955,
+    "edge_precision": 0.7578,
+    "mean_abs_diff": 54.75,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.5955,
+    "edge_precision": 0.7578,
+    "mean_abs_diff": 54.75,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "29": {
+   "authority": "29_RECEIPT_EXCEPTION_DUPLICATE.png",
+   "before": {
+    "edge_recall": 0.5518,
+    "edge_precision": 0.7829,
+    "mean_abs_diff": 77.16,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.5518,
+    "edge_precision": 0.7829,
+    "mean_abs_diff": 77.16,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "30": {
+   "authority": "30_ACCOUNT_SETUP_DETAILS.png",
+   "before": {
+    "edge_recall": 0.6555,
+    "edge_precision": 0.6813,
+    "mean_abs_diff": 53.81,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.6554,
+    "edge_precision": 0.6811,
+    "mean_abs_diff": 53.81,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": -0.0001,
+   "delta_precision": -0.0002,
+   "delta_mad": 0.0
+  },
+  "31": {
+   "authority": "31_TRANSACTION_SEARCH_AND_FILTER.png",
+   "before": {
+    "edge_recall": 0.6792,
+    "edge_precision": 0.7756,
+    "mean_abs_diff": 49.81,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.6792,
+    "edge_precision": 0.7756,
+    "mean_abs_diff": 49.81,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "32": {
+   "authority": "32_REORDER_ACCOUNTS.png",
+   "before": {
+    "edge_recall": 0.6195,
+    "edge_precision": 0.7574,
+    "mean_abs_diff": 56.53,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.6195,
+    "edge_precision": 0.7574,
+    "mean_abs_diff": 56.53,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "33": {
+   "authority": "33_TRANSACTION_REVIEW.png",
+   "before": {
+    "edge_recall": 0.5726,
+    "edge_precision": 0.7137,
+    "mean_abs_diff": 53.87,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.5726,
+    "edge_precision": 0.7137,
+    "mean_abs_diff": 53.87,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "34": {
+   "authority": "34_RECEIPT_CAPTURE_FAILURE.png",
+   "before": {
+    "edge_recall": 0.6156,
+    "edge_precision": 0.727,
+    "mean_abs_diff": 57.59,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.6156,
+    "edge_precision": 0.727,
+    "mean_abs_diff": 57.59,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "35": {
+   "authority": "35_ACCOUNT_NEEDS_REVIEW.png",
+   "before": {
+    "edge_recall": 0.5826,
+    "edge_precision": 0.7769,
+    "mean_abs_diff": 63.43,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.5826,
+    "edge_precision": 0.7769,
+    "mean_abs_diff": 63.43,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "36": {
+   "authority": "36_ARCHIVE_BLOCKED.png",
+   "before": {
+    "edge_recall": 0.6215,
+    "edge_precision": 0.737,
+    "mean_abs_diff": 64.43,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.6215,
+    "edge_precision": 0.737,
+    "mean_abs_diff": 64.43,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  },
+  "37": {
+   "authority": "37_CORRECTION_REVERSAL_CONFIRMATION.png",
+   "before": {
+    "edge_recall": 0.6148,
+    "edge_precision": 0.7601,
+    "mean_abs_diff": 51.26,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "after": {
+    "edge_recall": 0.6148,
+    "edge_precision": 0.7601,
+    "mean_abs_diff": 51.26,
+    "compared_px": [
+     471,
+     836
+    ]
+   },
+   "delta_recall": 0.0,
+   "delta_precision": 0.0,
+   "delta_mad": 0.0
+  }
+ }
+}
