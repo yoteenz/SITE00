@@ -30,7 +30,7 @@ export function archiveBlockers(accountId: string, today: CalendarDate = getToda
   const income = snap.incomeSources.filter((i) => i.account_id === accountId && (i.status === 'EXPECTED' || i.status === 'LATE'));
   if (income.length) out.push({ kind: 'EXPECTED_INCOME', label: 'EXPECTED INCOME', detail: `${income.map((i) => i.source_name).slice(0, 3).join(', ')} ${income.length === 1 ? 'IS' : 'ARE'} EXPECTED INTO THIS POCKET.`, route: 'income' });
   const v = accountView(accountId, today);
-  if (v?.liability && v.owed > 0) out.push({ kind: 'OPEN_BALANCE', label: 'OPEN BALANCE', detail: 'THIS CARD STILL SHOWS MONEY OWED. ARCHIVING WOULD HIDE A DEBT.' });
+  if (v?.liability && v.owed > 0) out.push({ kind: 'OPEN_BALANCE', label: 'OPEN BALANCE', detail: 'THIS CARD STILL SHOWS MONEY OWED. ARCHIVING WOULD HIDE A DEBT.', route: `money/places/${accountId}` });
   return out;
 }
 

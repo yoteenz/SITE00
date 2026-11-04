@@ -294,6 +294,8 @@ test.describe('DELETE POCKET (the canonical archive)', () => {
     await expect(dialog(page, 'd01-delete-pocket')).toContainText('HISTORY AND RECEIPTS STAY SAVED');
     await expect(trigger(page, 'd01-delete-confirm')).toHaveText(/CONFIRM DELETE/);
     await expect(trigger(page, 'd01-keep-pocket')).toHaveText(/KEEP POCKET/);
+    // the safe choice is first and holds focus: an Enter carried over from the menu cannot delete
+    await expect(trigger(page, 'd01-keep-pocket')).toBeFocused();
     expect((await account(page, 'long')).status).toBe('ACTIVE');
     expect(await noPageScroll(page)).toEqual({ x: false, y: false });
     await shot(page, 'D1-delete-confirmation');
@@ -329,6 +331,11 @@ test.describe('DELETE POCKET (the canonical archive)', () => {
     await expect(page.getByTestId('d01-blocker-OPEN_BALANCE')).toBeVisible();
     await expect(trigger(page, 'd01-delete-confirm')).toHaveCount(0);
     expect((await account(page, 'visa')).status).toBe('ACTIVE');
+    // RESOLVE ISSUES closes the surface and goes where the debt is paid: the card's own page (PAY)
+    await clickTrigger(page, 'd01-blocker-details');
+    await expect(dialog(page, 'd01-delete-blocked')).toHaveCount(0);
+    await expect(page).toHaveURL(/\/money\/places\/visa$/);
+    await expect(trigger(page, 'd01-strip-pay')).toBeVisible();
   });
 
   test('T13 / T15 / T17 · a confirmed delete archives the Pocket: it leaves every active view, its history stays, back is safe', async ({ page }) => {

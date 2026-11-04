@@ -283,7 +283,15 @@ export function ArchiveOverlay({ accountId, onClose, mode = 'archive', onDone }:
                 <Button trigger={del ? 'd01-keep-pocket' : 'd01-keep-active'} onClick={onClose}>
                   {del ? 'KEEP POCKET' : 'KEEP ACCOUNT ACTIVE'}
                 </Button>
-                <Button trigger="d01-blocker-details" quiet onClick={() => go(blockers.find((b) => b.route)?.route ?? `money/places/${accountId}/settings`)}>
+                <Button
+                  trigger="d01-blocker-details"
+                  quiet
+                  onClick={() => {
+                    // close first: the resolution can be the page this surface was opened on (a card's PAY)
+                    onClose();
+                    go(blockers.find((b) => b.route)?.route ?? `money/places/${accountId}/settings`);
+                  }}
+                >
                   RESOLVE ISSUES
                 </Button>
               </div>
@@ -297,7 +305,14 @@ export function ArchiveOverlay({ accountId, onClose, mode = 'archive', onDone }:
                 <Row icon="check" label="TOTAL MONEY MAY CHANGE" sub={!v.liability && v.held !== 0 ? `${formatMoney(v.held)} LEAVES YOUR HELD TOTAL` : undefined} />
               </div>
               {error ? <Alert role="alert">{error}</Alert> : null}
-              <div className="d01-actions" style={{ marginTop: 8 }}>
+              {/* DELETE: KEEP POCKET comes first (the brief's order), so it is the overlay's first focus and an Enter
+                  carried over from the menu can never delete. ARCHIVE keeps authority 25's confirm-then-keep stack. */}
+              <div className={del ? 'd01-actions d01-actions--2' : 'd01-actions'} style={{ marginTop: 8 }}>
+                {del ? (
+                  <Button trigger="d01-keep-pocket" quiet onClick={onClose}>
+                    KEEP POCKET
+                  </Button>
+                ) : null}
                 <Button
                   trigger={del ? 'd01-delete-confirm' : 'd01-archive-confirm'}
                   danger
@@ -312,9 +327,11 @@ export function ArchiveOverlay({ accountId, onClose, mode = 'archive', onDone }:
                 >
                   {del ? 'CONFIRM DELETE' : 'ARCHIVE ACCOUNT'}
                 </Button>
-                <Button trigger={del ? 'd01-keep-pocket' : 'd01-keep-active'} quiet onClick={onClose}>
-                  {del ? 'KEEP POCKET' : 'KEEP ACCOUNT ACTIVE'}
-                </Button>
+                {del ? null : (
+                  <Button trigger="d01-keep-active" quiet onClick={onClose}>
+                    KEEP ACCOUNT ACTIVE
+                  </Button>
+                )}
               </div>
             </Paper>
           )}
