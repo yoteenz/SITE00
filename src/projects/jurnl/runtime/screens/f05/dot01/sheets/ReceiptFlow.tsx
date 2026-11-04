@@ -4,10 +4,10 @@
  * (receiptOcr.ts) step by step and never shows a result it did not read. Failures keep the photo and offer to try
  * again, upload instead or enter the purchase manually. Nothing is saved here: the read values go to review.
  */
-import { useEffect, useRef, useState, type ReactNode, type RefObject } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from 'react';
 import { checkReceiptFile, parseReceiptText, type ReceiptRead } from '../../../../../data/f05/dot01/receipt';
 import { DOT01 } from '../dot01Assets';
-import { Dot01Overlay } from '../Dot01Frame';
+import { by, Dot01Overlay, type Dot01Layout } from '../Dot01Frame';
 import { Icon } from '../icons';
 import { Alert, Button, Paper } from '../kit';
 import { readReceiptText, type OcrProgress } from '../receiptOcr';
@@ -18,6 +18,8 @@ type Step = 'capture' | 'scanning' | 'failed';
 type Failure = { title: string; reasons: string[] };
 
 const CONTENT = { x: 30, y: 590, w: 881, h: 1076 };
+/** SK03: the frame paper ends at board y 1040 and the strip starts at 1042 (F05_DOT01_GEOMETRY.json). */
+const SK03_SEAM = 1041;
 
 export function ReceiptFlow({ onRead, onManual, onClose }: { onRead: (c: ReceiptCapture) => void; onManual: () => void; onClose: () => void }) {
   const [step, setStep] = useState<Step>('capture');
@@ -155,24 +157,57 @@ export function ReceiptFlow({ onRead, onManual, onClose }: { onRead: (c: Receipt
       } />
     );
 
+  // CAPTURE RECEIPT (26) on the full SK03 (the authority's own render without lettering): the wooden frame, the
+  // instruction strip and the two button shapes are baked; the lettering, the photo and the controls are live and sit
+  // on them in board px. The elastic seam runs between the frame (ends y 1040) and the strip (starts y 1042).
+  const at = (L: Dot01Layout, x0: number, y0: number, x1: number, y1: number): CSSProperties => ({ left: x0, top: by(L, y0), width: x1 - x0, height: y1 - y0 });
   return (
-    <Dot01Overlay testId="d01-receipt-capture" env="SK03_FIELD" title={['CAPTURE', 'RECEIPT']} subtitle="take a clear photo" onClose={onClose} contentRect={CONTENT} contentScroll label="CAPTURE RECEIPT" content={
-      <>
-        {inputs}
-        {frame(false)}
-        <Paper kind="blank">
-          <ul className="d01-list">
-            <li className="d01-note">◻ FIT THE WHOLE RECEIPT IN THE FRAME</li>
-            <li className="d01-note">◻ MAKE SURE THE TOTAL AND DATE ARE VISIBLE</li>
+    <Dot01Overlay
+      testId="d01-receipt-capture"
+      env="SK03"
+      elasticY={SK03_SEAM}
+      title={['CAPTURE', 'RECEIPT']}
+      subtitle="take a clear photo"
+      onClose={onClose}
+      label="CAPTURE RECEIPT"
+      board={(L) => (
+        <>
+          {inputs}
+          <div className="d01-cap__window" style={at(L, 203, 609, 744, 993)} data-testid="d01-receipt-frame">
+            {preview ? <img src={preview} alt="YOUR RECEIPT" /> : <span className="d01-cap__empty">YOUR PHOTO APPEARS HERE</span>}
+            <i className="d01-cap__corner" data-c="tl" aria-hidden />
+            <i className="d01-cap__corner" data-c="tr" aria-hidden />
+            <i className="d01-cap__corner" data-c="bl" aria-hidden />
+            <i className="d01-cap__corner" data-c="br" aria-hidden />
+          </div>
+          <ul className="d01-cap__tips" aria-label="TIPS">
+            <li style={at(L, 92, 1062, 900, 1112)}>
+              <Icon name="frame" />
+              <span className="d01-cap__rule" aria-hidden />
+              FIT THE WHOLE RECEIPT IN FRAME
+            </li>
+            <li style={at(L, 92, 1132, 900, 1182)}>
+              <Icon name="calendar" />
+              <span className="d01-cap__rule" aria-hidden />
+              MAKE SURE TOTAL AND DATE ARE VISIBLE
+            </li>
           </ul>
-        </Paper>
-        <div className="d01-actions">
-          <Button trigger="d01-receipt-take" icon="camera" onClick={() => pick(cameraRef)}>TAKE PHOTO</Button>
-          <Button trigger="d01-receipt-upload" quiet icon="upload" onClick={() => pick(uploadRef)}>UPLOAD PHOTO</Button>
-          <Button trigger="d01-receipt-manual" quiet icon="edit" onClick={onManual}>ENTER MANUALLY</Button>
-        </div>
-        <p className="d01-note" style={{ textAlign: 'center', color: '#efe3cb' }}>JURNL READS THE PURCHASE DETAILS FOR YOU TO REVIEW. NOTHING IS SAVED UNTIL YOU CONFIRM.</p>
-      </>
-    } />
+          <button type="button" className="jrn-d01__hit d01-cap__btn d01-cap__btn--dark" data-jrn-trigger="d01-receipt-take" style={at(L, 88, 1227, 853, 1327)} onClick={() => pick(cameraRef)}>
+            <Icon name="camera" />
+            TAKE PHOTO
+          </button>
+          <button type="button" className="jrn-d01__hit d01-cap__btn" data-jrn-trigger="d01-receipt-upload" style={at(L, 88, 1348, 853, 1431)} onClick={() => pick(uploadRef)}>
+            <Icon name="upload" />
+            UPLOAD PHOTO
+          </button>
+          <button type="button" className="jrn-d01__hit d01-cap__manual" data-jrn-trigger="d01-receipt-manual" style={at(L, 100, 1442, 841, 1506)} onClick={onManual}>
+            <span className="d01-cap__rule d01-cap__rule--wide" aria-hidden />
+            ENTER MANUALLY
+            <span className="d01-cap__rule d01-cap__rule--wide" aria-hidden />
+          </button>
+          <p className="jrn-d01__on d01-cap__note" style={at(L, 60, 1532, 881, 1568)}>JURNL READS THE PURCHASE DETAILS FOR YOUR REVIEW</p>
+        </>
+      )}
+    />
   );
 }

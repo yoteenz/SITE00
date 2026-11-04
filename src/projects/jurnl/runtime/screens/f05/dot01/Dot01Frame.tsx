@@ -34,17 +34,19 @@ export type BoardRect = { x: number; y: number; w: number; h: number };
 export type Dot01Env = 'SK02' | 'SK02_FIELD' | 'SK03' | 'SK03_FIELD';
 export type Dot01Layer = { id: string; src: string; box: BoardRect; order?: number; className?: string; alt?: string; vt?: string };
 
-export type Dot01Layout = { u: number; ox: number; extra: number; boardH: number; w: number; h: number; dockH: number };
+/** ey: board y where the elastic field tile is inserted (980 by default; a page whose papers are baked into the
+ * environment puts it at the board's bottom edge so nothing is cut). */
+export type Dot01Layout = { u: number; ox: number; extra: number; boardH: number; w: number; h: number; dockH: number; ey: number };
 
 export function boardToScreen(L: Dot01Layout, r: BoardRect): BoardRect {
-  const y = r.y >= ELASTIC_Y ? r.y + L.extra : r.y;
+  const y = r.y >= L.ey ? r.y + L.extra : r.y;
   return { x: L.ox + r.x * L.u, y: y * L.u, w: r.w * L.u, h: r.h * L.u };
 }
 export function by(L: Dot01Layout, y: number): number {
-  return y >= ELASTIC_Y ? y + L.extra : y;
+  return y >= L.ey ? y + L.extra : y;
 }
 
-function useDot01Layout(dock: boolean) {
+function useDot01Layout(dock: boolean, crop = CROP, ey = ELASTIC_Y) {
   const ref = useRef<HTMLDivElement>(null);
   const [vp, setVp] = useState({ w: 393, h: 852 });
   useLayoutEffect(() => {
@@ -63,11 +65,11 @@ function useDot01Layout(dock: boolean) {
   const L = useMemo<Dot01Layout>(() => {
     const dockH = dock ? DOCK_H : 0;
     const avail = Math.max(1, vp.h - dockH);
-    const u = Math.min(Math.max(1, vp.w) / (SRC_W - 2 * CROP), avail / SRC_H);
+    const u = Math.min(Math.max(1, vp.w) / (SRC_W - 2 * crop), avail / SRC_H);
     const ox = (vp.w - SRC_W * u) / 2;
     const extra = Math.max(0, avail / u - SRC_H);
-    return { u, ox, extra, boardH: SRC_H + extra, w: vp.w, h: vp.h, dockH };
-  }, [vp.w, vp.h, dock]);
+    return { u, ox, extra, boardH: SRC_H + extra, w: vp.w, h: vp.h, dockH, ey };
+  }, [vp.w, vp.h, dock, crop, ey]);
   return { ref, L };
 }
 
@@ -108,10 +110,15 @@ type BoardProps = {
   label?: string;
   testId?: string;
   titleId?: string;
+  /** Most board px that may be cropped from each side (default 30). A larger crop lets a tall phone show the whole
+   * environment without an elastic insert (used where the papers are baked into the SIDEKICK). */
+  maxCrop?: number;
+  /** Board y of the elastic insert (default 980). */
+  elasticY?: number;
 };
 
-function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, content, contentRect, contentScroll = false, label, testId, titleId, dock, onLayout }: BoardProps & { dock: boolean; onLayout?: (L: Dot01Layout, el: HTMLDivElement | null) => void }) {
-  const { ref, L } = useDot01Layout(dock);
+function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, content, contentRect, contentScroll = false, label, testId, titleId, dock, onLayout, maxCrop, elasticY }: BoardProps & { dock: boolean; onLayout?: (L: Dot01Layout, el: HTMLDivElement | null) => void }) {
+  const { ref, L } = useDot01Layout(dock, maxCrop, elasticY);
   useLayoutEffect(() => onLayout?.(L, ref.current), [L, onLayout, ref]);
   // a page moves focus to its heading on arrival (overlays focus their first control instead)
   useLayoutEffect(() => {
@@ -133,12 +140,12 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
         <div className="jrn-d01__env" aria-hidden data-layer="L0">
           {sliced ?
             <>
-              <div className="jrn-d01__slice" style={{ top: 0, height: ELASTIC_Y, width: SRC_W }}>
+              <div className="jrn-d01__slice" style={{ top: 0, height: L.ey, width: SRC_W }}>
                 <img src={envSrc} alt="" width={SRC_W} height={SRC_H} draggable={false} />
               </div>
-              <div className="jrn-d01__tile" style={{ top: ELASTIC_Y - 2, height: L.extra + 4, width: SRC_W, backgroundImage: `url("${tile}")`, backgroundSize: `${SRC_W}px ${TILE_H}px` }} />
-              <div className="jrn-d01__slice" style={{ top: ELASTIC_Y + L.extra, height: SRC_H - ELASTIC_Y, width: SRC_W }}>
-                <img src={envSrc} alt="" width={SRC_W} height={SRC_H} draggable={false} style={{ top: -ELASTIC_Y }} />
+              <div className="jrn-d01__tile" style={{ top: L.ey - 2, height: L.extra + 4, width: SRC_W, backgroundImage: `url("${tile}")`, backgroundSize: `${SRC_W}px ${TILE_H}px` }} />
+              <div className="jrn-d01__slice" style={{ top: L.ey + L.extra, height: SRC_H - L.ey, width: SRC_W }}>
+                <img src={envSrc} alt="" width={SRC_W} height={SRC_H} draggable={false} style={{ top: -L.ey }} />
               </div>
             </>
           : <div className="jrn-d01__slice" style={{ top: 0, height: SRC_H, width: SRC_W }}>

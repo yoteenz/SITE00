@@ -1015,3 +1015,107 @@
   border-radius: 6px;
   background: #3a2a1a;
 }
+
+/* ─── CAPTURE RECEIPT (26): live lettering and controls on the full SK03 (board px) ─── */
+.jrn .d01-cap__window {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  overflow: visible;
+}
+.jrn .d01-cap__window > img {
+  max-width: 94%;
+  max-height: 94%;
+  object-fit: contain;
+  box-shadow: 0 10px 24px rgba(20, 10, 4, 0.45);
+}
+.jrn .d01-cap__empty {
+  font: 600 26px/1.2 'JURNL Sans', sans-serif;
+  letter-spacing: 0.16em;
+  color: rgba(247, 236, 214, 0.86);
+  text-shadow: 0 2px 6px rgba(20, 10, 4, 0.7);
+}
+.jrn .d01-cap__corner {
+  position: absolute;
+  width: 54px;
+  height: 54px;
+  border: 0 solid #f7efe0;
+  filter: drop-shadow(0 2px 3px rgba(20, 10, 4, 0.5));
+}
+.jrn .d01-cap__corner[data-c='tl'] { left: 0; top: 0; border-left-width: 7px; border-top-width: 7px; border-top-left-radius: 14px; }
+.jrn .d01-cap__corner[data-c='tr'] { right: 0; top: 0; border-right-width: 7px; border-top-width: 7px; border-top-right-radius: 14px; }
+.jrn .d01-cap__corner[data-c='bl'] { left: 0; bottom: 0; border-left-width: 7px; border-bottom-width: 7px; border-bottom-left-radius: 14px; }
+.jrn .d01-cap__corner[data-c='br'] { right: 0; bottom: 0; border-right-width: 7px; border-bottom-width: 7px; border-bottom-right-radius: 14px; }
+.jrn .d01-cap__tips {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.jrn .d01-cap__tips > li {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  font: 500 28px/1 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.07em;
+  color: var(--d01-ink);
+  white-space: nowrap;
+}
+.jrn .d01-cap__tips svg {
+  width: 52px;
+  height: 52px;
+  flex: none;
+}
+.jrn .d01-cap__rule {
+  display: inline-block;
+  width: 2px;
+  height: 40px;
+  background: rgba(31, 24, 16, 0.55);
+  flex: none;
+}
+.jrn .d01-cap__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  font: 500 50px/1 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.08em;
+  color: var(--d01-ink);
+  text-transform: uppercase;
+  border-radius: 40px;
+}
+.jrn .d01-cap__btn--dark {
+  color: #f3e7cf;
+}
+.jrn .d01-cap__btn svg {
+  width: 62px;
+  height: 62px;
+  flex: none;
+}
+.jrn .d01-cap__btn:not(.d01-cap__btn--dark) {
+  font-size: 44px;
+}
+.jrn .d01-cap__btn:not(.d01-cap__btn--dark) svg {
+  width: 54px;
+  height: 54px;
+}
+.jrn .d01-cap__manual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  font: 600 31px/1 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.1em;
+  color: var(--d01-ink);
+  text-transform: uppercase;
+}
+.jrn .d01-cap__rule--wide {
+  width: 150px;
+  height: 2px;
+}
+.jrn .d01-cap__note {
+  font: 600 21px/1.2 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.06em;
+  text-align: center;
+  white-space: nowrap;
+}

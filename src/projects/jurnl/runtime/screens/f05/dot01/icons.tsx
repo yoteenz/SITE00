@@ -9,6 +9,7 @@ const ICONS: Record<string, ReactNode> = {
   card: <><rect {...P} x="2.5" y="5" width="19" height="14" rx="2.5" /><path {...P} d="M2.5 9.5h19M6 15h4" /></>,
   receipt: <><path {...P} d="M6 2.5h12v19l-2-1.4-2 1.4-2-1.4-2 1.4-2-1.4-2 1.4z" /><path {...P} d="M9 7.5h6M9 11h6M9 14.5h4" /></>,
   plus: <><path {...P} d="M12 5v14M5 12h14" /></>,
+  frame: <><path {...P} d="M3 8V4h4M17 4h4v4M21 16v4h-4M7 20H3v-4" /></>,
   minus: <><path {...P} d="M5 12h14" /></>,
   chart: <><path {...P} d="M4 20V10M9.5 20V6M15 20v-8M20.5 20V3" /></>,
   info: <><circle {...P} cx="12" cy="12" r="9" /><path {...P} d="M12 10.5v6M12 7.2v.3" /></>,
