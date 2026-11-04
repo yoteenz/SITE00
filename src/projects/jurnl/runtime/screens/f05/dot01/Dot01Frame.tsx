@@ -380,8 +380,13 @@ export function useSearchAddChips(): Dot01Chip[] {
 }
 
 export function ChipIcon({ icon, tone = 'paper' }: { icon: Dot01Chip['icon']; tone?: Dot01ChipTone }) {
+  // Batch 05 / 01: the whole torn back tile with its ink arrow, as 02 / 14 / 26 / 27 draw it (a candidate mounted for
+  // the founder's review; the 9-sliced blank paper + Batch 01 arrow below stays as the fallback). Only BACK / CLOSE:
+  // the tile carries an arrow, so other paper chips (MANAGE POCKET) keep the blank paper.
+  const tile = icon === 'back' && tone === 'paper' ? microAssetSrc('F05.D01.CTRL.BACK.PARCHMENT.LIGHT') : null;
+  if (tile) return <img className="jrn-d01__chip-tile" src={tile} alt="" aria-hidden draggable={false} data-micro-asset="F05.D01.CTRL.BACK.PARCHMENT.LIGHT" />;
   // founder art where the authority draws it: the ink back arrow on the paper tile (Batch 01 / 01) and the amber add
-  // tile (Batch 01 / 04, which carries its own tile); the amber back tile and the light search glyph wait for Batch 05
+  // tile (Batch 01 / 04, which carries its own tile); the amber back tile stays CSS (Batch 05 / 02 needs correction)
   const art = icon === 'back' && tone === 'paper' ? microAssetSrc('F05.D01.ICON.ARROW.HANDINK') : icon === 'plus' && tone === 'amber' ? microAssetSrc('F05.D01.ICON.PLUS.FRAMED') : null;
   if (art) return <img className="jrn-d01__chip-art" src={art} alt="" aria-hidden draggable={false} data-micro-asset={icon === 'back' ? 'F05.D01.ICON.ARROW.HANDINK' : 'F05.D01.ICON.PLUS.FRAMED'} />;
   // MANAGE POCKET: three ink dots on the paper tile (no overflow glyph in Batches 01–04; line glyph until one exists)

@@ -1189,6 +1189,18 @@
   width: 48px;
   height: 40px;
 }
+/* Batch 05 / 01 back tile: the tile is the chip (no 9-sliced paper behind it); the drop shadow stays on the chip */
+.jrn .jrn-d01__chip--paper:has(.jrn-d01__chip-tile) {
+  border: 0;
+  border-image: none;
+}
+.jrn .jrn-d01__chip-tile {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
 
 /* overlay headings (SK03 / SK03_FIELD): heavier, tighter, further right, higher (authorities 14–37) */
 .jrn .jrn-d01[data-env^='SK03'] .jrn-d01__heading {
@@ -1460,4 +1472,196 @@
   height: 30px;
   vertical-align: -9px;
   margin-right: 2px;
+}
+
+/* ===================== FINAL VISUAL CONVERGENCE (Batch 05 / 06 sprint) =====================
+   The figure pair and dark figure band the authorities draw on 07–10, 13 and 23. */
+.jrn .d01-figs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+.jrn .d01-fig {
+  container-type: inline-size;
+  padding: 10px 8px 6px;
+}
+.jrn .d01-fig__label {
+  display: grid;
+  margin: 0;
+  font: 600 calc(var(--d01-fs) * 0.96) / 1.08 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.08em;
+  color: var(--d01-ink);
+}
+.jrn .d01-fig__value {
+  display: block;
+  margin-top: 4px;
+  font: 600 min(calc(var(--d01-fs) * 2.7), 22cqi) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.005em;
+  font-variant-numeric: lining-nums tabular-nums;
+  white-space: nowrap;
+  color: var(--d01-ink);
+}
+.jrn .d01-band {
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  column-gap: 14px;
+  padding: 10px 18px 10px 20px;
+  border-radius: 8px;
+  background: radial-gradient(120% 140% at 30% 20%, #343a22 0%, #252a17 55%, #1b1f10 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 238, 200, 0.08), inset 0 -2px 6px rgba(0, 0, 0, 0.35), 0 3px 8px rgba(10, 8, 2, 0.45);
+  color: #f2e5c8;
+}
+.jrn .d01-band__label {
+  display: grid;
+  font: 600 calc(var(--d01-fs) * 1.02) / 1.08 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.12em;
+}
+.jrn .d01-band__rule {
+  width: 1.5px;
+  align-self: stretch;
+  background: rgba(226, 174, 78, 0.55);
+}
+.jrn .d01-band__value {
+  font: 600 min(calc(var(--d01-fs) * 2.5), 13cqi) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font-variant-numeric: lining-nums tabular-nums;
+  white-space: nowrap;
+  color: var(--d01-gold);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.55), 0 0 10px rgba(226, 174, 78, 0.18);
+}
+.jrn .d01-band__value[data-tone='cream'] {
+  color: #f6ecd6;
+}
+.jrn .d01-band__sub {
+  grid-column: 1 / -1;
+  margin-top: 6px;
+  font-size: calc(var(--d01-fs) * 0.74);
+  letter-spacing: 0.1em;
+  color: rgba(242, 229, 200, 0.82);
+}
+.jrn .d01-pill {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #8a261d, #6e1b15);
+  color: #f6ead2;
+  font-size: calc(var(--d01-fs) * 0.8);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+.jrn .d01-pill[data-tone='ok'] {
+  background: linear-gradient(180deg, #4a5530, var(--d01-olive));
+}
+/* 13: the actual is typed where the authority prints it, in the figure's own type */
+.jrn .d01-fig__input {
+  width: 100%;
+  min-width: 0;
+  padding: 0 0 2px;
+  border: 0;
+  border-bottom: 1.5px solid rgba(31, 24, 16, 0.4);
+  border-radius: 0;
+  background: transparent;
+  box-sizing: border-box;
+}
+.jrn .d01-fig__input::placeholder {
+  color: rgba(31, 24, 16, 0.45);
+}
+.jrn .d01-fig__input:focus-visible {
+  outline: 3px solid var(--d01-gold);
+  outline-offset: 2px;
+}
+/* history pages (07–10, 31): the ledger reads in the authority serif, a little larger, as 07 sets it */
+.jrn .d01-tx {
+  font: 500 calc(var(--d01-fs) * 0.98) / 1.15 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.05em;
+}
+.jrn .d01-tx__date {
+  font-size: 0.84em;
+  opacity: 0.85;
+}
+.jrn .d01-tx__amt {
+  font-size: calc(var(--d01-fs) * 1.12);
+  font-weight: 600;
+}
+.jrn .d01-tx__head {
+  font: 600 calc(var(--d01-fs) * 0.8) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+}
+/* the place strip (13 / 23): the action strip's paper, no chevron, not interactive */
+.jrn .d01-strip--static {
+  grid-template-columns: calc(var(--d01-fs) * 2.6) 2px 1fr;
+  cursor: default;
+}
+.jrn .d01-strip--static:hover {
+  transform: none;
+}
+/* 03 / 04 / 05: the balance on the dark field (cream, gold on 03), as the authorities set it; 05's OWED between rules */
+.jrn .jrn-d01__on[data-on='dark'] {
+  color: #f3e6c9;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+.jrn .jrn-d01__on--amount[data-on='dark'][data-tone='gold'] {
+  color: var(--d01-gold);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 14px rgba(226, 174, 78, 0.22);
+}
+.jrn .jrn-d01__on--caption[data-on='dark'] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.jrn .jrn-d01__on--caption[data-on='dark']::before,
+.jrn .jrn-d01__on--caption[data-on='dark']::after {
+  content: '';
+  width: 64px;
+  height: 2px;
+  background: rgba(243, 230, 201, 0.7);
+}
+/* 13 / 23 fit their authority's single view: a little less air between the papers where the figure pair is used */
+.jrn .jrn-d01__content:has(> .d01-figs) {
+  row-gap: 8px;
+}
+.jrn .jrn-d01__content:has(> .d01-figs) .d01-fig {
+  padding-top: 8px;
+}
+.jrn .jrn-d01__content:has(> .d01-figs) .d01-band {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+/* 31 (and 07–10 when opened): the filters as the authority's compact chip grid, so the list stays in view */
+.jrn .d01-filters--chips {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.jrn .d01-field.d01-field--chip {
+  display: block;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-image: none;
+  background: none;
+  filter: none;
+}
+.jrn .d01-field.d01-field--chip::before,
+.jrn .d01-field.d01-field--chip::after {
+  content: none;
+}
+.jrn .d01-field--chip .jrn-sel {
+  min-height: 40px;
+  padding: 4px 8px 4px 10px;
+  border-radius: 12px;
+  font-size: max(12px, calc(var(--d01-fs) * 0.8));
+  letter-spacing: 0.04em;
+}
+.jrn .d01-field--chip .jrn-sel__chev {
+  width: 14px;
+  height: 14px;
+}
+.jrn .d01-filters__clear {
+  grid-column: span 2;
+}
+.jrn .d01-filters__clear .d01-btn {
+  min-height: 40px;
 }

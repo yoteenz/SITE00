@@ -18,7 +18,7 @@ import { useJurnl } from '../../../state/store';
 import { DOT01 } from './dot01Assets';
 import { Dot01Frame } from './Dot01Frame';
 import { shortDate } from './HistoryPage';
-import { Alert, Button, Paper, Row, Strip, TextInput } from './kit';
+import { Alert, Button, FigureBand, FigurePair, Paper, PlaceStrip, Row, Strip } from './kit';
 import { NotFoundPage } from './NotFoundPage';
 import { getReceiptImage } from './receiptStore';
 import { Dot01Sheets, type Dot01SheetState } from './sheets/Dot01Sheets';
@@ -195,25 +195,26 @@ export function BalanceReviewPage() {
   const diff = actualValue != null ? differenceOf(rec.tracked, actualValue) : null;
   const content = (
     <>
-      <Paper kind="panel" testId="d01-review">
-        <p className="d01-h">{v.account.display_name}</p>
-        <div className="d01-split">
-          <div style={{ textAlign: 'center' }}>
-            <p className="d01-note">{v.liability ? 'TRACKED AMOUNT OWED' : 'TRACKED BALANCE'}</p>
-            <b className="d01-big" data-testid="d01-tracked" data-jrn-amount-cents={Math.round(rec.tracked * 100)}>{formatMoney(rec.tracked)}</b>
-          </div>
-          <div style={{ textAlign: 'center' }}>
-            <p className="d01-note">{v.liability ? 'ACTUAL AMOUNT OWED' : 'ACTUAL BALANCE'}</p>
-            <b className="d01-big" data-testid="d01-actual">{actualValue != null ? formatMoney(actualValue) : '—'}</b>
-          </div>
-        </div>
-      </Paper>
+      {/* authority 13: the place strip, TRACKED / ACTUAL papers with large figures, the DIFFERENCE on the dark band, the
+          reconciliation status with its pill, then the three actions */}
+      <PlaceStrip icon={v.liability ? 'card' : 'bank'} label={v.account.display_name} />
+      <FigurePair
+        testId="d01-review"
+        left={{ label: v.liability ? ['TRACKED', 'OWED'] : ['TRACKED', 'BALANCE'], value: formatMoney(rec.tracked), testId: 'd01-tracked', cents: Math.round(rec.tracked * 100) }}
+        right={{
+          label: v.liability ? ['ACTUAL', 'OWED'] : ['ACTUAL', 'BALANCE'],
+          value: actualValue != null ? formatMoney(actualValue) : '—',
+          testId: 'd01-actual',
+          input: { value: actual, trigger: 'd01-actual-input', aria: v.liability ? 'WHAT THE CARD SAYS YOU OWE NOW' : 'WHAT THE ACCOUNT HOLDS NOW', onValue: (x) => { setActual(x); setDone(null); setError(null); } },
+        }}
+      />
+      <FigureBand
+        label={['DIFFERENCE']}
+        value={diff == null ? '—' : formatMoney(diff, true)}
+        testId="d01-difference"
+      />
       <Paper kind="blank">
-        <TextInput label={v.liability ? 'WHAT THE CARD SAYS YOU OWE NOW' : 'WHAT THE ACCOUNT HOLDS NOW'} value={actual} onValue={(x) => { setActual(x); setDone(null); setError(null); }} trigger="d01-actual-input" inputMode="decimal" stack />
-        <div className="d01-rows">
-          <Row label="DIFFERENCE" value={diff == null ? '—' : formatMoney(diff, true)} testId="d01-difference" sub={diff == null ? 'ENTER THE ACTUAL BALANCE TO COMPARE' : diff === 0 ? 'NO DIFFERENCE' : 'NOT INCOME, NOT SPENDING: A DIFFERENCE TO REVIEW'} />
-          <Row label="RECONCILIATION STATUS" value={rec.status} sub={rec.on ? `LAST CONFIRMED ${rec.on}` : undefined} testId="d01-rec-status" />
-        </div>
+        <Row icon="scale" label="RECONCILIATION STATUS" value={<span className="d01-pill" data-tone={rec.status === 'RECONCILED' ? 'ok' : undefined}>{rec.status}</span>} sub={rec.on ? `LAST CONFIRMED ${rec.on}` : undefined} testId="d01-rec-status" />
       </Paper>
       {error ? <Alert role="alert">{error}</Alert> : null}
       {done ? <Alert tone="ok" testId="d01-review-done">{done}</Alert> : null}

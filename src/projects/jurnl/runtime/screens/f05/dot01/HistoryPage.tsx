@@ -18,7 +18,7 @@ import { Icon } from './icons';
 import { JurnlDateField, JurnlSelect } from '../surfaces/JurnlSurfaces';
 import { MicroIcon } from '../MicroIcon';
 import type { MicroAssetId } from '../microAssets';
-import { Button, Paper } from './kit';
+import { Button, FigureBand, Paper } from './kit';
 import { NotFoundPage } from './NotFoundPage';
 import { Dot01Sheets, type Dot01SheetState } from './sheets/Dot01Sheets';
 
@@ -85,16 +85,18 @@ export function HistoryPage({ all = false }: { all?: boolean }) {
   const content = (
     <>
       {v ? (
-        <Paper kind="blank" testId="d01-history-balance">
-          <div className="d01-split" style={{ alignItems: 'center' }}>
-            <span className="d01-note" style={{ textAlign: 'center' }}>{v.liability ? 'CURRENT BALANCE' : v.kind === 'cash' ? 'CASH ON HAND' : 'ACCOUNT BALANCE'}</span>
-            <b className="d01-big" style={{ textAlign: 'center' }} data-jrn-amount-cents={Math.round((balance ?? 0) * 100)}>
-              {formatMoney(balance ?? 0)}
-            </b>
-          </div>
-          {v.liability && v.availableCredit != null ? <p className="d01-note" style={{ textAlign: 'center' }}>{`AVAILABLE CREDIT ${formatMoney(v.availableCredit)} · OWED, NOT MONEY YOU HAVE`}</p> : null}
-          {!v.liability && (v.waitingToLeave > 0 || v.incoming > 0) ? <p className="d01-note" style={{ textAlign: 'center' }}>{`${formatMoney(v.waitingToLeave)} NOT LEFT YET · ${formatMoney(v.incoming)} ON ITS WAY IN`}</p> : null}
-        </Paper>
+        // authority 07–10: the balance on the dark band (cream label, gold figure), above the ledger
+        <FigureBand
+          testId="d01-history-balance"
+          label={[v.liability ? 'CURRENT BALANCE' : v.kind === 'cash' ? 'CASH ON HAND' : 'ACCOUNT BALANCE']}
+          value={formatMoney(balance ?? 0)}
+          cents={Math.round((balance ?? 0) * 100)}
+          sub={
+            v.liability && v.availableCredit != null ? `AVAILABLE CREDIT ${formatMoney(v.availableCredit)} · OWED, NOT MONEY YOU HAVE`
+            : !v.liability && (v.waitingToLeave > 0 || v.incoming > 0) ? `${formatMoney(v.waitingToLeave)} NOT LEFT YET · ${formatMoney(v.incoming)} ON ITS WAY IN`
+            : undefined
+          }
+        />
       ) : null}
       <Paper kind="sheet" className="d01-grow">
         <div className="d01-field d01-field--stack" style={{ borderBottom: 0 }}>
@@ -107,7 +109,8 @@ export function HistoryPage({ all = false }: { all?: boolean }) {
           </div>
         </div>
         {showFilters ? (
-          <div className="d01-filters" data-testid="d01-filters" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, marginBottom: 6 }}>
+          // authority 31: compact filter chips in three columns (the field name is the chip's accessible name)
+          <div className="d01-filters d01-filters--chips" data-testid="d01-filters">
             <FilterDate label="FROM" trigger="d01-filter-from" value={filter.from ?? ''} onValue={(x) => set('from', x || null)} />
             <FilterDate label="TO" trigger="d01-filter-to" value={filter.to ?? ''} onValue={(x) => set('to', x || null)} />
             {all ? (
@@ -117,7 +120,7 @@ export function HistoryPage({ all = false }: { all?: boolean }) {
             <FilterSelect label="CATEGORY" trigger="d01-filter-category" value={filter.category ?? ''} onValue={(x) => set('category', x || null)} options={[{ id: '', label: 'ALL CATEGORIES' }, ...cats.map((c) => ({ id: c, label: c }))]} />
             <FilterSelect label="STATUS" trigger="d01-filter-status" value={filter.state ?? ''} onValue={(x) => set('status', x || null)} options={[{ id: '', label: 'ANY STATUS' }, { id: 'POSTED', label: 'POSTED' }, { id: 'NOT POSTED', label: 'NOT POSTED YET' }]} />
             <FilterSelect label="SORT" trigger="d01-filter-sort" value={filter.sort ?? 'NEWEST'} onValue={(x) => set('sort', x)} options={[{ id: 'NEWEST', label: 'NEWEST FIRST' }, { id: 'OLDEST', label: 'OLDEST FIRST' }, { id: 'LARGEST', label: 'LARGEST FIRST' }]} />
-            <div className="d01-actions" style={{ gridColumn: '1 / -1' }}>
+            <div className="d01-actions d01-filters__clear">
               <Button trigger="d01-clear-filters" quiet onClick={() => setParams(new URLSearchParams(), { replace: true })}>
                 CLEAR FILTERS
               </Button>
@@ -210,10 +213,12 @@ export { shortDate as dot01ShortDate };
 /** A filter in the history panel: a JURNL_SELECT labelled by its caption (no native select). */
 function FilterSelect({ label, trigger, value, onValue, options }: { label: string; trigger: string; value: string; onValue: (v: string) => void; options: { id: string; label: string }[] }) {
   const id = useId();
+  // at its default (the first option) the chip shows its name, as 31 draws DATE / ACCOUNT / CATEGORY / TYPE / STATUS / SORT
+  const atDefault = value === (options[0]?.id ?? '');
   return (
-    <div className="d01-field d01-field--stack">
-      <span id={`${id}-label`}>{label}</span>
-      <JurnlSelect id={id} value={value} options={options} onValue={onValue} trigger={trigger} labelledBy={`${id}-label`} />
+    <div className="d01-field d01-field--chip" data-default={atDefault ? 'true' : undefined}>
+      <span id={`${id}-label`} className="d01-sr">{label}</span>
+      <JurnlSelect id={id} value={value} options={options} onValue={onValue} trigger={trigger} labelledBy={`${id}-label`} display={atDefault ? label : undefined} />
     </div>
   );
 }
@@ -222,9 +227,9 @@ function FilterSelect({ label, trigger, value, onValue, options }: { label: stri
 function FilterDate({ label, trigger, value, onValue }: { label: string; trigger: string; value: string; onValue: (v: string) => void }) {
   const id = useId();
   return (
-    <div className="d01-field d01-field--stack">
-      <span id={`${id}-label`}>{label}</span>
-      <JurnlDateField id={id} value={value} onValue={onValue} trigger={trigger} labelledBy={`${id}-label`} placeholder="ANY DATE" optional />
+    <div className="d01-field d01-field--chip">
+      <span id={`${id}-label`} className="d01-sr">{label}</span>
+      <JurnlDateField id={id} value={value} onValue={onValue} trigger={trigger} labelledBy={`${id}-label`} placeholder={label} optional />
     </div>
   );
 }
