@@ -16709,3 +16709,12 @@ Summary of the whole conversation in this chat.
 - **Context:** Sprint `P0.JURNL.PRODUCTION-WORKSPACE.INTEGRATION-BRANCH-AND-TUNNEL-ALIGNMENT.V1`; Opus branch `claude/jurnl-f05-money-motion-pilot-um0u93` / PR #1707; do not merge financial PRs or modify Opus worktree.
 - **Findings:** PR #1707 head **396bd0b3** (user reference SHA **151e0a30** is ancestor — DOT 01 + motion pilot committed on #1707, not a separate branch). Prior tunnel served **preview/tunnel @ e413590** (no motion route). Created **`integration/jurnl-production-workspace`** at 396bd0b3; isolated worktree `/tmp/site00-jurnl-integration-wt`; pinned canonical `:5174` dev server via `serve-site00-preview-from-pin-ref.sh`. Browser PASS on `money?parent=motion` (4 carousel dots, HELD/OWED/COMMITTED/AVAILABLE, nav). Revert preview: `serve-site00-preview-from-main.sh`.
 - **Changes:** Remote branch only (no Opus branch edits). Evidence release `jurnl-production-workspace-integration-2026-11-03`.
+
+---
+
+## 2026-11-03 — JURNL founder grant integrity + Opus compatibility (draft #1708)
+
+- **Context:** Sprint grant-integrity; fix non-atomic grant+audit, CASCADE audit deletion risk, reconcile with PR #1707 shared files.
+- **Changes:** Migration RPC functions + audit `ON DELETE RESTRICT`; `supabaseGrantStore` uses RPC; memory store atomic audit tests; bridge sign-out seq invalidation; merge rehearsal #1708+#1707 (runtime files clean).
+- **Tests:** 43 founder/atomic/bridge; monetization 33/34 unchanged failure.
+- **SHA:** `d736952ba` on `cursor/jurnl-founder-entitlements-isolated-v1-4e5a`. Release `jurnl-founder-grant-integrity-2026-11-03`.
