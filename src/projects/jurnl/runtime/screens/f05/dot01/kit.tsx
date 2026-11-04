@@ -44,6 +44,94 @@ export function Strip({ icon, asset, label, sub, onClick, trigger, warn, disable
   );
 }
 
+/** Two torn papers side by side, each a two-line label over a large figure (authorities 13 / 23: TRACKED · ACTUAL). */
+export type Figure = {
+  label: string[];
+  value: string;
+  testId?: string;
+  cents?: number;
+  /** the figure is where the person types it (13: ACTUAL BALANCE), as the authority draws the entered actual */
+  input?: { value: string; onValue: (v: string) => void; trigger: string; aria: string };
+};
+export function FigurePair({ left, right, testId }: { left: Figure; right: Figure; testId?: string }) {
+  const base = useId();
+  return (
+    <div className="d01-figs" data-testid={testId}>
+      {[left, right].map((f, i) => {
+        const id = `${base}-${i}`;
+        return (
+          <div key={i} className="d01-paper d01-paper--panel d01-fig">
+            {f.input ? (
+              <label className="d01-fig__label" htmlFor={id}>
+                {f.label.map((l, j) => (
+                  <span key={j}>{l}</span>
+                ))}
+              </label>
+            ) : (
+              <p className="d01-fig__label">
+                {f.label.map((l, j) => (
+                  <span key={j}>{l}</span>
+                ))}
+              </p>
+            )}
+            {f.input ? (
+              <input
+                id={id}
+                className="d01-fig__value d01-fig__input"
+                type="text"
+                inputMode="decimal"
+                autoComplete="off"
+                placeholder="—"
+                aria-label={f.input.aria}
+                value={f.input.value}
+                data-jrn-trigger={f.input.trigger}
+                data-testid={f.testId}
+                onChange={(e) => f.input!.onValue(e.target.value)}
+              />
+            ) : (
+              <b className="d01-fig__value" data-testid={f.testId} data-jrn-amount-cents={f.cents}>
+                {f.value}
+              </b>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/** The dark band the authorities set a key figure on (07 ACCOUNT BALANCE · 13 DIFFERENCE · 23 ADJUSTMENT AMOUNT):
+ *  cream label, a gold rule, the figure in gold. Live text; the figure keeps its canonical value. */
+export function FigureBand({ label, value, sub, testId, cents, tone = 'gold' }: { label: string[]; value: string; sub?: string; testId?: string; cents?: number; tone?: 'gold' | 'cream' }) {
+  return (
+    <div className="d01-band" data-testid={testId}>
+      <span className="d01-band__label">
+        {label.map((l, j) => (
+          <span key={j}>{l}</span>
+        ))}
+      </span>
+      <span className="d01-band__rule" aria-hidden />
+      <b className="d01-band__value" data-tone={tone} data-jrn-amount-cents={cents}>
+        {value}
+      </b>
+      {sub ? <small className="d01-band__sub">{sub}</small> : null}
+    </div>
+  );
+}
+
+/** The place a screen is about, on the same parchment strip as the actions (13 / 23 draw BANK ACCOUNT this way); not a button. */
+export function PlaceStrip({ icon, label, testId }: { icon: string; label: string; testId?: string }) {
+  return (
+    <div className="d01-strip d01-strip--static" data-testid={testId}>
+      <span className="d01-strip__ico">
+        <Icon name={icon} />
+      </span>
+      <span className="d01-strip__rule" aria-hidden />
+      <span>{label}</span>
+    </div>
+  );
+}
+
 export function Row({ icon, label, value, sub, testId }: { icon?: string; label: string; value?: ReactNode; sub?: string; testId?: string }) {
   return (
     <div className="d01-row" data-testid={testId} style={icon ? undefined : { gridTemplateColumns: '1fr auto' }}>

@@ -22,7 +22,7 @@ import { DOT01 } from '../dot01Assets';
 import { Dot01Overlay, useSearchAddChips, OVERLAY_CONTENT } from '../Dot01Frame';
 import { shortDate } from '../HistoryPage';
 import { Chevron, Icon } from '../icons';
-import { Alert, Button, Paper, Row, SelectInput, TextInput } from '../kit';
+import { Alert, Button, FigureBand, FigurePair, Paper, PlaceStrip, Row, SelectInput, TextInput } from '../kit';
 
 const CONTENT = OVERLAY_CONTENT;
 const CATEGORIES = ['GROCERIES', 'FOOD', 'DINING', 'FOOD & DRINK', 'FUEL', 'TRANSPORT', 'HOUSING', 'UTILITIES', 'HEALTH', 'CLOTHING', 'SHOPPING', 'MEMBERSHIP', 'TRAVEL', 'OTHER'];
@@ -304,23 +304,16 @@ export function AdjustmentOverlay({ accountId, actual, onClose, onDone }: { acco
   return (
     <Dot01Overlay testId="d01-adjust" env="SK03_FIELD" title={['BALANCE', 'ADJUSTMENT']} subtitle="review before saving" onClose={onClose} contentRect={CONTENT} contentScroll label="BALANCE ADJUSTMENT" content={
       <>
-        <Paper kind="blank">
-          <Row icon={v.liability ? 'card' : 'bank'} label={v.account.display_name} />
-        </Paper>
-        <div className="d01-split">
-          <Paper kind="panel">
-            <p className="d01-note">{v.liability ? 'TRACKED OWED' : 'TRACKED BALANCE'}</p>
-            <b className="d01-big" data-testid="d01-adjust-tracked">{formatMoney(rec.tracked)}</b>
-          </Paper>
-          <Paper kind="panel">
-            <p className="d01-note">{v.liability ? 'ACTUAL OWED' : 'ACTUAL BALANCE'}</p>
-            <b className="d01-big" data-testid="d01-adjust-actual">{formatMoney(actual)}</b>
-          </Paper>
-        </div>
+        <PlaceStrip icon={v.liability ? 'card' : 'bank'} label={v.account.display_name} />
+        {/* authority 23: TRACKED / ACTUAL papers, the ADJUSTMENT AMOUNT on the dark band, then reason, date and notes */}
+        <FigurePair
+          left={{ label: v.liability ? ['TRACKED', 'OWED'] : ['TRACKED', 'BALANCE'], value: formatMoney(rec.tracked), testId: 'd01-adjust-tracked', cents: Math.round(rec.tracked * 100) }}
+          right={{ label: v.liability ? ['ACTUAL', 'OWED'] : ['ACTUAL', 'BALANCE'], value: formatMoney(actual), testId: 'd01-adjust-actual', cents: Math.round(actual * 100) }}
+        />
+        <FigureBand label={['ADJUSTMENT', 'AMOUNT']} value={formatMoney(diff, true)} testId="d01-adjust-amount" />
         <Paper kind="sheet">
-          <Row icon="scale" label="ADJUSTMENT AMOUNT" value={formatMoney(diff, true)} testId="d01-adjust-amount" sub="A BALANCE CORRECTION · NOT INCOME, NOT SPENDING" />
           <SelectInput label="ADJUSTMENT REASON" icon="tag" trigger="d01-adjust-reason" value={reason} onValue={setReason} options={ADJUST_REASONS} placeholder="SELECT REASON" />
-          <Row icon="calendar" label="DATE" value={shortDate(today)} sub="RECORDED AS OF TODAY" />
+          <Row icon="calendar" label="DATE" value={shortDate(today)} />
           <TextInput label="NOTES" icon="note" value={notes} onValue={setNotes} trigger="d01-adjust-notes" placeholder="ADD NOTES" />
         </Paper>
         <Alert testId="d01-adjust-only">THIS WILL CHANGE THE TRACKED BALANCE ONLY</Alert>

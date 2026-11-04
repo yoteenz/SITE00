@@ -98,11 +98,14 @@ export function AccountPage() {
     const w = (art.w / art.h) * h;
     return { x: band.x + (band.w - w) / 2, y: band.y + 4, w, h };
   })();
+  // 03 / 04 / 05 set the balance straight on the dark field (no paper); 02 keeps its CURRENT BALANCE paper
+  const onDark = v.kind !== 'bank';
   const layers: Dot01Layer[] = [
     ...(v.kind === 'bank' ? [{ id: 'scenic', src: DOT01.SK02_SCENIC, box: SCENIC, order: 2 }] : [{ id: 'identity', src: art.src, box: artRect, order: 2, className: 'jrn-d01__identity' }]),
-    // the tapped parent paper becomes this paper (shared element: view-transition-name jrn-place)
-    { id: 'balance', src: DOT01.SK02_BALANCE, box: BAL, order: 0, vt: 'jrn-place' },
-    { id: 'stats', src: DOT01.SK02_STATS, box: STATS, order: 1 },
+    // the tapped parent paper becomes this page's paper (shared element: view-transition-name jrn-place): the balance
+    // paper on 02, the stats paper where the balance has none
+    ...(onDark ? [] : [{ id: 'balance', src: DOT01.SK02_BALANCE, box: BAL, order: 0, vt: 'jrn-place' }]),
+    { id: 'stats', src: DOT01.SK02_STATS, box: STATS, order: 1, vt: onDark ? 'jrn-place' : undefined },
     ...stripRects.map((r, i) => ({ id: `strip-${i + 1}`, src: STRIP_SRC[i % 3]!, box: r, order: 3 + i })),
   ];
   // labels as each authority sets them (02 CURRENT BALANCE · 03 AVAILABLE BALANCE · 04 TOTAL ON HAND · 05 CURRENT BALANCE)
@@ -139,7 +142,7 @@ export function AccountPage() {
   const board = (L: Dot01Layout): ReactNode => (
     <>
       {/* balance paper */}
-      <div className="jrn-d01__on jrn-d01__on--label" style={{ left: BAL.x + 20, top: by(L, BAL.y) + 40, width: BAL.w - 40 }}>
+      <div className="jrn-d01__on jrn-d01__on--label" data-on={onDark ? 'dark' : undefined} style={{ left: BAL.x + 20, top: by(L, BAL.y) + 40, width: BAL.w - 40 }}>
         {balanceLabel.map((l, i) => (
           <Fragment key={`${i}-${l}`}>
             {i ? ' ' : null}
@@ -147,10 +150,10 @@ export function AccountPage() {
           </Fragment>
         ))}
       </div>
-      <b className="jrn-d01__on jrn-d01__on--amount" data-testid="d01-balance" data-jrn-amount-cents={Math.round(amount * 100)} style={{ left: BAL.x + 10, width: BAL.w - 20, top: by(L, BAL.y) + 140, textAlign: 'center', fontSize: amountSize(amountText, 100) } as CSSProperties}>
+      <b className="jrn-d01__on jrn-d01__on--amount" data-on={onDark ? 'dark' : undefined} data-tone={v.kind === 'payout' ? 'gold' : undefined} data-testid="d01-balance" data-jrn-amount-cents={Math.round(amount * 100)} style={{ left: BAL.x + 10, width: BAL.w - 20, top: by(L, BAL.y) + 140, textAlign: 'center', fontSize: amountSize(amountText, 100) } as CSSProperties}>
         {amountText}
       </b>
-      {v.liability ? <i className="jrn-d01__on jrn-d01__on--caption" style={{ left: BAL.x, width: BAL.w, top: by(L, BAL.y) + 232, textAlign: 'center' }}>OWED</i> : null}
+      {v.liability ? <i className="jrn-d01__on jrn-d01__on--caption" data-on={onDark ? 'dark' : undefined} style={{ left: BAL.x, width: BAL.w, top: by(L, BAL.y) + (onDark ? 262 : 232), textAlign: 'center' }}>OWED</i> : null}
       {/* hold the balance paper to manage the Pocket (the MANAGE POCKET chip does the same for keyboard / readers) */}
       <div className="jrn-d01__hold" aria-hidden data-jrn-trigger="d01-pocket-hold" style={{ left: BAL.x, top: by(L, BAL.y), width: BAL.w, height: BAL.h }} {...hold.bind(id)} />
       {/* stats paper */}

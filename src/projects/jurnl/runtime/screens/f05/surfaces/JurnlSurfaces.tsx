@@ -106,7 +106,7 @@ const TICK = (
 export type JurnlOption<T extends string> = { id: T; label: string };
 
 /** JURNL_SELECT: select-only combobox with a parchment listbox. */
-export function JurnlSelect<T extends string>({ id, value, options, onValue, trigger, placeholder = 'SELECT', labelledBy, ariaLabel, uncertain, className = '' }: { id: string; value: T | ''; options: JurnlOption<T>[]; onValue: (v: T) => void; trigger: string; placeholder?: string; labelledBy?: string; ariaLabel?: string; uncertain?: boolean; className?: string }) {
+export function JurnlSelect<T extends string>({ id, value, options, onValue, trigger, placeholder = 'SELECT', labelledBy, ariaLabel, uncertain, className = '', display }: { id: string; value: T | ''; options: JurnlOption<T>[]; onValue: (v: T) => void; trigger: string; placeholder?: string; labelledBy?: string; ariaLabel?: string; uncertain?: boolean; className?: string; /** text shown on the closed control instead of the option label (a filter chip at its default shows its name) */ display?: string }) {
   const [open, setOpen] = useState(false);
   const sel = options.findIndex((o) => o.id === value);
   const [active, setActive] = useState(Math.max(0, sel));
@@ -192,7 +192,7 @@ export function JurnlSelect<T extends string>({ id, value, options, onValue, tri
         onClick={() => (open ? setOpen(false) : show())}
         onKeyDown={onKey}
       >
-        <span className="jrn-sel__value">{sel >= 0 ? options[sel]!.label : placeholder}</span>
+        <span className="jrn-sel__value">{display ?? (sel >= 0 ? options[sel]!.label : placeholder)}</span>
         {CHEV}
       </button>
       {open ? (
