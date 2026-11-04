@@ -1,0 +1,90 @@
+{
+ "sha_before": "f23032ac71536de7f2d549b9527d6dd623c29816",
+ "sha_after": "be8718b760ef6d8896573339f0db887c8af788fb",
+ "unit": "798 / 798 (44 files)",
+ "fin": "158 / 158 (invariants 40, stabilization 27, DOT 01 61, carousel 10, pilot 20)",
+ "tsc": "PASS",
+ "build": "PASS (tsc + vite + verify-production-dist, 471 JS assets; release manifest site00-v272-be8718b)",
+ "changed_files": [
+  [
+   "e2e/jurnl/jurnl-f05-dot01.e2e.ts",
+   "E2E: choose() helper for the parchment listbox; date via data-value (no assertion on money changed)"
+  ],
+  [
+   "scripts/jurnl/f05-motion-pilot/extract_micro_assets.py",
+   "micro-asset derivatives (trim + resize only) + manifest"
+  ],
+  [
+   "src/projects/jurnl/families/F05_MONEY/MICRO_ASSETS/MICRO_ASSETS_MANIFEST.json",
+   "source SHA-256, registry ID, sizes for the 40 derivatives"
+  ],
+  [
+   "src/projects/jurnl/families/F05_MONEY/MICRO_ASSETS/BATCH_0{1..4}/*.webp (40 files)",
+   "runtime derivatives of the founder's Batches 01\u201304"
+  ],
+  [
+   "src/projects/jurnl/runtime/screens/f05/MicroIcon.tsx",
+   "one micro-asset slot with the line glyph as fallback"
+  ],
+  [
+   "src/projects/jurnl/runtime/screens/f05/microAssets.ts",
+   "registry: 69 founder IDs (40 available, 20 pending Batch 05 / 06, 9 no batch / baked)"
+  ],
+  [
+   "src/projects/jurnl/runtime/screens/f05/surfaces/JurnlSurfaces.tsx",
+   "JURNL_POPOVER, JURNL_SELECT, JURNL_DATE_PICKER"
+  ],
+  [
+   "src/projects/jurnl/runtime/screens/f05/surfaces/jurnl-f05-surfaces.css",
+   "parchment surface styles"
+  ],
+  [
+   "src/projects/jurnl/runtime/screens/f05/dot01/Dot01Frame.tsx",
+   "chip tones + widths, overlay title rule, OVERLAY_CONTENT, fields / icon-tone props"
+  ],
+  [
+   "src/projects/jurnl/runtime/screens/f05/dot01/jurnl-f05-dot01.css",
+   "chips, overlay heading, serif fields, strips, tiles, 02\u201306 type, scan block, history marks"
+  ],
+  [
+   "src/projects/jurnl/runtime/screens/f05/dot01/kit.tsx",
+   "SelectInput \u2192 JurnlSelect, date TextInput \u2192 JurnlDateField, Strip asset slot, Field label ids"
+  ],
+  [
+   "src/projects/jurnl/runtime/screens/f05/dot01/AccountPage.tsx",
+   "02\u201305 authority stat words over canonical values, strip assets, credit tiles, label position"
+  ],
+  [
+   "src/projects/jurnl/runtime/screens/f05/dot01/DirectoryPage.tsx",
+   "06 two-line actions on a torn strip, amber chip, summary screen-reader only"
+  ],
+  [
+   "src/projects/jurnl/runtime/screens/f05/dot01/HistoryPage.tsx",
+   "filters on JURNL controls, category marks, amber chip"
+  ],
+  [
+   "src/projects/jurnl/runtime/screens/f05/dot01/DetailPages.tsx",
+   "11 tiled strip icons"
+  ],
+  [
+   "src/projects/jurnl/runtime/screens/f05/dot01/icons.tsx",
+   "framed-plus and up / down line glyphs (authority 06)"
+  ],
+  [
+   "src/projects/jurnl/runtime/screens/f05/dot01/sheets/EntrySheets.tsx",
+   "scan block, strips / dense strips, tiles on 16 / 20"
+  ],
+  [
+   "src/projects/jurnl/runtime/screens/f05/dot01/sheets/AccountSheets.tsx",
+   "shared OVERLAY_CONTENT"
+  ],
+  [
+   "src/projects/jurnl/runtime/screens/f05/dot01/sheets/CorrectionSheets.tsx",
+   "shared OVERLAY_CONTENT, tiled strips (24)"
+  ],
+  [
+   "src/projects/jurnl/runtime/screens/f05/dot01/sheets/ReceiptFlow.tsx",
+   "shared OVERLAY_CONTENT"
+  ]
+ ]
+}

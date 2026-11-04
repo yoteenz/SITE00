@@ -1,0 +1,51 @@
+{
+ "e2e": {
+  "passed": 376,
+  "failed": 0,
+  "flaky": 0,
+  "skipped": 8,
+  "rerun_passed": null,
+  "rerun_failed": null,
+  "first_run_failures": []
+ },
+ "unit": {
+  "files": 211,
+  "tests": 823,
+  "passed": 823,
+  "failed": 0
+ },
+ "unit_focus": {
+  "jurnlF05AccountScenes.test.ts": [
+   8,
+   8
+  ],
+  "jurnlF05Carousel.test.ts": [
+   10,
+   10
+  ],
+  "jurnlF05Dot01.test.ts": [
+   61,
+   61
+  ],
+  "jurnlF05MicroAssetsB0506.test.ts": [
+   5,
+   5
+  ],
+  "jurnlF05MotionPilot.test.ts": [
+   21,
+   21
+  ],
+  "jurnlF05Pockets.test.ts": [
+   11,
+   11
+  ],
+  "jurnlFinancialInvariants.test.ts": [
+   40,
+   40
+  ],
+  "jurnlFinancialStabilization.test.ts": [
+   27,
+   27
+  ]
+ }
+}

@@ -68,14 +68,25 @@ function useAccountState() {
   };
 }
 
-/** Setup consents, opened from PRIVACY & CONSENTS. */
-function ConsentsSheet({ onClose }: { onClose: () => void }) {
+/** Setup consents, opened from PRIVACY & CONSENTS (and PRIVACY & DATA in the menu). Each switch carries its own words. */
+export function ConsentsSheet({ onClose }: { onClose: () => void }) {
   const draft = useSetup();
+  const rows: { on: boolean; label: string; note: string; trigger: string; set: (v: boolean) => void }[] = [
+    { on: draft.consentRemember, label: 'REMEMBER SETUP', note: 'KEEP YOUR SETUP ANSWERS ON THIS DEVICE.', trigger: 'settings-consent-remember', set: (v) => patchSetup({ consentRemember: v }) },
+    { on: draft.consentLinks, label: 'LINKED ACCOUNTS OPTIONAL', note: 'JURNL WORKS WITHOUT CONNECTING A BANK.', trigger: 'settings-consent-links', set: (v) => patchSetup({ consentLinks: v }) },
+    { on: draft.consentSale, label: 'NOTHING SOLD', note: 'YOUR DATA IS NEVER SOLD.', trigger: 'settings-consent-sale', set: (v) => patchSetup({ consentSale: v }) },
+  ];
   return (
-    <JurnlDrawer expression="form" size="long" testId="settings-consents-sheet" title="PRIVACY & CONSENTS" lead="WHAT JURNL MAY KEEP AND USE." onClose={onClose}>
-      <JurnlToggle checked={draft.consentRemember} label="REMEMBER SETUP" trigger="settings-consent-remember" onChange={(v) => patchSetup({ consentRemember: v })} />
-      <JurnlToggle checked={draft.consentLinks} label="LINKED ACCOUNTS OPTIONAL" trigger="settings-consent-links" onChange={(v) => patchSetup({ consentLinks: v })} />
-      <JurnlToggle checked={draft.consentSale} label="NOTHING SOLD" trigger="settings-consent-sale" onChange={(v) => patchSetup({ consentSale: v })} />
+    <JurnlDrawer expression="form" material="v3" size="long" testId="settings-consents-sheet" title="PRIVACY & CONSENTS" lead="WHAT JURNL MAY KEEP AND USE." onClose={onClose}>
+      {rows.map((r) => (
+        <div key={r.trigger} className="jv3-toggle-row">
+          <span className="jv3-row__text">
+            <span>{r.label}</span>
+            <small>{r.note}</small>
+          </span>
+          <JurnlToggle checked={r.on} label={r.label} trigger={r.trigger} onChange={r.set} />
+        </div>
+      ))}
     </JurnlDrawer>
   );
 }

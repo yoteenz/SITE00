@@ -1,0 +1,43 @@
+import { chromium } from 'playwright';
+import { JURNL_E2E_STORAGE } from '/home/user/SITE00/src/projects/jurnl/e2e/fixture';
+import { f05World } from '/home/user/SITE00/e2e/jurnl/helpers/jurnl-f05-world';
+const OUT = process.argv[2]!;
+const VP = (process.argv[3] ?? '393x852').split(',');
+const BASE = 'http://127.0.0.1:5174/production/jurnl/runtime/';
+const T = (id: string) => `[data-jrn-trigger="${id}"]`;
+(async () => {
+  const b = await chromium.launch();
+  for (const vp of VP) {
+    const [w, h] = vp.split('x').map(Number);
+    const ctx = await b.newContext({ viewport: { width: w!, height: h! }, deviceScaleFactor: 2, reducedMotion: 'reduce' });
+    const bs = f05World('approved');
+    await ctx.addInitScript(({ st, bs }) => { if (sessionStorage.getItem('seeded')) return; localStorage.clear(); localStorage.setItem(st.session, JSON.stringify(bs.session)); localStorage.setItem(st.device, JSON.stringify(bs.device)); localStorage.setItem(st.repositoryKey, JSON.stringify(bs.snapshot)); sessionStorage.setItem('seeded', '1'); sessionStorage.setItem('jurnl.f05.parent', 'motion'); }, { st: JURNL_E2E_STORAGE, bs: bs as never });
+    const p = await ctx.newPage();
+    const errs: string[] = [];
+    p.on('pageerror', (e) => errs.push(e.message));
+    await p.goto(BASE + 'today', { waitUntil: 'networkidle' });
+    await p.waitForTimeout(600);
+    await p.click(T('f09-menu'));
+    await p.waitForSelector('[data-jrn-overlay="global-menu"]');
+    await p.waitForTimeout(400);
+    await p.screenshot({ path: `${OUT}/menu-${vp}.png` });
+    await p.click(T('menu-membership'));
+    await p.waitForSelector('[data-jrn-overlay="global-membership"]');
+    await p.waitForTimeout(400);
+    await p.screenshot({ path: `${OUT}/membership-${vp}.png` });
+    await p.click(T('global-membership-close'));
+    await p.waitForSelector('[data-jrn-overlay="global-menu"]');
+    await p.click(T('menu-add-ons'));
+    await p.waitForSelector('[data-jrn-overlay="global-add-ons"]');
+    await p.waitForTimeout(400);
+    await p.screenshot({ path: `${OUT}/addons-${vp}.png` });
+    await p.click(T('add-on-jurnl_add_on_travel'));
+    await p.waitForSelector('[data-jrn-overlay="global-unlock"]');
+    await p.waitForTimeout(400);
+    await p.screenshot({ path: `${OUT}/unlock-${vp}.png` });
+    const doc = await p.evaluate(`[document.documentElement.scrollHeight, innerHeight, document.documentElement.scrollWidth, innerWidth]`);
+    console.log(vp, 'errors', errs.length, errs.slice(0, 2), 'doc', doc);
+    await ctx.close();
+  }
+  await b.close();
+})();

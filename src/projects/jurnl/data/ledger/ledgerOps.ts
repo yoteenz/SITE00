@@ -14,6 +14,7 @@ import type { FinancialCommit } from '../repository/types';
 import { accountNature, computeLedgerPositions, resolveEntryAccount, toCents } from './accounting';
 import type { LegSettlement } from '../home/moneyTypes';
 import { buildTransferAction, canRemoveTransfer, transferViews, TRANSFER_STATE_LABEL, type TransferAction, type TransferStart } from './transferSettlement';
+import { validateTransferFinancialLimits } from './transferFinancialLimits';
 
 export type OpResult<T = undefined> = { ok: true; commit: FinancialCommit; value: T } | { ok: false; error: string };
 
@@ -166,20 +167,35 @@ export function findDuplicateTransfer(entries: LedgerEntry[], fromId: string, to
  * money is unchanged and it is never income or spending. When the destination is a credit card or loan, the same two
  * legs are a CARD PAYMENT (CREDIT_PAYMENT / DEBT_PAYMENT): the source goes down and the amount owed goes down.
  */
-export function buildTransfer(accounts: JurnlAccountRecord[], entries: LedgerEntry[], input: TransferInput): OpResult<TransferValue> {
+export function buildTransfer(
+  accounts: JurnlAccountRecord[],
+  entries: LedgerEntry[],
+  input: TransferInput,
+  creditAttributes: Parameters<typeof computeLedgerPositions>[1] = getRepository().getSnapshot().creditAttributes,
+  today: CalendarDate = getTodayKey(),
+): OpResult<TransferValue> {
   const from = activeAccount(accounts, input.from_account_id);
   const to = activeAccount(accounts, input.to_account_id);
   if (!from) return { ok: false, error: 'CHOOSE THE ACCOUNT THE MONEY LEAVES.' };
   if (!to) return { ok: false, error: 'CHOOSE THE ACCOUNT THE MONEY GOES TO.' };
   if (from.account_id === to.account_id) return { ok: false, error: 'CHOOSE TWO DIFFERENT ACCOUNTS.' };
   if (!(input.amount > 0)) return { ok: false, error: `ENTER AN AMOUNT ABOVE ${money(0)}.` };
+  const limits = validateTransferFinancialLimits(
+    accounts,
+    creditAttributes,
+    entries,
+    from.account_id,
+    to.account_id,
+    input.amount,
+    today,
+  );
+  if (!limits.ok) return { ok: false, error: limits.error };
   if (accountNature(from.account_type) === 'LIABILITY') {
     return { ok: false, error: `${from.display_name} IS A CREDIT ACCOUNT. MONEY CANNOT BE MOVED OUT OF IT HERE. RECORD A PURCHASE INSTEAD.` };
   }
   const toLiability = accountNature(to.account_type) === 'LIABILITY';
   const kind: TransferValue['kind'] = toLiability ? 'CARD_PAYMENT' : 'TRANSFER';
   const cls: TxnClass = !toLiability ? 'TRANSFER' : to.account_type === 'LOAN' ? 'DEBT_PAYMENT' : 'CREDIT_PAYMENT';
-  const today = getTodayKey();
   const start: TransferStart = input.start ?? (input.pending ? 'PENDING' : compareCalendarDates(input.occurred_on, today) > 0 ? 'SCHEDULED' : 'COMPLETED');
   if (start !== 'SCHEDULED' && compareCalendarDates(input.occurred_on, today) > 0) {
     return { ok: false, error: 'A FUTURE DATE CAN ONLY BE PLANNED. CHOOSE PLANNED, OR USE TODAY OR AN EARLIER DATE.' };

@@ -1,0 +1,30 @@
+== mobile e2e/jurnl/jurnl-golden-journey.e2e.ts:7
+
+Running 1 test using 1 worker
+
+[1/1] [mobile] › e2e/jurnl/jurnl-golden-journey.e2e.ts:7:3 › JURNL golden journey › F01–F16 coherent path with reload verification
+  1 passed (41.7s)
+== tablet e2e/jurnl/jurnl-golden-journey.e2e.ts:7
+
+Running 1 test using 1 worker
+
+[1/1] [tablet] › e2e/jurnl/jurnl-golden-journey.e2e.ts:7:3 › JURNL golden journey › F01–F16 coherent path with reload verification
+  1 passed (45.4s)
+== desktop e2e/jurnl/jurnl-golden-journey.e2e.ts:7
+
+Running 1 test using 1 worker
+
+[1/1] [desktop] › e2e/jurnl/jurnl-golden-journey.e2e.ts:7:3 › JURNL golden journey › F01–F16 coherent path with reload verification
+  1 passed (43.1s)
+== small e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:72
+
+Running 1 test using 1 worker
+
+[1/1] [small] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:72:3 › F05 MONEY parent motion pilot › 3 / 5 / 6 · four accounts: approved hierarchy, live values, assets never netted with debt
+  1 passed (11.4s)
+== small e2e/jurnl/jurnl-f05-dot01.e2e.ts:640
+
+Running 1 test using 1 worker
+
+[1/1] [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:640:3 › F05 DOT 01 — responsive (360×780 · 393×852 · 430×932 · 834×1194 · 1440×900) › nothing overflows sideways, controls stay on screen and touchable, inputs keep 16 px type
+  1 passed (1.7m)

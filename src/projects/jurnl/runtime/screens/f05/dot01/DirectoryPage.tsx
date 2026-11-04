@@ -12,14 +12,17 @@ import { getRepository } from '../../../../data/repository/deviceRepository';
 import { moveInOrder, orderAccounts, setAccountOrder } from '../../../../data/f05/dot01/accountOrder';
 import { kindOf } from '../../../../data/f05/dot01/accountView';
 import { reviewIssues } from '../../../../data/f05/dot01/reconciliation';
+import { useLongPress, usePocketManager } from './PocketManager';
 import { useJurnl } from '../../../state/store';
-import { Dot01Frame } from './Dot01Frame';
+import { Dot01Frame, type Dot01Chip } from './Dot01Frame';
 import { Icon } from './icons';
 import { AccountCard, Alert, Button, CARD_SRC, Paper, money } from './kit';
 import { Dot01Sheets, type Dot01SheetState } from './sheets/Dot01Sheets';
 
 export function DirectoryPage() {
   const { go, back } = useJurnl();
+  const manager = usePocketManager('directory');
+  const hold = useLongPress((el, key) => manager.open(key, el));
   useCurrency();
   useRepoTick();
   const [sheet, setSheet] = useState<Dot01SheetState>(null);
@@ -30,7 +33,14 @@ export function DirectoryPage() {
   const pic = computeMoneyPicture(snap.accounts, snap.creditAttributes, snap.transactions, today);
   const pos = (id: string) => pic.positions.find((p) => p.account_id === id);
   const empty = accounts.length === 0;
-  const chips = [{ id: 'd01-back', label: 'BACK TO MONEY', icon: 'back' as const, onClick: () => back() || go('money') }];
+  // chips and dock as each authority draws them: 06 back + dock · 22 back · 32 search + add
+  const chips: Dot01Chip[] = reorder
+    ? [
+        { id: 'd01-search', label: 'SEARCH TRANSACTIONS', icon: 'search', onClick: () => go('money/transactions') },
+        { id: 'd01-add', label: 'ADD ACCOUNT', icon: 'plus', onClick: () => setSheet({ kind: 'add-account' }) },
+      ]
+    : [{ id: 'd01-back', label: 'BACK TO MONEY', icon: 'back', onClick: () => back() || go('money') }];
+  const nav = !empty && !reorder;
   const content = empty ? (
     <EmptyAccounts onAdd={(kind) => setSheet({ kind: 'add-account', preset: kind })} />
   ) : reorder ? (
@@ -43,20 +53,22 @@ export function DirectoryPage() {
           const issues = reviewIssues(a.account_id, today);
           return (
             <div role="listitem" key={a.account_id} style={{ ['--i' as string]: i } as CSSProperties} className="d01-slip">
-              <AccountCard account={a} amount={p?.nature === 'LIABILITY' ? p.owed : (p?.held ?? 0)} liability={p?.nature === 'LIABILITY'} trigger={`d01-place-${a.account_id}`} badge={issues.length ? 'NEEDS REVIEW' : undefined} onOpen={() => go(issues.length ? `money/places/${a.account_id}/attention` : `money/places/${a.account_id}`)} />
+              <AccountCard account={a} amount={p?.nature === 'LIABILITY' ? p.owed : (p?.held ?? 0)} liability={p?.nature === 'LIABILITY'} trigger={`d01-place-${a.account_id}`} hold={hold.bind(a.account_id)} badge={issues.length ? 'NEEDS REVIEW' : undefined} onOpen={() => go(issues.length ? `money/places/${a.account_id}/attention` : `money/places/${a.account_id}`)} />
             </div>
           );
         })}
       </div>
-      <div className="d01-actions d01-actions--2">
-        <Button trigger="d01-add-account" icon="plus" onClick={() => setSheet({ kind: 'add-account' })}>
-          ADD ACCOUNT
+      {/* authority 06: two square-rounded actions on a torn paper strip, each with its glyph and a two-line label */}
+      <Paper kind="blank" className="d01-dir-actions">
+        <Button trigger="d01-add-account" icon="plus-framed" onClick={() => setSheet({ kind: 'add-account' })}>
+          <span className="d01-btn__lines"><span>ADD</span> <span>ACCOUNT</span></span>
         </Button>
-        <Button trigger="d01-reorder" quiet icon="arrows" disabled={accounts.length < 2} onClick={() => setReorder(true)}>
-          REORDER
+        <Button trigger="d01-reorder" quiet icon="updown" disabled={accounts.length < 2} onClick={() => setReorder(true)}>
+          <span className="d01-btn__lines"><span>REORDER</span> <span>ACCOUNTS</span></span>
         </Button>
-      </div>
-      <p className="d01-note" data-testid="d01-directory-summary" style={{ textAlign: 'center', color: '#efe3cb' }}>
+      </Paper>
+      {/* the authority draws no summary line here: it stays for screen readers only */}
+      <p className="d01-sr" data-testid="d01-directory-summary">
         {`${accounts.length} ${accounts.length === 1 ? 'POCKET' : 'POCKETS'} · ${money(pic.summary.ownedAssets)} HELD${pic.summary.owed > 0 ? ` · ${money(pic.summary.owed)} OWED` : ''}`}
       </p>
     </>
@@ -68,12 +80,17 @@ export function DirectoryPage() {
       title={reorder ? ['ACCOUNTS'] : ['ALL', 'ACCOUNTS']}
       subtitle={reorder ? 'reorder accounts' : empty ? 'nothing added yet' : undefined}
       testId="d01-directory"
+      chipTone={empty ? 'paper' : 'amber'}
       label={reorder ? 'REORDER ACCOUNTS' : 'ALL ACCOUNTS'}
       chips={chips}
-      contentRect={{ x: 30, y: 600, w: 881, h: 1066 }}
+      nav={nav}
+      contentRect={{ x: 30, y: 600, w: 881, h: nav ? 846 : 940 }}
       contentScroll
       content={content}
-      overlays={<Dot01Sheets state={sheet} onClose={() => setSheet(null)} />}
+      overlays={<>
+        <Dot01Sheets state={sheet} onClose={() => setSheet(null)} />
+        {manager.node}
+      </>}
     />
   );
 }

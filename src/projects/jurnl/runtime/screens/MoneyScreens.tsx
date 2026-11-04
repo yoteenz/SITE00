@@ -13,7 +13,8 @@ import { Chips, OpenTransfersPanel, PurposeSheet, TransferDetailSheet, TransferS
 import { computeMoneyPicture } from '../../data/ledger/moneyPicture';
 import { useRepoTick } from '../../data/home/money';
 import { listActiveAccounts, accountById } from '../../data/foundation/accounts';
-import { archiveAccount, createManualAccount } from '../../data/foundation/accountMutations';
+import { createManualAccount } from '../../data/foundation/accountMutations';
+import { archiveAccountSafely, archiveBlockers } from '../../data/f05/dot01/archive';
 import { formatMoney, ledgerEntries, useCurrency } from '../../data/home/money';
 import { PARENT_PLATES } from '../../data/parents/plates';
 import { SIDEKICK_PLATES } from '../../data/parents/sidekickPlates';
@@ -295,6 +296,7 @@ export function MoneyPlaceDetailScreen() {
   const { positions } = useLedgerPositions();
   const [editOpen, setEditOpen] = useState(false);
   const [removeOpen, setRemoveOpen] = useState(false);
+  const [archiveErr, setArchiveErr] = useState<string | null>(null);
   const [moveOpen, setMoveOpen] = useState(false);
   const accounts = getRepository().listAccounts();
   const recent = useMemo(
@@ -361,7 +363,7 @@ export function MoneyPlaceDetailScreen() {
           EDIT
         </JurnlButton>
         {!liability ? <JurnlButton variant="secondary" trigger="money-place-move" onClick={() => setMoveOpen(true)}>MOVE MONEY</JurnlButton> : <JurnlButton variant="secondary" trigger="money-place-credit" onClick={() => go(`credit/${account.account_id}`)}>CARD DETAILS</JurnlButton>}
-        <JurnlButton variant="secondary" trigger="money-remove-place" onClick={() => setRemoveOpen(true)}>
+        <JurnlButton variant="secondary" trigger="money-remove-place" onClick={() => { setArchiveErr(null); setRemoveOpen(true); }}>
           ARCHIVE
         </JurnlButton>
       </div>
@@ -369,13 +371,41 @@ export function MoneyPlaceDetailScreen() {
         <EditPlaceSheet account={account} current={p ? (liability ? p.owed : p.held) : account.available_balance} liability={liability} onClose={() => setEditOpen(false)} />
       : null}
       {moveOpen ? <TransferSheet fromId={account.account_id} onClose={() => setMoveOpen(false)} /> : null}
-      {removeOpen ?
-        <JurnlDrawer size="long" testId="money-remove" title="ARCHIVE POCKET" lead="ITS TRANSACTIONS STAY IN ACTIVITY." onClose={() => setRemoveOpen(false)} footer={
-          <JurnlButton trigger="money-remove-confirm" onClick={() => { archiveAccount(account.account_id); setRemoveOpen(false); go('money/places'); }}>ARCHIVE</JurnlButton>
-        }>
-          <p>{account.display_name}</p>
-        </JurnlDrawer>
-      : null}
+      {removeOpen ? (() => {
+        const blockers = archiveBlockers(account.account_id, today);
+        const blocked = blockers.length > 0;
+        return (
+          <JurnlDrawer
+            size="long"
+            testId="money-remove"
+            title={blocked ? 'ARCHIVE BLOCKED' : 'DELETE THIS POCKET?'}
+            lead={blocked ? 'RESOLVE THESE BEFORE ARCHIVING.' : 'ITS TRANSACTIONS STAY IN ACTIVITY.'}
+            onClose={() => setRemoveOpen(false)}
+            footer={
+              blocked ? (
+                <>
+                  <JurnlButton trigger="money-remove-keep" onClick={() => setRemoveOpen(false)}>KEEP POCKET</JurnlButton>
+                  <JurnlButton variant="secondary" trigger="money-remove-resolve" onClick={() => { setRemoveOpen(false); go(blockers.find((b) => b.route)?.route ?? 'money/places'); }}>RESOLVE ISSUES</JurnlButton>
+                </>
+              ) : (
+                <>
+                  <JurnlButton trigger="money-remove-keep" variant="secondary" onClick={() => setRemoveOpen(false)}>KEEP POCKET</JurnlButton>
+                  <JurnlButton trigger="money-remove-confirm" onClick={() => {
+                    const r = archiveAccountSafely(account.account_id, today);
+                    if (!r.ok) return setArchiveErr(r.error);
+                    setRemoveOpen(false);
+                    go('money/places');
+                  }}>CONFIRM DELETE</JurnlButton>
+                </>
+              )
+            }
+          >
+            <p>{account.display_name}</p>
+            {blocked ? blockers.map((b) => <p key={b.kind}><b>{b.label}</b> · {b.detail}</p>) : null}
+            {archiveErr ? <p role="alert">{archiveErr}</p> : null}
+          </JurnlDrawer>
+        );
+      })() : null}
     </MoneyShell>
   );
 }

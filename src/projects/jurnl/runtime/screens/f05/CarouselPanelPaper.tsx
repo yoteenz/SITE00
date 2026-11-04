@@ -38,8 +38,9 @@ export const PANEL_ART: Record<string, string> = {
 
 /** Vertical rhythm of a paper (source px from its top), by the number of title lines. */
 export function paperRhythm(lines: number, height: number) {
-  const amountTop = C.card.nameTop + lines * C.card.namePitch + C.card.amountGap;
-  return { amountTop, captionTop: amountTop + C.card.captionGap, linkCaptionTop: height - C.card.linkFromBottom };
+  const amountTop = C.panel.nameTop + lines * C.card.namePitch + C.panel.amountGap;
+  // a caption never runs past the paper's bottom edge (one caption line ≈ 23 board px, plus a margin)
+  return { amountTop, captionTop: Math.min(amountTop + C.card.captionGap, height - 30), linkCaptionTop: height - C.card.linkFromBottom };
 }
 
 /** Long amounts shrink to stay inside their paper; the value itself is never abbreviated. */
@@ -97,7 +98,7 @@ export function CarouselPanelPaper({
       data-collection={collection}
       data-value-kind={v.kind}
       aria-label={`${panel.aria} OPEN.`}
-      style={{ left: slot.x, top: slot.y, width: slot.w, height: slot.h, ['--i' as string]: index } as CSSProperties}
+      style={{ left: slot.x, top: slot.y, width: slot.w, height: slot.h, ['--i' as string]: index, ['--f05m-name-top' as string]: `${C.panel.nameTop}px` } as CSSProperties}
       onClick={() => onOpen(panel)}
     >
       <img className="jrn-f05m__paper-art" src={PANEL_ART[panel.art]} alt="" draggable={false} />

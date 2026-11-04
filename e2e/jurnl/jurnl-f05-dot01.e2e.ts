@@ -1,6 +1,7 @@
 /**
  * P0.JURNL.F05-MONEY.DOT01-ACCOUNTS — browser journeys for the ACCOUNTS dot (authorities 02–37).
  * Synthetic worlds only (helpers/jurnl-dot01-world.ts, helpers/jurnl-f05-world.ts); nothing is real.
+ * Chrome follows each authority: the global dock only on 06 and 31; every other page is full-bleed.
  *
  * RECEIPTS: the receipt tests render a synthetic receipt photo on a canvas (helpers/jurnl-receipt-image.ts) and
  * upload it through the real file input. The app then reads it with its own on-device OCR (tesseract.js, self-hosted
@@ -29,6 +30,12 @@ async function open(page: Page, route: string, world: unknown = dot01World()) {
 }
 const openKind = (page: Page, route: string, kind: F05WorldKind) => open(page, route, f05World(kind));
 
+/** Choose an option in a JURNL_SELECT (the parchment listbox that replaced the native select): open, then click it. */
+async function choose(page: Page, id: string, value: string) {
+  await clickTrigger(page, id);
+  await page.locator(`[data-jrn-listbox="${id}"] [data-jrn-option="${value}"]`).click();
+  await expect(trigger(page, id)).toHaveAttribute('data-value', value);
+}
 async function shot(page: Page, name: string) {
   const dir = `${SHOTS}/${test.info().project.name}`;
   mkdirSync(dir, { recursive: true });
@@ -183,7 +190,7 @@ test.describe('F05 DOT 01 — account pages and histories', () => {
     await expect(page).toHaveURL(/q=tratt/);
     await expect(page.getByTestId('d01-history-list').locator('li')).toHaveCount(1);
     await clickTrigger(page, 'd01-filters');
-    await trigger(page, 'd01-filter-category').selectOption('DINING');
+    await choose(page, 'd01-filter-category', 'DINING');
     await expect(page).toHaveURL(/category=DINING/);
     await shot(page, '31-search-and-filter');
     await clickTrigger(page, 'd01-tx-tx-d01-trattoria');
@@ -195,7 +202,7 @@ test.describe('F05 DOT 01 — account pages and histories', () => {
     await expect(trigger(page, 'd01-search')).toHaveValue('tratt');
     // with a search in the URL the filters open with the page
     await expect(trigger(page, 'd01-filters')).toHaveAttribute('aria-expanded', 'true');
-    await trigger(page, 'd01-filter-category').selectOption('UTILITIES');
+    await choose(page, 'd01-filter-category', 'UTILITIES');
     await expect(page.getByTestId('d01-history-empty')).toContainText('NO TRANSACTIONS MATCH');
   });
 
@@ -211,7 +218,7 @@ test.describe('F05 DOT 01 — account pages and histories', () => {
   test('31 · all transactions can be narrowed to one account', async ({ page }) => {
     await open(page, 'money/transactions');
     const all = await page.getByTestId('d01-history-list').locator('li').count();
-    await trigger(page, 'd01-filter-account').selectOption('cash');
+    await choose(page, 'd01-filter-account', 'cash');
     await expect(page.getByTestId('d01-history-list').locator('li')).toHaveCount(3);
     expect(all).toBeGreaterThan(3);
   });
@@ -225,7 +232,7 @@ test.describe('F05 DOT 01 — entries (16–20): one canonical entry each, corre
     await expect(dialog(page, 'd01-record')).toBeVisible();
     await trigger(page, 'd01-merchant').fill('Corner bakery');
     await trigger(page, 'd01-amount').fill('12.50');
-    await trigger(page, 'd01-category').selectOption('FOOD');
+    await choose(page, 'd01-category', 'FOOD');
     await clickTrigger(page, 'd01-review-save');
     await expect(page.getByTestId('d01-review-kind')).toContainText('SPENDING');
     await expect(page.getByTestId('d01-review-impact')).toContainText('$333.50 → $321');
@@ -246,7 +253,7 @@ test.describe('F05 DOT 01 — entries (16–20): one canonical entry each, corre
     await clickTrigger(page, 'd01-strip-purchase');
     await trigger(page, 'd01-merchant').fill('BOOK SHOP');
     await trigger(page, 'd01-amount').fill('20');
-    await trigger(page, 'd01-category').selectOption('SHOPPING');
+    await choose(page, 'd01-category', 'SHOPPING');
     await clickTrigger(page, 'd01-review-save');
     await expect(page.getByTestId('d01-review-kind')).toContainText('CREDIT PURCHASE');
     await clickTrigger(page, 'd01-save-transaction');
@@ -260,22 +267,22 @@ test.describe('F05 DOT 01 — entries (16–20): one canonical entry each, corre
     await open(page, 'money/places/visa');
     await clickTrigger(page, 'd01-strip-pay');
     await expect(page.getByTestId('d01-payment-honest')).toContainText('JURNL DOES NOT SEND MONEY');
-    await trigger(page, 'd01-pay-from').selectOption('bank');
+    await choose(page, 'd01-pay-from', 'bank');
     await trigger(page, 'd01-pay-amount').fill('5000');
-    await trigger(page, 'd01-pay-status').selectOption('COMPLETED');
+    await choose(page, 'd01-pay-status', 'COMPLETED');
     await clickTrigger(page, 'd01-pay-review');
     await expect(dialog(page, 'd01-card-payment').getByRole('alert')).toContainText('MORE THAN');
     await trigger(page, 'd01-pay-amount').fill('50');
-    await trigger(page, 'd01-pay-status').selectOption('PENDING');
+    await choose(page, 'd01-pay-status', 'PENDING');
     await clickTrigger(page, 'd01-pay-review');
     await expect(page.getByTestId('d01-payment-impact')).toContainText('NO CHANGE NOW');
     await clickTrigger(page, 'd01-payment-save');
     await clickTrigger(page, 'd01-payment-done');
     expect(await balance(page)).toBe(87_750); // submitted, not confirmed: the card still owes the same
     await clickTrigger(page, 'd01-strip-pay');
-    await trigger(page, 'd01-pay-from').selectOption('bank');
+    await choose(page, 'd01-pay-from', 'bank');
     await trigger(page, 'd01-pay-amount').fill('100');
-    await trigger(page, 'd01-pay-status').selectOption('COMPLETED');
+    await choose(page, 'd01-pay-status', 'COMPLETED');
     await clickTrigger(page, 'd01-pay-review');
     await clickTrigger(page, 'd01-payment-save');
     await clickTrigger(page, 'd01-payment-done');
@@ -287,8 +294,8 @@ test.describe('F05 DOT 01 — entries (16–20): one canonical entry each, corre
   test('17 · cash from an account is a transfer (not income); a counted correction is a balance correction', async ({ page }) => {
     await open(page, 'money/places/cash');
     await clickTrigger(page, 'd01-strip-add-cash');
-    await trigger(page, 'd01-cash-source').selectOption('ACCOUNT');
-    await trigger(page, 'd01-cash-from').selectOption('ride');
+    await choose(page, 'd01-cash-source', 'ACCOUNT');
+    await choose(page, 'd01-cash-from', 'ride');
     await trigger(page, 'd01-cash-amount').fill('40');
     await clickTrigger(page, 'd01-cash-review');
     await clickTrigger(page, 'd01-add-to-cash');
@@ -320,10 +327,10 @@ test.describe('F05 DOT 01 — receipts (26–29, 33, 34): real on-device OCR on 
     // what the OCR engine read from the pixels (not typed by the test)
     await expect(trigger(page, 'd01-merchant')).toHaveValue(/OSTERIA DEL PORTO/);
     await expect(trigger(page, 'd01-amount')).toHaveValue('84.20');
-    await expect(trigger(page, 'd01-date')).toHaveValue(day);
+    await expect(trigger(page, 'd01-date')).toHaveAttribute('data-value', day);
     expect((await entries(page)).length).toBe(before); // extraction never saves
     await shot(page, '28-review-extracted');
-    await trigger(page, 'd01-category').selectOption('DINING');
+    await choose(page, 'd01-category', 'DINING');
     await clickTrigger(page, 'd01-review-save');
     await expect(dialog(page, 'd01-transaction-review')).toBeVisible();
     await expect(page.getByTestId('d01-review-impact')).toContainText('$994.55 → $910.35');
@@ -392,7 +399,7 @@ test.describe('F05 DOT 01 — receipts (26–29, 33, 34): real on-device OCR on 
     await expect(dialog(page, 'd01-record')).toBeVisible();
     await trigger(page, 'd01-merchant').fill('PHARMACY');
     await trigger(page, 'd01-amount').fill('9.99');
-    await trigger(page, 'd01-category').selectOption('HEALTH');
+    await choose(page, 'd01-category', 'HEALTH');
     await clickTrigger(page, 'd01-review-save');
     await clickTrigger(page, 'd01-save-transaction');
     await expect(dialog(page, 'd01-purchase-saved')).toBeVisible();
@@ -463,7 +470,7 @@ test.describe('F05 DOT 01 — corrections, reconciliation and archiving', () => 
     await expect(page.getByTestId('d01-adjust-only')).toContainText('THIS WILL CHANGE THE TRACKED BALANCE ONLY');
     await clickTrigger(page, 'd01-save-adjustment');
     await expect(dialog(page, 'd01-adjust').getByRole('alert')).toContainText('CHOOSE A REASON');
-    await trigger(page, 'd01-adjust-reason').selectOption('BANK FEE NOT RECORDED');
+    await choose(page, 'd01-adjust-reason', 'BANK FEE NOT RECORDED');
     await shot(page, '23-balance-adjustment');
     await clickTrigger(page, 'd01-save-adjustment');
     await expect(page.getByTestId('d01-review-done')).toContainText('ADJUSTMENT SAVED');
@@ -489,7 +496,9 @@ test.describe('F05 DOT 01 — corrections, reconciliation and archiving', () => 
   });
 
   test('25 · a place with nothing depending on it is archived; its history stays; it leaves the directory', async ({ page }) => {
-    await openKind(page, 'money/places/long/settings', 'many');
+    // ZERO BALANCE BEFORE ARCHIVE: 'long' stands at zero in this world
+    const w = f05World('many');
+    await open(page, 'money/places/long/settings', { ...w, snapshot: { ...w.snapshot, accounts: w.snapshot.accounts.map((a) => (a.account_id === 'long' ? { ...a, balance: 0, available_balance: 0 } : a)) } });
     await clickTrigger(page, 'd01-archive');
     await shot(page, '25-archive-confirmation');
     await clickTrigger(page, 'd01-archive-confirm');
@@ -522,11 +531,10 @@ test.describe('F05 DOT 01 — overlays, navigation, typography, accessibility', 
     expect(await page.evaluate(() => !!document.activeElement?.closest('[data-jrn-overlay="d01-record"]'))).toBe(true);
     for (let i = 0; i < 25; i += 1) await page.keyboard.press('Tab');
     expect(await page.evaluate(() => !!document.activeElement?.closest('[data-jrn-overlay="d01-record"]'))).toBe(true);
-    // a focused overlay covers the dock and the corner menu
+    // the page underneath is covered (its own back chip is not reachable)
     expect(await page.evaluate(() => {
-      const nav = document.querySelector('.jrn-nav')!.getBoundingClientRect();
-      const top = document.elementFromPoint(nav.x + nav.width / 2, nav.y + nav.height / 2);
-      return !!top?.closest('[data-jrn-overlay]');
+      const chip = document.querySelector('[data-testid="d01-history"] [data-jrn-trigger="d01-back"]')!.getBoundingClientRect();
+      return !!document.elementFromPoint(chip.x + chip.width / 2, chip.y + chip.height / 2)?.closest('[data-jrn-overlay]');
     })).toBe(true);
     await page.keyboard.press('Escape');
     await expect(dialog(page, 'd01-record')).toHaveCount(0);
@@ -547,18 +555,62 @@ test.describe('F05 DOT 01 — overlays, navigation, typography, accessibility', 
     await expect(page.locator('.jrn-f05m__carousel')).toHaveAttribute('data-active', 'accounts');
   });
 
-  test('every DOT 01 page keeps the five-destination dock with MONEY active, and no circular tappable control', async ({ page }) => {
+  // As the authorities draw it: the global dock only on 06 ALL ACCOUNTS and 31 TRANSACTIONS, inside the composition
+  // on SK01's torn nav paper; every other page is full-bleed to the bottom landscape. No shell corner chrome anywhere.
+  test('the dock appears only where its authority draws it (06, 31), on the nav paper; the other pages are full-bleed', async ({ page }) => {
     await open(page, 'money/places');
-    for (const route of ['money/places', 'money/places/bank', 'money/places/visa/history', 'money/entries/tx-d01-vesuvio', 'money/places/cash/settings', 'money/places/bank/review', 'money/transactions']) {
+    const withDock = ['money/places', 'money/transactions'];
+    const without = ['money/places/bank', 'money/places/visa/history', 'money/entries/tx-d01-vesuvio', 'money/places/cash/settings', 'money/places/bank/review', 'money/places/bank/attention'];
+    for (const route of [...withDock, ...without]) {
       await gotoJurnl(page, route);
       await page.locator('[data-jrn-f05-dot01-stage]').first().waitFor();
-      const nav = page.locator('.jrn-nav');
-      await expect(nav).toHaveCount(1);
-      expect(await nav.locator('[data-jrn-trigger^="nav-"]').evaluateAll((els) => els.map((e) => e.getAttribute('data-jrn-trigger')))).toEqual(['nav-home', 'nav-money', 'nav-add', 'nav-plan', 'nav-credit']);
-      await expect(trigger(page, 'nav-money')).toHaveAttribute('aria-current', 'page');
+      const docked = withDock.includes(route);
+      await expect(page.locator('.jrn-nav'), route).toHaveCount(docked ? 1 : 0);
+      await expect(page.locator('.jrn-d01__navpaper'), route).toHaveCount(docked ? 1 : 0);
+      if (docked) {
+        const nav = page.locator('.jrn-nav');
+        expect(await nav.locator('[data-jrn-trigger^="nav-"]').evaluateAll((els) => els.map((e) => e.getAttribute('data-jrn-trigger')))).toEqual(['nav-home', 'nav-money', 'nav-add', 'nav-plan', 'nav-credit']);
+        await expect(trigger(page, 'nav-money')).toHaveAttribute('aria-current', 'page');
+        // the five cells sit on the nav paper drawn in the composition (not on a strip below it)
+        const [n, p] = [(await nav.boundingBox())!, (await page.locator('.jrn-d01__navpaper').boundingBox())!];
+        expect(n.y).toBeGreaterThanOrEqual(p.y - 1);
+        expect(n.y + n.height).toBeLessThanOrEqual(p.y + p.height + 1);
+      } else {
+        // full-bleed: the composition reaches the bottom of the screen
+        const stage = (await page.locator('[data-jrn-f05-dot01-stage]').first().boundingBox())!;
+        const vh = page.viewportSize()!.height;
+        expect(Math.round(stage.y + stage.height), route).toBeGreaterThanOrEqual(vh - 1);
+      }
+      expect(await page.locator('.jrn-corner').evaluateAll((els) => els.filter((e) => (e as HTMLElement).offsetParent !== null).length), route).toBe(0);
       expect(await circularControls(page), route).toEqual([]);
       expect(await typographyFindings(page), route).toEqual([]);
     }
+    // a focused overlay covers the dock where the page has one
+    await gotoJurnl(page, 'money/places');
+    await clickTrigger(page, 'd01-add-account');
+    await expect(dialog(page, 'd01-add-account')).toBeVisible();
+    expect(await page.evaluate(() => {
+      const nav = document.querySelector('.jrn-nav')!.getBoundingClientRect();
+      return !!document.elementFromPoint(nav.x + nav.width / 2, nav.y + nav.height / 2)?.closest('[data-jrn-overlay]');
+    })).toBe(true);
+  });
+
+  test('chips follow the authorities: back on 02–29, search + add on 30–37 (and 31)', async ({ page }) => {
+    await open(page, 'money/places/bank');
+    const ids = () => page.locator('.jrn-d01__chip').evaluateAll((els) => els.filter((e) => (e as HTMLElement).offsetParent !== null).map((e) => e.getAttribute('data-jrn-trigger')));
+    // a Pocket page adds the MANAGE POCKET chip beside back (POCKET-CONTEXT-MANAGEMENT sprint)
+    expect(await ids()).toEqual(['d01-manage', 'd01-back']);
+    await gotoJurnl(page, 'money/transactions');
+    await page.locator('[data-jrn-f05-dot01-stage]').first().waitFor();
+    expect(await ids()).toEqual(['d01-search', 'd01-add']);
+    await gotoJurnl(page, 'money/places/bank/attention');
+    await page.locator('[data-jrn-f05-dot01-stage]').first().waitFor();
+    expect(await ids()).toEqual(['d01-search', 'd01-add']);
+    await gotoJurnl(page, 'money/places');
+    await page.locator('[data-jrn-f05-dot01-stage]').first().waitFor();
+    expect(await ids()).toEqual(['d01-back']);
+    await clickTrigger(page, 'd01-reorder');
+    expect(await ids()).toEqual(['d01-search', 'd01-add']);
   });
 
   test('typography inside overlays: uppercase, one lowercase cursive phrase at most', async ({ page }) => {

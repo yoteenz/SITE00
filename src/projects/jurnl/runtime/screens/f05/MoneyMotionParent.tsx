@@ -40,6 +40,7 @@ import cardBank from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_B
 import cardPayout from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_PAYOUT.webp';
 import cardCash from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_CASH.webp';
 import cardCredit from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_CREDIT.webp';
+import { useLongPress, usePocketManager } from './dot01/PocketManager';
 import './jurnl-f05-motion.css';
 import './jurnl-f05-carousel.css';
 
@@ -95,6 +96,10 @@ const bez = (p: Thread, k: number): Pt => ({
  * Where a transfer's thread runs, from its canonical state only. Not left yet (scheduled, submitted, unconfirmed):
  * the token rests at the source. In transit / returning: the token rests between the papers. Finished: no thread.
  */
+/** Lowest board y a resting token's centre may reach: the metric buttons end at labelTop − 12 + 104 (CSS height),
+ *  then half the token (24) and a 6 px margin. */
+const TOKEN_MIN_Y = C.band.labelTop - 12 + 104 + 24 + 6;
+
 function threadFor(t: MoneyParentTransfer, A: Rect, B: Rect): Thread {
   const sameRow = Math.abs(A.y - B.y) < 20;
   let a: Pt;
@@ -104,7 +109,9 @@ function threadFor(t: MoneyParentTransfer, A: Rect, B: Rect): Thread {
   if (sameRow) {
     a = { x: A.x + A.w / 2, y: A.y };
     b = { x: B.x + B.w / 2, y: B.y };
-    c = { x: (a.x + b.x) / 2, y: Math.min(a.y, b.y) - 74 };
+    // the arc rises up to 74 board px, but a token resting on it stays clear of the summary band
+    const top = Math.min(a.y, b.y);
+    c = { x: (a.x + b.x) / 2, y: Math.max(top - 74, 2 * TOKEN_MIN_Y - top) };
     outward = -1;
   } else {
     const down = A.y < B.y;
@@ -134,6 +141,9 @@ const slideLabel = (id: CollectionId) => `${COLLECTION_LABEL[id]}, ${COLLECTIONS
 
 export function MoneyMotionParent() {
   const { go, overlay, openOverlay, closeOverlay, showToast } = useJurnl();
+  // MANAGE POCKET: press and hold a Pocket paper (or right-click / Shift F10) — the same manager as the Pocket page
+  const manager = usePocketManager('parent');
+  const hold = useLongPress((el, key) => manager.open(key, el));
   useCurrency();
   useRepoTick();
   const reduced = useReducedMotion();
@@ -303,7 +313,7 @@ export function MoneyMotionParent() {
   // With no places of the user's own, Safe to Spend reads the sample preview: say nothing rather than a sample figure.
   const unknown = reading.cashSource === 'MOCK';
   const metrics = [
-    { id: 'held', label: 'HELD', value: reading.held, aria: `HELD: ${formatMoney(reading.held)} IN YOUR ACCOUNTS. OPENS POCKETS.`, onOpen: () => go('money/places') },
+    { id: 'held', label: 'HELD', value: reading.held, aria: `HELD: ${formatMoney(reading.held)} IN YOUR POCKETS. OPENS POCKETS.`, onOpen: () => go('money/places') },
     { id: 'owed', label: 'OWED', value: reading.owed, aria: `OWED: ${formatMoney(reading.owed)} ON CARDS AND LOANS. OPENS CREDIT.`, onOpen: () => go('credit') },
     { id: 'committed', label: 'COMMITTED', value: reading.committed, aria: unknown ? 'COMMITTED: NOT KNOWN UNTIL YOU ADD A POCKET.' : `COMMITTED: ${formatMoney(reading.committed)} HELD BACK FOR BILLS, CARD MINIMUMS AND PLANS IN THE NEXT 30 DAYS. OPENS THE PLANNING PERIOD.`, onOpen: () => setSheet('period') },
     { id: 'available', label: 'AVAILABLE', value: reading.available, aria: unknown ? 'AVAILABLE: NOT KNOWN UNTIL YOU ADD A POCKET.' : `AVAILABLE: ${formatMoney(reading.available)}, SAFE TO SPEND FOR THE NEXT 30 DAYS. OPENS THE PLANNING PERIOD.`, onOpen: () => setSheet('period') },
@@ -364,9 +374,17 @@ export function MoneyMotionParent() {
         data-fresh={fresh === a.account_id ? 'true' : undefined}
         aria-label={`${a.name}. ${a.nature === 'LIABILITY' ? `${formatMoney(a.amount)} OWED` : `${formatMoney(a.amount)} HELD`}${transit ? `. ${transit}` : ''}. OPEN.`}
         style={{ ...(inRail ? undefined : at(L.slots[staggerIndex]!)), backgroundImage: inRail ? `url("${paperTile}")` : undefined, ['--i' as string]: staggerIndex } as CSSProperties}
-        onPointerDown={() => setPressed(a.account_id)}
+        aria-keyshortcuts="Shift+F10"
+        aria-description="PRESS AND HOLD, OR SHIFT F10, TO MANAGE THIS POCKET."
+        onPointerDown={(e) => {
+          setPressed(a.account_id);
+          hold.bind(a.account_id).onPointerDown(e);
+        }}
         onPointerUp={() => setPressed(null)}
         onPointerLeave={() => setPressed(null)}
+        onContextMenu={hold.bind(a.account_id).onContextMenu}
+        onClickCapture={hold.bind(a.account_id).onClickCapture}
+        onKeyDown={hold.bind(a.account_id).onKeyDown}
         onClick={(e) => openPlace(a, e.currentTarget)}
       >
         <img className="jrn-f05m__paper-art" src={ART[a.art]} alt="" draggable={false} />
@@ -512,7 +530,7 @@ export function MoneyMotionParent() {
 
   return (
     <JurnlScreen screenId="F05.00" familyPlate={F05_MOTION_PLATE} family productNav singlePlate>
-      <div ref={stageRef} className="jrn-f05m" data-jrn-f05-stage data-reduced={reduced ? 'true' : 'false'} data-sliced={L.sliced ? 'true' : 'false'} data-wide={L.ox > 0.5 ? 'true' : 'false'}>
+      <div ref={stageRef} className="jrn-f05m" data-jrn-surface-host data-jrn-f05-stage data-reduced={reduced ? 'true' : 'false'} data-sliced={L.sliced ? 'true' : 'false'} data-wide={L.ox > 0.5 ? 'true' : 'false'}>
         <div className="jrn-f05m__board" style={boardStyle} data-jrn-zone="board">
           {/* L0 — environment */}
           <div className="jrn-f05m__env" aria-hidden data-layer="L0">
@@ -628,6 +646,7 @@ export function MoneyMotionParent() {
       <JurnlProductNav marks="parent" current="MONEY" onGo={go} onAdd={() => openOverlay('quick-add')} />
       {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F05" onClose={closeOverlay} /> : null}
       {overlay === 'ask' ? <AskJurnlSheet familyId="F05" nodeId="F05.00" onClose={closeOverlay} /> : null}
+      {manager.node}
       {sheet === 'actions' ?
         <JurnlDrawer size="short" testId="f05m-actions-sheet" title="MONEY" lead="ADD WHERE MONEY LIVES, OR MOVE IT BETWEEN YOUR POCKETS." onClose={() => setSheet(null)}>
           <JurnlButton trigger="f05m-actions-add" onClick={() => setSheet('add')}>ADD A POCKET</JurnlButton>

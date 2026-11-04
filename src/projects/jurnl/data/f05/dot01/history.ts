@@ -41,6 +41,20 @@ const KIND_OF: Record<string, HistoryKind> = {
 };
 const STATE_WORD: Record<string, string> = { SETTLED: 'POSTED', PENDING: 'PENDING', SCHEDULED: 'SCHEDULED', FAILED: 'FAILED', CANCELLED: 'CANCELLED', NEEDS_RECONCILIATION: 'NEEDS CONFIRMATION' };
 
+/**
+ * A transfer or card-payment leg is titled with the other Pocket's name as it was when it was recorded
+ * ("TRANSFER FROM BANK ACCOUNT", ledgerOps.buildTransfer). It is read with that Pocket's current name, by
+ * `counterparty_account_id`, so a rename shows on every row; the stored entry is never rewritten. Any other title
+ * (and a leg whose title was changed by hand) reads exactly as recorded. Display only: no amount or effect changes.
+ */
+const LEG_TITLE = /^(TRANSFER|PAYMENT) (TO|FROM) (.+)$/;
+export function entryLabel(e: LedgerEntry, accounts: JurnlAccountRecord[]): string {
+  const other = e.link && e.counterparty_account_id ? accounts.find((a) => a.account_id === e.counterparty_account_id) : null;
+  const m = other ? LEG_TITLE.exec(e.merchant) : null;
+  if (!other || !m || m[2] !== (e.link!.leg === 'OUT' ? 'TO' : 'FROM')) return e.merchant;
+  return `${m[1]} ${m[2]} ${other.display_name}`;
+}
+
 export function historyRow(e: LedgerEntry, accounts: JurnlAccountRecord[], today: CalendarDate): HistoryRow {
   const account = resolveEntryAccount(e, accounts);
   const cls = entryClass(e, account);
@@ -52,7 +66,7 @@ export function historyRow(e: LedgerEntry, accounts: JurnlAccountRecord[], today
     id: e.id,
     account,
     date: entryDate(e, today),
-    label: e.merchant,
+    label: entryLabel(e, accounts),
     category: e.category,
     kind: KIND_OF[cls] ?? 'SPENDING',
     cls,
