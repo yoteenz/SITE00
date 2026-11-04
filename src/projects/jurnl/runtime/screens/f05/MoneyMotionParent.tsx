@@ -572,7 +572,6 @@ export function MoneyMotionParent() {
                 : <b className="jrn-f05m__metric-value" data-jrn-value={`money-${m.id}`} data-jrn-amount-cents={Math.round(m.value * 100)} style={{ fontSize: f05BoardType(amountSize(formatMoney(m.value), C.band.valueSize)) }}>{formatMoney(m.value)}</b>}
               </button>
             ))}
-            {unknown ? <p className="jrn-f05m__basis" data-testid="f05m-unknown">ADD A POCKET TO SEE WHAT IS COMMITTED AND AVAILABLE.</p> : null}
           </section>
 
           {/* L3 — the carousel: four collections, one region; only the papers move */}

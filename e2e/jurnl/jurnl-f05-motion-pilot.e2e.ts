@@ -58,7 +58,7 @@ test.describe('F05 MONEY parent motion pilot', () => {
     expect(await metric(page, 'owed')).toBe(0);
     await expect(page.locator('[data-jrn-value="money-committed"]')).toHaveAttribute('data-jrn-unknown', 'true');
     await expect(page.locator('[data-jrn-value="money-available"]')).toHaveAttribute('data-jrn-unknown', 'true');
-    await expect(page.getByTestId('f05m-unknown')).toBeVisible();
+    await expect(page.getByTestId('f05m-unknown')).toHaveCount(0);
     await shot(page, '01-zero-accounts');
   });
 
