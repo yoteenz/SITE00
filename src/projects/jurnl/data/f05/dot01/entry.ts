@@ -6,7 +6,8 @@
  */
 import { getTodayKey, type CalendarDate } from '../../foundation/dates';
 import type { EntryReceipt, LedgerEntry } from '../../home/moneyTypes';
-import { computeLedgerPositions, entryClass } from '../../ledger/accounting';
+import { formatMoney as money } from '../../home/currency';
+import { computeLedgerPositions, entryClass, legSettlement, toCents } from '../../ledger/accounting';
 import { applyOp, buildExpense, buildTransfer, recordTransfer, type ExpenseInput, type TransferInput } from '../../ledger/ledgerOps';
 import { getRepository } from '../../repository/deviceRepository';
 import { findDuplicatePurchase, type DuplicateMatch } from './receipt';
@@ -70,15 +71,37 @@ export function previewReversal(entryId: string, today: CalendarDate = getTodayK
   return impactOf(s.transactions, s.transactions.filter((x) => x.id !== entryId), [e.account_id], today);
 }
 
-export type TransferPreview = { linkId: string; kind: 'TRANSFER' | 'CARD_PAYMENT'; impact: Impact[]; input: TransferInput };
+const OPEN_LEG = new Set(['SCHEDULED', 'PENDING', 'NEEDS_RECONCILIATION']);
 
-/** What a transfer or card payment would do now (canonical #1706 settlement: unsettled legs move nothing yet). */
+export type TransferPreview = { linkId: string; kind: 'TRANSFER' | 'CARD_PAYMENT'; impact: Impact[]; input: TransferInput; warnings: string[] };
+
+/**
+ * What a transfer or card payment would do now (canonical #1706 settlement: unsettled legs move nothing yet).
+ * DOT 01 adds two guards the canonical engine does not apply, because each would make the picture wrong:
+ *   - paying a card more than it is tracked as owing (the position stops at 0, so the extra would vanish);
+ *   - taking more cash out of CASH ON HAND than it holds (cash cannot go below 0).
+ * A bank or card source that would go below 0 is allowed (overdrafts happen) but warned.
+ */
 export function previewTransfer(input: TransferInput, today: CalendarDate = getTodayKey()): Done<TransferPreview> {
   const s = getRepository().getSnapshot();
   const built = buildTransfer(s.accounts, s.transactions, input);
   if (!built.ok) return built;
   const ids = [input.from_account_id, input.to_account_id].filter(Boolean) as string[];
-  return { ok: true, value: { linkId: built.value.linkId, kind: built.value.kind, impact: impactOf(s.transactions, [...s.transactions, ...built.value.legs], ids, today), input: { ...input, link_id: built.value.linkId } } };
+  const now = computeLedgerPositions(s.accounts, s.creditAttributes, s.transactions, today).positions;
+  const from = now.find((p) => p.account_id === input.from_account_id);
+  const to = now.find((p) => p.account_id === input.to_account_id);
+  const amount = toCents(Math.abs(input.amount));
+  const outstanding = (id: string) => toCents(s.transactions.filter((e) => e.link?.kind === 'CARD_PAYMENT' && e.account_id === id && OPEN_LEG.has(legSettlement(e, today))).reduce((t, e) => t + Math.abs(e.amount), 0));
+  if (to?.nature === 'LIABILITY') {
+    const left = toCents(to.owed - outstanding(to.account_id));
+    if (amount > left) return { ok: false, error: left <= 0 ? `${to.account.display_name} HAS NOTHING LEFT TO PAY (PAYMENTS ALREADY RECORDED COVER WHAT IT OWES). REVIEW THE CARD BALANCE FIRST.` : `THIS IS MORE THAN ${to.account.display_name} OWES AFTER PAYMENTS ALREADY RECORDED (${money(left)}). RECORD UP TO ${money(left)}, OR REVIEW THE CARD BALANCE FIRST.` };
+  }
+  const warnings: string[] = [];
+  if (from && from.nature === 'ASSET' && amount > from.held) {
+    if (from.account.account_type === 'CASH') return { ok: false, error: `${from.account.display_name} HOLDS ONLY ${money(from.held)}.` };
+    warnings.push(`THIS IS MORE THAN ${from.account.display_name} HOLDS (${money(from.held)}). IT WILL SHOW BELOW ZERO.`);
+  }
+  return { ok: true, value: { linkId: built.value.linkId, kind: built.value.kind, impact: impactOf(s.transactions, [...s.transactions, ...built.value.legs], ids, today), input: { ...input, link_id: built.value.linkId }, warnings } };
 }
 
 export function saveTransfer(p: TransferPreview): Done<string> {

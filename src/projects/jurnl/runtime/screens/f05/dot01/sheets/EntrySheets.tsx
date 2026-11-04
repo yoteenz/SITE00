@@ -294,6 +294,7 @@ export function AddCashOverlay({ accountId, onClose }: { accountId: string; onCl
             <p className="d01-h">REVIEW</p>
             {preview ? <ImpactRows impact={preview.impact} testId="d01-cash-impact" /> : <Row label="CASH ON HAND · COUNTED" value={`${formatMoney(count!.before)} → ${formatMoney(count!.after)}`} sub="RECORDED AS A BALANCE CORRECTION · NOT INCOME" />}
           </Paper>
+          {preview?.warnings.map((w) => <Alert key={w} testId="d01-cash-warning">{w}</Alert>)}
           {error ? <Alert role="alert">{error}</Alert> : null}
           <div className="d01-actions">
             <Button trigger="d01-add-to-cash" icon="coins" onClick={confirm}>ADD TO CASH</Button>
@@ -369,6 +370,7 @@ export function CardPaymentOverlay({ accountId, onClose }: { accountId: string; 
             <ImpactRows impact={preview.impact} testId="d01-payment-impact" />
             {start !== 'COMPLETED' ? <p className="d01-note">NOT SETTLED: THE CARD STILL OWES THE SAME AND THE ACCOUNT IS NOT DEBITED UNTIL IT IS CONFIRMED.</p> : null}
           </Paper>
+          {preview.warnings.map((w) => <Alert key={w} testId="d01-payment-warning">{w}</Alert>)}
           {error ? <Alert role="alert">{error}</Alert> : null}
           <div className="d01-actions">
             <Button trigger="d01-payment-save" icon="check" onClick={() => { const r = saveTransfer(preview); if (!r.ok) return setError(r.error); setDone(true); }}>SAVE</Button>
