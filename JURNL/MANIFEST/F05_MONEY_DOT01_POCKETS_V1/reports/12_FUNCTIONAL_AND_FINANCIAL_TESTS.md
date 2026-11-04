@@ -36,9 +36,10 @@ All runs use synthetic worlds in Chromium (Playwright) and vitest. Nothing real 
 | JURNL unit suite (`tests/jurnl*`, 45 files) | **809 / 809** |
 | Pocket E2E `jurnl-f05-pockets` (14 tests × small 360 × 780 / mobile 393 × 852 / tablet 834 × 1194 / desktop 1440 × 900) | **56 / 56** |
 | All F05 E2E, five specs × four sizes (pockets, dot01, dot01-camera with real on-device OCR, carousel, motion pilot) | **312 passed · 0 failed · 8 skipped** (the same 8 skips as the previous sprint's F05 run, 256 + 8; the 56 new Pocket tests make 312) |
-| After the last two fixes (KEEP POCKET first; RESOLVE ISSUES closes first): pockets + dot01 × four sizes | see `tests/e2e_final.txt` |
+| After the last two fixes (KEEP POCKET first; RESOLVE ISSUES closes first): pockets + dot01 × four sizes | **173 passed · 0 failed · 3 skipped** (`tests/e2e_final.txt`) |
 | `tsc --noEmit` | PASS |
-| Build (`npm run build`: tsc + vite + verify-production-dist) | see `tests/build.txt` |
+| Build (`npm run build`: tsc + vite + verify-production-dist) | **PASS** (471 JS assets verified; `tests/build.txt`) |
+| Capture probe, 13 states × 375 × 667 / 393 × 852 | **26 / 26 OK** · 0 vertical / 0 horizontal page scroll · 8 / 8 open menus inside the viewport · delete confirmation focused on KEEP POCKET (`tests/capture_measurements.json`) |
 
 ## Financial non-regression
 

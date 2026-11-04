@@ -42,4 +42,5 @@ Sprint `P0.JURNL.F05-MONEY.DOT01.POCKET-CONTEXT-MANAGEMENT-AND-RENAME-DELETE.UX1
 
 - `SCREENSHOTS/393x852/`: the six required states, plus the parent hold and the duplicate-name refusal.
 - `SCREENSHOTS/375x667/` and `SCREENSHOTS/360x780/`: the same on compact phones.
+- `tests/`: the E2E, unit, build and capture records.
 - `reports/12_FUNCTIONAL_AND_FINANCIAL_TESTS.md`: every result.

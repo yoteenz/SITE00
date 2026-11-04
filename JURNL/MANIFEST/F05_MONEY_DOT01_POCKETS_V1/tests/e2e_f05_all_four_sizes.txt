@@ -1,0 +1,5 @@
+All five F05 E2E specs (pockets, dot01, dot01-camera, carousel, motion-pilot) x small / mobile / tablet / desktop, on aeb8eb64b (before the KEEP POCKET order and RESOLVE ISSUES fixes; those were rerun in e2e_final.txt)
+
+  8 skipped
+  312 passed (26.8m)
+EXIT=0
