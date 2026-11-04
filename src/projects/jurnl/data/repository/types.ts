@@ -14,6 +14,8 @@ import type { JurnlPurchase } from '../foundation/purchases';
 import type { JurnlTrip } from '../foundation/trips';
 import type { JurnlPaydownPlan } from '../foundation/paydown';
 import type { JurnlRecord } from '../foundation/records';
+import type { JurnlDailyEarnings } from '../foundation/dailyEarnings';
+import type { JurnlReservation } from '../foundation/reservations';
 
 export const REPOSITORY_SCHEMA_VERSION = 5;
 
@@ -44,7 +46,8 @@ export type RepositoryEventType =
   | 'OBLIGATION_DELETED'
   | 'PLAN_CREATED'
   | 'PLAN_UPDATED'
-  | 'PLAN_DELETED';
+  | 'PLAN_DELETED'
+  | 'FINANCIAL_COMMIT';
 
 export type RepositoryEvent = { type: RepositoryEventType; at: string; entityId?: string };
 
@@ -65,7 +68,25 @@ export type RepositorySnapshot = {
   trips: JurnlTrip[];
   paydownPlan: JurnlPaydownPlan | null;
   records: JurnlRecord[];
+  /** F06 daily earnings records (additive in schema v5; defaults to []). */
+  dailyEarnings: JurnlDailyEarnings[];
+  /** F07 / F12 money set aside toward specific payments (additive in schema v5; defaults to []). */
+  reservations: JurnlReservation[];
   updatedAt: string;
+};
+
+/**
+ * One atomic change across collections: every list is applied in a single persist, so a daily earnings save and its
+ * ledger legs (or a transfer's two legs, or a bill payment and its reservation release) land together or not at all.
+ */
+export type FinancialCommit = {
+  reason: string;
+  transactions?: { upsert?: LedgerEntry[]; remove?: string[] };
+  dailyEarnings?: { upsert?: JurnlDailyEarnings[] };
+  reservations?: { upsert?: JurnlReservation[]; remove?: string[] };
+  obligations?: { upsert?: JurnlObligation[] };
+  creditAttributes?: { upsert?: JurnlCreditAttributes[] };
+  accounts?: { upsert?: JurnlAccountRecord[] };
 };
 
 export type RepositoryListener = () => void;
@@ -115,6 +136,10 @@ export interface JurnlRepository {
   listRecords(): JurnlRecord[];
   upsertRecord(record: JurnlRecord): JurnlRecord;
   deleteRecord(id: string): boolean;
+  listDailyEarnings(): JurnlDailyEarnings[];
+  listReservations(): JurnlReservation[];
+  /** Applies a FinancialCommit atomically (one persist, one notification). */
+  commit(change: FinancialCommit): void;
   onEvent(cb: (event: RepositoryEvent) => void): () => void;
 }
 

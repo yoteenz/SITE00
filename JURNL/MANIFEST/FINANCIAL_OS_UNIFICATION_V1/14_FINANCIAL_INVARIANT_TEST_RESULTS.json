@@ -1,0 +1,174 @@
+{
+  "sprint": "P0.JURNL.PERSONAL-FINANCIAL-OPERATING-SYSTEM.UNIFIED-ACCOUNTING-AND-UTILITY-CONVERGENCE1",
+  "suite": "tests/jurnlFinancialInvariants.test.ts",
+  "command": "npx vitest run tests/jurnlFinancialInvariants.test.ts",
+  "total": 40,
+  "passed": 40,
+  "failed": 0,
+  "matrix": {
+    "A": {
+      "test": "A. cash tips increase cash only",
+      "status": "PASS"
+    },
+    "B": {
+      "test": "B. digital earnings increase the selected digital account only",
+      "status": "PASS"
+    },
+    "C": {
+      "test": "C. digital tips already included are not added twice; separate tips are added once",
+      "status": "PASS"
+    },
+    "D": {
+      "test": "D. editing a day rewrites its legs: balances move by the difference, no duplicate income",
+      "status": "PASS"
+    },
+    "E": {
+      "test": "E. a cash purchase reduces cash, not the bank",
+      "status": "PASS"
+    },
+    "F": {
+      "test": "F. a debit purchase reduces the bank, not cash",
+      "status": "PASS"
+    },
+    "G": {
+      "test": "G. a credit purchase raises what the card is owed; no cash leaves; Safe to Spend cash is unchanged",
+      "status": "PASS"
+    },
+    "H": {
+      "test": "H. a card payment lowers the source and the card balance and is not new spending",
+      "status": "PASS"
+    },
+    "I": {
+      "test": "I. a transfer between owned accounts creates no income and keeps total money the same",
+      "status": "PASS"
+    },
+    "J": {
+      "test": "J. a cash deposit lowers cash and raises the bank",
+      "status": "PASS"
+    },
+    "K": {
+      "test": "K. recurrence produces scheduled occurrences, never completed payments",
+      "status": "PASS"
+    },
+    "L": {
+      "test": "L. marking a bill paid creates exactly one payment and moves to the next date",
+      "status": "PASS"
+    },
+    "M": {
+      "test": "M. setting money aside moves no money and writes no ledger entry",
+      "status": "PASS"
+    },
+    "N": {
+      "test": "N. $95 set aside toward a $140 bill is part of the $140 — Safe to Spend stays $360, not $265",
+      "status": "PASS"
+    },
+    "O": {
+      "test": "O. the same money cannot silently fund two bills; later over-commitment is reported",
+      "status": "PASS"
+    },
+    "P": {
+      "test": "P. utilization uses the card limit and balance; payment to a chosen target rounds up",
+      "status": "PASS"
+    },
+    "Q": {
+      "test": "Q. payment guidance counts payments already made; a paid minimum leaves Safe to Spend",
+      "status": "PASS"
+    },
+    "R": {
+      "test": "R. statement closing date and payment due date stay distinct",
+      "status": "PASS"
+    },
+    "S": {
+      "test": "S. corrections and reversals keep history: deleted days and undone payments stay traceable",
+      "status": "PASS"
+    },
+    "T": {
+      "test": "T. reloading from storage does not duplicate entries",
+      "status": "PASS"
+    },
+    "U": {
+      "test": "U. two users never see each other’s records",
+      "status": "PASS"
+    },
+    "V": {
+      "test": "V. manual and stale balances are never presented as bank-confirmed",
+      "status": "PASS"
+    },
+    "W": {
+      "test": "W. missing card data produces an honest explanation, not a number",
+      "status": "PASS"
+    },
+    "X": {
+      "test": "X. rounding and currency precision are consistent",
+      "status": "PASS"
+    },
+    "Y": {
+      "test": "Y. month-end and leap-year schedules keep their day",
+      "status": "PASS"
+    },
+    "Z": {
+      "test": "Z. one event is counted once across income, transfers, payments and the ledger",
+      "status": "PASS"
+    }
+  },
+  "additional_invariants": [
+    {
+      "test": "one daily submission is one traceable event; the same source and day cannot be recorded twice",
+      "status": "PASS"
+    },
+    {
+      "test": "daily, weekly and monthly totals add each day once",
+      "status": "PASS"
+    },
+    {
+      "test": "earnings cannot be received into a credit card",
+      "status": "PASS"
+    },
+    {
+      "test": "transfers can be reversed as one event; money cannot move out of a credit card",
+      "status": "PASS"
+    },
+    {
+      "test": "a scheduled (future-dated) transfer changes nothing until its date",
+      "status": "PASS"
+    },
+    {
+      "test": "a balance correction after entries records the difference instead of re-counting",
+      "status": "PASS"
+    },
+    {
+      "test": "suggests the usual account by purpose, honours a chosen account, and explains when none fits",
+      "status": "PASS"
+    },
+    {
+      "test": "partial payments keep the occurrence open and cannot exceed what is due",
+      "status": "PASS"
+    },
+    {
+      "test": "paying a funded bill uses the set-aside money; extra is released or carried as chosen",
+      "status": "PASS"
+    },
+    {
+      "test": "reassigning set-aside money keeps it in the same account and respects the new cap",
+      "status": "PASS"
+    },
+    {
+      "test": "an account-specific shortfall is reported even when total Safe to Spend is positive",
+      "status": "PASS"
+    },
+    {
+      "test": "skip and reschedule change dates only; cancel keeps history and releases set-asides",
+      "status": "PASS"
+    },
+    {
+      "test": "subscription totals convert each frequency instead of adding them as monthly",
+      "status": "PASS"
+    },
+    {
+      "test": "interest guidance never promises interest avoidance when a balance is carried",
+      "status": "PASS"
+    }
+  ],
+  "data": "synthetic accounts only (BANK 500, RIDESHARE payout card 240, CASH 100, VISA owes 400 of 2000)",
+  "letters_without_direct_test": []
+}

@@ -1,0 +1,222 @@
+{
+  "branch_runs": {
+    "mobile": "e2e-branch-mobile.json",
+    "tablet_desktop": "e2e-branch-td.json"
+  },
+  "baseline_main_run": {
+    "sha": "e413590e",
+    "projects": [
+      "mobile"
+    ],
+    "specs": [
+      "jurnl-core-mutations",
+      "jurnl-global-systems",
+      "jurnl-paydown-sts",
+      "jurnl-product-utility-journeys (copied from #1704)"
+    ],
+    "passed": 15,
+    "failed": 7,
+    "failures": [
+      "jurnl-core-mutations.e2e.ts :: F11 trip reserve affects safe to spend",
+      "jurnl-core-mutations.e2e.ts :: F08 plan assign reduces STS",
+      "jurnl-global-systems.e2e.ts :: Ask Jurnl opens without provider",
+      "jurnl-paydown-sts.e2e.ts :: simulated extra payment alone does not reduce STS",
+      "jurnl-paydown-sts.e2e.ts :: committed trip reserve reduces STS (contrast)",
+      "jurnl-product-utility-journeys.e2e.ts :: Journey B — obligation visible on Safe to Spend after amount entry",
+      "jurnl-product-utility-journeys.e2e.ts :: Journey H — edit obligation amount"
+    ]
+  },
+  "totals": {
+    "tests": 183,
+    "PASS": 160,
+    "PRE_EXISTING_FAILS_ON_MAIN": 21,
+    "REGRESSION_FIXED_AND_RERUN_PASS": 1,
+    "SETUP_TIMEOUT_UNDER_LOAD_PASSED_ON_RERUN": 1
+  },
+  "non_pass": [
+    {
+      "project": "mobile",
+      "file": "jurnl-core-mutations.e2e.ts",
+      "test": "F11 trip reserve affects safe to spend",
+      "status": "FAIL",
+      "error": "TimeoutError: locator.innerText: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.jrn-home__num').first()\n",
+      "classification": "PRE_EXISTING_FAILS_ON_MAIN"
+    },
+    {
+      "project": "mobile",
+      "file": "jurnl-core-mutations.e2e.ts",
+      "test": "F08 plan assign reduces STS",
+      "status": "FAIL",
+      "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByText(/ASSIGNED/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByText(/ASSIGNED/i) wi",
+      "classification": "PRE_EXISTING_FAILS_ON_MAIN"
+    },
+    {
+      "project": "mobile",
+      "file": "jurnl-global-systems.e2e.ts",
+      "test": "Ask Jurnl opens without provider",
+      "status": "FAIL",
+      "error": "TimeoutError: locator.scrollIntoViewIfNeeded: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('[data-jrn-trigger=\"today-ask\"]').first()\n",
+      "classification": "PRE_EXISTING_FAILS_ON_MAIN"
+    },
+    {
+      "project": "mobile",
+      "file": "jurnl-paydown-sts.e2e.ts",
+      "test": "simulated extra payment alone does not reduce STS",
+      "status": "FAIL",
+      "error": "TimeoutError: locator.innerText: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.jrn-home__num').first()\n",
+      "classification": "PRE_EXISTING_FAILS_ON_MAIN"
+    },
+    {
+      "project": "mobile",
+      "file": "jurnl-paydown-sts.e2e.ts",
+      "test": "committed trip reserve reduces STS (contrast)",
+      "status": "FAIL",
+      "error": "TimeoutError: locator.innerText: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.jrn-home__num').first()\n",
+      "classification": "PRE_EXISTING_FAILS_ON_MAIN"
+    },
+    {
+      "project": "mobile",
+      "file": "jurnl-product-utility-journeys.e2e.ts",
+      "test": "Journey A — add subscription-like recurring obligation",
+      "status": "FAIL",
+      "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByText('STREAMING SERVICE')\nExpected: visible\nError: strict mode violation: getByText('STREAMING SERVICE') resolved to 2 elements:\n    1) <span",
+      "classification": "REGRESSION_FIXED_AND_RERUN_PASS"
+    },
+    {
+      "project": "mobile",
+      "file": "jurnl-product-utility-journeys.e2e.ts",
+      "test": "Journey B — obligation visible on Safe to Spend after amount entry",
+      "status": "FAIL",
+      "error": "Error: page.evaluate: SecurityError: Failed to read the 'sessionStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:313:16)\n    at UtilitySc",
+      "classification": "PRE_EXISTING_FAILS_ON_MAIN"
+    },
+    {
+      "project": "mobile",
+      "file": "jurnl-product-utility-journeys.e2e.ts",
+      "test": "Journey H — edit obligation amount",
+      "status": "FAIL",
+      "error": "TimeoutError: locator.scrollIntoViewIfNeeded: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('[data-jrn-trigger=\"upcoming-edit\"]').first()\n",
+      "classification": "PRE_EXISTING_FAILS_ON_MAIN"
+    },
+    {
+      "project": "tablet",
+      "file": "jurnl-core-mutations.e2e.ts",
+      "test": "F11 trip reserve affects safe to spend",
+      "status": "FAIL",
+      "error": "TimeoutError: locator.innerText: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.jrn-home__num').first()\n",
+      "classification": "PRE_EXISTING_FAILS_ON_MAIN"
+    },
+    {
+      "project": "tablet",
+      "file": "jurnl-core-mutations.e2e.ts",
+      "test": "F08 plan assign reduces STS",
+      "status": "FAIL",
+      "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByText(/ASSIGNED/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByText(/ASSIGNED/i) wi",
+      "classification": "PRE_EXISTING_FAILS_ON_MAIN"
+    },
+    {
+      "project": "desktop",
+      "file": "jurnl-core-mutations.e2e.ts",
+      "test": "F11 trip reserve affects safe to spend",
+      "status": "FAIL",
+      "error": "TimeoutError: locator.innerText: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.jrn-home__num').first()\n",
+      "classification": "PRE_EXISTING_FAILS_ON_MAIN"
+    },
+    {
+      "project": "desktop",
+      "file": "jurnl-core-mutations.e2e.ts",
+      "test": "F08 plan assign reduces STS",
+      "status": "FAIL",
+      "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByText(/ASSIGNED/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByText(/ASSIGNED/i) wi",
+      "classification": "PRE_EXISTING_FAILS_ON_MAIN"
+    },
+    {
+      "project": "tablet",
+      "file": "jurnl-family-reachability.e2e.ts",
+      "test": "F09 root safe reachable",
+      "status": "FAIL",
+      "error": "Test timeout of 90000ms exceeded while running \"beforeEach\" hook.",
+      "classification": "SETUP_TIMEOUT_UNDER_LOAD_PASSED_ON_RERUN"
+    },
+    {
+      "project": "tablet",
+      "file": "jurnl-global-systems.e2e.ts",
+      "test": "Ask Jurnl opens without provider",
+      "status": "FAIL",
+      "error": "TimeoutError: locator.scrollIntoViewIfNeeded: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('[data-jrn-trigger=\"today-ask\"]').first()\n",
+      "classification": "PRE_EXISTING_FAILS_ON_MAIN"
+    },
+    {
+      "project": "desktop",
+      "file": "jurnl-global-systems.e2e.ts",
+      "test": "Ask Jurnl opens without provider",
+      "status": "FAIL",
+      "error": "TimeoutError: locator.scrollIntoViewIfNeeded: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('[data-jrn-trigger=\"today-ask\"]').first()\n",
+      "classification": "PRE_EXISTING_FAILS_ON_MAIN"
+    },
+    {
+      "project": "tablet",
+      "file": "jurnl-paydown-sts.e2e.ts",
+      "test": "simulated extra payment alone does not reduce STS",
+      "status": "FAIL",
+      "error": "TimeoutError: locator.innerText: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.jrn-home__num').first()\n",
+      "classification": "PRE_EXISTING_FAILS_ON_MAIN"
+    },
+    {
+      "project": "tablet",
+      "file": "jurnl-paydown-sts.e2e.ts",
+      "test": "committed trip reserve reduces STS (contrast)",
+      "status": "FAIL",
+      "error": "TimeoutError: locator.innerText: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.jrn-home__num').first()\n",
+      "classification": "PRE_EXISTING_FAILS_ON_MAIN"
+    },
+    {
+      "project": "desktop",
+      "file": "jurnl-paydown-sts.e2e.ts",
+      "test": "simulated extra payment alone does not reduce STS",
+      "status": "FAIL",
+      "error": "TimeoutError: locator.innerText: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.jrn-home__num').first()\n",
+      "classification": "PRE_EXISTING_FAILS_ON_MAIN"
+    },
+    {
+      "project": "desktop",
+      "file": "jurnl-paydown-sts.e2e.ts",
+      "test": "committed trip reserve reduces STS (contrast)",
+      "status": "FAIL",
+      "error": "TimeoutError: locator.innerText: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.jrn-home__num').first()\n",
+      "classification": "PRE_EXISTING_FAILS_ON_MAIN"
+    },
+    {
+      "project": "tablet",
+      "file": "jurnl-product-utility-journeys.e2e.ts",
+      "test": "Journey B — obligation visible on Safe to Spend after amount entry",
+      "status": "FAIL",
+      "error": "Error: page.evaluate: SecurityError: Failed to read the 'sessionStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:313:16)\n    at UtilitySc",
+      "classification": "PRE_EXISTING_FAILS_ON_MAIN"
+    },
+    {
+      "project": "tablet",
+      "file": "jurnl-product-utility-journeys.e2e.ts",
+      "test": "Journey H — edit obligation amount",
+      "status": "FAIL",
+      "error": "TimeoutError: locator.scrollIntoViewIfNeeded: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('[data-jrn-trigger=\"upcoming-edit\"]').first()\n",
+      "classification": "PRE_EXISTING_FAILS_ON_MAIN"
+    },
+    {
+      "project": "desktop",
+      "file": "jurnl-product-utility-journeys.e2e.ts",
+      "test": "Journey B — obligation visible on Safe to Spend after amount entry",
+      "status": "FAIL",
+      "error": "Error: page.evaluate: SecurityError: Failed to read the 'sessionStorage' property from 'Window': Access is denied for this document.\n    at UtilityScript.evaluate (<anonymous>:313:16)\n    at UtilitySc",
+      "classification": "PRE_EXISTING_FAILS_ON_MAIN"
+    },
+    {
+      "project": "desktop",
+      "file": "jurnl-product-utility-journeys.e2e.ts",
+      "test": "Journey H — edit obligation amount",
+      "status": "FAIL",
+      "error": "TimeoutError: locator.scrollIntoViewIfNeeded: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('[data-jrn-trigger=\"upcoming-edit\"]').first()\n",
+      "classification": "PRE_EXISTING_FAILS_ON_MAIN"
+    }
+  ]
+}

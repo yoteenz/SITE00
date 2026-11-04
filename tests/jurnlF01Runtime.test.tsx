@@ -9,7 +9,7 @@ import path from 'node:path';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { F01_CLAIMS, F01_COPY, passwordRuleState, passwordSatisfied } from '../src/projects/jurnl/data/f01/copy';
 import { F01_RUNTIME_EXTRA_STATES } from '../src/projects/jurnl/data/f01/coverage';
 import { F01_INTERACTION_MANIFEST, F01_OVERLAYS, JURNL_COMPONENT_RUNTIME, listF01Bindings } from '../src/projects/jurnl/data/f01/interactionBindings';
@@ -25,6 +25,19 @@ import {
   readScenario,
 } from '../src/projects/jurnl/runtime/state/adapters';
 import { getProjectRuntime, isProjectRuntimeMessage, projectRuntimeUrl } from '../src/site00/projectRuntime/projectRuntimeRegistry';
+
+// Production mode fails closed unless the server data plane is configured. CI configures it with non-secret
+// placeholders in vitest.config.ts (import.meta.env is fixed when the worker starts, so a per-test stub cannot set it).
+// Resolve production exactly as CI does, so this file gives the same result on any runner.
+vi.mock('../src/projects/jurnl/data/production/productionConfig', async (importActual) => {
+  const actual = await importActual<typeof import('../src/projects/jurnl/data/production/productionConfig')>();
+  const ciConfigured = (mode: 'design-preview' | 'production') =>
+    mode === 'production' ?
+      { dataPlane: 'SERVER_SYNC' as const, authConfigured: true, serverPersistenceConfigured: true, supabaseConfigured: true, apiBase: 'https://api.site00.com' }
+    : actual.resolveJurnlProductionConfig(mode);
+  return { ...actual, resolveJurnlProductionConfig: ciConfigured, jurnlProductionFailClosed: (mode: 'design-preview' | 'production') => mode === 'production' && ciConfigured(mode).dataPlane === 'UNCONFIGURED' };
+});
+
 
 const root = path.resolve(__dirname, '..');
 const read = (rel: string) => readFileSync(path.join(root, rel), 'utf8');

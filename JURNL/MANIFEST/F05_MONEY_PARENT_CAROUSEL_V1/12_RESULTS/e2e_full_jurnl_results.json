@@ -1,0 +1,2555 @@
+{
+ "run": "full JURNL E2E, all projects (small 360x780, mobile 393x852, tablet 834x1194, desktop 1440x900)",
+ "commit": "a51bec4c (code) on branch claude/jurnl-f05-money-motion-pilot-um0u93",
+ "stats": {
+  "startTime": "2026-11-03T21:34:23.798Z",
+  "duration": 2804464.119,
+  "expected": 355,
+  "skipped": 5,
+  "unexpected": 3,
+  "flaky": 0
+ },
+ "tests": [
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "01 \u00b7 the first collection is ACCOUNTS: the approved four places with live, id-bound values",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 6.9
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "02 / 03 / 04 / 05 \u00b7 swipes advance one collection at a time, reverse swipes return, the ends do not wrap",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 19.6
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "a drag short of the threshold settles back; a drag never opens the paper it ends on",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 7.6
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "06 \u00b7 dots, previous / next and the keyboard select the intended collection",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 10.7
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "07 / 08 / 09 / 10 \u00b7 environment, MONEY title, summary and the global dock never move or re-mount",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 14.5
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "11 \u00b7 every collection is four papers, in the four approved places",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 7.9
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "12 / 21 \u00b7 every panel opens its owner; closing or coming back returns to the same collection",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 27.9
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "13 / 17 / 18 / 19 \u00b7 figures are canonical: in-transit and pending are not available, debt stays apart, nothing counted twice",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 18.9
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "14 / 15 / 16 \u00b7 missing data is said plainly: no invented transfers, bills, goals, income or spending",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 12.6
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "14 \u00b7 no places at all: Safe to Spend and RESERVED are not known, never a sample figure",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 9.4
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "20 \u00b7 changing collection \u2014 by swipe, dot, key, button or trackpad \u2014 never writes a record",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 11.4
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "23 \u00b7 carousel gestures stay inside the carousel: no history entries, no route change, vertical and edge gestures ignored",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 13.2
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "24 \u00b7 no duplicated images or ghosted layers once a change settles",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 11.4
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "25 \u00b7 usable at this size: everything on screen, real touch targets, no page scroll",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 16.4
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "26 \u00b7 F05 logic intact from the carousel: a place opens by id and back returns to ACCOUNTS",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 7.7
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "26 \u00b7 more than four places: three papers and ALL PLACES, which lists every place; still four dots",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 6.9
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "accessibility: carousel semantics and no serious or critical axe violations in any collection",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 14.3
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "motion: a collection change is an exit then an entry from the other side, \u2264 520 ms, without replaying the page entrance",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 22.9
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "motion: mid-drag, the papers follow the finger with resistance and a shadow lean; the shell stays put",
+   "project": "small",
+   "status": "skipped",
+   "duration_s": 0.2
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "01 \u00b7 the first collection is ACCOUNTS: the approved four places with live, id-bound values",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 9.1
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "02 / 03 / 04 / 05 \u00b7 swipes advance one collection at a time, reverse swipes return, the ends do not wrap",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 23.6
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "a drag short of the threshold settles back; a drag never opens the paper it ends on",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 9.7
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "06 \u00b7 dots, previous / next and the keyboard select the intended collection",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 12.1
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "07 / 08 / 09 / 10 \u00b7 environment, MONEY title, summary and the global dock never move or re-mount",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 17.7
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "11 \u00b7 every collection is four papers, in the four approved places",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 10.5
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "12 / 21 \u00b7 every panel opens its owner; closing or coming back returns to the same collection",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 26.7
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "13 / 17 / 18 / 19 \u00b7 figures are canonical: in-transit and pending are not available, debt stays apart, nothing counted twice",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 21.5
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "14 / 15 / 16 \u00b7 missing data is said plainly: no invented transfers, bills, goals, income or spending",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 11.7
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "14 \u00b7 no places at all: Safe to Spend and RESERVED are not known, never a sample figure",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 10.2
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "20 \u00b7 changing collection \u2014 by swipe, dot, key, button or trackpad \u2014 never writes a record",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 10.3
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "23 \u00b7 carousel gestures stay inside the carousel: no history entries, no route change, vertical and edge gestures ignored",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 10.4
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "24 \u00b7 no duplicated images or ghosted layers once a change settles",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 10.2
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "25 \u00b7 usable at this size: everything on screen, real touch targets, no page scroll",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 17.0
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "26 \u00b7 F05 logic intact from the carousel: a place opens by id and back returns to ACCOUNTS",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 7.7
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "26 \u00b7 more than four places: three papers and ALL PLACES, which lists every place; still four dots",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 6.3
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "accessibility: carousel semantics and no serious or critical axe violations in any collection",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 14.5
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "motion: a collection change is an exit then an entry from the other side, \u2264 520 ms, without replaying the page entrance",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 26.3
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "motion: mid-drag, the papers follow the finger with resistance and a shadow lean; the shell stays put",
+   "project": "mobile",
+   "status": "skipped",
+   "duration_s": 0.4
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "01 \u00b7 the first collection is ACCOUNTS: the approved four places with live, id-bound values",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 5.8
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "02 / 03 / 04 / 05 \u00b7 swipes advance one collection at a time, reverse swipes return, the ends do not wrap",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 19.2
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "a drag short of the threshold settles back; a drag never opens the paper it ends on",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 9.0
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "06 \u00b7 dots, previous / next and the keyboard select the intended collection",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 11.4
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "07 / 08 / 09 / 10 \u00b7 environment, MONEY title, summary and the global dock never move or re-mount",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 13.5
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "11 \u00b7 every collection is four papers, in the four approved places",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 9.1
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "12 / 21 \u00b7 every panel opens its owner; closing or coming back returns to the same collection",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 30.8
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "13 / 17 / 18 / 19 \u00b7 figures are canonical: in-transit and pending are not available, debt stays apart, nothing counted twice",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 17.6
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "14 / 15 / 16 \u00b7 missing data is said plainly: no invented transfers, bills, goals, income or spending",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 10.9
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "14 \u00b7 no places at all: Safe to Spend and RESERVED are not known, never a sample figure",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 7.3
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "20 \u00b7 changing collection \u2014 by swipe, dot, key, button or trackpad \u2014 never writes a record",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 11.0
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "23 \u00b7 carousel gestures stay inside the carousel: no history entries, no route change, vertical and edge gestures ignored",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 12.1
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "24 \u00b7 no duplicated images or ghosted layers once a change settles",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 9.3
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "25 \u00b7 usable at this size: everything on screen, real touch targets, no page scroll",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 9.7
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "26 \u00b7 F05 logic intact from the carousel: a place opens by id and back returns to ACCOUNTS",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 6.1
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "26 \u00b7 more than four places: three papers and ALL PLACES, which lists every place; still four dots",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 5.3
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "accessibility: carousel semantics and no serious or critical axe violations in any collection",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 13.5
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "motion: a collection change is an exit then an entry from the other side, \u2264 520 ms, without replaying the page entrance",
+   "project": "tablet",
+   "status": "skipped",
+   "duration_s": 0.3
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "motion: mid-drag, the papers follow the finger with resistance and a shadow lean; the shell stays put",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 6.7
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "01 \u00b7 the first collection is ACCOUNTS: the approved four places with live, id-bound values",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 4.3
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "02 / 03 / 04 / 05 \u00b7 swipes advance one collection at a time, reverse swipes return, the ends do not wrap",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 16.8
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "a drag short of the threshold settles back; a drag never opens the paper it ends on",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 7.7
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "06 \u00b7 dots, previous / next and the keyboard select the intended collection",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 10.2
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "07 / 08 / 09 / 10 \u00b7 environment, MONEY title, summary and the global dock never move or re-mount",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 12.3
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "11 \u00b7 every collection is four papers, in the four approved places",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 8.9
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "12 / 21 \u00b7 every panel opens its owner; closing or coming back returns to the same collection",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 28.8
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "13 / 17 / 18 / 19 \u00b7 figures are canonical: in-transit and pending are not available, debt stays apart, nothing counted twice",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 13.1
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "14 / 15 / 16 \u00b7 missing data is said plainly: no invented transfers, bills, goals, income or spending",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 8.9
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "14 \u00b7 no places at all: Safe to Spend and RESERVED are not known, never a sample figure",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 7.7
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "20 \u00b7 changing collection \u2014 by swipe, dot, key, button or trackpad \u2014 never writes a record",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 10.4
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "23 \u00b7 carousel gestures stay inside the carousel: no history entries, no route change, vertical and edge gestures ignored",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 9.9
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "24 \u00b7 no duplicated images or ghosted layers once a change settles",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 8.7
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "25 \u00b7 usable at this size: everything on screen, real touch targets, no page scroll",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 8.4
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "26 \u00b7 F05 logic intact from the carousel: a place opens by id and back returns to ACCOUNTS",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 6.3
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "26 \u00b7 more than four places: three papers and ALL PLACES, which lists every place; still four dots",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 5.2
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "accessibility: carousel semantics and no serious or critical axe violations in any collection",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 12.5
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "motion: a collection change is an exit then an entry from the other side, \u2264 520 ms, without replaying the page entrance",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 9.0
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "motion: mid-drag, the papers follow the finger with resistance and a shadow lean; the shell stays put",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 6.5
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "22 \u00b7 reduced motion: the collection changes at once; dots, swipes, keys and panels all still work",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 8.6
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "22 \u00b7 reduced motion: the collection changes at once; dots, swipes, keys and panels all still work",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 9.2
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "22 \u00b7 reduced motion: the collection changes at once; dots, swipes, keys and panels all still work",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 6.6
+  },
+  {
+   "file": "jurnl-f05-carousel.e2e.ts",
+   "title": "22 \u00b7 reduced motion: the collection changes at once; dots, swipes, keys and panels all still work",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 7.3
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "1 \u00b7 no account records: an honest empty state, no invented figures",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 7.2
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "2 \u00b7 one account: its paper and a place to add another",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 7.2
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "3 / 5 / 6 \u00b7 four accounts: approved hierarchy, live values, assets never netted with debt",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 13.7
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "4 \u00b7 many accounts: three places and ALL PLACES; more places never add pages or dots",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 7.7
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "7 \u00b7 the global dock keeps its five destinations, MONEY active, ADD opens Quick Add",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 6.3
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "8 / 9 / 13 / 19 / 20 \u00b7 selection routes by id, changes no record, back returns cleanly",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 7.1
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "10 / 11 \u00b7 MOVE MONEY uses the transaction system; money on its way is not shown as received",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 10.5
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "transfer states drive the thread; only recorded steps move money",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 36.9
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "12 \u00b7 overlays open, trap focus, close on Escape and return focus to the trigger",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 13.5
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "15 / 16 / 17 / 18 \u00b7 readable at once, no duplicates, nothing off-screen, no page scroll",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 6.3
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "accessibility: no serious or critical axe violations on the pilot or its sheets",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 11.9
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "motion frame sequence (entrance, paused and seeked) and the zero-motion composite",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 20.9
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "route transition frame sequence: the selected paper becomes the account title",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 13.7
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "1 \u00b7 no account records: an honest empty state, no invented figures",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 7.5
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "2 \u00b7 one account: its paper and a place to add another",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 8.3
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "3 / 5 / 6 \u00b7 four accounts: approved hierarchy, live values, assets never netted with debt",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 16.8
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "4 \u00b7 many accounts: three places and ALL PLACES; more places never add pages or dots",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 8.5
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "7 \u00b7 the global dock keeps its five destinations, MONEY active, ADD opens Quick Add",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 8.6
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "8 / 9 / 13 / 19 / 20 \u00b7 selection routes by id, changes no record, back returns cleanly",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 9.8
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "10 / 11 \u00b7 MOVE MONEY uses the transaction system; money on its way is not shown as received",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 11.0
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "transfer states drive the thread; only recorded steps move money",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 40.6
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "12 \u00b7 overlays open, trap focus, close on Escape and return focus to the trigger",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 14.2
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "15 / 16 / 17 / 18 \u00b7 readable at once, no duplicates, nothing off-screen, no page scroll",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 6.2
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "accessibility: no serious or critical axe violations on the pilot or its sheets",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 12.6
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "motion frame sequence (entrance, paused and seeked) and the zero-motion composite",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 22.9
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "route transition frame sequence: the selected paper becomes the account title",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 14.8
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "1 \u00b7 no account records: an honest empty state, no invented figures",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 5.3
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "2 \u00b7 one account: its paper and a place to add another",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 5.5
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "3 / 5 / 6 \u00b7 four accounts: approved hierarchy, live values, assets never netted with debt",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 14.3
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "4 \u00b7 many accounts: three places and ALL PLACES; more places never add pages or dots",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 6.0
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "7 \u00b7 the global dock keeps its five destinations, MONEY active, ADD opens Quick Add",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 6.2
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "8 / 9 / 13 / 19 / 20 \u00b7 selection routes by id, changes no record, back returns cleanly",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 7.4
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "10 / 11 \u00b7 MOVE MONEY uses the transaction system; money on its way is not shown as received",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 8.3
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "transfer states drive the thread; only recorded steps move money",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 26.5
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "12 \u00b7 overlays open, trap focus, close on Escape and return focus to the trigger",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 9.1
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "15 / 16 / 17 / 18 \u00b7 readable at once, no duplicates, nothing off-screen, no page scroll",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 6.6
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "accessibility: no serious or critical axe violations on the pilot or its sheets",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 9.5
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "motion frame sequence (entrance, paused and seeked) and the zero-motion composite",
+   "project": "tablet",
+   "status": "skipped",
+   "duration_s": 0.3
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "route transition frame sequence: the selected paper becomes the account title",
+   "project": "tablet",
+   "status": "skipped",
+   "duration_s": 0.3
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "1 \u00b7 no account records: an honest empty state, no invented figures",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 5.2
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "2 \u00b7 one account: its paper and a place to add another",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 5.3
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "3 / 5 / 6 \u00b7 four accounts: approved hierarchy, live values, assets never netted with debt",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 13.2
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "4 \u00b7 many accounts: three places and ALL PLACES; more places never add pages or dots",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 5.8
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "7 \u00b7 the global dock keeps its five destinations, MONEY active, ADD opens Quick Add",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 6.3
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "8 / 9 / 13 / 19 / 20 \u00b7 selection routes by id, changes no record, back returns cleanly",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 6.1
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "10 / 11 \u00b7 MOVE MONEY uses the transaction system; money on its way is not shown as received",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 9.4
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "transfer states drive the thread; only recorded steps move money",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 35.3
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "12 \u00b7 overlays open, trap focus, close on Escape and return focus to the trigger",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 11.0
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "15 / 16 / 17 / 18 \u00b7 readable at once, no duplicates, nothing off-screen, no page scroll",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 6.7
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "accessibility: no serious or critical axe violations on the pilot or its sheets",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 9.4
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "motion frame sequence (entrance, paused and seeked) and the zero-motion composite",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 9.3
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "route transition frame sequence: the selected paper becomes the account title",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 9.4
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "14 \u00b7 reduced motion: no animation, every action and figure still works",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 9.4
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "14 \u00b7 reduced motion: no animation, every action and figure still works",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 8.5
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "14 \u00b7 reduced motion: no animation, every action and figure still works",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 6.8
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "14 \u00b7 reduced motion: no animation, every action and figure still works",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 6.7
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "without opting in, /money is the cabinet hub",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 5.2
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "without opting in, /money is the cabinet hub",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 6.0
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "without opting in, /money is the cabinet hub",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 4.9
+  },
+  {
+   "file": "jurnl-f05-motion-pilot.e2e.ts",
+   "title": "without opting in, /money is the cabinet hub",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 5.9
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "D1 Safe to Spend: next 30 days, then before next income; the 30-day number never changes",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 22.4
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "transfer in transit: out of the source, not in the bank until it arrives, credited once",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 25.3
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "a started transfer that never left can be cancelled with no change",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 25.3
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "card payment on its way: the card is not settled until it confirms; the minimum is counted once",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 33.7
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "D3 set money aside: the bill page and Plan show and change the same amount",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 36.4
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "D2 a bill that is the card payment is counted once, through the card",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 23.5
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "D4 headlines and TODAY: straightforward labels; ASK JURNL reachable with an honest fallback",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 23.8
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "accessibility: new sheets have no serious or critical axe violations",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 21.8
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "D1 Safe to Spend: next 30 days, then before next income; the 30-day number never changes",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 24.9
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "transfer in transit: out of the source, not in the bank until it arrives, credited once",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 34.1
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "a started transfer that never left can be cancelled with no change",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 30.4
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "card payment on its way: the card is not settled until it confirms; the minimum is counted once",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 38.2
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "D3 set money aside: the bill page and Plan show and change the same amount",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 42.6
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "D2 a bill that is the card payment is counted once, through the card",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 27.7
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "D4 headlines and TODAY: straightforward labels; ASK JURNL reachable with an honest fallback",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 28.7
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "accessibility: new sheets have no serious or critical axe violations",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 24.9
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "D1 Safe to Spend: next 30 days, then before next income; the 30-day number never changes",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 21.1
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "transfer in transit: out of the source, not in the bank until it arrives, credited once",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 29.0
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "a started transfer that never left can be cancelled with no change",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 27.3
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "card payment on its way: the card is not settled until it confirms; the minimum is counted once",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 31.5
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "D3 set money aside: the bill page and Plan show and change the same amount",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 35.2
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "D2 a bill that is the card payment is counted once, through the card",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 24.1
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "D4 headlines and TODAY: straightforward labels; ASK JURNL reachable with an honest fallback",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 23.5
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "accessibility: new sheets have no serious or critical axe violations",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 21.6
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "D1 Safe to Spend: next 30 days, then before next income; the 30-day number never changes",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 21.8
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "transfer in transit: out of the source, not in the bank until it arrives, credited once",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 29.4
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "a started transfer that never left can be cancelled with no change",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 28.5
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "card payment on its way: the card is not settled until it confirms; the minimum is counted once",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 33.6
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "D3 set money aside: the bill page and Plan show and change the same amount",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 35.1
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "D2 a bill that is the card payment is counted once, through the card",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 26.5
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "D4 headlines and TODAY: straightforward labels; ASK JURNL reachable with an honest fallback",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 22.1
+  },
+  {
+   "file": "jurnl-financial-os-stabilization.e2e.ts",
+   "title": "accessibility: new sheets have no serious or critical axe violations",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 21.1
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "daily earnings: one entry, cash and digital land in the right places, edit without duplication",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 53.3
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "spending: card purchase raises what the card owes; cash purchase lowers cash; usual account suggested",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 46.0
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "transfer: moving money between owned accounts is not income",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 30.9
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "bill funding: $95 set aside toward $140 does not lower Safe to Spend again; paying records one payment",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 40.7
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "subscriptions: add, see renewal and monthly / yearly cost",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 10.3
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "credit: payment plan shows minimum, source money and a target the user picks; recording a payment updates it",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 14.3
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "today: real attention fact and the money reading in SEE WHY",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 9.9
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "accessibility: new sheets have no serious or critical axe violations",
+   "project": "small",
+   "status": "passed",
+   "duration_s": 16.7
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "daily earnings: one entry, cash and digital land in the right places, edit without duplication",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 71.8
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "spending: card purchase raises what the card owes; cash purchase lowers cash; usual account suggested",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 56.1
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "transfer: moving money between owned accounts is not income",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 35.8
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "bill funding: $95 set aside toward $140 does not lower Safe to Spend again; paying records one payment",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 51.0
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "subscriptions: add, see renewal and monthly / yearly cost",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 10.7
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "credit: payment plan shows minimum, source money and a target the user picks; recording a payment updates it",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 17.8
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "today: real attention fact and the money reading in SEE WHY",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 10.2
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "accessibility: new sheets have no serious or critical axe violations",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 23.0
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "daily earnings: one entry, cash and digital land in the right places, edit without duplication",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 60.3
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "spending: card purchase raises what the card owes; cash purchase lowers cash; usual account suggested",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 50.4
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "transfer: moving money between owned accounts is not income",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 31.0
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "bill funding: $95 set aside toward $140 does not lower Safe to Spend again; paying records one payment",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 45.8
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "subscriptions: add, see renewal and monthly / yearly cost",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 7.7
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "credit: payment plan shows minimum, source money and a target the user picks; recording a payment updates it",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 14.4
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "today: real attention fact and the money reading in SEE WHY",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 7.2
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "accessibility: new sheets have no serious or critical axe violations",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 22.2
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "daily earnings: one entry, cash and digital land in the right places, edit without duplication",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 56.3
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "spending: card purchase raises what the card owes; cash purchase lowers cash; usual account suggested",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 45.3
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "transfer: moving money between owned accounts is not income",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 29.8
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "bill funding: $95 set aside toward $140 does not lower Safe to Spend again; paying records one payment",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 41.5
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "subscriptions: add, see renewal and monthly / yearly cost",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 9.8
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "credit: payment plan shows minimum, source money and a target the user picks; recording a payment updates it",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 15.1
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "today: real attention fact and the money reading in SEE WHY",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 8.5
+  },
+  {
+   "file": "jurnl-financial-os.e2e.ts",
+   "title": "accessibility: new sheets have no serious or critical axe violations",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 21.4
+  },
+  {
+   "file": "jurnl-a11y-core.e2e.ts",
+   "title": "axe today \u2014 no critical/serious",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 12.6
+  },
+  {
+   "file": "jurnl-a11y-core.e2e.ts",
+   "title": "axe money \u2014 no critical/serious",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 10.1
+  },
+  {
+   "file": "jurnl-a11y-core.e2e.ts",
+   "title": "axe plan \u2014 no critical/serious",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 9.4
+  },
+  {
+   "file": "jurnl-a11y-core.e2e.ts",
+   "title": "axe safe \u2014 no critical/serious",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 9.6
+  },
+  {
+   "file": "jurnl-a11y-core.e2e.ts",
+   "title": "axe goals \u2014 no critical/serious",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 9.4
+  },
+  {
+   "file": "jurnl-a11y-core.e2e.ts",
+   "title": "axe records \u2014 no critical/serious",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 8.7
+  },
+  {
+   "file": "jurnl-a11y-core.e2e.ts",
+   "title": "axe account \u2014 no critical/serious",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 9.1
+  },
+  {
+   "file": "jurnl-a11y-core.e2e.ts",
+   "title": "axe today \u2014 no critical/serious",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 10.7
+  },
+  {
+   "file": "jurnl-a11y-core.e2e.ts",
+   "title": "axe money \u2014 no critical/serious",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 10.4
+  },
+  {
+   "file": "jurnl-a11y-core.e2e.ts",
+   "title": "axe plan \u2014 no critical/serious",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 9.6
+  },
+  {
+   "file": "jurnl-a11y-core.e2e.ts",
+   "title": "axe safe \u2014 no critical/serious",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 9.2
+  },
+  {
+   "file": "jurnl-a11y-core.e2e.ts",
+   "title": "axe goals \u2014 no critical/serious",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 9.4
+  },
+  {
+   "file": "jurnl-a11y-core.e2e.ts",
+   "title": "axe records \u2014 no critical/serious",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 8.9
+  },
+  {
+   "file": "jurnl-a11y-core.e2e.ts",
+   "title": "axe account \u2014 no critical/serious",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 9.5
+  },
+  {
+   "file": "jurnl-a11y-core.e2e.ts",
+   "title": "axe today \u2014 no critical/serious",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 8.2
+  },
+  {
+   "file": "jurnl-a11y-core.e2e.ts",
+   "title": "axe money \u2014 no critical/serious",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 8.4
+  },
+  {
+   "file": "jurnl-a11y-core.e2e.ts",
+   "title": "axe plan \u2014 no critical/serious",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 8.3
+  },
+  {
+   "file": "jurnl-a11y-core.e2e.ts",
+   "title": "axe safe \u2014 no critical/serious",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 8.9
+  },
+  {
+   "file": "jurnl-a11y-core.e2e.ts",
+   "title": "axe goals \u2014 no critical/serious",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 8.8
+  },
+  {
+   "file": "jurnl-a11y-core.e2e.ts",
+   "title": "axe records \u2014 no critical/serious",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 8.7
+  },
+  {
+   "file": "jurnl-a11y-core.e2e.ts",
+   "title": "axe account \u2014 no critical/serious",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 9.1
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F10 create purchase and mark purchased",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 9.7
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F11 trip reserve affects safe to spend",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 17.0
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F08 plan assign reduces STS",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 16.3
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F14 goal set aside reduces STS",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 13.6
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F13 paydown what-if keeps credit balance read-only",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 9.2
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F15 ahead derived timeline",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 7.9
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F16 record metadata create",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 9.1
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F07 upcoming lists obligations",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 8.2
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F12 credit hub opens account",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 8.8
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F10 create purchase and mark purchased",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 9.5
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F11 trip reserve affects safe to spend",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 15.9
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F08 plan assign reduces STS",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 16.7
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F14 goal set aside reduces STS",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 14.7
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F13 paydown what-if keeps credit balance read-only",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 8.9
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F15 ahead derived timeline",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 8.9
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F16 record metadata create",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 9.8
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F07 upcoming lists obligations",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 8.2
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F12 credit hub opens account",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 9.5
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F10 create purchase and mark purchased",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 8.5
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F11 trip reserve affects safe to spend",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 15.9
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F08 plan assign reduces STS",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 15.9
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F14 goal set aside reduces STS",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 13.6
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F13 paydown what-if keeps credit balance read-only",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 8.9
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F15 ahead derived timeline",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 7.2
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F16 record metadata create",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 8.2
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F07 upcoming lists obligations",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 7.8
+  },
+  {
+   "file": "jurnl-core-mutations.e2e.ts",
+   "title": "F12 credit hub opens account",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 7.8
+  },
+  {
+   "file": "jurnl-entry-setup.e2e.ts",
+   "title": "F01 entry index resolves to a primary route",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 4.5
+  },
+  {
+   "file": "jurnl-entry-setup.e2e.ts",
+   "title": "F02 setup route loads when navigated directly",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 4.7
+  },
+  {
+   "file": "jurnl-entry-setup.e2e.ts",
+   "title": "a new account walks ENTRY from WELCOME to SETUP (the preview follows the emailed link)",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 15.2
+  },
+  {
+   "file": "jurnl-entry-setup.e2e.ts",
+   "title": "forgot password reaches CREATE NEW PASSWORD from the reset email",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 8.3
+  },
+  {
+   "file": "jurnl-entry-setup.e2e.ts",
+   "title": "F01 entry index resolves to a primary route",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 4.8
+  },
+  {
+   "file": "jurnl-entry-setup.e2e.ts",
+   "title": "F02 setup route loads when navigated directly",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 5.1
+  },
+  {
+   "file": "jurnl-entry-setup.e2e.ts",
+   "title": "a new account walks ENTRY from WELCOME to SETUP (the preview follows the emailed link)",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 15.3
+  },
+  {
+   "file": "jurnl-entry-setup.e2e.ts",
+   "title": "forgot password reaches CREATE NEW PASSWORD from the reset email",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 9.7
+  },
+  {
+   "file": "jurnl-entry-setup.e2e.ts",
+   "title": "F01 entry index resolves to a primary route",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 4.3
+  },
+  {
+   "file": "jurnl-entry-setup.e2e.ts",
+   "title": "F02 setup route loads when navigated directly",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 4.8
+  },
+  {
+   "file": "jurnl-entry-setup.e2e.ts",
+   "title": "a new account walks ENTRY from WELCOME to SETUP (the preview follows the emailed link)",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 13.6
+  },
+  {
+   "file": "jurnl-entry-setup.e2e.ts",
+   "title": "forgot password reaches CREATE NEW PASSWORD from the reset email",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 7.5
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F03 root today reachable",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 10.7
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F04 root activity reachable",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 11.9
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F05 root money reachable",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 11.4
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F06 root income reachable",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 10.3
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F07 root upcoming reachable",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 10.4
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F08 root plan reachable",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 11.1
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F09 root safe reachable",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 11.4
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F10 root purchases reachable",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 11.3
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F11 root trips reachable",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 11.1
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F12 root credit reachable",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 12.1
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F13 root paydown reachable",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 11.6
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F14 root goals reachable",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 11.2
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F15 root ahead reachable",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 11.7
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F16 root records reachable",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 11.3
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "16/16 product families reachable from routes",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 7.5
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F03 root today reachable",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 10.0
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F04 root activity reachable",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 11.1
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F05 root money reachable",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 10.2
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F06 root income reachable",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 10.6
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F07 root upcoming reachable",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 9.0
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F08 root plan reachable",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 9.1
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F09 root safe reachable",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 9.9
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F10 root purchases reachable",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 9.9
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F11 root trips reachable",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 10.8
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F12 root credit reachable",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 10.9
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F13 root paydown reachable",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 10.9
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F14 root goals reachable",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 10.9
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F15 root ahead reachable",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 11.2
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F16 root records reachable",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 11.0
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "16/16 product families reachable from routes",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 6.4
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F03 root today reachable",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 10.0
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F04 root activity reachable",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 9.9
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F05 root money reachable",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 9.0
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F06 root income reachable",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 8.8
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F07 root upcoming reachable",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 10.4
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F08 root plan reachable",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 10.4
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F09 root safe reachable",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 11.1
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F10 root purchases reachable",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 10.1
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F11 root trips reachable",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 8.9
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F12 root credit reachable",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 10.8
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F13 root paydown reachable",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 10.7
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F14 root goals reachable",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 10.9
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F15 root ahead reachable",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 10.4
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "F16 root records reachable",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 10.1
+  },
+  {
+   "file": "jurnl-family-reachability.e2e.ts",
+   "title": "16/16 product families reachable from routes",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 5.7
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Quick Add movement saves",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 18.6
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Ask Jurnl opens without provider",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 14.1
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Settings buffer persists after reload",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 19.9
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Quick Add movement saves",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 19.7
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Ask Jurnl opens without provider",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 13.5
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Settings buffer persists after reload",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 18.6
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Quick Add movement saves",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 18.4
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Ask Jurnl opens without provider",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 12.6
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Settings buffer persists after reload",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 16.8
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Quick Add exposes MOVEMENT",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 14.7
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Quick Add exposes INCOME",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 15.1
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Quick Add exposes GOAL",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 14.3
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Quick Add exposes PURCHASE",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 14.6
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Quick Add exposes TRIP",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 13.8
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Quick Add exposes MOVEMENT",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 14.5
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Quick Add exposes INCOME",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 12.3
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Quick Add exposes GOAL",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 14.5
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Quick Add exposes PURCHASE",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 13.6
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Quick Add exposes TRIP",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 13.2
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Quick Add exposes MOVEMENT",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 13.0
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Quick Add exposes INCOME",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 13.5
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Quick Add exposes GOAL",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 14.0
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Quick Add exposes PURCHASE",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 12.6
+  },
+  {
+   "file": "jurnl-global-systems.e2e.ts",
+   "title": "Quick Add exposes TRIP",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 12.2
+  },
+  {
+   "file": "jurnl-golden-journey.e2e.ts",
+   "title": "F01\u2013F16 coherent path with reload verification",
+   "project": "mobile",
+   "status": "timedOut",
+   "duration_s": 94.6
+  },
+  {
+   "file": "jurnl-golden-journey.e2e.ts",
+   "title": "F01\u2013F16 coherent path with reload verification",
+   "project": "tablet",
+   "status": "timedOut",
+   "duration_s": 94.9
+  },
+  {
+   "file": "jurnl-golden-journey.e2e.ts",
+   "title": "F01\u2013F16 coherent path with reload verification",
+   "project": "desktop",
+   "status": "timedOut",
+   "duration_s": 94.2
+  },
+  {
+   "file": "jurnl-paydown-sts.e2e.ts",
+   "title": "simulated extra payment alone does not reduce STS",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 27.0
+  },
+  {
+   "file": "jurnl-paydown-sts.e2e.ts",
+   "title": "committed trip reserve reduces STS (contrast)",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 30.0
+  },
+  {
+   "file": "jurnl-paydown-sts.e2e.ts",
+   "title": "simulated extra payment alone does not reduce STS",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 23.0
+  },
+  {
+   "file": "jurnl-paydown-sts.e2e.ts",
+   "title": "committed trip reserve reduces STS (contrast)",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 25.5
+  },
+  {
+   "file": "jurnl-paydown-sts.e2e.ts",
+   "title": "simulated extra payment alone does not reduce STS",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 24.3
+  },
+  {
+   "file": "jurnl-paydown-sts.e2e.ts",
+   "title": "committed trip reserve reduces STS (contrast)",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 30.5
+  },
+  {
+   "file": "jurnl-persistence.e2e.ts",
+   "title": "purchase survives reload",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 22.2
+  },
+  {
+   "file": "jurnl-persistence.e2e.ts",
+   "title": "purchase survives reload",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 16.6
+  },
+  {
+   "file": "jurnl-persistence.e2e.ts",
+   "title": "purchase survives reload",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 21.5
+  },
+  {
+   "file": "jurnl-product-utility-journeys.e2e.ts",
+   "title": "Journey A \u2014 add subscription-like recurring obligation",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 24.0
+  },
+  {
+   "file": "jurnl-product-utility-journeys.e2e.ts",
+   "title": "Journey B \u2014 obligation visible on Safe to Spend after amount entry",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 22.2
+  },
+  {
+   "file": "jurnl-product-utility-journeys.e2e.ts",
+   "title": "Journey H \u2014 edit obligation amount",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 16.4
+  },
+  {
+   "file": "jurnl-product-utility-journeys.e2e.ts",
+   "title": "Journey A \u2014 add subscription-like recurring obligation",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 23.9
+  },
+  {
+   "file": "jurnl-product-utility-journeys.e2e.ts",
+   "title": "Journey B \u2014 obligation visible on Safe to Spend after amount entry",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 14.3
+  },
+  {
+   "file": "jurnl-product-utility-journeys.e2e.ts",
+   "title": "Journey H \u2014 edit obligation amount",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 17.4
+  },
+  {
+   "file": "jurnl-product-utility-journeys.e2e.ts",
+   "title": "Journey A \u2014 add subscription-like recurring obligation",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 21.3
+  },
+  {
+   "file": "jurnl-product-utility-journeys.e2e.ts",
+   "title": "Journey B \u2014 obligation visible on Safe to Spend after amount entry",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 18.8
+  },
+  {
+   "file": "jurnl-product-utility-journeys.e2e.ts",
+   "title": "Journey H \u2014 edit obligation amount",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 15.2
+  },
+  {
+   "file": "jurnl-production-hardening.e2e.ts",
+   "title": "core journey still loads with repository seed",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 6.5
+  },
+  {
+   "file": "jurnl-production-hardening.e2e.ts",
+   "title": "production config module is fail-closed without server flag",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 5.3
+  },
+  {
+   "file": "jurnl-production-hardening.e2e.ts",
+   "title": "no preview seed emails in production mode document (static guard)",
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 5.1
+  },
+  {
+   "file": "jurnl-production-hardening.e2e.ts",
+   "title": "core journey still loads with repository seed",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 5.7
+  },
+  {
+   "file": "jurnl-production-hardening.e2e.ts",
+   "title": "production config module is fail-closed without server flag",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 5.2
+  },
+  {
+   "file": "jurnl-production-hardening.e2e.ts",
+   "title": "no preview seed emails in production mode document (static guard)",
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 3.9
+  },
+  {
+   "file": "jurnl-production-hardening.e2e.ts",
+   "title": "core journey still loads with repository seed",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 5.4
+  },
+  {
+   "file": "jurnl-production-hardening.e2e.ts",
+   "title": "production config module is fail-closed without server flag",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 4.4
+  },
+  {
+   "file": "jurnl-production-hardening.e2e.ts",
+   "title": "no preview seed emails in production mode document (static guard)",
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 4.0
+  }
+ ]
+}

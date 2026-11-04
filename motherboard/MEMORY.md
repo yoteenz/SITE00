@@ -16682,3 +16682,50 @@ Summary of the whole conversation in this chat.
 - **Decisions / outcomes:** Strip `-webkit-autofill` yellow via inset box-shadow on `.jrn-e2__input` and `.jrn-field__input`; non-password typed values uppercased in `E2Field` and `JurnlInput` `onChange`; e2 CSS `text-transform: uppercase` with password exception; Supabase auth adapter still lowercases email on sign-in.
 - **Changes:** `jurnl-entry-v2.css`, `jurnl-runtime.css`, `EntryV2Parts.tsx`, `primitives.tsx`, `jurnlEntryV2FirstSeven1.test.tsx`.
 - **Conventions:** Keep Authority Serif on e2 autofill pseudo-states; do not revert e2 inputs to `text-transform: none`.
+
+---
+
+## 2026-11-03 — JURNL personal financial operating system (unified accounting)
+
+- **Context:** Sprint P0.JURNL.PERSONAL-FINANCIAL-OPERATING-SYSTEM.UNIFIED-ACCOUNTING-AND-UTILITY-CONVERGENCE1. Founder wants JURNL to organize where money is held, earned, spent, owed and set aside, with plain functional language. One draft PR, no merge, no deploy, no DB mutations, no new images. Branch `claude/jurnl-financial-os-unification-um0u93`.
+- **Topics covered:** Reconciled main `e413590e` and draft PR #1704 (audit imported verbatim, not its MEMORY change); canonical accounting engine; daily earnings; bills, subscriptions and per-bill set-asides; Safe to Spend invariant; credit guidance; TODAY drawer; copy matrix; invariant + Playwright suites; evidence package.
+- **Decisions / outcomes:** One ledger (`transactions`), balances derived per account (`data/ledger/accounting.ts`): assets = money held, cards/loans = amount owed; credit purchases never lower cash. Linked two-leg transfers and card payments. Atomic `JurnlRepository.commit`. Set-asides are part of a bill's still-due amount, never deducted twice; STS counts bill occurrences due in the next 30 days plus card minimums still due. No sample bills against real balances. No invented card terms. Schema stays v5 (additive `dailyEarnings`, `reservations`).
+- **Changes:** `src/projects/jurnl/data/{ledger,f03,f06,f07,f09,f12,foundation,repository}`, `runtime/finance/*`, Home/Money/Income/Upcoming/Credit/SafeToSpend/Plan/Goals/Ahead screens, `e2e/jurnl/jurnl-financial-os.e2e.ts`, `tests/jurnlFinancialInvariants.test.ts`, evidence `JURNL/MANIFEST/FINANCIAL_OS_UNIFICATION_V1/`.
+- **Conventions:** Write money through `data/ledger/ledgerOps.ts` builders (plain-language errors, one commit). Never overwrite an entered balance once entries exist — record a BALANCE CORRECTION. No literal `$<digit>` in `src/projects/jurnl` (monetization guard): use `formatMoney`. Live RLS proof still BLOCKED (no QA secrets).
+
+---
+
+## 2026-11-03 — JURNL financial OS stabilization (founder decisions, transfer settlement, E2E)
+
+- **Context:** Sprint P0.JURNL.FINANCIAL-OS.FOUNDER-DECISIONS-TRANSFER-SETTLEMENT-AND-E2E-STABILIZATION1. Stabilize, do not rebuild. Branch `claude/jurnl-financial-os-stabilization-um0u93`, stacked on draft PR #1705 (`c56691ec`). One draft PR; no merge, deploy, DB mutation or new images.
+- **Decisions / outcomes:** D1 Safe to Spend = NEXT 30 DAYS (canonical, inclusive of day 30) plus a BEFORE NEXT INCOME reading of the same formula (`computeSafeToSpendThrough`); the printed F09 date is now live. D2 card minimum counted once through the card; only card-confirmed in-cycle payments reduce it; linked card bills skipped, unlinked look-alikes flagged. D3 Plan's SET MONEY ASIDE opens the bill set-aside sheet (one reservation engine). D4 family questions plain-languaged; TODAY head `YOUR MONEY.` (fits the plate; `YOUR MONEY NOW.` did not). Transfers: each leg has a settlement, only SETTLED legs move balances; in-transit money is in no account; legacy PENDING transfer pairs read as NEEDS_RECONCILIATION (no data rewrite).
+- **Changes:** `data/ledger/{accounting,ledgerOps,transferSettlement,moneyPicture}.ts`, `data/f09/safeToSpend.ts`, `data/f12/*`, `data/f07/obligationLifecycle.ts`, `data/f08/billSetAsides.ts`, `runtime/finance/{FinanceSheets,CreditSheets,SafeHorizonSheet,TodayMoneySheet}.tsx`, Home/Money/Credit/Upcoming/Plan/Income/Paydown/SafeToSpend screens, `tests/jurnlFinancialStabilization.test.ts`, `e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts`, evidence `JURNL/MANIFEST/FINANCIAL_OS_STABILIZATION_V1/`.
+- **Conventions:** Record transfer steps only through `recordTransferStep` (idempotent). Never delete a transfer that is IN_TRANSIT or RETURNING. E2E reads Safe to Spend from `[data-jrn-value="safe-to-spend"][data-jrn-amount-cents]`, not visual classes. Unit tests that render the production shell must resolve production config as CI does (`vi.mock` of productionConfig). Live RLS proof still PREREQUISITE_BLOCKED (nine secrets missing).
+
+---
+
+## 2026-11-03 — JURNL F05 MONEY parent: layered motion pilot
+
+- **Context:** Sprint P0.JURNL.F05-MONEY.PARENT-ANIMATED-COLLAGE-RECONSTRUCTION-AND-FIDELITY-PILOT.OPUS1. Prove the founder-approved MONEY collage (flattened 1024 × 1536, no alpha) can become a layered, live, animated page. Branch `claude/jurnl-f05-money-motion-pilot-um0u93`, stacked on draft #1706. No merge, deploy, DB change or generation.
+- **Decisions / outcomes:** Deterministic extraction (`scripts/jurnl/f05-motion-pilot/extract_layers.py`, OpenCV GrabCut + two-band same-material reconstruction, seed 20261103): text-free SIDEKICK, true-alpha title paper / seal / four card papers / torn edge, elastic panel tile. Moving layers use scale-only envelopes verified to expose 0 px of covered fill. Page is opt-in at `/money?parent=motion` (cabinet hub stays default). Figures: HELD / OWED from positions, COMMITTED = what Safe to Spend holds back, AVAILABLE = F09 Safe to Spend (the reference's $1,250 implies HELD − OWED − COMMITTED — founder decision). Recommendation OPTION B: approve the layered method; production layers need a native layered master ≥ 2048 × 3072.
+- **Changes:** `data/f05/moneyParentReading.ts`, `runtime/screens/f05/*` (layout, page, CSS, route), `families/F05_MONEY/MOTION_PILOT/*`, `public/.../pinyon-script-400.woff2` (OFL), tests `tests/jurnlF05MotionPilot.test.ts`, `e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts`, evidence `JURNL/MANIFEST/F05_MONEY_PARENT_MOTION_PILOT_V1/`.
+- **Conventions:** JURNL CSS must stay under `.jrn`; root pseudo-elements (view transitions) use `html:has([data-jrn-screen])`. Motion frames for review are made by freezing CSS animations (`animation-play-state: paused` init style) and seeking with the Web Animations API, not timed screenshots. Shell `jrn-family` transition ignores reduced motion (pre-existing specificity gap; not fixed here).
+
+---
+
+## 2026-11-03 — JURNL F05 MONEY parent: four-collection carousel
+
+- **Context:** Sprint P0.JURNL.F05-MONEY.PARENT-FOUR-PANEL-CAROUSEL-AND-MOTION-AUTHORITY-EXPANSION.OPUS1, an in-flight follow-up to the motion pilot (same branch, PR #1707, stacked on #1706). The founder supplied four carousel screens (C01–C04, 941 × 1672) plus the earlier 9:16 reference and text-free SIDEKICK. No merge, deploy, DB change or generation.
+- **Decisions / outcomes:** One carousel, four collections of four papers: ACCOUNTS · TRANSFERS · COMMITMENTS · OUTLOOK. Only the papers move. The shell is the SIDEKICK, drawn once; it is not re-taken per screen, because the screens differ 9–10 % from each other. Values come from `computeMoneyCarousel` (`data/f05/moneyCarousel.ts`): #1706 transfer views, F09 parts, F14 goal set-asides, F06 next income and ledger `flowTotals`. RESERVED = COMMITTED (the reference's $420 excludes held-back; founder decision). Every collection is a fixed 2 × 2: no third row, and more than four places show 3 + ALL PLACES (+n). The active collection is in the URL (`?c=`, replace). A change is exit 300 ms then entry 360 ms from the other side (≤ 520 ms); reduced motion switches at once.
+- **Changes:** `data/f05/moneyCarousel.ts`, `runtime/screens/f05/{useMoneyCarousel.ts,CarouselPanelPaper.tsx,jurnl-f05-carousel.css,MoneyMotionParent.tsx,f05MotionLayout.ts,f05Composition.ts}`, `runtime/state/store.tsx` (a REPLACE navigation updates the trail's top entry instead of pushing), 12 `F05_PAPER_*.webp` from `scripts/jurnl/f05-motion-pilot/extract_carousel_papers.py`, tests `tests/jurnlF05Carousel.test.ts` and `e2e/jurnl/jurnl-f05-carousel.e2e.ts` (QA 01–28), evidence `JURNL/MANIFEST/F05_MONEY_PARENT_CAROUSEL_V1/`.
+- **Conventions:**
+  - The Playwright loader cannot import modules that pull in JSON (for example the ledger builders via the currency catalog). E2E worlds write literal records, and a unit test (`jurnlF05Carousel` "E2E carousel world is what the app itself records") checks them against the builders.
+  - Freeze a timed UI transition for frame capture with `page.clock.install()` + `pauseAt()`, and seek CSS animations with the Web Animations API.
+  - The full-repo vitest run has 91 failing tests in 58 non-JURNL files, identical at `274d7956`. They are pre-existing.
+
+---
+
+## 2026-11-04 — F05 type −2 screen px
+
+- **Context:** Founder asked to scale all text on MONEY family screens down together by 2px.
+- **Change:** `--f05-type-nudge: calc(2px / var(--f05m-u))` on the scaled board (motion parent + DOT01), so every board face loses 2 screen px. Screen-space DOT01 content subtracts 2px from each size. Form inputs stay at least 16px so iOS does not zoom. Nav labels on those screens drop 2px. `f05BoardType()` applies the same nudge to inline sizes.

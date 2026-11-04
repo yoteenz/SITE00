@@ -25,9 +25,10 @@ import { PARENTS } from '../data/parents/catalog';
 import { ActivityScreen, TodayScreen } from './screens/HomeScreens';
 import { AccountScreen } from './screens/AccountScreens';
 import { ParentAuthorityScreen, ParentReviewBoard } from './screens/ParentScreens';
-import { MoneyHubScreen, MoneyPlaceDetailScreen, MoneyPlacesScreen } from './screens/MoneyScreens';
+import { MoneyParentRoute } from './screens/f05/MoneyParentRoute';
+import { BalanceReviewPage, F05PlaceRoute, F05PlacesRoute, HistoryPage, NeedsReviewPage, SettingsPage, TransactionDetailPage } from './screens/f05/dot01/Dot01Routes';
 import { IncomeHubScreen, IncomeSourceScreen } from './screens/IncomeScreens';
-import { UpcomingHubScreen, UpcomingItemScreen } from './screens/UpcomingScreens';
+import { SubscriptionsScreen, UpcomingHubScreen, UpcomingItemScreen } from './screens/UpcomingScreens';
 import { PlanHubScreen, PlanIntentionScreen } from './screens/PlanScreens';
 import { SafeToSpendHubScreen, SafeToSpendReferenceScreen, SafeToSpendWhyScreen } from './screens/SafeToSpendScreens';
 import { CheckPurchaseScreen } from './screens/CheckPurchaseScreens';
@@ -119,12 +120,19 @@ function JurnlRoutes() {
       <Route path="activity" element={<ActivityScreen />} />
       <Route path="account" element={<AccountScreen />} />
       <Route path="parents" element={<ParentReviewBoard />} />
-      <Route path="money" element={<MoneyHubScreen />} />
-      <Route path="money/places" element={<MoneyPlacesScreen />} />
-      <Route path="money/places/:placeId" element={<MoneyPlaceDetailScreen />} />
+      <Route path="money" element={<MoneyParentRoute />} />
+      <Route path="money/places" element={<F05PlacesRoute />} />
+      <Route path="money/places/:placeId" element={<F05PlaceRoute />} />
+      <Route path="money/places/:placeId/history" element={<HistoryPage />} />
+      <Route path="money/places/:placeId/settings" element={<SettingsPage />} />
+      <Route path="money/places/:placeId/review" element={<BalanceReviewPage />} />
+      <Route path="money/places/:placeId/attention" element={<NeedsReviewPage />} />
+      <Route path="money/entries/:entryId" element={<TransactionDetailPage />} />
+      <Route path="money/transactions" element={<HistoryPage all />} />
       <Route path="income" element={<IncomeHubScreen />} />
       <Route path="income/:sourceId" element={<IncomeSourceScreen />} />
       <Route path="upcoming" element={<UpcomingHubScreen />} />
+      <Route path="upcoming/subscriptions" element={<SubscriptionsScreen />} />
       <Route path="upcoming/:itemId" element={<UpcomingItemScreen />} />
       <Route path="plan" element={<PlanHubScreen />} />
       <Route path="plan/:intentionId" element={<PlanIntentionScreen />} />

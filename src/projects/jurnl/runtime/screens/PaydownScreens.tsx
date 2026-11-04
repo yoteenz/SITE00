@@ -123,7 +123,7 @@ export function PaydownHubScreen() {
       <FramePanel id="foot">
         <div className="jrn-stair__foot">
           {steps.length ? <JurnlButton variant="secondary" trigger="paydown-what-if" onClick={() => go('paydown/what-if')}>TRY AN EXTRA PAYMENT</JurnlButton> : null}
-          <p className="jrn-lang__editorial">THE DESCENT · {spec.question}</p>
+          <p className="jrn-lang__editorial">{spec.question}</p>
         </div>
       </FramePanel>
     </JurnlFamilyFrame>

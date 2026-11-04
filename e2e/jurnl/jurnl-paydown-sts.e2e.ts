@@ -1,22 +1,21 @@
 import { test, expect } from '@playwright/test';
-import { clickTrigger, gotoJurnl, openSeededToday } from './helpers/jurnl-page';
+import { clickTrigger, gotoJurnl, openSeededToday, safeToSpendCents, storedSnapshot } from './helpers/jurnl-page';
 
 test.describe('F13 paydown → F09 boundary', () => {
   test('simulated extra payment alone does not reduce STS', async ({ page }) => {
     await openSeededToday(page);
-    await gotoJurnl(page, 'safe');
-    const before = await page.locator('.jrn-home__num').first().innerText();
+    const before = await safeToSpendCents(page);
+    const storedBefore = await storedSnapshot(page);
     await gotoJurnl(page, 'paydown/what-if');
     await page.locator('[data-jrn-trigger="paydown-draft-extra"]').fill('500');
-    await gotoJurnl(page, 'safe');
-    const after = await page.locator('.jrn-home__num').first().innerText();
-    expect(after).toBe(before);
+    // A what-if is a simulation: no ledger entry, no balance change, the same Safe to Spend to the cent.
+    expect(await safeToSpendCents(page)).toBe(before);
+    expect(((await storedSnapshot(page)).transactions as unknown[]).length).toBe((storedBefore.transactions as unknown[]).length);
   });
 
   test('committed trip reserve reduces STS (contrast)', async ({ page }) => {
     await openSeededToday(page, true);
-    await gotoJurnl(page, 'safe');
-    const before = await page.locator('.jrn-home__num').first().innerText();
+    const before = await safeToSpendCents(page);
     await gotoJurnl(page, 'trips');
     await clickTrigger(page, 'trip-add');
     await page.locator('[data-jrn-trigger="trip-name"]').fill('STS TRIP');
@@ -25,8 +24,8 @@ test.describe('F13 paydown → F09 boundary', () => {
     await clickTrigger(page, 'trip-fund');
     await page.locator('[data-jrn-trigger="trip-reserve"]').fill('50');
     await clickTrigger(page, 'trip-fund-save');
-    await gotoJurnl(page, 'safe');
-    const after = await page.locator('.jrn-home__num').first().innerText();
-    expect(after).not.toBe(before);
+    expect((await storedSnapshot(page)).trips.find((t) => t.title === 'STS TRIP')?.reserved_amount).toBe(50);
+    // Committing $50 to the trip lowers Safe to Spend by exactly $50 (contrast with the simulation above).
+    expect(before - (await safeToSpendCents(page))).toBe(5_000);
   });
 });

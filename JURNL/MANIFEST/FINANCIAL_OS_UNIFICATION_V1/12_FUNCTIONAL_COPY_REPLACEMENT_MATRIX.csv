@@ -1,0 +1,66 @@
+family,source,current_text_before,text_now,decision,rationale,data_requirements,origin
+F15,AccountScreens.tsx,WHAT JURNL MAY KEEP AND USE.,WHAT JURNL MAY KEEP AND USE.,KEPT_ALREADY_PLAIN,Privacy heading; states its subject plainly,—,audit-flagged
+F10,CheckPurchaseScreens.tsx,SEE HOW IT FITS YOUR PLAN,SEE HOW IT FITS YOUR PLAN,KEPT_EDITORIAL,Positioned reference copy on an approved authority replica; the action itself is plain,—,audit-flagged
+F08,PlanScreens.tsx,HERE IS WHAT YOU ARE ARRANGING.,WHERE YOUR MONEY IS ASSIGNED.,REPLACED,Fact instead of abstraction,—,audit-flagged
+F08,PlanScreens.tsx,ADD AN INTENTION,SET MONEY ASIDE,REPLACED,Founder example: “Create an intention” → “Set money aside”,—,audit-flagged
+F08,PlanScreens.tsx,REMOVE AN INTENTION · FREES ITS AMOUNT.,REMOVE FROM PLAN · ITS AMOUNT COUNTS AS AVAILABLE AGAIN.,REPLACED,Says the consequence,—,audit-flagged
+F13,PaydownScreens.tsx,THE DESCENT · {question},THE DESCENT · {question},KEPT_EDITORIAL,jrn-lang__editorial tier (brand voice),—,audit-flagged
+F12,CreditScreens.tsx,ADD ONE TO TRACK WHAT’S USED AND WHEN IT’S DUE.,(unchanged),KEPT_ALREADY_PLAIN,Plain action + reason,—,audit-flagged
+F12,CreditScreens.tsx,HOW MUCH IS USED,HOW MUCH IS USED,KEPT_ALREADY_PLAIN,Plain; sheet now adds overall use and “NOT A CREDIT SCORE.”,credit limit,audit-flagged
+F07,UpcomingScreens.tsx,ADD WHAT REPEATS,ADD A BILL OR SUBSCRIPTION,REPLACED,Names the things,—,audit-flagged
+F09,SafeToSpendScreens.tsx,SEE WHY THIS AMOUNT,SEE WHY THIS AMOUNT,KEPT_ALREADY_PLAIN,Plain; pinned founder primary action,—,audit-flagged
+F09,SafeToSpendScreens.tsx,CHECK HOW IT FITS YOUR PLAN (bridge),(unchanged),KEPT_EDITORIAL,Positioned authority replica line,—,audit-flagged
+F09,SafeToSpendScreens.tsx,WHY THIS NUMBER,WHY THIS NUMBER,KEPT_ALREADY_PLAIN,Plain heading,—,audit-flagged
+F09,SafeToSpendScreens.tsx,WHY THIS,WHY THIS,KEPT_ALREADY_PLAIN,Split heading of the above,—,audit-flagged
+F09,SafeToSpendScreens.tsx,HERE’S HOW YOUR NUMBER COMES TOGETHER.,(unchanged),KEPT_EDITORIAL,Editorial lead on an approved replica; rows below are now plain,—,audit-flagged
+F09,SafeToSpendScreens.tsx,HERE’S HOW,(unchanged),KEPT_EDITORIAL,Split line of the above,—,audit-flagged
+F09,SafeToSpendScreens.tsx,CHANGE WHAT’S HELD,CHANGE WHAT’S HELD,KEPT_ALREADY_PLAIN,Plain; positioned button,—,audit-flagged
+F15,AheadScreens.tsx,SEE HOW A DIFFERENT CHOICE CHANGES THE NEXT 30 DAYS.,(unchanged),KEPT_ALREADY_PLAIN,"Concrete window, concrete action",—,audit-flagged
+F03,HomeScreens.tsx,WHAT IS TRUE.,WHAT IS TRUE.,KEPT_EDITORIAL,TODAY editorial headline (brand),—,audit-flagged
+F03,HomeScreens.tsx,SEE WHY,SEE WHY,KEPT_ALREADY_PLAIN,Plain; now opens the full money reading,—,audit-flagged
+F03,HomeScreens.tsx,"SAFE TO SPEND IS CASH, MINUS WHAT IS COMING, MINUS WHAT YOU PROTECTED. THIS IS A PREVIEW READING.","SAFE TO SPEND IS THE MONEY IN YOUR ACCOUNTS MINUS BILLS AND CARD MINIMUMS DUE IN THE NEXT 30 DAYS, AND WHAT YOU HOLD BACK.",REPLACED,States the formula and window,STS window,audit-flagged
+F01,EntryScreens.tsx,WHAT JURNL IS FOR,(unchanged),OUT_OF_SCOPE_F01,F01 not in this sprint,—,audit-flagged
+F01,EntryScreens.tsx,WHAT JURNL HELPS YOU DO,(unchanged),OUT_OF_SCOPE_F01,F01 not in this sprint,—,audit-flagged
+F07,UpcomingScreens.tsx,"BILLS, SUBSCRIPTIONS AND INCOME IN THE ORDER THEY ARRIVE.","BILLS, SUBSCRIPTIONS, CARD PAYMENTS AND INCOME BY DUE DATE.",REPLACED,Removes “arrive”,—,audit-matrix
+F08,PlanScreens.tsx,ACROSS N INTENTIONS.,ACROSS N PLAN LINES.,REPLACED,Plain noun,plan count,audit-matrix
+F14,GoalsScreens.tsx,SET ASIDE (button),SET MONEY ASIDE,REPLACED,Founder wording,—,audit-matrix
+F15,AheadScreens.tsx,"NO INCOME, BILLS OR PLANS ARE DATED YET. ADD THEM IN INCOME AND UPCOMING.",ADD INCOME AND BILLS WITH DATES TO SEE WHAT IS NEXT.,REPLACED,Action first,—,audit-matrix
+F03,HomeScreens.tsx,RENT IS CLOSE (fixed text),{N} BILLS DUE THIS WEEK · {N} BILLS ARE OVERDUE · CARD PAYMENT PAST DUE · CARD DUE {DAY},REPLACED,Counted from records; no fictional count,"bills, card terms",audit-matrix
+F05–F16,parents/catalog.ts,"Family questions (e.g. WHAT IS COMING, AND WHEN?)",(unchanged),KEPT_EDITORIAL,Editorial tier; founder approval of #1704 proposals still pending,—,audit-matrix
+ALL,—,PLAN TODAY. GROW FREELY.,(unchanged),KEPT_EDITORIAL,Official tagline,—,brand
+F03,HomeScreens.tsx,A COMPUTED SIGNAL. PREVIEW.,FROM BALANCES YOU ENTERED. / SAMPLE NUMBERS. ADD ACCOUNTS.,REPLACED,Says where the number comes from,cash source,sprint
+F03,HomeScreens.tsx (SEE WHY),CASH POSITION / UPCOMING / PROTECTED · DERIVED / MOCK,"MONEY IN YOUR ACCOUNTS / BILLS DUE BY {DATE} / CARD MINIMUMS DUE / HELD BACK, PLANS, GOALS, TRIPS",REPLACED,No internal source codes,STS breakdown,sprint
+F03,HomeScreens.tsx,"{date} · BILL (for every item, income included)",{TODAY|FRIDAY|NOV 6} · {BILL|SUBSCRIPTION|CARD PAYMENT|INCOME},REPLACED,"Correct kind, readable date",projection,sprint
+F04,HomeScreens.tsx,WHAT MOVED.,RECENT TRANSACTIONS.,REPLACED,Founder example “Money in motion” → “Recent transactions”,—,sprint
+F04,HomeScreens.tsx,N MOVEMENTS,N TRANSACTIONS,REPLACED,Plain noun,count,sprint
+F04,HomeScreens.tsx,NO MOVEMENT YET · THE LEDGER IS QUIET.,"NO TRANSACTIONS YET · RECORD SPENDING, INCOME OR A TRANSFER TO SEE IT HERE.",REPLACED,Fact → action,—,sprint
+F04,HomeScreens.tsx,NO MATCHES · NOTHING IN THIS LEDGER FITS.,NO MATCHES · NO TRANSACTION MATCHES THIS SEARCH OR FILTER.,REPLACED,Plain,—,sprint
+F04,HomeScreens.tsx,THE LEDGER STAYS PUT. THESE CHOICES ONLY NARROW IT.,SHOWS FEWER TRANSACTIONS. NOTHING IS CHANGED OR DELETED.,REPLACED,Plain,—,sprint
+F04,money.ts (filter summary),STILL MOVING / SETTLED,PENDING / CLEARED,REPLACED,Matches the status chips,—,sprint
+F04,HomeScreens.tsx (detail),"A MOVEMENT. NOT A BILL, UNLESS A RELATED OBLIGATION IS NAMED.",ONE TRANSACTION. / A PAYMENT TOWARD A BILL. THE BILL ITSELF LIVES IN UPCOMING.,REPLACED,Plain,obligation link,sprint
+F04,HomeScreens.tsx (detail),SOURCE: ADDED / MOCK · DIRECTION: EXPENSE,TYPE: CARD PURCHASE / TRANSFER / … · SOURCE: RECORDED BY YOU · NOT CONFIRMED BY A BANK,REPLACED,No raw enums; honest basis,"class, confirmation",sprint
+F04,HomeScreens.tsx,PREVIEW ENTRIES ARE READ ONLY.,SAMPLE ENTRIES CANNOT BE CHANGED.,REPLACED,Plain,—,sprint
+F05,MoneyScreens.tsx,WHERE MONEY LIVES.,{HELD} HELD · {CASH} IN CASH · {OWED} OWED ON CARDS,REPLACED,Founder example “Explore your financial picture” → accounts and balances,positions,sprint
+F05,MoneyScreens.tsx,NOTHING PLACED · NAME A PLACE. NO LIVE BANK REQUIRED.,"NO ACCOUNTS YET · ADD A BANK ACCOUNT, CARD OR CASH. NO BANK CONNECTION NEEDED.",REPLACED,Plain,—,sprint
+F05,MoneyScreens.tsx,MANUAL PLACE · REPOSITORY BACKED,WHERE MONEY IS HELD OR OWED. YOU ENTER THE BALANCE; NO BANK CONNECTION.,REPLACED,No internal terms,—,sprint
+F05,MoneyScreens.tsx,MANUAL / REGISTRY / PREVIEW LINK (list badge),{BANK ACCOUNT|PAYOUT CARD|CASH|CREDIT CARD} · UPDATED {TODAY},REPLACED,"Kind + age, not storage terms",positions,sprint
+F05,MoneyScreens.tsx,AVAILABLE / BALANCE,HOLDS NOW (or OWED NOW) / BALANCE YOU ENTERED / CHANGE FROM ENTRIES,REPLACED,Bookkeeping vs entered balance distinguished,positions,sprint
+F05,MoneyScreens.tsx,RECENT MOVEMENTS,RECENT TRANSACTIONS,REPLACED,Plain noun,—,sprint
+F05,MoneyScreens.tsx,MOVEMENTS STAY IN ACTIVITY.,ITS TRANSACTIONS STAY IN ACTIVITY.,REPLACED,Plain noun,—,sprint
+F06,IncomeScreens.tsx,ADD A SOURCE,ADD DAILY EARNINGS (primary) / ADD EXPECTED INCOME,REPLACED,Says which kind of income,—,sprint
+F06,IncomeScreens.tsx,LINKED MOVEMENT · tx-add-3,RECORDED IN ACTIVITY,REPLACED,No internal ids,—,sprint
+F06,IncomeScreens.tsx,AMOUNT USD,AMOUNT,REPLACED,Display currency may not be USD,—,sprint
+F07,UpcomingScreens.tsx,{status} · F07,BILL · MONTHLY · UPCOMING,REPLACED,No family codes in UI,—,sprint
+F07,UpcomingScreens.tsx,OPEN SOURCE OWNER,OPEN INCOME / OPEN CARD,REPLACED,Names the destination,—,sprint
+F07,UpcomingScreens.tsx,END,STOP TRACKING — “IT DOES NOT CANCEL ANYTHING WITH THE COMPANY”,REPLACED,Tracking vs merchant cancellation,—,sprint
+F07,UpcomingScreens.tsx,ITEM NOT FOUND,NOT FOUND,REPLACED,—,—,sprint
+F09,SafeToSpendScreens.tsx,COMPLETENESS: NEEDS_SETUP / PARTIAL …,FINISH SETUP / SOME AMOUNTS MISSING / ADD AN ACCOUNT / NOT ENOUGH KNOWN / COMPLETE,REPLACED,No raw enums (brief §15),completeness,sprint
+F09,SafeToSpendScreens.tsx,ACCOUNTS / SETUP / PLAN / GOALS / NONE (sources),YOUR ACCOUNTS / YOUR BILLS / YOUR PLAN / YOUR GOALS / NONE / “$95 SET ASIDE INSIDE”,REPLACED,No raw enums,—,sprint
+F09,SafeToSpendScreens.tsx,UPCOMING / ASSIGNED / GOAL SET ASIDE (rows),BILLS DUE / PLANS / GOALS,REPLACED,Plain nouns,—,sprint
+F09,SafeToSpendScreens.tsx,CHECK HOW IT FITS YOUR PLAN BEFORE YOU BUY.,CHECK THE PRICE AGAINST SAFE TO SPEND BEFORE YOU BUY.,REPLACED,Concrete,—,sprint
+F10,CheckPurchaseScreens.tsx,ADD WHAT IT COSTS TO SEE HOW IT FITS.,ENTER THE PRICE TO COMPARE IT WITH SAFE TO SPEND.,REPLACED,Concrete,—,sprint
+F12,CreditScreens.tsx,UTILIZATION · NOT A CREDIT SCORE.,"HOW MUCH IS USED · BALANCE OWED DIVIDED BY THE CREDIT LIMIT, FROM THE NUMBERS YOU ENTERED. NOT A CREDIT SCORE.",REPLACED,Defines the figure,limits,sprint
+F12,CreditScreens.tsx,LIMIT UNKNOWN / N/A / NOT SET,NO LIMIT ENTERED / NOT ENTERED,REPLACED,Says who must act,—,sprint
+F12,CreditScreens.tsx,NOT A CREDIT PLACE,NOT A CREDIT CARD OR LOAN,REPLACED,Plain,—,sprint
+F12,CreditScreens.tsx,CREATES A MANUAL CREDIT PLACE IN THE REGISTRY.,"ENTER WHAT YOU OWE NOW. ADD THE STATEMENT, DUE DATE AND MINIMUM NEXT IN CARD TERMS.",REPLACED,Plain + no invented terms,—,sprint
+F08,PlanScreens.tsx,INTENTION NOT FOUND / INTENTION,PLAN LINE NOT FOUND / PLAN LINE,REPLACED,Plain noun,—,sprint

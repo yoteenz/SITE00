@@ -18,6 +18,7 @@ import {
   todayModeFromQuery,
   upcomingFor,
   useAddedEntries,
+  entryWhenLabel,
   type ActivityFilter,
   type LedgerEntry,
   type TodayMode,
@@ -41,6 +42,15 @@ import { JurnlScreen } from './JurnlScreen';
 import { useJurnl } from '../state/store';
 import { accountDisplayOptions } from '../../data/foundation/accounts';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
+import { TodayMoneySheet } from '../finance/TodayMoneySheet';
+import { SpendingSheet, TransferDetailSheet } from '../finance/FinanceSheets';
+import { legSettlement, transferViews, CARD_PAYMENT_STATE_LABEL, TRANSFER_STATE_LABEL } from '../../data/ledger/transferSettlement';
+import { getTodayKey } from '../../data/foundation/dates';
+import { computeTodayOperating } from '../../data/f03/todayOperating';
+import { TXN_CLASS_LABEL, entryClass, resolveEntryAccount } from '../../data/ledger/accounting';
+import { linkedEntries, removeLinkedEvent } from '../../data/ledger/ledgerOps';
+import { getRepository } from '../../data/repository/deviceRepository';
+import { useSearchParams } from 'react-router-dom';
 
 function useHomeOverlay() {
   const j = useJurnl();
@@ -67,11 +77,13 @@ export function TodayScreen() {
   const recent = ledgerEntries().slice(0, 2);
   const [openUpcoming, setOpenUpcoming] = useState(false);
   const showSignal = mode === 'CONNECTED' || mode === 'CAUGHT_UP' || mode === 'ATTENTION' || mode === 'STALE';
+  // The slip states a real, counted fact (bills due this week, an overdue bill, a card payment) — never fixed text.
+  const operating = showSignal ? computeTodayOperating() : null;
   const attention =
     mode === 'CAUGHT_UP' ? 'ALL CAUGHT UP'
-    : mode === 'ATTENTION' || (showSignal && upcoming.some((item) => item.name === 'RENT')) ? 'RENT IS CLOSE'
     : mode === 'STALE' ? 'THIS READING IS STALE'
-    : null;
+    : operating?.attention ?? (mode === 'ATTENTION' ? 'NOTHING IS DUE THIS WEEK' : null);
+  const basisLine = signal.cashSource === 'MOCK' ? 'SAMPLE NUMBERS. ADD ACCOUNTS.' : 'FROM BALANCES YOU ENTERED.';
   const W = TL.wall.text;
   const S = TL.sheet;
   const rows = S.text;
@@ -95,9 +107,10 @@ export function TodayScreen() {
       nav={<JurnlProductNav marks="parent" current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />}
       overlays={
         <>
-          {overlay === 'see-why' ? <SeeWhySheet onClose={closeOverlay} /> : null}
+          {overlay === 'see-why' ? <TodayMoneySheet onClose={closeOverlay} /> : null}
           {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F03" onClose={closeOverlay} /> : null}
           {overlay === 'ask' ? <AskJurnlSheet familyId="F03" nodeId="F03.00" onClose={closeOverlay} /> : null}
+          {overlay === 'today-more' ? <TodayMoreSheet onClose={closeOverlay} onAsk={() => openOverlay('ask')} /> : null}
         </>
       }
     >
@@ -116,12 +129,12 @@ export function TodayScreen() {
             aria-label="TODAY"
           >
             <RefText t={W.kicker} as="h1">TODAY</RefText>
-            <RefText t={W.head} as="p">WHAT IS TRUE.</RefText>
+            <RefText t={W.head} as="p">YOUR MONEY.</RefText>
             {showSignal ?
               <div data-jrn-panel="signal">
                 <RefText t={W.label} as="p">SAFE TO SPEND</RefText>
                 <RefText t={W.amount} as="p">{formatMoney(signal.value)}</RefText>
-                <RefText t={W.status} as="p">A COMPUTED SIGNAL. PREVIEW.</RefText>
+                <RefText t={W.status} as="p">{basisLine}</RefText>
                 <button type="button" className="jrn-ra__cta" data-jrn-trigger="today-why" onClick={() => openOverlay('see-why')} style={at(why)}>
                   <RefText t={W.why} origin={why} as="span">SEE WHY</RefText>
                   <span className="jrn-ra__cta-div" aria-hidden style={at(TL.wall.box.whyDiv, why)} />
@@ -175,7 +188,7 @@ export function TodayScreen() {
                     return (
                       <div key={item.id} data-jrn-row={item.id}>
                         <RefText t={{ ...rows.n1, top }} as="span">{item.name}</RefText>
-                        <RefText t={{ ...rows.w1, top: top + 30, size: 15 }} as="span" className="jrn-ra__soft">{`${item.when} · ${item.kind}`}</RefText>
+                        <RefText t={{ ...rows.w1, top: top + 30, size: 15 }} as="span" className="jrn-ra__soft">{`${item.when} · ${item.kindLabel ?? item.kind}`}</RefText>
                         <RefText t={{ ...rows.a1, size: 30, top: top + 2, left: 410 }} as="b">{item.amount ? formatMoney(item.amount) : '—'}</RefText>
                       </div>
                     );
@@ -183,12 +196,18 @@ export function TodayScreen() {
                 : upcoming.map((item, i) => (
                     <div key={item.id} data-jrn-row={item.id}>
                       <RefText t={onSheet(slot[i]!.n)} as="span">{item.name}</RefText>
-                      <RefText t={onSheet(slot[i]!.w)} as="span" className="jrn-ra__soft">{`${item.when} · ${item.kind}`}</RefText>
+                      <RefText t={onSheet(slot[i]!.w)} as="span" className="jrn-ra__soft">{`${item.when} · ${item.kindLabel ?? item.kind}`}</RefText>
                       <RefText t={onSheet(slot[i]!.a)} as="b">{item.amount ? formatMoney(item.amount) : '—'}</RefText>
                     </div>
                   ))}
                 {!openUpcoming && upcoming.length > 1 ? <RaRule from={[S.box.rule1[0], sheetY(S.box.rule1[1]) + 3]} to={[S.box.rule1[2], sheetY(S.box.rule1[1]) + 3]} soft /> : null}
                 {!upcoming.length && mode === 'PARTIAL' ? <RefText t={onSheet(rows.w1)} as="p" className="jrn-ra__soft">NO OBLIGATIONS YET</RefText> : null}
+                {!upcoming.length && showSignal ?
+                  <div data-testid="today-coming-empty">
+                    <RefText t={onSheet(rows.n1)} as="span">NO BILLS ADDED</RefText>
+                    <RefText t={onSheet(rows.w1)} as="span" className="jrn-ra__soft">ADD ONE IN UPCOMING</RefText>
+                  </div>
+                : null}
                 <button type="button" className="jrn-ra__hit" data-jrn-role="panel_header_action" data-jrn-trigger="today-upcoming" data-expanded={openUpcoming ? 'true' : undefined} onClick={() => setOpenUpcoming((v) => !v)} style={at([rows.more.ink[0] - 14, sheetY(rows.more.ink[1]) - 16, S.box.moreArrow[2] + 14, sheetY(rows.more.ink[1]) + 32])}>
                   <RefText t={{ ...rows.more, top: 16 - (rows.more.ink[1] - rows.more.top), left: 14 }} as="span">{openUpcoming ? 'LESS' : 'MORE'}</RefText>
                   <RefIcon name="arrow" box={[S.box.moreArrow[0] - rows.more.ink[0] + 14, 18, S.box.moreArrow[2] - rows.more.ink[0] + 14, 32]} stroke={2} />
@@ -208,7 +227,7 @@ export function TodayScreen() {
                     {recent.map((entry, i) => (
                       <button key={entry.id} type="button" className="jrn-ra__hit" data-jrn-trigger={`tx-${entry.id}`} data-jrn-tx={entry.id} data-direction={entry.direction} data-status={entry.status} onClick={() => go('F04')} style={at([moved[i]!.n.ink[0] - 12, sheetY(moved[i]!.n.ink[1]) - 12, S.box.rule2[2], sheetY(moved[i]!.a.ink[3]) + 12])}>
                         <RefText t={{ ...moved[i]!.n, left: 12, top: 12 - (moved[i]!.n.ink[1] - moved[i]!.n.top) }} as="span">{entry.merchant}</RefText>
-                        <RefText t={{ ...moved[i]!.w, left: 12 + moved[i]!.w.left! - moved[i]!.n.ink[0], top: sheetY(moved[i]!.w.top) - sheetY(moved[i]!.n.ink[1]) + 12 }} as="span" className="jrn-ra__soft">{entry.when}</RefText>
+                        <RefText t={{ ...moved[i]!.w, left: 12 + moved[i]!.w.left! - moved[i]!.n.ink[0], top: sheetY(moved[i]!.w.top) - sheetY(moved[i]!.n.ink[1]) + 12 }} as="span" className="jrn-ra__soft">{entryWhenLabel(entry)}</RefText>
                         <RefText t={{ ...moved[i]!.a, left: 12 + moved[i]!.a.left! - moved[i]!.n.ink[0], top: sheetY(moved[i]!.a.top) - sheetY(moved[i]!.n.ink[1]) + 12 }} as="b">{formatMoney(entry.amount, entry.direction === 'INCOME')}</RefText>
                       </button>
                     ))}
@@ -229,7 +248,10 @@ export function TodayScreen() {
                       </button>
                     );
                   })}
-                  <RefText t={onSheet(rows.f3)} as="span">MORE</RefText>
+                  {/* MORE was printed text with nothing behind it; it now opens the rest of TODAY (incl. ASK JURNL). */}
+                  <button type="button" className="jrn-ra__hit" data-jrn-role="panel_header_action" data-jrn-trigger="today-more" onClick={() => openOverlay('today-more')} style={at([rows.f3.ink[0] - 16, sheetY(rows.f3.ink[1]) - 16, rows.f3.ink[2] + 16, sheetY(rows.f3.ink[1]) + 30])}>
+                    <RefText t={{ ...rows.f3, left: 16, top: 16 - (rows.f3.ink[1] - rows.f3.top) }} as="span">MORE</RefText>
+                  </button>
                   <RaRule from={[S.box.fdiv1[0] + 1, sheetY(S.box.fdiv1[1])]} to={[S.box.fdiv1[0] + 1, sheetY(S.box.fdiv1[3])]} soft />
                   <RaRule from={[S.box.fdiv2[0] + 1, sheetY(S.box.fdiv2[1])]} to={[S.box.fdiv2[0] + 1, sheetY(S.box.fdiv2[3])]} soft />
                 </nav>
@@ -242,25 +264,22 @@ export function TodayScreen() {
   );
 }
 
-function SeeWhySheet({ onClose }: { onClose: () => void }) {
-  const signal = safeToSpend();
-  const rows = [
-    ['CASH POSITION', formatMoney(signal.cash), signal.cashSource],
-    ['UPCOMING', formatMoney(signal.upcoming), 'DERIVED'],
-    ['PROTECTED', formatMoney(signal.protected), signal.protectedSource],
-    ['SAFE TO SPEND', formatMoney(signal.value), 'DERIVED'],
+/** TODAY → MORE: the actions that do not fit on the clipboard sheet. */
+function TodayMoreSheet({ onClose, onAsk }: { onClose: () => void; onAsk: () => void }) {
+  const { go } = useJurnl();
+  const links: [string, string, string, Record<string, string>?][] = [
+    ['today-more-earnings', 'ADD DAILY EARNINGS', 'income', { add: 'earnings' }],
+    ['today-more-spending', 'RECORD SPENDING', 'activity', { record: 'spending' }],
+    ['today-more-move', 'MOVE MONEY', 'money/places', { move: '' }],
+    ['today-more-subscriptions', 'SUBSCRIPTIONS', 'upcoming/subscriptions'],
+    ['today-more-credit', 'CREDIT CARDS', 'credit'],
   ];
   return (
-    <JurnlDrawer expression="analysis" size="long" testId="see-why" title="SEE WHY" lead="SAFE TO SPEND IS CASH, MINUS WHAT IS COMING, MINUS WHAT YOU PROTECTED. THIS IS A PREVIEW READING." onClose={onClose}>
-      <ul className="jrn-why">
-        {rows.map(([label, value, source]) => (
-          <li key={label}>
-            <span>{label}</span>
-            <b>{value}</b>
-            <small>{source}</small>
-          </li>
-        ))}
-      </ul>
+    <JurnlDrawer expression="detail" size="long" testId="today-more" title="MORE" onClose={onClose}>
+      <JurnlButton variant="secondary" trigger="today-ask" onClick={onAsk}>ASK JURNL</JurnlButton>
+      {links.map(([trigger, label, route, query]) => (
+        <JurnlButton key={trigger} variant="secondary" trigger={trigger} onClick={() => { onClose(); go(route, query); }}>{label}</JurnlButton>
+      ))}
     </JurnlDrawer>
   );
 }
@@ -290,6 +309,12 @@ export function ActivityScreen() {
   }, [query]);
   const mode = (forcedState ?? '').toLowerCase();
   const entries = useMemo(() => ledgerEntries(), [added]);
+  const [params] = useSearchParams();
+  useEffect(() => {
+    // TODAY's "RECORD SPENDING" step opens the sheet once on arrival.
+    if (params.get('record') === 'spending') openOverlay('spend');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const active = { ...filter, query: mode === 'no_results' ? 'ZZZZ' : debounced };
   const shown = mode === 'empty' ? [] : applyActivityFilter(entries, active);
   const summary = filterSummary(filter);
@@ -305,13 +330,16 @@ export function ActivityScreen() {
         </div>
         <div className="jrn-home__intro" data-jrn-zone="intro">
           <h1 className="jrn-home__h jrn-home__h--act">ACTIVITY</h1>
-          <p className="jrn-home__sub">WHAT MOVED.</p>
+          <p className="jrn-home__sub">RECENT TRANSACTIONS.</p>
         </div>
         <div className="jrn-act__stage" data-jrn-zone="content-rail">
         <div className="jrn-act__tools">
           <JurnlInput label="SEARCH" value={query} onValue={setQuery} icon="search" trigger="activity-search" />
           <JurnlButton variant="utility" icon={<JurnlIcon name="filter" size={14} />} trigger="activity-filter" onClick={() => openOverlay('filter')}>
             FILTER
+          </JurnlButton>
+          <JurnlButton variant="utility" icon={<JurnlIcon name="plus" size={14} />} trigger="activity-record-spending" onClick={() => openOverlay('spend')}>
+            SPENDING
           </JurnlButton>
         </div>
         {query ? (
@@ -336,17 +364,17 @@ export function ActivityScreen() {
         ) : null}
         {mode !== 'loading' && mode !== 'error' ? (
           <JurnlPanel role="ledger" className="jrn-ledger" data-jrn-zone="ledger">
-            {mode !== 'empty' && shown.length > 0 ? <p className="jrn-ledger__count">{shown.length} MOVEMENTS</p> : null}
+            {mode !== 'empty' && shown.length > 0 ? <p className="jrn-ledger__count">{shown.length} {shown.length === 1 ? 'TRANSACTION' : 'TRANSACTIONS'}</p> : null}
             {mode === 'empty' ? (
               <div className="jrn-ledger__empty" data-jrn-panel="empty" data-jrn-trigger="activity-empty">
-                <b>NO MOVEMENT YET</b>
-                <p>THE LEDGER IS QUIET.</p>
+                <b>NO TRANSACTIONS YET</b>
+                <p>RECORD SPENDING, INCOME OR A TRANSFER TO SEE IT HERE.</p>
               </div>
             ) : null}
             {mode !== 'empty' && shown.length === 0 ? (
               <div className="jrn-ledger__empty" data-jrn-panel="empty" data-jrn-trigger="activity-none">
                 <b>NO MATCHES</b>
-                <p>NOTHING IN THIS LEDGER FITS.</p>
+                <p>NO TRANSACTION MATCHES THIS SEARCH OR FILTER.</p>
                 {query ? (
                   <button type="button" className="jrn-btn jrn-btn--secondary" data-jrn-trigger="activity-clear-search-empty" onClick={() => setQuery('')}>
                     CLEAR SEARCH
@@ -392,6 +420,7 @@ export function ActivityScreen() {
         />
       ) : null}
       {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F04" onClose={closeOverlay} /> : null}
+      {overlay === 'spend' ? <SpendingSheet onClose={closeOverlay} /> : null}
       {overlay === 'ask' ? <AskJurnlSheet familyId="F04" nodeId="F04.00" onClose={closeOverlay} /> : null}
     </JurnlScreen>
   );
@@ -408,7 +437,7 @@ function FilterSheet({ filter, onChange, onClose }: { filter: ActivityFilter; on
       size="long"
       testId="activity-filter-sheet"
       title="FILTER"
-      lead="THE LEDGER STAYS PUT. THESE CHOICES ONLY NARROW IT."
+      lead="SHOWS FEWER TRANSACTIONS. NOTHING IS CHANGED OR DELETED."
       onClose={onClose}
       footer={
         <JurnlButton variant="secondary" trigger="activity-filter-reset" onClick={() => onChange(EMPTY_FILTER)}>
@@ -452,6 +481,21 @@ function FilterSheet({ filter, onChange, onClose }: { filter: ActivityFilter; on
   );
 }
 
+const CONFIRMATION_LABEL: Record<string, string> = {
+  RECORDED_BY_YOU: 'RECORDED BY YOU · NOT CONFIRMED BY A BANK',
+  PENDING_CONFIRMATION: 'RECORDED BY YOU · STILL ON ITS WAY',
+  BANK_CONFIRMED: 'CONFIRMED BY YOUR BANK',
+  SAMPLE: 'SAMPLE ENTRY',
+};
+
+const OWNER_OF: Record<string, { label: string; route: (e: LedgerEntry) => string }> = {
+  DAILY_EARNINGS: { label: 'CHANGE THIS IN INCOME', route: () => 'income' },
+  BILL_PAYMENT: { label: 'CHANGE THIS ON THE BILL', route: (e) => `upcoming/${e.obligation_id ?? ''}` },
+  CARD_PAYMENT: { label: 'OPEN THE CARD', route: (e) => `credit/${e.counterparty_account_id && e.link?.leg === 'OUT' ? e.counterparty_account_id : e.account_id ?? ''}` },
+  TRANSFER: { label: 'OPEN POCKETS', route: () => 'money/places' },
+  BALANCE_CORRECTION: { label: 'OPEN THE ACCOUNT', route: (e) => `money/places/${e.account_id ?? ''}` },
+};
+
 function DetailSheet({
   entry,
   onClose,
@@ -464,24 +508,47 @@ function DetailSheet({
   onDeleted: () => void;
 }) {
   useCurrency();
-  const editable = entry.source === 'ADDED';
-  const [mode, setMode] = useState<'view' | 'edit' | 'delete'>('view');
+  const { go } = useJurnl();
+  const accounts = getRepository().listAccounts();
+  const account = resolveEntryAccount(entry, accounts);
+  const cls = entryClass(entry, account);
+  // Linked entries belong to one event (a day of earnings, a transfer, a bill payment): change them where they were made.
+  const linkKind = entry.link?.kind ?? null;
+  const owner = linkKind ? OWNER_OF[linkKind] : null;
+  const editable = entry.source === 'ADDED' && !linkKind;
+  const removableTogether = entry.source === 'ADDED' && (linkKind === 'TRANSFER' || linkKind === 'CARD_PAYMENT' || linkKind === 'BALANCE_CORRECTION');
+  const [mode, setMode] = useState<'view' | 'edit' | 'delete' | 'transfer'>('view');
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   const [merchant, setMerchant] = useState(entry.merchant);
   const [amount, setAmount] = useState(String(entry.amount));
-  const [account, setAccount] = useState(entry.account);
+  const [account2, setAccount] = useState(entry.account);
   const accountOptions = useMemo(() => accountDisplayOptions(), []);
+  const legs = linkedEntries(getRepository().listTransactions(), entry).filter((e) => e.id !== entry.id);
   const rows: [string, string][] = [
-    ['MERCHANT', entry.merchant],
+    ['WHAT', entry.merchant],
     ['AMOUNT', formatMoney(entry.amount, entry.direction === 'INCOME')],
-    ['WHEN', entry.when],
-    ['ACCOUNT', entry.account],
+    ['TYPE', TXN_CLASS_LABEL[cls]],
+    ['WHEN', entryWhenLabel(entry)],
+    ['ACCOUNT', account?.display_name ?? `${entry.account || 'NONE'} (NOT FOUND)`],
     ['CATEGORY', entry.category],
-    ['STATUS', entry.status],
-    ['DIRECTION', entry.direction],
-    ['SOURCE', entry.source],
+    ['STATUS', (() => {
+      if (entry.link && (linkKind === 'TRANSFER' || linkKind === 'CARD_PAYMENT')) {
+        const v = transferViews(getRepository().listTransactions(), getTodayKey()).find((x) => x.linkId === entry.link!.id);
+        if (v) return (linkKind === 'CARD_PAYMENT' ? CARD_PAYMENT_STATE_LABEL : TRANSFER_STATE_LABEL)[v.state];
+      }
+      return legSettlement(entry, getTodayKey()) === 'SCHEDULED' ? 'SCHEDULED' : entry.status === 'PENDING' ? 'PENDING' : 'CLEARED';
+    })()],
+    ['SOURCE', entry.source === 'MOCK' ? CONFIRMATION_LABEL.SAMPLE : 'RECORDED BY YOU · NOT CONFIRMED BY A BANK'],
   ];
   if (entry.memo) rows.push(['NOTE', entry.memo]);
-  if (entry.recurring) rows.push(['RECURRING', 'YES']);
+  if (entry.recurring) rows.push(['REPEATS', 'YES']);
+  for (const l of legs) rows.push(['OTHER SIDE', `${l.merchant} · ${formatMoney(l.amount, l.direction === 'INCOME')} · ${resolveEntryAccount(l, accounts)?.display_name ?? l.account}`]);
+  if (cls === 'TRANSFER' || cls === 'CREDIT_PAYMENT') rows.push(['COUNTS AS', 'NOT INCOME AND NOT SPENDING']);
+  if (cls === 'ADJUSTMENT') rows.push(['COUNTS AS', 'A BALANCE CORRECTION. NOT INCOME OR SPENDING.']);
+
+  if (mode === 'transfer' && entry.link) {
+    return <TransferDetailSheet linkId={entry.link.id} onClose={() => setMode('view')} />;
+  }
 
   if (mode === 'delete') {
     return (
@@ -489,12 +556,21 @@ function DetailSheet({
         expression="confirmation"
         size="long"
         testId="activity-delete"
-        title="DELETE MOVEMENT"
-        lead="THIS REMOVES YOUR ADDED ENTRY FROM THE REPOSITORY."
+        title={removableTogether ? 'REMOVE BOTH SIDES?' : 'DELETE TRANSACTION'}
+        lead={removableTogether ? 'THIS REMOVES THE WHOLE TRANSFER. BOTH ACCOUNTS GO BACK TO WHAT THEY WERE.' : 'THIS REMOVES THE ENTRY YOU ADDED. THE ACCOUNT BALANCE CHANGES BACK.'}
         onClose={() => setMode('view')}
         footer={
           <>
-            <JurnlButton trigger="activity-delete-confirm" onClick={() => { if (deleteLedgerEntry(entry.id)) onDeleted(); }}>
+            {deleteError ? <p className="jrn-field__error" role="alert">{deleteError}</p> : null}
+            <JurnlButton trigger="activity-delete-confirm" onClick={() => {
+              if (removableTogether && entry.link) {
+                const r = removeLinkedEvent(entry.link.id);
+                if (r.ok) onDeleted();
+                else setDeleteError(r.error);
+                return;
+              }
+              if (deleteLedgerEntry(entry.id)) onDeleted();
+            }}>
               DELETE
             </JurnlButton>
             <JurnlButton variant="secondary" trigger="activity-delete-cancel" onClick={() => setMode('view')}>
@@ -514,7 +590,7 @@ function DetailSheet({
         expression="form"
         size="long"
         testId="activity-edit"
-        title="EDIT MOVEMENT"
+        title="EDIT TRANSACTION"
         lead="ONLY ENTRIES YOU ADDED CAN CHANGE."
         onClose={() => setMode('view')}
         footer={
@@ -525,7 +601,7 @@ function DetailSheet({
               const next = updateLedgerEntry(entry.id, {
                 merchant: merchant.trim().toUpperCase(),
                 amount: Number(amount),
-                account,
+                account: account2,
               });
               if (next) {
                 onUpdated(next);
@@ -537,11 +613,11 @@ function DetailSheet({
           </JurnlButton>
         }
       >
-        <JurnlInput label="MERCHANT" value={merchant} onValue={setMerchant} trigger="activity-edit-merchant" />
-        <JurnlInput label="AMOUNT USD" value={amount} onValue={setAmount} trigger="activity-edit-amount" inputMode="decimal" />
-        <div className="jrn-home__choices" role="radiogroup" aria-label="ACCOUNT">
+        <JurnlInput label="WHAT WAS IT FOR?" value={merchant} onValue={setMerchant} trigger="activity-edit-merchant" />
+        <JurnlInput label="AMOUNT" value={amount} onValue={setAmount} trigger="activity-edit-amount" inputMode="decimal" />
+        <div className="jrn-home__choices" role="group" aria-label="ACCOUNT">
           {accountOptions.map((item) => (
-            <button key={item.id} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={account === item.id} data-active={account === item.id ? 'true' : 'false'} onClick={() => setAccount(item.id)}>
+            <button key={item.id} type="button" className="jrn-btn jrn-btn--secondary" aria-pressed={account2 === item.id} data-active={account2 === item.id ? 'true' : 'false'} onClick={() => setAccount(item.id)}>
               {item.label}
             </button>
           ))}
@@ -556,7 +632,7 @@ function DetailSheet({
       size="long"
       testId="activity-detail"
       title={entry.merchant}
-      lead="A MOVEMENT. NOT A BILL, UNLESS A RELATED OBLIGATION IS NAMED."
+      lead={entry.obligation_id ? 'A PAYMENT TOWARD A BILL. THE BILL ITSELF LIVES IN UPCOMING.' : 'ONE TRANSACTION.'}
       onClose={onClose}
       footer={
         editable ?
@@ -568,12 +644,28 @@ function DetailSheet({
               DELETE
             </JurnlButton>
           </>
+        : owner && entry.source === 'ADDED' ?
+          <>
+            {linkKind === 'TRANSFER' || linkKind === 'CARD_PAYMENT' ? (
+              <JurnlButton variant="secondary" trigger="activity-open-transfer" onClick={() => setMode('transfer')}>
+                {linkKind === 'CARD_PAYMENT' ? 'PAYMENT STATUS' : 'TRANSFER STATUS'}
+              </JurnlButton>
+            ) : null}
+            <JurnlButton variant="secondary" trigger="activity-open-owner" onClick={() => { onClose(); go(owner.route(entry)); }}>
+              {owner.label}
+            </JurnlButton>
+            {removableTogether ? (
+              <JurnlButton variant="secondary" trigger="activity-delete" onClick={() => setMode('delete')}>
+                DELETE BOTH SIDES
+              </JurnlButton>
+            ) : null}
+          </>
         : undefined
       }
     >
       <ul className="jrn-why">
         {rows.map(([label, value]) => (
-          <li key={label}>
+          <li key={label + value}>
             <span>{label}</span>
             <b>{value}</b>
           </li>
@@ -587,8 +679,7 @@ function DetailSheet({
           </li>
         ) : null}
       </ul>
-      {!editable ? <p className="jrn-currency__note">PREVIEW ENTRIES ARE READ ONLY.</p> : null}
+      {entry.source !== 'ADDED' ? <p className="jrn-currency__note">SAMPLE ENTRIES CANNOT BE CHANGED.</p> : null}
     </JurnlDrawer>
   );
 }
-

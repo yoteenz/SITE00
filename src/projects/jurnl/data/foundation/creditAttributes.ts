@@ -1,6 +1,7 @@
 /** F12 credit attributes (DD.CREDIT_ATTRIBUTES) keyed by canonical account_id. */
 
 import type { JurnlAccountRecord } from './accounts';
+import type { CalendarDate } from './dates';
 
 export type JurnlCreditAttributes = {
   account_id: string;
@@ -11,6 +12,20 @@ export type JurnlCreditAttributes = {
   statement_day: number | null;
   apr: number | null;
   updated_at: string;
+  /** Balance on the last statement (distinct from the current balance owed). */
+  statement_balance?: number | null;
+  /** Date the last statement closed (distinct from the payment due date). */
+  statement_closing_date?: CalendarDate | null;
+  /** Exact next payment due date when known; otherwise derived from `payment_due_day`. */
+  payment_due_date?: CalendarDate | null;
+  promo_apr?: number | null;
+  promo_apr_end_date?: CalendarDate | null;
+  /** True when the user says they carried a balance from the previous statement (grace period may not apply). */
+  carries_interest_balance?: boolean | null;
+  /** Usual account to pay this card from. */
+  payment_account_id?: string | null;
+  /** When the user last entered or confirmed these card numbers (ISO). Manual — never bank-verified in this build. */
+  terms_entered_at?: string | null;
 };
 
 export function creditUsedBalance(account: JurnlAccountRecord, attrs: JurnlCreditAttributes | null): number {

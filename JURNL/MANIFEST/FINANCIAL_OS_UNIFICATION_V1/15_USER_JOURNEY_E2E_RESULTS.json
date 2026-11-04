@@ -1,0 +1,209 @@
+{
+  "spec": "e2e/jurnl/jurnl-financial-os.e2e.ts",
+  "command": "JURNL_E2E_SKIP_WEBSERVER=1 npx playwright test -c playwright.config.ts e2e/jurnl/jurnl-financial-os.e2e.ts --project=small --project=mobile --project=tablet --project=desktop",
+  "server": "vite dev server (branch) on 127.0.0.1:5174, Chromium",
+  "data": "synthetic: BANK 500, UBER CARD payout debit 240, CASH 100, VISA owes 400 of 2000 (min 45 due in 3 days)",
+  "viewports": {
+    "small": "360x780",
+    "mobile": "393x852",
+    "tablet": "834x1194",
+    "desktop": "1440x900"
+  },
+  "total": 32,
+  "passed": 32,
+  "failed": 0,
+  "results": [
+    {
+      "project": "small",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "daily earnings: one entry, cash and digital land in the right places, edit without duplication",
+      "status": "PASS"
+    },
+    {
+      "project": "small",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "spending: card purchase raises what the card owes; cash purchase lowers cash; usual account suggested",
+      "status": "PASS"
+    },
+    {
+      "project": "small",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "transfer: moving money between owned accounts is not income",
+      "status": "PASS"
+    },
+    {
+      "project": "small",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "bill funding: $95 set aside toward $140 does not lower Safe to Spend again; paying records one payment",
+      "status": "PASS"
+    },
+    {
+      "project": "small",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "subscriptions: add, see renewal and monthly / yearly cost",
+      "status": "PASS"
+    },
+    {
+      "project": "small",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "credit: payment plan shows minimum, source money and a target the user picks; recording a payment updates it",
+      "status": "PASS"
+    },
+    {
+      "project": "small",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "today: real attention fact and the money reading in SEE WHY",
+      "status": "PASS"
+    },
+    {
+      "project": "small",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "accessibility: new sheets have no serious or critical axe violations",
+      "status": "PASS"
+    },
+    {
+      "project": "mobile",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "daily earnings: one entry, cash and digital land in the right places, edit without duplication",
+      "status": "PASS"
+    },
+    {
+      "project": "mobile",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "spending: card purchase raises what the card owes; cash purchase lowers cash; usual account suggested",
+      "status": "PASS"
+    },
+    {
+      "project": "mobile",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "transfer: moving money between owned accounts is not income",
+      "status": "PASS"
+    },
+    {
+      "project": "mobile",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "bill funding: $95 set aside toward $140 does not lower Safe to Spend again; paying records one payment",
+      "status": "PASS"
+    },
+    {
+      "project": "mobile",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "subscriptions: add, see renewal and monthly / yearly cost",
+      "status": "PASS"
+    },
+    {
+      "project": "mobile",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "credit: payment plan shows minimum, source money and a target the user picks; recording a payment updates it",
+      "status": "PASS"
+    },
+    {
+      "project": "mobile",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "today: real attention fact and the money reading in SEE WHY",
+      "status": "PASS"
+    },
+    {
+      "project": "mobile",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "accessibility: new sheets have no serious or critical axe violations",
+      "status": "PASS"
+    },
+    {
+      "project": "tablet",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "daily earnings: one entry, cash and digital land in the right places, edit without duplication",
+      "status": "PASS"
+    },
+    {
+      "project": "tablet",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "spending: card purchase raises what the card owes; cash purchase lowers cash; usual account suggested",
+      "status": "PASS"
+    },
+    {
+      "project": "tablet",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "transfer: moving money between owned accounts is not income",
+      "status": "PASS"
+    },
+    {
+      "project": "tablet",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "bill funding: $95 set aside toward $140 does not lower Safe to Spend again; paying records one payment",
+      "status": "PASS"
+    },
+    {
+      "project": "tablet",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "subscriptions: add, see renewal and monthly / yearly cost",
+      "status": "PASS"
+    },
+    {
+      "project": "tablet",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "credit: payment plan shows minimum, source money and a target the user picks; recording a payment updates it",
+      "status": "PASS"
+    },
+    {
+      "project": "tablet",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "today: real attention fact and the money reading in SEE WHY",
+      "status": "PASS"
+    },
+    {
+      "project": "tablet",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "accessibility: new sheets have no serious or critical axe violations",
+      "status": "PASS"
+    },
+    {
+      "project": "desktop",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "daily earnings: one entry, cash and digital land in the right places, edit without duplication",
+      "status": "PASS"
+    },
+    {
+      "project": "desktop",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "spending: card purchase raises what the card owes; cash purchase lowers cash; usual account suggested",
+      "status": "PASS"
+    },
+    {
+      "project": "desktop",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "transfer: moving money between owned accounts is not income",
+      "status": "PASS"
+    },
+    {
+      "project": "desktop",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "bill funding: $95 set aside toward $140 does not lower Safe to Spend again; paying records one payment",
+      "status": "PASS"
+    },
+    {
+      "project": "desktop",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "subscriptions: add, see renewal and monthly / yearly cost",
+      "status": "PASS"
+    },
+    {
+      "project": "desktop",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "credit: payment plan shows minimum, source money and a target the user picks; recording a payment updates it",
+      "status": "PASS"
+    },
+    {
+      "project": "desktop",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "today: real attention fact and the money reading in SEE WHY",
+      "status": "PASS"
+    },
+    {
+      "project": "desktop",
+      "file": "jurnl-financial-os.e2e.ts",
+      "test": "accessibility: new sheets have no serious or critical axe violations",
+      "status": "PASS"
+    }
+  ]
+}

@@ -24,6 +24,8 @@ function emptySnap(userId: string, updatedAt: string): RepositorySnapshot {
     trips: [],
     paydownPlan: null,
     records: [],
+    dailyEarnings: [],
+    reservations: [],
     updatedAt,
   };
 }

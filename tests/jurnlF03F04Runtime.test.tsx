@@ -74,8 +74,8 @@ describe('F03 and F04 live routes', () => {
     expect(html).toContain('data-jrn-screen="F03.00"');
     expect(html).toContain('data-asset-id="TODAY.ENVIRONMENT.DAY.001"');
     expect(html).toContain('SAFE TO SPEND');
-    expect(html).toContain('A COMPUTED SIGNAL');
-    expect(html).toContain('PREVIEW');
+    // Plain-language convergence: the status line states where the number comes from.
+    expect(html).toMatch(/FROM BALANCES YOU ENTERED\.|SAMPLE NUMBERS\. ADD ACCOUNTS\./);
     expect(html).toContain(formatMoney(signal.value));
     expect(html).toContain('data-jrn-zone="intro"');
     expect(html).toContain('data-jrn-zone="content-rail"');
@@ -84,7 +84,8 @@ describe('F03 and F04 live routes', () => {
     const plusMarks = (add.match(/data-jrn-icon="plus"/g)?.length ?? 0) + (add.includes('jrn-nav__plus') ? 1 : 0);
     expect(plusMarks).toBe(1);
     expect(add).not.toMatch(/>\s*\+\s*</);
-    expect(html.match(/data-jrn-role="panel_header_action"/g)?.length).toBe(4);
+    // MORE on the TODAY sheet is now a real action (it opens ASK JURNL and the rest of TODAY), so 5 header actions.
+    expect(html.match(/data-jrn-role="panel_header_action"/g)?.length).toBe(5);
     expect(html).toContain('data-jrn-trigger="today-why"');
     expect(html).not.toContain('F03.00_TODAY_PARENT');
     expect(html).not.toContain('AUTHORITIES');
@@ -100,8 +101,9 @@ describe('F03 and F04 live routes', () => {
     const why = renderRuntime('today', 'overlay=see-why');
     expect(why).toContain('data-jrn-overlay="see-why"');
     expect(why).toContain('data-jrn-expression="analysis"');
-    expect(why).toContain('CASH POSITION');
-    expect(why).toContain('DERIVED');
+    expect(why).toMatch(/MONEY IN YOUR ACCOUNTS|SAMPLE CASH/);
+    expect(why).toContain('BILLS DUE BY');
+    expect(why).toContain('WHERE YOUR MONEY IS');
     expect(visibleText(why).match(/[a-z]/g)).toBeNull();
   });
 
@@ -116,10 +118,10 @@ describe('F03 and F04 live routes', () => {
     expect(html).toContain('data-jrn-trigger="activity-filter"');
     expect(html).not.toContain('F04.00_ACTIVITY_PARENT');
     expect(visibleText(html).match(/[a-z]/g)).toBeNull();
-    expect(renderRuntime('activity', 'state=empty')).toContain('NO MOVEMENT YET');
+    expect(renderRuntime('activity', 'state=empty')).toContain('NO TRANSACTIONS YET');
     expect(html).not.toContain('ALL ACCOUNTS');
     expect(renderRuntime('activity', 'state=no_results')).toContain('NO MATCHES');
-    expect(renderRuntime('activity', 'state=no_results')).toContain('NOTHING IN THIS LEDGER FITS');
+    expect(renderRuntime('activity', 'state=no_results')).toContain('NO TRANSACTION MATCHES THIS SEARCH OR FILTER');
     expect(renderRuntime('activity', 'state=error')).toContain('COULD NOT READ ACTIVITY');
     const filter = renderRuntime('activity', 'overlay=filter');
     expect(filter).toContain('data-jrn-overlay="activity-filter-sheet"');
@@ -134,8 +136,8 @@ describe('F03 and F04 live routes', () => {
     expect(money).toContain('data-jrn-screen="F05.00"');
     expect(money).toContain('data-asset-id="MONEY.ENVIRONMENT.CABINET.001"');
     expect(money).toContain('data-jrn-trigger="money-open-places"');
-    expect(money).toContain('SEE ALL PLACES');
-    expect(money).toContain('PLACES');
+    expect(money).toContain('SEE ALL POCKETS');
+    expect(money).toContain('POCKETS');
     expect(renderRuntime('plan')).toContain('data-jrn-screen="F08.00"');
     expect(renderRuntime('credit')).toContain('data-jrn-screen="F12.00"');
     const board = renderRuntime('parents');
