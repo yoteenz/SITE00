@@ -204,7 +204,7 @@
 }
 .jrn .jrn-d01__stat b {
   font-weight: 500;
-  font-size: 1.3em;
+  font-size: var(--d01-stat-b, 1.3em);
   letter-spacing: 0.01em;
 }
 .jrn .jrn-d01__stat + .jrn-d01__rule {
@@ -240,7 +240,7 @@
   background: rgba(31, 24, 16, 0.7);
 }
 .jrn .jrn-d01__strip-label {
-  font: 500 max(41px, calc(13px / var(--f05m-u, 1))) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 500 max(var(--d01-strip-fs, 41px), calc(13px / var(--f05m-u, 1))) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.1em;
   white-space: nowrap;
 }
@@ -1616,6 +1616,34 @@
   width: 64px;
   height: 2px;
   background: rgba(243, 230, 201, 0.7);
+}
+/* 03 / 04 / 05 summary rows on their own parchment (accountScenes.ts): one line each, except a label the authority
+   sets on two lines (05 AVAILABLE / CREDIT), whose figure sits centred on it */
+.jrn .jrn-d01__stat[data-scene='true'] {
+  align-items: center;
+}
+.jrn .jrn-d01__stat[data-scene='true'] > span {
+  min-width: 0;
+}
+.jrn .jrn-d01__stat[data-scene='true'] > b {
+  white-space: nowrap;
+}
+/* a short phone closes the action rows up (accountScenes.ts seatActionRows): smaller icons, so none runs into the next row */
+.jrn .jrn-d01__strip[data-tight='true'] .jrn-d01__strip-icon {
+  width: 80px;
+  height: 62px;
+}
+.jrn .jrn-d01__strip[data-tight='true'] .jrn-d01__strip-icon[data-tile] {
+  width: 62px;
+  height: 62px;
+}
+/* 05: OWED upright and letterspaced between longer rules, as the authority sets it */
+.jrn .jrn-d01__on--caption[data-scene='true'] {
+  font-style: normal;
+}
+.jrn .jrn-d01__on--caption[data-scene='true']::before,
+.jrn .jrn-d01__on--caption[data-scene='true']::after {
+  width: 92px;
 }
 /* 13 / 23 fit their authority's single view: a little less air between the papers where the figure pair is used */
 .jrn .jrn-d01__content:has(> .d01-figs) {

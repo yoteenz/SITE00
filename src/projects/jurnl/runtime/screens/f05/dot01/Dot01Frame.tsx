@@ -188,7 +188,11 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
   const sliced = L.extra >= 1;
   const overlayHead = env === 'SK03' || env === 'SK03_FIELD';
   const tSize = titleSize(title, overlayHead);
-  const cr = contentRect ? boardToScreen(L, contentRect) : null;
+  const mapped = contentRect ? boardToScreen(L, contentRect) : null;
+  // a short phone (width-first, so the board's foot is below the screen) never puts a control below the fold: the
+  // content region ends on screen and scrolls inside itself; a tall phone, a tablet or a desktop never clamps
+  const clamped = !!mapped && mapped.y + mapped.h > L.h - 4;
+  const cr = mapped && clamped ? { ...mapped, h: Math.max(0, L.h - 4 - mapped.y) } : mapped;
   const boardStyle: CSSProperties = { width: SRC_W, height: L.boardH, transform: `translate(${L.ox}px, 0) scale(${S})`, ['--f05m-u' as string]: String(S) } as CSSProperties;
   return (
     <div ref={ref} className="jrn-d01" data-jrn-f05-dot01-stage data-env={env} data-testid={testId} data-wide={L.ox > 0.5 ? 'true' : 'false'} style={STAGE_VARS}>
@@ -255,7 +259,7 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
         </div>
       </div>
       {content && cr ?
-        <section key={testId} className="jrn-d01__content" data-scroll={contentScroll ? 'true' : 'false'} data-fields={fields} data-field-icons={fieldIcons} data-strip-icons={stripIcons} aria-label={label} style={{ left: cr.x, top: cr.y, width: cr.w, height: cr.h, ['--d01-s' as string]: String(Math.max(0.86, Math.min(1.25, S / 0.44))) } as CSSProperties}>
+        <section key={testId} className="jrn-d01__content" data-scroll={contentScroll || clamped ? 'true' : 'false'} data-clamped={clamped ? 'true' : undefined} data-fields={fields} data-field-icons={fieldIcons} data-strip-icons={stripIcons} aria-label={label} style={{ left: cr.x, top: cr.y, width: cr.w, height: cr.h, ['--d01-s' as string]: String(Math.max(0.86, Math.min(1.25, S / 0.44))) } as CSSProperties}>
           {typeof content === 'function' ? content(L) : content}
         </section>
       : null}
@@ -313,6 +317,9 @@ export function Dot01Frame({ screenId, nav = false, overlays, ...board }: BoardP
   );
 }
 
+/** An overlay's first focus: its first content control (a form's first field; a confirmation's safe choice). */
+const FIRST_CONTENT_CONTROL = '.jrn-d01__content input, .jrn-d01__content select, .jrn-d01__content textarea, .jrn-d01__content button:not([disabled])';
+
 /**
  * A DOT 01 contextual overlay (authorities 14–20, 23–30, 33, 34, 36, 37): a full paper composition above the page it
  * came from. The page stays mounted underneath (its state, scroll and carousel collection are kept); focus is trapped
@@ -324,7 +331,10 @@ export function Dot01Overlay({ onClose, testId, env = 'SK03_FIELD', ...board }: 
   useLayoutEffect(() => {
     const opener = document.activeElement as HTMLElement | null;
     const box = boxRef.current;
-    const first = box?.querySelector<HTMLElement>('input, select, textarea, button:not([disabled])');
+    // the overlay opens on its first CONTENT control (a form's first field; the safe choice of a confirmation, e.g.
+    // KEEP POCKET), as each later step does; only an overlay with no content region falls back to its first control
+    // (its board buttons render before its chips). Before, a production build focused the corner CLOSE chip first.
+    const first = box?.querySelector<HTMLElement>(FIRST_CONTENT_CONTROL) ?? box?.querySelector<HTMLElement>('input, select, textarea, button:not([disabled])');
     (first ?? box?.querySelector<HTMLElement>('h1'))?.focus({ preventScroll: true });
     return () => {
       if (opener && document.contains(opener)) opener.focus({ preventScroll: true });
@@ -357,7 +367,7 @@ export function Dot01Overlay({ onClose, testId, env = 'SK03_FIELD', ...board }: 
       return;
     }
     const box = boxRef.current;
-    (box?.querySelector<HTMLElement>('.jrn-d01__content input, .jrn-d01__content select, .jrn-d01__content button:not([disabled])') ?? box?.querySelector<HTMLElement>('h1'))?.focus({ preventScroll: true });
+    (box?.querySelector<HTMLElement>(FIRST_CONTENT_CONTROL) ?? box?.querySelector<HTMLElement>('h1'))?.focus({ preventScroll: true });
   }, [testId]);
   const chips = board.chips ?? [{ id: `${testId}-close`, label: 'CLOSE', icon: 'back' as const, onClick: onClose }];
   // portaled to the runtime overlay layer: a focused overlay covers the page (and the dock where a page has one)
