@@ -1,0 +1,246 @@
+string_id,current_text,source_file,route,component,context,problem,recommended_text,rationale,data_requirements,founder_approval_status
+parent.F05.question,"WHAT DO I HAVE, AND WHERE IS IT?",src/projects/jurnl/data/parents/catalog.ts,parent hub,ParentSpec.question,jrn-lang__editorial on family hubs,,,,,PENDING
+parent.F06.question,WHERE IS IT COMING FROM?,src/projects/jurnl/data/parents/catalog.ts,parent hub,ParentSpec.question,jrn-lang__editorial on family hubs,,,,,PENDING
+parent.F07.question,"WHAT IS COMING, AND WHEN?",src/projects/jurnl/data/parents/catalog.ts,parent hub,ParentSpec.question,jrn-lang__editorial on family hubs,,,,,PENDING
+parent.F08.question,WHAT DO I WANT IT TO DO?,src/projects/jurnl/data/parents/catalog.ts,parent hub,ParentSpec.question,jrn-lang__editorial on family hubs,,,,,PENDING
+parent.F09.question,WHAT CAN I SPEND WITHOUT UNDOING THE PLAN?,src/projects/jurnl/data/parents/catalog.ts,parent hub,ParentSpec.question,jrn-lang__editorial on family hubs,,,,,PENDING
+parent.F10.question,"CAN I BUY THIS, AND WHAT CHANGES?",src/projects/jurnl/data/parents/catalog.ts,parent hub,ParentSpec.question,jrn-lang__editorial on family hubs,,,,,PENDING
+parent.F11.question,"CAN I TAKE THIS, AND WHAT DOES IT CHANGE?",src/projects/jurnl/data/parents/catalog.ts,parent hub,ParentSpec.question,jrn-lang__editorial on family hubs,,,,,PENDING
+parent.F12.question,"WHAT IS HAPPENING, AND WHAT MATTERS?",src/projects/jurnl/data/parents/catalog.ts,parent hub,ParentSpec.question,jrn-lang__editorial on family hubs,,,,,PENDING
+parent.F13.question,HOW DOES THIS COME DOWN?,src/projects/jurnl/data/parents/catalog.ts,parent hub,ParentSpec.question,jrn-lang__editorial on family hubs,,,,,PENDING
+parent.F14.question,WHAT AM I BUILDING TOWARD?,src/projects/jurnl/data/parents/catalog.ts,parent hub,ParentSpec.question,jrn-lang__editorial on family hubs,,,,,PENDING
+parent.F15.question,WHERE AM I HEADED IF THIS CONTINUES?,src/projects/jurnl/data/parents/catalog.ts,parent hub,ParentSpec.question,jrn-lang__editorial on family hubs,,,,,PENDING
+parent.F16.question,WHERE IS THE PROOF?,src/projects/jurnl/data/parents/catalog.ts,parent hub,ParentSpec.question,jrn-lang__editorial on family hubs,,,,,PENDING
+src/projects/jurnl/runtime/global/GlobalSheets.tsx:39,ASK JURNL,src/projects/jurnl/runtime/global/GlobalSheets.tsx,,GlobalSheets.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/global/GlobalSheets.tsx:39,EXPLANATION ONLY. NO LIVE AI PROVIDER IN THIS BUILD.,src/projects/jurnl/runtime/global/GlobalSheets.tsx,,GlobalSheets.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/global/GlobalSheets.tsx:288,DIRECTION,src/projects/jurnl/runtime/global/GlobalSheets.tsx,,GlobalSheets.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/global/GlobalSheets.tsx:302,ACCOUNT,src/projects/jurnl/runtime/global/GlobalSheets.tsx,,GlobalSheets.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/components/ReferenceLockup.tsx:36,FINANCIAL LIFE.,src/projects/jurnl/runtime/components/ReferenceLockup.tsx,,ReferenceLockup.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/components/ReferenceLockup.tsx:37,BEAUTIFULLY ORGANIZED.,src/projects/jurnl/runtime/components/ReferenceLockup.tsx,,ReferenceLockup.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/components/ReferenceLockup.tsx:40,PLAN TODAY.,src/projects/jurnl/runtime/components/ReferenceLockup.tsx,,ReferenceLockup.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/components/ReferenceLockup.tsx:41,GROW FREELY.,src/projects/jurnl/runtime/components/ReferenceLockup.tsx,,ReferenceLockup.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/components/JurnlProductionServiceScreen.tsx:12,Supabase: {cfg.supabaseConfigured ? 'OK' : 'MISSING'},src/projects/jurnl/runtime/components/JurnlProductionServiceScreen.tsx,,JurnlProductionServiceScreen.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/components/JurnlProductionServiceScreen.tsx:13,API base: {cfg.apiBase ? 'OK' : 'MISSING'},src/projects/jurnl/runtime/components/JurnlProductionServiceScreen.tsx,,JurnlProductionServiceScreen.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/components/JurnlProductionServiceScreen.tsx:14,Server persistence flag: {cfg.serverPersistenceConfigured ? 'ON' : 'OFF'},src/projects/jurnl/runtime/components/JurnlProductionServiceScreen.tsx,,JurnlProductionServiceScreen.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SetupScreens.tsx:260,PREVIEW LINK ONLY,src/projects/jurnl/runtime/screens/SetupScreens.tsx,,SetupScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SetupScreens.tsx:275,CONNECTION PERMISSION,src/projects/jurnl/runtime/screens/SetupScreens.tsx,,SetupScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SetupScreens.tsx:277,A LINK MAY READ ACCOUNT NAMES AND BALANCES. JURNL DOES NOT MOVE MONEY.,src/projects/jurnl/runtime/screens/SetupScreens.tsx,,SetupScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SetupScreens.tsx:325,ACCOUNT NAME,src/projects/jurnl/runtime/screens/SetupScreens.tsx,,SetupScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SetupScreens.tsx:357,FIELD NEEDS A NUMBER,src/projects/jurnl/runtime/screens/SetupScreens.tsx,,SetupScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SetupScreens.tsx:365,APPROXIMATE AMOUNT,src/projects/jurnl/runtime/screens/SetupScreens.tsx,,SetupScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SetupScreens.tsx:428,ADD A COMMITMENT,src/projects/jurnl/runtime/screens/SetupScreens.tsx,,SetupScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SetupScreens.tsx:429,A NAME AND A CADENCE. AN AMOUNT CAN WAIT.,src/projects/jurnl/runtime/screens/SetupScreens.tsx,,SetupScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SetupScreens.tsx:447,NEEDS A NAME,src/projects/jurnl/runtime/screens/SetupScreens.tsx,,SetupScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SetupScreens.tsx:551,PROTECTED AMOUNT,src/projects/jurnl/runtime/screens/SetupScreens.tsx,,SetupScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SetupScreens.tsx:588,REMEMBER THIS SETUP,src/projects/jurnl/runtime/screens/SetupScreens.tsx,,SetupScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SetupScreens.tsx:589,LINKED ACCOUNTS STAY OPTIONAL,src/projects/jurnl/runtime/screens/SetupScreens.tsx,,SetupScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SetupScreens.tsx:590,NOTHING IS SOLD,src/projects/jurnl/runtime/screens/SetupScreens.tsx,,SetupScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SetupScreens.tsx:593,READ THE BOUNDARY,src/projects/jurnl/runtime/screens/SetupScreens.tsx,,SetupScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SetupScreens.tsx:661,ADD THIS LATER,src/projects/jurnl/runtime/screens/SetupScreens.tsx,,SetupScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SetupScreens.tsx:662,THIS STEP CAN BE FINISHED LATER. NOTHING HERE IS LOST.,src/projects/jurnl/runtime/screens/SetupScreens.tsx,,SetupScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:75,PRIVACY & CONSENTS,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:75,WHAT JURNL MAY KEEP AND USE.,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,VAGUE_PROMPT,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:76,REMEMBER SETUP,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:77,LINKED ACCOUNTS OPTIONAL,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:78,NOTHING SOLD,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:174,ONE SETTINGS OWNER.,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:182,PROFILE,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:190,DISPLAY CURRENCY,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:200,CONNECTION,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:207,ASK JURNL CONTEXT,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:208,ALLOW JURNL TO USE YOUR DATA,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:209,TO PROVIDE MORE PERSONALIZED,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:210,INSIGHTS.,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:216,SAFE TO SPEND BUFFER,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:222,SAVE BUFFER,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:362,HELP JURNL GIVE YOU,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:363,PERSONALIZED INSIGHTS,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:364,"BASED ON YOUR SPENDING,",src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:365,PLANS AND GOALS.,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:373,AMOUNT TO KEEP AS A BUFFER,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:374,IN YOUR SAFE TO SPEND CALCULATION.,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:402,MANAGE YOUR PRIVACY,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:403,SETTINGS AND DATA CONSENTS.,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AccountScreens.tsx:409,SIGN OUT,src/projects/jurnl/runtime/screens/AccountScreens.tsx,,AccountScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CheckPurchaseScreens.tsx:170,CHECK A PURCHASE,src/projects/jurnl/runtime/screens/CheckPurchaseScreens.tsx,,CheckPurchaseScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CheckPurchaseScreens.tsx:181,SEE HOW IT FITS YOUR PLAN,src/projects/jurnl/runtime/screens/CheckPurchaseScreens.tsx,,CheckPurchaseScreens.tsx,tsx literal,VAGUE_PROMPT,,,,PENDING
+src/projects/jurnl/runtime/screens/CheckPurchaseScreens.tsx:182,BEFORE YOU BUY.,src/projects/jurnl/runtime/screens/CheckPurchaseScreens.tsx,,CheckPurchaseScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CheckPurchaseScreens.tsx:185,PURCHASE AMOUNT,src/projects/jurnl/runtime/screens/CheckPurchaseScreens.tsx,,CheckPurchaseScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CheckPurchaseScreens.tsx:212,PURCHASE CATEGORY,src/projects/jurnl/runtime/screens/CheckPurchaseScreens.tsx,,CheckPurchaseScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CheckPurchaseScreens.tsx:222,PAY WITH,src/projects/jurnl/runtime/screens/CheckPurchaseScreens.tsx,,CheckPurchaseScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CheckPurchaseScreens.tsx:232,CHECK PURCHASE,src/projects/jurnl/runtime/screens/CheckPurchaseScreens.tsx,,CheckPurchaseScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CheckPurchaseScreens.tsx:243,SELECT A CATEGORY,src/projects/jurnl/runtime/screens/CheckPurchaseScreens.tsx,,CheckPurchaseScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CheckPurchaseScreens.tsx:259,SELECT AN ACCOUNT,src/projects/jurnl/runtime/screens/CheckPurchaseScreens.tsx,,CheckPurchaseScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PurchasesScreens.tsx:61,PURCHASES,src/projects/jurnl/runtime/screens/PurchasesScreens.tsx,,PurchasesScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PurchasesScreens.tsx:97,DECIDE ON THIS,src/projects/jurnl/runtime/screens/PurchasesScreens.tsx,,PurchasesScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PurchasesScreens.tsx:98,ADD SOMETHING TO CONSIDER,src/projects/jurnl/runtime/screens/PurchasesScreens.tsx,,PurchasesScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PurchasesScreens.tsx:106,SAFE TO SPEND AFTER,src/projects/jurnl/runtime/screens/PurchasesScreens.tsx,,PurchasesScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PurchasesScreens.tsx:121,ALSO CONSIDERING,src/projects/jurnl/runtime/screens/PurchasesScreens.tsx,,PurchasesScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PurchasesScreens.tsx:134,CONSIDER SOMETHING ELSE,src/projects/jurnl/runtime/screens/PurchasesScreens.tsx,,PurchasesScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PurchasesScreens.tsx:136,SAFE TO SPEND,src/projects/jurnl/runtime/screens/PurchasesScreens.tsx,,PurchasesScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PurchasesScreens.tsx:168,I BOUGHT IT,src/projects/jurnl/runtime/screens/PurchasesScreens.tsx,,PurchasesScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PurchasesScreens.tsx:169,LINKED · {purchase.linked_transaction_id},src/projects/jurnl/runtime/screens/PurchasesScreens.tsx,,PurchasesScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PurchasesScreens.tsx:170,LET IT GO,src/projects/jurnl/runtime/screens/PurchasesScreens.tsx,,PurchasesScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PurchasesScreens.tsx:175,REMOVE {purchase.title}?,src/projects/jurnl/runtime/screens/PurchasesScreens.tsx,,PurchasesScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PurchasesScreens.tsx:187,CONSIDER SOMETHING,src/projects/jurnl/runtime/screens/PurchasesScreens.tsx,,PurchasesScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PlanScreens.tsx:84,YOUR MONEY HAS A PLAN.,src/projects/jurnl/runtime/screens/PlanScreens.tsx,,PlanScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PlanScreens.tsx:85,HERE IS WHAT YOU ARE ARRANGING.,src/projects/jurnl/runtime/screens/PlanScreens.tsx,,PlanScreens.tsx,tsx literal,VAGUE_PROMPT,,,,PENDING
+src/projects/jurnl/runtime/screens/PlanScreens.tsx:88,INTENTIONS,src/projects/jurnl/runtime/screens/PlanScreens.tsx,,PlanScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PlanScreens.tsx:93,A CLEARER,src/projects/jurnl/runtime/screens/PlanScreens.tsx,,PlanScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PlanScreens.tsx:94,TOMORROW,src/projects/jurnl/runtime/screens/PlanScreens.tsx,,PlanScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PlanScreens.tsx:114,NOTHING IS,src/projects/jurnl/runtime/screens/PlanScreens.tsx,,PlanScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PlanScreens.tsx:115,ARRANGED YET.,src/projects/jurnl/runtime/screens/PlanScreens.tsx,,PlanScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PlanScreens.tsx:134,ADD AN INTENTION,src/projects/jurnl/runtime/screens/PlanScreens.tsx,,PlanScreens.tsx,tsx literal,ABSTRACT_OR_EDITORIAL,,,,PENDING
+src/projects/jurnl/runtime/screens/PlanScreens.tsx:168,ASSIGNED,src/projects/jurnl/runtime/screens/PlanScreens.tsx,,PlanScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PlanScreens.tsx:171,ASSIGN AMOUNT,src/projects/jurnl/runtime/screens/PlanScreens.tsx,,PlanScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PlanScreens.tsx:178,REMOVE AN INTENTION,src/projects/jurnl/runtime/screens/PlanScreens.tsx,,PlanScreens.tsx,tsx literal,ABSTRACT_OR_EDITORIAL,,,,PENDING
+src/projects/jurnl/runtime/screens/PlanScreens.tsx:178,FREES ITS AMOUNT.,src/projects/jurnl/runtime/screens/PlanScreens.tsx,,PlanScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PlanScreens.tsx:180,REMOVE {plan.title}?,src/projects/jurnl/runtime/screens/PlanScreens.tsx,,PlanScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PlanScreens.tsx:202,COMMITTED AMOUNT REDUCES SAFE TO SPEND.,src/projects/jurnl/runtime/screens/PlanScreens.tsx,,PlanScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PaydownScreens.tsx:93,ADD A CARD OR LOAN,src/projects/jurnl/runtime/screens/PaydownScreens.tsx,,PaydownScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PaydownScreens.tsx:120,"SOME MINIMUM PAYMENTS ARE MISSING, SO THIS PLAN IS PARTIAL.",src/projects/jurnl/runtime/screens/PaydownScreens.tsx,,PaydownScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PaydownScreens.tsx:125,TRY AN EXTRA PAYMENT,src/projects/jurnl/runtime/screens/PaydownScreens.tsx,,PaydownScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PaydownScreens.tsx:126,THE DESCENT · {spec.question},src/projects/jurnl/runtime/screens/PaydownScreens.tsx,,PaydownScreens.tsx,tsx literal,ABSTRACT_OR_EDITORIAL,,,,PENDING
+src/projects/jurnl/runtime/screens/PaydownScreens.tsx:146,TRY EXTRA,src/projects/jurnl/runtime/screens/PaydownScreens.tsx,,PaydownScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PaydownScreens.tsx:153,KEEP THIS PATH,src/projects/jurnl/runtime/screens/PaydownScreens.tsx,,PaydownScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PaydownScreens.tsx:164,CHANGE THE PATH,src/projects/jurnl/runtime/screens/PaydownScreens.tsx,,PaydownScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PaydownScreens.tsx:166,EXTRA PAYMENT,src/projects/jurnl/runtime/screens/PaydownScreens.tsx,,PaydownScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/IncomeScreens.tsx:100,ADD A SOURCE,src/projects/jurnl/runtime/screens/IncomeScreens.tsx,,IncomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/IncomeScreens.tsx:101,UPCOMING,src/projects/jurnl/runtime/screens/IncomeScreens.tsx,,IncomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/IncomeScreens.tsx:132,EXPECTED,src/projects/jurnl/runtime/screens/IncomeScreens.tsx,,IncomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/IncomeScreens.tsx:136,LINKED MOVEMENT · {src.linked_transaction_id},src/projects/jurnl/runtime/screens/IncomeScreens.tsx,,IncomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/IncomeScreens.tsx:144,ARCHIVE,src/projects/jurnl/runtime/screens/IncomeScreens.tsx,,IncomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/IncomeScreens.tsx:161,AMOUNT USD,src/projects/jurnl/runtime/screens/IncomeScreens.tsx,,IncomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/IncomeScreens.tsx:174,EDIT SOURCE,src/projects/jurnl/runtime/screens/IncomeScreens.tsx,,IncomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CreditScreens.tsx:79,CREATES A MANUAL CREDIT PLACE IN THE REGISTRY.,src/projects/jurnl/runtime/screens/CreditScreens.tsx,,CreditScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CreditScreens.tsx:104,OPEN ONE TO SET ITS,src/projects/jurnl/runtime/screens/CreditScreens.tsx,,CreditScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CreditScreens.tsx:105,"LIMIT, RATE AND DUE DAY.",src/projects/jurnl/runtime/screens/CreditScreens.tsx,,CreditScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CreditScreens.tsx:108,NO CARDS OR LOANS,src/projects/jurnl/runtime/screens/CreditScreens.tsx,,CreditScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CreditScreens.tsx:109,ARE ADDED.,src/projects/jurnl/runtime/screens/CreditScreens.tsx,,CreditScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CreditScreens.tsx:110,ADD ONE TO TRACK WHAT’S,src/projects/jurnl/runtime/screens/CreditScreens.tsx,,CreditScreens.tsx,tsx literal,VAGUE_PROMPT,,,,PENDING
+src/projects/jurnl/runtime/screens/CreditScreens.tsx:111,USED AND WHEN IT’S DUE.,src/projects/jurnl/runtime/screens/CreditScreens.tsx,,CreditScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CreditScreens.tsx:119,CARDS AND LOANS,src/projects/jurnl/runtime/screens/CreditScreens.tsx,,CreditScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CreditScreens.tsx:129,NO CARD IN THE FOLDER,src/projects/jurnl/runtime/screens/CreditScreens.tsx,,CreditScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CreditScreens.tsx:146,HOW MUCH IS USED,src/projects/jurnl/runtime/screens/CreditScreens.tsx,,CreditScreens.tsx,tsx literal,VAGUE_PROMPT,,,,PENDING
+src/projects/jurnl/runtime/screens/CreditScreens.tsx:155,PAYDOWN,src/projects/jurnl/runtime/screens/CreditScreens.tsx,,CreditScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CreditScreens.tsx:201,MIN PAYMENT,src/projects/jurnl/runtime/screens/CreditScreens.tsx,,CreditScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CreditScreens.tsx:203,DUE DAY,src/projects/jurnl/runtime/screens/CreditScreens.tsx,,CreditScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CreditScreens.tsx:206,CREDIT TERMS,src/projects/jurnl/runtime/screens/CreditScreens.tsx,,CreditScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CreditScreens.tsx:207,ACTIVITY,src/projects/jurnl/runtime/screens/CreditScreens.tsx,,CreditScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CreditScreens.tsx:216,UTILIZATION,src/projects/jurnl/runtime/screens/CreditScreens.tsx,,CreditScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CreditScreens.tsx:216,NOT A CREDIT SCORE.,src/projects/jurnl/runtime/screens/CreditScreens.tsx,,CreditScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CreditScreens.tsx:236,BALANCE OWED,src/projects/jurnl/runtime/screens/CreditScreens.tsx,,CreditScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/CreditScreens.tsx:238,DUE DAY (1-28),src/projects/jurnl/runtime/screens/CreditScreens.tsx,,CreditScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/UpcomingScreens.tsx:109,ADD WHAT REPEATS,src/projects/jurnl/runtime/screens/UpcomingScreens.tsx,,UpcomingScreens.tsx,tsx literal,VAGUE_PROMPT,,,,PENDING
+src/projects/jurnl/runtime/screens/UpcomingScreens.tsx:193,EDIT OBLIGATION,src/projects/jurnl/runtime/screens/UpcomingScreens.tsx,,UpcomingScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/MoneyScreens.tsx:168,ADD A PLACE,src/projects/jurnl/runtime/screens/MoneyScreens.tsx,,MoneyScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/MoneyScreens.tsx:188,SEE ALL PLACES.,src/projects/jurnl/runtime/screens/MoneyScreens.tsx,,MoneyScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/MoneyScreens.tsx:225,NOTHING PLACED,src/projects/jurnl/runtime/screens/MoneyScreens.tsx,,MoneyScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/MoneyScreens.tsx:226,NAME A PLACE. NO LIVE BANK REQUIRED.,src/projects/jurnl/runtime/screens/MoneyScreens.tsx,,MoneyScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/MoneyScreens.tsx:264,PLACE NOT FOUND,src/projects/jurnl/runtime/screens/MoneyScreens.tsx,,MoneyScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/MoneyScreens.tsx:278,AVAILABLE,src/projects/jurnl/runtime/screens/MoneyScreens.tsx,,MoneyScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/MoneyScreens.tsx:280,BALANCE,src/projects/jurnl/runtime/screens/MoneyScreens.tsx,,MoneyScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/MoneyScreens.tsx:284,CREDIT LIMIT,src/projects/jurnl/runtime/screens/MoneyScreens.tsx,,MoneyScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/MoneyScreens.tsx:291,RECENT MOVEMENTS,src/projects/jurnl/runtime/screens/MoneyScreens.tsx,,MoneyScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/MoneyScreens.tsx:308,ARCHIVE PLACE,src/projects/jurnl/runtime/screens/MoneyScreens.tsx,,MoneyScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/MoneyScreens.tsx:308,MOVEMENTS STAY IN ACTIVITY.,src/projects/jurnl/runtime/screens/MoneyScreens.tsx,,MoneyScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/MoneyScreens.tsx:324,MANUAL PLACE · REPOSITORY BACKED,src/projects/jurnl/runtime/screens/MoneyScreens.tsx,,MoneyScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/MoneyScreens.tsx:328,BALANCE USD,src/projects/jurnl/runtime/screens/MoneyScreens.tsx,,MoneyScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/MoneyScreens.tsx:342,EDIT PLACE,src/projects/jurnl/runtime/screens/MoneyScreens.tsx,,MoneyScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/MoneyScreens.tsx:349,AVAILABLE USD,src/projects/jurnl/runtime/screens/MoneyScreens.tsx,,MoneyScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:110,SEE WHY THIS AMOUNT,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,VAGUE_PROMPT,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:119,YOUR MONEY,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:121,ORGANIZED.,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:122,THEN YOURS.,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:136,WANT TO SPEND ON SOMETHING?,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:137,CHECK HOW IT FITS YOUR PLAN,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,VAGUE_PROMPT,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:239,WHY THIS NUMBER,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,VAGUE_PROMPT,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:256,WHY THIS,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,VAGUE_PROMPT,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:268,HERE’S HOW YOUR NUMBER COMES TOGETHER.,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,VAGUE_PROMPT,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:269,HERE’S HOW,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,VAGUE_PROMPT,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:270,YOUR NUMBER,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:271,COMES TOGETHER.,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:284,COMPLETENESS,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:291,CHANGE WHAT’S HELD,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,VAGUE_PROMPT,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:296,THIS UPDATES YOUR SAFE TO SPEND.,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:297,CHANGES HERE WILL ADJUST,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:298,YOUR NUMBER.,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:300,LEARN MORE,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:323,CHANGE THE HOLD,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:324,CONTINUE,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:326,SAFETY BUFFER,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:329,CONFIRM THE HOLD,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx:331,UPDATE HOLD AND BUFFER?,src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx,,SafeToSpendScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/RecordsScreens.tsx:96,FIND A RECORD,src/projects/jurnl/runtime/screens/RecordsScreens.tsx,,RecordsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/RecordsScreens.tsx:104,NO RECORDS MATCH “{query.trim().toUpperCase()}”.,src/projects/jurnl/runtime/screens/RecordsScreens.tsx,,RecordsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/RecordsScreens.tsx:152,STORAGE,src/projects/jurnl/runtime/screens/RecordsScreens.tsx,,RecordsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/RecordsScreens.tsx:157,LINKED · {record.linked_domain_type} · {record.linked_domain_id},src/projects/jurnl/runtime/screens/RecordsScreens.tsx,,RecordsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/RecordsScreens.tsx:160,LINK RECORD,src/projects/jurnl/runtime/screens/RecordsScreens.tsx,,RecordsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/RecordsScreens.tsx:166,SAVE LINK,src/projects/jurnl/runtime/screens/RecordsScreens.tsx,,RecordsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/RecordsScreens.tsx:167,DOMAIN TYPE,src/projects/jurnl/runtime/screens/RecordsScreens.tsx,,RecordsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/RecordsScreens.tsx:168,DOMAIN ID,src/projects/jurnl/runtime/screens/RecordsScreens.tsx,,RecordsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/RecordsScreens.tsx:172,REMOVE A DOCUMENT,src/projects/jurnl/runtime/screens/RecordsScreens.tsx,,RecordsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/RecordsScreens.tsx:174,ARCHIVE {record.title}?,src/projects/jurnl/runtime/screens/RecordsScreens.tsx,,RecordsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/RecordsScreens.tsx:186,FILE A DOCUMENT,src/projects/jurnl/runtime/screens/RecordsScreens.tsx,,RecordsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/RecordsScreens.tsx:187,SAVE METADATA,src/projects/jurnl/runtime/screens/RecordsScreens.tsx,,RecordsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/GoalsScreens.tsx:86,NAME A GOAL,src/projects/jurnl/runtime/screens/GoalsScreens.tsx,,GoalsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/GoalsScreens.tsx:122,SET ASIDE,src/projects/jurnl/runtime/screens/GoalsScreens.tsx,,GoalsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/GoalsScreens.tsx:124,MEANING,src/projects/jurnl/runtime/screens/GoalsScreens.tsx,,GoalsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/GoalsScreens.tsx:135,SET ASIDE RETURNS TO AVAILABLE PLAN MONEY.,src/projects/jurnl/runtime/screens/GoalsScreens.tsx,,GoalsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/GoalsScreens.tsx:147,NAME ONE,src/projects/jurnl/runtime/screens/GoalsScreens.tsx,,GoalsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/GoalsScreens.tsx:160,EDIT A GOAL,src/projects/jurnl/runtime/screens/GoalsScreens.tsx,,GoalsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/GoalsScreens.tsx:172,RESERVED AMOUNT REDUCES SAFE TO SPEND.,src/projects/jurnl/runtime/screens/GoalsScreens.tsx,,GoalsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AheadScreens.tsx:82,SAFE TO SPEND NOW,src/projects/jurnl/runtime/screens/AheadScreens.tsx,,AheadScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AheadScreens.tsx:92,NOT PROJECTED,src/projects/jurnl/runtime/screens/AheadScreens.tsx,,AheadScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AheadScreens.tsx:129,"NO INCOME, BILLS OR PLANS ARE DATED YET. ADD THEM IN INCOME AND UPCOMING.",src/projects/jurnl/runtime/screens/AheadScreens.tsx,,AheadScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AheadScreens.tsx:136,SEE HOW A DIFFERENT CHOICE CHANGES THE NEXT 30 DAYS.,src/projects/jurnl/runtime/screens/AheadScreens.tsx,,AheadScreens.tsx,tsx literal,VAGUE_PROMPT,,,,PENDING
+src/projects/jurnl/runtime/screens/AheadScreens.tsx:137,TRY ANOTHER PATH,src/projects/jurnl/runtime/screens/AheadScreens.tsx,,AheadScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/AheadScreens.tsx:160,LET THIS BRANCH GO,src/projects/jurnl/runtime/screens/AheadScreens.tsx,,AheadScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/SettingsScreens.tsx:11,CANONICAL OWNER IS ACCOUNT SETTINGS.,src/projects/jurnl/runtime/screens/SettingsScreens.tsx,,SettingsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:119,WHAT IS TRUE.,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,VAGUE_PROMPT,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:124,A COMPUTED SIGNAL. PREVIEW.,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:126,SEE WHY,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,VAGUE_PROMPT,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:139,REFRESH,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:149,READING TODAY,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:152,COULD NOT READ TODAY,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:161,NO ACCOUNTS YET,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:164,RETURN TO ACCOUNTS,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:191,NO OBLIGATIONS YET,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:199,STILL LEARNING,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:223,ALSO TODAY,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:254,"SAFE TO SPEND IS CASH, MINUS WHAT IS COMING, MINUS WHAT YOU PROTECTED. THIS IS A PREVIEW READING.",src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,VAGUE_PROMPT,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:319,LOOKING FOR {query.toUpperCase()},src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:335,COULD NOT READ ACTIVITY,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:342,NO MOVEMENT YET,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:343,THE LEDGER IS QUIET.,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:348,NO MATCHES,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:349,NOTHING IN THIS LEDGER FITS.,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:411,THE LEDGER STAYS PUT. THESE CHOICES ONLY NARROW IT.,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:492,DELETE MOVEMENT,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:493,THIS REMOVES YOUR ADDED ENTRY FROM THE REPOSITORY.,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:517,EDIT MOVEMENT,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:518,ONLY ENTRIES YOU ADDED CAN CHANGE.,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:540,MERCHANT,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:559,"A MOVEMENT. NOT A BILL, UNLESS A RELATED OBLIGATION IS NAMED.",src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/HomeScreens.tsx:583,RELATED,src/projects/jurnl/runtime/screens/HomeScreens.tsx,,HomeScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/EntryScreens.tsx:184,WHAT JURNL IS FOR,src/projects/jurnl/runtime/screens/EntryScreens.tsx,,EntryScreens.tsx,tsx literal,VAGUE_PROMPT,,,,PENDING
+src/projects/jurnl/runtime/screens/EntryScreens.tsx:219,WHAT JURNL HELPS YOU DO,src/projects/jurnl/runtime/screens/EntryScreens.tsx,,EntryScreens.tsx,tsx literal,VAGUE_PROMPT,,,,PENDING
+src/projects/jurnl/runtime/screens/EntryScreens.tsx:336,CREATE YOUR ACCOUNT,src/projects/jurnl/runtime/screens/EntryScreens.tsx,,EntryScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/EntryScreens.tsx:556,CHECK YOUR EMAIL,src/projects/jurnl/runtime/screens/EntryScreens.tsx,,EntryScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/EntryScreens.tsx:697,WELCOME BACK,src/projects/jurnl/runtime/screens/EntryScreens.tsx,,EntryScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/TripsScreens.tsx:93,FUND THIS TRIP,src/projects/jurnl/runtime/screens/TripsScreens.tsx,,TripsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/TripsScreens.tsx:101,OPEN {focus.title},src/projects/jurnl/runtime/screens/TripsScreens.tsx,,TripsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/TripsScreens.tsx:102,ADD A DESTINATION,src/projects/jurnl/runtime/screens/TripsScreens.tsx,,TripsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/TripsScreens.tsx:110,OTHER TRIPS,src/projects/jurnl/runtime/screens/TripsScreens.tsx,,TripsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/TripsScreens.tsx:127,PLAN ANOTHER TRIP,src/projects/jurnl/runtime/screens/TripsScreens.tsx,,TripsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/TripsScreens.tsx:162,RESERVED,src/projects/jurnl/runtime/screens/TripsScreens.tsx,,TripsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/TripsScreens.tsx:167,FUND THE TRIP,src/projects/jurnl/runtime/screens/TripsScreens.tsx,,TripsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/TripsScreens.tsx:169,MARK COMPLETE,src/projects/jurnl/runtime/screens/TripsScreens.tsx,,TripsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/TripsScreens.tsx:177,CANCEL THE TRIP,src/projects/jurnl/runtime/screens/TripsScreens.tsx,,TripsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/TripsScreens.tsx:179,REMOVE {trip.title}?,src/projects/jurnl/runtime/screens/TripsScreens.tsx,,TripsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/TripsScreens.tsx:192,NAME A TRIP,src/projects/jurnl/runtime/screens/TripsScreens.tsx,,TripsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/TripsScreens.tsx:195,DESTINATION,src/projects/jurnl/runtime/screens/TripsScreens.tsx,,TripsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/TripsScreens.tsx:207,COMMIT RESERVE,src/projects/jurnl/runtime/screens/TripsScreens.tsx,,TripsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/TripsScreens.tsx:208,NOW STS · {formatMoney(sts.value)},src/projects/jurnl/runtime/screens/TripsScreens.tsx,,TripsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/TripsScreens.tsx:209,RESERVED AMOUNT,src/projects/jurnl/runtime/screens/TripsScreens.tsx,,TripsScreens.tsx,tsx literal,,,,,PENDING
+src/projects/jurnl/runtime/screens/PurchaseCheckedScreen.tsx:156,CATEGORY,src/projects/jurnl/runtime/screens/PurchaseCheckedScreen.tsx,,PurchaseCheckedScreen.tsx,tsx literal,,,,,PENDING

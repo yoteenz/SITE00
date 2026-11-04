@@ -1,0 +1,169 @@
+{
+  "tool": "@axe-core/playwright",
+  "new_sheets": {
+    "scope": "role=dialog of DAILY EARNINGS, PLAN A PAYMENT (card), RECORD SPENDING",
+    "rule": "no serious or critical violations",
+    "results": [
+      {
+        "project": "small",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "status": "PASS"
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "status": "PASS"
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "status": "PASS"
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "status": "PASS"
+      }
+    ]
+  },
+  "existing_suite": {
+    "spec": "e2e/jurnl/jurnl-a11y-core.e2e.ts",
+    "results": [
+      {
+        "project": "mobile",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe today — no critical/serious",
+        "status": "PASS"
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe money — no critical/serious",
+        "status": "PASS"
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe plan — no critical/serious",
+        "status": "PASS"
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe safe — no critical/serious",
+        "status": "PASS"
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe goals — no critical/serious",
+        "status": "PASS"
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe records — no critical/serious",
+        "status": "PASS"
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe account — no critical/serious",
+        "status": "PASS"
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe today — no critical/serious",
+        "status": "PASS"
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe money — no critical/serious",
+        "status": "PASS"
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe plan — no critical/serious",
+        "status": "PASS"
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe safe — no critical/serious",
+        "status": "PASS"
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe goals — no critical/serious",
+        "status": "PASS"
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe records — no critical/serious",
+        "status": "PASS"
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe account — no critical/serious",
+        "status": "PASS"
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe today — no critical/serious",
+        "status": "PASS"
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe money — no critical/serious",
+        "status": "PASS"
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe plan — no critical/serious",
+        "status": "PASS"
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe safe — no critical/serious",
+        "status": "PASS"
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe goals — no critical/serious",
+        "status": "PASS"
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe records — no critical/serious",
+        "status": "PASS"
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe account — no critical/serious",
+        "status": "PASS"
+      }
+    ]
+  },
+  "notes": [
+    "Chip groups use role=group + aria-pressed toggle buttons (valid pattern); new code adds no role=radiogroup without radios.",
+    "Every new control has a visible text label; inputs use the shared JurnlInput with <label for>.",
+    "Toasts reuse the existing role=status aria-live=polite banner."
+  ]
+}

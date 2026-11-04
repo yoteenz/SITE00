@@ -1,0 +1,2221 @@
+{
+  "sprint": "P0.JURNL.FINANCIAL-OS.FOUNDER-DECISIONS-TRANSFER-SETTLEMENT-AND-E2E-STABILIZATION1",
+  "server": "vite dev server 127.0.0.1:5174, JURNL_E2E_SKIP_WEBSERVER=1, synthetic fixtures only",
+  "new_financial_e2e": {
+    "specs": [
+      "e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts (8)",
+      "e2e/jurnl/jurnl-financial-os.e2e.ts (8, sprint 1)"
+    ],
+    "projects": {
+      "small": "360x780",
+      "mobile": "393x852",
+      "tablet": "834x1194",
+      "desktop": "1440x900"
+    },
+    "passed": 64,
+    "failed": 0,
+    "flaky": 0,
+    "tests": [
+      {
+        "project": "small",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D1 Safe to Spend: next 30 days, then before next income; the 30-day number never changes",
+        "status": "PASS",
+        "duration_s": 31.4
+      },
+      {
+        "project": "small",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "transfer in transit: out of the source, not in the bank until it arrives, credited once",
+        "status": "PASS",
+        "duration_s": 42.1
+      },
+      {
+        "project": "small",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "a started transfer that never left can be cancelled with no change",
+        "status": "PASS",
+        "duration_s": 35.2
+      },
+      {
+        "project": "small",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "card payment on its way: the card is not settled until it confirms; the minimum is counted once",
+        "status": "PASS",
+        "duration_s": 42.7
+      },
+      {
+        "project": "small",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D3 set money aside: the bill page and Plan show and change the same amount",
+        "status": "PASS",
+        "duration_s": 46.8
+      },
+      {
+        "project": "small",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D2 a bill that is the card payment is counted once, through the card",
+        "status": "PASS",
+        "duration_s": 27.1
+      },
+      {
+        "project": "small",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D4 headlines and TODAY: straightforward labels; ASK JURNL reachable with an honest fallback",
+        "status": "PASS",
+        "duration_s": 36.1
+      },
+      {
+        "project": "small",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "status": "PASS",
+        "duration_s": 33.2
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D1 Safe to Spend: next 30 days, then before next income; the 30-day number never changes",
+        "status": "PASS",
+        "duration_s": 25.7
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "transfer in transit: out of the source, not in the bank until it arrives, credited once",
+        "status": "PASS",
+        "duration_s": 29.2
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "a started transfer that never left can be cancelled with no change",
+        "status": "PASS",
+        "duration_s": 26.9
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "card payment on its way: the card is not settled until it confirms; the minimum is counted once",
+        "status": "PASS",
+        "duration_s": 33.4
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D3 set money aside: the bill page and Plan show and change the same amount",
+        "status": "PASS",
+        "duration_s": 35.3
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D2 a bill that is the card payment is counted once, through the card",
+        "status": "PASS",
+        "duration_s": 22.8
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D4 headlines and TODAY: straightforward labels; ASK JURNL reachable with an honest fallback",
+        "status": "PASS",
+        "duration_s": 24.3
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "status": "PASS",
+        "duration_s": 24.1
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D1 Safe to Spend: next 30 days, then before next income; the 30-day number never changes",
+        "status": "PASS",
+        "duration_s": 22.3
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "transfer in transit: out of the source, not in the bank until it arrives, credited once",
+        "status": "PASS",
+        "duration_s": 30.6
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "a started transfer that never left can be cancelled with no change",
+        "status": "PASS",
+        "duration_s": 26.7
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "card payment on its way: the card is not settled until it confirms; the minimum is counted once",
+        "status": "PASS",
+        "duration_s": 29.7
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D3 set money aside: the bill page and Plan show and change the same amount",
+        "status": "PASS",
+        "duration_s": 35.8
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D2 a bill that is the card payment is counted once, through the card",
+        "status": "PASS",
+        "duration_s": 22.6
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D4 headlines and TODAY: straightforward labels; ASK JURNL reachable with an honest fallback",
+        "status": "PASS",
+        "duration_s": 21.6
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "status": "PASS",
+        "duration_s": 23.7
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D1 Safe to Spend: next 30 days, then before next income; the 30-day number never changes",
+        "status": "PASS",
+        "duration_s": 22.5
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "transfer in transit: out of the source, not in the bank until it arrives, credited once",
+        "status": "PASS",
+        "duration_s": 26.0
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "a started transfer that never left can be cancelled with no change",
+        "status": "PASS",
+        "duration_s": 26.8
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "card payment on its way: the card is not settled until it confirms; the minimum is counted once",
+        "status": "PASS",
+        "duration_s": 31.0
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D3 set money aside: the bill page and Plan show and change the same amount",
+        "status": "PASS",
+        "duration_s": 35.2
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D2 a bill that is the card payment is counted once, through the card",
+        "status": "PASS",
+        "duration_s": 22.0
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D4 headlines and TODAY: straightforward labels; ASK JURNL reachable with an honest fallback",
+        "status": "PASS",
+        "duration_s": 21.3
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "status": "PASS",
+        "duration_s": 19.9
+      },
+      {
+        "project": "small",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "daily earnings: one entry, cash and digital land in the right places, edit without duplication",
+        "status": "PASS",
+        "duration_s": 83.6
+      },
+      {
+        "project": "small",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "spending: card purchase raises what the card owes; cash purchase lowers cash; usual account suggested",
+        "status": "PASS",
+        "duration_s": 51.8
+      },
+      {
+        "project": "small",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "transfer: moving money between owned accounts is not income",
+        "status": "PASS",
+        "duration_s": 40.1
+      },
+      {
+        "project": "small",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "bill funding: $95 set aside toward $140 does not lower Safe to Spend again; paying records one payment",
+        "status": "PASS",
+        "duration_s": 46.6
+      },
+      {
+        "project": "small",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "subscriptions: add, see renewal and monthly / yearly cost",
+        "status": "PASS",
+        "duration_s": 12.1
+      },
+      {
+        "project": "small",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "credit: payment plan shows minimum, source money and a target the user picks; recording a payment updates it",
+        "status": "PASS",
+        "duration_s": 15.8
+      },
+      {
+        "project": "small",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "today: real attention fact and the money reading in SEE WHY",
+        "status": "PASS",
+        "duration_s": 10.1
+      },
+      {
+        "project": "small",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "status": "PASS",
+        "duration_s": 21.4
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "daily earnings: one entry, cash and digital land in the right places, edit without duplication",
+        "status": "PASS",
+        "duration_s": 56.9
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "spending: card purchase raises what the card owes; cash purchase lowers cash; usual account suggested",
+        "status": "PASS",
+        "duration_s": 45.9
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "transfer: moving money between owned accounts is not income",
+        "status": "PASS",
+        "duration_s": 26.5
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "bill funding: $95 set aside toward $140 does not lower Safe to Spend again; paying records one payment",
+        "status": "PASS",
+        "duration_s": 43.5
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "subscriptions: add, see renewal and monthly / yearly cost",
+        "status": "PASS",
+        "duration_s": 9.9
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "credit: payment plan shows minimum, source money and a target the user picks; recording a payment updates it",
+        "status": "PASS",
+        "duration_s": 16.4
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "today: real attention fact and the money reading in SEE WHY",
+        "status": "PASS",
+        "duration_s": 11.1
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "status": "PASS",
+        "duration_s": 23.8
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "daily earnings: one entry, cash and digital land in the right places, edit without duplication",
+        "status": "PASS",
+        "duration_s": 49.1
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "spending: card purchase raises what the card owes; cash purchase lowers cash; usual account suggested",
+        "status": "PASS",
+        "duration_s": 40.5
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "transfer: moving money between owned accounts is not income",
+        "status": "PASS",
+        "duration_s": 25.9
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "bill funding: $95 set aside toward $140 does not lower Safe to Spend again; paying records one payment",
+        "status": "PASS",
+        "duration_s": 37.5
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "subscriptions: add, see renewal and monthly / yearly cost",
+        "status": "PASS",
+        "duration_s": 8.4
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "credit: payment plan shows minimum, source money and a target the user picks; recording a payment updates it",
+        "status": "PASS",
+        "duration_s": 13.2
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "today: real attention fact and the money reading in SEE WHY",
+        "status": "PASS",
+        "duration_s": 7.6
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "status": "PASS",
+        "duration_s": 23.7
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "daily earnings: one entry, cash and digital land in the right places, edit without duplication",
+        "status": "PASS",
+        "duration_s": 48.8
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "spending: card purchase raises what the card owes; cash purchase lowers cash; usual account suggested",
+        "status": "PASS",
+        "duration_s": 40.6
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "transfer: moving money between owned accounts is not income",
+        "status": "PASS",
+        "duration_s": 25.0
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "bill funding: $95 set aside toward $140 does not lower Safe to Spend again; paying records one payment",
+        "status": "PASS",
+        "duration_s": 39.4
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "subscriptions: add, see renewal and monthly / yearly cost",
+        "status": "PASS",
+        "duration_s": 9.8
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "credit: payment plan shows minimum, source money and a target the user picks; recording a payment updates it",
+        "status": "PASS",
+        "duration_s": 14.2
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "today: real attention fact and the money reading in SEE WHY",
+        "status": "PASS",
+        "duration_s": 7.9
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "status": "PASS",
+        "duration_s": 18.4
+      }
+    ]
+  },
+  "full_existing_e2e": {
+    "command": "npx playwright test e2e/jurnl --project=mobile --project=tablet --project=desktop --workers=3 --retries=0",
+    "total": 207,
+    "passed": 204,
+    "failed": 3,
+    "by_file": {
+      "jurnl-a11y-core.e2e.ts": {
+        "mobile": {
+          "PASS": 7,
+          "FAIL": 0
+        },
+        "tablet": {
+          "PASS": 7,
+          "FAIL": 0
+        },
+        "desktop": {
+          "PASS": 7,
+          "FAIL": 0
+        }
+      },
+      "jurnl-core-mutations.e2e.ts": {
+        "mobile": {
+          "PASS": 9,
+          "FAIL": 0
+        },
+        "tablet": {
+          "PASS": 9,
+          "FAIL": 0
+        },
+        "desktop": {
+          "PASS": 9,
+          "FAIL": 0
+        }
+      },
+      "jurnl-entry-setup.e2e.ts": {
+        "mobile": {
+          "PASS": 4,
+          "FAIL": 0
+        },
+        "tablet": {
+          "PASS": 4,
+          "FAIL": 0
+        },
+        "desktop": {
+          "PASS": 4,
+          "FAIL": 0
+        }
+      },
+      "jurnl-family-reachability.e2e.ts": {
+        "mobile": {
+          "PASS": 15,
+          "FAIL": 0
+        },
+        "tablet": {
+          "PASS": 15,
+          "FAIL": 0
+        },
+        "desktop": {
+          "PASS": 15,
+          "FAIL": 0
+        }
+      },
+      "jurnl-financial-os-stabilization.e2e.ts": {
+        "mobile": {
+          "PASS": 8,
+          "FAIL": 0
+        },
+        "tablet": {
+          "PASS": 8,
+          "FAIL": 0
+        },
+        "desktop": {
+          "PASS": 8,
+          "FAIL": 0
+        }
+      },
+      "jurnl-financial-os.e2e.ts": {
+        "mobile": {
+          "PASS": 8,
+          "FAIL": 0
+        },
+        "tablet": {
+          "PASS": 8,
+          "FAIL": 0
+        },
+        "desktop": {
+          "PASS": 8,
+          "FAIL": 0
+        }
+      },
+      "jurnl-global-systems.e2e.ts": {
+        "mobile": {
+          "PASS": 8,
+          "FAIL": 0
+        },
+        "tablet": {
+          "PASS": 8,
+          "FAIL": 0
+        },
+        "desktop": {
+          "PASS": 8,
+          "FAIL": 0
+        }
+      },
+      "jurnl-golden-journey.e2e.ts": {
+        "mobile": {
+          "PASS": 0,
+          "FAIL": 1
+        },
+        "tablet": {
+          "PASS": 0,
+          "FAIL": 1
+        },
+        "desktop": {
+          "PASS": 0,
+          "FAIL": 1
+        }
+      },
+      "jurnl-paydown-sts.e2e.ts": {
+        "mobile": {
+          "PASS": 2,
+          "FAIL": 0
+        },
+        "tablet": {
+          "PASS": 2,
+          "FAIL": 0
+        },
+        "desktop": {
+          "PASS": 2,
+          "FAIL": 0
+        }
+      },
+      "jurnl-persistence.e2e.ts": {
+        "mobile": {
+          "PASS": 1,
+          "FAIL": 0
+        },
+        "tablet": {
+          "PASS": 1,
+          "FAIL": 0
+        },
+        "desktop": {
+          "PASS": 1,
+          "FAIL": 0
+        }
+      },
+      "jurnl-product-utility-journeys.e2e.ts": {
+        "mobile": {
+          "PASS": 3,
+          "FAIL": 0
+        },
+        "tablet": {
+          "PASS": 3,
+          "FAIL": 0
+        },
+        "desktop": {
+          "PASS": 3,
+          "FAIL": 0
+        }
+      },
+      "jurnl-production-hardening.e2e.ts": {
+        "mobile": {
+          "PASS": 3,
+          "FAIL": 0
+        },
+        "tablet": {
+          "PASS": 3,
+          "FAIL": 0
+        },
+        "desktop": {
+          "PASS": 3,
+          "FAIL": 0
+        }
+      }
+    },
+    "non_pass": [
+      {
+        "project": "mobile",
+        "file": "jurnl-golden-journey.e2e.ts",
+        "test": "F01–F16 coherent path with reload verification",
+        "status": "FAIL",
+        "duration_s": 94.8,
+        "error": "Test timeout of 90000ms exceeded."
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-golden-journey.e2e.ts",
+        "test": "F01–F16 coherent path with reload verification",
+        "status": "FAIL",
+        "duration_s": 83.4,
+        "error": "Error: page.goto: Page crashed\nCall log:\n  - navigating to \"http://127.0.0.1:5174/production/jurnl/runtime/purchases\", waiting until \"networkidle\"\n"
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-golden-journey.e2e.ts",
+        "test": "F01–F16 coherent path with reload verification",
+        "status": "FAIL",
+        "duration_s": 93.8,
+        "error": "Test timeout of 90000ms exceeded."
+      }
+    ],
+    "non_pass_isolated_rerun": [
+      {
+        "project": "mobile",
+        "test": "F01–F16 coherent path with reload verification",
+        "status": "PASS",
+        "duration_s": 49.6
+      },
+      {
+        "project": "tablet",
+        "test": "F01–F16 coherent path with reload verification",
+        "status": "PASS"
+      },
+      {
+        "project": "desktop",
+        "test": "F01–F16 coherent path with reload verification",
+        "status": "PASS",
+        "note": "tablet+desktop 1.6 min together, 1 worker"
+      }
+    ],
+    "non_pass_classification": "ENVIRONMENT_LOAD — 90 s timeout / Chromium page crash with 3 workers on 4 cores (load ≈ 13); sprint-1 durations 55.6 / 50.1 / 49.9 s; timeout not raised",
+    "previously_failing_now_passing": [
+      "F11 trip reserve affects safe to spend",
+      "F08 plan assign reduces STS",
+      "Ask Jurnl opens without provider",
+      "simulated extra payment alone does not reduce STS",
+      "committed trip reserve reduces STS (contrast)",
+      "Journey B — obligation visible on Safe to Spend after amount entry",
+      "Journey H — edit obligation amount"
+    ],
+    "tests": [
+      {
+        "project": "mobile",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe today — no critical/serious",
+        "status": "PASS",
+        "duration_s": 12.7
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe money — no critical/serious",
+        "status": "PASS",
+        "duration_s": 12.6
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe plan — no critical/serious",
+        "status": "PASS",
+        "duration_s": 12.5
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe safe — no critical/serious",
+        "status": "PASS",
+        "duration_s": 12.6
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe goals — no critical/serious",
+        "status": "PASS",
+        "duration_s": 12.9
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe records — no critical/serious",
+        "status": "PASS",
+        "duration_s": 12.2
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe account — no critical/serious",
+        "status": "PASS",
+        "duration_s": 13.4
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe today — no critical/serious",
+        "status": "PASS",
+        "duration_s": 13.2
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe money — no critical/serious",
+        "status": "PASS",
+        "duration_s": 12.6
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe plan — no critical/serious",
+        "status": "PASS",
+        "duration_s": 12.8
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe safe — no critical/serious",
+        "status": "PASS",
+        "duration_s": 13.1
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe goals — no critical/serious",
+        "status": "PASS",
+        "duration_s": 12.7
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe records — no critical/serious",
+        "status": "PASS",
+        "duration_s": 13.3
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe account — no critical/serious",
+        "status": "PASS",
+        "duration_s": 13.5
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe today — no critical/serious",
+        "status": "PASS",
+        "duration_s": 12.2
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe money — no critical/serious",
+        "status": "PASS",
+        "duration_s": 12.8
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe plan — no critical/serious",
+        "status": "PASS",
+        "duration_s": 12.3
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe safe — no critical/serious",
+        "status": "PASS",
+        "duration_s": 12.3
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe goals — no critical/serious",
+        "status": "PASS",
+        "duration_s": 11.6
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe records — no critical/serious",
+        "status": "PASS",
+        "duration_s": 11.1
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-a11y-core.e2e.ts",
+        "test": "axe account — no critical/serious",
+        "status": "PASS",
+        "duration_s": 13.0
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F10 create purchase and mark purchased",
+        "status": "PASS",
+        "duration_s": 13.6
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F11 trip reserve affects safe to spend",
+        "status": "PASS",
+        "duration_s": 22.7
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F08 plan assign reduces STS",
+        "status": "PASS",
+        "duration_s": 22.5
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F14 goal set aside reduces STS",
+        "status": "PASS",
+        "duration_s": 18.4
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F13 paydown what-if keeps credit balance read-only",
+        "status": "PASS",
+        "duration_s": 12.8
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F15 ahead derived timeline",
+        "status": "PASS",
+        "duration_s": 12.3
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F16 record metadata create",
+        "status": "PASS",
+        "duration_s": 13.3
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F07 upcoming lists obligations",
+        "status": "PASS",
+        "duration_s": 13.2
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F12 credit hub opens account",
+        "status": "PASS",
+        "duration_s": 12.4
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F10 create purchase and mark purchased",
+        "status": "PASS",
+        "duration_s": 12.6
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F11 trip reserve affects safe to spend",
+        "status": "PASS",
+        "duration_s": 23.1
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F08 plan assign reduces STS",
+        "status": "PASS",
+        "duration_s": 22.4
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F14 goal set aside reduces STS",
+        "status": "PASS",
+        "duration_s": 19.1
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F13 paydown what-if keeps credit balance read-only",
+        "status": "PASS",
+        "duration_s": 10.8
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F15 ahead derived timeline",
+        "status": "PASS",
+        "duration_s": 9.9
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F16 record metadata create",
+        "status": "PASS",
+        "duration_s": 12.0
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F07 upcoming lists obligations",
+        "status": "PASS",
+        "duration_s": 10.3
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F12 credit hub opens account",
+        "status": "PASS",
+        "duration_s": 11.6
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F10 create purchase and mark purchased",
+        "status": "PASS",
+        "duration_s": 13.0
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F11 trip reserve affects safe to spend",
+        "status": "PASS",
+        "duration_s": 22.8
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F08 plan assign reduces STS",
+        "status": "PASS",
+        "duration_s": 23.7
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F14 goal set aside reduces STS",
+        "status": "PASS",
+        "duration_s": 19.4
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F13 paydown what-if keeps credit balance read-only",
+        "status": "PASS",
+        "duration_s": 11.1
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F15 ahead derived timeline",
+        "status": "PASS",
+        "duration_s": 10.3
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F16 record metadata create",
+        "status": "PASS",
+        "duration_s": 13.5
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F07 upcoming lists obligations",
+        "status": "PASS",
+        "duration_s": 12.4
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "test": "F12 credit hub opens account",
+        "status": "PASS",
+        "duration_s": 12.8
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-entry-setup.e2e.ts",
+        "test": "F01 entry index resolves to a primary route",
+        "status": "PASS",
+        "duration_s": 7.2
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-entry-setup.e2e.ts",
+        "test": "F02 setup route loads when navigated directly",
+        "status": "PASS",
+        "duration_s": 7.2
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-entry-setup.e2e.ts",
+        "test": "a new account walks ENTRY from WELCOME to SETUP (the preview follows the emailed link)",
+        "status": "PASS",
+        "duration_s": 19.2
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-entry-setup.e2e.ts",
+        "test": "forgot password reaches CREATE NEW PASSWORD from the reset email",
+        "status": "PASS",
+        "duration_s": 11.9
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-entry-setup.e2e.ts",
+        "test": "F01 entry index resolves to a primary route",
+        "status": "PASS",
+        "duration_s": 5.8
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-entry-setup.e2e.ts",
+        "test": "F02 setup route loads when navigated directly",
+        "status": "PASS",
+        "duration_s": 6.0
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-entry-setup.e2e.ts",
+        "test": "a new account walks ENTRY from WELCOME to SETUP (the preview follows the emailed link)",
+        "status": "PASS",
+        "duration_s": 19.1
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-entry-setup.e2e.ts",
+        "test": "forgot password reaches CREATE NEW PASSWORD from the reset email",
+        "status": "PASS",
+        "duration_s": 10.5
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-entry-setup.e2e.ts",
+        "test": "F01 entry index resolves to a primary route",
+        "status": "PASS",
+        "duration_s": 6.1
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-entry-setup.e2e.ts",
+        "test": "F02 setup route loads when navigated directly",
+        "status": "PASS",
+        "duration_s": 7.0
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-entry-setup.e2e.ts",
+        "test": "a new account walks ENTRY from WELCOME to SETUP (the preview follows the emailed link)",
+        "status": "PASS",
+        "duration_s": 19.5
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-entry-setup.e2e.ts",
+        "test": "forgot password reaches CREATE NEW PASSWORD from the reset email",
+        "status": "PASS",
+        "duration_s": 11.1
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F03 root today reachable",
+        "status": "PASS",
+        "duration_s": 14.8
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F04 root activity reachable",
+        "status": "PASS",
+        "duration_s": 13.6
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F05 root money reachable",
+        "status": "PASS",
+        "duration_s": 15.5
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F06 root income reachable",
+        "status": "PASS",
+        "duration_s": 12.6
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F07 root upcoming reachable",
+        "status": "PASS",
+        "duration_s": 14.6
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F08 root plan reachable",
+        "status": "PASS",
+        "duration_s": 15.9
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F09 root safe reachable",
+        "status": "PASS",
+        "duration_s": 17.2
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F10 root purchases reachable",
+        "status": "PASS",
+        "duration_s": 15.3
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F11 root trips reachable",
+        "status": "PASS",
+        "duration_s": 13.9
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F12 root credit reachable",
+        "status": "PASS",
+        "duration_s": 13.1
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F13 root paydown reachable",
+        "status": "PASS",
+        "duration_s": 11.8
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F14 root goals reachable",
+        "status": "PASS",
+        "duration_s": 11.2
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F15 root ahead reachable",
+        "status": "PASS",
+        "duration_s": 11.0
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F16 root records reachable",
+        "status": "PASS",
+        "duration_s": 10.2
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "16/16 product families reachable from routes",
+        "status": "PASS",
+        "duration_s": 6.7
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F03 root today reachable",
+        "status": "PASS",
+        "duration_s": 10.0
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F04 root activity reachable",
+        "status": "PASS",
+        "duration_s": 12.6
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F05 root money reachable",
+        "status": "PASS",
+        "duration_s": 11.9
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F06 root income reachable",
+        "status": "PASS",
+        "duration_s": 11.0
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F07 root upcoming reachable",
+        "status": "PASS",
+        "duration_s": 11.5
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F08 root plan reachable",
+        "status": "PASS",
+        "duration_s": 12.0
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F09 root safe reachable",
+        "status": "PASS",
+        "duration_s": 11.1
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F10 root purchases reachable",
+        "status": "PASS",
+        "duration_s": 11.4
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F11 root trips reachable",
+        "status": "PASS",
+        "duration_s": 11.2
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F12 root credit reachable",
+        "status": "PASS",
+        "duration_s": 13.0
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F13 root paydown reachable",
+        "status": "PASS",
+        "duration_s": 15.8
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F14 root goals reachable",
+        "status": "PASS",
+        "duration_s": 15.5
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F15 root ahead reachable",
+        "status": "PASS",
+        "duration_s": 12.6
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F16 root records reachable",
+        "status": "PASS",
+        "duration_s": 10.5
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "16/16 product families reachable from routes",
+        "status": "PASS",
+        "duration_s": 6.4
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F03 root today reachable",
+        "status": "PASS",
+        "duration_s": 11.7
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F04 root activity reachable",
+        "status": "PASS",
+        "duration_s": 11.5
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F05 root money reachable",
+        "status": "PASS",
+        "duration_s": 12.9
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F06 root income reachable",
+        "status": "PASS",
+        "duration_s": 12.6
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F07 root upcoming reachable",
+        "status": "PASS",
+        "duration_s": 12.6
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F08 root plan reachable",
+        "status": "PASS",
+        "duration_s": 12.5
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F09 root safe reachable",
+        "status": "PASS",
+        "duration_s": 11.0
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F10 root purchases reachable",
+        "status": "PASS",
+        "duration_s": 10.8
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F11 root trips reachable",
+        "status": "PASS",
+        "duration_s": 11.4
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F12 root credit reachable",
+        "status": "PASS",
+        "duration_s": 11.6
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F13 root paydown reachable",
+        "status": "PASS",
+        "duration_s": 12.6
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F14 root goals reachable",
+        "status": "PASS",
+        "duration_s": 11.9
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F15 root ahead reachable",
+        "status": "PASS",
+        "duration_s": 11.9
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "F16 root records reachable",
+        "status": "PASS",
+        "duration_s": 11.8
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "test": "16/16 product families reachable from routes",
+        "status": "PASS",
+        "duration_s": 7.6
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D1 Safe to Spend: next 30 days, then before next income; the 30-day number never changes",
+        "status": "PASS",
+        "duration_s": 27.6
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "transfer in transit: out of the source, not in the bank until it arrives, credited once",
+        "status": "PASS",
+        "duration_s": 32.9
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "a started transfer that never left can be cancelled with no change",
+        "status": "PASS",
+        "duration_s": 29.2
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "card payment on its way: the card is not settled until it confirms; the minimum is counted once",
+        "status": "PASS",
+        "duration_s": 38.0
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D3 set money aside: the bill page and Plan show and change the same amount",
+        "status": "PASS",
+        "duration_s": 43.4
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D2 a bill that is the card payment is counted once, through the card",
+        "status": "PASS",
+        "duration_s": 27.8
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D4 headlines and TODAY: straightforward labels; ASK JURNL reachable with an honest fallback",
+        "status": "PASS",
+        "duration_s": 26.9
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "status": "PASS",
+        "duration_s": 25.0
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D1 Safe to Spend: next 30 days, then before next income; the 30-day number never changes",
+        "status": "PASS",
+        "duration_s": 23.4
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "transfer in transit: out of the source, not in the bank until it arrives, credited once",
+        "status": "PASS",
+        "duration_s": 29.5
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "a started transfer that never left can be cancelled with no change",
+        "status": "PASS",
+        "duration_s": 27.8
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "card payment on its way: the card is not settled until it confirms; the minimum is counted once",
+        "status": "PASS",
+        "duration_s": 36.1
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D3 set money aside: the bill page and Plan show and change the same amount",
+        "status": "PASS",
+        "duration_s": 38.9
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D2 a bill that is the card payment is counted once, through the card",
+        "status": "PASS",
+        "duration_s": 25.6
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D4 headlines and TODAY: straightforward labels; ASK JURNL reachable with an honest fallback",
+        "status": "PASS",
+        "duration_s": 23.0
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "status": "PASS",
+        "duration_s": 26.5
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D1 Safe to Spend: next 30 days, then before next income; the 30-day number never changes",
+        "status": "PASS",
+        "duration_s": 26.0
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "transfer in transit: out of the source, not in the bank until it arrives, credited once",
+        "status": "PASS",
+        "duration_s": 32.3
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "a started transfer that never left can be cancelled with no change",
+        "status": "PASS",
+        "duration_s": 30.3
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "card payment on its way: the card is not settled until it confirms; the minimum is counted once",
+        "status": "PASS",
+        "duration_s": 36.5
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D3 set money aside: the bill page and Plan show and change the same amount",
+        "status": "PASS",
+        "duration_s": 40.7
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D2 a bill that is the card payment is counted once, through the card",
+        "status": "PASS",
+        "duration_s": 27.7
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "D4 headlines and TODAY: straightforward labels; ASK JURNL reachable with an honest fallback",
+        "status": "PASS",
+        "duration_s": 24.6
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "status": "PASS",
+        "duration_s": 26.7
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "daily earnings: one entry, cash and digital land in the right places, edit without duplication",
+        "status": "PASS",
+        "duration_s": 59.6
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "spending: card purchase raises what the card owes; cash purchase lowers cash; usual account suggested",
+        "status": "PASS",
+        "duration_s": 43.8
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "transfer: moving money between owned accounts is not income",
+        "status": "PASS",
+        "duration_s": 30.1
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "bill funding: $95 set aside toward $140 does not lower Safe to Spend again; paying records one payment",
+        "status": "PASS",
+        "duration_s": 47.5
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "subscriptions: add, see renewal and monthly / yearly cost",
+        "status": "PASS",
+        "duration_s": 10.0
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "credit: payment plan shows minimum, source money and a target the user picks; recording a payment updates it",
+        "status": "PASS",
+        "duration_s": 17.3
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "today: real attention fact and the money reading in SEE WHY",
+        "status": "PASS",
+        "duration_s": 12.1
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "status": "PASS",
+        "duration_s": 26.6
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "daily earnings: one entry, cash and digital land in the right places, edit without duplication",
+        "status": "PASS",
+        "duration_s": 62.8
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "spending: card purchase raises what the card owes; cash purchase lowers cash; usual account suggested",
+        "status": "PASS",
+        "duration_s": 49.5
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "transfer: moving money between owned accounts is not income",
+        "status": "PASS",
+        "duration_s": 30.9
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "bill funding: $95 set aside toward $140 does not lower Safe to Spend again; paying records one payment",
+        "status": "PASS",
+        "duration_s": 45.2
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "subscriptions: add, see renewal and monthly / yearly cost",
+        "status": "PASS",
+        "duration_s": 9.5
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "credit: payment plan shows minimum, source money and a target the user picks; recording a payment updates it",
+        "status": "PASS",
+        "duration_s": 14.2
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "today: real attention fact and the money reading in SEE WHY",
+        "status": "PASS",
+        "duration_s": 9.2
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "status": "PASS",
+        "duration_s": 22.5
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "daily earnings: one entry, cash and digital land in the right places, edit without duplication",
+        "status": "PASS",
+        "duration_s": 58.7
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "spending: card purchase raises what the card owes; cash purchase lowers cash; usual account suggested",
+        "status": "PASS",
+        "duration_s": 49.2
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "transfer: moving money between owned accounts is not income",
+        "status": "PASS",
+        "duration_s": 30.6
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "bill funding: $95 set aside toward $140 does not lower Safe to Spend again; paying records one payment",
+        "status": "PASS",
+        "duration_s": 49.9
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "subscriptions: add, see renewal and monthly / yearly cost",
+        "status": "PASS",
+        "duration_s": 9.9
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "credit: payment plan shows minimum, source money and a target the user picks; recording a payment updates it",
+        "status": "PASS",
+        "duration_s": 15.7
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "today: real attention fact and the money reading in SEE WHY",
+        "status": "PASS",
+        "duration_s": 9.1
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "status": "PASS",
+        "duration_s": 25.8
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Quick Add movement saves",
+        "status": "PASS",
+        "duration_s": 18.8
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Ask Jurnl opens without provider",
+        "status": "PASS",
+        "duration_s": 15.2
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Settings buffer persists after reload",
+        "status": "PASS",
+        "duration_s": 17.7
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Quick Add movement saves",
+        "status": "PASS",
+        "duration_s": 18.0
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Ask Jurnl opens without provider",
+        "status": "PASS",
+        "duration_s": 12.9
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Settings buffer persists after reload",
+        "status": "PASS",
+        "duration_s": 15.7
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Quick Add movement saves",
+        "status": "PASS",
+        "duration_s": 18.8
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Ask Jurnl opens without provider",
+        "status": "PASS",
+        "duration_s": 14.4
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Settings buffer persists after reload",
+        "status": "PASS",
+        "duration_s": 19.1
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Quick Add exposes MOVEMENT",
+        "status": "PASS",
+        "duration_s": 14.8
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Quick Add exposes INCOME",
+        "status": "PASS",
+        "duration_s": 14.8
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Quick Add exposes GOAL",
+        "status": "PASS",
+        "duration_s": 13.5
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Quick Add exposes PURCHASE",
+        "status": "PASS",
+        "duration_s": 15.5
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Quick Add exposes TRIP",
+        "status": "PASS",
+        "duration_s": 15.0
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Quick Add exposes MOVEMENT",
+        "status": "PASS",
+        "duration_s": 12.9
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Quick Add exposes INCOME",
+        "status": "PASS",
+        "duration_s": 12.8
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Quick Add exposes GOAL",
+        "status": "PASS",
+        "duration_s": 12.9
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Quick Add exposes PURCHASE",
+        "status": "PASS",
+        "duration_s": 13.0
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Quick Add exposes TRIP",
+        "status": "PASS",
+        "duration_s": 12.6
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Quick Add exposes MOVEMENT",
+        "status": "PASS",
+        "duration_s": 12.9
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Quick Add exposes INCOME",
+        "status": "PASS",
+        "duration_s": 14.3
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Quick Add exposes GOAL",
+        "status": "PASS",
+        "duration_s": 14.1
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Quick Add exposes PURCHASE",
+        "status": "PASS",
+        "duration_s": 13.3
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-global-systems.e2e.ts",
+        "test": "Quick Add exposes TRIP",
+        "status": "PASS",
+        "duration_s": 12.4
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-golden-journey.e2e.ts",
+        "test": "F01–F16 coherent path with reload verification",
+        "status": "FAIL",
+        "duration_s": 94.8,
+        "error": "Test timeout of 90000ms exceeded."
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-golden-journey.e2e.ts",
+        "test": "F01–F16 coherent path with reload verification",
+        "status": "FAIL",
+        "duration_s": 83.4,
+        "error": "Error: page.goto: Page crashed\nCall log:\n  - navigating to \"http://127.0.0.1:5174/production/jurnl/runtime/purchases\", waiting until \"networkidle\"\n"
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-golden-journey.e2e.ts",
+        "test": "F01–F16 coherent path with reload verification",
+        "status": "FAIL",
+        "duration_s": 93.8,
+        "error": "Test timeout of 90000ms exceeded."
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-paydown-sts.e2e.ts",
+        "test": "simulated extra payment alone does not reduce STS",
+        "status": "PASS",
+        "duration_s": 22.3
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-paydown-sts.e2e.ts",
+        "test": "committed trip reserve reduces STS (contrast)",
+        "status": "PASS",
+        "duration_s": 25.6
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-paydown-sts.e2e.ts",
+        "test": "simulated extra payment alone does not reduce STS",
+        "status": "PASS",
+        "duration_s": 22.0
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-paydown-sts.e2e.ts",
+        "test": "committed trip reserve reduces STS (contrast)",
+        "status": "PASS",
+        "duration_s": 26.9
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-paydown-sts.e2e.ts",
+        "test": "simulated extra payment alone does not reduce STS",
+        "status": "PASS",
+        "duration_s": 23.5
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-paydown-sts.e2e.ts",
+        "test": "committed trip reserve reduces STS (contrast)",
+        "status": "PASS",
+        "duration_s": 27.4
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-persistence.e2e.ts",
+        "test": "purchase survives reload",
+        "status": "PASS",
+        "duration_s": 20.8
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-persistence.e2e.ts",
+        "test": "purchase survives reload",
+        "status": "PASS",
+        "duration_s": 21.2
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-persistence.e2e.ts",
+        "test": "purchase survives reload",
+        "status": "PASS",
+        "duration_s": 19.8
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-product-utility-journeys.e2e.ts",
+        "test": "Journey A — add subscription-like recurring obligation",
+        "status": "PASS",
+        "duration_s": 22.1
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-product-utility-journeys.e2e.ts",
+        "test": "Journey B — obligation visible on Safe to Spend after amount entry",
+        "status": "PASS",
+        "duration_s": 20.3
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-product-utility-journeys.e2e.ts",
+        "test": "Journey H — edit obligation amount",
+        "status": "PASS",
+        "duration_s": 20.6
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-product-utility-journeys.e2e.ts",
+        "test": "Journey A — add subscription-like recurring obligation",
+        "status": "PASS",
+        "duration_s": 22.7
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-product-utility-journeys.e2e.ts",
+        "test": "Journey B — obligation visible on Safe to Spend after amount entry",
+        "status": "PASS",
+        "duration_s": 20.9
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-product-utility-journeys.e2e.ts",
+        "test": "Journey H — edit obligation amount",
+        "status": "PASS",
+        "duration_s": 20.5
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-product-utility-journeys.e2e.ts",
+        "test": "Journey A — add subscription-like recurring obligation",
+        "status": "PASS",
+        "duration_s": 21.5
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-product-utility-journeys.e2e.ts",
+        "test": "Journey B — obligation visible on Safe to Spend after amount entry",
+        "status": "PASS",
+        "duration_s": 19.8
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-product-utility-journeys.e2e.ts",
+        "test": "Journey H — edit obligation amount",
+        "status": "PASS",
+        "duration_s": 21.6
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-production-hardening.e2e.ts",
+        "test": "core journey still loads with repository seed",
+        "status": "PASS",
+        "duration_s": 9.5
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-production-hardening.e2e.ts",
+        "test": "production config module is fail-closed without server flag",
+        "status": "PASS",
+        "duration_s": 9.0
+      },
+      {
+        "project": "mobile",
+        "file": "jurnl-production-hardening.e2e.ts",
+        "test": "no preview seed emails in production mode document (static guard)",
+        "status": "PASS",
+        "duration_s": 8.6
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-production-hardening.e2e.ts",
+        "test": "core journey still loads with repository seed",
+        "status": "PASS",
+        "duration_s": 8.4
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-production-hardening.e2e.ts",
+        "test": "production config module is fail-closed without server flag",
+        "status": "PASS",
+        "duration_s": 7.6
+      },
+      {
+        "project": "tablet",
+        "file": "jurnl-production-hardening.e2e.ts",
+        "test": "no preview seed emails in production mode document (static guard)",
+        "status": "PASS",
+        "duration_s": 6.7
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-production-hardening.e2e.ts",
+        "test": "core journey still loads with repository seed",
+        "status": "PASS",
+        "duration_s": 8.0
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-production-hardening.e2e.ts",
+        "test": "production config module is fail-closed without server flag",
+        "status": "PASS",
+        "duration_s": 8.0
+      },
+      {
+        "project": "desktop",
+        "file": "jurnl-production-hardening.e2e.ts",
+        "test": "no preview seed emails in production mode document (static guard)",
+        "status": "PASS",
+        "duration_s": 6.7
+      }
+    ]
+  },
+  "accessibility": {
+    "axe_tests": [
+      {
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "project": "small",
+        "status": "PASS"
+      },
+      {
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "project": "mobile",
+        "status": "PASS"
+      },
+      {
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "project": "tablet",
+        "status": "PASS"
+      },
+      {
+        "file": "jurnl-financial-os-stabilization.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "project": "desktop",
+        "status": "PASS"
+      },
+      {
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "project": "small",
+        "status": "PASS"
+      },
+      {
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "project": "mobile",
+        "status": "PASS"
+      },
+      {
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "project": "tablet",
+        "status": "PASS"
+      },
+      {
+        "file": "jurnl-financial-os.e2e.ts",
+        "test": "accessibility: new sheets have no serious or critical axe violations",
+        "project": "desktop",
+        "status": "PASS"
+      }
+    ],
+    "existing_a11y_spec": {
+      "mobile": {
+        "PASS": 7,
+        "FAIL": 0
+      },
+      "tablet": {
+        "PASS": 7,
+        "FAIL": 0
+      },
+      "desktop": {
+        "PASS": 7,
+        "FAIL": 0
+      }
+    },
+    "rule": "no serious or critical axe violations on the new sheets and screens"
+  }
+}

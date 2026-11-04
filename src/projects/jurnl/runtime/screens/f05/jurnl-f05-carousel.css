@@ -1,0 +1,266 @@
+/* F05 MONEY parent — four-collection carousel (accounts · transfers · commitments · outlook).
+   Only the papers move; the environment, title, summary band, dots and dock never do.
+   Timings: exit 300 ms (+ 35 ms stagger) · entry 360 ms (starts at 60 ms, + 30 ms stagger) · whole change ≤ 520 ms.
+   A change never writes: it only chooses which collection is read. */
+
+.jrn .jrn-f05m__carousel {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* horizontal drags belong to the carousel; vertical gestures stay with the browser */
+  touch-action: pan-y;
+}
+/* the drag surface between and around the papers (the papers themselves also start a drag) */
+.jrn .jrn-f05m__swipe {
+  position: absolute;
+  pointer-events: auto;
+  touch-action: pan-y;
+}
+.jrn .jrn-f05m__collection {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.jrn .jrn-f05m__collection[data-phase='exit'] {
+  z-index: 0;
+}
+.jrn .jrn-f05m__collection[data-phase='exit'] .jrn-f05m__paper {
+  pointer-events: none;
+}
+.jrn .jrn-f05m__collection:not([data-phase='exit']) .jrn-f05m__paper,
+.jrn .jrn-f05m__collection:not([data-phase='exit']) .jrn-f05m__token:not(.jrn-f05m__token--ghost) {
+  pointer-events: auto;
+}
+.jrn .jrn-f05m__carousel .jrn-f05m__paper {
+  touch-action: pan-y;
+}
+/* drag: the whole collection follows the finger with resistance; shadows lean the other way */
+.jrn .jrn-f05m__collection[data-dragging='true'] {
+  transform: translateX(var(--f05m-drag, 0px));
+}
+.jrn .jrn-f05m__collection[data-dragging='true'] .jrn-f05m__paper {
+  filter: drop-shadow(calc(var(--f05m-drag-sign, 0) * -4px) 9px 9px rgba(58, 38, 18, 0.32)) drop-shadow(0 1px 1px rgba(40, 26, 12, 0.26));
+}
+/* settle back when a drag does not reach the threshold */
+.jrn .jrn-f05m__collection[data-settling='true'] {
+  transition: transform 160ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* panel papers (collections 02–04) share the account paper styles; these add press feedback, empty and link states */
+.jrn .jrn-f05m__paper--panel:active {
+  transform: scale(0.985);
+  transition-duration: 120ms;
+}
+.jrn .jrn-f05m__paper-amount[data-empty='true'] {
+  opacity: 0.55;
+  font-size: 40px;
+}
+.jrn .jrn-f05m__paper-caption {
+  position: absolute;
+  left: calc(var(--f05m-name-left, 38px) + 2px);
+  /* the paper's text column (left of its art); longer captions wrap, as the reference's do */
+  max-width: 196px;
+  font: italic 500 max(18px, calc(7.5px / var(--f05m-u, 1))) / 1.25 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.2em;
+  white-space: normal;
+  color: #2a2016;
+}
+
+/* four collection dots: real buttons. The dot is the reference's (17 source px, 30 px pitch); each button is 44
+   screen px tall and at least 24 screen px wide (WCAG 2.2 target size), so on phones the pitch opens up a little. */
+.jrn .jrn-f05m__dotrow {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+}
+.jrn .jrn-f05m__dot {
+  position: relative;
+  flex: 0 0 auto;
+  width: max(30px, calc(24px / var(--f05m-u, 1)));
+  height: max(33px, calc(44px / var(--f05m-u, 1)));
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.jrn .jrn-f05m__dot::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 17px;
+  height: 17px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2.4px solid #1f1810;
+  box-sizing: border-box;
+  transition: background-color 160ms ease-out;
+}
+.jrn .jrn-f05m__dot[aria-current='true']::after {
+  background: #1f1810;
+}
+.jrn .jrn-f05m__dot:focus-visible {
+  outline: 5px solid var(--f05m-gold, #e2ae4e);
+  outline-offset: -2px;
+}
+
+/* previous / next: always operable by keyboard and assistive technology, visible on focus */
+.jrn .jrn-f05m__step {
+  position: absolute;
+  top: 50%;
+  width: max(44px, calc(44px / var(--f05m-u, 1)));
+  height: max(88px, calc(88px / var(--f05m-u, 1)));
+  margin-top: calc(max(88px, calc(88px / var(--f05m-u, 1))) / -2);
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  background: rgba(239, 227, 203, 0.94);
+  color: #1f1810;
+  box-shadow: 0 6px 14px rgba(20, 12, 6, 0.3);
+  opacity: 0;
+  pointer-events: auto;
+  clip-path: inset(50%);
+}
+.jrn .jrn-f05m__step:focus-visible {
+  opacity: 1;
+  clip-path: none;
+  outline: 5px solid var(--f05m-gold, #e2ae4e);
+  outline-offset: 3px;
+}
+.jrn .jrn-f05m__step svg {
+  width: 40%;
+  height: 40%;
+}
+.jrn .jrn-f05m__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .jrn .jrn-f05m__collection[data-phase='exit'][data-dir='next'] .jrn-f05m__paper {
+    animation: f05m-out-next 300ms cubic-bezier(0.4, 0, 0.6, 1) calc(var(--i, 0) * 35ms) both;
+  }
+  .jrn .jrn-f05m__collection[data-phase='exit'][data-dir='prev'] .jrn-f05m__paper {
+    animation: f05m-out-prev 300ms cubic-bezier(0.4, 0, 0.6, 1) calc(var(--i, 0) * 35ms) both;
+  }
+  .jrn .jrn-f05m__collection[data-phase='enter'][data-dir='next'] .jrn-f05m__paper {
+    animation: f05m-in-next 360ms cubic-bezier(0.2, 0.7, 0.2, 1) calc(60ms + var(--i, 0) * 30ms) backwards;
+  }
+  .jrn .jrn-f05m__collection[data-phase='enter'][data-dir='prev'] .jrn-f05m__paper {
+    animation: f05m-in-prev 360ms cubic-bezier(0.2, 0.7, 0.2, 1) calc(60ms + var(--i, 0) * 30ms) backwards;
+  }
+  /* ACCOUNTS: the transfer threads leave first and return after the papers have landed */
+  .jrn .jrn-f05m__collection[data-phase='exit'] .jrn-f05m__threads,
+  .jrn .jrn-f05m__collection[data-phase='exit'] .jrn-f05m__token {
+    animation: f05m-ghost 160ms ease-out both;
+  }
+  .jrn .jrn-f05m__collection[data-phase='enter'] .jrn-f05m__thread {
+    animation: f05m-fade 160ms ease-out 340ms backwards;
+  }
+  .jrn .jrn-f05m__collection[data-phase='enter'] .jrn-f05m__token:not(.jrn-f05m__token--ghost) {
+    animation: f05m-token 160ms ease-out 340ms backwards;
+  }
+}
+/* reduced motion: the collection changes at once (no exit, no entry); the dots still say which one is shown */
+@media (prefers-reduced-motion: reduce) {
+  .jrn .jrn-f05m__dot::after {
+    transition: none;
+  }
+}
+/* exit continues from wherever the drag left the papers */
+@keyframes f05m-out-next {
+  from { transform: translateX(var(--f05m-drag, 0px)); opacity: 1; }
+  to { transform: translateX(-170px); opacity: 0; }
+}
+@keyframes f05m-out-prev {
+  from { transform: translateX(var(--f05m-drag, 0px)); opacity: 1; }
+  to { transform: translateX(170px); opacity: 0; }
+}
+@keyframes f05m-in-next {
+  from { transform: translateX(150px); opacity: 0; filter: drop-shadow(-6px 12px 12px rgba(58, 38, 18, 0.34)); }
+  to { transform: none; opacity: 1; }
+}
+@keyframes f05m-in-prev {
+  from { transform: translateX(-150px); opacity: 0; filter: drop-shadow(6px 12px 12px rgba(58, 38, 18, 0.34)); }
+  to { transform: none; opacity: 1; }
+}
+
+/* VIEW ALL ACCOUNTS (authority 01): a rounded paper strip under the four account papers, with the same halo as them */
+.jrn .jrn-f05m__viewall {
+  position: absolute;
+  display: grid;
+  grid-template-columns: 64px 2px 1fr 52px;
+  align-items: center;
+  column-gap: 28px;
+  padding: 0 40px 0 47px;
+  border: 0;
+  border-radius: 22px;
+  background-color: #efe3cb;
+  background-size: 156px auto;
+  color: var(--f05m-ink, #1f1810);
+  cursor: pointer;
+  filter: drop-shadow(0 0 8px rgba(70, 46, 22, 0.3)) drop-shadow(0 6px 6px rgba(58, 38, 18, 0.28));
+  transition: transform 180ms var(--f05m-ease, ease-out), filter 180ms var(--f05m-ease, ease-out);
+  pointer-events: auto;
+  touch-action: pan-y;
+}
+.jrn .jrn-f05m__viewall-icon {
+  width: 64px;
+  height: 54px;
+}
+.jrn .jrn-f05m__viewall-rule {
+  width: 2px;
+  height: 50px;
+  background: currentColor;
+  opacity: 0.8;
+}
+.jrn .jrn-f05m__viewall-label {
+  font: 500 max(27px, calc(10px / var(--f05m-u, 1))) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.12em;
+  text-align: center;
+  white-space: nowrap;
+}
+.jrn .jrn-f05m__viewall-arrow {
+  width: 46px;
+  height: 30px;
+}
+.jrn .jrn-f05m__viewall:active {
+  transform: scale(0.99);
+  transition-duration: 120ms;
+}
+.jrn .jrn-f05m__viewall:focus-visible {
+  outline: 5px solid var(--f05m-gold, #e2ae4e);
+  outline-offset: 5px;
+}
+.jrn .jrn-f05m__collection:not([data-phase='exit']) .jrn-f05m__viewall {
+  pointer-events: auto;
+}
+.jrn .jrn-f05m__collection[data-phase='exit'] .jrn-f05m__viewall {
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .jrn .jrn-f05m__collection[data-phase='load'] .jrn-f05m__viewall {
+    animation: f05m-paper 200ms var(--f05m-ease, ease-out) 430ms backwards;
+  }
+  .jrn .jrn-f05m__collection[data-phase='exit'][data-dir='next'] .jrn-f05m__viewall {
+    animation: f05m-out-next 300ms cubic-bezier(0.4, 0, 0.6, 1) 140ms both;
+  }
+  .jrn .jrn-f05m__collection[data-phase='exit'][data-dir='prev'] .jrn-f05m__viewall {
+    animation: f05m-out-prev 300ms cubic-bezier(0.4, 0, 0.6, 1) 140ms both;
+  }
+  .jrn .jrn-f05m__collection[data-phase='enter'][data-dir='next'] .jrn-f05m__viewall {
+    animation: f05m-in-next 360ms cubic-bezier(0.2, 0.7, 0.2, 1) 150ms backwards;
+  }
+  .jrn .jrn-f05m__collection[data-phase='enter'][data-dir='prev'] .jrn-f05m__viewall {
+    animation: f05m-in-prev 360ms cubic-bezier(0.2, 0.7, 0.2, 1) 150ms backwards;
+  }
+}
