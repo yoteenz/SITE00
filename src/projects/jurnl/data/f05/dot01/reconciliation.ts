@@ -11,7 +11,7 @@
  */
 import { getTodayKey, type CalendarDate } from '../../foundation/dates';
 import { toCents } from '../../ledger/accounting';
-import { correctAccountBalance } from '../../ledger/ledgerOps';
+import { applyOp, buildBalanceCorrection } from '../../ledger/ledgerOps';
 import { transferViews } from '../../ledger/transferSettlement';
 import { getRepository } from '../../repository/deviceRepository';
 import { accountView } from './accountView';
@@ -32,15 +32,24 @@ export function differenceOf(tracked: number, actual: number): number {
   return toCents(actual - tracked);
 }
 
-/** Records the confirmed correction (canonical BALANCE CORRECTION). Nothing is recorded for a zero difference. */
-export function adjustToActual(accountId: string, actual: number, today: CalendarDate = getTodayKey()): Done<{ difference: number }> {
+/**
+ * Records the confirmed correction (canonical BALANCE CORRECTION, class ADJUSTMENT). Nothing is recorded for a zero
+ * difference. The user's reason and notes travel on that single entry (its memo); the amount is the difference.
+ */
+export function adjustToActual(accountId: string, actual: number, today: CalendarDate = getTodayKey(), note?: { reason?: string; notes?: string }): Done<{ difference: number; entryId: string | null }> {
   const r = reconciliationOf(accountId, today);
   if (!r) return { ok: false, error: 'PLACE NOT FOUND.' };
   const difference = differenceOf(r.tracked, actual);
-  if (difference === 0) return { ok: true, value: { difference } };
-  const done = correctAccountBalance(accountId, actual, today);
+  if (difference === 0) return { ok: true, value: { difference, entryId: null } };
+  const s = getRepository().getSnapshot();
+  const built = buildBalanceCorrection(s.accounts, s.creditAttributes, s.transactions, accountId, actual, today);
+  if (!built.ok) return built;
+  const reason = note?.reason?.trim() ?? '';
+  const notes = note?.notes?.trim() ?? '';
+  const entry = built.value ? { ...built.value, memo: [built.value.memo, reason, notes].filter(Boolean).join(' · ') } : null;
+  const done = applyOp(entry ? { ok: true, commit: { reason: 'BALANCE_CORRECTED', transactions: { upsert: [entry] } }, value: entry } : built);
   if (!done.ok) return done;
-  return { ok: true, value: { difference } };
+  return { ok: true, value: { difference, entryId: entry?.id ?? null } };
 }
 
 export function markReconciled(accountId: string, actual: number, today: CalendarDate = getTodayKey()): Done<null> {

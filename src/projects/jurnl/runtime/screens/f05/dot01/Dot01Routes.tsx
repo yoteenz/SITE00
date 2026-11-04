@@ -6,15 +6,19 @@
 import { MoneyPlaceDetailScreen, MoneyPlacesScreen } from '../../MoneyScreens';
 import { resolveF05ParentVariant } from '../MoneyParentRoute';
 import { AccountPage } from './AccountPage';
+import { DirectoryPage } from './DirectoryPage';
 
 function dot01(): boolean {
   return resolveF05ParentVariant(null) === 'motion';
 }
 
 export function F05PlacesRoute() {
-  return dot01() ? <MoneyPlacesScreen /> : <MoneyPlacesScreen />;
+  return dot01() ? <DirectoryPage /> : <MoneyPlacesScreen />;
 }
 
 export function F05PlaceRoute() {
   return dot01() ? <AccountPage /> : <MoneyPlaceDetailScreen />;
 }
+
+export { BalanceReviewPage, NeedsReviewPage, SettingsPage, TransactionDetailPage } from './DetailPages';
+export { HistoryPage } from './HistoryPage';
