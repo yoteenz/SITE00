@@ -299,7 +299,7 @@ export function startOptions(fromName: string, toCard: boolean): { id: TransferS
     : [
         { id: 'COMPLETED', label: 'ARRIVED' },
         { id: 'IN_TRANSIT', label: `LEFT ${fromName} · NOT ARRIVED YET` },
-        { id: 'PENDING', label: `STARTED · NOT LEFT ${fromName} YET` },
+        { id: 'PENDING', label: 'STARTED · PENDING' },
         { id: 'SCHEDULED', label: 'PLANNED FOR LATER' },
       ];
 }
@@ -392,7 +392,7 @@ export function TransferDetailSheet({ linkId, onClose }: { linkId: string; onClo
   const actions = allowedActions(v.state);
   const where: Record<TransferState, string> = {
     SCHEDULED: `PLANNED. ${name(v.fromId)} AND ${name(v.toId)} ARE UNCHANGED.`,
-    PENDING: `STARTED. THE MONEY HAS NOT LEFT ${name(v.fromId)} YET.`,
+    PENDING: `STARTED. PENDING AT ${name(v.fromId)}.`,
     IN_TRANSIT: `${money(v.amount)} LEFT ${name(v.fromId)} AND HAS NOT REACHED ${name(v.toId)}. IT IS NOT AVAILABLE IN EITHER ACCOUNT.`,
     COMPLETED: `${money(v.amount)} LEFT ${name(v.fromId)} AND ARRIVED IN ${name(v.toId)}.`,
     CANCELLED: 'CANCELLED. NO MONEY MOVED.',

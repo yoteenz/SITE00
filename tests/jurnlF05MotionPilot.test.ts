@@ -120,7 +120,7 @@ describe('Transfer and card-payment states on the page follow the #1706 settleme
   it('pending (source not debited): balances unchanged', () => {
     recordTransfer({ from_account_id: 'ride', to_account_id: 'bank', amount: 80, occurred_on: TODAY, start: 'PENDING' });
     expect([acc('ride').amount, acc('bank').amount, read().held]).toEqual([840, 1260, 2450]);
-    expect(acc('bank').transferLine).toBe('← $80 NOT LEFT YET');
+    expect(acc('bank').transferLine).toBe('← $80 PENDING');
   });
 
   it('in transit → completed → the line disappears; failed and cancelled close with balances from the ledger', () => {

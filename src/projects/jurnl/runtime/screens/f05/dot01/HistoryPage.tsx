@@ -72,7 +72,7 @@ export function HistoryPage({ all = false }: { all?: boolean }) {
             </b>
           </div>
           {v.liability && v.availableCredit != null ? <p className="d01-note" style={{ textAlign: 'center' }}>{`AVAILABLE CREDIT ${formatMoney(v.availableCredit)} · OWED, NOT MONEY YOU HAVE`}</p> : null}
-          {!v.liability && (v.waitingToLeave > 0 || v.incoming > 0) ? <p className="d01-note" style={{ textAlign: 'center' }}>{`${formatMoney(v.waitingToLeave)} NOT LEFT YET · ${formatMoney(v.incoming)} ON ITS WAY IN`}</p> : null}
+          {!v.liability && (v.waitingToLeave > 0 || v.incoming > 0) ? <p className="d01-note" style={{ textAlign: 'center' }}>{`${formatMoney(v.waitingToLeave)} PENDING · ${formatMoney(v.incoming)} INCOMING`}</p> : null}
         </Paper>
       ) : null}
       <Paper kind="sheet">

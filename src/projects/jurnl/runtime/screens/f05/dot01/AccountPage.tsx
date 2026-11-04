@@ -107,8 +107,8 @@ export function AccountPage() {
     ]
     : [
       ['SET ASIDE', formatMoney(v.setAside), 'set-aside'],
-      ['NOT LEFT YET', formatMoney(v.waitingToLeave), 'waiting'],
-      ['ON ITS WAY IN', formatMoney(v.incoming), 'incoming'],
+      ['PENDING', formatMoney(v.waitingToLeave), 'waiting'],
+      ['INCOMING', formatMoney(v.incoming), 'incoming'],
     ];
   const title = nameLines(v.account.display_name);
   const board = (L: Dot01Layout): ReactNode => (

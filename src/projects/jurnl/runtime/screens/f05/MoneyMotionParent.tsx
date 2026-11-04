@@ -123,7 +123,7 @@ function threadFor(t: MoneyParentTransfer, A: Rect, B: Rect): Thread {
 
 /** Token words: a display of the canonical state, in the words of its kind (#1706 labels, shortened). */
 const SHORT: Record<'TRANSFER' | 'CARD_PAYMENT', Record<string, string>> = {
-  TRANSFER: { SCHEDULED: 'PLANNED', PENDING: 'NOT LEFT', IN_TRANSIT: 'IN TRANSIT', RETURNING: 'COMING BACK', NEEDS_RECONCILIATION: 'CONFIRM?' },
+  TRANSFER: { SCHEDULED: 'PLANNED', PENDING: 'PENDING', IN_TRANSIT: 'IN TRANSIT', RETURNING: 'COMING BACK', NEEDS_RECONCILIATION: 'CONFIRM?' },
   CARD_PAYMENT: { SCHEDULED: 'SCHEDULED', PENDING: 'SUBMITTED', IN_TRANSIT: 'NOT CONFIRMED', RETURNING: 'FAILED', NEEDS_RECONCILIATION: 'CONFIRM?' },
 };
 
