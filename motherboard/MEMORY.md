@@ -16751,3 +16751,17 @@ Summary of the whole conversation in this chat.
   - Playwright `launchOptions` (fake camera) must be top-level in its own spec file.
   - Don't edit runtime code while a full E2E regression runs against the dev server: hot reloads fail tests mid-run.
   - Compare against authorities at 471 × 836, where the board maps one to one.
+
+---
+
+## 2026-11-04 — JURNL F05 financial safety + branch reconciliation (Composer P0)
+
+- **Context:** Sprint P0.JURNL.F05-MONEY.FINANCIAL-SAFETY-BRANCH-RECONCILIATION-AND-PREVIEW-ALIGNMENT.V1 — forensic PR #1705–#1709 audit, integration candidate, card overpay + cabinet archive fixes, preview attestation, no main merge/deploy/DB/provider spend.
+- **Decisions / outcomes:**
+  - **Integration candidate:** `cursor/jurnl-financial-safety-integration-4e5a` from #1707 HEAD (`eaf179bb`), not `integration/jurnl-production-workspace` (7752eae — drops Opus DOT01 surfaces).
+  - **Card overpay:** `transferFinancialLimits.ts` + `buildTransfer` authoritative; DOT01 `previewTransfer` delegates; test D59 covers direct `recordTransfer`.
+  - **Archive bypass:** `MoneyScreens.tsx` cabinet place archive → `archiveAccountSafely` / blockers UX aligned with DOT01.
+  - **PR #1709:** cherry-picked width-first scale + root-authority viewport anchor onto candidate.
+  - **Preview:** tunnel lineage pinned `ad7ac177` — **not** aligned with candidate; dev `data-site00-preview-build` attestation added.
+  - **Tests:** JURNL unit 810/810; build PASS. Draft PR only.
+- **Evidence:** `docs/jurnl/financial-safety-integration/evidence/` + GitHub release `jurnl-financial-safety-integration-2026-11-04`.
