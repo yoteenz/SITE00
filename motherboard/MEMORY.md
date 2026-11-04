@@ -16791,3 +16791,10 @@ Summary of the whole conversation in this chat.
 - **Root cause:** `paperRhythm()` positioned amounts/captions from each panel’s actual title line count (1 vs 2); link panels anchored captions to the paper bottom; empty states used a smaller font than live amounts.
 - **Changes:** `CarouselPanelPaper.tsx` — fixed `PANEL_TITLE_LINES = 2`, unified caption row for link panels, empty values at full amount size; `MoneyMotionParent.tsx` — `ACCOUNT_PAPER_TITLE_LINES` for rail amounts/`OWED`; `jurnl-f05-carousel.css` — panel empty states inherit inline size; test in `jurnlF05Carousel.test.ts`. Commit `1ce6e6366` on `cursor/jurnl-tunnel-opus-v3-overlays-4e5a`; PR #1714 updated; preview worktree SHA `1ce6e6366`.
 - **Conventions:** Carousel collection grids always reserve two title lines for shared value/caption rows; do not reintroduce per-panel `linkCaptionTop` for 2×2 alignment.
+
+---
+
+## 2026-11-04 — F05 paper value/caption row type scale (tunnel preview)
+
+- **Context:** After row alignment, founder asked for the middle value row (−1px) and bottom caption row (−2px) on MONEY parent papers only (amounts, panel captions, OWED, ADD/MOVE subtitles).
+- **Changes:** `F05_PAPER_VALUE_ROW_SUB_PX` via `f05BoardType` on panel and pocket amounts; CSS −2px on `.paper-caption`, `.paper-note` (not transit slip), `.add-sub`. Commit `9ed22e1a1` on preview branch.
