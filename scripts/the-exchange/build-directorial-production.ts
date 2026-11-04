@@ -45,6 +45,7 @@ json(`${P.season}/FUTURE_PRODUCTION_DEPENDENCIES_V1.json`, {
   jit: X.jitPlan(ACTIVE, census, cast),
   census,
   byRelease: X.futureDependencies(graph, master),
+  livingWorld: X.Promotion.livingWorldDependencies(master),
 });
 
 const D = X.Directorial;

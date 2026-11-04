@@ -262,6 +262,26 @@
         "She raises a glass to him and keeps dancing.",
         "No dialogue, music only."
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-LW-S1-01-FDS101-06",
+            "recommendationId": "FD-S101-06",
+            "text": "The tailor, the teenager and the grandmother keep their S1-01 faces, wardrobe and mannerisms as recurring background identities, with no names and no connection to each other. Their approved returns are S1-51 (the teenager), S1-59 (the grandmother) and S1-77 (the grandmother and, separately, the tailor). The woman on the balcony and the neighbour stay scene-scoped.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "CONDITIONAL_PRODUCTION_HOLD: the S1-01 packet revision (patch plan PATCH-S101) awaits founder review; identity references are the SH02, SH05 and SH09 start frames, none generated."
+          },
+          {
+            "amendmentId": "AM-LW-S1-01-S02",
+            "recommendationId": "S-02",
+            "text": "The teenager's step is one specific four-count step: missed, tangled, then landed on the downbeat. It is a choreography note on the existing three shots; no shot, timing, keyframe, cue or runtime changes.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "CONDITIONAL_PRODUCTION_HOLD: the S1-01 packet revision (patch plan PATCH-S101) awaits founder review; PENDING_DESIGN: the four counts are not yet choreographed."
+          }
+        ],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-01-SC01",
@@ -487,6 +507,11 @@
         "I can't keep a fern alive.\"",
         "Gideon lets himself in without knocking, fastens the clasp of her necklace, and removes the cake plate from her reach."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-02-SC01",
@@ -687,6 +712,11 @@
         "\"ROYCE BELL: Runs the most popular room in the city.",
         "Would like mine.\""
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-03-SC01",
@@ -892,6 +922,11 @@
         "Passing a man in a bold orange jacket, she says lightly, \"Brave.\"",
         "Two guests immediately check the jacket's label."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-04-SC01",
@@ -1078,6 +1113,11 @@
         "Voice-over: \"Every year I tell myself I'll stop deciding who gets what.",
         "Every year I'm very good at it.\""
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-05-SC01",
@@ -1253,6 +1293,11 @@
         "Pause.",
         "\"No, I'm not joking.\""
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-06-P1",
@@ -1412,6 +1457,24 @@
         "Nadine, not looking up: \"We don't open other people's invitations.\"",
         "He puts it back face down."
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-LW-S1-07-V07",
+            "recommendationId": "V-07",
+            "text": "Face down in Vivienne's desk, her envelope shows its copper wax seal, intact.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "PENDING_DESIGN: the copper seal prop (one prop sheet for every Exchange envelope)."
+          }
+        ],
+        "worldRules": [
+          {
+            "ruleId": "WR-01",
+            "subject": "Copper wax"
+          }
+        ],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-07-P1",
@@ -1568,6 +1631,11 @@
         "* Dated nineteen days before Vivienne's death.",
         "Sloane: \"Mom never withdrew from anything.\""
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-08-P1",
@@ -1731,6 +1799,11 @@
         "\"He doesn't dance.\"",
         "\"Then he doesn't get the band.\""
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-09-P1",
@@ -1922,6 +1995,11 @@
         "\"You.\"",
         "She asks him to keep it."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-10-P1",
@@ -2077,6 +2155,24 @@
         "Nobody comes to the door, so Sloane slides the envelope under it.",
         "Two days later a courier returns it to Sloane's office, unopened, with a pressed card: \"No.\""
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-LW-S1-11-V07",
+            "recommendationId": "V-07",
+            "text": "Sloane's invitation comes back from Celestine with its copper seal unbroken.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "PENDING_DESIGN: the copper seal prop (one prop sheet for every Exchange envelope)."
+          }
+        ],
+        "worldRules": [
+          {
+            "ruleId": "WR-01",
+            "subject": "Copper wax"
+          }
+        ],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-11-P1",
@@ -2248,6 +2344,19 @@
         "She rings the Crescent Room's bandleader: \"Clarence.",
         "I need your Saturday.\""
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-LW-S1-12-F01",
+            "recommendationId": "F-01",
+            "text": "Under this line the market falls away for a few seconds into the sound of a truck cab at night: the engine, the indicator ticking, a slow song on the radio. The picture stays on Mavis at her stall. No voices from the cab, and Richard's wife is never seen or heard.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "CONDITIONAL_PRODUCTION_HOLD: the slow song is chosen or commissioned once for S1-12 and S1-20 (founder choice)."
+          }
+        ],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-12-P1",
@@ -2407,6 +2516,11 @@
         "I threw him out of it.\"",
         "- Kai reads the letter twice, then pins it to his wall beside an old framed page."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-13-P1",
@@ -2568,6 +2682,11 @@
         "She laughs: \"I'm not going anywhere.\"",
         "He flips a pancake perfectly, which never happens."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-14-P1",
@@ -2726,6 +2845,16 @@
         "- She doesn't need the woman's name.",
         "She has Tina write her letter on Relay paper, which stays blank for everyone except the person it's meant for."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [
+          {
+            "ruleId": "WR-02",
+            "subject": "Relay"
+          }
+        ],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-15-P1",
@@ -2886,6 +3015,11 @@
         "- Sloane writes nothing down.",
         "She listens, then eats the cobbler Clementine made for her, dessert first."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-16-P1",
@@ -3029,6 +3163,24 @@
         "- We read one line over his shoulder: \"From next year, the choosing passes to this year's makers.\"",
         "- At the cutting table, Rashid's Salon membership card sits beside the terms."
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-LW-S1-17-V07",
+            "recommendationId": "V-07",
+            "text": "The source of the season's prop rule: Exchange envelopes carry a copper wax seal. The makers are seen reading terms already opened; no seal is broken on camera, because S1-86 holds the season's only on-screen break.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "PENDING_DESIGN: the copper seal prop (one prop sheet for every Exchange envelope)."
+          }
+        ],
+        "worldRules": [
+          {
+            "ruleId": "WR-01",
+            "subject": "Copper wax"
+          }
+        ],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-17-P1",
@@ -3201,6 +3353,11 @@
         "Properly.\"",
         "Sloane, through her teeth: \"Will you please play cards with Gideon's mother.\""
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-18-P1",
@@ -3384,6 +3541,11 @@
         "- He offers it with no strings.",
         "She declines that too: a gift that arrives with a request is still a fee."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-19-P1",
@@ -3552,6 +3714,26 @@
         "- We hear only the band.",
         "- By the bandstand, a teenage girl writes in a notebook while the trumpet plays."
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-LW-S1-20-F01",
+            "recommendationId": "F-01",
+            "text": "The slow number Clarence counts off is the song from the truck radio in S1-12, in a big-band arrangement.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "CONDITIONAL_PRODUCTION_HOLD: the slow song is chosen or commissioned once for S1-12 and S1-20 (founder choice)."
+          },
+          {
+            "amendmentId": "AM-LW-S1-20-F19",
+            "recommendationId": "F-19",
+            "text": "Noelle is writing down a two-bar figure from Clarence's trumpet. One notebook insert.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "PENDING_DESIGN: the two bars are written once in the composer brief; no composition is canon."
+          }
+        ],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-20-P1",
@@ -3722,6 +3904,11 @@
         "The waiter brings two desserts; Gideon pushes one across.",
         "No dialogue we can hear."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-21-P1",
@@ -3875,6 +4062,16 @@
         "Kai, delighted, gives her his best pliers.",
         "On the wall behind them: Sloane's letter beside the old framed page."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [
+          {
+            "ruleId": "WR-04",
+            "subject": "Gold: hand, room, city"
+          }
+        ],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-22-P1",
@@ -4019,6 +4216,11 @@
         "He doesn't argue.",
         "On the bus home he crosses off nothing; there's nothing to cross off."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-23-P1",
@@ -4189,6 +4391,11 @@
         "- Lorna, radiant, to Sloane: \"I asked to lose fairly.",
         "I never promised to.\""
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-24-P1",
@@ -4346,6 +4553,11 @@
         "Talia laughs.",
         "- Mostly music: fabric swatches against Talia's shoulder."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-25-P1",
@@ -4502,6 +4714,11 @@
         "\"Kai doesn't get to nominate anybody.",
         "You saw to that.\""
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-26-P1",
@@ -4660,6 +4877,11 @@
         "- Sloane hesitates, then signs.",
         "Ada stamps it without comment."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-27-P1",
@@ -4818,6 +5040,11 @@
         "She says nothing.",
         "Behind Royce, his young assistant Marcus Okafor looks at the floor."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-28-P1",
@@ -4984,6 +5211,11 @@
         "Royce wants to show his work.\"",
         "Sloane remembers her own letter: *while it's still mine to set right."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-29-P1",
@@ -5132,6 +5364,16 @@
         "The child makes the light bloom gold.",
         "Nadine watches."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [
+          {
+            "ruleId": "WR-04",
+            "subject": "Gold: hand, room, city"
+          }
+        ],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-30-P1",
@@ -5285,6 +5527,11 @@
         "- Nadine names the family wound without naming it: \"When everybody needs something from you, I get told last.\"",
         "- She leaves without coming in."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-31-P1",
@@ -5443,6 +5690,11 @@
         "He waits.",
         "She leaves."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-32-P1",
@@ -5598,6 +5850,19 @@
         "- Sloane can't tell either of them about the other: each request is private.",
         "She looks at both cards and smiles like a woman planning a party."
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-LW-S1-33-F05",
+            "recommendationId": "F-05",
+            "text": "Once, Yaz laughs on air at one of Tad's insults: not her on-air cackle but a short, unguarded laugh she covers fast. The audience hears it through the bakery radio.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "PENDING_PRODUCTION: one laugh performance, recorded once and used in S1-33 and S1-50; no voice is authorized yet."
+          }
+        ],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-33-P1",
@@ -5797,6 +6062,16 @@
         "Her counteroffer: one week in each other's closets, and her name never in print.",
         "- Tina, who has never been refused anything, says yes."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [
+          {
+            "ruleId": "WR-02",
+            "subject": "Relay"
+          }
+        ],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-34-P1",
@@ -5959,6 +6234,19 @@
         "She does.",
         "Her grandmother nominated the song."
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-LW-S1-35-F19",
+            "recommendationId": "F-19",
+            "text": "Clarence's two bars are inside Noelle's melody. He hears his own phrase, which is why he picks up his trumpet without asking.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "PENDING_DESIGN: the two bars are written once in the composer brief; no composition is canon."
+          }
+        ],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-35-P1",
@@ -6120,6 +6408,11 @@
         "It surfaced in a recusal fight, and she lost an appointment to a higher court she had worked her whole life for.",
         "- Ada reads the objection to Sloane: \"It stands unless she withdraws it.\""
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-36-P1",
@@ -6290,6 +6583,24 @@
         "Sloane: \"At dawn.",
         "Nobody should see a record fall without breakfast.\""
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-LW-S1-37-F04",
+            "recommendationId": "F-04",
+            "text": "As Sloane sees Dee stretching, under the dusk track and faint enough to miss: a 1985 stadium crowd and a starter's pistol. Only Dee hears it, and she keeps stretching. The sound is Dee's memory, not a device.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "PENDING_PRODUCTION: a few seconds of 1985 crowd and starter's pistol."
+          }
+        ],
+        "worldRules": [
+          {
+            "ruleId": "WR-06",
+            "subject": "The Echo Track is silent"
+          }
+        ],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-37-P1",
@@ -6483,6 +6794,11 @@
         "- Sloane reassures them with charm, and it doesn't land.",
         "Rashid admits Royce has asked him to show at the Salon."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-38-P1",
@@ -6632,6 +6948,11 @@
         "- Gideon tries and is suddenly good.",
         "Richard is so pleased he forgets his knee, pivots, winces, and laughs it off."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-39-P1",
@@ -6815,6 +7136,24 @@
         "That was the request all along: to be beaten by someone worth it, with her best self running beside her.",
         "Zuri, catching her breath: \"Next Friday.\""
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-LW-S1-40-F04",
+            "recommendationId": "F-04",
+            "text": "The Echo Track is silent: it carries light, not sound. When Zuri passes, the real bleachers' roar arrives where Dee's remembered crowd was. The 1985 crowd is never heard in S1-40.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": null
+          }
+        ],
+        "worldRules": [
+          {
+            "ruleId": "WR-06",
+            "subject": "The Echo Track is silent"
+          }
+        ],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-40-P1",
@@ -6998,6 +7337,11 @@
         "Where's the way back?\"",
         "She argues; he doesn't move; she's furious and delighted."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-41-P1",
@@ -7160,6 +7504,11 @@
         "She sniffs: \"Is that the Lockwood file or the rice?\"",
         "\"Both.\""
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-42-P1",
@@ -7310,6 +7659,19 @@
         "She respects it.",
         "- She orders the most expensive dessert on the menu, on his tab, and doesn't offer him a bite."
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-S1-43-NR8",
+            "recommendationId": "NR-8",
+            "text": "Sloane dresses for the lunch as for a duel: the sharpest look she owns, worn as armour. The design itself waits on wardrobe approval (U-4).",
+            "classification": "PROVISIONAL_IMPLEMENTATION",
+            "productionHold": null
+          }
+        ],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-43-P1",
@@ -7474,6 +7836,11 @@
         "She writes two names on a thank-you card, \"Gideon\" and \"Daddy,\" looks at them, and turns the card face down on the nightstand.",
         "No voice-over."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-44-P1",
@@ -7639,6 +8006,11 @@
         "- Royce: \"Tell her I meant the toast kindly.\"",
         "Gideon: \"She knows how you meant it.\""
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-45-P1",
@@ -7817,6 +8189,11 @@
         "- Outside, Celestine: \"I'll hear you.",
         "Without her.\""
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-46-P1",
@@ -7979,6 +8356,11 @@
         "On the silk, Abena waits mid-smile for a word that isn't coming.",
         "- Sloane sees her own mistake: she secured everyone who could say yes and never asked the one person who could say no."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-47-P1",
@@ -8161,6 +8543,11 @@
         "- At Sloane's door: \"You invited me to make my *yes* so you could open my *no*.\"",
         "She hands back the Living Legacy terms and leaves the project."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-48-P1",
@@ -8321,6 +8708,11 @@
         "- After a while: \"Then it was Daddy.\"",
         "Gideon says nothing."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-49-P1",
@@ -8487,6 +8879,19 @@
         "- Gideon, watching: \"You set them up.\"",
         "Sloane: \"I invited two people to a party.\""
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-LW-S1-50-F05",
+            "recommendationId": "F-05",
+            "text": "The laugh Tad recognizes is the same laugh, the same performance, as in S1-33, so the audience recognizes it when he does.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "PENDING_PRODUCTION: one laugh performance, recorded once and used in S1-33 and S1-50; no voice is authorized yet."
+          }
+        ],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-50-P1",
@@ -8663,6 +9068,19 @@
         "\"My mother's homegoing, Saturday.\"",
         "Mavis writes the last one slowly and gives that woman two."
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-LW-S1-51-R04",
+            "recommendationId": "R-04",
+            "text": "Among the kids following the drumline, the S1-01 teenager does his step: the same four counts, landed every time now, with no shelter glass to check it in. Nobody watches him, and Sloane's four beats at the end of the release stay her own.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "CONDITIONAL_PRODUCTION_HOLD: the S1-01 packet revision (patch plan PATCH-S101) awaits founder review; identity reference from the S1-01 SH05 start frame and the S-02 step."
+          }
+        ],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-51-P1",
@@ -8836,6 +9254,11 @@
         "* - She doesn't deliver it herself.",
         "She posts it."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-52-P1",
@@ -8989,6 +9412,11 @@
         "\"Your sister.\"",
         "Nadine laughs, then doesn't."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-53-P1",
@@ -9137,6 +9565,11 @@
         "- Bunny: \"It went from my table, Rich.\"",
         "Richard sits down heavily, and his knee gives."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-54-P1",
@@ -9306,6 +9739,11 @@
         "She sits down beside him.",
         "She doesn't forgive him yet; she stays."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-55-P1",
@@ -9470,6 +9908,11 @@
         "I went to her studio on my own and asked to apprentice.",
         "That's how we met.\""
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-56-P1",
@@ -9633,6 +10076,24 @@
         "Richard is in the doorway in his robe, leaning on the frame for his knee.",
         "- Sloane: \"Tell me about Celestine.\""
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-LW-S1-57-V07",
+            "recommendationId": "V-07",
+            "text": "When Sloane turns the envelope over, its copper seal is intact. She does not open it.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "PENDING_DESIGN: the copper seal prop (one prop sheet for every Exchange envelope)."
+          }
+        ],
+        "worldRules": [
+          {
+            "ruleId": "WR-01",
+            "subject": "Copper wax"
+          }
+        ],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-57-P1",
@@ -9802,6 +10263,24 @@
         "She closed one on her friend.",
         "They never spoke again.\""
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-LW-S1-58-F06",
+            "recommendationId": "F-06",
+            "text": "The memory's grammar. In: a needle drops on a record before the picture changes, and the garage record player is already playing when the garage appears. Framing: from doorway height, where Richard stood; he watched the dance and was not in it. What he did not witness appears as objects, not scenes: the typed letter to the standards body on a workbench, the newspaper folded on the bench, and no shot of Celestine reading it. Out: the needle lifts, and the study's room tone returns before the picture does.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "CONDITIONAL_PRODUCTION_HOLD: face locks for Vivienne at 34 and Celestine at 33 (FD-18); PENDING_DESIGN: the needle cues and the letter and newspaper props."
+          }
+        ],
+        "worldRules": [
+          {
+            "ruleId": "WR-07",
+            "subject": "Two witnesses, two flashbacks"
+          }
+        ],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-58-P1",
@@ -9974,6 +10453,38 @@
         "They're humming.\"",
         "No principals; music only."
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-LW-S1-59-R05",
+            "recommendationId": "R-05",
+            "text": "One of the kids on bikes is the girl from Kai's workshop (S1-22): his pliers hang from her handlebar on a string and her bloom light is taped to the basket. She looks at the lanterns like an engineer.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "PENDING_PRODUCTION: her face from S1-22 and Kai's pliers as a prop."
+          },
+          {
+            "amendmentId": "AM-LW-S1-59-R01",
+            "recommendationId": "R-01",
+            "text": "The grandmother on the bench is the S1-01 grandmother, in her house cardigan with her reading glasses on a chain. She says the line the master already gives her, \"Something good. They're humming.\" No second grandmother, and no dress yet: the dress is saved for the river.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "CONDITIONAL_PRODUCTION_HOLD: the S1-01 packet revision (patch plan PATCH-S101) awaits founder review; identity reference from the S1-01 SH09 start frame. Voice production is not authorized."
+          },
+          {
+            "amendmentId": "AM-LW-S1-59-T12",
+            "recommendationId": "T-12",
+            "text": "The lantern that flickers is one specific lantern in a fixed position on the promenade, with a recorded copper flicker pattern. Nobody remarks on it.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "PENDING_DESIGN: the lantern position and flicker pattern (one continuity note for S1-59 and S1-76)."
+          }
+        ],
+        "worldRules": [
+          {
+            "ruleId": "WR-05",
+            "subject": "The lantern that flickers"
+          }
+        ],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-59-P1",
@@ -10148,6 +10659,11 @@
         "- Ada, to Kai: \"It isn't forever.\"",
         "Kai: \"It's long enough.\""
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-60-P1",
@@ -10310,6 +10826,11 @@
         "I need you.\"",
         "Nadine stops: Sloane has never said it before."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-61-P1",
@@ -10480,6 +11001,11 @@
         "Okafor?\"",
         "Bunny, after a pause: \"It can now.\""
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-62-P1",
@@ -10672,6 +11198,11 @@
         "And I'll be there.\"",
         "She will not object to the Threshold."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-63-P1",
@@ -10855,6 +11386,11 @@
         "- Delphine washes every dish.",
         "Grace dries."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-64-P1",
@@ -11027,6 +11563,11 @@
         "Sloane and Emmett share the dessert she brought, off the clock for the first time, arguing happily about precedent.",
         "Her phone buzzes: Richard's knee surgery has been moved up to the same morning as the first full rehearsal."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-65-P1",
@@ -11207,6 +11748,11 @@
         "Sloane: \"Where else?\"",
         "- Sloane's phone buzzes with a photo from the rehearsal, sent with consent."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-66-P1",
@@ -11368,6 +11914,11 @@
         "- It works.",
         "Celestine takes one photograph, with everyone's consent, and sends it to Sloane with two words: *It works."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-67-P1",
@@ -11541,6 +12092,11 @@
         "Gideon: \"She bought new shoes.",
         "She's never been so nervous.\""
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-68-P1",
@@ -11705,6 +12261,11 @@
         "- A barber flips his sign to CLOSED EARLY.",
         "A teenager watches his grandfather iron a shirt."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-69-P1",
@@ -11880,6 +12441,11 @@
         "No dialogue, only music.",
         "Inez steps back and puts her hand over her mouth."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-70-P1",
@@ -12039,6 +12605,11 @@
         "Version three is two words.",
         "Gideon nods."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-71-P1",
@@ -12208,6 +12779,11 @@
         "- Gideon walks his mother in on his arm, and she pinches his cheek in front of everyone.",
         "- Sloane's voice-over is warm and brief, then stops."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-72-P1",
@@ -12386,6 +12962,11 @@
         "The room goes quiet.",
         "She laughs and cries at once, and asks for seconds."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-73-P1",
@@ -12554,6 +13135,19 @@
         "Two radio voices the city has never seen dance cheek to cheek, and nobody near them knows who they are.",
         "- Music-driven; no dialogue."
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-LW-S1-74-F19",
+            "recommendationId": "F-19",
+            "text": "The trumpet section carries Clarence's two bars.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "PENDING_DESIGN: the two bars are written once in the composer brief; no composition is canon."
+          }
+        ],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-74-P1",
@@ -12743,6 +13337,28 @@
         "- She thanks Nadine by name, first.",
         "Nadine, at a front table, covers her mouth."
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-LW-S1-75-T10",
+            "recommendationId": "T-10",
+            "text": "As the stage light returns to copper, the room is already repeating Sloane's words to each other, table to table: the light stopped the cameras, not the talk. Background murmur inside the existing applause; no line explains it.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": null
+          }
+        ],
+        "worldRules": [
+          {
+            "ruleId": "WR-03",
+            "subject": "The Ember governs capture, not memory"
+          },
+          {
+            "ruleId": "WR-04",
+            "subject": "Gold: hand, room, city"
+          }
+        ],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-75-P1",
@@ -12928,6 +13544,24 @@
         "Together, both hands on the console, they erase the old record forever.",
         "The lanterns wake."
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-LW-S1-76-T12",
+            "recommendationId": "T-12",
+            "text": "A moment before the failure, the same lantern, in the same position on the promenade, flickers the same copper pattern as in S1-59. Nobody says so, and the failure itself is unchanged.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "PENDING_DESIGN: the lantern position and flicker pattern (one continuity note for S1-59 and S1-76)."
+          }
+        ],
+        "worldRules": [
+          {
+            "ruleId": "WR-05",
+            "subject": "The lantern that flickers"
+          }
+        ],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-76-P1",
@@ -13101,6 +13735,49 @@
         "Celestine: \"It was always beautiful, Richard.",
         "It was just half.\""
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-LW-S1-77-F07",
+            "recommendationId": "F-07",
+            "text": "The flash is the participant's version of S1-58: the camera inside the dance at eye level, hands and light, never the doorway. The first gold light hums, the same hum the grandmother on the bench heard in the lanterns. Same garage set and costumes as S1-58.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "CONDITIONAL_PRODUCTION_HOLD: face locks for Vivienne at 34 and Celestine at 33 (FD-18); reuses the S1-58 garage and costumes."
+          },
+          {
+            "amendmentId": "AM-LW-S1-77-W01",
+            "recommendationId": "W-01",
+            "text": "The far bank is the city's own party, which nobody invited and nobody organised: a brass band that turned up, a food truck, Mavis's hats, kids on bikes, people who came because they heard something good was happening. They are not spectators of the Night and have no Exchange access; they are having their own. Same place and time as the master.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": null
+          },
+          {
+            "amendmentId": "AM-LW-S1-77-R02",
+            "recommendationId": "R-02",
+            "text": "In the far-bank crowd, in one shot, the camera finds the jewel-green dress first, from behind, then the S1-01 grandmother wearing it, her face lit gold from across the water. She is in the public crowd, not at the private Night. The dress is the S1-01 garment, whose design is not yet chosen.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "CONDITIONAL_PRODUCTION_HOLD: FD-S101-05 garment design is open, so no dress reference, keyframe or callback shot is generated until the founder approves the silhouette; the S1-01 packet revision (patch plan PATCH-S101) awaits founder review."
+          },
+          {
+            "amendmentId": "AM-LW-S1-77-R03",
+            "recommendationId": "R-03",
+            "text": "Separately in the far-bank crowd, the S1-01 tailor, anonymous, in a suit that is plainly his own work, straightens a stranger's lapel without asking, the way he straightened the mannequin's. No shop sign, no name, no orange, and he does not look across at Sloane. No shot or interaction with the grandmother is required or implied.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "CONDITIONAL_PRODUCTION_HOLD: the S1-01 packet revision (patch plan PATCH-S101) awaits founder review; identity reference from the S1-01 SH02 start frame."
+          }
+        ],
+        "worldRules": [
+          {
+            "ruleId": "WR-04",
+            "subject": "Gold: hand, room, city"
+          },
+          {
+            "ruleId": "WR-07",
+            "subject": "Two witnesses, two flashbacks"
+          }
+        ],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-77-P1",
@@ -13290,6 +13967,24 @@
         "- Sloane nods.",
         "She lets it go."
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-LW-S1-78-V07",
+            "recommendationId": "V-07",
+            "text": "Celestine holds the envelope seal-up without opening it.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "PENDING_DESIGN: the copper seal prop (one prop sheet for every Exchange envelope)."
+          }
+        ],
+        "worldRules": [
+          {
+            "ruleId": "WR-01",
+            "subject": "Copper wax"
+          }
+        ],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-78-P1",
@@ -13457,6 +14152,11 @@
         "- Emmett and Sloane dance to the last slow song.",
         "No declaration."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-79-P1",
@@ -13632,6 +14332,11 @@
         "I still want the impossible ones.\"",
         "Richard: \"Then that's yours.\""
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-80-P1",
@@ -13806,6 +14511,26 @@
         "No balcony, no audience.",
         "He says yes, and for once he doesn't tell a soul."
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-S1-81-NR8",
+            "recommendationId": "NR-8",
+            "text": "On the Number 9, Tina rides to work in Ophelia's coat, unhemmed. Her own staff, boarding, don't recognize her.",
+            "classification": "PROVISIONAL_IMPLEMENTATION",
+            "productionHold": null
+          },
+          {
+            "amendmentId": "AM-S1-81-NR9",
+            "recommendationId": "NR-9",
+            "text": "In the same beat Tina types to Sloane: \"Breakfast? I don't need anything.\" It is the first message all season that asks her for nothing.",
+            "classification": "PROVISIONAL_IMPLEMENTATION",
+            "productionHold": null
+          }
+        ],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-81-P1",
@@ -13981,6 +14706,24 @@
         "- Celestine gives the *yes* to the city under her own name.",
         "- The Ember's origin isn't mentioned."
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-LW-S1-82-F19",
+            "recommendationId": "F-19",
+            "text": "The closer carries Clarence's two bars.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "PENDING_DESIGN: the two bars are written once in the composer brief; no composition is canon."
+          }
+        ],
+        "worldRules": [
+          {
+            "ruleId": "WR-04",
+            "subject": "Gold: hand, room, city"
+          }
+        ],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-82-P1",
@@ -14159,6 +14902,11 @@
         "- Sloane: \"They're engaged.\"",
         "Ada: \"Not through us.\""
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-83-P1",
@@ -14355,6 +15103,11 @@
         "- She takes it.",
         "Behind her, on the windowsill, the fern has one new leaf."
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-84-P1",
@@ -14516,6 +15269,11 @@
         "- Nadine: \"And Tuesday I'm playing Lorna Shaw again.\"",
         "Gideon: \"Please don't.\""
       ],
+      "developmentRequirements": {
+        "amendments": [],
+        "worldRules": [],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-85-P1",
@@ -14677,6 +15435,35 @@
         "The Crescent Room.",
         "Bring the cane."
       ],
+      "developmentRequirements": {
+        "amendments": [
+          {
+            "amendmentId": "AM-LW-S1-86-V07",
+            "recommendationId": "V-07",
+            "text": "As Celestine opens the envelope the copper seal cracks: the only seal broken on screen all season, and the only time that sound is heard.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "PENDING_DESIGN: the copper seal prop and the seal-crack sound (one cue, used once)."
+          },
+          {
+            "amendmentId": "AM-LW-S1-86-T01",
+            "recommendationId": "T-01",
+            "text": "Celestine writes her three lines and the ink sinks into the card while her pen is still lifted, exactly as it did for Tina in S1-15. She can no longer read what she wrote. She lets it go out of frame: no courier, no delivery shown.",
+            "classification": "APPROVED_DEVELOPMENT_DIRECTION",
+            "productionHold": "PENDING_PRODUCTION: reuses the S1-15 Relay effect, which is not yet produced."
+          }
+        ],
+        "worldRules": [
+          {
+            "ruleId": "WR-01",
+            "subject": "Copper wax"
+          },
+          {
+            "ruleId": "WR-02",
+            "subject": "Relay"
+          }
+        ],
+        "label": "FOUNDER-APPROVED DIRECTION: the screenplay must carry these; the wording is authored at drafting"
+      },
       "scenes": [
         {
           "sceneId": "S1-86-P1",

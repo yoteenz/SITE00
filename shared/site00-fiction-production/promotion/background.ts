@@ -1,0 +1,178 @@
+/**
+ * Recurring background identities (founder §10). A stable reference, not a biography: no name unless the source gives
+ * one, no relationships the source does not state, no voice unless one is authorized. A tier can change later by founder
+ * decision; `tierHistory` keeps every earlier state. S1-01 references point at the directorial packet, which is
+ * unchanged until the founder reviews the patch plan (PATCH-S101-*).
+ */
+export const BACKGROUND_TIERS = ['RECURRING_BACKGROUND', 'SCENE_SCOPED'] as const;
+export type BackgroundTier = (typeof BACKGROUND_TIERS)[number];
+
+export type Appearance = { releaseId: string; placement: string; proposalId: string; venue: 'PUBLIC'; access: string };
+
+export type BackgroundIdentity = {
+  identityId: string;
+  /** The person's ID in the season cast census (FUTURE_PRODUCTION_DEPENDENCIES_V1.json). */
+  censusPersonId: string;
+  label: string;
+  name: null;
+  tier: BackgroundTier;
+  flags: string[];
+  originalScene: { releaseId: string; sceneId: string; shots: string[]; sourceQuote: string; sourceFile: string };
+  facialReference: { keyframeId: string | null; status: 'PENDING_PRODUCTION' | 'NOT_REQUIRED'; note: string };
+  wardrobe: { everyday: string; signature: string | null; status: 'PROVISIONAL' | 'PENDING_DESIGN' | 'NOT_REQUIRED'; note: string };
+  mannerisms: Array<{ gesture: string; sourceQuote: string }>;
+  knownAppearances: string[];
+  approvedAppearances: Appearance[];
+  dialogue: Array<{ releaseId: string; line: string; source: string }>;
+  voice: { required: boolean; status: 'NOT_AUTHORIZED' | 'NOT_REQUIRED'; reference: null };
+  relationships: [];
+  sourceConnections: string[];
+  continuityStatus: string;
+  tierHistory: Array<{ tier: string; decidedBy: string; source: string }>;
+  founderDecisions: string[];
+};
+
+const PACKET = 'THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json';
+const MASTER = 'THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json';
+const FOUNDER = '2026-10-25 P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1';
+const WAS_SCENE_SCOPED = { tier: 'SCENE_SCOPED', decidedBy: 'S1-01 directorial packet (FD-S101-06 recommendation, then open)', source: PACKET };
+const NOW_RECURRING = { tier: 'RECURRING_BACKGROUND', decidedBy: 'Founder: FD-S101-06 RECURRING', source: FOUNDER };
+const NO_VOICE = { required: false, status: 'NOT_REQUIRED' as const, reference: null };
+const PROVISIONAL_LOOK = 'Directorial interpretation in the S1-01 packet. FD-S101-06 settles the tier; the look is approved with the S1-01 start frames.';
+
+export const BACKGROUND_IDENTITIES: BackgroundIdentity[] = [
+  {
+    identityId: 'BG-S101-TAILOR',
+    censusPersonId: 'scene:S1-01:tailor',
+    label: 'The S1-01 tailor',
+    name: null,
+    tier: 'RECURRING_BACKGROUND',
+    flags: ['ANONYMOUS'],
+    originalScene: { releaseId: 'S1-01', sceneId: 'S1-01-SC02', shots: ['S1-01-SH02', 'S1-01-SH03', 'S1-01-SH04'], sourceQuote: 'The tailor hauls the shop grille down and stops halfway.', sourceFile: PACKET },
+    facialReference: { keyframeId: 'KF-SF-SH02', status: 'PENDING_PRODUCTION', note: 'Fixed by the SH02 start frame once generated. Not generated.' },
+    wardrobe: { everyday: 'Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck', signature: 'S1-77: a suit that is plainly his own work; not orange.', status: 'PROVISIONAL', note: PROVISIONAL_LOOK },
+    mannerisms: [{ gesture: 'Straightening a lapel', sourceQuote: 'Through the window, his hands straighten the lapel on the mannequin.' }],
+    knownAppearances: ['S1-01'],
+    approvedAppearances: [{ releaseId: 'S1-77', placement: 'Beat 10, in the far-bank crowd', proposalId: 'R-03', venue: 'PUBLIC', access: 'The public riverbank; no invitation implied.' }],
+    dialogue: [],
+    voice: NO_VOICE,
+    relationships: [],
+    sourceConnections: [],
+    continuityStatus: 'FOUNDER_APPROVED: recurring background (FD-S101-06), anonymous (FD-S101-07). Not Wendell Ames; no shop sign, no name.',
+    tierHistory: [WAS_SCENE_SCOPED, NOW_RECURRING],
+    founderDecisions: ['FD-S101-06 RECURRING', 'FD-S101-07 ANONYMOUS'],
+  },
+  {
+    identityId: 'BG-S101-GRANDMOTHER',
+    censusPersonId: 'scene:S1-01:grandmother',
+    label: 'The S1-01 grandmother',
+    name: null,
+    tier: 'RECURRING_BACKGROUND',
+    flags: ['SPEAKING_IN_S1-59', 'DRESS_DESIGN_PENDING'],
+    originalScene: { releaseId: 'S1-01', sceneId: 'S1-01-SC04', shots: ['S1-01-SH08', 'S1-01-SH09', 'S1-01-SH10', 'S1-01-SH17'], sourceQuote: 'The grandmother smooths the skirt with both hands.', sourceFile: PACKET },
+    facialReference: { keyframeId: 'KF-SF-SH09', status: 'PENDING_PRODUCTION', note: 'Fixed by the SH09 start frame once generated. Not generated. The same face and performance in S1-59 and S1-77.' },
+    wardrobe: {
+      everyday: 'Grandmother: house cardigan, reading glasses on a chain',
+      signature: 'The jewel-green dress: one garment, design not chosen (FD-S101-05). The S1-01 packet names two candidates, a 1960s satin cocktail dress and a bias-cut evening dress; neither is chosen.',
+      status: 'PENDING_DESIGN',
+      note: 'The everyday look is directorial interpretation, approved with the S1-01 start frames. The dress is designed once, at S1-01 visual development, and S1-77 uses that garment.',
+    },
+    mannerisms: [{ gesture: 'Smoothing cloth with both hands', sourceQuote: 'The grandmother smooths the skirt with both hands.' }],
+    knownAppearances: ['S1-01'],
+    approvedAppearances: [
+      { releaseId: 'S1-59', placement: 'Beats 4 and 5, on a bench on the promenade', proposalId: 'R-01', venue: 'PUBLIC', access: 'A public promenade.' },
+      { releaseId: 'S1-77', placement: 'Beat 10, in the far-bank crowd, wearing the jewel-green dress', proposalId: 'R-02', venue: 'PUBLIC', access: 'The public riverbank; no invitation implied.' },
+    ],
+    dialogue: [{ releaseId: 'S1-59', line: "Something good. They're humming.", source: `${MASTER} S1-59 narrativeDevelopment` }],
+    voice: { required: true, status: 'NOT_AUTHORIZED', reference: null },
+    relationships: [],
+    sourceConnections: [],
+    continuityStatus: 'FOUNDER_APPROVED: recurring background (FD-S101-06) with one existing line in S1-59 (R-01 SPEAKING). Dress design open (FD-S101-05).',
+    tierHistory: [WAS_SCENE_SCOPED, NOW_RECURRING],
+    founderDecisions: ['FD-S101-06 RECURRING', 'R-01 SPEAKING', 'FD-S101-05 DRESS_DESIGN_LATER'],
+  },
+  {
+    identityId: 'BG-S101-TEENAGER',
+    censusPersonId: 'scene:S1-01:teenager',
+    label: 'The S1-01 teenager',
+    name: null,
+    tier: 'RECURRING_BACKGROUND',
+    flags: ['FOUR_COUNT_DANCE'],
+    originalScene: { releaseId: 'S1-01', sceneId: 'S1-01-SC03', shots: ['S1-01-SH05', 'S1-01-SH06', 'S1-01-SH07'], sourceQuote: 'He lands the step on the downbeat and grins at his reflection.', sourceFile: PACKET },
+    facialReference: { keyframeId: 'KF-SF-SH05', status: 'PENDING_PRODUCTION', note: 'Fixed by the SH05 start frame once generated. Not generated.' },
+    wardrobe: { everyday: 'Teenager: hoodie open over a pressed shirt, clean sneakers', signature: null, status: 'PROVISIONAL', note: PROVISIONAL_LOOK },
+    mannerisms: [{ gesture: 'One four-count step: missed, tangled, then landed on the downbeat (S-02)', sourceQuote: 'He lands the step on the downbeat and grins at his reflection.' }],
+    knownAppearances: ['S1-01'],
+    approvedAppearances: [{ releaseId: 'S1-51', placement: 'Beat 6, among the kids following the drumline', proposalId: 'R-04', venue: 'PUBLIC', access: 'A public street market.' }],
+    dialogue: [],
+    voice: NO_VOICE,
+    relationships: [],
+    sourceConnections: [],
+    continuityStatus: 'FOUNDER_APPROVED: recurring background (FD-S101-06). Returns only in S1-51; the S1-69 return (R-14) is not approved.',
+    tierHistory: [WAS_SCENE_SCOPED, NOW_RECURRING],
+    founderDecisions: ['FD-S101-06 RECURRING'],
+  },
+  {
+    identityId: 'BG-S122-PLIERS-GIRL',
+    censusPersonId: 'scene:S1-22:four neighbourhood kids',
+    label: "The girl from Kai's workshop",
+    name: null,
+    tier: 'RECURRING_BACKGROUND',
+    flags: ['FROM_A_GROUP'],
+    originalScene: { releaseId: 'S1-22', sceneId: 'S1-22-P1', shots: [], sourceQuote: 'A girl makes hers bloom on the first try and screams with joy.', sourceFile: MASTER },
+    facialReference: { keyframeId: null, status: 'PENDING_PRODUCTION', note: 'S1-22 is not in production; her face is fixed when it is, and S1-59 reuses it.' },
+    wardrobe: { everyday: 'Her own; no lock needed beyond S1-22.', signature: null, status: 'NOT_REQUIRED', note: 'Recognized by the pliers and her bloom light, not by wardrobe.' },
+    mannerisms: [{ gesture: 'Holding her light up like a torch', sourceQuote: 'The girl runs out holding her light up like a torch.' }],
+    knownAppearances: ['S1-22'],
+    approvedAppearances: [{ releaseId: 'S1-59', placement: 'Beat 2, one of the kids on bikes', proposalId: 'R-05', venue: 'PUBLIC', access: 'A public promenade.' }],
+    dialogue: [],
+    voice: NO_VOICE,
+    relationships: [],
+    sourceConnections: ["One of the four kids Kai teaches in S1-22; he gives her his best pliers (master S1-22)."],
+    continuityStatus: 'FOUNDER_APPROVED by R-05: the S1-22 girl returns in S1-59. Nothing else is added.',
+    tierHistory: [{ tier: 'SCENE_SCOPED', decidedBy: 'Season cast census (one of a group)', source: 'THE_EXCHANGE/SEASON_1/FUTURE_PRODUCTION_DEPENDENCIES_V1.json' }, { tier: 'RECURRING_BACKGROUND', decidedBy: 'Founder: R-05 approved', source: FOUNDER }],
+    founderDecisions: ['R-05 approved'],
+  },
+  {
+    identityId: 'SC-S101-WOMAN-ON-THE-BALCONY',
+    censusPersonId: 'scene:S1-01:woman on the balcony',
+    label: 'The woman on the balcony',
+    name: null,
+    tier: 'SCENE_SCOPED',
+    flags: [],
+    originalScene: { releaseId: 'S1-01', sceneId: 'S1-01-SC05', shots: ['S1-01-SH11', 'S1-01-SH12', 'S1-01-SH16', 'S1-01-SH17'], sourceQuote: 'On a balcony, a woman dances alone in her kitchen.', sourceFile: MASTER },
+    facialReference: { keyframeId: null, status: 'NOT_REQUIRED', note: 'Scene-scoped: designed inside the S1-01 packet only.' },
+    wardrobe: { everyday: 'Woman on the balcony: soft at-home dress, bare feet, hair loosely up', signature: null, status: 'NOT_REQUIRED', note: 'Scene-scoped.' },
+    mannerisms: [],
+    knownAppearances: ['S1-01'],
+    approvedAppearances: [],
+    dialogue: [],
+    voice: NO_VOICE,
+    relationships: [],
+    sourceConnections: [],
+    continuityStatus: 'SCENE_SCOPED. Not promoted: no explicit approval applies.',
+    tierHistory: [WAS_SCENE_SCOPED],
+    founderDecisions: [],
+  },
+  {
+    identityId: 'SC-S101-NEIGHBOUR',
+    censusPersonId: 'scene:S1-01:neighbour',
+    label: 'The neighbour',
+    name: null,
+    tier: 'SCENE_SCOPED',
+    flags: [],
+    originalScene: { releaseId: 'S1-01', sceneId: 'S1-01-SC06', shots: ['S1-01-SH13', 'S1-01-SH14', 'S1-01-SH15'], sourceQuote: 'Across the street, a neighbour lifts a phone toward her.', sourceFile: MASTER },
+    facialReference: { keyframeId: null, status: 'NOT_REQUIRED', note: 'Scene-scoped: designed inside the S1-01 packet only.' },
+    wardrobe: { everyday: 'Neighbour: plain t-shirt, reading lamp behind him', signature: null, status: 'NOT_REQUIRED', note: 'Scene-scoped.' },
+    mannerisms: [],
+    knownAppearances: ['S1-01'],
+    approvedAppearances: [],
+    dialogue: [],
+    voice: NO_VOICE,
+    relationships: [],
+    sourceConnections: [],
+    continuityStatus: 'SCENE_SCOPED. Not promoted: no explicit approval applies. R-12 (his far-bank return) is not approved.',
+    tierHistory: [WAS_SCENE_SCOPED],
+    founderDecisions: [],
+  },
+];

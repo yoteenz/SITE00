@@ -25,6 +25,10 @@ export type ApprovedAmendment = {
   classification: CanonClassification;
   placementEvidence: string;
   runtimeEffect: string;
+  /** Set on amendments promoted after the canon lock, which carry their own founder approval. */
+  founderApproval?: string;
+  /** What must still be decided or designed before this amendment can be produced; null when nothing is held. */
+  productionHold?: string | null;
 };
 
 export type MasterRelease = {

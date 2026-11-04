@@ -22,7 +22,7 @@
       "openQuestions": "U-4",
       "dependsOn": "",
       "paysOffIn": "S1-58",
-      "approvedAmendments": ""
+      "approvedAmendments": "AM-LW-S1-01-FDS101-06; AM-LW-S1-01-S02"
     },
     {
       "releaseId": "S1-02",
@@ -154,7 +154,7 @@
       "openQuestions": "U-4",
       "dependsOn": "",
       "paysOffIn": "S1-57",
-      "approvedAmendments": ""
+      "approvedAmendments": "AM-LW-S1-07-V07"
     },
     {
       "releaseId": "S1-08",
@@ -242,7 +242,7 @@
       "openQuestions": "",
       "dependsOn": "S1-05; S1-08",
       "paysOffIn": "",
-      "approvedAmendments": ""
+      "approvedAmendments": "AM-LW-S1-11-V07"
     },
     {
       "releaseId": "S1-12",
@@ -264,7 +264,7 @@
       "openQuestions": "U-6",
       "dependsOn": "",
       "paysOffIn": "S1-43; S1-20",
-      "approvedAmendments": ""
+      "approvedAmendments": "AM-LW-S1-12-F01"
     },
     {
       "releaseId": "S1-13",
@@ -374,7 +374,7 @@
       "openQuestions": "",
       "dependsOn": "",
       "paysOffIn": "S1-38; S1-43",
-      "approvedAmendments": ""
+      "approvedAmendments": "AM-LW-S1-17-V07"
     },
     {
       "releaseId": "S1-18",
@@ -440,7 +440,7 @@
       "openQuestions": "U-4; U-6",
       "dependsOn": "S1-12; S1-14",
       "paysOffIn": "S1-54; S1-55; S1-21; S1-35",
-      "approvedAmendments": ""
+      "approvedAmendments": "AM-LW-S1-20-F01; AM-LW-S1-20-F19"
     },
     {
       "releaseId": "S1-21",
@@ -726,7 +726,7 @@
       "openQuestions": "U-4; U-6; U-7",
       "dependsOn": "S1-09; S1-28",
       "paysOffIn": "S1-50; S1-81",
-      "approvedAmendments": ""
+      "approvedAmendments": "AM-LW-S1-33-F05"
     },
     {
       "releaseId": "S1-34",
@@ -770,7 +770,7 @@
       "openQuestions": "",
       "dependsOn": "S1-20",
       "paysOffIn": "S1-74",
-      "approvedAmendments": ""
+      "approvedAmendments": "AM-LW-S1-35-F19"
     },
     {
       "releaseId": "S1-36",
@@ -814,7 +814,7 @@
       "openQuestions": "U-6; U-7",
       "dependsOn": "S1-36; S1-23",
       "paysOffIn": "S1-40; S1-69; S1-74",
-      "approvedAmendments": ""
+      "approvedAmendments": "AM-LW-S1-37-F04"
     },
     {
       "releaseId": "S1-38",
@@ -880,7 +880,7 @@
       "openQuestions": "U-4; U-5; U-6; U-7",
       "dependsOn": "S1-37",
       "paysOffIn": "S1-63",
-      "approvedAmendments": ""
+      "approvedAmendments": "AM-LW-S1-40-F04"
     },
     {
       "releaseId": "S1-41",
@@ -1100,7 +1100,7 @@
       "openQuestions": "U-5; U-6; U-7",
       "dependsOn": "S1-33; S1-49",
       "paysOffIn": "S1-74; S1-81",
-      "approvedAmendments": ""
+      "approvedAmendments": "AM-LW-S1-50-F05"
     },
     {
       "releaseId": "S1-51",
@@ -1122,7 +1122,7 @@
       "openQuestions": "U-4; U-6",
       "dependsOn": "S1-12; S1-20",
       "paysOffIn": "S1-69; S1-72",
-      "approvedAmendments": ""
+      "approvedAmendments": "AM-LW-S1-51-R04"
     },
     {
       "releaseId": "S1-52",
@@ -1254,7 +1254,7 @@
       "openQuestions": "",
       "dependsOn": "S1-07; S1-56",
       "paysOffIn": "",
-      "approvedAmendments": ""
+      "approvedAmendments": "AM-LW-S1-57-V07"
     },
     {
       "releaseId": "S1-58",
@@ -1276,7 +1276,7 @@
       "openQuestions": "",
       "dependsOn": "S1-01; S1-26",
       "paysOffIn": "",
-      "approvedAmendments": ""
+      "approvedAmendments": "AM-LW-S1-58-F06"
     },
     {
       "releaseId": "S1-59",
@@ -1298,7 +1298,7 @@
       "openQuestions": "",
       "dependsOn": "",
       "paysOffIn": "S1-76; S1-77",
-      "approvedAmendments": ""
+      "approvedAmendments": "AM-LW-S1-59-R05; AM-LW-S1-59-R01; AM-LW-S1-59-T12"
     },
     {
       "releaseId": "S1-60",
@@ -1628,7 +1628,7 @@
       "openQuestions": "U-4; U-6",
       "dependsOn": "S1-35; S1-39; S1-70; S1-40; S1-50",
       "paysOffIn": "",
-      "approvedAmendments": ""
+      "approvedAmendments": "AM-LW-S1-74-F19"
     },
     {
       "releaseId": "S1-75",
@@ -1650,7 +1650,7 @@
       "openQuestions": "U-6",
       "dependsOn": "S1-28; S1-31; S1-43; S1-10; S1-12; S1-18",
       "paysOffIn": "",
-      "approvedAmendments": ""
+      "approvedAmendments": "AM-LW-S1-75-T10"
     },
     {
       "releaseId": "S1-76",
@@ -1672,7 +1672,7 @@
       "openQuestions": "",
       "dependsOn": "S1-67",
       "paysOffIn": "",
-      "approvedAmendments": ""
+      "approvedAmendments": "AM-LW-S1-76-T12"
     },
     {
       "releaseId": "S1-77",
@@ -1694,7 +1694,7 @@
       "openQuestions": "",
       "dependsOn": "S1-58; S1-65; S1-71; S1-76",
       "paysOffIn": "",
-      "approvedAmendments": ""
+      "approvedAmendments": "AM-LW-S1-77-F07; AM-LW-S1-77-W01; AM-LW-S1-77-R02; AM-LW-S1-77-R03"
     },
     {
       "releaseId": "S1-78",
@@ -1716,7 +1716,7 @@
       "openQuestions": "",
       "dependsOn": "S1-08; S1-57",
       "paysOffIn": "",
-      "approvedAmendments": ""
+      "approvedAmendments": "AM-LW-S1-78-V07"
     },
     {
       "releaseId": "S1-79",
@@ -1804,7 +1804,7 @@
       "openQuestions": "",
       "dependsOn": "S1-73; S1-74; S1-77",
       "paysOffIn": "",
-      "approvedAmendments": ""
+      "approvedAmendments": "AM-LW-S1-82-F19"
     },
     {
       "releaseId": "S1-83",
@@ -1892,7 +1892,7 @@
       "openQuestions": "U-1; U-5",
       "dependsOn": "S1-78",
       "paysOffIn": "",
-      "approvedAmendments": ""
+      "approvedAmendments": "AM-LW-S1-86-V07; AM-LW-S1-86-T01"
     }
   ]
 }

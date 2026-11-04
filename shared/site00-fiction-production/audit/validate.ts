@@ -2,7 +2,7 @@ import crypto from 'node:crypto';
 import fs from 'node:fs';
 import { EXCHANGE_PATHS, repoPath } from '../paths.js';
 import type { MasterRelease, SeasonMaster } from '../types.js';
-import { PROTECTED_BASELINE } from './baseline.js';
+import { baselineState, PROTECTED_BASELINE } from './baseline.js';
 import { INVENTION_CANDIDATES } from './inventions.js';
 import { BACKGROUND_GROUPS, MEMORY_INVENTORY } from './memoryInventory.js';
 import { PRIORITIES, SECOND_TIER } from './priorities.js';
@@ -122,9 +122,9 @@ export function validateAudit(root = process.cwd(), data: AuditData = AUDIT_DATA
 
   check(
     'PROTECTED_FILES',
-    'Master, S1-01 packet files and the five Fountain drafts are byte-identical to the baseline',
+    'Master, S1-01 packet files and the five Fountain drafts are byte-identical to the baseline (the master apart from founder-promoted amendments)',
     PROTECTED_BASELINE.length,
-    PROTECTED_BASELINE.filter((f) => sha256(repoPath(f.path, root)) !== f.sha256).map((f) => `changed: ${f.path}`),
+    PROTECTED_BASELINE.filter((f) => baselineState(f, root) === 'CHANGED').map((f) => `changed: ${f.path}`),
   );
 
   const judgmentErrors: string[] = [];

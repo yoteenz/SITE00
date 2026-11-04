@@ -24,4 +24,5 @@ export * from './jitCast.js';
 export * from './dependencyGraph.js';
 export * as Directorial from './directorial/index.js';
 export * as Audit from './audit/index.js';
+export * as Promotion from './promotion/index.js';
 export * from './scenes/index.js';

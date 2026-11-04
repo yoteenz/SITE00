@@ -1,0 +1,3965 @@
+{
+  "schemaVersion": "1.0.0",
+  "propertySlug": "the-exchange",
+  "ledgerId": "THE_EXCHANGE.S1.LIVING_WORLD_PROMOTION_LEDGER.V1",
+  "founderApproval": {
+    "date": "2026-10-25",
+    "sprint": "P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1",
+    "auditCommit": "f43aa1f07d275fe8dd4abf0abf1afd94b1b61905",
+    "groups": [
+      {
+        "priority": "P-01",
+        "founderLabel": "Copper wax continuity",
+        "proposals": [
+          "V-07"
+        ]
+      },
+      {
+        "priority": "P-02",
+        "founderLabel": "Ember privacy limit",
+        "proposals": [
+          "T-10"
+        ]
+      },
+      {
+        "priority": "P-03",
+        "founderLabel": "Gold: hand → room → city",
+        "proposals": [
+          "T-11"
+        ]
+      },
+      {
+        "priority": "P-04",
+        "founderLabel": "Recurring lantern flicker",
+        "proposals": [
+          "T-12"
+        ]
+      },
+      {
+        "priority": "P-05",
+        "founderLabel": "Two viewpoints of the dance",
+        "proposals": [
+          "F-06",
+          "F-07"
+        ]
+      },
+      {
+        "priority": "P-06",
+        "founderLabel": "Dee's auditory memory",
+        "proposals": [
+          "F-04"
+        ]
+      },
+      {
+        "priority": "P-07",
+        "founderLabel": "Mavis's fruit truck",
+        "proposals": [
+          "F-01"
+        ]
+      },
+      {
+        "priority": "P-08",
+        "founderLabel": "Recognizable musical sounds",
+        "proposals": [
+          "F-05",
+          "F-19"
+        ]
+      },
+      {
+        "priority": "P-09",
+        "founderLabel": "Public riverbank celebration",
+        "proposals": [
+          "W-01",
+          "R-02",
+          "R-03"
+        ]
+      },
+      {
+        "priority": "P-10",
+        "founderLabel": "Promenade recurring faces",
+        "proposals": [
+          "R-01",
+          "R-05"
+        ]
+      },
+      {
+        "priority": "P-11",
+        "founderLabel": "Teenager's dance callback",
+        "proposals": [
+          "S-02",
+          "R-04"
+        ]
+      },
+      {
+        "priority": "P-12",
+        "founderLabel": "Relay rules and final delivery",
+        "proposals": [
+          "T-02",
+          "T-01"
+        ]
+      }
+    ],
+    "approvedIds": [
+      "V-07",
+      "T-10",
+      "T-11",
+      "T-12",
+      "F-06",
+      "F-07",
+      "F-04",
+      "F-01",
+      "F-05",
+      "F-19",
+      "W-01",
+      "R-02",
+      "R-03",
+      "R-01",
+      "R-05",
+      "S-02",
+      "R-04",
+      "T-02",
+      "T-01"
+    ],
+    "answers": [
+      {
+        "decisionId": "FD-S101-06",
+        "answer": "RECURRING",
+        "meaning": "The S1-01 tailor, grandmother and teenager keep reusable recurring-background identities, and their approved returns are recognized.",
+        "notAuthorized": [
+          "principal or speaking characters (the grandmother's one existing line comes from R-01, not from this decision)",
+          "names",
+          "any implication that they know each other",
+          "recurring identities for the woman on the balcony or the neighbour"
+        ],
+        "resolves": [
+          "R-01",
+          "R-02",
+          "R-03",
+          "R-04",
+          "S-02"
+        ],
+        "stillOpen": null
+      },
+      {
+        "decisionId": "FD-S101-07",
+        "answer": "ANONYMOUS",
+        "meaning": "The S1-01 tailor stays anonymous. His appearance at the later public celebration is an ambient return.",
+        "notAuthorized": [
+          "identifying him as Wendell Ames",
+          "a biography or secret relationship",
+          "merging him into an existing named character record"
+        ],
+        "resolves": [
+          "R-03"
+        ],
+        "stillOpen": null
+      },
+      {
+        "decisionId": "R-01",
+        "answer": "SPEAKING",
+        "meaning": "The S1-01 grandmother is the grandmother who speaks the existing S1-59 line. One identity, one line, facial and performance continuity across both appearances.",
+        "notAuthorized": [
+          "R-01-ALT (a second grandmother keeping the line)",
+          "replacement or additional dialogue",
+          "voice production"
+        ],
+        "resolves": [
+          "R-01"
+        ],
+        "stillOpen": null
+      },
+      {
+        "decisionId": "FD-S101-05",
+        "answer": "DRESS_DESIGN_LATER",
+        "meaning": "The story continuity of the grandmother's jewel-green dress is approved. The silhouette is chosen during S1-01 visual development, and the chosen garment is the one the S1-77 callback uses.",
+        "notAuthorized": [
+          "choosing between the 1960s satin cocktail dress and the bias-cut evening dress",
+          "a second or contradictory dress design",
+          "marking the wardrobe asset production-ready before founder visual approval"
+        ],
+        "resolves": [
+          "R-02 (story continuity)"
+        ],
+        "stillOpen": "the garment design, chosen at S1-01 visual development with founder visual approval."
+      }
+    ],
+    "notApproved": [
+      {
+        "id": "R-12",
+        "founderNote": "NOT APPROVED. The audit identifies a conflict between R-03 and R-12. Preserve R-12 in its original unapproved/held state. Do not promote R-12. Do not substitute R-12 for the approved R-03 treatment."
+      },
+      {
+        "id": "R-01-ALT",
+        "founderNote": "Do not apply R-01-ALT. Do not duplicate the speaking role."
+      },
+      {
+        "id": "C-01",
+        "founderNote": "NOT APPROVED. Do not identify the tailor as Wendell Ames. Preserve C-01 as an unapproved historical proposal."
+      },
+      {
+        "id": "R-14",
+        "founderNote": "NOT APPROVED. The teenager's S1-51 drumline return is approved. A separate proposed S1-69 return is not. Do not combine these appearances."
+      }
+    ]
+  },
+  "rule": "Founder approval is at the creative-proposal level. Production readiness is tracked separately and may lag. An audit recommendation is never a founder decision; the 53 unapproved proposals keep theirs and await the founder.",
+  "states": {
+    "decision": [
+      "FOUNDER_APPROVED",
+      "FOUNDER_HELD",
+      "FOUNDER_REJECTED",
+      "PENDING_FOUNDER"
+    ],
+    "production": [
+      "NO_PRODUCTION_ASSET",
+      "PENDING_PRODUCTION",
+      "CONDITIONAL_PRODUCTION_HOLD"
+    ]
+  },
+  "counts": {
+    "auditProposals": 72,
+    "founderApproved": 19,
+    "pendingFounder": 53,
+    "founderHeld": 0,
+    "founderRejected": 0,
+    "conditionalProductionHold": 8
+  },
+  "promotionOrder": [
+    "V-07",
+    "T-02",
+    "T-10",
+    "T-11",
+    "T-12",
+    "T-01",
+    "F-01",
+    "F-04",
+    "F-05",
+    "F-06",
+    "F-07",
+    "F-19",
+    "W-01",
+    "R-01",
+    "R-02",
+    "R-03",
+    "S-02",
+    "R-04",
+    "R-05"
+  ],
+  "promotions": [
+    {
+      "proposalId": "V-07",
+      "title": "Copper wax: every seal holds until Celestine breaks one",
+      "type": "VISUAL_EASTER_EGG",
+      "category": "A",
+      "priority": "P-01",
+      "founderLabel": "Copper wax continuity",
+      "phase": "A",
+      "order": 1,
+      "decisionState": "FOUNDER_APPROVED",
+      "auditRecommendation": "APPROVE",
+      "founderApproval": "2026-10-25 P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1 (P-01 Copper wax continuity)",
+      "sourceEvidence": [
+        {
+          "ref": "S1-17-P1 beat 1",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "sealed in copper wax"
+        },
+        {
+          "ref": "S1-07-P1 beat 9",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "He puts it back face down."
+        },
+        {
+          "ref": "S1-11-P1 beat 4",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "a courier returns it to Sloane's office, unopened"
+        },
+        {
+          "ref": "S1-57-P1 beat 1",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "turns over the envelope the family has left face down for ten years"
+        },
+        {
+          "ref": "S1-78-P1 beat 6",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "Celestine holds it without opening it."
+        },
+        {
+          "ref": "S1-86-P1 beat 1",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "Celestine opens the envelope."
+        }
+      ],
+      "affectedReleases": [
+        "S1-86",
+        "S1-07",
+        "S1-11",
+        "S1-17",
+        "S1-57",
+        "S1-78"
+      ],
+      "affectedBeats": [
+        "S1-07 beat 9",
+        "S1-11 beat 4",
+        "S1-17 beat 1",
+        "S1-57 beat 1",
+        "S1-78 beat 6",
+        "S1-86 beat 1"
+      ],
+      "originalBehavior": "S1-17 says Exchange paper is sealed in copper wax. The season's other envelopes are not described.",
+      "approvedBehavior": "Carry the rule to every Exchange envelope. Face down in Vivienne's desk, her envelope shows its copper seal (S1-07, S1-57). Sloane's invitation comes back from Celestine with the seal unbroken (S1-11). Celestine holds Vivienne's envelope seal-up without opening it (S1-78). In S1-86 the seal cracks: the only seal broken on screen all season, and the only time the sound is heard.",
+      "runtimeImpactSec": 0,
+      "continuityImplications": [
+        "DELIBERATE recognition; WORKPLACE venue (Her own studio.); speaks: NO.",
+        "Every Exchange envelope in every release must match. One mismatch breaks it."
+      ],
+      "assetImplications": [
+        "LW-PROP-COPPER-SEAL: The copper wax seal on Exchange envelopes — PENDING_DESIGN",
+        "LW-SFX-SEAL-CRACK: The seal-crack sound — PENDING_DESIGN"
+      ],
+      "productionState": "PENDING_PRODUCTION",
+      "productionHolds": [],
+      "dependencies": [],
+      "implementation": {
+        "masterAmendments": [
+          "AM-LW-S1-07-V07",
+          "AM-LW-S1-11-V07",
+          "AM-LW-S1-17-V07",
+          "AM-LW-S1-57-V07",
+          "AM-LW-S1-78-V07",
+          "AM-LW-S1-86-V07"
+        ],
+        "worldRules": [
+          "WR-01"
+        ],
+        "soundMotifs": [
+          "MO-05"
+        ],
+        "backgroundIdentities": [],
+        "s101Patch": []
+      }
+    },
+    {
+      "proposalId": "T-02",
+      "title": "Four Relay rules, written down before S1-34 and S1-86 are drafted",
+      "type": "TECHNOLOGY",
+      "category": "C",
+      "priority": "P-12",
+      "founderLabel": "Relay rules and final delivery",
+      "phase": "A",
+      "order": 2,
+      "decisionState": "FOUNDER_APPROVED",
+      "auditRecommendation": "APPROVE",
+      "founderApproval": "2026-10-25 P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1 (P-12 Relay rules and final delivery)",
+      "sourceEvidence": [
+        {
+          "ref": "S1-15-P1 beat 8",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "you don't follow one home"
+        },
+        {
+          "ref": "S1-34-P1 beat 1",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "The blank Relay card travels hand to hand around the sewing circle."
+        },
+        {
+          "ref": "S1-86-P1 beat 6",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "She sends one Relay, to Richard"
+        }
+      ],
+      "affectedReleases": [
+        "S1-15",
+        "S1-34",
+        "S1-86"
+      ],
+      "affectedBeats": [
+        "Season rule, first exercised in S1-15."
+      ],
+      "originalBehavior": "The season uses \"Relay\" for the paper (S1-15, S1-34) and for a message (S1-86 \"sends one Relay\"). Bible 06 asks for its naming collision to be resolved. How the card reaches its addressee is not stated.",
+      "approvedBehavior": "1. \"Relay\" is the paper; a message on it is \"a Relay\". 2. It is blank to everyone except its addressee, including the person who wrote it. 3. It never finds anyone: people carry it, as the sewing circle does. 4. It proves nothing about the truth of the message or the sender's goodwill, and it gives no receipt.",
+      "runtimeImpactSec": 0,
+      "continuityImplications": [
+        "S1-15, S1-34 and S1-86 already behave this way. The rules prevent a later draft from making the card a locator.",
+        "A season rule, so it binds every later use. It removes nothing that is on the page."
+      ],
+      "assetImplications": [
+        "LW-VFX-RELAY: The Relay ink-sink effect — PENDING_DESIGN",
+        "LW-RULES: Relay rules and the gold ladder — NOT_REQUIRED"
+      ],
+      "productionState": "PENDING_PRODUCTION",
+      "productionHolds": [],
+      "dependencies": [],
+      "implementation": {
+        "masterAmendments": [],
+        "worldRules": [
+          "WR-02"
+        ],
+        "soundMotifs": [],
+        "backgroundIdentities": [],
+        "s101Patch": []
+      }
+    },
+    {
+      "proposalId": "T-10",
+      "title": "The Ember stops capture, not memory",
+      "type": "TECHNOLOGY",
+      "category": "C",
+      "priority": "P-02",
+      "founderLabel": "Ember privacy limit",
+      "phase": "A",
+      "order": 3,
+      "decisionState": "FOUNDER_APPROVED",
+      "auditRecommendation": "APPROVE",
+      "founderApproval": "2026-10-25 P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1 (P-02 Ember privacy limit)",
+      "sourceEvidence": [
+        {
+          "ref": "S1-75-P1 beat 1",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "Sloane asks the room for consented capture of her words only; a light on the stage turns gold"
+        },
+        {
+          "ref": "S1-75-P1",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "The light returns to copper."
+        },
+        {
+          "ref": "S1-43-P1 beat 9",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "Nothing you inferred says last."
+        },
+        {
+          "ref": "S1-54-P1 beat 2",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "repeated it to his boss to impress him"
+        }
+      ],
+      "affectedReleases": [
+        "S1-75",
+        "S1-43",
+        "S1-54"
+      ],
+      "affectedBeats": [
+        "S1-75 ending"
+      ],
+      "originalBehavior": "The breach storyline turns on a word repeated from person to person (S1-54). The Ember is never stated to govern speech, but a viewer could ask why a world that stops cameras did not stop a leak.",
+      "approvedBehavior": "Write down: the Ember governs devices. It does not stop anyone hearing, remembering or repeating. On screen in S1-75: as the stage light returns to copper, the room is already repeating Sloane's words to each other, table to table. The light stopped the cameras, not the talk.",
+      "runtimeImpactSec": 0,
+      "continuityImplications": [
+        "S1-43 (inference versus one word), S1-54 (Marcus repeated it) and S1-55 stay exactly as written.",
+        "A rule that S1-28 to S1-55 already obey. Writing it down protects the midpoint."
+      ],
+      "assetImplications": [
+        "LW-CROWD-S1-75: The room repeating Sloane's words — PENDING_PRODUCTION"
+      ],
+      "productionState": "PENDING_PRODUCTION",
+      "productionHolds": [],
+      "dependencies": [],
+      "implementation": {
+        "masterAmendments": [
+          "AM-LW-S1-75-T10"
+        ],
+        "worldRules": [
+          "WR-03"
+        ],
+        "soundMotifs": [],
+        "backgroundIdentities": [],
+        "s101Patch": []
+      }
+    },
+    {
+      "proposalId": "T-11",
+      "title": "A ladder for gold: hand, room, city",
+      "type": "TECHNOLOGY",
+      "category": "A",
+      "priority": "P-03",
+      "founderLabel": "Gold: hand → room → city",
+      "phase": "A",
+      "order": 4,
+      "decisionState": "FOUNDER_APPROVED",
+      "auditRecommendation": "APPROVE",
+      "founderApproval": "2026-10-25 P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1 (P-03 Gold: hand → room → city)",
+      "sourceEvidence": [
+        {
+          "ref": "S1-30-P1 beat 5",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "The child makes the light bloom gold."
+        },
+        {
+          "ref": "S1-30-P1",
+          "file": "THE_EXCHANGE/FOUNDER_SOURCE/SEASON1_HISTORY/THE_EXCHANGE_FOUNDER_VISION_HYBRID_SHOWRUNNER_V1/THE_EXCHANGE_HYBRID_V1_WRITERS_ROOM_TRUTH.md",
+          "quote": "Gold is new in Season 1"
+        },
+        {
+          "ref": "S1-75-P1 beat 1",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "a light on the stage turns gold"
+        },
+        {
+          "ref": "S1-77-P1 beat 2",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "One by one, people choose: gold blooms."
+        }
+      ],
+      "affectedReleases": [
+        "S1-30",
+        "S1-22",
+        "S1-75",
+        "S1-77",
+        "S1-82"
+      ],
+      "affectedBeats": [
+        "Season reading rule, first visible in S1-30."
+      ],
+      "originalBehavior": "The truth document says gold is new in Season 1, but S1-30 shows a ward lit by copper and gold consent lights installed four years ago. Both can be true; nothing says how.",
+      "approvedBehavior": "Write down a ladder. Hand scale: a person makes a light bloom gold for themselves in one room (S1-22, S1-30). Room scale: a host asks a room for consented capture under one gold light (S1-75). City scale: gold binds the city's capture to revocation (S1-77), and is made public under Celestine's name (S1-82). Only the city scale is new in Season 1. Before S1-77, gold never binds anyone outside the room.",
+      "runtimeImpactSec": 0,
+      "continuityImplications": [
+        "A reading rule. Production must keep pre-S1-77 gold small and local."
+      ],
+      "assetImplications": [
+        "LW-RULES: Relay rules and the gold ladder — NOT_REQUIRED"
+      ],
+      "productionState": "NO_PRODUCTION_ASSET",
+      "productionHolds": [],
+      "dependencies": [],
+      "implementation": {
+        "masterAmendments": [],
+        "worldRules": [
+          "WR-04"
+        ],
+        "soundMotifs": [],
+        "backgroundIdentities": [],
+        "s101Patch": []
+      }
+    },
+    {
+      "proposalId": "T-12",
+      "title": "The lantern that flickered at rigging flickers again before the failure",
+      "type": "TECHNOLOGY",
+      "category": "A",
+      "priority": "P-04",
+      "founderLabel": "Recurring lantern flicker",
+      "phase": "A",
+      "order": 5,
+      "decisionState": "FOUNDER_APPROVED",
+      "auditRecommendation": "APPROVE",
+      "founderApproval": "2026-10-25 P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1 (P-04 Recurring lantern flicker)",
+      "sourceEvidence": [
+        {
+          "ref": "S1-59-P1",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "One lantern flickers copper on its own, then goes dark."
+        },
+        {
+          "ref": "S1-76-P1 beat 1",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "Fifteen minutes before midnight, the system fails."
+        },
+        {
+          "ref": "S1-76-P1 beat 2",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "The old rig's memory still holds the first pavilion's consent keys"
+        }
+      ],
+      "affectedReleases": [
+        "S1-76",
+        "S1-59"
+      ],
+      "affectedBeats": [
+        "S1-59 ending",
+        "S1-76 beat 1"
+      ],
+      "originalBehavior": "S1-59 ends on a lantern flickering on its own. S1-76 reveals the old rig's memory conflicting with tonight's keys. The two are not connected on screen.",
+      "approvedBehavior": "The same lantern, in the same position on the promenade, flickers the same copper pattern a moment before the failure. On rewatch, S1-59's flicker was the old record already in the system. Nobody says so.",
+      "runtimeImpactSec": 0,
+      "continuityImplications": [
+        "Implies no new conspiracy: the old keys were always there (S1-76)."
+      ],
+      "assetImplications": [
+        "LW-VFX-LANTERN-FLICKER: The flickering lantern: position and copper pattern — PENDING_DESIGN"
+      ],
+      "productionState": "PENDING_PRODUCTION",
+      "productionHolds": [],
+      "dependencies": [],
+      "implementation": {
+        "masterAmendments": [
+          "AM-LW-S1-59-T12",
+          "AM-LW-S1-76-T12"
+        ],
+        "worldRules": [
+          "WR-05"
+        ],
+        "soundMotifs": [],
+        "backgroundIdentities": [],
+        "s101Patch": []
+      }
+    },
+    {
+      "proposalId": "T-01",
+      "title": "The last Relay blanks in Celestine's hand",
+      "type": "TECHNOLOGY",
+      "category": "A",
+      "priority": "P-12",
+      "founderLabel": "Relay rules and final delivery",
+      "phase": "A",
+      "order": 6,
+      "decisionState": "FOUNDER_APPROVED",
+      "auditRecommendation": "APPROVE",
+      "founderApproval": "2026-10-25 P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1 (P-12 Relay rules and final delivery)",
+      "sourceEvidence": [
+        {
+          "ref": "S1-86-P1 beat 6",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "She sends one Relay, to Richard"
+        },
+        {
+          "ref": "S1-15-P1 beat 16",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "Relay paper, which stays blank for everyone except the person it's meant for"
+        },
+        {
+          "ref": "S1-15-P1",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "The card goes blank in Tina's hand."
+        }
+      ],
+      "affectedReleases": [
+        "S1-86",
+        "S1-15",
+        "S1-34"
+      ],
+      "affectedBeats": [
+        "S1-86 beat 6"
+      ],
+      "originalBehavior": "The master says only that Celestine \"sends one Relay\". How the paper behaves in her hand is not specified.",
+      "approvedBehavior": "She writes the three lines and the ink sinks into the card while her pen is still lifted, exactly as it did for Tina in S1-15. She can no longer read what she wrote. She lets it go out of the frame. No courier, no delivery shown.",
+      "runtimeImpactSec": 0,
+      "continuityImplications": [
+        "Must match S1-15 and S1-34 exactly. If the S1-15 effect changes at screenplay stage, this follows it."
+      ],
+      "assetImplications": [
+        "LW-VFX-RELAY: The Relay ink-sink effect — PENDING_DESIGN"
+      ],
+      "productionState": "PENDING_PRODUCTION",
+      "productionHolds": [],
+      "dependencies": [
+        {
+          "to": "T-02",
+          "kind": "DEPENDS_ON",
+          "resolution": "T-02 is founder-approved and promoted first.",
+          "open": false
+        }
+      ],
+      "implementation": {
+        "masterAmendments": [
+          "AM-LW-S1-86-T01"
+        ],
+        "worldRules": [
+          "WR-02"
+        ],
+        "soundMotifs": [],
+        "backgroundIdentities": [],
+        "s101Patch": []
+      }
+    },
+    {
+      "proposalId": "F-01",
+      "title": "The fruit truck, heard and not seen",
+      "type": "SENSORY_FLASHBACK",
+      "category": "A",
+      "priority": "P-07",
+      "founderLabel": "Mavis's fruit truck",
+      "phase": "B",
+      "order": 7,
+      "decisionState": "FOUNDER_APPROVED",
+      "auditRecommendation": "APPROVE",
+      "founderApproval": "2026-10-25 P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1 (P-07 Mavis's fruit truck)",
+      "sourceEvidence": [
+        {
+          "ref": "S1-12-P1 beat 12",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "The night Nadine was born, Mavis drove Richard and his wife to the hospital in her fruit truck."
+        },
+        {
+          "ref": "S1-12-P1 beat 8",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "a brass Pledge token, worn smooth, stamped 1986"
+        },
+        {
+          "ref": "S1-20-P1 beat 12",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "Clarence counts off something slow."
+        }
+      ],
+      "affectedReleases": [
+        "S1-12",
+        "S1-20"
+      ],
+      "affectedBeats": [
+        "S1-12 beat 12",
+        "S1-20 beat 12"
+      ],
+      "originalBehavior": "The fruit truck is stated in one line. In S1-20 Clarence counts off \"something slow\" for Mavis and Richard's dance.",
+      "approvedBehavior": "Under the line, the market falls away for a few seconds and we hear a truck cab at night: the engine, the indicator ticking, a slow song on the radio. The picture stays on Mavis at her stall. No voices from the cab, and never Richard's wife. In S1-20 the slow number Clarence counts off is that song, in a big-band arrangement.",
+      "runtimeImpactSec": 0,
+      "continuityImplications": [
+        "One song, cleared or composed once, used in S1-12 (radio, thin) and S1-20 (big band, full).",
+        "The wife in the truck is Vivienne. She must not be heard: her voice belongs to nobody in Season 1."
+      ],
+      "assetImplications": [
+        "LW-MUS-TRUCK-SONG: The fruit-truck song — PENDING_DESIGN",
+        "LW-SFX-TRUCK-CAB: The truck cab at night: engine and indicator — PENDING_PRODUCTION"
+      ],
+      "productionState": "CONDITIONAL_PRODUCTION_HOLD",
+      "productionHolds": [
+        "HOLD-SONG"
+      ],
+      "dependencies": [],
+      "implementation": {
+        "masterAmendments": [
+          "AM-LW-S1-12-F01",
+          "AM-LW-S1-20-F01"
+        ],
+        "worldRules": [],
+        "soundMotifs": [
+          "MO-01"
+        ],
+        "backgroundIdentities": [],
+        "s101Patch": []
+      }
+    },
+    {
+      "proposalId": "F-04",
+      "title": "Dee hears 1985; the Echo Track stays silent",
+      "type": "SENSORY_FLASHBACK",
+      "category": "A",
+      "priority": "P-06",
+      "founderLabel": "Dee's auditory memory",
+      "phase": "B",
+      "order": 8,
+      "decisionState": "FOUNDER_APPROVED",
+      "auditRecommendation": "APPROVE",
+      "founderApproval": "2026-10-25 P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1 (P-06 Dee's auditory memory)",
+      "sourceEvidence": [
+        {
+          "ref": "S1-37-P2 beat 16",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "Dee has been stretching the whole time."
+        },
+        {
+          "ref": "S1-37-P1 beat 5",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "Set the city's 200-metre record at seventeen, from lane four."
+        },
+        {
+          "ref": "S1-40-P2 beat 20",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "The bleachers, in last night's clothes, lose their minds."
+        }
+      ],
+      "affectedReleases": [
+        "S1-37",
+        "S1-40"
+      ],
+      "affectedBeats": [
+        "S1-37 beat 16",
+        "S1-40 beat 20"
+      ],
+      "originalBehavior": "Sloane realizes she read the wrong woman. Dee has been stretching. In S1-40 the Echo Track is a line of light.",
+      "approvedBehavior": "Under the dusk track, faint enough to miss, a 1985 stadium crowd and a starter's pistol. Only Dee hears it; she keeps stretching. In S1-40 the Echo Track is silent: it carries light, not sound. When Zuri passes, the real bleachers' roar arrives where the remembered crowd was. The 1985 crowd is never heard in S1-40.",
+      "runtimeImpactSec": 0,
+      "continuityImplications": [
+        "The Echo Track has no sound in S1-40.",
+        "Decides an open Echo Track spec (whether the archive carries sound) in favour of silence. That decision should go into the U-5 dossier."
+      ],
+      "assetImplications": [
+        "LW-SFX-1985-CROWD: Dee's remembered 1985 crowd and starter's pistol — PENDING_PRODUCTION"
+      ],
+      "productionState": "PENDING_PRODUCTION",
+      "productionHolds": [],
+      "dependencies": [],
+      "implementation": {
+        "masterAmendments": [
+          "AM-LW-S1-37-F04",
+          "AM-LW-S1-40-F04"
+        ],
+        "worldRules": [
+          "WR-06"
+        ],
+        "soundMotifs": [
+          "MO-06"
+        ],
+        "backgroundIdentities": [],
+        "s101Patch": []
+      }
+    },
+    {
+      "proposalId": "F-05",
+      "title": "Plant Yaz's real laugh so the audience knows it in the Hush",
+      "type": "SENSORY_FLASHBACK",
+      "category": "A",
+      "priority": "P-08",
+      "founderLabel": "Recognizable musical sounds",
+      "phase": "B",
+      "order": 9,
+      "decisionState": "FOUNDER_APPROVED",
+      "auditRecommendation": "APPROVE",
+      "founderApproval": "2026-10-25 P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1 (P-08 Recognizable musical sounds)",
+      "sourceEvidence": [
+        {
+          "ref": "S1-33-P1 beat 3",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "For twelve years they've insulted each other on air"
+        },
+        {
+          "ref": "S1-50-P1 beat 10",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "Then she laughs, and he knows that laugh from twelve years of insults."
+        }
+      ],
+      "affectedReleases": [
+        "S1-33",
+        "S1-50"
+      ],
+      "affectedBeats": [
+        "S1-33 beat 3",
+        "S1-50 beat 10"
+      ],
+      "originalBehavior": "In S1-50 Tad recognizes Yaz by her laugh. S1-33 does not specify that the audience has heard it.",
+      "approvedBehavior": "In S1-33, once, Yaz laughs on air at one of Tad's insults: not her on-air cackle but a short, unguarded laugh she covers fast. The audience hears it through the bakery radio. In S1-50 the same laugh (the same performance) is what Tad hears, so the audience recognizes it at the same moment he does.",
+      "runtimeImpactSec": 0,
+      "continuityImplications": [
+        "Same performer, same laugh.",
+        "Requires the same performer and the same laugh in both releases."
+      ],
+      "assetImplications": [
+        "LW-PERF-YAZ-LAUGH: Yaz's unguarded laugh — PENDING_PRODUCTION"
+      ],
+      "productionState": "PENDING_PRODUCTION",
+      "productionHolds": [],
+      "dependencies": [],
+      "implementation": {
+        "masterAmendments": [
+          "AM-LW-S1-33-F05",
+          "AM-LW-S1-50-F05"
+        ],
+        "worldRules": [],
+        "soundMotifs": [
+          "MO-02"
+        ],
+        "backgroundIdentities": [],
+        "s101Patch": []
+      }
+    },
+    {
+      "proposalId": "F-06",
+      "title": "The garage, told honestly: a needle drop, a doorway, and objects for what Richard did not see",
+      "type": "SENSORY_FLASHBACK",
+      "category": "A",
+      "priority": "P-05",
+      "founderLabel": "Two viewpoints of the dance",
+      "phase": "B",
+      "order": 10,
+      "decisionState": "FOUNDER_APPROVED",
+      "auditRecommendation": "APPROVE",
+      "founderApproval": "2026-10-25 P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1 (P-05 Two viewpoints of the dance)",
+      "sourceEvidence": [
+        {
+          "ref": "S1-57-P1",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "Your mother had a best friend."
+        },
+        {
+          "ref": "S1-57-P1 beat 5",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "Richard is in the doorway in his robe"
+        },
+        {
+          "ref": "S1-58-P1",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "a garage workshop thirty-one years ago, with a record player and solder smoke"
+        },
+        {
+          "ref": "S1-58-P1 beat 7",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "Celestine found out from a newspaper."
+        }
+      ],
+      "affectedReleases": [
+        "S1-58",
+        "S1-57"
+      ],
+      "affectedBeats": [
+        "S1-58, the whole memory"
+      ],
+      "originalBehavior": "S1-58 is a memory moment, \"explicitly Richard's recollection, warm and imperfect\". The master does not set its grammar.",
+      "approvedBehavior": "1. In: a needle drops on a record before the picture changes; the garage record player is already playing when the garage appears. 2. Framing: the memory is shot from doorway height, where Richard stood. He watched the dance; he was not in it. 3. What he did not witness is shown as objects, not scenes: the typed letter to the standards body on a workbench; the newspaper folded on the bench. No shot of Celestine reading it. 4. Out: the needle lifts, and the study's room tone returns before the picture does.",
+      "runtimeImpactSec": 0,
+      "continuityImplications": [
+        "S1-77 must use the participant's version, not this one (F-07).",
+        "The newspaper and letter must not carry legible text that adds facts beyond KF-06."
+      ],
+      "assetImplications": [
+        "LW-FLASHBACK-S1-58: S1-58 doorway grammar: needle cues, workbench letter, folded newspaper — PENDING_DESIGN"
+      ],
+      "productionState": "CONDITIONAL_PRODUCTION_HOLD",
+      "productionHolds": [
+        "HOLD-FD-18"
+      ],
+      "dependencies": [],
+      "implementation": {
+        "masterAmendments": [
+          "AM-LW-S1-58-F06"
+        ],
+        "worldRules": [
+          "WR-07"
+        ],
+        "soundMotifs": [
+          "MO-07"
+        ],
+        "backgroundIdentities": [],
+        "s101Patch": []
+      }
+    },
+    {
+      "proposalId": "F-07",
+      "title": "Celestine's flash is the dancer's version, with the hum of the first gold light",
+      "type": "SENSORY_FLASHBACK",
+      "category": "A",
+      "priority": "P-05",
+      "founderLabel": "Two viewpoints of the dance",
+      "phase": "B",
+      "order": 11,
+      "decisionState": "FOUNDER_APPROVED",
+      "auditRecommendation": "APPROVE",
+      "founderApproval": "2026-10-25 P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1 (P-05 Two viewpoints of the dance)",
+      "sourceEvidence": [
+        {
+          "ref": "S1-77-P1 beat 8",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "A memory flash, in Celestine's recollection: two young women dancing in a garage under the first gold light."
+        },
+        {
+          "ref": "S1-58-P1 beat 4",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "They danced between the workbenches when it first worked."
+        },
+        {
+          "ref": "S1-59-P1 beat 5",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "They're humming."
+        }
+      ],
+      "affectedReleases": [
+        "S1-77",
+        "S1-58",
+        "S1-59"
+      ],
+      "affectedBeats": [
+        "S1-77 beat 8"
+      ],
+      "originalBehavior": "The flash is specified only as Celestine's recollection of the dance.",
+      "approvedBehavior": "The flash is the participant's version of S1-58: the camera inside the dance at eye level, hands and light, never the doorway. The first gold light hums, the same hum the grandmother on the bench heard in the lanterns. Same garage set and costumes as S1-58.",
+      "runtimeImpactSec": 0,
+      "continuityImplications": [
+        "S1-58 and S1-77 share sets and faces but not camera positions.",
+        "Reuses S1-58 assets, so the face locks (FD-18) are already required."
+      ],
+      "assetImplications": [
+        "LW-SFX-GOLD-HUM: The hum of the first gold light — PENDING_DESIGN",
+        "LW-FLASHBACK-S1-77: S1-77 participant grammar: inside the dance — PENDING_PRODUCTION"
+      ],
+      "productionState": "CONDITIONAL_PRODUCTION_HOLD",
+      "productionHolds": [
+        "HOLD-FD-18"
+      ],
+      "dependencies": [],
+      "implementation": {
+        "masterAmendments": [
+          "AM-LW-S1-77-F07"
+        ],
+        "worldRules": [
+          "WR-07"
+        ],
+        "soundMotifs": [
+          "MO-04"
+        ],
+        "backgroundIdentities": [],
+        "s101Patch": []
+      }
+    },
+    {
+      "proposalId": "F-19",
+      "title": "Noelle writes down two bars of Clarence's trumpet",
+      "type": "SENSORY_FLASHBACK",
+      "category": "A",
+      "priority": "P-08",
+      "founderLabel": "Recognizable musical sounds",
+      "phase": "B",
+      "order": 12,
+      "decisionState": "FOUNDER_APPROVED",
+      "auditRecommendation": "APPROVE",
+      "founderApproval": "2026-10-25 P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1 (P-08 Recognizable musical sounds)",
+      "sourceEvidence": [
+        {
+          "ref": "S1-20-P1 beat 20",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "By the bandstand, a teenage girl writes in a notebook while the trumpet plays."
+        },
+        {
+          "ref": "S1-35-P1 beat 2",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "finds the harmony without asking"
+        },
+        {
+          "ref": "S1-74-P1 beat 1",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "The orchestra plays Noelle's song in a full big-band arrangement."
+        },
+        {
+          "ref": "S1-82-P1 beat 3",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "Noelle's song becomes the Crescent Room's Saturday closer."
+        }
+      ],
+      "affectedReleases": [
+        "S1-20",
+        "S1-35",
+        "S1-74",
+        "S1-82"
+      ],
+      "affectedBeats": [
+        "S1-20 beat 20",
+        "S1-35 beat 2",
+        "S1-74 beat 1",
+        "S1-82 beat 3"
+      ],
+      "originalBehavior": "Noelle is glimpsed writing in a notebook while the trumpet plays.",
+      "approvedBehavior": "She is writing down a two-bar trumpet figure. In S1-35 those two bars are inside the melody she plays, and that is why Clarence picks up his trumpet without asking: he hears his own phrase. In S1-74 the trumpet section carries it. In S1-82 it closes the Crescent Room's Saturdays.",
+      "runtimeImpactSec": 0,
+      "continuityImplications": [
+        "The composer writes the two bars once and carries them into Noelle's melody.",
+        "Must read as a quotation, the way jazz musicians quote each other, not as copying. Her song is still hers."
+      ],
+      "assetImplications": [
+        "LW-MUS-TWO-BARS: Clarence's two bars — PENDING_DESIGN"
+      ],
+      "productionState": "PENDING_PRODUCTION",
+      "productionHolds": [],
+      "dependencies": [],
+      "implementation": {
+        "masterAmendments": [
+          "AM-LW-S1-20-F19",
+          "AM-LW-S1-35-F19",
+          "AM-LW-S1-74-F19",
+          "AM-LW-S1-82-F19"
+        ],
+        "worldRules": [],
+        "soundMotifs": [
+          "MO-03"
+        ],
+        "backgroundIdentities": [],
+        "s101Patch": []
+      }
+    },
+    {
+      "proposalId": "W-01",
+      "title": "The far bank is the city's own party",
+      "type": "SOCIAL_WORLDBUILDING",
+      "category": "A",
+      "priority": "P-09",
+      "founderLabel": "Public riverbank celebration",
+      "phase": "C",
+      "order": 13,
+      "decisionState": "FOUNDER_APPROVED",
+      "auditRecommendation": "APPROVE",
+      "founderApproval": "2026-10-25 P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1 (P-09 Public riverbank celebration)",
+      "sourceEvidence": [
+        {
+          "ref": "S1-77-P1 beat 10",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "On the far bank, crowds see the gold, and their capture is bound to revocation."
+        },
+        {
+          "ref": "S1-81-P1 beat 1",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "People tell each other about the gold lights on the river"
+        }
+      ],
+      "affectedReleases": [
+        "S1-77",
+        "S1-81"
+      ],
+      "affectedBeats": [
+        "S1-77 beat 10"
+      ],
+      "originalBehavior": "The far bank is \"crowds\".",
+      "approvedBehavior": "Direct the far bank as a party nobody invited and nobody organised: a brass band that turned up, a food truck, Mavis's hats, kids on bikes, people who came because they heard something good was happening. They are not spectators of the Night. They are having their own.",
+      "runtimeImpactSec": 0,
+      "continuityImplications": [
+        "Direction only."
+      ],
+      "assetImplications": [
+        "LW-ENV-FAR-BANK: The public riverbank celebration — PENDING_DESIGN"
+      ],
+      "productionState": "PENDING_PRODUCTION",
+      "productionHolds": [],
+      "dependencies": [],
+      "implementation": {
+        "masterAmendments": [
+          "AM-LW-S1-77-W01"
+        ],
+        "worldRules": [],
+        "soundMotifs": [],
+        "backgroundIdentities": [],
+        "s101Patch": []
+      }
+    },
+    {
+      "proposalId": "R-01",
+      "title": "The grandmother from the fire escape is the grandmother on the bench",
+      "type": "AMBIENT_RETURN",
+      "category": "A",
+      "priority": "P-10",
+      "founderLabel": "Promenade recurring faces",
+      "phase": "C",
+      "order": 14,
+      "decisionState": "FOUNDER_APPROVED",
+      "auditRecommendation": "APPROVE",
+      "founderApproval": "2026-10-25 P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1 (P-10 Promenade recurring faces)",
+      "sourceEvidence": [
+        {
+          "ref": "S1-59-P1 beat 4",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "A grandmother on a bench: \"Something good. They're humming.\""
+        },
+        {
+          "ref": "S1-01-SC04",
+          "file": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+          "quote": "The grandmother smooths the skirt with both hands."
+        }
+      ],
+      "affectedReleases": [
+        "S1-59",
+        "S1-01"
+      ],
+      "affectedBeats": [
+        "S1-59 beats 4 and 5"
+      ],
+      "originalBehavior": "S1-59's grandmother on the bench is unnamed and unconnected.",
+      "approvedBehavior": "Cast her as the S1-01 grandmother, in her house cardigan with her reading glasses on a chain. She says the line the master already gives her. No dress yet: that is saved for the river (R-02).",
+      "runtimeImpactSec": 0,
+      "continuityImplications": [
+        "REWATCH recognition; PUBLIC venue (A public promenade.); speaks: EXISTING_MASTER_LINE.",
+        "Needs the S1-01 face to be kept as a reference, which FD-S101-06 currently does not plan."
+      ],
+      "assetImplications": [
+        "LW-FACE-GRANDMOTHER: The grandmother's facial reference and performance — PENDING_PRODUCTION",
+        "LW-WD-GRANDMOTHER: The grandmother's everyday look — PROVISIONAL",
+        "LW-VOICE-GRANDMOTHER: The grandmother's voice for her one S1-59 line — PENDING_PRODUCTION"
+      ],
+      "productionState": "CONDITIONAL_PRODUCTION_HOLD",
+      "productionHolds": [
+        "HOLD-S101-PATCH"
+      ],
+      "dependencies": [
+        {
+          "to": "FD-S101-06",
+          "kind": "WAITS_ON_DECISION",
+          "resolution": "FD-S101-06 answered RECURRING.",
+          "open": false
+        }
+      ],
+      "implementation": {
+        "masterAmendments": [
+          "AM-LW-S1-59-R01"
+        ],
+        "worldRules": [],
+        "soundMotifs": [],
+        "backgroundIdentities": [
+          "BG-S101-GRANDMOTHER"
+        ],
+        "s101Patch": [
+          "PATCH-S101-01",
+          "PATCH-S101-02",
+          "PATCH-S101-03",
+          "PATCH-S101-07"
+        ]
+      }
+    },
+    {
+      "proposalId": "R-02",
+      "title": "The jewel-green dress gets its date, on the far bank",
+      "type": "VISUAL_EASTER_EGG",
+      "category": "A",
+      "priority": "P-09",
+      "founderLabel": "Public riverbank celebration",
+      "phase": "C",
+      "order": 15,
+      "decisionState": "FOUNDER_APPROVED",
+      "auditRecommendation": "APPROVE",
+      "founderApproval": "2026-10-25 P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1 (P-09 Public riverbank celebration)",
+      "sourceEvidence": [
+        {
+          "ref": "S1-77-P1 beat 10",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "On the far bank, crowds see the gold"
+        },
+        {
+          "ref": "S1-01-SC04",
+          "file": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+          "quote": "A jewel-green dress unfurls over a third-floor fire-escape rail."
+        },
+        {
+          "ref": "S1-01-SC04",
+          "file": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+          "quote": "She gives the dress a long look, as if it has a date tonight."
+        }
+      ],
+      "affectedReleases": [
+        "S1-77",
+        "S1-01"
+      ],
+      "affectedBeats": [
+        "S1-77 beat 10"
+      ],
+      "originalBehavior": "The far bank is \"crowds\". The dress from S1-01 is never seen again.",
+      "approvedBehavior": "In the far-bank crowd the camera finds the jewel-green dress first, from behind, then the grandmother wearing it, her face lit gold from across the water. One shot. She is in the public crowd, not at the private Night.",
+      "runtimeImpactSec": 0,
+      "continuityImplications": [
+        "DELIBERATE recognition; PUBLIC venue (The public riverbank; no invitation implied.); speaks: NO.",
+        "It must not imply that S1-01's \"date\" was the Grand Exchange, which is ninety-two days away. Her date tonight is her own business; this is simply a later night out in the same dress."
+      ],
+      "assetImplications": [
+        "LW-FACE-GRANDMOTHER: The grandmother's facial reference and performance — PENDING_PRODUCTION",
+        "LW-WD-GREEN-DRESS: The jewel-green dress — PENDING_DESIGN",
+        "LW-ENV-FAR-BANK: The public riverbank celebration — PENDING_DESIGN"
+      ],
+      "productionState": "CONDITIONAL_PRODUCTION_HOLD",
+      "productionHolds": [
+        "HOLD-FD-S101-05",
+        "HOLD-S101-PATCH"
+      ],
+      "dependencies": [
+        {
+          "to": "W-01",
+          "kind": "DEPENDS_ON",
+          "resolution": "W-01 is founder-approved and promoted first.",
+          "open": false
+        },
+        {
+          "to": "FD-S101-05",
+          "kind": "WAITS_ON_DECISION",
+          "resolution": "FD-S101-05 answered DRESS_DESIGN_LATER. Still open: the garment design, chosen at S1-01 visual development with founder visual approval.",
+          "open": true
+        },
+        {
+          "to": "FD-S101-06",
+          "kind": "WAITS_ON_DECISION",
+          "resolution": "FD-S101-06 answered RECURRING.",
+          "open": false
+        }
+      ],
+      "implementation": {
+        "masterAmendments": [
+          "AM-LW-S1-77-R02"
+        ],
+        "worldRules": [],
+        "soundMotifs": [],
+        "backgroundIdentities": [
+          "BG-S101-GRANDMOTHER"
+        ],
+        "s101Patch": [
+          "PATCH-S101-01",
+          "PATCH-S101-02",
+          "PATCH-S101-03",
+          "PATCH-S101-06",
+          "PATCH-S101-07"
+        ]
+      }
+    },
+    {
+      "proposalId": "R-03",
+      "title": "The tailor on the far bank, in a suit he made",
+      "type": "AMBIENT_RETURN",
+      "category": "A",
+      "priority": "P-09",
+      "founderLabel": "Public riverbank celebration",
+      "phase": "C",
+      "order": 16,
+      "decisionState": "FOUNDER_APPROVED",
+      "auditRecommendation": "APPROVE",
+      "founderApproval": "2026-10-25 P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1 (P-09 Public riverbank celebration)",
+      "sourceEvidence": [
+        {
+          "ref": "S1-77-P1 beat 10",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "On the far bank, crowds see the gold"
+        },
+        {
+          "ref": "S1-01-SC02",
+          "file": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+          "quote": "The tailor hauls the shop grille down and stops halfway."
+        },
+        {
+          "ref": "S1-01-SC02",
+          "file": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+          "quote": "Through the window, his hands straighten the lapel on the mannequin."
+        }
+      ],
+      "affectedReleases": [
+        "S1-77",
+        "S1-01"
+      ],
+      "affectedBeats": [
+        "S1-77 beat 10"
+      ],
+      "originalBehavior": "The tailor appears only in S1-01.",
+      "approvedBehavior": "In the far-bank crowd, the S1-01 tailor in a suit that is plainly his own work, straightening a stranger's lapel without asking, the way he straightened the mannequin's. No shop sign, no name, no orange, and he does not look across at Sloane.",
+      "runtimeImpactSec": 0,
+      "continuityImplications": [
+        "REWATCH recognition; PUBLIC venue (The public riverbank.); speaks: NO.",
+        "Whether he is Wendell Ames is open (FD-S101-07, recommendation \"No for now\"). Orange, a sign or a look at Sloane would answer it by accident."
+      ],
+      "assetImplications": [
+        "LW-FACE-TAILOR: The tailor's facial reference — PENDING_PRODUCTION",
+        "LW-WD-TAILOR: The tailor's recognizable appearance — PROVISIONAL",
+        "LW-ENV-FAR-BANK: The public riverbank celebration — PENDING_DESIGN"
+      ],
+      "productionState": "CONDITIONAL_PRODUCTION_HOLD",
+      "productionHolds": [
+        "HOLD-S101-PATCH"
+      ],
+      "dependencies": [
+        {
+          "to": "W-01",
+          "kind": "DEPENDS_ON",
+          "resolution": "W-01 is founder-approved and promoted first.",
+          "open": false
+        },
+        {
+          "to": "FD-S101-06",
+          "kind": "WAITS_ON_DECISION",
+          "resolution": "FD-S101-06 answered RECURRING.",
+          "open": false
+        },
+        {
+          "to": "FD-S101-07",
+          "kind": "WAITS_ON_DECISION",
+          "resolution": "FD-S101-07 answered ANONYMOUS.",
+          "open": false
+        },
+        {
+          "to": "R-12",
+          "kind": "CONFLICTS_WITH",
+          "resolution": "R-12 stays unapproved and is not promoted.",
+          "open": false
+        }
+      ],
+      "implementation": {
+        "masterAmendments": [
+          "AM-LW-S1-77-R03"
+        ],
+        "worldRules": [],
+        "soundMotifs": [],
+        "backgroundIdentities": [
+          "BG-S101-TAILOR"
+        ],
+        "s101Patch": [
+          "PATCH-S101-01",
+          "PATCH-S101-02",
+          "PATCH-S101-03",
+          "PATCH-S101-04",
+          "PATCH-S101-07"
+        ]
+      }
+    },
+    {
+      "proposalId": "S-02",
+      "title": "Fix the teenager's step as four counts",
+      "type": "VISUAL_EASTER_EGG",
+      "category": "A",
+      "priority": "P-11",
+      "founderLabel": "Teenager's dance callback",
+      "phase": "C",
+      "order": 17,
+      "decisionState": "FOUNDER_APPROVED",
+      "auditRecommendation": "APPROVE",
+      "founderApproval": "2026-10-25 P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1 (P-11 Teenager's dance callback)",
+      "sourceEvidence": [
+        {
+          "ref": "S1-01-SC03",
+          "file": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+          "quote": "A teenager tries a dance step in the bus shelter glass and gets it wrong."
+        },
+        {
+          "ref": "S1-01-SC03",
+          "file": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+          "quote": "His sneakers tangle on the second attempt."
+        },
+        {
+          "ref": "S1-01-SC03",
+          "file": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+          "quote": "He lands the step on the downbeat and grins at his reflection."
+        }
+      ],
+      "affectedReleases": [
+        "S1-01",
+        "S1-51"
+      ],
+      "affectedBeats": [
+        "S1-01 SC03 (SH05 to SH07)"
+      ],
+      "originalBehavior": "The packet shoots \"a dance step\" without choreography.",
+      "approvedBehavior": "A choreography note: one specific four-count step, missed, tangled, then landed on the downbeat. Nothing else changes.",
+      "runtimeImpactSec": 0,
+      "continuityImplications": [
+        "No change to shot count, timing or framing."
+      ],
+      "assetImplications": [
+        "LW-DANCE-FOUR-COUNT: The teenager's four-count step — PENDING_DESIGN"
+      ],
+      "productionState": "CONDITIONAL_PRODUCTION_HOLD",
+      "productionHolds": [
+        "HOLD-S101-PATCH"
+      ],
+      "dependencies": [
+        {
+          "to": "FD-S101-06",
+          "kind": "WAITS_ON_DECISION",
+          "resolution": "FD-S101-06 answered RECURRING.",
+          "open": false
+        }
+      ],
+      "implementation": {
+        "masterAmendments": [
+          "AM-LW-S1-01-S02"
+        ],
+        "worldRules": [],
+        "soundMotifs": [],
+        "backgroundIdentities": [],
+        "s101Patch": [
+          "PATCH-S101-01",
+          "PATCH-S101-02",
+          "PATCH-S101-03",
+          "PATCH-S101-05"
+        ]
+      }
+    },
+    {
+      "proposalId": "R-04",
+      "title": "The teenager lands his step with the drumline",
+      "type": "AMBIENT_RETURN",
+      "category": "A",
+      "priority": "P-11",
+      "founderLabel": "Teenager's dance callback",
+      "phase": "C",
+      "order": 18,
+      "decisionState": "FOUNDER_APPROVED",
+      "auditRecommendation": "APPROVE",
+      "founderApproval": "2026-10-25 P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1 (P-11 Teenager's dance callback)",
+      "sourceEvidence": [
+        {
+          "ref": "S1-51-P1 beat 6",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "a drumline rehearses"
+        },
+        {
+          "ref": "S1-01-SC03",
+          "file": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+          "quote": "He lands the step on the downbeat and grins at his reflection."
+        }
+      ],
+      "affectedReleases": [
+        "S1-51",
+        "S1-01"
+      ],
+      "affectedBeats": [
+        "S1-51 beat 6"
+      ],
+      "originalBehavior": "The S1-01 teenager is not seen again.",
+      "approvedBehavior": "Following the drumline, the S1-01 teenager does his step: the same four counts, landed every time now, with no shelter glass to check it in. Nobody watches him. Sloane's four beats at the end of the release stay her own.",
+      "runtimeImpactSec": 0,
+      "continuityImplications": [
+        "REWATCH recognition; PUBLIC venue (A public street market.); speaks: NO.",
+        "Keep him away from Sloane's ending beat so the two do not read as connected."
+      ],
+      "assetImplications": [
+        "LW-FACE-TEENAGER: The teenager's facial reference — PENDING_PRODUCTION",
+        "LW-DANCE-FOUR-COUNT: The teenager's four-count step — PENDING_DESIGN"
+      ],
+      "productionState": "CONDITIONAL_PRODUCTION_HOLD",
+      "productionHolds": [
+        "HOLD-S101-PATCH"
+      ],
+      "dependencies": [
+        {
+          "to": "S-02",
+          "kind": "DEPENDS_ON",
+          "resolution": "S-02 is founder-approved and promoted first.",
+          "open": false
+        },
+        {
+          "to": "FD-S101-06",
+          "kind": "WAITS_ON_DECISION",
+          "resolution": "FD-S101-06 answered RECURRING.",
+          "open": false
+        }
+      ],
+      "implementation": {
+        "masterAmendments": [
+          "AM-LW-S1-51-R04"
+        ],
+        "worldRules": [],
+        "soundMotifs": [],
+        "backgroundIdentities": [
+          "BG-S101-TEENAGER"
+        ],
+        "s101Patch": [
+          "PATCH-S101-01",
+          "PATCH-S101-02",
+          "PATCH-S101-03",
+          "PATCH-S101-05",
+          "PATCH-S101-07"
+        ]
+      }
+    },
+    {
+      "proposalId": "R-05",
+      "title": "The girl with Kai's pliers asks what the lanterns are for",
+      "type": "AMBIENT_RETURN",
+      "category": "A",
+      "priority": "P-10",
+      "founderLabel": "Promenade recurring faces",
+      "phase": "C",
+      "order": 19,
+      "decisionState": "FOUNDER_APPROVED",
+      "auditRecommendation": "APPROVE",
+      "founderApproval": "2026-10-25 P0.THE-EXCHANGE.OPUS.LIVING-WORLD-FOUNDER-APPROVAL-AND-CANON-PROMOTION.V1 (P-10 Promenade recurring faces)",
+      "sourceEvidence": [
+        {
+          "ref": "S1-59-P1 beat 2",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "Kids on bikes ask what they're for."
+        },
+        {
+          "ref": "S1-22-P1 beat 3",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "Kai, delighted, gives her his best pliers."
+        },
+        {
+          "ref": "S1-22-P1",
+          "file": "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json",
+          "quote": "Kai; four neighbourhood kids"
+        }
+      ],
+      "affectedReleases": [
+        "S1-59",
+        "S1-22"
+      ],
+      "affectedBeats": [
+        "S1-59 beat 2"
+      ],
+      "originalBehavior": "Unnamed kids on bikes.",
+      "approvedBehavior": "One of them is the girl from Kai's workshop, his pliers hanging from her handlebar on a string and her bloom light taped to the basket. She looks at the lanterns like an engineer.",
+      "runtimeImpactSec": 0,
+      "continuityImplications": [
+        "REWATCH recognition; PUBLIC venue (A public promenade.); speaks: EXISTING_MASTER_LINE.",
+        "She does not speak beyond the kids' existing question."
+      ],
+      "assetImplications": [
+        "LW-FACE-PLIERS-GIRL: The girl from Kai's workshop — PENDING_PRODUCTION",
+        "LW-PROP-KAI-PLIERS: Kai's pliers on a string, and her bloom light — PENDING_DESIGN"
+      ],
+      "productionState": "PENDING_PRODUCTION",
+      "productionHolds": [],
+      "dependencies": [],
+      "implementation": {
+        "masterAmendments": [
+          "AM-LW-S1-59-R05"
+        ],
+        "worldRules": [],
+        "soundMotifs": [],
+        "backgroundIdentities": [
+          "BG-S122-PLIERS-GIRL"
+        ],
+        "s101Patch": []
+      }
+    }
+  ],
+  "worldRules": [
+    {
+      "ruleId": "WR-01",
+      "proposalIds": [
+        "V-07"
+      ],
+      "subject": "Copper wax",
+      "statement": [
+        "Every Exchange envelope carries a copper wax seal (the rule S1-17 states for Exchange paper).",
+        "No seal is broken on screen until S1-86. Celestine's opening there is the season's only on-screen break, and the only time the seal-crack sound is heard."
+      ],
+      "cannot": [
+        "Show a seal breaking in any release but S1-86",
+        "Use the seal-crack sound anywhere else"
+      ],
+      "scope": "Exchange envelopes and Exchange paper: Vivienne's C. R. envelope, Sloane's Living Legacy invitation to Celestine, the makers' terms and other Exchange invitations. Letters, cards and notes are ordinary paper and carry no rule; Relay paper has its own (WR-02).",
+      "appliesTo": [
+        "S1-07",
+        "S1-11",
+        "S1-17",
+        "S1-57",
+        "S1-78",
+        "S1-86"
+      ],
+      "evidence": [
+        {
+          "releaseId": "S1-17",
+          "quote": "sealed in copper wax",
+          "reading": "The source of the rule. The makers read their terms, so the terms are shown already opened."
+        },
+        {
+          "releaseId": "S1-07",
+          "quote": "He puts it back face down.",
+          "reading": "Envelope unopened; seal intact."
+        },
+        {
+          "releaseId": "S1-11",
+          "quote": "a courier returns it to Sloane's office, unopened",
+          "reading": "Seal unbroken."
+        },
+        {
+          "releaseId": "S1-57",
+          "quote": "She doesn't open it.",
+          "reading": "Seal intact."
+        },
+        {
+          "releaseId": "S1-78",
+          "quote": "Celestine holds it without opening it.",
+          "reading": "Seal intact."
+        },
+        {
+          "releaseId": "S1-86",
+          "quote": "Celestine opens the envelope.",
+          "reading": "The one on-screen break."
+        }
+      ],
+      "notGoverned": [
+        {
+          "releaseId": "S1-20",
+          "quote": "The invitation has one line: *Dress like it's 1986.*",
+          "reading": "An Exchange invitation read by guests; no opening is shown, so no seal breaks on screen."
+        },
+        {
+          "releaseId": "S1-13",
+          "quote": "With it she sends a handwritten letter",
+          "reading": "Sloane's own letter: ordinary paper."
+        },
+        {
+          "releaseId": "S1-52",
+          "quote": "Sloane writes Celestine a card by hand.",
+          "reading": "A posted card: ordinary paper, no envelope seal."
+        }
+      ],
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION"
+    },
+    {
+      "ruleId": "WR-02",
+      "proposalIds": [
+        "T-02",
+        "T-01"
+      ],
+      "subject": "Relay",
+      "statement": [
+        "1. \"Relay\" is the paper; a message on it is \"a Relay\".",
+        "2. It is blank to everyone except its addressee, including the person who wrote it.",
+        "3. It never finds anyone: people carry it, as the sewing circle does.",
+        "4. It proves nothing about the truth of the message or the sender's goodwill, and it gives no receipt."
+      ],
+      "cannot": [
+        "Locate, track or deliver to a recipient",
+        "Prove that a message is true or that its sender means well",
+        "Give a receipt",
+        "Stay readable to its writer once written"
+      ],
+      "scope": "Every Relay in Season 1, and every later use of Relay paper.",
+      "appliesTo": [
+        "S1-15",
+        "S1-34",
+        "S1-86"
+      ],
+      "evidence": [
+        {
+          "releaseId": "S1-15",
+          "quote": "Relay paper, which stays blank for everyone except the person it's meant for",
+          "reading": "Rule 2."
+        },
+        {
+          "releaseId": "S1-15",
+          "quote": "The card goes blank in Tina's hand.",
+          "reading": "Rule 2: blank to its own writer. T-01 repeats this effect in S1-86."
+        },
+        {
+          "releaseId": "S1-15",
+          "quote": "you don't follow one home",
+          "reading": "Rule 3 is the culture as well as the paper."
+        },
+        {
+          "releaseId": "S1-34",
+          "quote": "The blank Relay card travels hand to hand around the sewing circle.",
+          "reading": "Rule 3: people carry it."
+        },
+        {
+          "releaseId": "S1-34",
+          "quote": "In Ophelia Grant's hand, Tina's writing blooms.",
+          "reading": "Rule 2: readable only to its addressee."
+        },
+        {
+          "releaseId": "S1-86",
+          "quote": "She sends one Relay, to Richard",
+          "reading": "Rule 1 naming. T-01: it blanks in her hand; no courier or delivery is shown."
+        }
+      ],
+      "notGoverned": [
+        {
+          "releaseId": "S1-40",
+          "quote": "Dee's 1985 relay teammates",
+          "reading": "A track relay team, not the device."
+        }
+      ],
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION"
+    },
+    {
+      "ruleId": "WR-03",
+      "proposalIds": [
+        "T-10"
+      ],
+      "subject": "The Ember governs capture, not memory",
+      "statement": [
+        "The Ember governs devices. It does not stop anyone hearing, remembering or repeating."
+      ],
+      "cannot": [
+        "Stop hearing",
+        "Stop remembering",
+        "Stop human speech",
+        "Stop human repetition",
+        "Stop gossip"
+      ],
+      "scope": "Season rule. Shown once, without explanation, at the end of S1-75. The S1-54 breach stays a human leak.",
+      "appliesTo": [
+        "S1-75"
+      ],
+      "evidence": [
+        {
+          "releaseId": "S1-01",
+          "quote": "The lens glows copper: the Ember, the city's everyday \"no.\"",
+          "reading": "A device declines; the neighbour still saw her."
+        },
+        {
+          "releaseId": "S1-54",
+          "quote": "repeated it to his boss to impress him",
+          "reading": "The breach travels by mouth, which the Ember never governed."
+        },
+        {
+          "releaseId": "S1-75",
+          "quote": "The light returns to copper.",
+          "reading": "Where the room is shown repeating her words."
+        }
+      ],
+      "notGoverned": [],
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION"
+    },
+    {
+      "ruleId": "WR-04",
+      "proposalIds": [
+        "T-11"
+      ],
+      "subject": "Gold: hand, room, city",
+      "statement": [
+        "Hand scale: a person makes a light bloom gold for themselves in one room (S1-22, S1-30).",
+        "Room scale: a host asks a room for consented capture under one gold light (S1-75).",
+        "City scale: gold binds the city's capture to revocation (S1-77), and is made public under Celestine's name (S1-82).",
+        "Only the city scale is new in Season 1. Before S1-77, gold never binds anyone outside the room."
+      ],
+      "cannot": [
+        "Bind anyone outside the room before S1-77",
+        "Act as unlimited consent",
+        "Surveil",
+        "Read minds",
+        "Exercise social control"
+      ],
+      "scope": "A writers' reading rule, never explained on screen. It does not move the S1-58 reveal of the Ember's authors (KF-06).",
+      "appliesTo": [
+        "S1-22",
+        "S1-30",
+        "S1-75",
+        "S1-77",
+        "S1-82"
+      ],
+      "evidence": [
+        {
+          "releaseId": "S1-22",
+          "quote": "Kai teaches four kids to make a light that blooms when you choose to let it.",
+          "reading": "Hand."
+        },
+        {
+          "releaseId": "S1-30",
+          "quote": "The child makes the light bloom gold.",
+          "reading": "Hand, in one ward."
+        },
+        {
+          "releaseId": "S1-75",
+          "quote": "a light on the stage turns gold",
+          "reading": "Room."
+        },
+        {
+          "releaseId": "S1-77",
+          "quote": "On the far bank, crowds see the gold, and their capture is bound to revocation.",
+          "reading": "City: the first time gold reaches past the room."
+        },
+        {
+          "releaseId": "S1-82",
+          "quote": "Celestine gives the *yes* to the city under her own name.",
+          "reading": "City, made public."
+        }
+      ],
+      "notGoverned": [
+        {
+          "releaseId": "S1-26",
+          "quote": "Somebody once designed a second state. Gold.",
+          "reading": "History told in a lecture, not a use."
+        },
+        {
+          "releaseId": "S1-65",
+          "quote": "Celestine's revised design is fully revocable.",
+          "reading": "The design before the night; it binds no one yet."
+        },
+        {
+          "releaseId": "S1-67",
+          "quote": "Kai, alone, switches one lantern to gold, then back to copper.",
+          "reading": "A rehearsal test by its builder; it binds no one."
+        }
+      ],
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION"
+    },
+    {
+      "ruleId": "WR-05",
+      "proposalIds": [
+        "T-12"
+      ],
+      "subject": "The lantern that flickers",
+      "statement": [
+        "The lantern that flickers copper on its own in S1-59 is one specific lantern in a fixed position on the promenade.",
+        "A moment before the S1-76 failure, the same lantern flickers the same copper pattern. Nobody says so. On rewatch, the S1-59 flicker was the old record already in the system."
+      ],
+      "cannot": [
+        "Explain the flicker on screen",
+        "Reveal the failure before S1-76",
+        "Change what the failure is"
+      ],
+      "scope": "S1-59 and S1-76 only.",
+      "appliesTo": [
+        "S1-59",
+        "S1-76"
+      ],
+      "evidence": [
+        {
+          "releaseId": "S1-59",
+          "quote": "One lantern flickers copper on its own, then goes dark.",
+          "reading": "The first flicker."
+        },
+        {
+          "releaseId": "S1-76",
+          "quote": "The old rig's memory still holds the first pavilion's consent keys",
+          "reading": "The failure the flicker anticipates, unchanged."
+        },
+        {
+          "releaseId": "S1-76",
+          "quote": "The promenade, alone among a thousand lanterns.",
+          "reading": "The same place."
+        }
+      ],
+      "notGoverned": [
+        {
+          "releaseId": "S1-67",
+          "quote": "Kai, alone, switches one lantern to gold, then back to copper.",
+          "reading": "A deliberate switch, not the flicker."
+        }
+      ],
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION"
+    },
+    {
+      "ruleId": "WR-06",
+      "proposalIds": [
+        "F-04"
+      ],
+      "subject": "The Echo Track is silent",
+      "statement": [
+        "The Echo Track is silent: it carries light, not sound.",
+        "Dee's remembered 1985 crowd is her memory alone. The archive behind the Echo Track holds footage, never anyone's memory."
+      ],
+      "cannot": [
+        "Play sound",
+        "Recreate a memory, a mind or anything the archive's footage did not record"
+      ],
+      "scope": "S1-37 (the memory) and S1-40 (the track).",
+      "appliesTo": [
+        "S1-37",
+        "S1-40"
+      ],
+      "evidence": [
+        {
+          "releaseId": "S1-40",
+          "quote": "the Echo Track, a pale line of light that runs Dee's 1985 record stride for stride, drawn from the city's archive footage of her own race",
+          "reading": "Light, from footage."
+        },
+        {
+          "releaseId": "S1-37",
+          "quote": "Dee has been stretching the whole time.",
+          "reading": "Where only Dee hears the 1985 crowd."
+        }
+      ],
+      "notGoverned": [],
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION"
+    },
+    {
+      "ruleId": "WR-07",
+      "proposalIds": [
+        "F-06",
+        "F-07"
+      ],
+      "subject": "Two witnesses, two flashbacks",
+      "statement": [
+        "The season has two visual memories, both already in the master: S1-58 (Richard's recollection) and S1-77 (Celestine's).",
+        "S1-58 is shot from the garage doorway, where Richard stood; what he did not witness appears as objects, not scenes. S1-77 is shot from inside the dance. Same set, costumes and faces; different camera positions."
+      ],
+      "cannot": [
+        "Add a visual flashback",
+        "Show what a memory's owner did not witness as a scene",
+        "Reveal anything before the release the knowledge ledger names"
+      ],
+      "scope": "S1-58 and S1-77.",
+      "appliesTo": [
+        "S1-58",
+        "S1-77"
+      ],
+      "evidence": [
+        {
+          "releaseId": "S1-58",
+          "quote": "A memory moment, explicitly Richard's recollection, warm and imperfect",
+          "reading": "The master already defines S1-58 as a memory."
+        },
+        {
+          "releaseId": "S1-58",
+          "quote": "Celestine found out from a newspaper.",
+          "reading": "Not witnessed by Richard: the newspaper appears as an object."
+        },
+        {
+          "releaseId": "S1-77",
+          "quote": "A memory flash, in Celestine's recollection: two young women dancing in a garage under the first gold light.",
+          "reading": "The master already defines S1-77 beat 8 as a memory."
+        }
+      ],
+      "notGoverned": [],
+      "classification": "APPROVED_DEVELOPMENT_DIRECTION"
+    }
+  ],
+  "soundMotifs": [
+    {
+      "motifId": "MO-01",
+      "proposalIds": [
+        "F-01"
+      ],
+      "name": "The fruit-truck song",
+      "placements": [
+        {
+          "releaseId": "S1-12",
+          "use": "Thin, on a truck radio, under one line"
+        },
+        {
+          "releaseId": "S1-20",
+          "use": "Full big-band arrangement: the slow number Clarence counts off"
+        }
+      ],
+      "composition": "Not chosen. One song, chosen or commissioned once for both releases (founder choice).",
+      "status": "PENDING_DESIGN"
+    },
+    {
+      "motifId": "MO-02",
+      "proposalIds": [
+        "F-05"
+      ],
+      "name": "Yaz's real laugh",
+      "placements": [
+        {
+          "releaseId": "S1-33",
+          "use": "Once, on air, through the bakery radio"
+        },
+        {
+          "releaseId": "S1-50",
+          "use": "The laugh Tad recognizes"
+        }
+      ],
+      "composition": "A performance, not a sound effect: the same take or the same performer in both releases.",
+      "status": "PENDING_PRODUCTION"
+    },
+    {
+      "motifId": "MO-03",
+      "proposalIds": [
+        "F-19"
+      ],
+      "name": "Clarence's two bars",
+      "placements": [
+        {
+          "releaseId": "S1-20",
+          "use": "Clarence plays; Noelle writes it down"
+        },
+        {
+          "releaseId": "S1-35",
+          "use": "Inside Noelle's melody; Clarence hears his phrase"
+        },
+        {
+          "releaseId": "S1-74",
+          "use": "The trumpet section carries it"
+        },
+        {
+          "releaseId": "S1-82",
+          "use": "Closes the Crescent Room's Saturdays"
+        }
+      ],
+      "composition": "Not written. The composer writes the two bars once and carries them into Noelle's melody.",
+      "status": "PENDING_DESIGN"
+    },
+    {
+      "motifId": "MO-04",
+      "proposalIds": [
+        "F-07"
+      ],
+      "name": "The hum of the first gold light",
+      "placements": [
+        {
+          "releaseId": "S1-59",
+          "use": "The lanterns' hum the grandmother hears (\"They're humming.\")"
+        },
+        {
+          "releaseId": "S1-77",
+          "use": "The lanterns' hum becomes the garage light's hum"
+        }
+      ],
+      "composition": "Not designed.",
+      "status": "PENDING_DESIGN"
+    },
+    {
+      "motifId": "MO-05",
+      "proposalIds": [
+        "V-07"
+      ],
+      "name": "The seal crack",
+      "placements": [
+        {
+          "releaseId": "S1-86",
+          "use": "Once, the only time it is heard"
+        }
+      ],
+      "composition": "Not designed.",
+      "status": "PENDING_DESIGN"
+    },
+    {
+      "motifId": "MO-06",
+      "proposalIds": [
+        "F-04"
+      ],
+      "name": "Dee's 1985 crowd and starter's pistol",
+      "placements": [
+        {
+          "releaseId": "S1-37",
+          "use": "Faint, under the dusk track; only Dee hears it"
+        }
+      ],
+      "composition": "Not recorded. Never heard in S1-40.",
+      "status": "PENDING_PRODUCTION"
+    },
+    {
+      "motifId": "MO-07",
+      "proposalIds": [
+        "F-06"
+      ],
+      "name": "Needle drop and needle lift",
+      "placements": [
+        {
+          "releaseId": "S1-58",
+          "use": "In and out of the memory"
+        }
+      ],
+      "composition": "Not recorded.",
+      "status": "PENDING_PRODUCTION"
+    }
+  ],
+  "s101": {
+    "patch": [
+      {
+        "patchId": "PATCH-S101-01",
+        "authority": [
+          "FD-S101-06 RECURRING"
+        ],
+        "proposals": [
+          "R-01",
+          "R-02",
+          "R-03",
+          "R-04",
+          "S-02"
+        ],
+        "subject": "Record the answer to FD-S101-06 and change the three inhabitants from scene-scoped to recurring background.",
+        "targets": [
+          {
+            "sourceModule": "shared/site00-fiction-production/scenes/s1-01/decisions.ts",
+            "generatedFile": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+            "locator": "FOUNDER_DECISIONS › FD-S101-06 (section 9)"
+          },
+          {
+            "sourceModule": "shared/site00-fiction-production/scenes/s1-01/decisions.ts",
+            "generatedFile": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+            "locator": "EMBELLISHMENTS › E-09"
+          }
+        ],
+        "before": [
+          "Approve the inhabitants' looks as planned (scene-scoped)?",
+          "Looks, ages and everyday wardrobe of the five inhabitants (scene-scoped, no permanent packages)."
+        ],
+        "after": [
+          "FD-S101-06 status ANSWERED, answer \"RECURRING (founder, 2026-10-25): the tailor, the grandmother and the teenager keep reusable recurring-background identities; the woman on the balcony and the neighbour stay scene-scoped.\"",
+          "E-09: Looks, ages and everyday wardrobe of the five inhabitants. The tailor, the grandmother and the teenager are recurring background (FD-S101-06); the woman on the balcony and the neighbour are scene-scoped. The looks are approved with the start frames."
+        ],
+        "affects": [
+          "S1-01-SH02",
+          "S1-01-SH03",
+          "S1-01-SH04",
+          "S1-01-SH05",
+          "S1-01-SH06",
+          "S1-01-SH07",
+          "S1-01-SH08",
+          "S1-01-SH09",
+          "S1-01-SH10",
+          "S1-01-SH17"
+        ],
+        "unchanged": "No shot, frame, keyframe count, cue, dialogue or runtime changes.",
+        "status": "PROPOSED_PENDING_FOUNDER_PACKET_REVIEW"
+      },
+      {
+        "patchId": "PATCH-S101-02",
+        "authority": [
+          "FD-S101-06 RECURRING"
+        ],
+        "proposals": [
+          "R-01",
+          "R-02",
+          "R-03",
+          "R-04",
+          "S-02"
+        ],
+        "subject": "Label the three recurring wardrobes and hair notes, and keep their start frames as identity references after S1-01.",
+        "targets": [
+          {
+            "sourceModule": "shared/site00-fiction-production/scenes/s1-01/shotsA.ts",
+            "generatedFile": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+            "locator": "shots SH02 to SH10 and SH17 › wardrobe"
+          },
+          {
+            "sourceModule": "shared/site00-fiction-production/scenes/s1-01/spatial.ts",
+            "generatedFile": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+            "locator": "character states › hair"
+          },
+          {
+            "sourceModule": "shared/site00-fiction-production/scenes/s1-01/keyframes.ts",
+            "generatedFile": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/KEYFRAME_MANIFEST_V1.json",
+            "locator": "KF-SF-SH02, KF-SF-SH05, KF-SF-SH09"
+          }
+        ],
+        "before": [
+          "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (scene-scoped)",
+          "Teenager: hoodie open over a pressed shirt, clean sneakers (scene-scoped)",
+          "Grandmother: house cardigan, reading glasses on a chain (scene-scoped)",
+          "As fixed by the vignette's first start frame (scene-scoped, FD-S101-06)"
+        ],
+        "after": [
+          "Tailor: shirtsleeves rolled twice, a waistcoat, a tape measure round the neck (recurring background, FD-S101-06)",
+          "Teenager: hoodie open over a pressed shirt, clean sneakers (recurring background, FD-S101-06)",
+          "Grandmother: house cardigan, reading glasses on a chain (recurring background, FD-S101-06)",
+          "For the tailor, the teenager and the grandmother: as fixed by the vignette's first start frame, kept as the identity reference for their later returns (recurring background, FD-S101-06). For the woman on the balcony and the neighbour: unchanged (scene-scoped).",
+          "reusableBeyondUnit: KF-SF-SH02 (tailor) gains S1-77; KF-SF-SH05 (teenager) gains S1-51; KF-SF-SH09 (grandmother) gains S1-59 and S1-77. Still to be generated, and still blocked by the open S1-01 decisions."
+        ],
+        "affects": [
+          "KF-SF-SH02",
+          "KF-SF-SH05",
+          "KF-SF-SH09"
+        ],
+        "unchanged": "No shot, frame, keyframe count, cue, dialogue or runtime changes. The woman on the balcony and the neighbour keep their scene-scoped labels.",
+        "status": "PROPOSED_PENDING_FOUNDER_PACKET_REVIEW"
+      },
+      {
+        "patchId": "PATCH-S101-03",
+        "authority": [
+          "FD-S101-06 RECURRING"
+        ],
+        "proposals": [
+          "R-01",
+          "R-02",
+          "R-03",
+          "R-04",
+          "S-02"
+        ],
+        "subject": "Let the packet's cast section show the three as recurring background, without a principal package.",
+        "targets": [
+          {
+            "sourceModule": "scripts/the-exchange/build-directorial-production.ts",
+            "generatedFile": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+            "locator": "section 6 › cast.rule"
+          },
+          {
+            "sourceModule": "shared/site00-fiction-production/jitCast.ts",
+            "generatedFile": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+            "locator": "section 6 › cast.people[].tier (season cast census)"
+          }
+        ],
+        "before": [
+          "Scene-scoped inhabitants get performance direction and no permanent package (sprint V2 §28).",
+          "SCENE_SCOPED"
+        ],
+        "after": [
+          "Inhabitants get performance direction. The tailor, the grandmother and the teenager keep an identity reference (face, wardrobe, mannerism) for their approved returns; no voice, biography or principal package. The woman on the balcony and the neighbour are scene-scoped.",
+          "Census tier RECURRING_BACKGROUND for scene:S1-01:tailor, scene:S1-01:grandmother and scene:S1-01:teenager; SCENE_SCOPED for the other two."
+        ],
+        "affects": [
+          "scene:S1-01:tailor",
+          "scene:S1-01:grandmother",
+          "scene:S1-01:teenager"
+        ],
+        "unchanged": "No shot, frame, keyframe count, cue, dialogue or runtime changes.",
+        "status": "PROPOSED_PENDING_FOUNDER_PACKET_REVIEW"
+      },
+      {
+        "patchId": "PATCH-S101-04",
+        "authority": [
+          "FD-S101-07 ANONYMOUS"
+        ],
+        "proposals": [
+          "R-03"
+        ],
+        "subject": "Record the answer to FD-S101-07 and close E-10.",
+        "targets": [
+          {
+            "sourceModule": "shared/site00-fiction-production/scenes/s1-01/decisions.ts",
+            "generatedFile": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+            "locator": "FOUNDER_DECISIONS › FD-S101-07 (section 9)"
+          },
+          {
+            "sourceModule": "shared/site00-fiction-production/scenes/s1-01/decisions.ts",
+            "generatedFile": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+            "locator": "EMBELLISHMENTS › E-10"
+          }
+        ],
+        "before": [
+          "No for now: keep him scene-scoped and the shop sign unreadable so the choice stays open.",
+          "Whether the tailor is Wendell Ames, the Ferry Street tailor named later in the season."
+        ],
+        "after": [
+          "FD-S101-07 status ANSWERED, answer \"No: an unnamed tailor (ANONYMOUS, founder, 2026-10-25).\" The shop sign stays unreadable.",
+          "E-10: The tailor is anonymous (FD-S101-07). He is not Wendell Ames and has no biography."
+        ],
+        "affects": [
+          "S1-01-SH02",
+          "S1-01-SH03",
+          "S1-01-SH04"
+        ],
+        "unchanged": "No shot, frame, keyframe count, cue, dialogue or runtime changes.",
+        "status": "PROPOSED_PENDING_FOUNDER_PACKET_REVIEW"
+      },
+      {
+        "patchId": "PATCH-S101-05",
+        "authority": [
+          "S-02 (P-11)",
+          "FD-S101-06 RECURRING"
+        ],
+        "proposals": [
+          "S-02",
+          "R-04"
+        ],
+        "subject": "Attach the four-count step to the teenager's three shots.",
+        "targets": [
+          {
+            "sourceModule": "shared/site00-fiction-production/scenes/s1-01/shotsA.ts",
+            "generatedFile": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+            "locator": "shots SH05 to SH07 › a choreography note (new embellishment)"
+          }
+        ],
+        "before": [
+          "He tries a two-step turn and stumbles out of it."
+        ],
+        "after": [
+          "Choreography note on SH05 to SH07: one specific four-count step, missed, tangled, then landed on the downbeat (frame 324, E-06). The same four counts return in S1-51 (R-04). The step itself is still to be choreographed."
+        ],
+        "affects": [
+          "S1-01-SH05",
+          "S1-01-SH06",
+          "S1-01-SH07"
+        ],
+        "unchanged": "No shot, frame, keyframe count, cue, dialogue or runtime changes. E-06 keeps the downbeat at frame 324.",
+        "status": "PROPOSED_PENDING_FOUNDER_PACKET_REVIEW"
+      },
+      {
+        "patchId": "PATCH-S101-06",
+        "authority": [
+          "FD-S101-05 DRESS_DESIGN_LATER",
+          "R-02 (P-09)"
+        ],
+        "proposals": [
+          "R-02"
+        ],
+        "subject": "Record that the dress has a later callback, without choosing its design.",
+        "targets": [
+          {
+            "sourceModule": "shared/site00-fiction-production/scenes/s1-01/decisions.ts",
+            "generatedFile": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+            "locator": "FOUNDER_DECISIONS › FD-S101-05 (section 9)"
+          },
+          {
+            "sourceModule": "shared/site00-fiction-production/scenes/s1-01/decisions.ts",
+            "generatedFile": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+            "locator": "EMBELLISHMENTS › E-08"
+          }
+        ],
+        "before": [
+          "The design of the jewel-green dress."
+        ],
+        "after": [
+          "FD-S101-05 stays OPEN. Note: story continuity approved (founder, 2026-10-25); the design is chosen at S1-01 visual development, and the chosen garment is the one S1-77 uses (R-02). No candidate is chosen.",
+          "E-08: The design of the jewel-green dress: one garment for SH08 to SH10, SH17 and the S1-77 callback. KF-WD-GREEN-DRESS stays blocked by FD-S101-05."
+        ],
+        "affects": [
+          "KF-WD-GREEN-DRESS",
+          "S1-01-SH08",
+          "S1-01-SH09",
+          "S1-01-SH10",
+          "S1-01-SH17"
+        ],
+        "unchanged": "No shot, frame, keyframe count, cue, dialogue or runtime changes. KF-WD-GREEN-DRESS stays blocked and is not production-ready.",
+        "status": "PROPOSED_PENDING_FOUNDER_PACKET_REVIEW"
+      },
+      {
+        "patchId": "PATCH-S101-07",
+        "authority": [
+          "R-01",
+          "R-02",
+          "R-03",
+          "R-04"
+        ],
+        "proposals": [
+          "R-01",
+          "R-02",
+          "R-03",
+          "R-04"
+        ],
+        "subject": "Name the later appearances in the continuity section, so the S1-01 frames are made knowing they will be reused.",
+        "targets": [
+          {
+            "sourceModule": "shared/site00-fiction-production/scenes/s1-01/index.ts",
+            "generatedFile": "THE_EXCHANGE/SEASON_1/PRODUCTION_SCENES/S1-01/DIRECTORIAL_PACKET_V1.json",
+            "locator": "section 6 › continuity (forward references)"
+          }
+        ],
+        "before": [],
+        "after": [
+          "Forward references: the grandmother in S1-59 (R-01, with her existing line) and S1-77 (R-02, in the jewel-green dress); the tailor in S1-77 (R-03); the teenager in S1-51 (R-04). None of them meet, and none is named."
+        ],
+        "affects": [
+          "S1-01-SC02",
+          "S1-01-SC03",
+          "S1-01-SC04"
+        ],
+        "unchanged": "No shot, frame, keyframe count, cue, dialogue or runtime changes.",
+        "status": "PROPOSED_PENDING_FOUNDER_PACKET_REVIEW"
+      }
+    ],
+    "guards": {
+      "baseline": {
+        "durationSec": 45,
+        "shots": 19,
+        "frames": 1080,
+        "fps": 24,
+        "keyframes": 22,
+        "musicCues": 3,
+        "silences": 1,
+        "soundCues": 13
+      },
+      "untouchedEmbellishments": [
+        "E-02",
+        "E-03",
+        "E-07"
+      ],
+      "stillOpen": [
+        "FD-S101-01",
+        "FD-S101-02",
+        "FD-S101-03",
+        "FD-S101-04",
+        "FD-S101-05",
+        "FD-S101-08",
+        "FD-S101-09",
+        "FD-S101-10",
+        "FD-S101-11"
+      ],
+      "answeredBySprint": [
+        "FD-S101-06",
+        "FD-S101-07"
+      ],
+      "notes": [
+        "The Ember's look (E-02, E-03, FD-S101-03) is unchanged; the privacy rule WR-03 is not visual.",
+        "Halcyon House stays windows only (E-07, FD-S101-04).",
+        "No shot is added, the runtime stays 45 s, and no dialogue is added."
+      ]
+    }
+  },
+  "productionHolds": [
+    {
+      "holdId": "HOLD-FD-S101-05",
+      "blocks": [
+        "R-02"
+      ],
+      "reason": "The jewel-green dress has no approved design. No dress reference, keyframe (KF-WD-GREEN-DRESS) or S1-77 callback shot may be generated.",
+      "liftedBy": "Founder visual approval of the garment at S1-01 visual development (FD-S101-05)."
+    },
+    {
+      "holdId": "HOLD-S101-PATCH",
+      "blocks": [
+        "S-02",
+        "R-01",
+        "R-02",
+        "R-03",
+        "R-04"
+      ],
+      "reason": "The S1-01 packet still describes the three inhabitants as scene-scoped. Their start frames must be made as recurring identity references.",
+      "liftedBy": "Founder review of the S1-01 patch plan (PATCH-S101-01 to -07), then a packet rebuild."
+    },
+    {
+      "holdId": "HOLD-SONG",
+      "blocks": [
+        "F-01"
+      ],
+      "reason": "The fruit-truck song is not chosen; it must be one song for S1-12 and S1-20.",
+      "liftedBy": "Founder chooses or commissions the song."
+    },
+    {
+      "holdId": "HOLD-FD-18",
+      "blocks": [
+        "F-06",
+        "F-07"
+      ],
+      "reason": "S1-58 and S1-77 need face locks for Vivienne at 34 and Celestine at 33 (FD-18, still open).",
+      "liftedBy": "Founder face locks for the memory faces."
+    }
+  ],
+  "assetRequirements": [
+    {
+      "assetId": "LW-FACE-TAILOR",
+      "item": "The tailor's facial reference",
+      "proposalIds": [
+        "R-03"
+      ],
+      "releases": [
+        "S1-01",
+        "S1-77"
+      ],
+      "status": "PENDING_PRODUCTION",
+      "source": "S1-01 start frame KF-SF-SH02 (planned, not generated)",
+      "holds": [
+        "HOLD-S101-PATCH"
+      ],
+      "note": "Made once in S1-01 and reused."
+    },
+    {
+      "assetId": "LW-FACE-GRANDMOTHER",
+      "item": "The grandmother's facial reference and performance",
+      "proposalIds": [
+        "R-01",
+        "R-02"
+      ],
+      "releases": [
+        "S1-01",
+        "S1-59",
+        "S1-77"
+      ],
+      "status": "PENDING_PRODUCTION",
+      "source": "S1-01 start frame KF-SF-SH09 (planned, not generated)",
+      "holds": [
+        "HOLD-S101-PATCH"
+      ],
+      "note": "One face and performance in all three releases."
+    },
+    {
+      "assetId": "LW-FACE-TEENAGER",
+      "item": "The teenager's facial reference",
+      "proposalIds": [
+        "R-04"
+      ],
+      "releases": [
+        "S1-01",
+        "S1-51"
+      ],
+      "status": "PENDING_PRODUCTION",
+      "source": "S1-01 start frame KF-SF-SH05 (planned, not generated)",
+      "holds": [
+        "HOLD-S101-PATCH"
+      ],
+      "note": "Made once in S1-01 and reused."
+    },
+    {
+      "assetId": "LW-FACE-PLIERS-GIRL",
+      "item": "The girl from Kai's workshop",
+      "proposalIds": [
+        "R-05"
+      ],
+      "releases": [
+        "S1-22",
+        "S1-59"
+      ],
+      "status": "PENDING_PRODUCTION",
+      "source": "S1-22 (not in production)",
+      "holds": [],
+      "note": "Made when S1-22 is produced; S1-59 reuses it."
+    },
+    {
+      "assetId": "LW-DANCE-FOUR-COUNT",
+      "item": "The teenager's four-count step",
+      "proposalIds": [
+        "S-02",
+        "R-04"
+      ],
+      "releases": [
+        "S1-01",
+        "S1-51"
+      ],
+      "status": "PENDING_DESIGN",
+      "source": "Choreography note (S-02); the step itself is not choreographed",
+      "holds": [
+        "HOLD-S101-PATCH"
+      ],
+      "note": "The same four counts in both releases."
+    },
+    {
+      "assetId": "LW-WD-TAILOR",
+      "item": "The tailor's recognizable appearance",
+      "proposalIds": [
+        "R-03"
+      ],
+      "releases": [
+        "S1-01",
+        "S1-77"
+      ],
+      "status": "PROVISIONAL",
+      "source": "S1-01 packet wardrobe (directorial interpretation); S1-77: a suit of his own making, not orange",
+      "holds": [
+        "HOLD-S101-PATCH"
+      ],
+      "note": "Approved with the S1-01 start frames."
+    },
+    {
+      "assetId": "LW-WD-GRANDMOTHER",
+      "item": "The grandmother's everyday look",
+      "proposalIds": [
+        "R-01"
+      ],
+      "releases": [
+        "S1-01",
+        "S1-59"
+      ],
+      "status": "PROVISIONAL",
+      "source": "S1-01 packet wardrobe: house cardigan, reading glasses on a chain",
+      "holds": [
+        "HOLD-S101-PATCH"
+      ],
+      "note": "Approved with the S1-01 start frames."
+    },
+    {
+      "assetId": "LW-WD-GREEN-DRESS",
+      "item": "The jewel-green dress",
+      "proposalIds": [
+        "R-02"
+      ],
+      "releases": [
+        "S1-01",
+        "S1-77"
+      ],
+      "status": "PENDING_DESIGN",
+      "source": "S1-01 keyframe requirement KF-WD-GREEN-DRESS (blocked by FD-S101-05)",
+      "holds": [
+        "HOLD-FD-S101-05"
+      ],
+      "note": "One garment; story continuity approved, design open. Not production-ready."
+    },
+    {
+      "assetId": "LW-PROP-COPPER-SEAL",
+      "item": "The copper wax seal on Exchange envelopes",
+      "proposalIds": [
+        "V-07"
+      ],
+      "releases": [
+        "S1-07",
+        "S1-11",
+        "S1-17",
+        "S1-57",
+        "S1-78",
+        "S1-86"
+      ],
+      "status": "PENDING_DESIGN",
+      "source": "Master S1-17 (\"sealed in copper wax\")",
+      "holds": [],
+      "note": "One prop sheet for every Exchange envelope."
+    },
+    {
+      "assetId": "LW-SFX-SEAL-CRACK",
+      "item": "The seal-crack sound",
+      "proposalIds": [
+        "V-07"
+      ],
+      "releases": [
+        "S1-86"
+      ],
+      "status": "PENDING_DESIGN",
+      "source": "V-07",
+      "holds": [],
+      "note": "Heard once."
+    },
+    {
+      "assetId": "LW-VFX-RELAY",
+      "item": "The Relay ink-sink effect",
+      "proposalIds": [
+        "T-01",
+        "T-02"
+      ],
+      "releases": [
+        "S1-15",
+        "S1-34",
+        "S1-86"
+      ],
+      "status": "PENDING_DESIGN",
+      "source": "Master S1-15 (\"The card goes blank in Tina's hand.\")",
+      "holds": [],
+      "note": "Designed once for S1-15 and reused in S1-86. Its invention dossier is still open (U-5)."
+    },
+    {
+      "assetId": "LW-VFX-LANTERN-FLICKER",
+      "item": "The flickering lantern: position and copper pattern",
+      "proposalIds": [
+        "T-12"
+      ],
+      "releases": [
+        "S1-59",
+        "S1-76"
+      ],
+      "status": "PENDING_DESIGN",
+      "source": "Master S1-59 ending",
+      "holds": [],
+      "note": "One continuity note for both releases."
+    },
+    {
+      "assetId": "LW-MUS-TRUCK-SONG",
+      "item": "The fruit-truck song",
+      "proposalIds": [
+        "F-01"
+      ],
+      "releases": [
+        "S1-12",
+        "S1-20"
+      ],
+      "status": "PENDING_DESIGN",
+      "source": "MO-01",
+      "holds": [
+        "HOLD-SONG"
+      ],
+      "note": "Chosen or commissioned once."
+    },
+    {
+      "assetId": "LW-SFX-TRUCK-CAB",
+      "item": "The truck cab at night: engine and indicator",
+      "proposalIds": [
+        "F-01"
+      ],
+      "releases": [
+        "S1-12"
+      ],
+      "status": "PENDING_PRODUCTION",
+      "source": "F-01",
+      "holds": [],
+      "note": "A few seconds under one line; no new scene."
+    },
+    {
+      "assetId": "LW-SFX-1985-CROWD",
+      "item": "Dee's remembered 1985 crowd and starter's pistol",
+      "proposalIds": [
+        "F-04"
+      ],
+      "releases": [
+        "S1-37"
+      ],
+      "status": "PENDING_PRODUCTION",
+      "source": "MO-06",
+      "holds": [],
+      "note": "Never heard in S1-40."
+    },
+    {
+      "assetId": "LW-PERF-YAZ-LAUGH",
+      "item": "Yaz's unguarded laugh",
+      "proposalIds": [
+        "F-05"
+      ],
+      "releases": [
+        "S1-33",
+        "S1-50"
+      ],
+      "status": "PENDING_PRODUCTION",
+      "source": "MO-02",
+      "holds": [],
+      "note": "One performance for both releases. No voice is cast or authorized."
+    },
+    {
+      "assetId": "LW-MUS-TWO-BARS",
+      "item": "Clarence's two bars",
+      "proposalIds": [
+        "F-19"
+      ],
+      "releases": [
+        "S1-20",
+        "S1-35",
+        "S1-74",
+        "S1-82"
+      ],
+      "status": "PENDING_DESIGN",
+      "source": "MO-03",
+      "holds": [],
+      "note": "Written once by the composer; no composition is canon."
+    },
+    {
+      "assetId": "LW-SFX-GOLD-HUM",
+      "item": "The hum of the first gold light",
+      "proposalIds": [
+        "F-07"
+      ],
+      "releases": [
+        "S1-59",
+        "S1-77"
+      ],
+      "status": "PENDING_DESIGN",
+      "source": "MO-04",
+      "holds": [],
+      "note": "The same hum in both releases."
+    },
+    {
+      "assetId": "LW-FLASHBACK-S1-58",
+      "item": "S1-58 doorway grammar: needle cues, workbench letter, folded newspaper",
+      "proposalIds": [
+        "F-06"
+      ],
+      "releases": [
+        "S1-58"
+      ],
+      "status": "PENDING_DESIGN",
+      "source": "F-06",
+      "holds": [
+        "HOLD-FD-18"
+      ],
+      "note": "Camera height and two props inside the existing 2:15."
+    },
+    {
+      "assetId": "LW-FLASHBACK-S1-77",
+      "item": "S1-77 participant grammar: inside the dance",
+      "proposalIds": [
+        "F-07"
+      ],
+      "releases": [
+        "S1-77"
+      ],
+      "status": "PENDING_PRODUCTION",
+      "source": "F-07; reuses the S1-58 garage and costumes",
+      "holds": [
+        "HOLD-FD-18"
+      ],
+      "note": "Shares sets and faces with S1-58, not camera positions."
+    },
+    {
+      "assetId": "LW-ENV-FAR-BANK",
+      "item": "The public riverbank celebration",
+      "proposalIds": [
+        "W-01",
+        "R-02",
+        "R-03"
+      ],
+      "releases": [
+        "S1-77"
+      ],
+      "status": "PENDING_DESIGN",
+      "source": "SET-RIVER-HALL (registered set, no approved reference) and master S1-77 beat 10",
+      "holds": [],
+      "note": "Crowd direction inside existing coverage: a brass band, a food truck, hats, kids on bikes."
+    },
+    {
+      "assetId": "LW-PROP-KAI-PLIERS",
+      "item": "Kai's pliers on a string, and her bloom light",
+      "proposalIds": [
+        "R-05"
+      ],
+      "releases": [
+        "S1-22",
+        "S1-59"
+      ],
+      "status": "PENDING_DESIGN",
+      "source": "Master S1-22",
+      "holds": [],
+      "note": "One prop across two releases."
+    },
+    {
+      "assetId": "LW-CROWD-S1-75",
+      "item": "The room repeating Sloane's words",
+      "proposalIds": [
+        "T-10"
+      ],
+      "releases": [
+        "S1-75"
+      ],
+      "status": "PENDING_PRODUCTION",
+      "source": "T-10",
+      "holds": [],
+      "note": "Background murmur inside the existing applause; no scripted line."
+    },
+    {
+      "assetId": "LW-VOICE-GRANDMOTHER",
+      "item": "The grandmother's voice for her one S1-59 line",
+      "proposalIds": [
+        "R-01"
+      ],
+      "releases": [
+        "S1-59"
+      ],
+      "status": "PENDING_PRODUCTION",
+      "source": "Master S1-59",
+      "holds": [],
+      "note": "Voice production is not authorized by this sprint."
+    },
+    {
+      "assetId": "LW-RULES",
+      "item": "Relay rules and the gold ladder",
+      "proposalIds": [
+        "T-02",
+        "T-11"
+      ],
+      "releases": [],
+      "status": "NOT_REQUIRED",
+      "source": "WR-02, WR-04",
+      "holds": [],
+      "note": "Written rules; no asset."
+    }
+  ],
+  "reconciliation": [
+    {
+      "proposalId": "T-01",
+      "title": "The last Relay blanks in Celestine's hand",
+      "type": "TECHNOLOGY",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "FOUNDER_APPROVED",
+      "priority": "P-12",
+      "promoted": true,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "T-02",
+      "title": "Four Relay rules, written down before S1-34 and S1-86 are drafted",
+      "type": "TECHNOLOGY",
+      "category": "C",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "FOUNDER_APPROVED",
+      "priority": "P-12",
+      "promoted": true,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "T-03",
+      "title": "The Echo Track goes dark where the 1985 camera looked away",
+      "type": "TECHNOLOGY",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "T-05",
+      "title": "The pliers girl runs out past lights like hers",
+      "type": "TECHNOLOGY",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "T-06",
+      "title": "The Halo at home on Grand Exchange morning",
+      "type": "TECHNOLOGY",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [
+        {
+          "decisionId": "U-4",
+          "status": "OPEN"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "T-07",
+      "title": "Kids playing copper tag at the market",
+      "type": "TECHNOLOGY",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "T-08",
+      "title": "Kai's Threshold credential dulls after midnight",
+      "type": "TECHNOLOGY",
+      "category": "A",
+      "auditRecommendation": "HOLD",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "T-09",
+      "title": "The brass key is a keepsake; the door knows the list",
+      "type": "TECHNOLOGY",
+      "category": "C",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "T-10",
+      "title": "The Ember stops capture, not memory",
+      "type": "TECHNOLOGY",
+      "category": "C",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "FOUNDER_APPROVED",
+      "priority": "P-02",
+      "promoted": true,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "T-11",
+      "title": "A ladder for gold: hand, room, city",
+      "type": "TECHNOLOGY",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "FOUNDER_APPROVED",
+      "priority": "P-03",
+      "promoted": true,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "T-12",
+      "title": "The lantern that flickered at rigging flickers again before the failure",
+      "type": "TECHNOLOGY",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "FOUNDER_APPROVED",
+      "priority": "P-04",
+      "promoted": true,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "T-13",
+      "title": "What the Threshold covers",
+      "type": "TECHNOLOGY",
+      "category": "C",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "T-14",
+      "title": "A Veil at the Okafor cookout",
+      "type": "TECHNOLOGY",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "T-15",
+      "title": "Name the Constellation at the midpoint",
+      "type": "TECHNOLOGY",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "T-16",
+      "title": "An Interval message from Vivienne",
+      "type": "TECHNOLOGY",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "T-17",
+      "title": "An Echo dance floor at the Crescent Room",
+      "type": "TECHNOLOGY",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "T-18",
+      "title": "Replay the garage from an archive",
+      "type": "TECHNOLOGY",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "T-19",
+      "title": "A soil sensor for the fern",
+      "type": "TECHNOLOGY",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "T-20",
+      "title": "A smart dance card",
+      "type": "TECHNOLOGY",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "T-21",
+      "title": "The photo booth prints the uninvited in copper",
+      "type": "TECHNOLOGY",
+      "category": "A",
+      "auditRecommendation": "HOLD",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "F-01",
+      "title": "The fruit truck, heard and not seen",
+      "type": "SENSORY_FLASHBACK",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "FOUNDER_APPROVED",
+      "priority": "P-07",
+      "promoted": true,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "F-02",
+      "title": "A rail rhythm under the dining-car menu",
+      "type": "SENSORY_FLASHBACK",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "F-03",
+      "title": "The skirt opens into the shape of the 1981 pencil line",
+      "type": "SENSORY_FLASHBACK",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [
+        {
+          "decisionId": "U-4",
+          "status": "OPEN"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "F-04",
+      "title": "Dee hears 1985; the Echo Track stays silent",
+      "type": "SENSORY_FLASHBACK",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "FOUNDER_APPROVED",
+      "priority": "P-06",
+      "promoted": true,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "F-05",
+      "title": "Plant Yaz's real laugh so the audience knows it in the Hush",
+      "type": "SENSORY_FLASHBACK",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "FOUNDER_APPROVED",
+      "priority": "P-08",
+      "promoted": true,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "F-06",
+      "title": "The garage, told honestly: a needle drop, a doorway, and objects for what Richard did not see",
+      "type": "SENSORY_FLASHBACK",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "FOUNDER_APPROVED",
+      "priority": "P-05",
+      "promoted": true,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "F-07",
+      "title": "Celestine's flash is the dancer's version, with the hum of the first gold light",
+      "type": "SENSORY_FLASHBACK",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "FOUNDER_APPROVED",
+      "priority": "P-05",
+      "promoted": true,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "F-08",
+      "title": "The year's ledger, read by ear",
+      "type": "SENSORY_FLASHBACK",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "F-09",
+      "title": "Young Vivienne eating dessert first, in the pilot",
+      "type": "SENSORY_FLASHBACK",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "F-10",
+      "title": "Young Nadine being told last",
+      "type": "SENSORY_FLASHBACK",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "F-11",
+      "title": "The pavilion, the night Kai built it",
+      "type": "SENSORY_FLASHBACK",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "F-12",
+      "title": "Honora's exposure, shown",
+      "type": "SENSORY_FLASHBACK",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "F-13",
+      "title": "The studio visit, nineteen days before",
+      "type": "SENSORY_FLASHBACK",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "F-14",
+      "title": "Vivienne reads her letter aloud",
+      "type": "SENSORY_FLASHBACK",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "F-15",
+      "title": "Richard's ridiculous story, held for Season 2",
+      "type": "SENSORY_FLASHBACK",
+      "category": "D",
+      "auditRecommendation": "HOLD",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "F-16",
+      "title": "Gideon's years as Richard's right hand, held for Season 2",
+      "type": "SENSORY_FLASHBACK",
+      "category": "D",
+      "auditRecommendation": "HOLD",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "F-17",
+      "title": "Sloane's years learning the house from her mother, held for Season 2",
+      "type": "SENSORY_FLASHBACK",
+      "category": "D",
+      "auditRecommendation": "HOLD",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [
+        {
+          "decisionId": "U-1",
+          "status": "OPEN"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "F-18",
+      "title": "The fruit truck, shown",
+      "type": "SENSORY_FLASHBACK",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "F-19",
+      "title": "Noelle writes down two bars of Clarence's trumpet",
+      "type": "SENSORY_FLASHBACK",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "FOUNDER_APPROVED",
+      "priority": "P-08",
+      "promoted": true,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "F-20",
+      "title": "Eight seconds of young Kai at Celestine's door",
+      "type": "SENSORY_FLASHBACK",
+      "category": "B",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "R-01",
+      "title": "The grandmother from the fire escape is the grandmother on the bench",
+      "type": "AMBIENT_RETURN",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "FOUNDER_APPROVED",
+      "priority": "P-10",
+      "promoted": true,
+      "founderNote": null,
+      "waitsOn": [
+        {
+          "decisionId": "FD-S101-06",
+          "status": "ANSWERED RECURRING"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "R-02",
+      "title": "The jewel-green dress gets its date, on the far bank",
+      "type": "VISUAL_EASTER_EGG",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "FOUNDER_APPROVED",
+      "priority": "P-09",
+      "promoted": true,
+      "founderNote": null,
+      "waitsOn": [
+        {
+          "decisionId": "FD-S101-05",
+          "status": "ANSWERED DRESS_DESIGN_LATER (part still open)"
+        },
+        {
+          "decisionId": "FD-S101-06",
+          "status": "ANSWERED RECURRING"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "R-03",
+      "title": "The tailor on the far bank, in a suit he made",
+      "type": "AMBIENT_RETURN",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "FOUNDER_APPROVED",
+      "priority": "P-09",
+      "promoted": true,
+      "founderNote": null,
+      "waitsOn": [
+        {
+          "decisionId": "FD-S101-06",
+          "status": "ANSWERED RECURRING"
+        },
+        {
+          "decisionId": "FD-S101-07",
+          "status": "ANSWERED ANONYMOUS"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "R-04",
+      "title": "The teenager lands his step with the drumline",
+      "type": "AMBIENT_RETURN",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "FOUNDER_APPROVED",
+      "priority": "P-11",
+      "promoted": true,
+      "founderNote": null,
+      "waitsOn": [
+        {
+          "decisionId": "FD-S101-06",
+          "status": "ANSWERED RECURRING"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "R-05",
+      "title": "The girl with Kai's pliers asks what the lanterns are for",
+      "type": "AMBIENT_RETURN",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "FOUNDER_APPROVED",
+      "priority": "P-10",
+      "promoted": true,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "R-06",
+      "title": "The same three Aldridge night nurses",
+      "type": "AMBIENT_RETURN",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "R-07",
+      "title": "The nurses hear Tad and Yaz agree",
+      "type": "AMBIENT_RETURN",
+      "category": "B",
+      "auditRecommendation": "REVISE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "R-08",
+      "title": "One courier, three deliveries",
+      "type": "AMBIENT_RETURN",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "R-09",
+      "title": "The honey seller dances at the Crescent Room",
+      "type": "AMBIENT_RETURN",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "R-10",
+      "title": "Gideon's barber in a pillbox hat",
+      "type": "AMBIENT_RETURN",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "R-11",
+      "title": "The balcony woman at the Grand Exchange",
+      "type": "AMBIENT_RETURN",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "R-12",
+      "title": "The neighbour photographs the gold",
+      "type": "VISUAL_EASTER_EGG",
+      "category": "A",
+      "auditRecommendation": "HOLD",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": "NOT APPROVED. The audit identifies a conflict between R-03 and R-12. Preserve R-12 in its original unapproved/held state. Do not promote R-12. Do not substitute R-12 for the approved R-03 treatment.",
+      "waitsOn": [
+        {
+          "decisionId": "FD-S101-06",
+          "status": "ANSWERED RECURRING"
+        }
+      ],
+      "conflictsWithApproved": [
+        "R-03"
+      ],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "R-13",
+      "title": "The balcony woman and the neighbour become a couple",
+      "type": "AMBIENT_RETURN",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "R-14",
+      "title": "The S1-69 teenager is the S1-01 teenager",
+      "type": "AMBIENT_RETURN",
+      "category": "A",
+      "auditRecommendation": "HOLD",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": "NOT APPROVED. The teenager's S1-51 drumline return is approved. A separate proposed S1-69 return is not. Do not combine these appearances.",
+      "waitsOn": [
+        {
+          "decisionId": "FD-S101-06",
+          "status": "ANSWERED RECURRING"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "R-15",
+      "title": "One church for everyone",
+      "type": "SOCIAL_WORLDBUILDING",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "R-16",
+      "title": "Imara and Bea are friends",
+      "type": "SOCIAL_WORLDBUILDING",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "R-17",
+      "title": "The Vandyne coat comes back",
+      "type": "VISUAL_EASTER_EGG",
+      "category": "D",
+      "auditRecommendation": "HOLD",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "R-18",
+      "title": "Femi's kitchen crew, from the alley to the Sunday supper",
+      "type": "AMBIENT_RETURN",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "S-01",
+      "title": "Hold longer on the green dress in the S1-01 rise",
+      "type": "VISUAL_EASTER_EGG",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "S-02",
+      "title": "Fix the teenager's step as four counts",
+      "type": "VISUAL_EASTER_EGG",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "FOUNDER_APPROVED",
+      "priority": "P-11",
+      "promoted": true,
+      "founderNote": null,
+      "waitsOn": [
+        {
+          "decisionId": "FD-S101-06",
+          "status": "ANSWERED RECURRING"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "C-01",
+      "title": "The S1-01 tailor is Wendell Ames",
+      "type": "AMBIENT_RETURN",
+      "category": "C",
+      "auditRecommendation": "HOLD",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": "NOT APPROVED. Do not identify the tailor as Wendell Ames. Preserve C-01 as an unapproved historical proposal.",
+      "waitsOn": [
+        {
+          "decisionId": "FD-S101-07",
+          "status": "ANSWERED ANONYMOUS"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": "FD-S101-07 ANONYMOUS: the S1-01 tailor is not Wendell Ames."
+    },
+    {
+      "proposalId": "V-01",
+      "title": "The Hush rooftop stands over the S1-01 street",
+      "type": "VISUAL_EASTER_EGG",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [
+        {
+          "decisionId": "FD-S101-08",
+          "status": "OPEN"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "V-02",
+      "title": "The Gold State notice goes up in the S1-01 bus shelter",
+      "type": "VISUAL_EASTER_EGG",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [
+        {
+          "decisionId": "FD-S101-08",
+          "status": "OPEN"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "V-03",
+      "title": "The purple cartwheel hat on the morning after",
+      "type": "VISUAL_EASTER_EGG",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "V-05",
+      "title": "The S1-73 menu card on the Sunday supper wall",
+      "type": "VISUAL_EASTER_EGG",
+      "category": "A",
+      "auditRecommendation": "HOLD",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "V-07",
+      "title": "Copper wax: every seal holds until Celestine breaks one",
+      "type": "VISUAL_EASTER_EGG",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "FOUNDER_APPROVED",
+      "priority": "P-01",
+      "promoted": true,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "V-12",
+      "title": "The bus in S1-01 is the Number 9",
+      "type": "VISUAL_EASTER_EGG",
+      "category": "E",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "W-01",
+      "title": "The far bank is the city's own party",
+      "type": "SOCIAL_WORLDBUILDING",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "FOUNDER_APPROVED",
+      "priority": "P-09",
+      "promoted": true,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "W-03",
+      "title": "A Ferry Street continuity sheet",
+      "type": "SOCIAL_WORLDBUILDING",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [
+        {
+          "decisionId": "FD-S101-07",
+          "status": "ANSWERED ANONYMOUS"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "W-06",
+      "title": "A school corridor humming Noelle's song",
+      "type": "SOCIAL_WORLDBUILDING",
+      "category": "B",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "W-08",
+      "title": "The door greets guests by name before anyone shows a key",
+      "type": "SOCIAL_WORLDBUILDING",
+      "category": "A",
+      "auditRecommendation": "APPROVE",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    },
+    {
+      "proposalId": "W-09",
+      "title": "A joy-only Night in the long gap",
+      "type": "SOCIAL_WORLDBUILDING",
+      "category": "B",
+      "auditRecommendation": "REJECT",
+      "founderDecision": "PENDING_FOUNDER",
+      "priority": null,
+      "promoted": false,
+      "founderNote": null,
+      "waitsOn": [
+        {
+          "decisionId": "U-2",
+          "status": "OPEN"
+        }
+      ],
+      "conflictsWithApproved": [],
+      "contradictsFounderDecision": null
+    }
+  ],
+  "implementation": [
+    "THE_EXCHANGE/SEASON_1/SEASON1_86_RELEASE_MASTER_V1.json approvedAmendments (AM-LW-*)",
+    "THE_EXCHANGE/SEASON_1/SEASON1_SCENE_INDEX_V1.json developmentRequirements",
+    "THE_EXCHANGE/SEASON_1/FUTURE_PRODUCTION_DEPENDENCIES_V1.json livingWorld",
+    "THE_EXCHANGE/SEASON_1/RECURRING_BACKGROUND_REGISTRY_V1.json"
+  ],
+  "validation": [
+    "shared/site00-fiction-production/promotion/validate.ts › validatePromotion()",
+    "tests/theExchangeLivingWorldPromotion.test.ts"
+  ]
+}
