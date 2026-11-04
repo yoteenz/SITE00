@@ -23,7 +23,7 @@ import { NotFoundPage } from './NotFoundPage';
 import { getReceiptImage } from './receiptStore';
 import { Dot01Sheets, type Dot01SheetState } from './sheets/Dot01Sheets';
 
-const CONTENT = { x: 30, y: 600, w: 881, h: 1066 };
+const CONTENT = { x: 30, y: 600, w: 881, h: 940 };
 
 export function TransactionDetailPage() {
   const { entryId } = useParams<{ entryId: string }>();
@@ -252,7 +252,7 @@ export function BalanceReviewPage() {
 
 export function NeedsReviewPage() {
   const { placeId } = useParams<{ placeId: string }>();
-  const { go, back } = useJurnl();
+  const { go } = useJurnl();
   useCurrency();
   useRepoTick();
   const today = getTodayKey();
@@ -301,7 +301,10 @@ export function NeedsReviewPage() {
       subtitle="needs attention"
       testId="d01-attention-page"
       label="ACCOUNT NEEDS REVIEW"
-      chips={[{ id: 'd01-back', label: 'BACK', icon: 'back', onClick: () => back() || go('money/places') }]}
+      chips={[
+        { id: 'd01-search', label: 'SEARCH THIS ACCOUNT', icon: 'search', onClick: () => go(`money/places/${id}/history`) },
+        { id: 'd01-add', label: 'RECORD A TRANSACTION', icon: 'plus', onClick: () => go(`money/places/${id}/history`) },
+      ]}
       contentRect={CONTENT}
       contentScroll
       content={content}

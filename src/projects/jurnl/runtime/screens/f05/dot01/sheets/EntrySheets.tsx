@@ -22,13 +22,13 @@ import type { TransferStart } from '../../../../../data/ledger/transferSettlemen
 import { getRepository } from '../../../../../data/repository/deviceRepository';
 import { useJurnl } from '../../../../state/store';
 import { DOT01 } from '../dot01Assets';
-import { Dot01Overlay } from '../Dot01Frame';
+import { Dot01Overlay, useSearchAddChips } from '../Dot01Frame';
 import { shortDate } from '../HistoryPage';
 import { Alert, Button, Paper, Row, SelectInput, TextInput } from '../kit';
 import { saveReceiptImage } from '../receiptStore';
 import { ReceiptFlow, type ReceiptCapture } from './ReceiptFlow';
 
-const CONTENT = { x: 30, y: 590, w: 881, h: 1076 };
+const CONTENT = { x: 30, y: 590, w: 881, h: 930 };
 const CATEGORIES = ['GROCERIES', 'FOOD', 'DINING', 'FUEL', 'TRANSPORT', 'HOUSING', 'UTILITIES', 'HEALTH', 'CLOTHING', 'SHOPPING', 'MEMBERSHIP', 'TRAVEL', 'OTHER'].map((c) => ({ id: c, label: c }));
 const isLiability = (a: JurnlAccountRecord) => accountNature(a.account_type) === 'LIABILITY';
 
@@ -48,6 +48,7 @@ type Mode = 'bank' | 'cash' | 'card';
 /** One purchase, from a receipt or typed in. Nothing is written until SAVE TRANSACTION succeeds. */
 export function PurchaseFlow({ accountId, mode, withType, startWithReceipt, onClose, onSwitch }: { accountId: string; mode: Mode; withType?: boolean; startWithReceipt?: boolean; onClose: () => void; onSwitch?: (to: 'money-in' | 'transfer' | 'card-payment') => void }) {
   const { go } = useJurnl();
+  const searchAdd = useSearchAddChips();
   const today = getTodayKey();
   const [step, setStep] = useState<'form' | 'receipt' | 'review' | 'duplicate' | 'saved'>(startWithReceipt ? 'receipt' : 'form');
   const [draft, setDraft] = useState<Draft>({ merchant: '', amount: '', category: '', date: today, notes: '', accountId });
@@ -168,7 +169,7 @@ export function PurchaseFlow({ accountId, mode, withType, startWithReceipt, onCl
 
   if (step === 'review' && preview)
     return (
-      <Dot01Overlay testId="d01-transaction-review" env="SK03_FIELD" title={['TRANSACTION', 'REVIEW']} subtitle="review before saving" onClose={onClose} contentRect={CONTENT} contentScroll label="TRANSACTION REVIEW" content={
+      <Dot01Overlay testId="d01-transaction-review" chips={searchAdd} env="SK03_FIELD" title={['TRANSACTION', 'REVIEW']} subtitle="review before saving" onClose={onClose} contentRect={CONTENT} contentScroll label="TRANSACTION REVIEW" content={
         <>
           <Paper kind="sheet">
             <div className="d01-rows">

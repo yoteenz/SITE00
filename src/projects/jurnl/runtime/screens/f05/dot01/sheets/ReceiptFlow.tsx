@@ -7,7 +7,7 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from 'react';
 import { checkReceiptFile, parseReceiptText, type ReceiptRead } from '../../../../../data/f05/dot01/receipt';
 import { DOT01 } from '../dot01Assets';
-import { by, Dot01Overlay, type Dot01Layout } from '../Dot01Frame';
+import { by, Dot01Overlay, useSearchAddChips, type Dot01Layout } from '../Dot01Frame';
 import { Icon } from '../icons';
 import { Alert, Button, Paper } from '../kit';
 import { readReceiptText, type OcrProgress } from '../receiptOcr';
@@ -17,12 +17,13 @@ export type ReceiptCapture = { read: ReceiptRead; image: Blob; imageSha: string;
 type Step = 'capture' | 'scanning' | 'failed';
 type Failure = { title: string; reasons: string[] };
 
-const CONTENT = { x: 30, y: 590, w: 881, h: 1076 };
+const CONTENT = { x: 30, y: 590, w: 881, h: 930 };
 /** SK03: the frame paper ends at board y 1040 and the strip starts at 1042 (F05_DOT01_GEOMETRY.json). */
 const SK03_SEAM = 1041;
 
 export function ReceiptFlow({ onRead, onManual, onClose }: { onRead: (c: ReceiptCapture) => void; onManual: () => void; onClose: () => void }) {
   const [step, setStep] = useState<Step>('capture');
+  const searchAdd = useSearchAddChips();
   const [preview, setPreview] = useState<string | null>(null);
   const [progress, setProgress] = useState<OcrProgress | null>(null);
   const [failure, setFailure] = useState<Failure | null>(null);
@@ -133,7 +134,7 @@ export function ReceiptFlow({ onRead, onManual, onClose }: { onRead: (c: Receipt
 
   if (step === 'failed' && failure)
     return (
-      <Dot01Overlay testId="d01-receipt-failure" env="SK03_FIELD" title={['RECEIPT', 'CAPTURE']} subtitle="something went wrong" onClose={onClose} contentRect={CONTENT} contentScroll label="RECEIPT CAPTURE FAILURE" content={
+      <Dot01Overlay testId="d01-receipt-failure" chips={searchAdd} env="SK03_FIELD" title={['RECEIPT', 'CAPTURE']} subtitle="something went wrong" onClose={onClose} contentRect={CONTENT} contentScroll label="RECEIPT CAPTURE FAILURE" content={
         <>
           {inputs}
           <div className="d01-split">

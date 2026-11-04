@@ -31,7 +31,7 @@ const STAGGER_ROWS = 8;
 export function HistoryPage({ all = false }: { all?: boolean }) {
   const { placeId } = useParams<{ placeId: string }>();
   const [params, setParams] = useSearchParams();
-  const { go, back } = useJurnl();
+  const { go, back, openOverlay } = useJurnl();
   useCurrency();
   useRepoTick();
   const [sheet, setSheet] = useState<Dot01SheetState>(null);
@@ -75,7 +75,7 @@ export function HistoryPage({ all = false }: { all?: boolean }) {
           {!v.liability && (v.waitingToLeave > 0 || v.incoming > 0) ? <p className="d01-note" style={{ textAlign: 'center' }}>{`${formatMoney(v.waitingToLeave)} NOT LEFT YET · ${formatMoney(v.incoming)} ON ITS WAY IN`}</p> : null}
         </Paper>
       ) : null}
-      <Paper kind="sheet">
+      <Paper kind="sheet" className="d01-grow">
         <div className="d01-field d01-field--stack" style={{ borderBottom: 0 }}>
           <label htmlFor="d01-q" className="d01-sr">SEARCH TRANSACTIONS</label>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 6 }}>
@@ -191,8 +191,16 @@ export function HistoryPage({ all = false }: { all?: boolean }) {
       subtitle={all ? 'search and filter' : undefined}
       testId="d01-history"
       label={all ? 'TRANSACTIONS' : 'TRANSACTION HISTORY'}
-      chips={[{ id: 'd01-back', label: 'BACK', icon: 'back', onClick: () => back() || go(v ? `money/places/${v.account.account_id}` : 'money') }]}
-      contentRect={{ x: 30, y: 600, w: 881, h: 1066 }}
+      chips={
+        all
+          ? [
+              { id: 'd01-search', label: 'SEARCH', icon: 'search', onClick: () => document.getElementById('d01-q')?.focus() },
+              { id: 'd01-add', label: 'ADD', icon: 'plus', onClick: () => openOverlay('quick-add') },
+            ]
+          : [{ id: 'd01-back', label: 'BACK', icon: 'back', onClick: () => back() || go(v ? `money/places/${v.account.account_id}` : 'money') }]
+      }
+      nav={all}
+      contentRect={{ x: 30, y: 600, w: 881, h: all ? 846 : 940 }}
       contentScroll
       content={content}
       overlays={<Dot01Sheets state={sheet} onClose={() => setSheet(null)} />}

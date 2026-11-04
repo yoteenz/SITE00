@@ -19,12 +19,12 @@ import { toCents } from '../../../../../data/ledger/accounting';
 import { parseMoneyInput } from '../../../../../data/ledger/ledgerOps';
 import { useJurnl } from '../../../../state/store';
 import { DOT01 } from '../dot01Assets';
-import { Dot01Overlay } from '../Dot01Frame';
+import { Dot01Overlay, useSearchAddChips } from '../Dot01Frame';
 import { shortDate } from '../HistoryPage';
 import { Chevron, Icon } from '../icons';
 import { Alert, Button, Paper, Row, SelectInput, TextInput } from '../kit';
 
-const CONTENT = { x: 30, y: 590, w: 881, h: 1076 };
+const CONTENT = { x: 30, y: 590, w: 881, h: 930 };
 const CATEGORIES = ['GROCERIES', 'FOOD', 'DINING', 'FOOD & DRINK', 'FUEL', 'TRANSPORT', 'HOUSING', 'UTILITIES', 'HEALTH', 'CLOTHING', 'SHOPPING', 'MEMBERSHIP', 'TRAVEL', 'OTHER'];
 
 export type CorrectionMode = 'options' | 'edit' | 'category' | 'account';
@@ -44,6 +44,7 @@ function balanceChange(impact: { before: number; after: number; liability: boole
 
 export function CorrectionOverlay({ entryId, mode, onClose, onDone }: { entryId: string; mode: CorrectionMode; onClose: () => void; onDone?: (msg: string) => void }) {
   const { go } = useJurnl();
+  const searchAdd = useSearchAddChips();
   const live = correctionCheck(entryId);
   // the entry as it was when the overlay opened: after a reversal it is gone from the ledger, and the confirmation
   // (and DONE) still has to show what was removed
@@ -167,7 +168,7 @@ export function CorrectionOverlay({ entryId, mode, onClose, onDone }: { entryId:
     const change = balanceChange(impact);
     const revised = preview?.revised;
     return (
-      <Dot01Overlay testId="d01-correct-confirm" env="SK03_FIELD" title={['CONFIRM', 'CORRECTION']} subtitle="review the changes" onClose={onClose} contentRect={CONTENT} contentScroll label="CONFIRM CORRECTION" content={
+      <Dot01Overlay testId="d01-correct-confirm" chips={searchAdd} env="SK03_FIELD" title={['CONFIRM', 'CORRECTION']} subtitle="review the changes" onClose={onClose} contentRect={CONTENT} contentScroll label="CONFIRM CORRECTION" content={
         <>
           <div className="d01-split">
             <Paper kind="panel" testId="d01-original">

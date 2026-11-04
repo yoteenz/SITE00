@@ -13,7 +13,7 @@ import { moveInOrder, orderAccounts, setAccountOrder } from '../../../../data/f0
 import { kindOf } from '../../../../data/f05/dot01/accountView';
 import { reviewIssues } from '../../../../data/f05/dot01/reconciliation';
 import { useJurnl } from '../../../state/store';
-import { Dot01Frame } from './Dot01Frame';
+import { Dot01Frame, type Dot01Chip } from './Dot01Frame';
 import { Icon } from './icons';
 import { AccountCard, Alert, Button, CARD_SRC, Paper, money } from './kit';
 import { Dot01Sheets, type Dot01SheetState } from './sheets/Dot01Sheets';
@@ -30,7 +30,14 @@ export function DirectoryPage() {
   const pic = computeMoneyPicture(snap.accounts, snap.creditAttributes, snap.transactions, today);
   const pos = (id: string) => pic.positions.find((p) => p.account_id === id);
   const empty = accounts.length === 0;
-  const chips = [{ id: 'd01-back', label: 'BACK TO MONEY', icon: 'back' as const, onClick: () => back() || go('money') }];
+  // chips and dock as each authority draws them: 06 back + dock · 22 back · 32 search + add
+  const chips: Dot01Chip[] = reorder
+    ? [
+        { id: 'd01-search', label: 'SEARCH TRANSACTIONS', icon: 'search', onClick: () => go('money/transactions') },
+        { id: 'd01-add', label: 'ADD ACCOUNT', icon: 'plus', onClick: () => setSheet({ kind: 'add-account' }) },
+      ]
+    : [{ id: 'd01-back', label: 'BACK TO MONEY', icon: 'back', onClick: () => back() || go('money') }];
+  const nav = !empty && !reorder;
   const content = empty ? (
     <EmptyAccounts onAdd={(kind) => setSheet({ kind: 'add-account', preset: kind })} />
   ) : reorder ? (
@@ -70,7 +77,8 @@ export function DirectoryPage() {
       testId="d01-directory"
       label={reorder ? 'REORDER ACCOUNTS' : 'ALL ACCOUNTS'}
       chips={chips}
-      contentRect={{ x: 30, y: 600, w: 881, h: 1066 }}
+      nav={nav}
+      contentRect={{ x: 30, y: 600, w: 881, h: nav ? 846 : 940 }}
       contentScroll
       content={content}
       overlays={<Dot01Sheets state={sheet} onClose={() => setSheet(null)} />}

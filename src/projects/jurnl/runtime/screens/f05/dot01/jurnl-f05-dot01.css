@@ -280,6 +280,14 @@
   --d01-fs: calc(13px * var(--d01-s, 1));
   font-size: var(--d01-fs);
 }
+/* a tall phone's extra height is shared between the papers (auto margins collapse to 0 when the content scrolls) */
+.jrn .jrn-d01__content > * {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.jrn .jrn-d01__content > .d01-grow {
+  flex-grow: 1;
+}
 .jrn .jrn-d01__content[data-scroll='true'] {
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -610,18 +618,7 @@
 }
 
 /* the global dock on SK01's torn nav paper (child pages keep the five destinations) */
-.jrn[data-jrn-f05-dot01] .jrn-nav[data-jrn-nav='parent']::before {
-  content: '';
-  position: absolute;
-  left: calc(-1 * var(--f05m-nav-w) * 0.035);
-  right: calc(-1 * var(--f05m-nav-w) * 0.035);
-  top: -6px;
-  bottom: -6px;
-  z-index: -1;
-  background: var(--d01-nav-paper) center / 100% 100% no-repeat;
-  filter: drop-shadow(0 -4px 8px rgba(12, 8, 4, 0.4));
-  pointer-events: none;
-}
+/* the dock (06, 31) sits on the nav paper drawn in the board (jrn-d01__navpaper), never on a strip below it */
 
 /* ─────────── Motion ─────────── */
 @media (prefers-reduced-motion: no-preference) {
@@ -702,7 +699,8 @@
 }
 
 /* the shell's corner back would duplicate the page's own back chip; the global menu stays (re-seated as a chip) */
-.jrn[data-jrn-f05-dot01] .jrn-corner .jrn-f09a__back {
+/* the shell's corner chrome is not part of any DOT 01 authority: each page shows only its own chips */
+.jrn[data-jrn-f05-dot01] .jrn-corner {
   display: none;
 }
 

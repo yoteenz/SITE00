@@ -1,6 +1,7 @@
 /**
  * P0.JURNL.F05-MONEY.DOT01-ACCOUNTS — browser journeys for the ACCOUNTS dot (authorities 02–37).
  * Synthetic worlds only (helpers/jurnl-dot01-world.ts, helpers/jurnl-f05-world.ts); nothing is real.
+ * Chrome follows each authority: the global dock only on 06 and 31; every other page is full-bleed.
  *
  * RECEIPTS: the receipt tests render a synthetic receipt photo on a canvas (helpers/jurnl-receipt-image.ts) and
  * upload it through the real file input. The app then reads it with its own on-device OCR (tesseract.js, self-hosted
@@ -522,11 +523,10 @@ test.describe('F05 DOT 01 — overlays, navigation, typography, accessibility', 
     expect(await page.evaluate(() => !!document.activeElement?.closest('[data-jrn-overlay="d01-record"]'))).toBe(true);
     for (let i = 0; i < 25; i += 1) await page.keyboard.press('Tab');
     expect(await page.evaluate(() => !!document.activeElement?.closest('[data-jrn-overlay="d01-record"]'))).toBe(true);
-    // a focused overlay covers the dock and the corner menu
+    // the page underneath is covered (its own back chip is not reachable)
     expect(await page.evaluate(() => {
-      const nav = document.querySelector('.jrn-nav')!.getBoundingClientRect();
-      const top = document.elementFromPoint(nav.x + nav.width / 2, nav.y + nav.height / 2);
-      return !!top?.closest('[data-jrn-overlay]');
+      const chip = document.querySelector('[data-testid="d01-history"] [data-jrn-trigger="d01-back"]')!.getBoundingClientRect();
+      return !!document.elementFromPoint(chip.x + chip.width / 2, chip.y + chip.height / 2)?.closest('[data-jrn-overlay]');
     })).toBe(true);
     await page.keyboard.press('Escape');
     await expect(dialog(page, 'd01-record')).toHaveCount(0);
@@ -547,18 +547,61 @@ test.describe('F05 DOT 01 — overlays, navigation, typography, accessibility', 
     await expect(page.locator('.jrn-f05m__carousel')).toHaveAttribute('data-active', 'accounts');
   });
 
-  test('every DOT 01 page keeps the five-destination dock with MONEY active, and no circular tappable control', async ({ page }) => {
+  // As the authorities draw it: the global dock only on 06 ALL ACCOUNTS and 31 TRANSACTIONS, inside the composition
+  // on SK01's torn nav paper; every other page is full-bleed to the bottom landscape. No shell corner chrome anywhere.
+  test('the dock appears only where its authority draws it (06, 31), on the nav paper; the other pages are full-bleed', async ({ page }) => {
     await open(page, 'money/places');
-    for (const route of ['money/places', 'money/places/bank', 'money/places/visa/history', 'money/entries/tx-d01-vesuvio', 'money/places/cash/settings', 'money/places/bank/review', 'money/transactions']) {
+    const withDock = ['money/places', 'money/transactions'];
+    const without = ['money/places/bank', 'money/places/visa/history', 'money/entries/tx-d01-vesuvio', 'money/places/cash/settings', 'money/places/bank/review', 'money/places/bank/attention'];
+    for (const route of [...withDock, ...without]) {
       await gotoJurnl(page, route);
       await page.locator('[data-jrn-f05-dot01-stage]').first().waitFor();
-      const nav = page.locator('.jrn-nav');
-      await expect(nav).toHaveCount(1);
-      expect(await nav.locator('[data-jrn-trigger^="nav-"]').evaluateAll((els) => els.map((e) => e.getAttribute('data-jrn-trigger')))).toEqual(['nav-home', 'nav-money', 'nav-add', 'nav-plan', 'nav-credit']);
-      await expect(trigger(page, 'nav-money')).toHaveAttribute('aria-current', 'page');
+      const docked = withDock.includes(route);
+      await expect(page.locator('.jrn-nav'), route).toHaveCount(docked ? 1 : 0);
+      await expect(page.locator('.jrn-d01__navpaper'), route).toHaveCount(docked ? 1 : 0);
+      if (docked) {
+        const nav = page.locator('.jrn-nav');
+        expect(await nav.locator('[data-jrn-trigger^="nav-"]').evaluateAll((els) => els.map((e) => e.getAttribute('data-jrn-trigger')))).toEqual(['nav-home', 'nav-money', 'nav-add', 'nav-plan', 'nav-credit']);
+        await expect(trigger(page, 'nav-money')).toHaveAttribute('aria-current', 'page');
+        // the five cells sit on the nav paper drawn in the composition (not on a strip below it)
+        const [n, p] = [(await nav.boundingBox())!, (await page.locator('.jrn-d01__navpaper').boundingBox())!];
+        expect(n.y).toBeGreaterThanOrEqual(p.y - 1);
+        expect(n.y + n.height).toBeLessThanOrEqual(p.y + p.height + 1);
+      } else {
+        // full-bleed: the composition reaches the bottom of the screen
+        const stage = (await page.locator('[data-jrn-f05-dot01-stage]').first().boundingBox())!;
+        const vh = page.viewportSize()!.height;
+        expect(Math.round(stage.y + stage.height), route).toBeGreaterThanOrEqual(vh - 1);
+      }
+      expect(await page.locator('.jrn-corner').evaluateAll((els) => els.filter((e) => (e as HTMLElement).offsetParent !== null).length), route).toBe(0);
       expect(await circularControls(page), route).toEqual([]);
       expect(await typographyFindings(page), route).toEqual([]);
     }
+    // a focused overlay covers the dock where the page has one
+    await gotoJurnl(page, 'money/places');
+    await clickTrigger(page, 'd01-add-account');
+    await expect(dialog(page, 'd01-add-account')).toBeVisible();
+    expect(await page.evaluate(() => {
+      const nav = document.querySelector('.jrn-nav')!.getBoundingClientRect();
+      return !!document.elementFromPoint(nav.x + nav.width / 2, nav.y + nav.height / 2)?.closest('[data-jrn-overlay]');
+    })).toBe(true);
+  });
+
+  test('chips follow the authorities: back on 02–29, search + add on 30–37 (and 31)', async ({ page }) => {
+    await open(page, 'money/places/bank');
+    const ids = () => page.locator('.jrn-d01__chip').evaluateAll((els) => els.filter((e) => (e as HTMLElement).offsetParent !== null).map((e) => e.getAttribute('data-jrn-trigger')));
+    expect(await ids()).toEqual(['d01-back']);
+    await gotoJurnl(page, 'money/transactions');
+    await page.locator('[data-jrn-f05-dot01-stage]').first().waitFor();
+    expect(await ids()).toEqual(['d01-search', 'd01-add']);
+    await gotoJurnl(page, 'money/places/bank/attention');
+    await page.locator('[data-jrn-f05-dot01-stage]').first().waitFor();
+    expect(await ids()).toEqual(['d01-search', 'd01-add']);
+    await gotoJurnl(page, 'money/places');
+    await page.locator('[data-jrn-f05-dot01-stage]').first().waitFor();
+    expect(await ids()).toEqual(['d01-back']);
+    await clickTrigger(page, 'd01-reorder');
+    expect(await ids()).toEqual(['d01-search', 'd01-add']);
   });
 
   test('typography inside overlays: uppercase, one lowercase cursive phrase at most', async ({ page }) => {

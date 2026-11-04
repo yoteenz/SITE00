@@ -8,7 +8,12 @@
  *   L2  live type     JURNL on the permanent tag paper, the title on the heading paper, one sparse cursive subtitle
  *   L3  chips         square-rounded back / search / add chips (no circular tappable controls)
  * Content (screen px, never transformed): a region mapped from the board, so inputs keep ≥ 16 px type and nothing
- * zooms on iOS. The global dock sits under the composition on SK01's torn nav paper (child pages keep the dock).
+ * zooms on iOS.
+ * Every page is full-bleed like its authority: no strip is reserved under the composition. Only the screens whose
+ * authority draws the global navigation (06 ALL ACCOUNTS, 31 TRANSACTIONS; the parent 01 has its own) seat the dock on
+ * SK01's torn nav paper inside the composition, at its authority position (board y 1459–1662). The extra height of a
+ * tall phone goes into an olive-field seam just above the bottom landscape (inside the field-reconstructed region),
+ * so the papers keep the authority's vertical rhythm.
  */
 
 import { Fragment, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type ReactNode } from 'react';
@@ -25,28 +30,50 @@ import './jurnl-f05-dot01.css';
 export const SRC_W = 941;
 export const SRC_H = 1672;
 const CROP = 30;
-const ELASTIC_Y = DOT01_GEOMETRY.SK02_elastic.y0;
 const TILE_H = DOT01_GEOMETRY.SK02_elastic.tile_h;
-/** Dock reserve under the composition (screen px, plus the safe area). */
-export const DOCK_H = 74;
+/**
+ * Where each environment takes the extra height of a tall phone: below the last paper and above the bottom landscape,
+ * inside the region the extraction rebuilt as plain field (SK02 22–919 × 588–1548, SK03 22–919 × 568–1530). The full
+ * SK03 (papers baked) uses the gap between its frame (ends y 1040) and its strip (starts y 1042).
+ */
+const SEAM: Record<'SK02' | 'SK02_FIELD' | 'SK03' | 'SK03_FIELD', number> = { SK02: 1540, SK02_FIELD: 1540, SK03: 1041, SK03_FIELD: 1520 };
+/**
+ * Top of the zone whose papers share the extra height (as the parent's papers do: sizes kept, gaps grow). Only the
+ * FIELD variants have one: their papers are layers over plain field. The full SIDEKICKs keep every baked paper fixed.
+ */
+const ZONE_TOP: Record<'SK02' | 'SK02_FIELD' | 'SK03' | 'SK03_FIELD', number | null> = { SK02: null, SK02_FIELD: 588, SK03: null, SK03_FIELD: 568 };
+/** With the dock: above SK01's torn nav paper (board y 1459). */
+const NAV_SEAM = 1452;
+const NAV_PAPER_BOX = { x: 19, y: 1459, w: 911, h: 203 };
+/** The five dock cells on the nav paper (the parent's composition rect, f05Composition.ts nav). */
+const NAV_RECT = { x: 34, y: 1478, w: 870, h: 138 };
 
 export type BoardRect = { x: number; y: number; w: number; h: number };
 export type Dot01Env = 'SK02' | 'SK02_FIELD' | 'SK03' | 'SK03_FIELD';
 export type Dot01Layer = { id: string; src: string; box: BoardRect; order?: number; className?: string; alt?: string; vt?: string };
 
-/** ey: board y where the elastic field tile is inserted (980 by default; a page whose papers are baked into the
- * environment puts it at the board's bottom edge so nothing is cut). */
-export type Dot01Layout = { u: number; ox: number; extra: number; boardH: number; w: number; h: number; dockH: number; ey: number };
+/** ey: board y where the elastic field tile is inserted (see SEAM); z0: top of the zone that shares it (or null). */
+export type Dot01Layout = { u: number; ox: number; extra: number; boardH: number; w: number; h: number; ey: number; z0: number | null };
 
-export function boardToScreen(L: Dot01Layout, r: BoardRect): BoardRect {
-  const y = r.y >= L.ey ? r.y + L.extra : r.y;
-  return { x: L.ox + r.x * L.u, y: y * L.u, w: r.w * L.u, h: r.h * L.u };
-}
+/**
+ * Board y on the stretched board. Below the seam everything moves by the whole extra height; inside the zone a
+ * position moves in proportion to how far down the zone it is, so the gaps between papers grow evenly. Place a paper
+ * by its top (`by(L, top)`) and anything on it relative to that top (`by(L, top) + dy`), so nothing drifts on its paper.
+ */
 export function by(L: Dot01Layout, y: number): number {
-  return y >= L.ey ? y + L.extra : y;
+  if (y >= L.ey) return y + L.extra;
+  if (L.z0 != null && y > L.z0) return y + (L.extra * (y - L.z0)) / (L.ey - L.z0);
+  return y;
 }
 
-function useDot01Layout(dock: boolean, crop = CROP, ey = ELASTIC_Y) {
+/** Board rect → screen px. Its top and bottom are both mapped, so a region that reaches the seam grows with it. */
+export function boardToScreen(L: Dot01Layout, r: BoardRect): BoardRect {
+  const top = by(L, r.y);
+  const bottom = r.y < L.ey && r.y + r.h >= L.ey - 2 ? by(L, L.ey) + (r.y + r.h - L.ey) : top + r.h;
+  return { x: L.ox + r.x * L.u, y: top * L.u, w: r.w * L.u, h: (bottom - top) * L.u };
+}
+
+function useDot01Layout(crop: number, ey: number, z0: number | null) {
   const ref = useRef<HTMLDivElement>(null);
   const [vp, setVp] = useState({ w: 393, h: 852 });
   useLayoutEffect(() => {
@@ -63,13 +90,12 @@ function useDot01Layout(dock: boolean, crop = CROP, ey = ELASTIC_Y) {
     return () => ro.disconnect();
   }, []);
   const L = useMemo<Dot01Layout>(() => {
-    const dockH = dock ? DOCK_H : 0;
-    const avail = Math.max(1, vp.h - dockH);
+    const avail = Math.max(1, vp.h);
     const u = Math.min(Math.max(1, vp.w) / (SRC_W - 2 * crop), avail / SRC_H);
     const ox = (vp.w - SRC_W * u) / 2;
     const extra = Math.max(0, avail / u - SRC_H);
-    return { u, ox, extra, boardH: SRC_H + extra, w: vp.w, h: vp.h, dockH, ey };
-  }, [vp.w, vp.h, dock, crop, ey]);
+    return { u, ox, extra, boardH: SRC_H + extra, w: vp.w, h: vp.h, ey, z0: z0 != null && z0 < ey ? z0 : null };
+  }, [vp.w, vp.h, crop, ey, z0]);
   return { ref, L };
 }
 
@@ -117,12 +143,12 @@ type BoardProps = {
   elasticY?: number;
 };
 
-function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, content, contentRect, contentScroll = false, label, testId, titleId, dock, onLayout, maxCrop, elasticY }: BoardProps & { dock: boolean; onLayout?: (L: Dot01Layout, el: HTMLDivElement | null) => void }) {
-  const { ref, L } = useDot01Layout(dock, maxCrop, elasticY);
+function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, content, contentRect, contentScroll = false, label, testId, titleId, page, nav = false, onLayout, maxCrop = CROP, elasticY }: BoardProps & { page: boolean; nav?: boolean; onLayout?: (L: Dot01Layout, el: HTMLDivElement | null) => void }) {
+  const { ref, L } = useDot01Layout(maxCrop, elasticY ?? (nav ? NAV_SEAM : SEAM[env]), elasticY != null ? null : ZONE_TOP[env]);
   useLayoutEffect(() => onLayout?.(L, ref.current), [L, onLayout, ref]);
   // a page moves focus to its heading on arrival (overlays focus their first control instead)
   useLayoutEffect(() => {
-    if (!dock) return;
+    if (!page) return;
     const h = ref.current?.querySelector<HTMLElement>('.jrn-d01__title');
     if (h && !ref.current?.contains(document.activeElement)) h.focus({ preventScroll: true });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -179,9 +205,10 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
           {subtitle ? <p className="jrn-d01__script" lang="en">{subtitle}</p> : null}
         </header>
         {board ? board(L) : null}
+        {nav ? <img className="jrn-d01__layer jrn-d01__navpaper" data-layer="L1" data-layer-id="nav_paper" src={DOT01.NAV_PAPER} alt="" aria-hidden draggable={false} style={{ left: NAV_PAPER_BOX.x, top: by(L, NAV_PAPER_BOX.y), width: NAV_PAPER_BOX.w, height: NAV_PAPER_BOX.h }} /> : null}
         <div className="jrn-d01__chips">
           {chips.map((c, i) => (
-            <button key={c.id} type="button" className="jrn-d01__chip" data-jrn-trigger={c.id} aria-label={c.label} style={{ left: (dock ? 845 - 84 : 845) - (chips.length - 1 - i) * 84 }} onClick={c.onClick}>
+            <button key={c.id} type="button" className="jrn-d01__chip" data-jrn-trigger={c.id} aria-label={c.label} style={{ left: 845 - (chips.length - 1 - i) * 84 }} onClick={c.onClick}>
               <ChipIcon icon={c.icon} />
             </button>
           ))}
@@ -196,8 +223,11 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
   );
 }
 
-/** A DOT 01 page: the board, the global dock re-seated on SK01's torn nav paper, Quick Add / Ask. */
-export function Dot01Frame({ screenId, dock = true, overlays, ...board }: BoardProps & { screenId: string; dock?: boolean; overlays?: ReactNode }) {
+/**
+ * A DOT 01 page. Full-bleed like its authority; `nav` (06, 31 only) seats the global dock on SK01's torn nav paper inside
+ * the composition. The shell's corner chrome is hidden: each page shows only its authority's own chips.
+ */
+export function Dot01Frame({ screenId, nav = false, overlays, ...board }: BoardProps & { screenId: string; nav?: boolean; overlays?: ReactNode }) {
   const { go, overlay, openOverlay, closeOverlay } = useJurnl();
   const [L, setL] = useState<Dot01Layout | null>(null);
   const [root, setRoot] = useState<HTMLElement | null>(null);
@@ -206,39 +236,36 @@ export function Dot01Frame({ screenId, dock = true, overlays, ...board }: BoardP
     setRoot((el?.closest('.jrn') as HTMLElement | null) ?? null);
   }, []);
   useLayoutEffect(() => {
-    if (!root || !dock || !L) return;
-    root.setAttribute('data-jrn-f05-motion', '');
+    if (!root || !L) return;
     root.setAttribute('data-jrn-f05-dot01', '');
-    const w = Math.min(L.w, SRC_W * L.u);
-    const x = (L.w - w) / 2;
-    const vars: Record<string, string> = {
-      '--f05m-nav-x': `${x + w * 0.035}px`,
-      '--f05m-nav-w': `${w * 0.93}px`,
-      '--f05m-nav-h': `${L.dockH - 8}px`,
-      '--f05m-nav-b': '4px',
-      '--f05m-u': String(L.u),
-      '--f05m-nav-gap': '4',
-      '--f05m-nav-label': '24',
-      '--d01-nav-paper': `url("${DOT01.NAV_PAPER}")`,
-      // the global account menu takes the far-right chip square (as on the MONEY parent)
-      '--f05m-menu-x': `${L.ox + 845 * L.u}px`,
-      '--f05m-menu-y': `${44 * L.u}px`,
-      '--f05m-chip': `${64 * L.u}px`,
-      '--f05m-paper-url': `url("${paperTile}")`,
-      '--f05m-edge-url': `url("${tornEdge}")`,
-    };
+    const vars: Record<string, string> = {};
+    if (nav) {
+      root.setAttribute('data-jrn-f05-motion', '');
+      const r = boardToScreen(L, NAV_RECT);
+      Object.assign(vars, {
+        '--f05m-nav-x': `${r.x}px`,
+        '--f05m-nav-w': `${r.w}px`,
+        '--f05m-nav-h': `${r.h}px`,
+        '--f05m-nav-b': `${L.h - (r.y + r.h)}px`,
+        '--f05m-u': String(L.u),
+        '--f05m-nav-gap': '10',
+        '--f05m-nav-label': '28',
+        '--f05m-paper-url': `url("${paperTile}")`,
+        '--f05m-edge-url': `url("${tornEdge}")`,
+      });
+    }
     for (const [k, v] of Object.entries(vars)) root.style.setProperty(k, v);
     return () => {
-      root.removeAttribute('data-jrn-f05-motion');
       root.removeAttribute('data-jrn-f05-dot01');
+      if (nav) root.removeAttribute('data-jrn-f05-motion');
       for (const k of Object.keys(vars)) root.style.removeProperty(k);
     };
-  }, [L, dock, root]);
+  }, [L, nav, root]);
   const envSrc = ENV_SRC[board.env];
   return (
-    <JurnlScreen screenId={screenId} familyPlate={{ family: 'F05', scene: `ENV.DOT01.${board.env}`, src: envSrc, assetId: `MONEY.DOT01.${board.env}`, width: SRC_W, height: SRC_H }} family productNav={dock} singlePlate>
-      <Dot01Board {...board} dock={dock} onLayout={onLayout} />
-      {dock ? <JurnlProductNav marks="parent" current="MONEY" onGo={go} onAdd={() => openOverlay('quick-add')} /> : null}
+    <JurnlScreen screenId={screenId} familyPlate={{ family: 'F05', scene: `ENV.DOT01.${board.env}`, src: envSrc, assetId: `MONEY.DOT01.${board.env}`, width: SRC_W, height: SRC_H }} family productNav={nav} singlePlate>
+      <Dot01Board {...board} page nav={nav} onLayout={onLayout} />
+      {nav ? <JurnlProductNav marks="parent" current="MONEY" onGo={go} onAdd={() => openOverlay('quick-add')} /> : null}
       {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F05" onClose={closeOverlay} /> : null}
       {overlay === 'ask' ? <AskJurnlSheet familyId="F05" nodeId={screenId} onClose={closeOverlay} /> : null}
       {overlays}
@@ -293,14 +320,23 @@ export function Dot01Overlay({ onClose, testId, env = 'SK03_FIELD', ...board }: 
     (box?.querySelector<HTMLElement>('.jrn-d01__content input, .jrn-d01__content select, .jrn-d01__content button:not([disabled])') ?? box?.querySelector<HTMLElement>('h1'))?.focus({ preventScroll: true });
   }, [testId]);
   const chips = board.chips ?? [{ id: `${testId}-close`, label: 'CLOSE', icon: 'back' as const, onClick: onClose }];
-  // portaled to the runtime overlay layer: a focused overlay covers the page, the global dock and the corner menu
+  // portaled to the runtime overlay layer: a focused overlay covers the page (and the dock where a page has one)
   return (
     <OverlayLayer>
       <div ref={boxRef} className="jrn-d01-overlay" role="dialog" aria-modal="true" aria-labelledby={titleId} data-jrn-overlay={testId} data-testid={`${testId}-dialog`} onKeyDown={onKeyDown}>
-        <Dot01Board {...board} env={env} chips={chips} dock={false} titleId={titleId} testId={testId} />
+        <Dot01Board {...board} env={env} chips={chips} page={false} titleId={titleId} testId={testId} />
       </div>
     </OverlayLayer>
   );
+}
+
+/** The search + add chips that authorities 01, 30–37 draw in place of a back chip. */
+export function useSearchAddChips(): Dot01Chip[] {
+  const { go, openOverlay } = useJurnl();
+  return [
+    { id: 'd01-search', label: 'SEARCH TRANSACTIONS', icon: 'search', onClick: () => go('money/transactions') },
+    { id: 'd01-add', label: 'ADD', icon: 'plus', onClick: () => openOverlay('quick-add') },
+  ];
 }
 
 export function ChipIcon({ icon }: { icon: Dot01Chip['icon'] }) {

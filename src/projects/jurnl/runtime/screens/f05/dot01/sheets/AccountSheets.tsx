@@ -17,7 +17,7 @@ import { purposeAccounts, setPurposeAccount, usualPurposesFor } from '../../../.
 import { PURPOSE_LABEL, type MoneyPurpose } from '../../../../../data/ledger/purposes';
 import { getRepository } from '../../../../../data/repository/deviceRepository';
 import { useJurnl } from '../../../../state/store';
-import { Dot01Overlay } from '../Dot01Frame';
+import { Dot01Overlay, useSearchAddChips } from '../Dot01Frame';
 import { Icon } from '../icons';
 import { Alert, Button, CARD_SRC, ChipChoice, Paper, Row, TextInput } from '../kit';
 
@@ -28,10 +28,11 @@ const KINDS: { id: Dot01Kind; label: string; type: AccountType; payout?: boolean
   { id: 'credit', label: 'CREDIT CARD', type: 'CREDIT_CARD' },
 ];
 const ALL_PURPOSES = Object.keys(PURPOSE_LABEL) as MoneyPurpose[];
-const CONTENT = { x: 30, y: 590, w: 881, h: 1076 };
+const CONTENT = { x: 30, y: 590, w: 881, h: 930 };
 
 export function AddAccountOverlay({ preset, onClose, onSaved }: { preset?: Dot01Kind; onClose: () => void; onSaved: (id: string) => void }) {
   const [kind, setKind] = useState<Dot01Kind | null>(preset ?? null);
+  const searchAdd = useSearchAddChips();
   const [name, setName] = useState('');
   const [balance, setBalance] = useState('');
   const [limit, setLimit] = useState('');
@@ -64,6 +65,7 @@ export function AddAccountOverlay({ preset, onClose, onSaved }: { preset?: Dot01
       testId="d01-add-account"
       env="SK03_FIELD"
       title={kind ? ['ACCOUNT', 'SETUP'] : ['ADD', 'ACCOUNT']}
+      chips={kind ? searchAdd : undefined}
       subtitle={kind ? 'create a new account' : undefined}
       onClose={onClose}
       contentRect={CONTENT}
@@ -226,6 +228,7 @@ export function PurposesOverlay({ accountId, onClose }: { accountId: string; onC
 
 export function ArchiveOverlay({ accountId, onClose }: { accountId: string; onClose: () => void }) {
   const { go } = useJurnl();
+  const searchAdd = useSearchAddChips();
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
   const today = getTodayKey();
@@ -236,6 +239,7 @@ export function ArchiveOverlay({ accountId, onClose }: { accountId: string; onCl
   return (
     <Dot01Overlay
       testId={blocked ? 'd01-archive-blocked' : 'd01-archive'}
+      chips={blocked ? searchAdd : undefined}
       env="SK03_FIELD"
       title={['ARCHIVE', 'ACCOUNT']}
       subtitle={blocked ? 'action blocked' : done ? undefined : 'before you continue'}

@@ -114,7 +114,7 @@ export function AccountPage() {
   const board = (L: Dot01Layout): ReactNode => (
     <>
       {/* balance paper */}
-      <div className="jrn-d01__on jrn-d01__on--label" style={{ left: BAL.x + 20, top: by(L, BAL.y + 24), width: BAL.w - 40 }}>
+      <div className="jrn-d01__on jrn-d01__on--label" style={{ left: BAL.x + 20, top: by(L, BAL.y) + 24, width: BAL.w - 40 }}>
         {balanceLabel.map((l, i) => (
           <Fragment key={`${i}-${l}`}>
             {i ? ' ' : null}
@@ -122,25 +122,25 @@ export function AccountPage() {
           </Fragment>
         ))}
       </div>
-      <b className="jrn-d01__on jrn-d01__on--amount" data-testid="d01-balance" data-jrn-amount-cents={Math.round(amount * 100)} style={{ left: BAL.x + 10, width: BAL.w - 20, top: by(L, BAL.y + 128), textAlign: 'center', fontSize: amountSize(amountText, 100) } as CSSProperties}>
+      <b className="jrn-d01__on jrn-d01__on--amount" data-testid="d01-balance" data-jrn-amount-cents={Math.round(amount * 100)} style={{ left: BAL.x + 10, width: BAL.w - 20, top: by(L, BAL.y) + 128, textAlign: 'center', fontSize: amountSize(amountText, 100) } as CSSProperties}>
         {amountText}
       </b>
-      {v.liability ? <i className="jrn-d01__on jrn-d01__on--caption" style={{ left: BAL.x, width: BAL.w, top: by(L, BAL.y + 232), textAlign: 'center' }}>OWED</i> : null}
+      {v.liability ? <i className="jrn-d01__on jrn-d01__on--caption" style={{ left: BAL.x, width: BAL.w, top: by(L, BAL.y) + 232, textAlign: 'center' }}>OWED</i> : null}
       {/* stats paper */}
       {stats.map(([label, value, key], i) => (
-        <p key={key} className="jrn-d01__stat" data-stat={key} style={{ left: STATS.x + 36, width: STATS.w - 78, top: by(L, STATS.y + 46 + i * 78) }}>
+        <p key={key} className="jrn-d01__stat" data-stat={key} style={{ left: STATS.x + 36, width: STATS.w - 78, top: by(L, STATS.y) + 46 + i * 78 }}>
           <span>{label}</span>
           <b>{value}</b>
         </p>
       ))}
       {[1, 2].map((i) => (
-        <span key={i} className="jrn-d01__rule" aria-hidden style={{ position: 'absolute', left: STATS.x + 36, width: STATS.w - 78, top: by(L, STATS.y + 46 + i * 78 - 24), height: 2, background: 'rgba(31,24,16,0.3)' }} />
+        <span key={i} className="jrn-d01__rule" aria-hidden style={{ position: 'absolute', left: STATS.x + 36, width: STATS.w - 78, top: by(L, STATS.y) + 46 + i * 78 - 24, height: 2, background: 'rgba(31,24,16,0.3)' }} />
       ))}
       {/* action strips (real buttons over the strip papers) */}
       {strips.map((s, i) => {
         const r = stripRects[i]!;
         return (
-          <button key={s.id} type="button" className="jrn-d01__strip" data-jrn-trigger={`d01-strip-${s.id}`} aria-label={s.aria ?? s.label} style={{ left: r.x + 8, top: by(L, r.y + 10), width: r.w - 16, height: r.h - 22, ['--i' as string]: i } as CSSProperties} onClick={s.onClick}>
+          <button key={s.id} type="button" className="jrn-d01__strip" data-jrn-trigger={`d01-strip-${s.id}`} aria-label={s.aria ?? s.label} style={{ left: r.x + 8, top: by(L, r.y) + 10, width: r.w - 16, height: r.h - 22, ['--i' as string]: i } as CSSProperties} onClick={s.onClick}>
             <Icon name={s.icon} className="jrn-d01__strip-icon" />
             <span className="jrn-d01__strip-rule" aria-hidden />
             <span className="jrn-d01__strip-label">{s.label}</span>
