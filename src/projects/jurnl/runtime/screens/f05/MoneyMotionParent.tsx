@@ -292,10 +292,10 @@ export function MoneyMotionParent() {
   // With no places of the user's own, Safe to Spend reads the sample preview: say nothing rather than a sample figure.
   const unknown = reading.cashSource === 'MOCK';
   const metrics = [
-    { id: 'held', label: 'HELD', value: reading.held, aria: `HELD: ${formatMoney(reading.held)} IN YOUR ACCOUNTS. OPENS PLACES.`, onOpen: () => go('money/places') },
+    { id: 'held', label: 'HELD', value: reading.held, aria: `HELD: ${formatMoney(reading.held)} IN YOUR ACCOUNTS. OPENS POCKETS.`, onOpen: () => go('money/places') },
     { id: 'owed', label: 'OWED', value: reading.owed, aria: `OWED: ${formatMoney(reading.owed)} ON CARDS AND LOANS. OPENS CREDIT.`, onOpen: () => go('credit') },
-    { id: 'committed', label: 'COMMITTED', value: reading.committed, aria: unknown ? 'COMMITTED: NOT KNOWN UNTIL YOU ADD A PLACE.' : `COMMITTED: ${formatMoney(reading.committed)} HELD BACK FOR BILLS, CARD MINIMUMS AND PLANS IN THE NEXT 30 DAYS. OPENS THE PLANNING PERIOD.`, onOpen: () => setSheet('period') },
-    { id: 'available', label: 'AVAILABLE', value: reading.available, aria: unknown ? 'AVAILABLE: NOT KNOWN UNTIL YOU ADD A PLACE.' : `AVAILABLE: ${formatMoney(reading.available)}, SAFE TO SPEND FOR THE NEXT 30 DAYS. OPENS THE PLANNING PERIOD.`, onOpen: () => setSheet('period') },
+    { id: 'committed', label: 'COMMITTED', value: reading.committed, aria: unknown ? 'COMMITTED: NOT KNOWN UNTIL YOU ADD A POCKET.' : `COMMITTED: ${formatMoney(reading.committed)} HELD BACK FOR BILLS, CARD MINIMUMS AND PLANS IN THE NEXT 30 DAYS. OPENS THE PLANNING PERIOD.`, onOpen: () => setSheet('period') },
+    { id: 'available', label: 'AVAILABLE', value: reading.available, aria: unknown ? 'AVAILABLE: NOT KNOWN UNTIL YOU ADD A POCKET.' : `AVAILABLE: ${formatMoney(reading.available)}, SAFE TO SPEND FOR THE NEXT 30 DAYS. OPENS THE PLANNING PERIOD.`, onOpen: () => setSheet('period') },
   ];
 
   // A summary column never reaches past the visible board (narrow phones crop the sides).
@@ -340,7 +340,7 @@ export function MoneyMotionParent() {
         if (item.kind === 'empty')
           return (
             <button key="empty" type="button" className="jrn-f05m__paper jrn-f05m__paper--add jrn-f05m__paper--wide" data-jrn-trigger="f05m-add-slot" data-testid="f05m-empty" style={{ ...at(L.wide), backgroundImage: `url("${paperTile}")`, ['--i' as string]: 0 } as CSSProperties} onClick={() => setSheet('add')}>
-              <span className="jrn-f05m__paper-name"><span>NO PLACES YET</span></span>
+              <span className="jrn-f05m__paper-name"><span>NO POCKETS YET</span></span>
               <span className="jrn-f05m__add-sub">ADD A BANK ACCOUNT, CARD OR CASH. NO BANK CONNECTION NEEDED.</span>
               <span className="jrn-f05m__plus" aria-hidden />
             </button>
@@ -349,7 +349,7 @@ export function MoneyMotionParent() {
         if (item.kind === 'add')
           return (
             <button key="add" type="button" className="jrn-f05m__paper jrn-f05m__paper--add" data-jrn-trigger="f05m-add-slot" style={{ ...at(slot), backgroundImage: `url("${paperTile}")`, ['--i' as string]: i } as CSSProperties} onClick={() => setSheet('add')}>
-              <span className="jrn-f05m__paper-name"><span>ADD A PLACE</span></span>
+              <span className="jrn-f05m__paper-name"><span>ADD A POCKET</span></span>
               <span className="jrn-f05m__add-sub">BANK, CARD OR CASH</span>
               <span className="jrn-f05m__plus" aria-hidden />
             </button>
@@ -358,7 +358,7 @@ export function MoneyMotionParent() {
           return (
             <button key="move" type="button" className="jrn-f05m__paper jrn-f05m__paper--add" data-jrn-trigger="f05m-move" style={{ ...at(slot), backgroundImage: `url("${paperTile}")`, ['--i' as string]: i } as CSSProperties} onClick={() => setSheet('move')}>
               <span className="jrn-f05m__paper-name"><span>MOVE MONEY</span></span>
-              <span className="jrn-f05m__add-sub">BETWEEN YOUR PLACES</span>
+              <span className="jrn-f05m__add-sub">BETWEEN YOUR POCKETS</span>
               <svg className="jrn-f05m__move" viewBox="0 0 40 28" aria-hidden><path d="M3 9h30m-7-6 7 6-7 6M37 19H7m7-6-7 6 7 6" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
           );
@@ -404,7 +404,7 @@ export function MoneyMotionParent() {
         type="button"
         className="jrn-f05m__viewall"
         data-jrn-trigger="f05m-view-all"
-        aria-label={`VIEW ALL ACCOUNTS: ${reading.accounts.length} ${reading.accounts.length === 1 ? 'PLACE' : 'PLACES'}. OPENS THE FULL LIST.`}
+        aria-label={`VIEW ALL ACCOUNTS: ${reading.accounts.length} ${reading.accounts.length === 1 ? 'POCKET' : 'POCKETS'}. OPENS THE FULL LIST.`}
         style={{ ...at(L.viewAll), backgroundImage: `url("${paperTile}")`, ['--i' as string]: 4 } as CSSProperties}
         onClick={() => go('money/places')}
       >
@@ -515,7 +515,7 @@ export function MoneyMotionParent() {
                 : <b className="jrn-f05m__metric-value" data-jrn-value={`money-${m.id}`} data-jrn-amount-cents={Math.round(m.value * 100)} style={{ fontSize: amountSize(formatMoney(m.value), C.band.valueSize) }}>{formatMoney(m.value)}</b>}
               </button>
             ))}
-            {unknown ? <p className="jrn-f05m__basis" data-testid="f05m-unknown">ADD A PLACE TO SEE WHAT IS COMMITTED AND AVAILABLE.</p> : null}
+            {unknown ? <p className="jrn-f05m__basis" data-testid="f05m-unknown">ADD A POCKET TO SEE WHAT IS COMMITTED AND AVAILABLE.</p> : null}
           </section>
 
           {/* L3 — the carousel: four collections, one region; only the papers move */}
@@ -581,7 +581,7 @@ export function MoneyMotionParent() {
           <button type="button" className="jrn-f05m__chip" data-jrn-trigger="f05m-search" aria-label="SEARCH ACTIVITY" style={{ ...at({ x: searchX, y: CHIP_TOP, w: CHIP, h: CHIP }), top: CHIP_TOP_SAFE }} onClick={() => go('activity')}>
             <svg viewBox="0 0 24 24" aria-hidden><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" strokeWidth="1.8" /><path d="M15.5 15.5L21 21" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
           </button>
-          <button type="button" className="jrn-f05m__chip" data-jrn-trigger="f05m-actions" aria-label="ADD A PLACE OR MOVE MONEY" style={{ ...at({ x: plusX, y: CHIP_TOP, w: CHIP, h: CHIP }), top: CHIP_TOP_SAFE }} onClick={() => setSheet('actions')}>
+          <button type="button" className="jrn-f05m__chip" data-jrn-trigger="f05m-actions" aria-label="ADD A POCKET OR MOVE MONEY" style={{ ...at({ x: plusX, y: CHIP_TOP, w: CHIP, h: CHIP }), top: CHIP_TOP_SAFE }} onClick={() => setSheet('actions')}>
             <svg viewBox="0 0 24 24" aria-hidden><path d="M12 4v16M4 12h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
           </button>
         </div>
@@ -591,10 +591,10 @@ export function MoneyMotionParent() {
       {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F05" onClose={closeOverlay} /> : null}
       {overlay === 'ask' ? <AskJurnlSheet familyId="F05" nodeId="F05.00" onClose={closeOverlay} /> : null}
       {sheet === 'actions' ?
-        <JurnlDrawer size="short" testId="f05m-actions-sheet" title="MONEY" lead="ADD WHERE MONEY LIVES, OR MOVE IT BETWEEN YOUR PLACES." onClose={() => setSheet(null)}>
-          <JurnlButton trigger="f05m-actions-add" onClick={() => setSheet('add')}>ADD A PLACE</JurnlButton>
+        <JurnlDrawer size="short" testId="f05m-actions-sheet" title="MONEY" lead="ADD WHERE MONEY LIVES, OR MOVE IT BETWEEN YOUR POCKETS." onClose={() => setSheet(null)}>
+          <JurnlButton trigger="f05m-actions-add" onClick={() => setSheet('add')}>ADD A POCKET</JurnlButton>
           <JurnlButton variant="secondary" trigger="f05m-actions-move" disabled={reading.accounts.length < 2} onClick={() => setSheet('move')}>
-            {reading.accounts.length < 2 ? 'MOVE MONEY · ADD TWO PLACES FIRST' : 'MOVE MONEY'}
+            {reading.accounts.length < 2 ? 'MOVE MONEY · ADD TWO POCKETS FIRST' : 'MOVE MONEY'}
           </JurnlButton>
         </JurnlDrawer>
       : null}
@@ -606,7 +606,7 @@ export function MoneyMotionParent() {
             // the new place is shown on ACCOUNTS (or counted in ALL PLACES when more than four)
             if (active !== 'accounts') select('accounts');
             setFresh(id);
-            showToast({ tone: 'success', title: 'PLACE ADDED', body: 'THE BALANCE IS WHAT YOU ENTERED. NO BANK IS CONNECTED.', testId: 'f05m-added' });
+            showToast({ tone: 'success', title: 'POCKET ADDED', body: 'THE BALANCE IS WHAT YOU ENTERED. NO BANK IS CONNECTED.', testId: 'f05m-added' });
           }}
         />
       : null}

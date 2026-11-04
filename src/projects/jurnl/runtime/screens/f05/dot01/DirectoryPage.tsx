@@ -37,7 +37,7 @@ export function DirectoryPage() {
     <ReorderList ids={accounts.map((a) => a.account_id)} onDone={() => setReorder(false)} />
   ) : (
     <>
-      <div className="d01-grid" role="list" aria-label="YOUR PLACES">
+      <div className="d01-grid" role="list" aria-label="YOUR POCKETS">
         {accounts.map((a, i) => {
           const p = pos(a.account_id);
           const issues = reviewIssues(a.account_id, today);
@@ -57,7 +57,7 @@ export function DirectoryPage() {
         </Button>
       </div>
       <p className="d01-note" data-testid="d01-directory-summary" style={{ textAlign: 'center', color: '#efe3cb' }}>
-        {`${accounts.length} ${accounts.length === 1 ? 'PLACE' : 'PLACES'} · ${money(pic.summary.ownedAssets)} HELD${pic.summary.owed > 0 ? ` · ${money(pic.summary.owed)} OWED` : ''}`}
+        {`${accounts.length} ${accounts.length === 1 ? 'POCKET' : 'POCKETS'} · ${money(pic.summary.ownedAssets)} HELD${pic.summary.owed > 0 ? ` · ${money(pic.summary.owed)} OWED` : ''}`}
       </p>
     </>
   );

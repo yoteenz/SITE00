@@ -42,8 +42,8 @@ const node = (
 /** Parents are listed so live paths resolve. The route menu already has them from the contract. */
 export const JURNL_FAMILY_ROUTE_TREE: readonly JurnlRouteNode[] = [
   parent('F05', 'MONEY', 'money'),
-  node('F05.ACCOUNTS', 'F05', 'PLACES', 'CHILD', 'money/places'),
-  node('F05.ACCOUNT', 'F05', 'PLACE', 'GRANDCHILD', 'money/places/:placeId', 'money/places/preview'),
+  node('F05.ACCOUNTS', 'F05', 'POCKETS', 'CHILD', 'money/places'),
+  node('F05.ACCOUNT', 'F05', 'POCKET', 'GRANDCHILD', 'money/places/:placeId', 'money/places/preview'),
   parent('F06', 'INCOME', 'income'),
   node('F06.SOURCE', 'F06', 'SOURCE', 'CHILD', 'income/:sourceId', 'income/preview'),
   parent('F07', 'UPCOMING', 'upcoming'),

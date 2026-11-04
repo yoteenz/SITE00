@@ -21,8 +21,8 @@ export function setAccountOrder(ids: string[]): Done<string[]> {
   const repo = getRepository();
   const active = repo.listAccounts().filter((a) => a.status === 'ACTIVE').map((a) => a.account_id);
   const set = new Set(ids);
-  if (set.size !== ids.length) return { ok: false, error: 'EACH PLACE CAN APPEAR ONLY ONCE.' };
-  if (ids.length !== active.length || active.some((id) => !set.has(id))) return { ok: false, error: 'THE ORDER MUST LIST EVERY ACTIVE PLACE. NOTHING WAS SAVED.' };
+  if (set.size !== ids.length) return { ok: false, error: 'EACH POCKET CAN APPEAR ONLY ONCE.' };
+  if (ids.length !== active.length || active.some((id) => !set.has(id))) return { ok: false, error: 'THE ORDER MUST LIST EVERY ACTIVE POCKET. NOTHING WAS SAVED.' };
   const archived = (repo.getSettings().accountOrder ?? []).filter((id) => !set.has(id));
   repo.patchSettings({ accountOrder: [...ids, ...archived] });
   return { ok: true, value: ids };

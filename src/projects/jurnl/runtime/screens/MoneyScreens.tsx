@@ -133,7 +133,7 @@ export function MoneyHubScreen() {
           <RaLayer transform={wallTransform(fit, 0, hangY(fit, MONEY_SCENE.hang))} data-jrn-zone="intro">
             <RefText t={T.title} as="h1">MONEY</RefText>
             <span className="jrn-ra__rule" aria-hidden style={{ ...at(B.titleRule), height: 2 }} />
-            <RefText t={T.sub} as="p">{count ? `YOUR MONEY IS IN ${count} ${count === 1 ? 'PLACE' : 'PLACES'}.` : 'NO PLACES YET.'}</RefText>
+            <RefText t={T.sub} as="p">{count ? `YOUR MONEY IS IN ${count} ${count === 1 ? 'POCKET' : 'POCKETS'}.` : 'NO POCKETS YET.'}</RefText>
             {count ?
               <div data-jrn-panel="signal">
                 <span className="jrn-ra__rule" aria-hidden style={{ ...at(B.heldRule), width: 2 }} />
@@ -149,7 +149,7 @@ export function MoneyHubScreen() {
           </RaLayer>
 
           {/* The cabinet: each reference drawer mapped onto the same drawer of the shell. */}
-          <div data-jrn-zone="content-rail" aria-label="PLACES">
+          <div data-jrn-zone="content-rail" aria-label="POCKETS">
             {drawers.map((d, i) => {
               const shelf = shelves[i];
               const lead = shelf?.places[0];
@@ -181,7 +181,7 @@ export function MoneyHubScreen() {
             })}
             <RaLayer transform={objectTransform(fit, front3)}>
               <button type="button" className="jrn-ra__hit" data-jrn-trigger="money-add-place-slot" data-primary={count ? 'false' : 'true'} onClick={() => setAddOpen(true)} style={at([front3.from[0] + 20, front3.from[1] + 18, B.plus[2] + 30, front3.from[1] + 100])}>
-                <RefText t={T.front3} origin={[front3.from[0] + 20, front3.from[1] + 18, 0, 0]} as="span">ADD A PLACE</RefText>
+                <RefText t={T.front3} origin={[front3.from[0] + 20, front3.from[1] + 18, 0, 0]} as="span">ADD A POCKET</RefText>
                 <RaRule from={[B.line3[0] - front3.from[0] - 20, (B.line3[1] + B.line3[3]) / 2 - front3.from[1] - 18]} to={[B.line3[2] - front3.from[0] - 20, (B.line3[1] + B.line3[3]) / 2 - front3.from[1] - 18]} />
                 {(() => {
                   const ox = front3.from[0] + 20;
@@ -201,7 +201,7 @@ export function MoneyHubScreen() {
 
             <RaLayer transform={wallTransform(fit, 0, Math.min(shellY(fit, MONEY_FOOT.shell) - fit.u * MONEY_FOOT.ref, fit.H - fit.dock - 8 - fit.u * MONEY_FOOT.last))}>
               <button type="button" className="jrn-ra__hit" data-jrn-trigger="money-open-places" onClick={() => go('money/places')} style={at([T.see.ink[0] - 10, T.see.ink[1] - 14, T.see.ink[2] + 10, B.seeRule[3] + 8])}>
-                <RefText t={T.see} origin={[T.see.ink[0] - 10, T.see.ink[1] - 14, 0, 0]} as="span">SEE ALL PLACES.</RefText>
+                <RefText t={T.see} origin={[T.see.ink[0] - 10, T.see.ink[1] - 14, 0, 0]} as="span">SEE ALL POCKETS.</RefText>
               </button>
               <span className="jrn-ra__rule" aria-hidden style={{ ...at(B.seeRule), height: 2 }} />
               <RefText t={T.note1} as="p" className="jrn-ra__soft">{source[0]}</RefText>
@@ -242,7 +242,7 @@ export function MoneyPlacesScreen() {
     <MoneyShell screenId="F05.ACCOUNTS" nav="MONEY">
       <FamilyChrome familyId="F05" nodeId="F05.ACCOUNTS" backLabel="BACK TO MONEY" onBack={() => go('money')} onAsk={() => openOverlay('ask')} />
       <div className="jrn-home__intro" data-jrn-zone="intro">
-        <h1 className="jrn-home__h">PLACES</h1>
+        <h1 className="jrn-home__h">POCKETS</h1>
         <p className="jrn-home__sub" data-testid="places-summary">
           {accounts.length ?
             `${formatMoney(pic.availableInAccounts)} AVAILABLE IN ACCOUNTS · ${formatMoney(totals.cashOnHand)} IN CASH${pic.inTransit > 0 ? ` · ${formatMoney(pic.inTransit)} IN TRANSIT · ${formatMoney(pic.trackedAssets)} TOTAL TRACKED` : ''}${totals.owed > 0 ? ` · ${formatMoney(totals.owed)} OWED ON CARDS` : ''}`
@@ -272,7 +272,7 @@ export function MoneyPlacesScreen() {
         <OpenTransfersPanel onOpen={setOpenTransfer} />
         {unassigned.count ? <JurnlPanel role="detail" className="jrn-home__panel"><b>{`${unassigned.count} ${unassigned.count === 1 ? 'ENTRY HAS' : 'ENTRIES HAVE'} NO ACCOUNT`}</b><p>OPEN ACTIVITY AND CHOOSE AN ACCOUNT FOR THEM.</p></JurnlPanel> : null}
         <JurnlButton trigger="money-add-place" onClick={() => setAddOpen(true)}>
-          ADD A PLACE
+          ADD A POCKET
         </JurnlButton>
         {accounts.length > 1 ? <JurnlButton variant="secondary" trigger="money-move" onClick={() => setMoveOpen(true)}>MOVE MONEY</JurnlButton> : null}
         {accounts.length ? <JurnlButton variant="secondary" trigger="money-purposes" onClick={() => setPurposeOpen(true)}>USUAL ACCOUNTS</JurnlButton> : null}
@@ -307,7 +307,7 @@ export function MoneyPlaceDetailScreen() {
       <MoneyShell screenId="F05.ACCOUNT" nav="MONEY">
         <FamilyChrome familyId="F05" nodeId="F05.ACCOUNT" backLabel="BACK" onBack={() => go('money/places')} onAsk={() => openOverlay('ask')} />
         <JurnlPanel role="empty" className="jrn-home__panel">
-          <b>PLACE NOT FOUND</b>
+          <b>POCKET NOT FOUND</b>
         </JurnlPanel>
       </MoneyShell>
     );
@@ -318,7 +318,7 @@ export function MoneyPlaceDetailScreen() {
   const today = getTodayKey();
   return (
     <MoneyShell screenId="F05.ACCOUNT" nav="MONEY">
-      <FamilyChrome familyId="F05" nodeId="F05.ACCOUNT" backLabel="BACK TO PLACES" onBack={() => go('money/places')} onAsk={() => openOverlay('ask')} />
+      <FamilyChrome familyId="F05" nodeId="F05.ACCOUNT" backLabel="BACK TO POCKETS" onBack={() => go('money/places')} onAsk={() => openOverlay('ask')} />
       <div className="jrn-home__intro" data-jrn-zone="intro">
         {/* Shared-element boundary for the F05 motion pilot (the selected paper becomes this title). */}
         <h1 className="jrn-home__h" style={{ viewTransitionName: 'jrn-place' } as CSSProperties}>{account.display_name}</h1>
@@ -370,7 +370,7 @@ export function MoneyPlaceDetailScreen() {
       : null}
       {moveOpen ? <TransferSheet fromId={account.account_id} onClose={() => setMoveOpen(false)} /> : null}
       {removeOpen ?
-        <JurnlDrawer size="long" testId="money-remove" title="ARCHIVE PLACE" lead="ITS TRANSACTIONS STAY IN ACTIVITY." onClose={() => setRemoveOpen(false)} footer={
+        <JurnlDrawer size="long" testId="money-remove" title="ARCHIVE POCKET" lead="ITS TRANSACTIONS STAY IN ACTIVITY." onClose={() => setRemoveOpen(false)} footer={
           <JurnlButton trigger="money-remove-confirm" onClick={() => { archiveAccount(account.account_id); setRemoveOpen(false); go('money/places'); }}>ARCHIVE</JurnlButton>
         }>
           <p>{account.display_name}</p>
@@ -399,7 +399,7 @@ export function AddPlaceSheet({ onClose, onSaved }: { onClose: () => void; onSav
   const limitValue = limit.trim() ? parseMoneyInput(limit) : null;
   const valid = name.trim().length >= 2 && balance.trim() !== '' && amount != null && (!limit.trim() || limitValue != null);
   return (
-    <JurnlDrawer size="long" testId="money-add-place" title="ADD A PLACE" lead="WHERE MONEY IS HELD OR OWED. YOU ENTER THE BALANCE; NO BANK CONNECTION." onClose={onClose} footer={
+    <JurnlDrawer size="long" testId="money-add-place" title="ADD A POCKET" lead="WHERE MONEY IS HELD OR OWED. YOU ENTER THE BALANCE; NO BANK CONNECTION." onClose={onClose} footer={
       <JurnlButton trigger="money-add-save" disabled={!valid} onClick={() => { const a = createManualAccount(name, kind, amount ?? 0, getTodayKey(), { creditLimit: card ? limitValue : undefined, isPayoutCard: payout }); onSaved(a.account_id); }}>SAVE</JurnlButton>
     }>
       <JurnlInput label="NAME" value={name} onValue={setName} trigger="money-add-name" />
@@ -419,7 +419,7 @@ function EditPlaceSheet({ account, current, liability, onClose }: { account: Non
   const [balance, setBalance] = useState(String(current));
   const [error, setError] = useState<string | null>(null);
   return (
-    <JurnlDrawer size="long" testId="money-edit-place" title="EDIT PLACE" lead="IF THE BALANCE CHANGED, JURNL RECORDS A BALANCE CORRECTION FOR THE DIFFERENCE." onClose={onClose} footer={
+    <JurnlDrawer size="long" testId="money-edit-place" title="EDIT POCKET" lead="IF THE BALANCE CHANGED, JURNL RECORDS A BALANCE CORRECTION FOR THE DIFFERENCE." onClose={onClose} footer={
       <>
         {error ? <p className="jrn-field__error" role="alert">{error}</p> : null}
         <JurnlButton trigger="money-edit-save" onClick={() => {

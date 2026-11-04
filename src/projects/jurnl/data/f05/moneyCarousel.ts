@@ -147,10 +147,10 @@ export function commitmentsCollection(r: MoneyParentReading, fmt = money): Carou
     {
       id: 'reserved',
       title: ['RESERVED'],
-      value: r.cashSource === 'MOCK' ? { kind: 'none', text: '—', caption: 'ADD A PLACE FIRST' } : { kind: 'amount', amount: r.committed, caption: 'TOTAL COMMITTED' },
+      value: r.cashSource === 'MOCK' ? { kind: 'none', text: '—', caption: 'ADD A POCKET FIRST' } : { kind: 'amount', amount: r.committed, caption: 'TOTAL COMMITTED' },
       art: 'commitments_reserved',
       dest: { kind: 'period' },
-      aria: r.cashSource === 'MOCK' ? 'RESERVED: NOT KNOWN UNTIL YOU ADD A PLACE.' : `RESERVED: ${fmt(r.committed)} TOTAL COMMITTED: BILLS, CARD MINIMUMS, UNSENT TRANSFERS AND MONEY HELD BACK. THE SAME AS COMMITTED ABOVE.`,
+      aria: r.cashSource === 'MOCK' ? 'RESERVED: NOT KNOWN UNTIL YOU ADD A POCKET.' : `RESERVED: ${fmt(r.committed)} TOTAL COMMITTED: BILLS, CARD MINIMUMS, UNSENT TRANSFERS AND MONEY HELD BACK. THE SAME AS COMMITTED ABOVE.`,
     },
   ];
 }
@@ -166,10 +166,10 @@ export function outlookCollection(r: MoneyParentReading, today: CalendarDate, fm
     {
       id: 'safe_to_spend',
       title: ['SAFE TO', 'SPEND'],
-      value: r.cashSource === 'MOCK' ? { kind: 'none', text: '—', caption: 'ADD A PLACE FIRST' } : { kind: 'amount', amount: r.available, caption: 'NEXT 30 DAYS' },
+      value: r.cashSource === 'MOCK' ? { kind: 'none', text: '—', caption: 'ADD A POCKET FIRST' } : { kind: 'amount', amount: r.available, caption: 'NEXT 30 DAYS' },
       art: 'outlook_safe_to_spend',
       dest: { kind: 'route', route: 'safe' },
-      aria: r.cashSource === 'MOCK' ? 'SAFE TO SPEND: NOT KNOWN UNTIL YOU ADD A PLACE.' : `SAFE TO SPEND: ${fmt(r.available)} FOR THE NEXT 30 DAYS.`,
+      aria: r.cashSource === 'MOCK' ? 'SAFE TO SPEND: NOT KNOWN UNTIL YOU ADD A POCKET.' : `SAFE TO SPEND: ${fmt(r.available)} FOR THE NEXT 30 DAYS.`,
     },
     {
       id: 'next_income',

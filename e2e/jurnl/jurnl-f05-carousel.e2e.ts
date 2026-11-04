@@ -337,10 +337,10 @@ test.describe('F05 MONEY carousel', () => {
   test('14 · no places at all: Safe to Spend and RESERVED are not known, never a sample figure', async ({ page }) => {
     await open(page, 'none', 'outlook');
     await expect(page.locator('[data-panel="safe_to_spend"] [data-jrn-amount-cents]')).toHaveCount(0);
-    await expect(page.locator('[data-panel="safe_to_spend"]')).toContainText('ADD A PLACE FIRST');
+    await expect(page.locator('[data-panel="safe_to_spend"]')).toContainText('ADD A POCKET FIRST');
     await clickTrigger(page, 'f05m-dot-commitments');
     await expectActive(page, 'commitments');
-    await expect(page.locator('[data-panel="reserved"]')).toContainText('ADD A PLACE FIRST');
+    await expect(page.locator('[data-panel="reserved"]')).toContainText('ADD A POCKET FIRST');
     await clickTrigger(page, 'f05m-dot-accounts');
     await expectActive(page, 'accounts');
     await expect(page.getByTestId('f05m-empty')).toBeVisible();

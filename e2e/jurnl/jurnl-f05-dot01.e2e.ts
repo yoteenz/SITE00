@@ -98,7 +98,7 @@ test.describe('F05 DOT 01 — accounts directory, order and setup', () => {
   test('06 / 32 · ALL ACCOUNTS lists every place; the saved order persists and drives the MONEY parent', async ({ page }) => {
     await open(page, 'money/places');
     expect(await directoryIds(page)).toEqual(['bank', 'ride', 'cash', 'visa']);
-    await expect(page.getByTestId('d01-directory-summary')).toContainText('4 PLACES');
+    await expect(page.getByTestId('d01-directory-summary')).toContainText('4 POCKETS');
     await shot(page, '06-all-accounts');
     await clickTrigger(page, 'd01-reorder');
     await expect(page.getByTestId('d01-reorder')).toBeVisible();
