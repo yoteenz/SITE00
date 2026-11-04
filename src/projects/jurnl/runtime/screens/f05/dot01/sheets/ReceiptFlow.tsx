@@ -31,6 +31,10 @@ export function ReceiptFlow({ onRead, onManual, onClose }: { onRead: (c: Receipt
   const [checked, setChecked] = useState(false);
   const cameraRef = useRef<HTMLInputElement>(null);
   const uploadRef = useRef<HTMLInputElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  // live camera preview inside the frame (stays on this device; nothing is recorded or sent)
+  const [stream, setStream] = useState<MediaStream | null>(null);
+  const [cameraNote, setCameraNote] = useState<string | null>(null);
   const alive = useRef(true);
   useEffect(() => {
     // set on every mount (StrictMode mounts, unmounts and mounts again in development)
@@ -42,6 +46,41 @@ export function ReceiptFlow({ onRead, onManual, onClose }: { onRead: (c: Receipt
   useEffect(() => () => {
     if (preview) URL.revokeObjectURL(preview);
   }, [preview]);
+  useEffect(() => {
+    if (videoRef.current && stream) {
+      videoRef.current.srcObject = stream;
+      void videoRef.current.play().catch(() => undefined);
+    }
+    return () => stream?.getTracks().forEach((t) => t.stop());
+  }, [stream]);
+
+  /** TAKE PHOTO: a live preview in the frame when the browser allows it, else the device's own camera. */
+  const startCamera = async () => {
+    setCameraNote(null);
+    const md = typeof navigator !== 'undefined' ? navigator.mediaDevices : undefined;
+    if (!md?.getUserMedia) return pick(cameraRef);
+    try {
+      const s = await md.getUserMedia({ video: { facingMode: { ideal: 'environment' }, width: { ideal: 1920 }, height: { ideal: 1080 } }, audio: false });
+      if (!alive.current) return s.getTracks().forEach((t) => t.stop());
+      setStream(s);
+    } catch {
+      setCameraNote('THE CAMERA COULD NOT START HERE. OPENING YOUR CAMERA APP INSTEAD.');
+      pick(cameraRef);
+    }
+  };
+  /** CAPTURE: the current frame of the live preview becomes the photo (the stream stops). */
+  const capture = async () => {
+    const v = videoRef.current;
+    if (!v || !stream || !v.videoWidth) return;
+    const c = document.createElement('canvas');
+    c.width = v.videoWidth;
+    c.height = v.videoHeight;
+    c.getContext('2d')!.drawImage(v, 0, 0);
+    const blob = await new Promise<Blob | null>((res) => c.toBlob(res, 'image/jpeg', 0.92));
+    stream.getTracks().forEach((t) => t.stop());
+    setStream(null);
+    if (blob) void run(new File([blob], 'camera.jpg', { type: 'image/jpeg' }), 'CAMERA');
+  };
 
   const fail = (f: Failure) => {
     if (!alive.current) return;
@@ -175,7 +214,7 @@ export function ReceiptFlow({ onRead, onManual, onClose }: { onRead: (c: Receipt
         <>
           {inputs}
           <div className="d01-cap__window" style={at(L, 203, 609, 744, 993)} data-testid="d01-receipt-frame">
-            {preview ? <img src={preview} alt="YOUR RECEIPT" /> : <span className="d01-cap__empty">YOUR PHOTO APPEARS HERE</span>}
+            {stream ? <video ref={videoRef} className="d01-cap__live" muted playsInline autoPlay aria-label="LIVE CAMERA PREVIEW" data-testid="d01-receipt-live" /> : preview ? <img src={preview} alt="YOUR RECEIPT" /> : <span className="d01-cap__empty">{cameraNote ?? 'YOUR PHOTO APPEARS HERE'}</span>}
             <i className="d01-cap__corner" data-c="tl" aria-hidden />
             <i className="d01-cap__corner" data-c="tr" aria-hidden />
             <i className="d01-cap__corner" data-c="bl" aria-hidden />
@@ -193,9 +232,9 @@ export function ReceiptFlow({ onRead, onManual, onClose }: { onRead: (c: Receipt
               MAKE SURE TOTAL AND DATE ARE VISIBLE
             </li>
           </ul>
-          <button type="button" className="jrn-d01__hit d01-cap__btn d01-cap__btn--dark" data-jrn-trigger="d01-receipt-take" style={at(L, 88, 1227, 853, 1327)} onClick={() => pick(cameraRef)}>
+          <button type="button" className="jrn-d01__hit d01-cap__btn d01-cap__btn--dark" data-jrn-trigger={stream ? 'd01-receipt-shutter' : 'd01-receipt-take'} style={at(L, 88, 1227, 853, 1327)} onClick={() => void (stream ? capture() : startCamera())}>
             <Icon name="camera" />
-            TAKE PHOTO
+            {stream ? 'CAPTURE' : 'TAKE PHOTO'}
           </button>
           <button type="button" className="jrn-d01__hit d01-cap__btn" data-jrn-trigger="d01-receipt-upload" style={at(L, 88, 1348, 853, 1431)} onClick={() => pick(uploadRef)}>
             <Icon name="upload" />

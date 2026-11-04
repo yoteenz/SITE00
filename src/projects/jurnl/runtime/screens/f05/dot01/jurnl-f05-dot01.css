@@ -1027,6 +1027,12 @@
   object-fit: contain;
   box-shadow: 0 10px 24px rgba(20, 10, 4, 0.45);
 }
+.jrn .d01-cap__live {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
 .jrn .d01-cap__empty {
   font: 600 26px/1.2 'JURNL Sans', sans-serif;
   letter-spacing: 0.16em;
