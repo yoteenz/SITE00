@@ -78,13 +78,37 @@ export function capacityFor(_W: number, _H: number): number {
   return PAPERS_PER_COLLECTION;
 }
 
+/** Viewports at or below this width always width-fit (crop sides) so mobile browser chrome never pillarboxes. */
+export const F05_PHONE_MAX_W = 520;
+
+/** Phones and tall-narrow viewports: fit width and crop the sides. Wider tablets/desktop: fit height and centre. */
+export function f05WidthFirstScale(viewportW: number, viewportH: number): boolean {
+  const w = Math.max(1, viewportW);
+  const h = Math.max(1, viewportH);
+  if (w <= F05_PHONE_MAX_W) return true;
+  return h / w >= SRC_H / SRC_W;
+}
+
+/**
+ * Board scale for F05 motion and DOT 01. `contentH` is the vertical space for the board (full viewport, or minus dock).
+ */
+export function computeF05BoardScale(viewportW: number, viewportH: number, crop = CROP, contentH = viewportH): { u: number; ox: number } {
+  const w = Math.max(1, viewportW);
+  const vh = Math.max(1, viewportH);
+  const ch = Math.max(1, contentH);
+  const uW = w / (SRC_W - 2 * crop);
+  const uH = ch / SRC_H;
+  const widthFirst = f05WidthFirstScale(w, vh);
+  const u = widthFirst ? uW : uH;
+  const ox = (w - SRC_W * u) / 2;
+  return { u, ox };
+}
+
 /** `items` papers on this page (accounts plus any ADD / MOVE papers). */
 export function computeF05MotionLayout(W: number, H: number, items: number): F05MotionLayout {
   const w = Math.max(1, W);
   const h = Math.max(1, H);
-  const u = Math.min(w / (SRC_W - 2 * CROP), h / SRC_H);
-  const artW = SRC_W * u;
-  const ox = (w - artW) / 2;
+  const { u, ox } = computeF05BoardScale(w, h, CROP, h);
   const extra = Math.max(0, h / u - SRC_H);
   const sliced = extra >= 1;
   const visibleX: [number, number] = [Math.max(0, -ox / u), Math.min(SRC_W, (w - ox) / u)];
