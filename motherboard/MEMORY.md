@@ -16812,3 +16812,10 @@ Summary of the whole conversation in this chat.
 
 - **Context:** Founder asked to increase only the BILLS + SUBSCRIPTIONS carousel header by 1.5px.
 - **Changes:** `panelNameFont()` in `CarouselPanelPaper.tsx` adds 1.5px when `panel.id === 'bills'`; vitest guard in `jurnlF05Carousel.test.ts`.
+
+---
+
+## 2026-11-04 — Menu trigger toggles closed when expanded
+
+- **Context:** Founder wanted the upper-right three-dot MANAGE POCKET chip (and global menu) to collapse when tapped again while open.
+- **Changes:** `usePocketManager` toggles off when the same pocket menu is open; `JurnlCornerChrome` keeps the hamburger visible while `panel === 'menu'` and toggles closed; e2e T06 + G1. Commit `42c8c27d1` on preview branch.
