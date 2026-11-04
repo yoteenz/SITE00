@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { getAuthUser } from '../_lib/auth.js';
+import { handleJurnlCorsPreflight } from '../_lib/jurnlEntitlements/jurnlApiCors.js';
 import { listActiveInternalGrants } from '../_lib/jurnlEntitlements/internalGrantStore.js';
 import { setPlanPreviewPlanId } from '../_lib/jurnlEntitlements/planPreviewStore.js';
 import { JURNL_MONETIZATION_CONTRACT } from '../_lib/jurnlEntitlements/jurnlProject.js';
@@ -10,16 +11,13 @@ const PREVIEW_PLANS = ['JURNL_FREE', 'JURNL_PLUS', 'JURNL_PRO', 'JURNL_BUSINESS'
 
 /** POST /api/jurnl/entitlements-preview — founder-only UI simulation (does not change authorization). */
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  if (req.method === 'OPTIONS') return res.status(204).end();
+  if (handleJurnlCorsPreflight(req, res, 'user')) return;
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const user = await getAuthUser(req);
   if (!user) return res.status(401).json({ error: 'Unauthorized', code: 'AUTH_REQUIRED' });
 
-  const grants = listActiveInternalGrants(JURNL_MONETIZATION_CONTRACT.projectId, user.id);
+  const grants = await listActiveInternalGrants(JURNL_MONETIZATION_CONTRACT.projectId, user.id);
   if (!hasActiveFounderFull(grants, JURNL_MONETIZATION_CONTRACT.projectId)) {
     return res.status(403).json({ error: 'Founder grant required for plan preview', code: 'FOUNDER_GRANT_REQUIRED' });
   }

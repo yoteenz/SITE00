@@ -16682,3 +16682,12 @@ Summary of the whole conversation in this chat.
 - **Decisions / outcomes:** Strip `-webkit-autofill` yellow via inset box-shadow on `.jrn-e2__input` and `.jrn-field__input`; non-password typed values uppercased in `E2Field` and `JurnlInput` `onChange`; e2 CSS `text-transform: uppercase` with password exception; Supabase auth adapter still lowercases email on sign-in.
 - **Changes:** `jurnl-entry-v2.css`, `jurnl-runtime.css`, `EntryV2Parts.tsx`, `primitives.tsx`, `jurnlEntryV2FirstSeven1.test.tsx`.
 - **Conventions:** Keep Authority Serif on e2 autofill pseudo-states; do not revert e2 inputs to `text-transform: none`.
+
+---
+
+## 2026-11-03 — JURNL FOUNDER_FULL server-verified entitlements (isolated)
+
+- **Context:** Sprint `P0.JURNL.FOUNDER-ENTITLEMENTS.SERVER-VERIFIED-ISOLATED-IMPLEMENTATION.V1` after business/tax forensic audit; Opus owns F05 DOT 01 — no F05/ledger/STS edits.
+- **Decisions / outcomes:** **Do not** represent founder access as synthetic `JURNL_BUSINESS` subscription. Introduce internal grant **`FOUNDER_FULL`** with registry-derived `founderFullCapabilityUnion` in `shared/site00-monetization`. In-process grant store (empty by default); admin-only GRANT/REVOKE API; no production grant activation. Plan preview is presentation-only (`presentationEntitlements.ts`).
+- **Changes:** `internalGrants.ts`, extended `entitlements.ts`, `api/_lib/jurnlEntitlements/*`, `/api/jurnl/entitlements*`, `/api/admin/jurnl-internal-grants`, `JurnlEntitlements.tsx` auth vs UI split, `tests/jurnlFounderEntitlementsSecurity.test.ts` (20 tests). Draft PR branch `cursor/jurnl-founder-entitlements-isolated-v1-4e5a`.
+- **Conventions:** Authorize paid compute only with `SERVER_VERIFIED`; wire RuntimeRoot fetch separately; persist grants to Supabase before relying on grants across deploys.

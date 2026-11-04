@@ -28,7 +28,7 @@ export async function resolveJurnlEntitlementsForPrincipal(
   const subscription = entitlementsResult.ok ? entitlementsResult.value.subscription : null;
   const addOns = entitlementsResult.ok ? entitlementsResult.value.addOns : [];
 
-  const internalGrants = listActiveInternalGrants(contract.projectId, principalId);
+  const internalGrants = await listActiveInternalGrants(contract.projectId, principalId);
 
   const authorization = resolveEntitlements(contract, {
     source: 'SERVER_VERIFIED',

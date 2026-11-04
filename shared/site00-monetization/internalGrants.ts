@@ -11,6 +11,7 @@ export type InternalGrantStatus = 'ACTIVE' | 'REVOKED';
 
 /** Trusted grant row — principal_id is immutable auth user id (never email). */
 export type InternalGrantRecord = {
+  grant_id?: string;
   schema_version: typeof INTERNAL_GRANT_SCHEMA_VERSION;
   grant_type: InternalGrantType;
   principal_id: string;

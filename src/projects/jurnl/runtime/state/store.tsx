@@ -57,6 +57,8 @@ export type SessionState = {
   keepSignedIn: boolean;
   /** Email the latest verification / reset link was sent to. */
   pendingEmail: string | null;
+  /** Supabase auth.users.id — authoritative principal for server entitlements (production only). */
+  authPrincipalId: string | null;
 };
 
 export type Toast = { id: number; tone: 'success' | 'error'; title: string; body?: string; testId?: string };
@@ -70,7 +72,13 @@ export const DEFAULT_DEVICE: DeviceState = {
   ai: { personalizedInsights: false, smartCategorization: false, budgetRecommendations: false, naturalLanguage: false, marketTrends: false },
   exportRequested: false,
 };
-export const DEFAULT_SESSION: SessionState = { account: null, status: 'SIGNED_OUT', keepSignedIn: false, pendingEmail: null };
+export const DEFAULT_SESSION: SessionState = {
+  account: null,
+  status: 'SIGNED_OUT',
+  keepSignedIn: false,
+  pendingEmail: null,
+  authPrincipalId: null,
+};
 
 const DEVICE_KEY = 'jurnl.runtime.v1.device';
 const SESSION_KEY = 'jurnl.runtime.v1.session';
@@ -364,7 +372,7 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
         importSnapshotForUser(user.id, { ...decision.snapshot, userId: user.id });
         if (decision.action === 'UPLOAD_DEVICE') await pushSnapshotAfterLogin(mode, user.id);
       }
-      setSession({ account, status: 'ACTIVE' });
+      setSession({ account, status: 'ACTIVE', authPrincipalId: user.id });
     };
 
     void sb.auth.getSession().then(({ data }) => {

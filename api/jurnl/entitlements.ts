@@ -1,14 +1,12 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { getAuthUser } from '../_lib/auth.js';
+import { handleJurnlCorsPreflight } from '../_lib/jurnlEntitlements/jurnlApiCors.js';
 import { resolveJurnlEntitlementsForPrincipal } from '../_lib/jurnlEntitlements/resolveJurnlEntitlements.js';
 import { JURNL_MONETIZATION_CONTRACT } from '../_lib/jurnlEntitlements/jurnlProject.js';
 
 /** GET /api/jurnl/entitlements — SERVER_VERIFIED capability resolution (no financial payload). */
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  if (req.method === 'OPTIONS') return res.status(204).end();
+  if (handleJurnlCorsPreflight(req, res, 'user')) return;
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
   const user = await getAuthUser(req);
