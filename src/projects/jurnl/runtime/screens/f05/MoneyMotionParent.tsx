@@ -357,7 +357,7 @@ export function MoneyMotionParent() {
         if (item.kind === 'move')
           return (
             <button key="move" type="button" className="jrn-f05m__paper jrn-f05m__paper--add" data-jrn-trigger="f05m-move" style={{ ...at(slot), backgroundImage: `url("${paperTile}")`, ['--i' as string]: i } as CSSProperties} onClick={() => setSheet('move')}>
-              <span className="jrn-f05m__paper-name"><span>MOVE MONEY</span></span>
+              <span className="jrn-f05m__paper-name"><span>MOVE</span><span>MONEY</span></span>
               <span className="jrn-f05m__add-sub">BETWEEN YOUR POCKETS</span>
               <svg className="jrn-f05m__move" viewBox="0 0 40 28" aria-hidden><path d="M3 9h30m-7-6 7 6-7 6M37 19H7m7-6-7 6 7 6" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
