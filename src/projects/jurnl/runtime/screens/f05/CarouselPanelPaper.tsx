@@ -81,6 +81,14 @@ export const nameFont = (lines: readonly string[]) => {
   return f05BoardType(`max(${(C.card.nameSize * k).toFixed(2)}px, calc(${(11 * k).toFixed(2)}px / var(--f05m-u, 1)))`);
 };
 
+/** COMMITMENTS · BILLS + SUBSCRIPTIONS title runs long; founder +1.5px on header only. */
+export const PANEL_BILLS_TITLE_ADD_PX = 1.5;
+
+export function panelNameFont(panel: CarouselPanel): string {
+  const base = nameFont(panel.title);
+  return panel.id === 'bills' ? `calc(${base} + ${PANEL_BILLS_TITLE_ADD_PX}px)` : base;
+}
+
 export function CarouselPanelPaper({
   panel,
   slot,
@@ -112,7 +120,7 @@ export function CarouselPanelPaper({
       onClick={() => onOpen(panel)}
     >
       <img className="jrn-f05m__paper-art" src={PANEL_ART[panel.art]} alt="" draggable={false} />
-      <span className="jrn-f05m__paper-name" style={{ fontSize: nameFont(panel.title) }}>
+      <span className="jrn-f05m__paper-name" style={{ fontSize: panelNameFont(panel) }}>
         {panel.title.map((l) => (
           <span key={l}>{l}</span>
         ))}

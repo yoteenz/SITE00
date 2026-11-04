@@ -6,7 +6,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { commitmentParts, computeMoneyCarousel, COLLECTIONS } from '../src/projects/jurnl/data/f05/moneyCarousel';
-import { f05BoardType, F05_PAPER_VALUE_ROW_SUB_PX, paperRhythm, PANEL_TITLE_LINES } from '../src/projects/jurnl/runtime/screens/f05/CarouselPanelPaper';
+import { f05BoardType, F05_PAPER_VALUE_ROW_SUB_PX, panelNameFont, paperRhythm, PANEL_TITLE_LINES } from '../src/projects/jurnl/runtime/screens/f05/CarouselPanelPaper';
 import { F05_COMPOSITION as C } from '../src/projects/jurnl/runtime/screens/f05/f05Composition';
 import { computeMoneyParentReading } from '../src/projects/jurnl/data/f05/moneyParentReading';
 import { computeSafeToSpend, nextExpectedIncome } from '../src/projects/jurnl/data/f09/safeToSpend';
@@ -202,6 +202,13 @@ describe('The E2E carousel world is what the app itself records', () => {
 });
 
 describe('Panel paper rhythm', () => {
+  it('adds 1.5px to the bills + subscriptions panel title only', () => {
+    const bills = read().commitments.find((p) => p.id === 'bills')!;
+    const savings = read().commitments.find((p) => p.id === 'savings')!;
+    expect(panelNameFont(bills)).toMatch(/\+ 1\.5px\)$/);
+    expect(panelNameFont(savings)).not.toContain('+ 1.5px');
+  });
+
   it('subtracts one extra screen px from paper value row type', () => {
     expect(f05BoardType(46, F05_PAPER_VALUE_ROW_SUB_PX)).toBe('calc(46px - var(--f05-type-nudge, 0px) - 1px)');
   });
