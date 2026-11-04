@@ -6,7 +6,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { commitmentParts, computeMoneyCarousel, COLLECTIONS } from '../src/projects/jurnl/data/f05/moneyCarousel';
-import { paperRhythm, PANEL_TITLE_LINES } from '../src/projects/jurnl/runtime/screens/f05/CarouselPanelPaper';
+import { f05BoardType, F05_PAPER_VALUE_ROW_SUB_PX, paperRhythm, PANEL_TITLE_LINES } from '../src/projects/jurnl/runtime/screens/f05/CarouselPanelPaper';
 import { F05_COMPOSITION as C } from '../src/projects/jurnl/runtime/screens/f05/f05Composition';
 import { computeMoneyParentReading } from '../src/projects/jurnl/data/f05/moneyParentReading';
 import { computeSafeToSpend, nextExpectedIncome } from '../src/projects/jurnl/data/f09/safeToSpend';
@@ -202,6 +202,10 @@ describe('The E2E carousel world is what the app itself records', () => {
 });
 
 describe('Panel paper rhythm', () => {
+  it('subtracts one extra screen px from paper value row type', () => {
+    expect(f05BoardType(46, F05_PAPER_VALUE_ROW_SUB_PX)).toBe('calc(46px - var(--f05-type-nudge, 0px) - 1px)');
+  });
+
   it('reserves two title lines so one-line and two-line panels share amount and caption rows', () => {
     const h = 292;
     const one = paperRhythm(1, h);

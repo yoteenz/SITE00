@@ -27,7 +27,7 @@ import { JurnlScreen, type FamilyPlate } from '../JurnlScreen';
 import { AddPlaceSheet } from '../MoneyScreens';
 import { accountPaperRect, accountRailGap, accountRailViewport, bottomRowItems, computeF05MotionLayout, PAPERS_PER_COLLECTION, SEAM_A, SEAM_C, SRC_H, SRC_W, toScreen, type Rect } from './f05MotionLayout';
 import { F05_COMPOSITION as C } from './f05Composition';
-import { ACCOUNT_PAPER_TITLE_LINES, amountSize, CarouselPanelPaper, f05BoardType, nameFont } from './CarouselPanelPaper';
+import { ACCOUNT_PAPER_TITLE_LINES, amountSize, CarouselPanelPaper, f05BoardType, F05_PAPER_VALUE_ROW_SUB_PX, nameFont } from './CarouselPanelPaper';
 import { useMoneyCarousel } from './useMoneyCarousel';
 import geometry from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_GEOMETRY.json';
 import sidekick from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_SIDEKICK.webp';
@@ -394,7 +394,7 @@ export function MoneyMotionParent() {
             <span key={l}>{l}</span>
           ))}
         </span>
-        <b className="jrn-f05m__paper-amount" data-jrn-amount-cents={Math.round(a.amount * 100)} style={{ fontSize: f05BoardType(amountSize(formatMoney(a.amount), C.card.amountSize)), top: C.card.nameTop + ACCOUNT_PAPER_TITLE_LINES * C.card.namePitch + C.card.amountGap - (a.nature === 'LIABILITY' ? 4 : 0) }}>{formatMoney(a.amount)}</b>
+        <b className="jrn-f05m__paper-amount" data-jrn-amount-cents={Math.round(a.amount * 100)} style={{ fontSize: f05BoardType(amountSize(formatMoney(a.amount), C.card.amountSize), F05_PAPER_VALUE_ROW_SUB_PX), top: C.card.nameTop + ACCOUNT_PAPER_TITLE_LINES * C.card.namePitch + C.card.amountGap - (a.nature === 'LIABILITY' ? 4 : 0) }}>{formatMoney(a.amount)}</b>
         {a.nature === 'LIABILITY' ? <i className="jrn-f05m__paper-note" style={{ top: C.card.nameTop + ACCOUNT_PAPER_TITLE_LINES * C.card.namePitch + C.card.amountGap + C.card.amountSize + 4 }}>OWED</i> : null}
         {transit ? <i className="jrn-f05m__paper-note jrn-f05m__paper-note--transit" data-testid="f05m-transit">{transit}</i> : null}
         <svg className="jrn-f05m__chev" viewBox="0 0 14 24" aria-hidden>

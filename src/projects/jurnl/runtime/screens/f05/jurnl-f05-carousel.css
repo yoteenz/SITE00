@@ -102,8 +102,11 @@
   left: calc(var(--f05m-name-left, 38px) + 2px);
   /* the paper's text column (left of its art); longer captions wrap, as the reference's do */
   max-width: 196px;
-  font: 600 calc(max(18px, calc(7.5px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px))/ 1.25 'JURNL Authority Serif', 'JURNL Display', serif;
+  font-family: 'JURNL Authority Serif', 'JURNL Display', serif;
+  font-weight: 600;
   font-style: normal;
+  font-size: calc(max(18px, calc(7.5px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px) - 2px);
+  line-height: 1.25;
   letter-spacing: 0.16em;
   white-space: normal;
   overflow: visible;

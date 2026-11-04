@@ -61,13 +61,18 @@ export function nameScale(lines: readonly string[]): number {
   return longest <= 11 ? 1 : longest <= 14 ? 0.78 : longest <= 18 ? 0.66 : 0.58;
 }
 
+/** Extra screen px subtracted from paper value row (2nd line) and caption row (bottom) on the MONEY parent board. */
+export const F05_PAPER_VALUE_ROW_SUB_PX = 1;
+export const F05_PAPER_CAPTION_ROW_SUB_PX = 2;
+
 /**
  * Board font size, 2 screen px smaller. The board is `scale(--f05m-u)`, so the source-px
  * subtraction lives in `--f05-type-nudge` and every face moves by the same screen amount.
  */
-export function f05BoardType(size: number | string): string {
+export function f05BoardType(size: number | string, extraScreenSubPx = 0): string {
   const expr = typeof size === 'number' ? `${size}px` : size;
-  return `calc(${expr} - var(--f05-type-nudge, 0px))`;
+  const extra = extraScreenSubPx > 0 ? ` - ${extraScreenSubPx}px` : '';
+  return `calc(${expr} - var(--f05-type-nudge, 0px)${extra})`;
 }
 
 /** Name size in board px, never below 11 screen px before the shared 2px nudge. */
@@ -120,7 +125,9 @@ export function CarouselPanelPaper({
           style={{
             top: r.amountTop,
             fontSize:
-              v.kind === 'amount' ? f05BoardType(amountSize(amountText, C.card.amountSize)) : f05BoardType(C.card.amountSize),
+              v.kind === 'amount' ?
+                f05BoardType(amountSize(amountText, C.card.amountSize), F05_PAPER_VALUE_ROW_SUB_PX)
+              : f05BoardType(C.card.amountSize, F05_PAPER_VALUE_ROW_SUB_PX),
           }}
         >
           {amountText}

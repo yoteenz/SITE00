@@ -269,8 +269,11 @@
   position: absolute;
   left: calc(var(--f05m-name-left, 38px) + 2px);
   top: var(--f05m-note-top, calc(50% + 62px));
-  font: 600 calc(max(18px, calc(7.5px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px))/ 1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font-family: 'JURNL Authority Serif', 'JURNL Display', serif;
+  font-weight: 600;
   font-style: normal;
+  font-size: calc(max(18px, calc(7.5px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px) - 2px);
+  line-height: 1;
   letter-spacing: 0.24em;
   color: var(--f05m-burgundy);
   white-space: nowrap;
@@ -317,13 +320,16 @@
   position: absolute;
   left: 40px;
   bottom: 30px;
-  font: 600 calc(max(17px, calc(7.5px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px))/ 1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font-family: 'JURNL Authority Serif', 'JURNL Display', serif;
+  font-weight: 600;
   font-style: normal;
+  font-size: calc(max(17px, calc(7.5px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px) - 2px);
+  line-height: 1;
   letter-spacing: 0.18em;
   color: var(--f05m-burgundy);
 }
 .jrn .jrn-f05m__paper--add:not(.jrn-f05m__paper--wide) .jrn-f05m__add-sub {
-  font-size: calc(max(17px, calc(7.5px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px) + calc(2px / var(--f05m-u, 1)));
+  font-size: calc(max(17px, calc(7.5px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px) - 2px + calc(2px / var(--f05m-u, 1)));
 }
 .jrn .jrn-f05m__move {
   position: absolute;
