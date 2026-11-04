@@ -153,17 +153,19 @@ function PocketMenu({ anchor, name, onRename, onDelete, onClose }: { anchor: HTM
     } else if (e.key === 'Tab') onClose(false);
   };
   return (
-    <JurnlPopover anchor={ref} onDismiss={() => onClose(false)} minWidth={260} want={240} className="jrn-pop--menu" testId="d01-pocket-menu">
+    <JurnlPopover anchor={ref} onDismiss={() => onClose(false)} minWidth={292} want={240} className="jrn-pop--menu jv3-fragment" testId="d01-pocket-menu">
       <div ref={attach} role="menu" aria-label={`MANAGE POCKET: ${name}`} onKeyDown={onKey}>
         <p className="jrn-menu__title" aria-hidden>MANAGE POCKET</p>
         <p className="jrn-menu__sub" aria-hidden>{name}</p>
         <button type="button" role="menuitem" className="jrn-menu__item" data-jrn-trigger="d01-pocket-rename" onClick={onRename}>
           <svg viewBox="0 0 24 24" aria-hidden><path d="M4 20h4l11-11-4-4L4 16z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" /><path d="m13.5 6.5 4 4" fill="none" stroke="currentColor" strokeWidth="1.8" /></svg>
           <span>RENAME POCKET</span>
+          <svg className="jv3-chev" viewBox="0 0 10 16" aria-hidden><path d="M2 2l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
         </button>
         <button type="button" role="menuitem" className="jrn-menu__item jrn-menu__item--danger" data-jrn-trigger="d01-pocket-delete" onClick={onDelete}>
           <svg viewBox="0 0 24 24" aria-hidden><path d="M4 6.5h16M9 6.5V4h6v2.5M6.5 6.5 7.5 20h9l1-13.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" /></svg>
           <span>DELETE POCKET</span>
+          <svg className="jv3-chev" viewBox="0 0 10 16" aria-hidden><path d="M2 2l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
         </button>
       </div>
     </JurnlPopover>

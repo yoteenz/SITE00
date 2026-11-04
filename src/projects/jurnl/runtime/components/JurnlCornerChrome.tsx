@@ -1,22 +1,57 @@
 /**
  * The Safe to Spend parent corner controls, pinned to the viewport on every app screen.
- * Back opens today. The hamburger opens the account drawer (the account folio) over the current screen.
- * The word ACCOUNT in that drawer opens the full account page.
+ * Back opens today. The hamburger opens the GLOBAL MENU (V3 editorial folio, secondary navigation — never the five dock
+ * destinations); its items open the ACCOUNT page, the approved account folio (PREFERENCES), PRIVACY & CONSENTS, and the
+ * MEMBERSHIP & ACCESS surfaces. The account folio (AccountDrawer) is unchanged; it is now reached from PREFERENCES.
  */
 
-import { useCallback, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
-import { AccountDrawer } from '../screens/AccountScreens';
+import { AccountDrawer, ConsentsSheet } from '../screens/AccountScreens';
+import { AddOnCollection, GlobalMenu, MembershipFolio, UnlockFolio, type GlobalMenuDestination, type GlobalMenuPanel } from '../global/GlobalMenu';
 import { useJurnl } from '../state/store';
 
+type Panel = GlobalMenuPanel | 'preferences' | 'privacy';
+
 export function JurnlCornerChromeProvider({ children }: { children: ReactNode }) {
-  const [drawer, setDrawer] = useState(false);
-  const closeDrawer = useCallback(() => setDrawer(false), []);
+  const { go } = useJurnl();
+  const [panel, setPanel] = useState<Panel | null>(null);
+  const close = useCallback(() => setPanel(null), []);
+  const back = useCallback(() => setPanel('menu'), []);
+  const open = useCallback((p: GlobalMenuPanel) => setPanel(p), []);
+  const toDestination = useCallback(
+    (d: GlobalMenuDestination) => {
+      if (d === 'account') {
+        setPanel(null);
+        go('account');
+      } else setPanel(d);
+    },
+    [go],
+  );
+  const unlock = typeof panel === 'object' && panel ? panel.unlock : null;
+  // The corner chrome steps aside while a panel is open, so the hamburger the focus trap remembered is gone when the
+  // last panel closes: hand focus to the hamburger that comes back (keyboard and screen-reader users land where they were).
+  const wasOpen = useRef(false);
+  useEffect(() => {
+    if (panel !== null) {
+      wasOpen.current = true;
+      return;
+    }
+    if (!wasOpen.current) return;
+    wasOpen.current = false;
+    const id = window.requestAnimationFrame(() => document.querySelector<HTMLElement>('[data-jrn-trigger="f09-menu"]')?.focus({ preventScroll: true }));
+    return () => window.cancelAnimationFrame(id);
+  }, [panel]);
   return (
     <>
-      <JurnlCornerChrome hidden={drawer} onMenu={() => setDrawer(true)} />
+      <JurnlCornerChrome hidden={panel !== null} onMenu={() => setPanel('menu')} />
       {children}
-      {drawer ? <AccountDrawer onClose={closeDrawer} /> : null}
+      {panel === 'menu' ? <GlobalMenu onClose={close} onOpen={open} onDestination={toDestination} /> : null}
+      {panel === 'preferences' ? <AccountDrawer onClose={close} /> : null}
+      {panel === 'privacy' ? <ConsentsSheet onClose={back} /> : null}
+      {panel === 'membership' ? <MembershipFolio onClose={back} onOpen={open} /> : null}
+      {panel === 'add-ons' ? <AddOnCollection onClose={back} onOpen={open} /> : null}
+      {unlock ? <UnlockFolio addOnId={unlock} onClose={() => setPanel('add-ons')} /> : null}
     </>
   );
 }

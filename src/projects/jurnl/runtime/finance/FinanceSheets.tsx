@@ -331,6 +331,7 @@ export function TransferSheet({ fromId, toId, onClose }: { fromId?: string | nul
   return (
     <JurnlDrawer
       expression="form"
+      material="v3"
       size="long"
       testId="transfer-sheet"
       title={toCard ? 'PAY A CARD' : 'MOVE MONEY'}

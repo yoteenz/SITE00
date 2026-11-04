@@ -18,12 +18,22 @@ const SHOTS = process.env.JURNL_F05_POCKETS_SHOTS_DIR ?? 'test-results/jurnl-f05
 type Acc = { account_id: string; display_name: string; status: string; balance: number };
 type Entry = { id: string; amount: number; account_id: string; direction: string; merchant: string };
 
-/** f05World('many') plus two recorded entries on NEIGHBOURHOOD CREDIT UNION EVERYDAY CHECKING ('long'), the Pocket nothing depends on. */
+/**
+ * f05World('many') plus two recorded entries on NEIGHBOURHOOD CREDIT UNION EVERYDAY CHECKING ('long'), the Pocket nothing
+ * depends on. It starts at exactly what those entries spent, so it stands at a zero balance (ZERO BALANCE BEFORE ARCHIVE).
+ */
 function deletableWorld() {
   const w = f05World('many');
   const now = new Date().toISOString();
-  const long = w.snapshot.accounts.find((a) => a.account_id === 'long')!;
-  return { ...w, snapshot: { ...w.snapshot, transactions: [purchase('tx-long-books', long, 'BOOKSHOP', 12.5, 'SHOPPING', 2, now), purchase('tx-long-cafe', long, 'CORNER CAFE', 6, 'DINING', 1, now)] } };
+  const accounts = w.snapshot.accounts.map((a) => (a.account_id === 'long' ? { ...a, balance: 18.5, available_balance: 18.5 } : a));
+  const long = accounts.find((a) => a.account_id === 'long')!;
+  return { ...w, snapshot: { ...w.snapshot, accounts, transactions: [purchase('tx-long-books', long, 'BOOKSHOP', 12.5, 'SHOPPING', 2, now), purchase('tx-long-cafe', long, 'CORNER CAFE', 6, 'DINING', 1, now)] } };
+}
+
+/** The one-Pocket world at a zero balance: the only Pocket can be deleted. */
+function onePocketAtZero() {
+  const w = f05World('one');
+  return { ...w, snapshot: { ...w.snapshot, accounts: w.snapshot.accounts.map((a) => ({ ...a, balance: 0, available_balance: 0 })) } };
 }
 
 async function open(page: Page, route: string, world: unknown = dot01World()) {
@@ -318,6 +328,8 @@ test.describe('DELETE POCKET (the canonical archive)', () => {
     await expect(dialog(page, 'd01-delete-blocked')).toBeVisible();
     await expect(dialog(page, 'd01-delete-blocked').getByRole('alert')).toContainText('THIS POCKET CANNOT BE DELETED YET');
     await expect(page.getByTestId('d01-blocker-ACTIVE_TRANSFER')).toBeVisible();
+    // ZERO BALANCE BEFORE ARCHIVE: the money BANK still holds is a blocker of its own
+    await expect(page.getByTestId('d01-blocker-HELD_BALANCE')).toBeVisible();
     await expect(trigger(page, 'd01-delete-confirm')).toHaveCount(0);
     await expect(trigger(page, 'd01-blocker-details')).toBeVisible();
     expect(await noPageScroll(page)).toEqual({ x: false, y: false });
@@ -379,7 +391,7 @@ test.describe('DELETE POCKET (the canonical archive)', () => {
   });
 
   test('T16 · deleting the last Pocket from the MONEY parent leaves an honest EMPTY state', async ({ page }) => {
-    await openKind(page, 'money?parent=motion', 'one');
+    await open(page, 'money?parent=motion', onePocketAtZero());
     await paper(page, 'bank').waitFor();
     await hold(page, paper(page, 'bank'));
     await clickTrigger(page, 'd01-pocket-delete');

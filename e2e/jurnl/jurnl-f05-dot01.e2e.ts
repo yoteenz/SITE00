@@ -496,7 +496,9 @@ test.describe('F05 DOT 01 — corrections, reconciliation and archiving', () => 
   });
 
   test('25 · a place with nothing depending on it is archived; its history stays; it leaves the directory', async ({ page }) => {
-    await openKind(page, 'money/places/long/settings', 'many');
+    // ZERO BALANCE BEFORE ARCHIVE: 'long' stands at zero in this world
+    const w = f05World('many');
+    await open(page, 'money/places/long/settings', { ...w, snapshot: { ...w.snapshot, accounts: w.snapshot.accounts.map((a) => (a.account_id === 'long' ? { ...a, balance: 0, available_balance: 0 } : a)) } });
     await clickTrigger(page, 'd01-archive');
     await shot(page, '25-archive-confirmation');
     await clickTrigger(page, 'd01-archive-confirm');

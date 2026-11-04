@@ -20,6 +20,19 @@ import { useJurnl } from '../../../../state/store';
 import { Dot01Overlay, useSearchAddChips, OVERLAY_CONTENT } from '../Dot01Frame';
 import { Icon } from '../icons';
 import { Alert, Button, CARD_SRC, ChipChoice, Paper, Row, TextInput } from '../kit';
+import { V3Caution, V3Pill, V3Row, V3RuleLabel } from '../../../../surfaces/v3/V3Surfaces';
+import type { ArchiveBlockerKind } from '../../../../../data/f05/dot01/archive';
+
+/** Each blocker's line icon on the caution surface. */
+const BLOCKER_ICON: Record<ArchiveBlockerKind, string> = {
+  ACTIVE_TRANSFER: 'clock',
+  RESERVED_FUNDS: 'lock',
+  DEFAULT_ACCOUNT: 'bank',
+  RECURRING_PAYMENT: 'calendar',
+  EXPECTED_INCOME: 'wallet',
+  OPEN_BALANCE: 'card',
+  HELD_BALANCE: 'coins',
+};
 
 const KINDS: { id: Dot01Kind; label: string; type: AccountType; payout?: boolean }[] = [
   { id: 'bank', label: 'BANK ACCOUNT', type: 'CHECKING' },
@@ -271,21 +284,19 @@ export function ArchiveOverlay({ accountId, onClose, mode = 'archive', onDone }:
               </div>
             </Paper>
           ) : blocked ? (
-            <Paper kind="sheet">
-              <Alert testId="d01-blocked-why" role={del ? 'alert' : 'status'}>{`THIS ${W} CANNOT BE ${del ? 'DELETED' : 'ARCHIVED'} YET. THESE MUST BE RESOLVED FIRST.`}</Alert>
-              <p className="d01-h" style={{ marginTop: 8 }}>BLOCKERS</p>
-              <div className="d01-rows">
+            /* V3 · F: the terracotta / oxblood caution surface (bronze warning seal, BLOCKERS between rules, the
+               resolution first, then the safe way out) inside the V9 overlay frame */
+            <V3Caution testId="d01-blocked-why" role={del ? 'alert' : 'status'} title={`THIS ${W} CANNOT BE ${del ? 'DELETED' : 'ARCHIVED'} YET`} body={`IT HAS OUTSTANDING ITEMS. THESE MUST BE RESOLVED BEFORE IT CAN BE ${del ? 'DELETED' : 'ARCHIVED'}.`}>
+              <V3RuleLabel>BLOCKERS</V3RuleLabel>
+              <div className="jv3-caution__rows">
                 {blockers.map((b) => (
-                  <Row key={b.kind} icon="lock" label={b.label} sub={b.detail} testId={`d01-blocker-${b.kind}`} />
+                  <V3Row key={b.kind} icon={BLOCKER_ICON[b.kind]} label={b.label} sub={b.detail} testId={`d01-blocker-${b.kind}`} />
                 ))}
               </div>
-              <div className="d01-actions d01-actions--2" style={{ marginTop: 8 }}>
-                <Button trigger={del ? 'd01-keep-pocket' : 'd01-keep-active'} onClick={onClose}>
-                  {del ? 'KEEP POCKET' : 'KEEP ACCOUNT ACTIVE'}
-                </Button>
-                <Button
+              <div className="jv3-caution__actions">
+                <V3Pill
+                  tone="olive"
                   trigger="d01-blocker-details"
-                  quiet
                   onClick={() => {
                     // close first: the resolution can be the page this surface was opened on (a card's PAY)
                     onClose();
@@ -293,9 +304,12 @@ export function ArchiveOverlay({ accountId, onClose, mode = 'archive', onDone }:
                   }}
                 >
                   RESOLVE ISSUES
-                </Button>
+                </V3Pill>
+                <V3Pill tone="cream" trigger={del ? 'd01-keep-pocket' : 'd01-keep-active'} onClick={onClose}>
+                  {del ? 'KEEP POCKET' : 'KEEP ACCOUNT ACTIVE'}
+                </V3Pill>
               </div>
-            </Paper>
+            </V3Caution>
           ) : (
             <Paper kind="sheet">
               <Alert>{del ? 'DELETING ARCHIVES THIS POCKET: IT LEAVES YOUR ACTIVE POCKETS, AND ITS HISTORY STAYS AVAILABLE IN ACTIVITY.' : 'ARCHIVING REMOVES THIS ACCOUNT FROM ACTIVE TRACKING BUT KEEPS ITS HISTORY.'}</Alert>

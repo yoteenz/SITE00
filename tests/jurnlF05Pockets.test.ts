@@ -80,6 +80,9 @@ describe('DELETE POCKET = the canonical archive (authorities 25 / 36)', () => {
   it('P09 / T13 / T15 a delete archives: the Pocket leaves active views, its entries and their amounts stay', () => {
     const e = recordExpense({ merchant: 'OLD', amount: 5, account_id: 'cash', category: 'FOOD', occurred_on: TODAY });
     if (!e.ok) throw new Error(e.error);
+    // ZERO BALANCE BEFORE ARCHIVE: the rest is spent first, as a recorded entry
+    const rest = recordExpense({ merchant: 'LAST OF THE CASH', amount: accountView('cash', TODAY)!.held, account_id: 'cash', category: 'FOOD', occurred_on: TODAY });
+    if (!rest.ok) throw new Error(rest.error);
     const n = snap().transactions.length;
     expect(archiveAccountSafely('cash', TODAY).ok).toBe(true);
     expect(listActiveAccounts().map((a) => a.account_id)).not.toContain('cash');
@@ -88,7 +91,16 @@ describe('DELETE POCKET = the canonical archive (authorities 25 / 36)', () => {
     expect(snap().transactions.find((t) => t.id === e.value.id)?.amount).toBe(e.value.amount);
     expect(computeMoneyParentReading(TODAY).accounts.map((a) => a.account_id)).not.toContain('cash');
   });
+  it('P08b / T14 a Pocket that still holds money cannot be deleted (ZERO BALANCE BEFORE ARCHIVE); nothing is moved', () => {
+    const held = accountView('cash', TODAY)!.held;
+    expect(held).toBeGreaterThan(0);
+    expect(archiveBlockers('cash', TODAY).map((b) => b.kind)).toContain('HELD_BALANCE');
+    expect(archiveAccountSafely('cash', TODAY).ok).toBe(false);
+    expect(accountView('cash', TODAY)!.held).toBe(held);
+    expect(snap().accounts.find((a) => a.account_id === 'cash')!.status).toBe('ACTIVE');
+  });
   it('P10 a deleted Pocket cannot be renamed (the canonical rename requires an active account)', () => {
+    recordExpense({ merchant: 'LAST OF THE CASH', amount: accountView('cash', TODAY)!.held, account_id: 'cash', category: 'FOOD', occurred_on: TODAY });
     archiveAccountSafely('cash', TODAY);
     expect(renameAccount('cash', 'GHOST').ok).toBe(false);
   });
