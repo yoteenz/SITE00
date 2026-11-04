@@ -16798,3 +16798,10 @@ Summary of the whole conversation in this chat.
 
 - **Context:** After row alignment, founder asked for the middle value row (−1px) and bottom caption row (−2px) on MONEY parent papers only (amounts, panel captions, OWED, ADD/MOVE subtitles).
 - **Changes:** `F05_PAPER_VALUE_ROW_SUB_PX` via `f05BoardType` on panel and pocket amounts; CSS −2px on `.paper-caption`, `.paper-note` (not transit slip), `.add-sub`. Commit `9ed22e1a1` on preview branch.
+
+---
+
+## 2026-11-04 — F05 carousel caption copy tweaks
+
+- **Context:** Founder requested bottom-row caption updates on MONEY carousel panels.
+- **Changes:** `moneyCarousel.ts` — `NOTHING IN TRANSIT` → `NOTHING MOVING`; `ADD A POCKET FIRST` → `ADD A POCKET` (safe-to-spend + reserved mock states); `NOTHING RECORDED` → `NO RECORDS` (spending insights empty). Matching aria + `jurnlF05Carousel.test.ts` / `jurnl-f05-carousel.e2e.ts`.
