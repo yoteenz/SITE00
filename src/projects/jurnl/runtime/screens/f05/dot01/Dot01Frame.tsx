@@ -20,6 +20,7 @@ import { JurnlScreen } from '../../JurnlScreen';
 import { DOT01, DOT01_GEOMETRY } from './dot01Assets';
 import paperTile from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_PAPER_TILE.webp';
 import tornEdge from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_TORN_EDGE.webp';
+import { computeF05BoardScale } from '../f05MotionLayout';
 import './jurnl-f05-dot01.css';
 
 export const SRC_W = 941;
@@ -65,8 +66,7 @@ function useDot01Layout(dock: boolean, crop = CROP, ey = ELASTIC_Y) {
   const L = useMemo<Dot01Layout>(() => {
     const dockH = dock ? DOCK_H : 0;
     const avail = Math.max(1, vp.h - dockH);
-    const u = Math.min(Math.max(1, vp.w) / (SRC_W - 2 * crop), avail / SRC_H);
-    const ox = (vp.w - SRC_W * u) / 2;
+    const { u, ox } = computeF05BoardScale(vp.w, vp.h, crop, avail);
     const extra = Math.max(0, avail / u - SRC_H);
     return { u, ox, extra, boardH: SRC_H + extra, w: vp.w, h: vp.h, dockH, ey };
   }, [vp.w, vp.h, dock, crop, ey]);

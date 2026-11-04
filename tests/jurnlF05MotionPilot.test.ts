@@ -208,9 +208,10 @@ describe('Name lines', () => {
 
 describe('Layout', () => {
   it('at 9:16 the four papers sit exactly on the reference card rects', () => {
-    const L = computeF05MotionLayout(471, 836, 4);
+    // Wider than F05_PHONE_MAX_W so height-fit matches the reference scale (u = H / SRC_H).
+    const L = computeF05MotionLayout(600, 836, 4);
     expect(L.u).toBeCloseTo(0.5, 5);
-    expect(Math.abs(L.ox)).toBeLessThan(1);
+    expect(L.ox).toBeGreaterThan(0);
     expect(L.extra).toBe(0);
     expect(L.sliced).toBe(false);
     expect(L.slots.map(({ x, y, w, h }) => ({ x, y, w, h }))).toEqual(APPROVED_SLOTS);
@@ -230,6 +231,15 @@ describe('Layout', () => {
         expect(s.x + s.w).toBeLessThanOrEqual(L.visibleX[1]);
         expect((s.y + s.h) * L.u).toBeLessThan(L.navZone.y * L.u);
       }
+    }
+  });
+
+  it('short phone viewports (browser chrome) still width-fit with no pillarboxing', () => {
+    for (const [w, h] of [[393, 620], [390, 664]] as const) {
+      const L = computeF05MotionLayout(w, h, 4);
+      expect(L.u).toBeCloseTo(w / (SRC_W - 2 * CROP), 5);
+      expect(L.ox).toBeLessThanOrEqual(0);
+      expect(L.visibleX[0]).toBeGreaterThanOrEqual(CROP - 1);
     }
   });
 
