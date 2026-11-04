@@ -202,11 +202,11 @@ describe('The E2E carousel world is what the app itself records', () => {
 });
 
 describe('Panel paper rhythm', () => {
-  it('adds 1.5px to the bills + subscriptions panel title only', () => {
+  it('adds 2px to the bills + subscriptions panel title only', () => {
     const bills = read().commitments.find((p) => p.id === 'bills')!;
     const savings = read().commitments.find((p) => p.id === 'savings')!;
-    expect(panelNameFont(bills)).toMatch(/\+ 1\.5px\)$/);
-    expect(panelNameFont(savings)).not.toContain('+ 1.5px');
+    expect(panelNameFont(bills)).toMatch(/\+ 2px\)$/);
+    expect(panelNameFont(savings)).not.toContain('+ 2px');
   });
 
   it('subtracts one extra screen px from paper value row type', () => {
