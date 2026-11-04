@@ -7,7 +7,7 @@
  *       a duplicate / delete removes the entry from the ledger and keeps a full copy in the audit trail.
  *   23  tracked vs actual: the difference is recorded as one BALANCE CORRECTION (never income, never spending).
  */
-import { useState, type CSSProperties } from 'react';
+import { useRef, useState, type CSSProperties } from 'react';
 import { accountView } from '../../../../../data/f05/dot01/accountView';
 import { applyCorrection, correctionCheck, previewCorrection, reverseEntry, type CorrectionChange, type CorrectionPreview } from '../../../../../data/f05/dot01/corrections';
 import { previewReversal, type Impact } from '../../../../../data/f05/dot01/entry';
@@ -44,16 +44,19 @@ function balanceChange(impact: { before: number; after: number; liability: boole
 
 export function CorrectionOverlay({ entryId, mode, onClose, onDone }: { entryId: string; mode: CorrectionMode; onClose: () => void; onDone?: (msg: string) => void }) {
   const { go } = useJurnl();
-  const check = correctionCheck(entryId);
-  const entry = check.ok ? check.entry : null;
+  const live = correctionCheck(entryId);
+  // the entry as it was when the overlay opened: after a reversal it is gone from the ledger, and the confirmation
+  // (and DONE) still has to show what was removed
+  const opened = useRef(live.ok ? live.entry : null);
+  if (live.ok) opened.current = live.entry;
   const [step, setStep] = useState<'options' | 'form' | 'confirm' | 'done'>(mode === 'options' ? 'options' : 'form');
   const [option, setOption] = useState<Option | null>(mode === 'options' ? null : mode);
-  const [merchant, setMerchant] = useState(entry?.merchant ?? '');
-  const [amount, setAmount] = useState(entry ? Math.abs(entry.amount).toFixed(2) : '');
-  const [date, setDate] = useState<string>(entry?.occurred_on ?? getTodayKey());
-  const [notes, setNotes] = useState(entry?.memo ?? '');
-  const [category, setCategory] = useState(entry?.category ?? '');
-  const [account, setAccount] = useState(entry?.account_id ?? '');
+  const [merchant, setMerchant] = useState(opened.current?.merchant ?? '');
+  const [amount, setAmount] = useState(opened.current ? Math.abs(opened.current.amount).toFixed(2) : '');
+  const [date, setDate] = useState<string>(opened.current?.occurred_on ?? getTodayKey());
+  const [notes, setNotes] = useState(opened.current?.memo ?? '');
+  const [category, setCategory] = useState(opened.current?.category ?? '');
+  const [account, setAccount] = useState(opened.current?.account_id ?? '');
   const [reason, setReason] = useState('');
   const [preview, setPreview] = useState<CorrectionPreview | null>(null);
   const [removal, setRemoval] = useState<Impact[] | null>(null);
@@ -61,7 +64,9 @@ export function CorrectionOverlay({ entryId, mode, onClose, onDone }: { entryId:
   const [error, setError] = useState<string | null>(null);
   const [doneMsg, setDoneMsg] = useState('');
 
-  if (!check.ok || !entry) {
+  const check = live;
+  const entry = live.ok ? live.entry : step === 'done' ? opened.current : null;
+  if (step !== 'done' && (!check.ok || !entry)) {
     return (
       <Dot01Overlay testId="d01-correct" env="SK03_FIELD" title={['CORRECT', 'TRANSACTION']} onClose={onClose} contentRect={CONTENT} label="CORRECT TRANSACTION" content={
         <>
@@ -73,6 +78,7 @@ export function CorrectionOverlay({ entryId, mode, onClose, onDone }: { entryId:
     );
   }
 
+  if (!entry) return null;
   const options = listActiveAccounts().map((a) => ({ id: a.account_id, label: a.display_name }));
   const summary = (
     <div className="d01-split" style={{ gridTemplateColumns: entry.receipt ? '1.6fr 1fr' : '1fr' }}>

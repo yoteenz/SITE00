@@ -11,7 +11,7 @@
  * zooms on iOS. The global dock sits under the composition on SK01's torn nav paper (child pages keep the dock).
  */
 
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type ReactNode } from 'react';
+import { Fragment, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type ReactNode } from 'react';
 import { OverlayLayer } from '../../../components/primitives';
 import { JurnlProductNav } from '../../../components/ProductNav';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../../../global/GlobalSheets';
@@ -160,9 +160,13 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
         ))}
         <p className="jrn-d01__mark" aria-label="JURNL">JURNL</p>
         <header className="jrn-d01__heading" data-jrn-zone="intro">
-          <h1 id={titleId} className="jrn-d01__title" style={{ fontSize: tSize }} data-lines={title.length} tabIndex={-1} aria-label={title.join(' ')}>
-            {title.map((t) => (
-              <span key={t}>{t}</span>
+          <h1 id={titleId} className="jrn-d01__title" style={{ fontSize: tSize }} data-lines={title.length} tabIndex={-1}>
+            {/* a real space between the lines (a whitespace-only node is not a grid item, so layout is unchanged) */}
+            {title.map((t, i) => (
+              <Fragment key={`${i}-${t}`}>
+                {i ? ' ' : null}
+                <span>{t}</span>
+              </Fragment>
             ))}
           </h1>
           {subtitle ? <p className="jrn-d01__script" lang="en">{subtitle}</p> : null}

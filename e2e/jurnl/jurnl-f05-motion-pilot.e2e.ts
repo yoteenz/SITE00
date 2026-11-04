@@ -94,16 +94,17 @@ test.describe('F05 MONEY parent motion pilot', () => {
     await shot(page, '03-four-accounts');
   });
 
-  test('4 · many accounts: three places and ALL PLACES; more places never add pages or dots', async ({ page }) => {
+  test('4 · many accounts: the first four places and VIEW ALL ACCOUNTS; more places never add pages or dots', async ({ page }) => {
     // Carousel sprint: the dots are the four collections. More than four places is a nested route, not pagination.
+    // DOT 01 sprint (V9 authority 01): four places always, then VIEW ALL ACCOUNTS (replaces the ALL PLACES paper).
     await open(page, 'many');
-    expect(await paperIds(page)).toEqual(['bank', 'ride', 'cash']);
-    await expect(trigger(page, 'f05m-all-places')).toBeVisible();
-    await expect(trigger(page, 'f05m-all-places')).toHaveAttribute('aria-label', /7 PLACES, 4 MORE/);
+    expect(await paperIds(page)).toEqual(['bank', 'ride', 'cash', 'visa']);
+    await expect(trigger(page, 'f05m-view-all')).toBeVisible();
+    await expect(trigger(page, 'f05m-view-all')).toHaveAttribute('aria-label', /7 PLACES/);
     await expect(page.locator('.jrn-f05m__dot')).toHaveCount(4);
     await expect(page.locator('[data-jrn-trigger="f05m-next-page"]')).toHaveCount(0);
     await shot(page, '04-many-accounts');
-    await clickTrigger(page, 'f05m-all-places');
+    await clickTrigger(page, 'f05m-view-all');
     await page.waitForURL(/\/money\/places$/);
     // every place is on the full list, long names in full
     for (const name of ['EMERGENCY SAVINGS', 'NEIGHBOURHOOD CREDIT UNION EVERYDAY CHECKING', 'CAR LOAN']) await expect(page.getByText(name, { exact: false }).first()).toBeAttached();

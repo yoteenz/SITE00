@@ -6,7 +6,7 @@
  * paper the user tapped on the parent (SK01's own card papers), so the paper carries from parent to child.
  * Every figure is canonical (data/f05/dot01/accountView.ts); nothing here computes a balance.
  */
-import { useState, type CSSProperties, type ReactNode } from 'react';
+import { Fragment, useState, type CSSProperties, type ReactNode } from 'react';
 import { useParams } from 'react-router-dom';
 import { accountView, daysFrom, type AccountView, type Dot01Kind } from '../../../../data/f05/dot01/accountView';
 import { nameLines } from '../../../../data/f05/moneyParentReading';
@@ -115,8 +115,11 @@ export function AccountPage() {
     <>
       {/* balance paper */}
       <div className="jrn-d01__on jrn-d01__on--label" style={{ left: BAL.x + 20, top: by(L, BAL.y + 24), width: BAL.w - 40 }}>
-        {balanceLabel.map((l) => (
-          <span key={l} style={{ display: 'block' }}>{l}</span>
+        {balanceLabel.map((l, i) => (
+          <Fragment key={`${i}-${l}`}>
+            {i ? ' ' : null}
+            <span style={{ display: 'block' }}>{l}</span>
+          </Fragment>
         ))}
       </div>
       <b className="jrn-d01__on jrn-d01__on--amount" data-testid="d01-balance" data-jrn-amount-cents={Math.round(amount * 100)} style={{ left: BAL.x + 10, width: BAL.w - 20, top: by(L, BAL.y + 128), textAlign: 'center', fontSize: amountSize(amountText, 100) } as CSSProperties}>

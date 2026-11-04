@@ -2,7 +2,7 @@
  * F05 DOT 01 — TRANSACTION DETAIL (11), ACCOUNT DETAILS AND SETTINGS (12), BALANCE REVIEW (13) and ACCOUNT NEEDS
  * REVIEW (35). Read from canonical owners; every change goes through an overlay with an explicit confirmation.
  */
-import { useEffect, useState, type CSSProperties } from 'react';
+import { useEffect, useState, type CSSProperties, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { accountView, KIND_TITLE } from '../../../../data/f05/dot01/accountView';
 import { correctionCheck } from '../../../../data/f05/dot01/corrections';
@@ -33,7 +33,12 @@ export function TransactionDetailPage() {
   const [sheet, setSheet] = useState<Dot01SheetState>(null);
   const [img, setImg] = useState<string | null>(null);
   const today = getTodayKey();
-  const entry = entryId ? entryById(entryId) : null;
+  const found = entryId ? entryById(entryId) : null;
+  // while a correction overlay is open the page keeps the entry it opened with (a reversal removes it from the
+  // ledger, and the overlay still shows its DONE step above this page)
+  const last = useRef(found);
+  if (found) last.current = found;
+  const entry = found ?? (sheet ? last.current : null);
   useEffect(() => {
     let url: string | null = null;
     if (entry?.receipt) {

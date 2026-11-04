@@ -3,7 +3,7 @@
  * typed by the user are kept as typed in the inputs (display is uppercase by CSS; storage follows the canonical
  * ledger builders). No circular tappable controls.
  */
-import { useId, type CSSProperties, type ReactNode } from 'react';
+import { Fragment, useId, type CSSProperties, type ReactNode } from 'react';
 import type { JurnlAccountRecord } from '../../../../data/foundation/accounts';
 import { formatMoney } from '../../../../data/home/money';
 import { nameLines } from '../../../../data/f05/moneyParentReading';
@@ -144,8 +144,11 @@ export function AccountCard({ account, amount, liability, onOpen, trigger, badge
     <>
       <img className="d01-card__art" src={CARD_SRC[kind]} alt="" draggable={false} />
       <span className="d01-card__name">
-        {lines.map((l) => (
-          <span key={l}>{l}</span>
+        {lines.map((l, i) => (
+          <Fragment key={`${i}-${l}`}>
+            {i ? ' ' : null}
+            <span>{l}</span>
+          </Fragment>
         ))}
       </span>
       <b className="d01-card__amount" data-jrn-amount-cents={Math.round(amount * 100)}>

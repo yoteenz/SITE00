@@ -471,12 +471,14 @@ test.describe('F05 MONEY carousel', () => {
     await expectActive(page, 'accounts');
   });
 
-  test('26 · more than four places: three papers and ALL PLACES, which lists every place; still four dots', async ({ page }) => {
+  // V9 authority 01 (DOT 01 sprint): the ACCOUNTS collection always shows the first four places of the user's order,
+  // and VIEW ALL ACCOUNTS (below the papers) opens the full list. This replaces the earlier ALL PLACES fourth paper.
+  test('26 · more than four places: the first four places and VIEW ALL ACCOUNTS, which lists every place; still four dots', async ({ page }) => {
     await open(page, 'many');
-    expect(await paperKeys(page)).toEqual(['bank', 'ride', 'cash', 'f05m-all-places']);
-    await expect(page.getByTestId('f05m-all-places')).toContainText('+4 MORE');
+    expect(await paperKeys(page)).toEqual(['bank', 'ride', 'cash', 'visa']);
+    await expect(page.locator('[data-jrn-trigger="f05m-view-all"]')).toBeVisible();
     await expect(page.locator('.jrn-f05m__dot')).toHaveCount(4); // more places never add dots
-    await clickTrigger(page, 'f05m-all-places');
+    await clickTrigger(page, 'f05m-view-all');
     await page.waitForURL(/\/money\/places$/);
   });
 

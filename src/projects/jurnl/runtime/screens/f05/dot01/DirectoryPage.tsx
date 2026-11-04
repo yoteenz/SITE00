@@ -149,7 +149,7 @@ function ReorderList({ ids, onDone }: { ids: string[]; onDone: () => void }) {
     <>
       <Paper kind="sheet">
         <p className="d01-h">ALL ACCOUNTS</p>
-        <ol className="d01-list" ref={listRef} aria-label="ACCOUNT ORDER" onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}>
+        <ol className="d01-list" ref={listRef} aria-label="ACCOUNT ORDER" data-testid="d01-reorder" onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}>
           {order.map((id, i) => {
             const a = byId.get(id);
             if (!a) return null;
