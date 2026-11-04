@@ -286,7 +286,7 @@ export async function dispatchEntry002ReelKeyframeRaster(
     'founder-cover-authority-phone',
   ];
   const planningReceiptId = options?.planningReceiptId ?? null;
-  const shouldDispatch = options?.dispatchFal ?? Boolean(process.env.FAL_KEY?.trim());
+  const shouldDispatch = options?.dispatchFal === true;
 
   const existsBeforeDispatch = await site00StorageObjectExists(storagePath);
   if (

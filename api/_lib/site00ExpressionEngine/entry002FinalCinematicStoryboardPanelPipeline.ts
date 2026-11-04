@@ -141,7 +141,7 @@ export async function generateFinalCinematicStoryboardPanel(
 
   const useDeterministic = allowDeterministicTestPanels();
   const shouldUseFal =
-    !useDeterministic && (options?.dispatchFal ?? Boolean(process.env.FAL_KEY?.trim()));
+    !useDeterministic && (options?.dispatchFal === true);
 
   if (!shouldUseFal && !useDeterministic) {
     return {

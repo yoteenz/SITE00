@@ -20,7 +20,7 @@ import {
   resetBatchForReview,
 } from '../_lib/site00Assts/service.js';
 import { getCanonicalMasterReviewContext } from '../_lib/site00Assts/canonicalMaster.js';
-import { runBatchGeneration, pollPendingGenerationJobs, queueRegeneration } from '../_lib/site00Assts/generation.js';
+import { continueVaultLineageGeneration, runBatchGeneration, pollPendingGenerationJobs, queueRegeneration } from '../_lib/site00Assts/generation.js';
 import { lockBatchAndPromoteSlots, resolveProductionAsset } from '../_lib/site00Assts/slots.js';
 import { getSupabaseAdmin } from '../_lib/supabase.js';
 import { getLoaderPipelineContext } from '../_lib/site00Assts/postProcess/loaderGeometry.js';
@@ -174,6 +174,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const batch = await ensureBootstrapBatch(batchKey);
         const canonicalMaster = manifest?.useCanonicalReference ? await getCanonicalMasterReviewContext() : null;
         return res.status(200).json({ ok: true, batch, canonicalMaster });
+      }
+
+      if (postAction === 'continue-lineage') {
+        const batchKey = String(body.batchKey ?? getActiveAsstsEnvBatchKey());
+        const result = await continueVaultLineageGeneration(batchKey);
+        return res.status(200).json({ ok: true, ...result });
       }
 
       if (postAction === 'generate') {

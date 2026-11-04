@@ -210,7 +210,7 @@ export async function dispatchReelFirstStoryboardArtifact(params: {
     : extractProviderReferenceUrlsFromManifest(params.visualAuthorityManifest);
 
   const useDeterministic = allowDeterministicReelStoryboard();
-  const shouldUseFal = !useDeterministic && (params.dispatchFal ?? Boolean(process.env.FAL_KEY?.trim()));
+  const shouldUseFal = !useDeterministic && (params.dispatchFal === true);
 
   const providerAuthorityImageInputCount = shouldUseFal ? referenceImageUrls.length : 0;
 

@@ -48,7 +48,7 @@ export async function bootstrapB46FollowUpPreStoryboardAuthority(options?: {
   await bootstrapB31FounderCreativeOverride();
   saveEntry(compileEntry002LockedEntry());
 
-  const dispatchFal = options?.dispatchFal ?? Boolean(process.env.FAL_KEY?.trim());
+  const dispatchFal = options?.dispatchFal === true;
   const treatment = buildEntry002ReelTreatmentAuthority();
   const baseAuthorities = buildEntry002PreStoryboardVisualAuthorities();
   const authorityResults = await dispatchAllEntry002PreStoryboardAuthorities(baseAuthorities, {

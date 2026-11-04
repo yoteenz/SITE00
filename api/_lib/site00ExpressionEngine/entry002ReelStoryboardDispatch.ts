@@ -123,7 +123,7 @@ export async function dispatchEntry002ReelStoryboardPanel(
   options?: { dispatchFal?: boolean; forceDispatch?: boolean },
 ): Promise<StoryboardPanelRasterResult> {
   const storagePath = buildEntry002ReelStoryboardPanelStoragePath(panel.panelId);
-  const shouldDispatch = options?.dispatchFal ?? Boolean(process.env.FAL_KEY?.trim());
+  const shouldDispatch = options?.dispatchFal === true;
   const exists = await site00StorageObjectExists(storagePath);
 
   if (exists && !options?.forceDispatch) {
@@ -241,7 +241,7 @@ export async function dispatchEntry002ReelStoryboardStrip(options?: {
 }): Promise<StoryboardStripRasterResult> {
   const stripId = ENTRY_002_REEL_STORYBOARD_STRIP_001;
   const storagePath = buildEntry002ReelStoryboardStripStoragePath(stripId);
-  const shouldDispatch = options?.dispatchFal ?? Boolean(process.env.FAL_KEY?.trim());
+  const shouldDispatch = options?.dispatchFal === true;
   const exists = await site00StorageObjectExists(storagePath);
 
   if (exists && !options?.forceDispatch) {

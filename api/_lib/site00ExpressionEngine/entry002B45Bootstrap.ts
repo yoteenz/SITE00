@@ -38,7 +38,7 @@ export async function bootstrapB45Entry002CinematicVisualSequence(options?: {
   saveEntry(compileEntry002LockedEntry());
 
   const blockingStoryboard = buildEntry002BlockingStoryboardRetirement();
-  const dispatchFal = options?.dispatchFal ?? Boolean(process.env.FAL_KEY?.trim());
+  const dispatchFal = options?.dispatchFal === true;
   const boards = await resolveEntry002CinematicContinuityReferenceBoards();
   const frames = buildEntry002CinematicVisualSequenceFrames();
 

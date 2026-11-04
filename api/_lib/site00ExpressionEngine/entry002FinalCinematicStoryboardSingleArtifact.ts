@@ -151,7 +151,7 @@ export async function dispatchSingleMultiPanelStoryboardArtifact(params: {
   };
 
   const useDeterministic = allowDeterministicSingleStoryboard();
-  const shouldUseFal = !useDeterministic && (params.dispatchFal ?? Boolean(process.env.FAL_KEY?.trim()));
+  const shouldUseFal = !useDeterministic && (params.dispatchFal === true);
 
   if (!shouldUseFal && !useDeterministic) {
     return {
