@@ -1,0 +1,180 @@
+{
+ "name": "pages-portal",
+ "modules": [
+  "PAGES",
+  "PORTAL"
+ ],
+ "on": {
+  "PAGES": true,
+  "BLOG": false,
+  "SHOP": false,
+  "MEMBER_AREA": false,
+  "BOOKING": false,
+  "PORTAL": true
+ },
+ "widths": {
+  "390": {
+   "panel": {
+    "open": true,
+    "summary": null,
+    "metrics": [
+     "9PAGES",
+     "4GROUPS",
+     "4PRIVATE",
+     "WEBSITE",
+     "MOBILE READY"
+    ],
+    "groups": [
+     {
+      "title": "FRONT DOOR",
+      "pages": "HOME, ABOUT, CONTACT / BEGIN",
+      "open": false
+     },
+     {
+      "title": "STORY & OFFER",
+      "pages": "STORIES INDEX, STORY",
+      "open": false
+     },
+     {
+      "title": "CLIENT SPACE",
+      "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+      "open": false
+     },
+     {
+      "title": "TEAM & ACCESS",
+      "pages": "PEOPLE AND ROLES",
+      "open": false
+     }
+    ],
+    "features": [
+     "EDIT IT YOURSELF",
+     "DATA / PORTAL",
+     "(ACCOUNTS)",
+     "(DASHBOARD)",
+     "(TEAM ROLES)"
+    ],
+    "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH DATA / PORTAL.",
+    "oldDebug": false
+   },
+   "audit": {
+    "docOverflowX": 0,
+    "lowercase": [],
+    "offscreen": [],
+    "collide": [],
+    "minFont": 7,
+    "stage": {
+     "x": 0,
+     "y": 215,
+     "w": 390,
+     "h": 316
+    },
+    "panel": {
+     "x": 20,
+     "y": 537,
+     "w": 350,
+     "h": 393
+    },
+    "canvas": true
+   },
+   "groupOpen": {
+    "panel": {
+     "open": true,
+     "summary": null,
+     "metrics": [
+      "9PAGES",
+      "4GROUPS",
+      "4PRIVATE",
+      "WEBSITE",
+      "MOBILE READY"
+     ],
+     "groups": [
+      {
+       "title": "FRONT DOOR",
+       "pages": "HOME, ABOUT, CONTACT / BEGIN",
+       "open": true
+      },
+      {
+       "title": "STORY & OFFER",
+       "pages": "STORIES INDEX, STORY",
+       "open": true
+      },
+      {
+       "title": "CLIENT SPACE",
+       "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+       "open": false
+      },
+      {
+       "title": "TEAM & ACCESS",
+       "pages": "PEOPLE AND ROLES",
+       "open": false
+      }
+     ],
+     "features": [
+      "EDIT IT YOURSELF",
+      "DATA / PORTAL",
+      "(ACCOUNTS)",
+      "(DASHBOARD)",
+      "(TEAM ROLES)"
+     ],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH DATA / PORTAL.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7,
+     "stage": {
+      "x": 0,
+      "y": 215,
+      "w": 390,
+      "h": 316
+     },
+     "panel": {
+      "x": 20,
+      "y": 537,
+      "w": 350,
+      "h": 514
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "collapsed": {
+    "panel": {
+     "open": false,
+     "summary": "9 PAGES · 4 GROUPS · 5 FEATURES",
+     "metrics": [],
+     "groups": [],
+     "features": [],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH DATA / PORTAL.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7.6,
+     "stage": {
+      "x": 0,
+      "y": 215,
+      "w": 390,
+      "h": 435
+     },
+     "panel": {
+      "x": 20,
+      "y": 656,
+      "w": 350,
+      "h": 42
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "sameCanvas": true
+  }
+ },
+ "errors": []
+}

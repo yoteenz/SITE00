@@ -43,7 +43,7 @@ import {
   StoreIcon,
   UploadIcon,
 } from './icons';
-import { designConflicts, resolveDesignDetails } from './designResolution';
+import { designConflicts, designDirectionNote, resolveDesignDetails } from './designResolution';
 import {
   featuresView,
   mainExperience,
@@ -500,7 +500,6 @@ function StructureTab({ session, goToRoom }: Props) {
   const { state, snapshot } = session.view;
   const selection = snapshot.selection;
   const build = buildTypeSummary(state.placePath, selection);
-  const custom = state.placePath === 'CUSTOM';
   const spec = buildSpec(state);
   const view = useMemo(() => structureView(selection), [selection]);
   const feel = state.feelVibe ? FEEL_BY_ID[state.feelVibe] : null;
@@ -509,6 +508,7 @@ function StructureTab({ session, goToRoom }: Props) {
   const system = visualSystemName(lines.find((line) => line.key === 'EXPRESSION')?.value ?? null);
   const designDetails = useMemo(() => resolveDesignDetails(selection), [selection]);
   const conflicts = useMemo(() => designConflicts(selection), [selection]);
+  const directionNote = useMemo(() => designDirectionNote(selection), [selection]);
   const anatomy = useMemo(() => blueprintAnatomy(spec, snapshot), [spec, snapshot]);
   const thumbs = useMemo(
     () => Object.fromEntries(view.groups.map((g) => [g.key, partStill(spec, g.key, structurePartElements(anatomy, g.key))])),
@@ -565,6 +565,34 @@ function StructureTab({ session, goToRoom }: Props) {
           </li>
         ))}
       </ol>
+      <h3 className="bs-section">CREATIVE DIRECTION</h3>
+      <p className="bs-section__lede">
+        <BsBody>{directionNote}</BsBody>
+      </p>
+      <ul className="bs-direction">
+        {designDetails.map((d) => {
+          const conflict = conflicts.find((c) => c.dimension === d.key);
+          return (
+            <li key={d.key} className={`bs-dir${d.value ? '' : ' is-open'}`}>
+              <span className="bs-dir__label">{d.label}</span>
+              <span className="bs-dir__source" data-source={d.provenance}>
+                {d.provenanceLabel}
+              </span>
+              <p className="bs-dir__value">{d.display}</p>
+              <p className="bs-dir__note">
+                <BsBody>{conflict ? `${d.fitNote} ${conflict.recommendation}` : d.fitNote}</BsBody>
+              </p>
+              {d.context ? (
+                <Disclose title="IN DETAIL">
+                  <p className="bs-dir__more">
+                    <BsBody>{d.context}</BsBody>
+                  </p>
+                </Disclose>
+              ) : null}
+            </li>
+          );
+        })}
+      </ul>
       <Disclose title={`WHY THIS IS ${/^[AEIOU]/.test(build.label) ? 'AN' : 'A'} ${build.label} BUILD`}>
         {build.reasons.length ? (
           <ul className="bs-bullets">
@@ -577,43 +605,6 @@ function StructureTab({ session, goToRoom }: Props) {
         ) : (
           <p className="bs-sheet__hint">EVERY CHOICE FITS A SIMPLE BUILD.</p>
         )}
-      </Disclose>
-      <Disclose title="DESIGN DETAILS">
-        <dl className="bs-lines bs-lines--compact">
-          {designDetails.map((line) => (
-            <div key={line.key} className={`bs-line${line.value ? '' : ' is-open'}`}>
-              <dt>{line.label}</dt>
-              <dd>
-                {line.value ?? (custom ? 'DEFINED WITH SITE 00 IN YOUR CUSTOM DIRECTION' : 'NOT CHOSEN YET')}
-                <span className="bs-line__provenance"> · {line.provenanceLabel}</span>
-              </dd>
-            </div>
-          ))}
-        </dl>
-        <ul className="bs-bullets bs-bullets--compact">
-          {designDetails.map((line) => (
-            <li key={`${line.key}-fit`}>
-              <BsBody>
-                {line.label}: {line.fitNote}
-              </BsBody>
-            </li>
-          ))}
-        </ul>
-        {conflicts.length ? (
-          <div className="bs-sheet__hint">
-            {conflicts.map((c) => (
-              <p key={c.dimension}>
-                <BsBody>
-                  {c.message} {c.recommendation}
-                </BsBody>
-              </p>
-            ))}
-          </div>
-        ) : feel ? (
-          <p className="bs-sheet__hint">
-            <BsBody>RECOMMENDATIONS FOLLOW YOUR {feel.label} DIRECTION UNTIL YOU SET A DIMENSION EXPLICITLY.</BsBody>
-          </p>
-        ) : null}
       </Disclose>
       <ChangeLink session={session} room="place" goToRoom={goToRoom} />
     </>
@@ -676,30 +667,46 @@ function PagesTab({ session, goToRoom }: Props) {
                 <li key={page.id}>
                   <details className="bs-pageitem">
                     <summary>
-                      <span>{page.label}</span>
+                      <span className="bs-pageitem__head">
+                        <span className="bs-pageitem__name">{page.label}</span>
+                        <span className="bs-pageitem__purpose">
+                          <BsBody>{page.plain}</BsBody>
+                        </span>
+                      </span>
                       <ChevronSmallRightIcon size={9} />
                     </summary>
-                    <p className="bs-pageitem__plain">
-                      <BsBody>{page.plain}</BsBody>
-                    </p>
-                    <p className="bs-pageitem__plain">
-                      <BsBody>{page.whyItMatters}</BsBody>
-                    </p>
-                    {page.depth ? (
-                      <p className="bs-pageitem__depth">
-                        <strong>{page.depth} DEPTH</strong> <BsBody>{page.depthPlain}</BsBody>
-                      </p>
-                    ) : null}
-                    {page.featuresNote ? (
-                      <p className="bs-pageitem__depth">
-                        <BsBody>{page.featuresNote}</BsBody>
-                      </p>
-                    ) : null}
-                    {page.limitation ? (
-                      <p className="bs-pageitem__depth">
-                        <BsBody>{page.limitation}</BsBody>
-                      </p>
-                    ) : null}
+                    <dl className="bs-pagefacts">
+                      <div>
+                        <dt>WHY IT MATTERS</dt>
+                        <dd>
+                          <BsBody>{page.whyItMatters}</BsBody>
+                        </dd>
+                      </div>
+                      <div>
+                        <dt>
+                          WHAT IS INCLUDED{page.depth ? <span className="bs-pagefacts__depth">{page.depth} DEPTH</span> : null}
+                        </dt>
+                        <dd>
+                          <BsBody>{page.depthPlain}</BsBody>
+                        </dd>
+                      </div>
+                      {page.featuresNote ? (
+                        <div>
+                          <dt>HOW IT CONNECTS</dt>
+                          <dd>
+                            <BsBody>{page.featuresNote}</BsBody>
+                          </dd>
+                        </div>
+                      ) : null}
+                      {page.limitation ? (
+                        <div>
+                          <dt>SCOPE NOTE</dt>
+                          <dd>
+                            <BsBody>{page.limitation}</BsBody>
+                          </dd>
+                        </div>
+                      ) : null}
+                    </dl>
                   </details>
                 </li>
               ))}

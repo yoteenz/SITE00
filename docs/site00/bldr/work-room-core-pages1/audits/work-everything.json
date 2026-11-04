@@ -1,0 +1,310 @@
+{
+ "name": "everything",
+ "modules": [
+  "PAGES",
+  "BLOG",
+  "SHOP",
+  "MEMBER_AREA",
+  "BOOKING",
+  "PORTAL"
+ ],
+ "on": {
+  "PAGES": true,
+  "BLOG": true,
+  "SHOP": true,
+  "MEMBER_AREA": true,
+  "BOOKING": true,
+  "PORTAL": true
+ },
+ "widths": {
+  "390": {
+   "panel": {
+    "open": true,
+    "summary": null,
+    "metrics": [
+     "14PAGES",
+     "4GROUPS",
+     "4PRIVATE",
+     "WEBSITE",
+     "MOBILE READY"
+    ],
+    "groups": [
+     {
+      "title": "FRONT DOOR",
+      "pages": "HOME, ABOUT, CONTACT / BEGIN",
+      "open": false
+     },
+     {
+      "title": "STORY & OFFER",
+      "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT, MEMBERSHIP, BOOKING",
+      "open": false
+     },
+     {
+      "title": "CLIENT SPACE",
+      "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+      "open": false
+     },
+     {
+      "title": "TEAM & ACCESS",
+      "pages": "PEOPLE AND ROLES",
+      "open": false
+     }
+    ],
+    "features": [
+     "EDIT IT YOURSELF",
+     "SELL",
+     "MEMBERSHIP",
+     "BOOK",
+     "DATA / PORTAL",
+     "(TAKE PAYMENT)",
+     "(ACCOUNTS)",
+     "(DASHBOARD)",
+     "(TEAM ROLES)"
+    ],
+    "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND MEMBERSHIP AND DATA / PORTAL.",
+    "oldDebug": false
+   },
+   "audit": {
+    "docOverflowX": 0,
+    "lowercase": [],
+    "offscreen": [],
+    "collide": [],
+    "minFont": 7,
+    "stage": {
+     "x": 0,
+     "y": 215,
+     "w": 390,
+     "h": 316
+    },
+    "panel": {
+     "x": 20,
+     "y": 537,
+     "w": 350,
+     "h": 421
+    },
+    "canvas": true
+   },
+   "groupOpen": {
+    "panel": {
+     "open": true,
+     "summary": null,
+     "metrics": [
+      "14PAGES",
+      "4GROUPS",
+      "4PRIVATE",
+      "WEBSITE",
+      "MOBILE READY"
+     ],
+     "groups": [
+      {
+       "title": "FRONT DOOR",
+       "pages": "HOME, ABOUT, CONTACT / BEGIN",
+       "open": true
+      },
+      {
+       "title": "STORY & OFFER",
+       "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT, MEMBERSHIP, BOOKING",
+       "open": true
+      },
+      {
+       "title": "CLIENT SPACE",
+       "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+       "open": false
+      },
+      {
+       "title": "TEAM & ACCESS",
+       "pages": "PEOPLE AND ROLES",
+       "open": false
+      }
+     ],
+     "features": [
+      "EDIT IT YOURSELF",
+      "SELL",
+      "MEMBERSHIP",
+      "BOOK",
+      "DATA / PORTAL",
+      "(TAKE PAYMENT)",
+      "(ACCOUNTS)",
+      "(DASHBOARD)",
+      "(TEAM ROLES)"
+     ],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND MEMBERSHIP AND DATA / PORTAL.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7,
+     "stage": {
+      "x": 0,
+      "y": 215,
+      "w": 390,
+      "h": 316
+     },
+     "panel": {
+      "x": 20,
+      "y": 537,
+      "w": 350,
+      "h": 637
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "collapsed": {
+    "panel": {
+     "open": false,
+     "summary": "14 PAGES · 4 GROUPS · 9 FEATURES",
+     "metrics": [],
+     "groups": [],
+     "features": [],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND MEMBERSHIP AND DATA / PORTAL.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7.6,
+     "stage": {
+      "x": 0,
+      "y": 215,
+      "w": 390,
+      "h": 435
+     },
+     "panel": {
+      "x": 20,
+      "y": 656,
+      "w": 350,
+      "h": 42
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "sameCanvas": true
+  }
+ },
+ "errors": [],
+ "work": {
+  "open": true,
+  "summary": null,
+  "metrics": [
+   "14PAGES",
+   "4GROUPS",
+   "4PRIVATE",
+   "WEBSITE",
+   "MOBILE READY"
+  ],
+  "groups": [
+   {
+    "title": "FRONT DOOR",
+    "pages": "HOME, ABOUT, CONTACT / BEGIN",
+    "open": false
+   },
+   {
+    "title": "STORY & OFFER",
+    "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT, MEMBERSHIP, BOOKING",
+    "open": false
+   },
+   {
+    "title": "CLIENT SPACE",
+    "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+    "open": false
+   },
+   {
+    "title": "TEAM & ACCESS",
+    "pages": "PEOPLE AND ROLES",
+    "open": false
+   }
+  ],
+  "features": [
+   "EDIT IT YOURSELF",
+   "SELL",
+   "MEMBERSHIP",
+   "BOOK",
+   "DATA / PORTAL",
+   "(TAKE PAYMENT)",
+   "(ACCOUNTS)",
+   "(DASHBOARD)",
+   "(TEAM ROLES)"
+  ],
+  "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND MEMBERSHIP AND DATA / PORTAL.",
+  "oldDebug": false
+ },
+ "blueprint": {
+  "stats": [
+   "TOTAL PAGES14",
+   "CORE GROUPS4",
+   "PRIVATE PAGES4"
+  ],
+  "groups": [
+   {
+    "title": "FRONT DOOR",
+    "pages": "HOME, ABOUT, CONTACT / BEGIN"
+   },
+   {
+    "title": "STORY & OFFER",
+    "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT, MEMBERSHIP, BOOKING"
+   },
+   {
+    "title": "CLIENT SPACE",
+    "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD"
+   },
+   {
+    "title": "TEAM & ACCESS",
+    "pages": "PEOPLE AND ROLES"
+   }
+  ]
+ },
+ "blueprintFeatures": null,
+ "workAfterResume": {
+  "open": true,
+  "summary": null,
+  "metrics": [
+   "14PAGES",
+   "4GROUPS",
+   "4PRIVATE",
+   "WEBSITE",
+   "MOBILE READY"
+  ],
+  "groups": [
+   {
+    "title": "FRONT DOOR",
+    "pages": "HOME, ABOUT, CONTACT / BEGIN",
+    "open": false
+   },
+   {
+    "title": "STORY & OFFER",
+    "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT, MEMBERSHIP, BOOKING",
+    "open": false
+   },
+   {
+    "title": "CLIENT SPACE",
+    "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+    "open": false
+   },
+   {
+    "title": "TEAM & ACCESS",
+    "pages": "PEOPLE AND ROLES",
+    "open": false
+   }
+  ],
+  "features": [
+   "EDIT IT YOURSELF",
+   "SELL",
+   "MEMBERSHIP",
+   "BOOK",
+   "DATA / PORTAL",
+   "(TAKE PAYMENT)",
+   "(ACCOUNTS)",
+   "(DASHBOARD)",
+   "(TEAM ROLES)"
+  ],
+  "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND MEMBERSHIP AND DATA / PORTAL.",
+  "oldDebug": false
+ }
+}

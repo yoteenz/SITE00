@@ -1,0 +1,1498 @@
+{
+ "name": "shop-portal",
+ "modules": [
+  "PAGES",
+  "SHOP",
+  "PORTAL"
+ ],
+ "on": {
+  "PAGES": true,
+  "BLOG": false,
+  "SHOP": true,
+  "MEMBER_AREA": false,
+  "BOOKING": false,
+  "PORTAL": true
+ },
+ "widths": {
+  "320": {
+   "panel": {
+    "open": true,
+    "summary": null,
+    "metrics": [
+     "12PAGES",
+     "4GROUPS",
+     "4PRIVATE",
+     "WEBSITE",
+     "MOBILE READY"
+    ],
+    "groups": [
+     {
+      "title": "FRONT DOOR",
+      "pages": "HOME, ABOUT, CONTACT / BEGIN",
+      "open": false
+     },
+     {
+      "title": "STORY & OFFER",
+      "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT",
+      "open": false
+     },
+     {
+      "title": "CLIENT SPACE",
+      "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+      "open": false
+     },
+     {
+      "title": "TEAM & ACCESS",
+      "pages": "PEOPLE AND ROLES",
+      "open": false
+     }
+    ],
+    "features": [
+     "EDIT IT YOURSELF",
+     "SELL",
+     "DATA / PORTAL",
+     "(TAKE PAYMENT)",
+     "(ACCOUNTS)",
+     "(DASHBOARD)",
+     "(TEAM ROLES)"
+    ],
+    "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+    "oldDebug": false
+   },
+   "audit": {
+    "docOverflowX": 0,
+    "lowercase": [],
+    "offscreen": [],
+    "collide": [],
+    "minFont": 6.8,
+    "stage": {
+     "x": 0,
+     "y": 207,
+     "w": 320,
+     "h": 316
+    },
+    "panel": {
+     "x": 20,
+     "y": 529,
+     "w": 280,
+     "h": 456
+    },
+    "canvas": true
+   },
+   "groupOpen": {
+    "panel": {
+     "open": true,
+     "summary": null,
+     "metrics": [
+      "12PAGES",
+      "4GROUPS",
+      "4PRIVATE",
+      "WEBSITE",
+      "MOBILE READY"
+     ],
+     "groups": [
+      {
+       "title": "FRONT DOOR",
+       "pages": "HOME, ABOUT, CONTACT / BEGIN",
+       "open": true
+      },
+      {
+       "title": "STORY & OFFER",
+       "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT",
+       "open": true
+      },
+      {
+       "title": "CLIENT SPACE",
+       "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+       "open": false
+      },
+      {
+       "title": "TEAM & ACCESS",
+       "pages": "PEOPLE AND ROLES",
+       "open": false
+      }
+     ],
+     "features": [
+      "EDIT IT YOURSELF",
+      "SELL",
+      "DATA / PORTAL",
+      "(TAKE PAYMENT)",
+      "(ACCOUNTS)",
+      "(DASHBOARD)",
+      "(TEAM ROLES)"
+     ],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 6.8,
+     "stage": {
+      "x": 0,
+      "y": 207,
+      "w": 320,
+      "h": 316
+     },
+     "panel": {
+      "x": 20,
+      "y": 529,
+      "w": 280,
+      "h": 736
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "collapsed": {
+    "panel": {
+     "open": false,
+     "summary": "12 PAGES · 4 GROUPS · 7 FEATURES",
+     "metrics": [],
+     "groups": [],
+     "features": [],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7.6,
+     "stage": {
+      "x": 0,
+      "y": 207,
+      "w": 320,
+      "h": 316
+     },
+     "panel": {
+      "x": 20,
+      "y": 529,
+      "w": 280,
+      "h": 42
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "sameCanvas": true
+  },
+  "390": {
+   "panel": {
+    "open": true,
+    "summary": null,
+    "metrics": [
+     "12PAGES",
+     "4GROUPS",
+     "4PRIVATE",
+     "WEBSITE",
+     "MOBILE READY"
+    ],
+    "groups": [
+     {
+      "title": "FRONT DOOR",
+      "pages": "HOME, ABOUT, CONTACT / BEGIN",
+      "open": false
+     },
+     {
+      "title": "STORY & OFFER",
+      "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT",
+      "open": false
+     },
+     {
+      "title": "CLIENT SPACE",
+      "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+      "open": false
+     },
+     {
+      "title": "TEAM & ACCESS",
+      "pages": "PEOPLE AND ROLES",
+      "open": false
+     }
+    ],
+    "features": [
+     "EDIT IT YOURSELF",
+     "SELL",
+     "DATA / PORTAL",
+     "(TAKE PAYMENT)",
+     "(ACCOUNTS)",
+     "(DASHBOARD)",
+     "(TEAM ROLES)"
+    ],
+    "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+    "oldDebug": false
+   },
+   "audit": {
+    "docOverflowX": 0,
+    "lowercase": [],
+    "offscreen": [],
+    "collide": [],
+    "minFont": 7,
+    "stage": {
+     "x": 0,
+     "y": 215,
+     "w": 390,
+     "h": 316
+    },
+    "panel": {
+     "x": 20,
+     "y": 537,
+     "w": 350,
+     "h": 393
+    },
+    "canvas": true
+   },
+   "groupOpen": {
+    "panel": {
+     "open": true,
+     "summary": null,
+     "metrics": [
+      "12PAGES",
+      "4GROUPS",
+      "4PRIVATE",
+      "WEBSITE",
+      "MOBILE READY"
+     ],
+     "groups": [
+      {
+       "title": "FRONT DOOR",
+       "pages": "HOME, ABOUT, CONTACT / BEGIN",
+       "open": true
+      },
+      {
+       "title": "STORY & OFFER",
+       "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT",
+       "open": true
+      },
+      {
+       "title": "CLIENT SPACE",
+       "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+       "open": false
+      },
+      {
+       "title": "TEAM & ACCESS",
+       "pages": "PEOPLE AND ROLES",
+       "open": false
+      }
+     ],
+     "features": [
+      "EDIT IT YOURSELF",
+      "SELL",
+      "DATA / PORTAL",
+      "(TAKE PAYMENT)",
+      "(ACCOUNTS)",
+      "(DASHBOARD)",
+      "(TEAM ROLES)"
+     ],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7,
+     "stage": {
+      "x": 0,
+      "y": 215,
+      "w": 390,
+      "h": 316
+     },
+     "panel": {
+      "x": 20,
+      "y": 537,
+      "w": 350,
+      "h": 571
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "collapsed": {
+    "panel": {
+     "open": false,
+     "summary": "12 PAGES · 4 GROUPS · 7 FEATURES",
+     "metrics": [],
+     "groups": [],
+     "features": [],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7.6,
+     "stage": {
+      "x": 0,
+      "y": 215,
+      "w": 390,
+      "h": 435
+     },
+     "panel": {
+      "x": 20,
+      "y": 656,
+      "w": 350,
+      "h": 42
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "sameCanvas": true
+  },
+  "430": {
+   "panel": {
+    "open": true,
+    "summary": null,
+    "metrics": [
+     "12PAGES",
+     "4GROUPS",
+     "4PRIVATE",
+     "WEBSITE",
+     "MOBILE READY"
+    ],
+    "groups": [
+     {
+      "title": "FRONT DOOR",
+      "pages": "HOME, ABOUT, CONTACT / BEGIN",
+      "open": false
+     },
+     {
+      "title": "STORY & OFFER",
+      "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT",
+      "open": false
+     },
+     {
+      "title": "CLIENT SPACE",
+      "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+      "open": false
+     },
+     {
+      "title": "TEAM & ACCESS",
+      "pages": "PEOPLE AND ROLES",
+      "open": false
+     }
+    ],
+    "features": [
+     "EDIT IT YOURSELF",
+     "SELL",
+     "DATA / PORTAL",
+     "(TAKE PAYMENT)",
+     "(ACCOUNTS)",
+     "(DASHBOARD)",
+     "(TEAM ROLES)"
+    ],
+    "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+    "oldDebug": false
+   },
+   "audit": {
+    "docOverflowX": 0,
+    "lowercase": [],
+    "offscreen": [],
+    "collide": [],
+    "minFont": 7,
+    "stage": {
+     "x": 0,
+     "y": 226,
+     "w": 430,
+     "h": 316
+    },
+    "panel": {
+     "x": 20,
+     "y": 548,
+     "w": 390,
+     "h": 393
+    },
+    "canvas": true
+   },
+   "groupOpen": {
+    "panel": {
+     "open": true,
+     "summary": null,
+     "metrics": [
+      "12PAGES",
+      "4GROUPS",
+      "4PRIVATE",
+      "WEBSITE",
+      "MOBILE READY"
+     ],
+     "groups": [
+      {
+       "title": "FRONT DOOR",
+       "pages": "HOME, ABOUT, CONTACT / BEGIN",
+       "open": true
+      },
+      {
+       "title": "STORY & OFFER",
+       "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT",
+       "open": true
+      },
+      {
+       "title": "CLIENT SPACE",
+       "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+       "open": false
+      },
+      {
+       "title": "TEAM & ACCESS",
+       "pages": "PEOPLE AND ROLES",
+       "open": false
+      }
+     ],
+     "features": [
+      "EDIT IT YOURSELF",
+      "SELL",
+      "DATA / PORTAL",
+      "(TAKE PAYMENT)",
+      "(ACCOUNTS)",
+      "(DASHBOARD)",
+      "(TEAM ROLES)"
+     ],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7,
+     "stage": {
+      "x": 0,
+      "y": 226,
+      "w": 430,
+      "h": 316
+     },
+     "panel": {
+      "x": 20,
+      "y": 548,
+      "w": 390,
+      "h": 571
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "collapsed": {
+    "panel": {
+     "open": false,
+     "summary": "12 PAGES · 4 GROUPS · 7 FEATURES",
+     "metrics": [],
+     "groups": [],
+     "features": [],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7.6,
+     "stage": {
+      "x": 0,
+      "y": 226,
+      "w": 430,
+      "h": 512
+     },
+     "panel": {
+      "x": 20,
+      "y": 744,
+      "w": 390,
+      "h": 42
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "sameCanvas": true
+  },
+  "768": {
+   "panel": {
+    "open": true,
+    "summary": null,
+    "metrics": [
+     "12PAGES",
+     "4GROUPS",
+     "4PRIVATE",
+     "WEBSITE",
+     "MOBILE READY"
+    ],
+    "groups": [
+     {
+      "title": "FRONT DOOR",
+      "pages": "HOME, ABOUT, CONTACT / BEGIN",
+      "open": false
+     },
+     {
+      "title": "STORY & OFFER",
+      "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT",
+      "open": false
+     },
+     {
+      "title": "CLIENT SPACE",
+      "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+      "open": false
+     },
+     {
+      "title": "TEAM & ACCESS",
+      "pages": "PEOPLE AND ROLES",
+      "open": false
+     }
+    ],
+    "features": [
+     "EDIT IT YOURSELF",
+     "SELL",
+     "DATA / PORTAL",
+     "(TAKE PAYMENT)",
+     "(ACCOUNTS)",
+     "(DASHBOARD)",
+     "(TEAM ROLES)"
+    ],
+    "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+    "oldDebug": false
+   },
+   "audit": {
+    "docOverflowX": 0,
+    "lowercase": [],
+    "offscreen": [],
+    "collide": [],
+    "minFont": 7,
+    "stage": {
+     "x": 0,
+     "y": 235,
+     "w": 768,
+     "h": 500
+    },
+    "panel": {
+     "x": 40,
+     "y": 741,
+     "w": 688,
+     "h": 365
+    },
+    "canvas": true
+   },
+   "groupOpen": {
+    "panel": {
+     "open": true,
+     "summary": null,
+     "metrics": [
+      "12PAGES",
+      "4GROUPS",
+      "4PRIVATE",
+      "WEBSITE",
+      "MOBILE READY"
+     ],
+     "groups": [
+      {
+       "title": "FRONT DOOR",
+       "pages": "HOME, ABOUT, CONTACT / BEGIN",
+       "open": true
+      },
+      {
+       "title": "STORY & OFFER",
+       "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT",
+       "open": true
+      },
+      {
+       "title": "CLIENT SPACE",
+       "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+       "open": false
+      },
+      {
+       "title": "TEAM & ACCESS",
+       "pages": "PEOPLE AND ROLES",
+       "open": false
+      }
+     ],
+     "features": [
+      "EDIT IT YOURSELF",
+      "SELL",
+      "DATA / PORTAL",
+      "(TAKE PAYMENT)",
+      "(ACCOUNTS)",
+      "(DASHBOARD)",
+      "(TEAM ROLES)"
+     ],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7,
+     "stage": {
+      "x": 0,
+      "y": 235,
+      "w": 768,
+      "h": 500
+     },
+     "panel": {
+      "x": 40,
+      "y": 741,
+      "w": 688,
+      "h": 543
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "collapsed": {
+    "panel": {
+     "open": false,
+     "summary": "12 PAGES · 4 GROUPS · 7 FEATURES",
+     "metrics": [],
+     "groups": [],
+     "features": [],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7.6,
+     "stage": {
+      "x": 0,
+      "y": 235,
+      "w": 768,
+      "h": 598
+     },
+     "panel": {
+      "x": 40,
+      "y": 839,
+      "w": 688,
+      "h": 42
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "sameCanvas": true
+  },
+  "834": {
+   "panel": {
+    "open": true,
+    "summary": null,
+    "metrics": [
+     "12PAGES",
+     "4GROUPS",
+     "4PRIVATE",
+     "WEBSITE",
+     "MOBILE READY"
+    ],
+    "groups": [
+     {
+      "title": "FRONT DOOR",
+      "pages": "HOME, ABOUT, CONTACT / BEGIN",
+      "open": false
+     },
+     {
+      "title": "STORY & OFFER",
+      "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT",
+      "open": false
+     },
+     {
+      "title": "CLIENT SPACE",
+      "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+      "open": false
+     },
+     {
+      "title": "TEAM & ACCESS",
+      "pages": "PEOPLE AND ROLES",
+      "open": false
+     }
+    ],
+    "features": [
+     "EDIT IT YOURSELF",
+     "SELL",
+     "DATA / PORTAL",
+     "(TAKE PAYMENT)",
+     "(ACCOUNTS)",
+     "(DASHBOARD)",
+     "(TEAM ROLES)"
+    ],
+    "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+    "oldDebug": false
+   },
+   "audit": {
+    "docOverflowX": 0,
+    "lowercase": [],
+    "offscreen": [],
+    "collide": [],
+    "minFont": 7,
+    "stage": {
+     "x": 7,
+     "y": 235,
+     "w": 820,
+     "h": 500
+    },
+    "panel": {
+     "x": 47,
+     "y": 741,
+     "w": 740,
+     "h": 365
+    },
+    "canvas": true
+   },
+   "groupOpen": {
+    "panel": {
+     "open": true,
+     "summary": null,
+     "metrics": [
+      "12PAGES",
+      "4GROUPS",
+      "4PRIVATE",
+      "WEBSITE",
+      "MOBILE READY"
+     ],
+     "groups": [
+      {
+       "title": "FRONT DOOR",
+       "pages": "HOME, ABOUT, CONTACT / BEGIN",
+       "open": true
+      },
+      {
+       "title": "STORY & OFFER",
+       "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT",
+       "open": true
+      },
+      {
+       "title": "CLIENT SPACE",
+       "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+       "open": false
+      },
+      {
+       "title": "TEAM & ACCESS",
+       "pages": "PEOPLE AND ROLES",
+       "open": false
+      }
+     ],
+     "features": [
+      "EDIT IT YOURSELF",
+      "SELL",
+      "DATA / PORTAL",
+      "(TAKE PAYMENT)",
+      "(ACCOUNTS)",
+      "(DASHBOARD)",
+      "(TEAM ROLES)"
+     ],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7,
+     "stage": {
+      "x": 7,
+      "y": 235,
+      "w": 820,
+      "h": 500
+     },
+     "panel": {
+      "x": 47,
+      "y": 741,
+      "w": 740,
+      "h": 543
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "collapsed": {
+    "panel": {
+     "open": false,
+     "summary": "12 PAGES · 4 GROUPS · 7 FEATURES",
+     "metrics": [],
+     "groups": [],
+     "features": [],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7.6,
+     "stage": {
+      "x": 7,
+      "y": 235,
+      "w": 820,
+      "h": 768
+     },
+     "panel": {
+      "x": 47,
+      "y": 1009,
+      "w": 740,
+      "h": 42
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "sameCanvas": true
+  },
+  "1024": {
+   "panel": {
+    "open": true,
+    "summary": null,
+    "metrics": [
+     "12PAGES",
+     "4GROUPS",
+     "4PRIVATE",
+     "WEBSITE",
+     "MOBILE READY"
+    ],
+    "groups": [
+     {
+      "title": "FRONT DOOR",
+      "pages": "HOME, ABOUT, CONTACT / BEGIN",
+      "open": false
+     },
+     {
+      "title": "STORY & OFFER",
+      "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT",
+      "open": false
+     },
+     {
+      "title": "CLIENT SPACE",
+      "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+      "open": false
+     },
+     {
+      "title": "TEAM & ACCESS",
+      "pages": "PEOPLE AND ROLES",
+      "open": false
+     }
+    ],
+    "features": [
+     "EDIT IT YOURSELF",
+     "SELL",
+     "DATA / PORTAL",
+     "(TAKE PAYMENT)",
+     "(ACCOUNTS)",
+     "(DASHBOARD)",
+     "(TEAM ROLES)"
+    ],
+    "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+    "oldDebug": false
+   },
+   "audit": {
+    "docOverflowX": 0,
+    "lowercase": [],
+    "offscreen": [],
+    "collide": [],
+    "minFont": 7,
+    "stage": {
+     "x": 102,
+     "y": 235,
+     "w": 820,
+     "h": 618
+    },
+    "panel": {
+     "x": 142,
+     "y": 858,
+     "w": 740,
+     "h": 365
+    },
+    "canvas": true
+   },
+   "groupOpen": {
+    "panel": {
+     "open": true,
+     "summary": null,
+     "metrics": [
+      "12PAGES",
+      "4GROUPS",
+      "4PRIVATE",
+      "WEBSITE",
+      "MOBILE READY"
+     ],
+     "groups": [
+      {
+       "title": "FRONT DOOR",
+       "pages": "HOME, ABOUT, CONTACT / BEGIN",
+       "open": true
+      },
+      {
+       "title": "STORY & OFFER",
+       "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT",
+       "open": true
+      },
+      {
+       "title": "CLIENT SPACE",
+       "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+       "open": false
+      },
+      {
+       "title": "TEAM & ACCESS",
+       "pages": "PEOPLE AND ROLES",
+       "open": false
+      }
+     ],
+     "features": [
+      "EDIT IT YOURSELF",
+      "SELL",
+      "DATA / PORTAL",
+      "(TAKE PAYMENT)",
+      "(ACCOUNTS)",
+      "(DASHBOARD)",
+      "(TEAM ROLES)"
+     ],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7,
+     "stage": {
+      "x": 102,
+      "y": 235,
+      "w": 820,
+      "h": 500
+     },
+     "panel": {
+      "x": 142,
+      "y": 741,
+      "w": 740,
+      "h": 543
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "collapsed": {
+    "panel": {
+     "open": false,
+     "summary": "12 PAGES · 4 GROUPS · 7 FEATURES",
+     "metrics": [],
+     "groups": [],
+     "features": [],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7.6,
+     "stage": {
+      "x": 102,
+      "y": 235,
+      "w": 820,
+      "h": 940
+     },
+     "panel": {
+      "x": 142,
+      "y": 1181,
+      "w": 740,
+      "h": 42
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "sameCanvas": true
+  },
+  "1440": {
+   "panel": {
+    "open": true,
+    "summary": null,
+    "metrics": [
+     "12PAGES",
+     "4GROUPS",
+     "4PRIVATE",
+     "WEBSITE",
+     "MOBILE READY"
+    ],
+    "groups": [
+     {
+      "title": "FRONT DOOR",
+      "pages": "HOME, ABOUT, CONTACT / BEGIN",
+      "open": false
+     },
+     {
+      "title": "STORY & OFFER",
+      "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT",
+      "open": false
+     },
+     {
+      "title": "CLIENT SPACE",
+      "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+      "open": false
+     },
+     {
+      "title": "TEAM & ACCESS",
+      "pages": "PEOPLE AND ROLES",
+      "open": false
+     }
+    ],
+    "features": [
+     "EDIT IT YOURSELF",
+     "SELL",
+     "DATA / PORTAL",
+     "(TAKE PAYMENT)",
+     "(ACCOUNTS)",
+     "(DASHBOARD)",
+     "(TEAM ROLES)"
+    ],
+    "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+    "oldDebug": false
+   },
+   "audit": {
+    "docOverflowX": 0,
+    "lowercase": [],
+    "offscreen": [],
+    "collide": [],
+    "minFont": 7,
+    "stage": {
+     "x": 620,
+     "y": 6,
+     "w": 820,
+     "h": 900
+    },
+    "panel": {
+     "x": 64,
+     "y": 326,
+     "w": 494,
+     "h": 393
+    },
+    "canvas": true
+   },
+   "groupOpen": {
+    "panel": {
+     "open": true,
+     "summary": null,
+     "metrics": [
+      "12PAGES",
+      "4GROUPS",
+      "4PRIVATE",
+      "WEBSITE",
+      "MOBILE READY"
+     ],
+     "groups": [
+      {
+       "title": "FRONT DOOR",
+       "pages": "HOME, ABOUT, CONTACT / BEGIN",
+       "open": true
+      },
+      {
+       "title": "STORY & OFFER",
+       "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT",
+       "open": true
+      },
+      {
+       "title": "CLIENT SPACE",
+       "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+       "open": false
+      },
+      {
+       "title": "TEAM & ACCESS",
+       "pages": "PEOPLE AND ROLES",
+       "open": false
+      }
+     ],
+     "features": [
+      "EDIT IT YOURSELF",
+      "SELL",
+      "DATA / PORTAL",
+      "(TAKE PAYMENT)",
+      "(ACCOUNTS)",
+      "(DASHBOARD)",
+      "(TEAM ROLES)"
+     ],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7,
+     "stage": {
+      "x": 620,
+      "y": 6,
+      "w": 820,
+      "h": 900
+     },
+     "panel": {
+      "x": 64,
+      "y": 326,
+      "w": 494,
+      "h": 571
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "collapsed": {
+    "panel": {
+     "open": false,
+     "summary": "12 PAGES · 4 GROUPS · 7 FEATURES",
+     "metrics": [],
+     "groups": [],
+     "features": [],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7.6,
+     "stage": {
+      "x": 620,
+      "y": 6,
+      "w": 820,
+      "h": 900
+     },
+     "panel": {
+      "x": 64,
+      "y": 326,
+      "w": 494,
+      "h": 42
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "sameCanvas": true
+  },
+  "1920": {
+   "panel": {
+    "open": true,
+    "summary": null,
+    "metrics": [
+     "12PAGES",
+     "4GROUPS",
+     "4PRIVATE",
+     "WEBSITE",
+     "MOBILE READY"
+    ],
+    "groups": [
+     {
+      "title": "FRONT DOOR",
+      "pages": "HOME, ABOUT, CONTACT / BEGIN",
+      "open": false
+     },
+     {
+      "title": "STORY & OFFER",
+      "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT",
+      "open": false
+     },
+     {
+      "title": "CLIENT SPACE",
+      "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+      "open": false
+     },
+     {
+      "title": "TEAM & ACCESS",
+      "pages": "PEOPLE AND ROLES",
+      "open": false
+     }
+    ],
+    "features": [
+     "EDIT IT YOURSELF",
+     "SELL",
+     "DATA / PORTAL",
+     "(TAKE PAYMENT)",
+     "(ACCOUNTS)",
+     "(DASHBOARD)",
+     "(TEAM ROLES)"
+    ],
+    "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+    "oldDebug": false
+   },
+   "audit": {
+    "docOverflowX": 0,
+    "lowercase": [],
+    "offscreen": [],
+    "collide": [],
+    "minFont": 7,
+    "stage": {
+     "x": 620,
+     "y": 6,
+     "w": 1300,
+     "h": 1080
+    },
+    "panel": {
+     "x": 64,
+     "y": 326,
+     "w": 494,
+     "h": 393
+    },
+    "canvas": true
+   },
+   "groupOpen": {
+    "panel": {
+     "open": true,
+     "summary": null,
+     "metrics": [
+      "12PAGES",
+      "4GROUPS",
+      "4PRIVATE",
+      "WEBSITE",
+      "MOBILE READY"
+     ],
+     "groups": [
+      {
+       "title": "FRONT DOOR",
+       "pages": "HOME, ABOUT, CONTACT / BEGIN",
+       "open": true
+      },
+      {
+       "title": "STORY & OFFER",
+       "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT",
+       "open": true
+      },
+      {
+       "title": "CLIENT SPACE",
+       "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+       "open": false
+      },
+      {
+       "title": "TEAM & ACCESS",
+       "pages": "PEOPLE AND ROLES",
+       "open": false
+      }
+     ],
+     "features": [
+      "EDIT IT YOURSELF",
+      "SELL",
+      "DATA / PORTAL",
+      "(TAKE PAYMENT)",
+      "(ACCOUNTS)",
+      "(DASHBOARD)",
+      "(TEAM ROLES)"
+     ],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7,
+     "stage": {
+      "x": 620,
+      "y": 6,
+      "w": 1300,
+      "h": 1080
+     },
+     "panel": {
+      "x": 64,
+      "y": 326,
+      "w": 494,
+      "h": 571
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "collapsed": {
+    "panel": {
+     "open": false,
+     "summary": "12 PAGES · 4 GROUPS · 7 FEATURES",
+     "metrics": [],
+     "groups": [],
+     "features": [],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH SELL AND DATA / PORTAL.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7.6,
+     "stage": {
+      "x": 620,
+      "y": 6,
+      "w": 1300,
+      "h": 1080
+     },
+     "panel": {
+      "x": 64,
+      "y": 326,
+      "w": 494,
+      "h": 42
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "sameCanvas": true
+  }
+ },
+ "errors": [],
+ "toggle": {
+  "module": "SHOP",
+  "before": [
+   "12PAGES",
+   "4GROUPS",
+   "4PRIVATE",
+   "WEBSITE",
+   "MOBILE READY"
+  ],
+  "after": [
+   "9PAGES",
+   "4GROUPS",
+   "4PRIVATE",
+   "WEBSITE",
+   "MOBILE READY"
+  ],
+  "back": [
+   "12PAGES",
+   "4GROUPS",
+   "4PRIVATE",
+   "WEBSITE",
+   "MOBILE READY"
+  ],
+  "featuresAfter": [
+   "EDIT IT YOURSELF",
+   "DATA / PORTAL",
+   "(ACCOUNTS)",
+   "(DASHBOARD)",
+   "(TEAM ROLES)"
+  ],
+  "groupsAfter": [
+   "FRONT DOOR",
+   "STORY & OFFER",
+   "CLIENT SPACE",
+   "TEAM & ACCESS"
+  ]
+ },
+ "work": {
+  "open": true,
+  "summary": null,
+  "metrics": [
+   "12PAGES",
+   "4GROUPS",
+   "4PRIVATE",
+   "WEBSITE",
+   "MOBILE READY"
+  ],
+  "groups": [
+   {
+    "title": "FRONT DOOR",
+    "pages": "HOME, ABOUT, CONTACT / BEGIN",
+    "open": false
+   },
+   {
+    "title": "STORY & OFFER",
+    "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT",
+    "open": false
+   },
+   {
+    "title": "CLIENT SPACE",
+    "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+    "open": false
+   },
+   {
+    "title": "TEAM & ACCESS",
+    "pages": "PEOPLE AND ROLES",
+    "open": false
+   }
+  ],
+  "features": [
+   "EDIT IT YOURSELF",
+   "DATA / PORTAL",
+   "SELL",
+   "(ACCOUNTS)",
+   "(DASHBOARD)",
+   "(TEAM ROLES)",
+   "(TAKE PAYMENT)"
+  ],
+  "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH DATA / PORTAL AND SELL.",
+  "oldDebug": false
+ },
+ "blueprint": {
+  "stats": [
+   "TOTAL PAGES12",
+   "CORE GROUPS4",
+   "PRIVATE PAGES4"
+  ],
+  "groups": [
+   {
+    "title": "FRONT DOOR",
+    "pages": "HOME, ABOUT, CONTACT / BEGIN"
+   },
+   {
+    "title": "STORY & OFFER",
+    "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT"
+   },
+   {
+    "title": "CLIENT SPACE",
+    "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD"
+   },
+   {
+    "title": "TEAM & ACCESS",
+    "pages": "PEOPLE AND ROLES"
+   }
+  ]
+ },
+ "blueprintFeatures": null,
+ "workAfterResume": {
+  "open": true,
+  "summary": null,
+  "metrics": [
+   "12PAGES",
+   "4GROUPS",
+   "4PRIVATE",
+   "WEBSITE",
+   "MOBILE READY"
+  ],
+  "groups": [
+   {
+    "title": "FRONT DOOR",
+    "pages": "HOME, ABOUT, CONTACT / BEGIN",
+    "open": false
+   },
+   {
+    "title": "STORY & OFFER",
+    "pages": "STORIES INDEX, STORY, SHOP, PRODUCT, BAG AND CHECKOUT",
+    "open": false
+   },
+   {
+    "title": "CLIENT SPACE",
+    "pages": "RECORDS / WORK, ACCOUNT, DASHBOARD",
+    "open": false
+   },
+   {
+    "title": "TEAM & ACCESS",
+    "pages": "PEOPLE AND ROLES",
+    "open": false
+   }
+  ],
+  "features": [
+   "EDIT IT YOURSELF",
+   "DATA / PORTAL",
+   "SELL",
+   "(ACCOUNTS)",
+   "(DASHBOARD)",
+   "(TEAM ROLES)",
+   "(TAKE PAYMENT)"
+  ],
+  "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH DATA / PORTAL AND SELL.",
+  "oldDebug": false
+ }
+}
