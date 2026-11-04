@@ -7,7 +7,7 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from 'react';
 import { checkReceiptFile, parseReceiptText, type ReceiptRead } from '../../../../../data/f05/dot01/receipt';
 import { DOT01 } from '../dot01Assets';
-import { by, Dot01Overlay, useSearchAddChips, type Dot01Layout } from '../Dot01Frame';
+import { by, Dot01Overlay, useSearchAddChips, type Dot01Layout, OVERLAY_CONTENT } from '../Dot01Frame';
 import { Icon } from '../icons';
 import { Alert, Button, Paper } from '../kit';
 import { readReceiptText, type OcrProgress } from '../receiptOcr';
@@ -17,7 +17,7 @@ export type ReceiptCapture = { read: ReceiptRead; image: Blob; imageSha: string;
 type Step = 'capture' | 'scanning' | 'failed';
 type Failure = { title: string; reasons: string[] };
 
-const CONTENT = { x: 30, y: 590, w: 881, h: 930 };
+const CONTENT = OVERLAY_CONTENT;
 /** SK03: the frame paper ends at board y 1040 and the strip starts at 1042 (F05_DOT01_GEOMETRY.json). */
 const SK03_SEAM = 1041;
 

@@ -19,12 +19,12 @@ import { toCents } from '../../../../../data/ledger/accounting';
 import { parseMoneyInput } from '../../../../../data/ledger/ledgerOps';
 import { useJurnl } from '../../../../state/store';
 import { DOT01 } from '../dot01Assets';
-import { Dot01Overlay, useSearchAddChips } from '../Dot01Frame';
+import { Dot01Overlay, useSearchAddChips, OVERLAY_CONTENT } from '../Dot01Frame';
 import { shortDate } from '../HistoryPage';
 import { Chevron, Icon } from '../icons';
 import { Alert, Button, Paper, Row, SelectInput, TextInput } from '../kit';
 
-const CONTENT = { x: 30, y: 590, w: 881, h: 930 };
+const CONTENT = OVERLAY_CONTENT;
 const CATEGORIES = ['GROCERIES', 'FOOD', 'DINING', 'FOOD & DRINK', 'FUEL', 'TRANSPORT', 'HOUSING', 'UTILITIES', 'HEALTH', 'CLOTHING', 'SHOPPING', 'MEMBERSHIP', 'TRAVEL', 'OTHER'];
 
 export type CorrectionMode = 'options' | 'edit' | 'category' | 'account';
@@ -69,7 +69,7 @@ export function CorrectionOverlay({ entryId, mode, onClose, onDone }: { entryId:
   const entry = live.ok ? live.entry : step === 'done' ? opened.current : null;
   if (step !== 'done' && (!check.ok || !entry)) {
     return (
-      <Dot01Overlay testId="d01-correct" env="SK03_FIELD" title={['CORRECT', 'TRANSACTION']} onClose={onClose} contentRect={CONTENT} label="CORRECT TRANSACTION" content={
+      <Dot01Overlay testId="d01-correct" env="SK03_FIELD" stripIcons="tiles" title={['CORRECT', 'TRANSACTION']} onClose={onClose} contentRect={CONTENT} label="CORRECT TRANSACTION" content={
         <>
           <Alert role="alert" testId="d01-correct-refused">{check.ok ? '' : check.reason}</Alert>
           {!check.ok && check.owner ? <Button trigger="d01-correct-owner" onClick={() => go(check.owner!.route)}>{check.owner.label}</Button> : null}
@@ -256,7 +256,7 @@ export function CorrectionOverlay({ entryId, mode, onClose, onDone }: { entryId:
     );
 
   return (
-    <Dot01Overlay testId="d01-correct" env="SK03_FIELD" title={['CORRECT', 'TRANSACTION']} subtitle="fix or reverse this entry" onClose={onClose} contentRect={CONTENT} contentScroll label="CORRECT TRANSACTION" content={
+    <Dot01Overlay testId="d01-correct" env="SK03_FIELD" stripIcons="tiles" title={['CORRECT', 'TRANSACTION']} subtitle="fix or reverse this entry" onClose={onClose} contentRect={CONTENT} contentScroll label="CORRECT TRANSACTION" content={
       <>
         {summary}
         <p className="d01-note" style={{ textAlign: 'center', color: '#efe3cb' }}>USE THIS IF THE ENTRY IS WRONG OR DUPLICATED</p>

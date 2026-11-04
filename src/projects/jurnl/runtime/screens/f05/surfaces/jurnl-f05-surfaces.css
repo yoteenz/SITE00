@@ -1,0 +1,219 @@
+/* F05 interactive surfaces: JURNL_SELECT, JURNL_POPOVER, JURNL_DATE_PICKER (see JurnlSurfaces.tsx).
+   Parchment, olive and cream; JURNL Authority Serif uppercase; square-rounded controls; ≥ 16 px type on fields (no
+   iOS zoom); ≥ 44 px option rows; transform / opacity motion only, removed under reduced motion. */
+
+.jrn .jrn-sel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  min-height: 40px;
+  padding: 6px 10px 6px 12px;
+  border: 1.5px solid rgba(31, 24, 16, 0.42);
+  border-radius: 9px;
+  background: rgba(255, 251, 241, 0.78);
+  box-shadow: inset 0 1px 2px rgba(31, 24, 16, 0.14);
+  color: var(--d01-ink, #1c1610);
+  /* a button, not a text input: iOS does not zoom it, so it may sit just under 16 px like the authority's values */
+  font: 600 max(14px, calc(var(--d01-fs, 13px) * 0.98)) / 1.15 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.03em;
+  text-align: left;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.jrn .jrn-sel[data-empty='true'] .jrn-sel__value {
+  color: rgba(31, 24, 16, 0.62);
+  font-weight: 500;
+}
+.jrn .jrn-sel__value {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.jrn .jrn-sel__chev {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  opacity: 0.8;
+}
+.jrn .jrn-sel:focus-visible {
+  outline: 3px solid var(--d01-gold, #e2ae4e);
+  outline-offset: 1px;
+}
+.jrn .jrn-sel[aria-expanded='true'] {
+  border-color: var(--d01-olive, #2f3420);
+  background: rgba(255, 251, 241, 0.95);
+}
+.jrn .jrn-sel[aria-invalid='true'] {
+  border-color: var(--d01-wine, #7a1f1a);
+  background: rgba(255, 232, 214, 0.85);
+}
+
+/* JURNL_POPOVER: torn sheet paper (the founder's 14_LARGE_PARCHMENT_SHEET, 9-sliced) in the stage layer */
+.jrn .jrn-pop {
+  position: absolute;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border-style: solid;
+  border-width: 12px 14px;
+  border-image: var(--d01-img-sheet) 64 70 fill / 12px 14px / 0 stretch;
+  padding: 2px 2px;
+  color: var(--d01-ink, #1c1610);
+  filter: drop-shadow(0 10px 16px rgba(14, 9, 4, 0.5)) drop-shadow(0 2px 3px rgba(14, 9, 4, 0.35));
+  overflow: hidden;
+}
+.jrn .jrn-pop__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+.jrn .jrn-opt {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 4px 10px 4px 6px;
+  border-bottom: 1px solid rgba(31, 24, 16, 0.16);
+  border-radius: 7px;
+  font: 600 16px / 1.15 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.jrn .jrn-opt:last-child {
+  border-bottom: 0;
+}
+.jrn .jrn-opt__tick {
+  width: 18px;
+  height: 18px;
+  color: var(--d01-olive, #2f3420);
+  visibility: hidden;
+}
+.jrn .jrn-opt[aria-selected='true'] .jrn-opt__tick {
+  visibility: visible;
+}
+.jrn .jrn-opt[aria-selected='true'] {
+  color: var(--d01-olive-deep, #232816);
+}
+.jrn .jrn-opt[data-active='true'] {
+  background: rgba(47, 52, 32, 0.14);
+  box-shadow: inset 3px 0 0 var(--d01-olive, #2f3420);
+}
+
+/* JURNL_DATE_PICKER */
+.jrn .jrn-pop--cal {
+  padding: 4px 6px 6px;
+}
+.jrn .jrn-cal__head {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+}
+.jrn .jrn-cal__month {
+  margin: 0;
+  text-align: center;
+  font: 600 16px / 1.1 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.12em;
+}
+.jrn .jrn-cal__nav,
+.jrn .jrn-cal__act {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1.5px solid rgba(31, 24, 16, 0.38);
+  border-radius: 9px;
+  background: rgba(255, 251, 241, 0.7);
+  color: var(--d01-ink, #1c1610);
+  font: 600 14px / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+.jrn .jrn-cal__nav {
+  padding: 0;
+}
+.jrn .jrn-cal__nav svg {
+  width: 20px;
+  height: 20px;
+}
+.jrn .jrn-cal__grid {
+  display: grid;
+  gap: 2px;
+  margin: 6px 0 4px;
+}
+.jrn .jrn-cal__row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+.jrn .jrn-cal__row > span {
+  display: grid;
+}
+.jrn .jrn-cal__dow {
+  display: grid;
+  place-items: center;
+  height: 22px;
+  font: 600 12px / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.08em;
+  color: rgba(31, 24, 16, 0.7);
+}
+.jrn .jrn-cal__day {
+  min-height: 38px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--d01-ink, #1c1610);
+  font: 600 16px / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font-variant-numeric: lining-nums tabular-nums;
+  cursor: pointer;
+}
+.jrn .jrn-cal__day[data-out='true'] {
+  color: rgba(31, 24, 16, 0.38);
+}
+.jrn .jrn-cal__day[data-today='true'] {
+  box-shadow: inset 0 0 0 1.5px rgba(31, 24, 16, 0.55);
+}
+.jrn .jrn-cal__day[data-selected='true'] {
+  background: linear-gradient(180deg, #3b4128 0%, var(--d01-olive-deep, #232816) 100%);
+  color: #f6eedd;
+}
+.jrn .jrn-cal__day:focus-visible,
+.jrn .jrn-cal__nav:focus-visible,
+.jrn .jrn-cal__act:focus-visible,
+.jrn .jrn-opt:focus-visible {
+  outline: 3px solid var(--d01-gold, #e2ae4e);
+  outline-offset: 1px;
+}
+.jrn .jrn-cal__foot {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .jrn .jrn-pop {
+    animation: jrn-pop-in 160ms cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  }
+  .jrn .jrn-pop[data-side='above'] {
+    animation-name: jrn-pop-in-up;
+  }
+}
+@keyframes jrn-pop-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes jrn-pop-in-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}

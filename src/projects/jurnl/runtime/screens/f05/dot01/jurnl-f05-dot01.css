@@ -1123,3 +1123,338 @@
   text-align: center;
   white-space: nowrap;
 }
+
+/* ===================== PIXEL-FIDELITY CONVERGENCE (DOT 01 · authorities 01–37) =====================
+   Shared corrections, each measured against the authorities (doc 04 / 05 of the sprint evidence):
+   chips per authority surface, overlay heading geometry and weight, serif field type, torn-strip field rows,
+   ink or tiled icons per screen, founder micro-assets through the registry. */
+
+/* chips: the authority's own surfaces (no generic dark glass) */
+.jrn .jrn-d01__chip {
+  top: max(34px, calc((env(safe-area-inset-top, 0px) + 8px) / var(--f05m-u, 1)));
+}
+.jrn .jrn-d01__chip--paper {
+  width: 88px;
+  height: 78px;
+  border-radius: 0;
+  border-style: solid;
+  border-width: 12px 13px;
+  border-image: var(--d01-img-blank) 64 70 fill / 12px 13px / 0 stretch;
+  background: none;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  filter: drop-shadow(0 4px 5px rgba(18, 10, 4, 0.42));
+  color: var(--d01-ink);
+}
+.jrn .jrn-d01__chip--amber {
+  width: 72px;
+  height: 66px;
+  border-radius: 16px;
+  border: 2px solid rgba(255, 210, 140, 0.8);
+  background: linear-gradient(160deg, #c98236 0%, #93511b 52%, #5e3110 100%);
+  box-shadow: inset 0 2px 3px rgba(255, 236, 200, 0.5), inset 0 -3px 6px rgba(40, 18, 4, 0.45), 0 6px 12px rgba(20, 12, 6, 0.42);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  color: #fff1dc;
+}
+.jrn .jrn-d01__chip--amber:has(.jrn-d01__chip-art) {
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+.jrn .jrn-d01__chip--bare {
+  width: 56px;
+  height: 66px;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  color: #f6ecd8;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.5));
+}
+.jrn .jrn-d01__chip--bare svg {
+  width: 44px;
+  height: 44px;
+}
+.jrn .jrn-d01__chip-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+.jrn .jrn-d01__chip--paper .jrn-d01__chip-art {
+  width: 48px;
+  height: 40px;
+}
+
+/* overlay headings (SK03 / SK03_FIELD): heavier, tighter, further right, higher (authorities 14–37) */
+.jrn .jrn-d01[data-env^='SK03'] .jrn-d01__heading {
+  left: 196px;
+  top: 318px;
+  width: 520px;
+  height: 180px;
+}
+.jrn .jrn-d01[data-env^='SK03'] .jrn-d01__title {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 0.94;
+}
+.jrn .jrn-d01[data-env^='SK03'] .jrn-d01__script {
+  margin: 6px 0 0 10px;
+  font-size: 38px;
+  color: #1a120b;
+}
+
+/* content type: the authorities set labels, values and buttons in the serif; sans stays for notes */
+.jrn .d01-field,
+.jrn .d01-row {
+  font-family: 'JURNL Authority Serif', 'JURNL Display', serif;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+.jrn .d01-field input,
+.jrn .d01-field textarea {
+  font: 600 max(16px, calc(var(--d01-fs) * 1.02)) / 1.15 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.04em;
+}
+.jrn .d01-field input::placeholder,
+.jrn .d01-field textarea::placeholder {
+  color: rgba(31, 24, 16, 0.55);
+  font-weight: 500;
+}
+
+/* icons: ink glyphs on the paper by default (03, 04, 12, 13, 15, 17–19, 23, 28, 35, 36) */
+.jrn .jrn-d01__content .d01-row__ico,
+.jrn .jrn-d01__content .d01-strip__ico {
+  background: none;
+  color: var(--d01-ink);
+}
+.jrn .jrn-d01__content .d01-row__ico svg,
+.jrn .jrn-d01__content .d01-strip__ico svg {
+  width: 74%;
+  height: 74%;
+}
+/* … or alternating moss / terracotta tiles with light glyphs (05, 11, 16, 20, 21, 24, 29) */
+.jrn .jrn-d01__content[data-field-icons='tiles'] .d01-field .d01-row__ico,
+.jrn .jrn-d01__content[data-strip-icons='tiles'] .d01-strip .d01-strip__ico {
+  border-radius: 8px;
+  background: linear-gradient(180deg, #3d4429 0%, var(--d01-olive-deep) 100%);
+  color: #f3e8d2;
+  box-shadow: inset 0 1px 0 rgba(255, 245, 220, 0.2), 0 2px 3px rgba(14, 10, 4, 0.3);
+}
+.jrn .jrn-d01__content[data-field-icons='tiles'] .d01-field:nth-of-type(even) .d01-row__ico,
+.jrn .jrn-d01__content[data-strip-icons='tiles'] .d01-strip:nth-of-type(even) .d01-strip__ico {
+  background: linear-gradient(180deg, #9a3a24 0%, #6c2014 100%);
+}
+.jrn .jrn-d01__content[data-field-icons='tiles'] .d01-row__ico svg,
+.jrn .jrn-d01__content[data-strip-icons='tiles'] .d01-strip__ico svg {
+  width: 62%;
+  height: 62%;
+}
+/* founder micro-assets in slots (registry; doc 08) */
+.jrn .f05-micro {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.jrn .d01-strip__ico[data-art='true'] {
+  background: none;
+  box-shadow: none;
+}
+
+/* field rows as separate torn strips (16–20): tile | rule | label | value, on the founder's action-strip paper */
+.jrn .jrn-d01__content[data-fields='strips'] .d01-paper--sheet {
+  border: 0;
+  border-image: none;
+  padding: 0;
+  filter: none;
+  display: grid;
+  gap: 3px;
+}
+.jrn .jrn-d01__content[data-fields='strips'] .d01-field {
+  min-height: 0;
+  padding: 0 4px;
+  border-style: solid;
+  border-width: 5px 12px;
+  border-image: var(--d01-img-strip) 60 80 fill / 5px 12px / 0 stretch;
+  filter: drop-shadow(0 2px 3px rgba(18, 10, 4, 0.3));
+  gap: 8px;
+  grid-template-columns: calc(var(--d01-fs) * 2.2) minmax(0, 0.95fr) minmax(0, 1.25fr);
+}
+.jrn .jrn-d01__content[data-fields='strips'] .d01-field > label {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 10px;
+  border-left: 2px solid rgba(31, 24, 16, 0.5);
+}
+.jrn .jrn-d01__content[data-fields='strips'] .d01-row__ico {
+  width: calc(var(--d01-fs) * 2.2);
+  height: calc(var(--d01-fs) * 2.2);
+}
+.jrn .jrn-d01__content[data-fields='strips'] .d01-field input,
+.jrn .jrn-d01__content[data-fields='strips'] .jrn-sel {
+  min-height: 34px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+.jrn .jrn-d01__content[data-fields='strips'] {
+  gap: 7px;
+}
+
+/* 16 / 18 / 19 scan block: receipt art on the left of a torn card, the two actions stacked on the right */
+.jrn .d01-scanblock {
+  display: grid;
+  grid-template-columns: 36% 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 4px;
+}
+.jrn .d01-scanblock__art {
+  display: block;
+  aspect-ratio: 1;
+  max-height: 128px;
+  justify-self: center;
+  width: 100%;
+}
+.jrn .d01-scanblock__art svg {
+  width: 100%;
+  height: 100%;
+}
+.jrn .d01-scanblock__acts {
+  display: grid;
+  gap: 8px;
+}
+.jrn .d01-scanblock__acts .d01-btn {
+  min-height: 44px;
+}
+
+/* 06 ALL ACCOUNTS: cards at the authority's proportions and type (heavier names and amounts) */
+.jrn .d01-grid .d01-card:not(.d01-card--compact) {
+  aspect-ratio: 410 / 214;
+}
+.jrn .d01-grid .d01-card:not(.d01-card--compact) .d01-card__name {
+  top: 12%;
+  font-size: calc(var(--d01-fs) * 1.05);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.jrn .d01-grid .d01-card:not(.d01-card--compact) .d01-card__amount {
+  top: 46%;
+  font-size: calc(var(--d01-fs) * 1.72);
+  font-weight: 600;
+}
+.jrn .d01-grid .d01-card:not(.d01-card--compact) .d01-card__owed {
+  top: 78%;
+}
+.jrn .d01-dir-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  padding: 4px 6px;
+}
+.jrn .d01-dir-actions .d01-btn {
+  min-height: 58px;
+  justify-content: flex-start;
+  gap: 14px;
+  padding: 6px 16px;
+  text-align: left;
+  letter-spacing: 0.08em;
+}
+.jrn .d01-dir-actions .d01-btn svg {
+  width: 1.9em;
+  height: 1.9em;
+}
+.jrn .d01-btn__lines {
+  display: grid;
+  line-height: 1.08;
+}
+
+/* 02–05 account pages: heavier labels and figures, tighter strip labels (authority 02 pair) */
+.jrn .jrn-d01__on--label {
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+.jrn .jrn-d01__on--amount,
+.jrn .jrn-d01__stat b {
+  font-weight: 600;
+}
+.jrn .jrn-d01__stat {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.jrn .jrn-d01__strip-label {
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+.jrn .jrn-d01__strip-icon {
+  display: grid;
+  place-items: center;
+}
+.jrn .jrn-d01__strip-icon svg {
+  width: 100%;
+  height: 100%;
+}
+.jrn .jrn-d01__strip-icon[data-art='true'] .f05-micro {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 1px 1px rgba(40, 24, 10, 0.25));
+}
+/* 05 CREDIT CARD: its strips carry square-rounded moss / terracotta tiles with light glyphs */
+.jrn .jrn-d01__strip-icon[data-tile] {
+  width: 84px;
+  height: 84px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #3d4429 0%, #232816 100%);
+  color: #f3e8d2;
+  box-shadow: inset 0 1px 0 rgba(255, 245, 220, 0.2), 0 3px 4px rgba(14, 10, 4, 0.32);
+}
+.jrn .jrn-d01__strip-icon[data-tile='terracotta'] {
+  background: linear-gradient(180deg, #9a3a24 0%, #6c2014 100%);
+}
+.jrn .jrn-d01__strip-icon[data-tile] svg {
+  width: 58%;
+  height: 58%;
+}
+/* fit: the purchase form carries one more row than authority 16 (MERCHANT is required), so the strips keep a ≈ 43 px
+   pitch and the scan block is a little shorter; the primary action stays on screen above the bottom landscape */
+.jrn .jrn-d01__content[data-fields='strips'] .d01-field {
+  border-width: 4px 12px;
+  border-image-width: 4px 12px;
+}
+.jrn .jrn-d01__content[data-fields='strips'] .d01-paper--sheet {
+  gap: 2px;
+}
+.jrn .jrn-d01__content[data-fields='strips'] .d01-field input,
+.jrn .jrn-d01__content[data-fields='strips'] .jrn-sel {
+  min-height: 32px;
+}
+.jrn .d01-scanblock__art {
+  max-height: 100px;
+}
+.jrn .d01-scanblock__acts .d01-btn {
+  min-height: 40px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+/* history rows: the category mark (founder micro-asset) sits as a small tile before the description */
+.jrn .d01-tx__ico {
+  display: inline-grid;
+  place-items: center;
+}
+.jrn .d01-tx__ico svg {
+  width: 100%;
+  height: 100%;
+}
+.jrn .d01-tx__ico[data-art='true'] {
+  width: 30px;
+  height: 30px;
+  vertical-align: -9px;
+  margin-right: 2px;
+}

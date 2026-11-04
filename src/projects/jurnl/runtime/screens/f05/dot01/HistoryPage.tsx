@@ -3,9 +3,9 @@
  * and filter (31). Rows come from the ledger (data/f05/dot01/history.ts); each row opens its transaction detail.
  * Only the first rows enter with a short slip stagger; filtering replaces the list without replaying the page.
  */
-import { useMemo, useState, type CSSProperties } from 'react';
+import { useMemo, useState, type CSSProperties, useId } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { accountView } from '../../../../data/f05/dot01/accountView';
+import { accountView, kindOf } from '../../../../data/f05/dot01/accountView';
 import { accountNature } from '../../../../data/ledger/accounting';
 import { categoriesIn, searchHistory, type HistoryFilter, type HistoryKind } from '../../../../data/f05/dot01/history';
 import { nameLines } from '../../../../data/f05/moneyParentReading';
@@ -15,6 +15,9 @@ import { formatMoney, useCurrency, useRepoTick } from '../../../../data/home/mon
 import { useJurnl } from '../../../state/store';
 import { Dot01Frame } from './Dot01Frame';
 import { Icon } from './icons';
+import { JurnlDateField, JurnlSelect } from '../surfaces/JurnlSurfaces';
+import { MicroIcon } from '../MicroIcon';
+import type { MicroAssetId } from '../microAssets';
 import { Button, Paper } from './kit';
 import { NotFoundPage } from './NotFoundPage';
 import { Dot01Sheets, type Dot01SheetState } from './sheets/Dot01Sheets';
@@ -26,6 +29,24 @@ export function shortDate(d: string | null): string {
   return `${MON[Number(m) - 1] ?? ''} ${Number(day)}`;
 }
 const KIND_ICON: Record<HistoryKind, string> = { SPENDING: 'merchant', INCOME: 'coins', TRANSFER: 'arrows', 'CARD PAYMENT': 'bank', ADJUSTMENT: 'scale', REFUND: 'reverse' };
+/** Category marks from the founder's micro-assets (authority 10: category tiles; 08 / 09: scene thumbnails). Rows whose
+ * category has no approved mark keep the kind glyph. Display only: the stored category is unchanged. */
+const CATEGORY_MARK: Record<string, MicroAssetId> = {
+  DINING: 'F05.D01.ICON.CATEGORY.DINING',
+  'FOOD & DRINK': 'F05.D01.ICON.CATEGORY.DINING',
+  FOOD: 'F05.D01.ICON.CATEGORY.GROCERY',
+  GROCERIES: 'F05.D01.ICON.CATEGORY.GROCERY',
+  TRAVEL: 'F05.D01.ICON.CATEGORY.TRAVEL',
+  FUEL: 'F05.D01.ICON.FUEL.PUMP',
+  SHOPPING: 'F05.D01.ICON.PURCHASE.BASKET',
+};
+function rowMark(kind: HistoryKind, category: string | null | undefined, place: string | null): MicroAssetId | undefined {
+  if (kind === 'INCOME') return place === 'payout' ? 'F05.D01.ICON.DAILY.PAYOUT' : place === 'cash' ? 'F05.D01.ICON.CASH.COIN' : 'F05.D01.ICON.CATEGORY.PAYMENT';
+  if (kind === 'CARD PAYMENT') return 'F05.D01.ICON.CATEGORY.PAYMENT';
+  if (kind !== 'SPENDING' || !category) return undefined;
+  if (place === 'cash' && (category === 'GROCERIES' || category === 'FOOD')) return 'F05.D01.ICON.FOOD.BASKET';
+  return CATEGORY_MARK[category];
+}
 const STAGGER_ROWS = 8;
 
 export function HistoryPage({ all = false }: { all?: boolean }) {
@@ -87,42 +108,15 @@ export function HistoryPage({ all = false }: { all?: boolean }) {
         </div>
         {showFilters ? (
           <div className="d01-filters" data-testid="d01-filters" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, marginBottom: 6 }}>
-            <label className="d01-field d01-field--stack">FROM<input type="date" value={filter.from ?? ''} data-jrn-trigger="d01-filter-from" onChange={(e) => set('from', e.target.value || null)} /></label>
-            <label className="d01-field d01-field--stack">TO<input type="date" value={filter.to ?? ''} data-jrn-trigger="d01-filter-to" onChange={(e) => set('to', e.target.value || null)} /></label>
+            <FilterDate label="FROM" trigger="d01-filter-from" value={filter.from ?? ''} onValue={(x) => set('from', x || null)} />
+            <FilterDate label="TO" trigger="d01-filter-to" value={filter.to ?? ''} onValue={(x) => set('to', x || null)} />
             {all ? (
-              <label className="d01-field d01-field--stack">ACCOUNT
-                <select value={filter.accountId ?? ''} data-jrn-trigger="d01-filter-account" onChange={(e) => set('account', e.target.value || null)}>
-                  <option value="">ALL ACCOUNTS</option>
-                  {listActiveAccounts().map((a) => <option key={a.account_id} value={a.account_id}>{a.display_name}</option>)}
-                </select>
-              </label>
+              <FilterSelect label="ACCOUNT" trigger="d01-filter-account" value={filter.accountId ?? ''} onValue={(x) => set('account', x || null)} options={[{ id: '', label: 'ALL ACCOUNTS' }, ...listActiveAccounts().map((a) => ({ id: a.account_id, label: a.display_name }))]} />
             ) : null}
-            <label className="d01-field d01-field--stack">TYPE
-              <select value={filter.kind ?? ''} data-jrn-trigger="d01-filter-type" onChange={(e) => set('type', e.target.value || null)}>
-                <option value="">ALL TYPES</option>
-                {(['SPENDING', 'INCOME', 'TRANSFER', 'CARD PAYMENT', 'ADJUSTMENT', 'REFUND'] as HistoryKind[]).map((k) => <option key={k} value={k}>{k}</option>)}
-              </select>
-            </label>
-            <label className="d01-field d01-field--stack">CATEGORY
-              <select value={filter.category ?? ''} data-jrn-trigger="d01-filter-category" onChange={(e) => set('category', e.target.value || null)}>
-                <option value="">ALL CATEGORIES</option>
-                {cats.map((c) => <option key={c} value={c}>{c}</option>)}
-              </select>
-            </label>
-            <label className="d01-field d01-field--stack">STATUS
-              <select value={filter.state ?? ''} data-jrn-trigger="d01-filter-status" onChange={(e) => set('status', e.target.value || null)}>
-                <option value="">ANY STATUS</option>
-                <option value="POSTED">POSTED</option>
-                <option value="NOT POSTED">NOT POSTED YET</option>
-              </select>
-            </label>
-            <label className="d01-field d01-field--stack">SORT
-              <select value={filter.sort} data-jrn-trigger="d01-filter-sort" onChange={(e) => set('sort', e.target.value)}>
-                <option value="NEWEST">NEWEST FIRST</option>
-                <option value="OLDEST">OLDEST FIRST</option>
-                <option value="LARGEST">LARGEST FIRST</option>
-              </select>
-            </label>
+            <FilterSelect label="TYPE" trigger="d01-filter-type" value={filter.kind ?? ''} onValue={(x) => set('type', x || null)} options={[{ id: '', label: 'ALL TYPES' }, ...(['SPENDING', 'INCOME', 'TRANSFER', 'CARD PAYMENT', 'ADJUSTMENT', 'REFUND'] as HistoryKind[]).map((k) => ({ id: k, label: k }))]} />
+            <FilterSelect label="CATEGORY" trigger="d01-filter-category" value={filter.category ?? ''} onValue={(x) => set('category', x || null)} options={[{ id: '', label: 'ALL CATEGORIES' }, ...cats.map((c) => ({ id: c, label: c }))]} />
+            <FilterSelect label="STATUS" trigger="d01-filter-status" value={filter.state ?? ''} onValue={(x) => set('status', x || null)} options={[{ id: '', label: 'ANY STATUS' }, { id: 'POSTED', label: 'POSTED' }, { id: 'NOT POSTED', label: 'NOT POSTED YET' }]} />
+            <FilterSelect label="SORT" trigger="d01-filter-sort" value={filter.sort ?? 'NEWEST'} onValue={(x) => set('sort', x)} options={[{ id: 'NEWEST', label: 'NEWEST FIRST' }, { id: 'OLDEST', label: 'OLDEST FIRST' }, { id: 'LARGEST', label: 'LARGEST FIRST' }]} />
             <div className="d01-actions" style={{ gridColumn: '1 / -1' }}>
               <Button trigger="d01-clear-filters" quiet onClick={() => setParams(new URLSearchParams(), { replace: true })}>
                 CLEAR FILTERS
@@ -153,7 +147,9 @@ export function HistoryPage({ all = false }: { all?: boolean }) {
                   <button type="button" className="d01-tx" data-jrn-trigger={`d01-tx-${r.id}`} aria-label={`${shortDate(r.date)}, ${r.label}, ${formatMoney(Math.abs(r.entry.amount))} ${r.kind}${r.settled ? '' : `, ${r.state}`}${all && r.account ? `, ${r.account.display_name}` : ''}. OPEN.`} onClick={() => go(`money/entries/${r.id}`)}>
                     <span className="d01-tx__date">{shortDate(r.date)}</span>
                     <span>
-                      <Icon name={KIND_ICON[r.kind]} className="d01-tx__ico" />
+                      <span className="d01-tx__ico" data-art={rowMark(r.kind, r.entry.category, r.account ? kindOf(r.account) : v?.kind ?? null) ? 'true' : undefined}>
+                        <MicroIcon id={rowMark(r.kind, r.entry.category, r.account ? kindOf(r.account) : v?.kind ?? null)} fallback={<Icon name={KIND_ICON[r.kind]} />} />
+                      </span>
                       {' '}
                       {r.label}
                       {all && r.account ? <small style={{ display: 'block', opacity: 0.7 }}>{r.account.display_name}</small> : null}
@@ -190,6 +186,7 @@ export function HistoryPage({ all = false }: { all?: boolean }) {
       title={title}
       subtitle={all ? 'search and filter' : undefined}
       testId="d01-history"
+      chipTone="amber"
       label={all ? 'TRANSACTIONS' : 'TRANSACTION HISTORY'}
       chips={
         all
@@ -209,3 +206,25 @@ export function HistoryPage({ all = false }: { all?: boolean }) {
 }
 
 export { shortDate as dot01ShortDate };
+
+/** A filter in the history panel: a JURNL_SELECT labelled by its caption (no native select). */
+function FilterSelect({ label, trigger, value, onValue, options }: { label: string; trigger: string; value: string; onValue: (v: string) => void; options: { id: string; label: string }[] }) {
+  const id = useId();
+  return (
+    <div className="d01-field d01-field--stack">
+      <span id={`${id}-label`}>{label}</span>
+      <JurnlSelect id={id} value={value} options={options} onValue={onValue} trigger={trigger} labelledBy={`${id}-label`} />
+    </div>
+  );
+}
+
+/** A date filter: a JURNL_DATE_PICKER that can be cleared. */
+function FilterDate({ label, trigger, value, onValue }: { label: string; trigger: string; value: string; onValue: (v: string) => void }) {
+  const id = useId();
+  return (
+    <div className="d01-field d01-field--stack">
+      <span id={`${id}-label`}>{label}</span>
+      <JurnlDateField id={id} value={value} onValue={onValue} trigger={trigger} labelledBy={`${id}-label`} placeholder="ANY DATE" optional />
+    </div>
+  );
+}

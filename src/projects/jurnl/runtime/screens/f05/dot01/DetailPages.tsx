@@ -114,6 +114,7 @@ export function TransactionDetailPage() {
       screenId="F05.ENTRY"
       env="SK02_FIELD"
       title={['TRANSACTION', 'DETAIL']}
+      stripIcons="tiles"
       testId="d01-entry"
       label="TRANSACTION DETAIL"
       chips={[{ id: 'd01-back', label: 'BACK', icon: 'back', onClick: () => back() || go(r.account ? `money/places/${r.account.account_id}/history` : 'money') }]}

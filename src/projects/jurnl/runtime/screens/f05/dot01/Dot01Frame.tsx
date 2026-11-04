@@ -23,6 +23,7 @@ import { AskJurnlSheet, QuickAddV2Sheet } from '../../../global/GlobalSheets';
 import { useJurnl } from '../../../state/store';
 import { JurnlScreen } from '../../JurnlScreen';
 import { DOT01, DOT01_GEOMETRY } from './dot01Assets';
+import { microAssetSrc } from '../microAssets';
 import paperTile from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_PAPER_TILE.webp';
 import tornEdge from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_TORN_EDGE.webp';
 import './jurnl-f05-dot01.css';
@@ -49,6 +50,9 @@ const NAV_PAPER_BOX = { x: 19, y: 1459, w: 911, h: 203 };
 const NAV_RECT = { x: 34, y: 1478, w: 870, h: 138 };
 
 export type BoardRect = { x: number; y: number; w: number; h: number };
+/** The content region of every overlay (authorities 14–37): under the overlay heading paper (board y ≈ 552) down onto
+ * the top of the bottom landscape, where the authorities seat their primary action (≈ 1574). It grows with the seam. */
+export const OVERLAY_CONTENT: BoardRect = { x: 30, y: 552, w: 881, h: 1022 };
 export type Dot01Env = 'SK02' | 'SK02_FIELD' | 'SK03' | 'SK03_FIELD';
 export type Dot01Layer = { id: string; src: string; box: BoardRect; order?: number; className?: string; alt?: string; vt?: string };
 
@@ -102,9 +106,17 @@ function useDot01Layout(crop: number, ey: number, z0: number | null) {
 const ENV_SRC: Record<Dot01Env, string> = { SK02: DOT01.SK02, SK02_FIELD: DOT01.SK02_FIELD, SK03: DOT01.SK03, SK03_FIELD: DOT01.SK03_FIELD };
 const TILE_SRC: Record<Dot01Env, string> = { SK02: DOT01.SK02_FIELD_TILE, SK02_FIELD: DOT01.SK02_FIELD_TILE, SK03: DOT01.SK03_FIELD_TILE, SK03_FIELD: DOT01.SK03_FIELD_TILE };
 
-/** Title size: the heading paper holds up to three lines in a 430 px measure (authorities 02, 07, 12). */
-function titleSize(lines: string[]): number {
+/**
+ * Title size. Pages (SK02): the heading paper holds up to three lines in a 430 px measure (authorities 02, 07, 12).
+ * Overlays (SK03): the authorities set a heavier, tighter title further right on a smaller heading paper, in a 500 px
+ * measure (authorities 14–37; measured on 16 RECORD TRANSACTION, 17 ADD CASH, 23 BALANCE ADJUSTMENT, 26 CAPTURE RECEIPT).
+ */
+function titleSize(lines: string[], overlay: boolean): number {
   const longest = Math.max(...lines.map((l) => l.length));
+  if (overlay) {
+    const cap = lines.length <= 1 ? 88 : lines.length === 2 ? 70 : 54;
+    return Math.min(cap, 500 / Math.max(1, longest * 0.66));
+  }
   const cap = lines.length <= 1 ? 82 : lines.length === 2 ? 74 : 56;
   return Math.min(cap, 430 / Math.max(1, longest * 0.69));
 }
@@ -116,7 +128,15 @@ const STAGE_VARS = {
   '--d01-img-strip': `url("${DOT01['19_PARCHMENT_ACTION_STRIP']}")`,
 } as CSSProperties;
 
-export type Dot01Chip = { id: string; label: string; icon: 'back' | 'search' | 'plus' | 'close'; onClick: () => void };
+/** A chip's surface, as each authority draws it: `paper` = small torn parchment tile with an ink glyph (02–05, 11–29),
+ * `amber` = glossy amber square-rounded tile with a light glyph (06–10, and the add tile of 01 / 30–37),
+ * `bare` = the glyph alone on the scene (search on 01 / 30–37). */
+export type Dot01ChipTone = 'paper' | 'amber' | 'bare';
+export type Dot01Chip = { id: string; label: string; icon: 'back' | 'search' | 'plus' | 'close'; onClick: () => void; tone?: Dot01ChipTone };
+/** Chip widths in board px (authority tiles: paper ≈ 88 × 78, amber ≈ 72 × 66, search glyph ≈ 50) and their gap. */
+const CHIP_W: Record<Dot01ChipTone, number> = { paper: 88, amber: 72, bare: 56 };
+const CHIP_RIGHT = 902;
+const CHIP_GAP = 26;
 
 type BoardProps = {
   env: Dot01Env;
@@ -141,9 +161,16 @@ type BoardProps = {
   maxCrop?: number;
   /** Board y of the elastic insert (default 980). */
   elasticY?: number;
+  /** Surface of the back chip on this screen (authority: amber on 06–10, paper elsewhere). */
+  chipTone?: Dot01ChipTone;
+  /** Field rows as separate torn strips (16–20) or rows on one sheet (default). */
+  fields?: 'sheet' | 'strips';
+  /** Icons in field rows and content strips: bare ink glyphs (default) or alternating moss / terracotta tiles. */
+  fieldIcons?: 'ink' | 'tiles';
+  stripIcons?: 'ink' | 'tiles';
 };
 
-function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, content, contentRect, contentScroll = false, label, testId, titleId, page, nav = false, onLayout, maxCrop = CROP, elasticY }: BoardProps & { page: boolean; nav?: boolean; onLayout?: (L: Dot01Layout, el: HTMLDivElement | null) => void }) {
+function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, content, contentRect, contentScroll = false, label, testId, titleId, page, nav = false, onLayout, maxCrop = CROP, elasticY, chipTone = 'paper', fields = 'sheet', fieldIcons = 'ink', stripIcons = 'ink' }: BoardProps & { page: boolean; nav?: boolean; onLayout?: (L: Dot01Layout, el: HTMLDivElement | null) => void }) {
   const { ref, L } = useDot01Layout(maxCrop, elasticY ?? (nav ? NAV_SEAM : SEAM[env]), elasticY != null ? null : ZONE_TOP[env]);
   useLayoutEffect(() => onLayout?.(L, ref.current), [L, onLayout, ref]);
   // a page moves focus to its heading on arrival (overlays focus their first control instead)
@@ -157,7 +184,8 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
   const envSrc = ENV_SRC[env];
   const tile = TILE_SRC[env];
   const sliced = L.extra >= 1;
-  const tSize = titleSize(title);
+  const overlayHead = env === 'SK03' || env === 'SK03_FIELD';
+  const tSize = titleSize(title, overlayHead);
   const cr = contentRect ? boardToScreen(L, contentRect) : null;
   const boardStyle: CSSProperties = { width: SRC_W, height: L.boardH, transform: `translate(${L.ox}px, 0) scale(${S})`, ['--f05m-u' as string]: String(S) } as CSSProperties;
   return (
@@ -207,15 +235,25 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
         {board ? board(L) : null}
         {nav ? <img className="jrn-d01__layer jrn-d01__navpaper" data-layer="L1" data-layer-id="nav_paper" src={DOT01.NAV_PAPER} alt="" aria-hidden draggable={false} style={{ left: NAV_PAPER_BOX.x, top: by(L, NAV_PAPER_BOX.y), width: NAV_PAPER_BOX.w, height: NAV_PAPER_BOX.h }} /> : null}
         <div className="jrn-d01__chips">
-          {chips.map((c, i) => (
-            <button key={c.id} type="button" className="jrn-d01__chip" data-jrn-trigger={c.id} aria-label={c.label} style={{ left: 845 - (chips.length - 1 - i) * 84 }} onClick={c.onClick}>
-              <ChipIcon icon={c.icon} />
-            </button>
-          ))}
+          {(() => {
+            // laid out from the right edge, each at its authority width
+            const tones = chips.map((c) => c.tone ?? (c.icon === 'search' ? 'bare' : c.icon === 'plus' ? 'amber' : chipTone));
+            let right = CHIP_RIGHT;
+            const lefts = tones.map(() => 0);
+            for (let i = chips.length - 1; i >= 0; i--) {
+              lefts[i] = right - CHIP_W[tones[i]!];
+              right = lefts[i]! - CHIP_GAP;
+            }
+            return chips.map((c, i) => (
+              <button key={c.id} type="button" className={`jrn-d01__chip jrn-d01__chip--${tones[i]}`} data-tone={tones[i]} data-jrn-trigger={c.id} aria-label={c.label} style={{ left: lefts[i] }} onClick={c.onClick}>
+                <ChipIcon icon={c.icon} tone={tones[i]!} />
+              </button>
+            ));
+          })()}
         </div>
       </div>
       {content && cr ?
-        <section key={testId} className="jrn-d01__content" data-scroll={contentScroll ? 'true' : 'false'} aria-label={label} style={{ left: cr.x, top: cr.y, width: cr.w, height: cr.h, ['--d01-s' as string]: String(Math.max(0.86, Math.min(1.25, S / 0.44))) } as CSSProperties}>
+        <section key={testId} className="jrn-d01__content" data-scroll={contentScroll ? 'true' : 'false'} data-fields={fields} data-field-icons={fieldIcons} data-strip-icons={stripIcons} aria-label={label} style={{ left: cr.x, top: cr.y, width: cr.w, height: cr.h, ['--d01-s' as string]: String(Math.max(0.86, Math.min(1.25, S / 0.44))) } as CSSProperties}>
           {typeof content === 'function' ? content(L) : content}
         </section>
       : null}
@@ -339,7 +377,11 @@ export function useSearchAddChips(): Dot01Chip[] {
   ];
 }
 
-export function ChipIcon({ icon }: { icon: Dot01Chip['icon'] }) {
+export function ChipIcon({ icon, tone = 'paper' }: { icon: Dot01Chip['icon']; tone?: Dot01ChipTone }) {
+  // founder art where the authority draws it: the ink back arrow on the paper tile (Batch 01 / 01) and the amber add
+  // tile (Batch 01 / 04, which carries its own tile); the amber back tile and the light search glyph wait for Batch 05
+  const art = icon === 'back' && tone === 'paper' ? microAssetSrc('F05.D01.ICON.ARROW.HANDINK') : icon === 'plus' && tone === 'amber' ? microAssetSrc('F05.D01.ICON.PLUS.FRAMED') : null;
+  if (art) return <img className="jrn-d01__chip-art" src={art} alt="" aria-hidden draggable={false} data-micro-asset={icon === 'back' ? 'F05.D01.ICON.ARROW.HANDINK' : 'F05.D01.ICON.PLUS.FRAMED'} />;
   if (icon === 'back') return <svg viewBox="0 0 24 24" aria-hidden><path d="M19 12H6m6-6-6 6 6 6" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" /></svg>;
   if (icon === 'search') return <svg viewBox="0 0 24 24" aria-hidden><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" strokeWidth="1.8" /><path d="M15.5 15.5L21 21" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>;
   if (icon === 'close') return <svg viewBox="0 0 24 24" aria-hidden><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" /></svg>;

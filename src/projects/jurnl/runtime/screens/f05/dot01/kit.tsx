@@ -13,6 +13,9 @@ import cardPayout from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_C
 import cardCash from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_CASH.webp';
 import cardCredit from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_CREDIT.webp';
 import { Chevron, Icon } from './icons';
+import { MicroIcon } from '../MicroIcon';
+import type { MicroAssetId } from '../microAssets';
+import { JurnlDateField, JurnlSelect } from '../surfaces/JurnlSurfaces';
 
 export const CARD_SRC = { bank: cardBank, payout: cardPayout, cash: cardCash, credit: cardCredit } as const;
 
@@ -24,11 +27,11 @@ export function Paper({ kind = 'panel', children, className = '', style, testId 
   );
 }
 
-export function Strip({ icon, label, sub, onClick, trigger, warn, disabled, i = 0, aria }: { icon: string; label: string; sub?: string; onClick: () => void; trigger: string; warn?: boolean; disabled?: boolean; i?: number; aria?: string }) {
+export function Strip({ icon, asset, label, sub, onClick, trigger, warn, disabled, i = 0, aria }: { icon: string; asset?: MicroAssetId; label: string; sub?: string; onClick: () => void; trigger: string; warn?: boolean; disabled?: boolean; i?: number; aria?: string }) {
   return (
     <button type="button" className={`d01-strip ${warn ? 'd01-strip--warn' : ''}`} data-jrn-trigger={trigger} aria-label={aria} disabled={disabled} onClick={onClick} style={{ ['--i' as string]: i } as CSSProperties}>
-      <span className="d01-strip__ico">
-        <Icon name={icon} />
+      <span className="d01-strip__ico" data-art={asset ? 'true' : undefined}>
+        <MicroIcon id={asset} fallback={<Icon name={icon} />} />
       </span>
       <span className="d01-strip__rule" aria-hidden />
       <span>
@@ -57,8 +60,9 @@ export function Row({ icon, label, value, sub, testId }: { icon?: string; label:
   );
 }
 
-export function Field({ label, icon, children, stack, uncertain, hint }: { label: string; icon?: string; children: (id: string) => ReactNode; stack?: boolean; uncertain?: boolean; hint?: string }) {
+export function Field({ label, icon, children, stack, uncertain, hint }: { label: string; icon?: string; children: (id: string, labelId: string) => ReactNode; stack?: boolean; uncertain?: boolean; hint?: string }) {
   const id = useId();
+  const labelId = `${id}-label`;
   return (
     <div className={`d01-field ${stack ? 'd01-field--stack' : ''}`} data-uncertain={uncertain ? 'true' : undefined} style={icon || stack ? undefined : { gridTemplateColumns: 'minmax(0, 0.9fr) minmax(0, 1.2fr)' }}>
       {icon && !stack ? (
@@ -66,11 +70,11 @@ export function Field({ label, icon, children, stack, uncertain, hint }: { label
           <Icon name={icon} />
         </span>
       ) : null}
-      <label htmlFor={id}>
+      <label htmlFor={id} id={labelId}>
         {label}
         {hint ? <small style={{ display: 'block', fontSize: '0.78em', opacity: 0.75 }}>{hint}</small> : null}
       </label>
-      {children(id)}
+      {children(id, labelId)}
     </div>
   );
 }
@@ -78,7 +82,13 @@ export function Field({ label, icon, children, stack, uncertain, hint }: { label
 export function TextInput({ label, value, onValue, icon, trigger, placeholder, uncertain, hint, inputMode, stack, type = 'text', maxLength = 80 }: { label: string; value: string; onValue: (v: string) => void; icon?: string; trigger: string; placeholder?: string; uncertain?: boolean; hint?: string; inputMode?: 'decimal' | 'text' | 'numeric'; stack?: boolean; type?: 'text' | 'date'; maxLength?: number }) {
   return (
     <Field label={label} icon={icon} uncertain={uncertain} hint={hint} stack={stack}>
-      {(id) => <input id={id} type={type} value={value} placeholder={placeholder} inputMode={inputMode} maxLength={maxLength} data-jrn-trigger={trigger} onChange={(e) => onValue(e.target.value)} autoComplete="off" />}
+      {(id, labelId) =>
+        type === 'date' ? (
+          <JurnlDateField id={id} value={value} onValue={onValue} trigger={trigger} labelledBy={labelId} placeholder={placeholder ?? 'SELECT DATE'} uncertain={uncertain} />
+        ) : (
+          <input id={id} type="text" value={value} placeholder={placeholder} inputMode={inputMode} maxLength={maxLength} data-jrn-trigger={trigger} onChange={(e) => onValue(e.target.value)} autoComplete="off" />
+        )
+      }
     </Field>
   );
 }
@@ -86,18 +96,7 @@ export function TextInput({ label, value, onValue, icon, trigger, placeholder, u
 export function SelectInput<T extends string>({ label, value, onValue, options, icon, trigger, uncertain, placeholder = 'SELECT' }: { label: string; value: T | ''; onValue: (v: T) => void; options: { id: T; label: string }[]; icon?: string; trigger: string; uncertain?: boolean; placeholder?: string }) {
   return (
     <Field label={label} icon={icon} uncertain={uncertain}>
-      {(id) => (
-        <select id={id} value={value} data-jrn-trigger={trigger} onChange={(e) => onValue(e.target.value as T)}>
-          <option value="" disabled>
-            {placeholder}
-          </option>
-          {options.map((o) => (
-            <option key={o.id} value={o.id}>
-              {o.label}
-            </option>
-          ))}
-        </select>
-      )}
+      {(id, labelId) => <JurnlSelect id={id} value={value} options={options} onValue={onValue} trigger={trigger} placeholder={placeholder} labelledBy={labelId} uncertain={uncertain} />}
     </Field>
   );
 }

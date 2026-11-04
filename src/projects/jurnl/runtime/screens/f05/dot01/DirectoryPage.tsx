@@ -55,15 +55,17 @@ export function DirectoryPage() {
           );
         })}
       </div>
-      <div className="d01-actions d01-actions--2">
-        <Button trigger="d01-add-account" icon="plus" onClick={() => setSheet({ kind: 'add-account' })}>
-          ADD ACCOUNT
+      {/* authority 06: two square-rounded actions on a torn paper strip, each with its glyph and a two-line label */}
+      <Paper kind="blank" className="d01-dir-actions">
+        <Button trigger="d01-add-account" icon="plus-framed" onClick={() => setSheet({ kind: 'add-account' })}>
+          <span className="d01-btn__lines"><span>ADD</span> <span>ACCOUNT</span></span>
         </Button>
-        <Button trigger="d01-reorder" quiet icon="arrows" disabled={accounts.length < 2} onClick={() => setReorder(true)}>
-          REORDER
+        <Button trigger="d01-reorder" quiet icon="updown" disabled={accounts.length < 2} onClick={() => setReorder(true)}>
+          <span className="d01-btn__lines"><span>REORDER</span> <span>ACCOUNTS</span></span>
         </Button>
-      </div>
-      <p className="d01-note" data-testid="d01-directory-summary" style={{ textAlign: 'center', color: '#efe3cb' }}>
+      </Paper>
+      {/* the authority draws no summary line here: it stays for screen readers only */}
+      <p className="d01-sr" data-testid="d01-directory-summary">
         {`${accounts.length} ${accounts.length === 1 ? 'PLACE' : 'PLACES'} · ${money(pic.summary.ownedAssets)} HELD${pic.summary.owed > 0 ? ` · ${money(pic.summary.owed)} OWED` : ''}`}
       </p>
     </>
@@ -75,6 +77,7 @@ export function DirectoryPage() {
       title={reorder ? ['ACCOUNTS'] : ['ALL', 'ACCOUNTS']}
       subtitle={reorder ? 'reorder accounts' : empty ? 'nothing added yet' : undefined}
       testId="d01-directory"
+      chipTone={empty ? 'paper' : 'amber'}
       label={reorder ? 'REORDER ACCOUNTS' : 'ALL ACCOUNTS'}
       chips={chips}
       nav={nav}

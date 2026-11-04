@@ -30,6 +30,12 @@ async function open(page: Page, route: string, world: unknown = dot01World()) {
 }
 const openKind = (page: Page, route: string, kind: F05WorldKind) => open(page, route, f05World(kind));
 
+/** Choose an option in a JURNL_SELECT (the parchment listbox that replaced the native select): open, then click it. */
+async function choose(page: Page, id: string, value: string) {
+  await clickTrigger(page, id);
+  await page.locator(`[data-jrn-listbox="${id}"] [data-jrn-option="${value}"]`).click();
+  await expect(trigger(page, id)).toHaveAttribute('data-value', value);
+}
 async function shot(page: Page, name: string) {
   const dir = `${SHOTS}/${test.info().project.name}`;
   mkdirSync(dir, { recursive: true });
@@ -184,7 +190,7 @@ test.describe('F05 DOT 01 — account pages and histories', () => {
     await expect(page).toHaveURL(/q=tratt/);
     await expect(page.getByTestId('d01-history-list').locator('li')).toHaveCount(1);
     await clickTrigger(page, 'd01-filters');
-    await trigger(page, 'd01-filter-category').selectOption('DINING');
+    await choose(page, 'd01-filter-category', 'DINING');
     await expect(page).toHaveURL(/category=DINING/);
     await shot(page, '31-search-and-filter');
     await clickTrigger(page, 'd01-tx-tx-d01-trattoria');
@@ -196,7 +202,7 @@ test.describe('F05 DOT 01 — account pages and histories', () => {
     await expect(trigger(page, 'd01-search')).toHaveValue('tratt');
     // with a search in the URL the filters open with the page
     await expect(trigger(page, 'd01-filters')).toHaveAttribute('aria-expanded', 'true');
-    await trigger(page, 'd01-filter-category').selectOption('UTILITIES');
+    await choose(page, 'd01-filter-category', 'UTILITIES');
     await expect(page.getByTestId('d01-history-empty')).toContainText('NO TRANSACTIONS MATCH');
   });
 
@@ -212,7 +218,7 @@ test.describe('F05 DOT 01 — account pages and histories', () => {
   test('31 · all transactions can be narrowed to one account', async ({ page }) => {
     await open(page, 'money/transactions');
     const all = await page.getByTestId('d01-history-list').locator('li').count();
-    await trigger(page, 'd01-filter-account').selectOption('cash');
+    await choose(page, 'd01-filter-account', 'cash');
     await expect(page.getByTestId('d01-history-list').locator('li')).toHaveCount(3);
     expect(all).toBeGreaterThan(3);
   });
@@ -226,7 +232,7 @@ test.describe('F05 DOT 01 — entries (16–20): one canonical entry each, corre
     await expect(dialog(page, 'd01-record')).toBeVisible();
     await trigger(page, 'd01-merchant').fill('Corner bakery');
     await trigger(page, 'd01-amount').fill('12.50');
-    await trigger(page, 'd01-category').selectOption('FOOD');
+    await choose(page, 'd01-category', 'FOOD');
     await clickTrigger(page, 'd01-review-save');
     await expect(page.getByTestId('d01-review-kind')).toContainText('SPENDING');
     await expect(page.getByTestId('d01-review-impact')).toContainText('$333.50 → $321');
@@ -247,7 +253,7 @@ test.describe('F05 DOT 01 — entries (16–20): one canonical entry each, corre
     await clickTrigger(page, 'd01-strip-purchase');
     await trigger(page, 'd01-merchant').fill('BOOK SHOP');
     await trigger(page, 'd01-amount').fill('20');
-    await trigger(page, 'd01-category').selectOption('SHOPPING');
+    await choose(page, 'd01-category', 'SHOPPING');
     await clickTrigger(page, 'd01-review-save');
     await expect(page.getByTestId('d01-review-kind')).toContainText('CREDIT PURCHASE');
     await clickTrigger(page, 'd01-save-transaction');
@@ -261,22 +267,22 @@ test.describe('F05 DOT 01 — entries (16–20): one canonical entry each, corre
     await open(page, 'money/places/visa');
     await clickTrigger(page, 'd01-strip-pay');
     await expect(page.getByTestId('d01-payment-honest')).toContainText('JURNL DOES NOT SEND MONEY');
-    await trigger(page, 'd01-pay-from').selectOption('bank');
+    await choose(page, 'd01-pay-from', 'bank');
     await trigger(page, 'd01-pay-amount').fill('5000');
-    await trigger(page, 'd01-pay-status').selectOption('COMPLETED');
+    await choose(page, 'd01-pay-status', 'COMPLETED');
     await clickTrigger(page, 'd01-pay-review');
     await expect(dialog(page, 'd01-card-payment').getByRole('alert')).toContainText('MORE THAN');
     await trigger(page, 'd01-pay-amount').fill('50');
-    await trigger(page, 'd01-pay-status').selectOption('PENDING');
+    await choose(page, 'd01-pay-status', 'PENDING');
     await clickTrigger(page, 'd01-pay-review');
     await expect(page.getByTestId('d01-payment-impact')).toContainText('NO CHANGE NOW');
     await clickTrigger(page, 'd01-payment-save');
     await clickTrigger(page, 'd01-payment-done');
     expect(await balance(page)).toBe(87_750); // submitted, not confirmed: the card still owes the same
     await clickTrigger(page, 'd01-strip-pay');
-    await trigger(page, 'd01-pay-from').selectOption('bank');
+    await choose(page, 'd01-pay-from', 'bank');
     await trigger(page, 'd01-pay-amount').fill('100');
-    await trigger(page, 'd01-pay-status').selectOption('COMPLETED');
+    await choose(page, 'd01-pay-status', 'COMPLETED');
     await clickTrigger(page, 'd01-pay-review');
     await clickTrigger(page, 'd01-payment-save');
     await clickTrigger(page, 'd01-payment-done');
@@ -288,8 +294,8 @@ test.describe('F05 DOT 01 — entries (16–20): one canonical entry each, corre
   test('17 · cash from an account is a transfer (not income); a counted correction is a balance correction', async ({ page }) => {
     await open(page, 'money/places/cash');
     await clickTrigger(page, 'd01-strip-add-cash');
-    await trigger(page, 'd01-cash-source').selectOption('ACCOUNT');
-    await trigger(page, 'd01-cash-from').selectOption('ride');
+    await choose(page, 'd01-cash-source', 'ACCOUNT');
+    await choose(page, 'd01-cash-from', 'ride');
     await trigger(page, 'd01-cash-amount').fill('40');
     await clickTrigger(page, 'd01-cash-review');
     await clickTrigger(page, 'd01-add-to-cash');
@@ -321,10 +327,10 @@ test.describe('F05 DOT 01 — receipts (26–29, 33, 34): real on-device OCR on 
     // what the OCR engine read from the pixels (not typed by the test)
     await expect(trigger(page, 'd01-merchant')).toHaveValue(/OSTERIA DEL PORTO/);
     await expect(trigger(page, 'd01-amount')).toHaveValue('84.20');
-    await expect(trigger(page, 'd01-date')).toHaveValue(day);
+    await expect(trigger(page, 'd01-date')).toHaveAttribute('data-value', day);
     expect((await entries(page)).length).toBe(before); // extraction never saves
     await shot(page, '28-review-extracted');
-    await trigger(page, 'd01-category').selectOption('DINING');
+    await choose(page, 'd01-category', 'DINING');
     await clickTrigger(page, 'd01-review-save');
     await expect(dialog(page, 'd01-transaction-review')).toBeVisible();
     await expect(page.getByTestId('d01-review-impact')).toContainText('$994.55 → $910.35');
@@ -393,7 +399,7 @@ test.describe('F05 DOT 01 — receipts (26–29, 33, 34): real on-device OCR on 
     await expect(dialog(page, 'd01-record')).toBeVisible();
     await trigger(page, 'd01-merchant').fill('PHARMACY');
     await trigger(page, 'd01-amount').fill('9.99');
-    await trigger(page, 'd01-category').selectOption('HEALTH');
+    await choose(page, 'd01-category', 'HEALTH');
     await clickTrigger(page, 'd01-review-save');
     await clickTrigger(page, 'd01-save-transaction');
     await expect(dialog(page, 'd01-purchase-saved')).toBeVisible();
@@ -464,7 +470,7 @@ test.describe('F05 DOT 01 — corrections, reconciliation and archiving', () => 
     await expect(page.getByTestId('d01-adjust-only')).toContainText('THIS WILL CHANGE THE TRACKED BALANCE ONLY');
     await clickTrigger(page, 'd01-save-adjustment');
     await expect(dialog(page, 'd01-adjust').getByRole('alert')).toContainText('CHOOSE A REASON');
-    await trigger(page, 'd01-adjust-reason').selectOption('BANK FEE NOT RECORDED');
+    await choose(page, 'd01-adjust-reason', 'BANK FEE NOT RECORDED');
     await shot(page, '23-balance-adjustment');
     await clickTrigger(page, 'd01-save-adjustment');
     await expect(page.getByTestId('d01-review-done')).toContainText('ADJUSTMENT SAVED');

@@ -18,6 +18,11 @@ import { amountSize } from '../CarouselPanelPaper';
 import { DOT01, DOT01_GEOMETRY } from './dot01Assets';
 import { Dot01Frame, type BoardRect, type Dot01Layer, type Dot01Layout, by } from './Dot01Frame';
 import { Chevron, Icon } from './icons';
+import { MicroIcon } from '../MicroIcon';
+import type { MicroAssetId } from '../microAssets';
+import { accountReservationHealth } from '../../../../data/f07/reservations';
+import { getRepository } from '../../../../data/repository/deviceRepository';
+import { shortDate } from './HistoryPage';
 import { NotFoundPage } from './NotFoundPage';
 import { Dot01Sheets, type Dot01SheetState } from './sheets/Dot01Sheets';
 import cardPayout from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_PAYOUT.webp';
@@ -40,7 +45,8 @@ const CARD_ART: Record<Dot01Kind, { src: string; w: number; h: number }> = {
   credit: { src: cardCredit, w: pilotGeo.card_credit.w, h: pilotGeo.card_credit.h },
 };
 
-type Strip = { id: string; icon: string; label: string; aria?: string; onClick: () => void };
+/** `asset`: the founder's art for this slot, where the authority draws an engraved / ink object (02–04). */
+type Strip = { id: string; icon: string; asset?: MicroAssetId; label: string; aria?: string; onClick: () => void };
 
 export function AccountPage() {
   const { placeId } = useParams<{ placeId: string }>();
@@ -58,17 +64,17 @@ export function AccountPage() {
   const strips: Strip[] =
     v.kind === 'bank' ? [
       { id: 'history', icon: 'book', label: 'ACCOUNT HISTORY', onClick: toHistory },
-      { id: 'move', icon: 'coins', label: 'MOVE MONEY', onClick: () => setMove(true) },
-      { id: 'details', icon: 'column', label: 'ACCOUNT DETAILS', onClick: toDetails },
+      { id: 'move', icon: 'coins', asset: 'F05.D01.ICON.COINS.STACK', label: 'MOVE MONEY', onClick: () => setMove(true) },
+      { id: 'details', icon: 'column', asset: 'F05.D01.ICON.BANK.COLUMN', label: 'ACCOUNT DETAILS', onClick: toDetails },
     ]
     : v.kind === 'payout' ? [
-      { id: 'history', icon: 'receipt', label: 'TRANSACTION HISTORY', onClick: toHistory },
-      { id: 'manage', icon: 'card', label: 'MANAGE CARD', onClick: () => setSheet({ kind: 'edit', accountId: id }) },
+      { id: 'history', icon: 'receipt', asset: 'F05.D01.ICON.HISTORY.LEDGER', label: 'TRANSACTION HISTORY', onClick: toHistory },
+      { id: 'manage', icon: 'card', asset: 'F05.D01.ICON.CREDIT.CARD', label: 'MANAGE CARD', onClick: () => setSheet({ kind: 'edit', accountId: id }) },
       { id: 'details', icon: 'info', label: 'CARD DETAILS', onClick: toDetails },
     ]
     : v.kind === 'cash' ? [
-      { id: 'add-cash', icon: 'coins', label: 'ADD CASH', onClick: () => setSheet({ kind: 'add-cash', accountId: id }) },
-      { id: 'spend', icon: 'receipt', label: 'RECORD CASH SPENDING', onClick: () => setSheet({ kind: 'spend', accountId: id }) },
+      { id: 'add-cash', icon: 'coins', asset: 'F05.D01.ICON.COINS.STACK', label: 'ADD CASH', onClick: () => setSheet({ kind: 'add-cash', accountId: id }) },
+      { id: 'spend', icon: 'receipt', asset: 'F05.D01.ICON.RECEIPT.INK', label: 'RECORD CASH SPENDING', onClick: () => setSheet({ kind: 'spend', accountId: id }) },
       { id: 'history', icon: 'chart', label: 'USAGE HISTORY', onClick: toHistory },
       { id: 'details', icon: 'info', label: 'CASH DETAILS', onClick: toDetails },
     ]
@@ -95,26 +101,41 @@ export function AccountPage() {
     { id: 'stats', src: DOT01.SK02_STATS, box: STATS, order: 1 },
     ...stripRects.map((r, i) => ({ id: `strip-${i + 1}`, src: STRIP_SRC[i % 3]!, box: r, order: 3 + i })),
   ];
-  const balanceLabel = v.kind === 'bank' ? ['CURRENT', 'BALANCE'] : v.kind === 'payout' ? ['CARD', 'BALANCE'] : v.kind === 'cash' ? ['TOTAL', 'ON HAND'] : ['CURRENT', 'BALANCE'];
+  // labels as each authority sets them (02 CURRENT BALANCE · 03 AVAILABLE BALANCE · 04 TOTAL ON HAND · 05 CURRENT BALANCE)
+  const balanceLabel = v.kind === 'payout' ? ['AVAILABLE', 'BALANCE'] : v.kind === 'cash' ? ['TOTAL', 'ON HAND'] : ['CURRENT', 'BALANCE'];
   const amount = v.liability ? v.owed : v.held;
   const amountText = formatMoney(amount);
   const due = daysFrom(today, v.dueDate);
+  // not set aside = held − active reservations (F07's canonical accountReservationHealth; nothing recomputed here)
+  const health = v.position ? accountReservationHealth([v.position], getRepository().getSnapshot().reservations ?? [])[0] : null;
+  const spendable = health?.notSetAside ?? 0;
+  // stat words as each authority sets them; every value is a canonical figure for this place
   const stats: [string, string, string][] =
     v.kind === 'credit' ? [
-      ['LIMIT', v.creditLimit != null ? formatMoney(v.creditLimit) : 'NOT SET', 'credit-limit'],
-      ['AVAILABLE', v.availableCredit != null ? formatMoney(v.availableCredit) : '—', 'available-credit'],
-      ['DUE', v.dueDate ? (due === 0 ? 'TODAY' : due != null && due > 0 ? `IN ${due} DAYS` : 'PAST DUE') : 'NOT SET', 'due'],
+      ['CREDIT LIMIT', v.creditLimit != null ? formatMoney(v.creditLimit) : 'NOT SET', 'credit-limit'],
+      ['AVAILABLE CREDIT', v.availableCredit != null ? formatMoney(v.availableCredit) : '—', 'available-credit'],
+      ['DUE DATE', v.dueDate ? (due != null && due < 0 ? 'PAST DUE' : shortDate(v.dueDate)) : 'NOT SET', 'due'],
+    ]
+    : v.kind === 'cash' ? [
+      ['BILLS SET ASIDE', formatMoney(v.setAside), 'set-aside'],
+      ['SPENDING CASH', formatMoney(spendable), 'spendable'],
+      ['NOT LEFT YET', formatMoney(v.waitingToLeave), 'waiting'],
+    ]
+    : v.kind === 'payout' ? [
+      ['SPENDABLE', formatMoney(spendable), 'spendable'],
+      ['SET ASIDE', formatMoney(v.setAside), 'set-aside'],
+      ['PENDING', formatMoney(v.waitingToLeave), 'waiting'],
     ]
     : [
-      ['SET ASIDE', formatMoney(v.setAside), 'set-aside'],
-      ['NOT LEFT YET', formatMoney(v.waitingToLeave), 'waiting'],
-      ['ON ITS WAY IN', formatMoney(v.incoming), 'incoming'],
+      ['AVAILABLE', formatMoney(spendable), 'spendable'],
+      ['HELD', formatMoney(v.setAside), 'set-aside'],
+      ['PENDING', formatMoney(v.waitingToLeave), 'waiting'],
     ];
   const title = nameLines(v.account.display_name);
   const board = (L: Dot01Layout): ReactNode => (
     <>
       {/* balance paper */}
-      <div className="jrn-d01__on jrn-d01__on--label" style={{ left: BAL.x + 20, top: by(L, BAL.y) + 24, width: BAL.w - 40 }}>
+      <div className="jrn-d01__on jrn-d01__on--label" style={{ left: BAL.x + 20, top: by(L, BAL.y) + 40, width: BAL.w - 40 }}>
         {balanceLabel.map((l, i) => (
           <Fragment key={`${i}-${l}`}>
             {i ? ' ' : null}
@@ -122,7 +143,7 @@ export function AccountPage() {
           </Fragment>
         ))}
       </div>
-      <b className="jrn-d01__on jrn-d01__on--amount" data-testid="d01-balance" data-jrn-amount-cents={Math.round(amount * 100)} style={{ left: BAL.x + 10, width: BAL.w - 20, top: by(L, BAL.y) + 128, textAlign: 'center', fontSize: amountSize(amountText, 100) } as CSSProperties}>
+      <b className="jrn-d01__on jrn-d01__on--amount" data-testid="d01-balance" data-jrn-amount-cents={Math.round(amount * 100)} style={{ left: BAL.x + 10, width: BAL.w - 20, top: by(L, BAL.y) + 140, textAlign: 'center', fontSize: amountSize(amountText, 100) } as CSSProperties}>
         {amountText}
       </b>
       {v.liability ? <i className="jrn-d01__on jrn-d01__on--caption" style={{ left: BAL.x, width: BAL.w, top: by(L, BAL.y) + 232, textAlign: 'center' }}>OWED</i> : null}
@@ -141,7 +162,9 @@ export function AccountPage() {
         const r = stripRects[i]!;
         return (
           <button key={s.id} type="button" className="jrn-d01__strip" data-jrn-trigger={`d01-strip-${s.id}`} aria-label={s.aria ?? s.label} style={{ left: r.x + 8, top: by(L, r.y) + 10, width: r.w - 16, height: r.h - 22, ['--i' as string]: i } as CSSProperties} onClick={s.onClick}>
-            <Icon name={s.icon} className="jrn-d01__strip-icon" />
+            <span className="jrn-d01__strip-icon" data-art={s.asset ? 'true' : undefined} data-tile={v.kind === 'credit' ? (i % 2 ? 'terracotta' : 'moss') : undefined}>
+              <MicroIcon id={s.asset} fallback={<Icon name={s.icon} />} />
+            </span>
             <span className="jrn-d01__strip-rule" aria-hidden />
             <span className="jrn-d01__strip-label">{s.label}</span>
             <Chevron className="jrn-d01__strip-chev" />

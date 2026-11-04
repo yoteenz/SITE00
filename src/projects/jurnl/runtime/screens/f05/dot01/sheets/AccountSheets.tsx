@@ -17,7 +17,7 @@ import { purposeAccounts, setPurposeAccount, usualPurposesFor } from '../../../.
 import { PURPOSE_LABEL, type MoneyPurpose } from '../../../../../data/ledger/purposes';
 import { getRepository } from '../../../../../data/repository/deviceRepository';
 import { useJurnl } from '../../../../state/store';
-import { Dot01Overlay, useSearchAddChips } from '../Dot01Frame';
+import { Dot01Overlay, useSearchAddChips, OVERLAY_CONTENT } from '../Dot01Frame';
 import { Icon } from '../icons';
 import { Alert, Button, CARD_SRC, ChipChoice, Paper, Row, TextInput } from '../kit';
 
@@ -28,7 +28,7 @@ const KINDS: { id: Dot01Kind; label: string; type: AccountType; payout?: boolean
   { id: 'credit', label: 'CREDIT CARD', type: 'CREDIT_CARD' },
 ];
 const ALL_PURPOSES = Object.keys(PURPOSE_LABEL) as MoneyPurpose[];
-const CONTENT = { x: 30, y: 590, w: 881, h: 930 };
+const CONTENT = OVERLAY_CONTENT;
 
 export function AddAccountOverlay({ preset, onClose, onSaved }: { preset?: Dot01Kind; onClose: () => void; onSaved: (id: string) => void }) {
   const [kind, setKind] = useState<Dot01Kind | null>(preset ?? null);

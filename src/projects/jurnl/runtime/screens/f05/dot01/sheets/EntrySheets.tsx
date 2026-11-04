@@ -7,6 +7,8 @@
  *   ADD CASH (17): from an account (a completed transfer), cash earnings (F06), or a counted correction.
  *   RECORD CARD PAYMENT (20): a payment already made, submitted or scheduled (JURNL never sends money).
  */
+import { MicroIcon } from '../../MicroIcon';
+import { Icon } from '../icons';
 import { useMemo, useState } from 'react';
 import { accountView } from '../../../../../data/f05/dot01/accountView';
 import { previewPurchase, previewTransfer, savePurchase, saveTransfer, type Impact, type PurchasePreview, type TransferPreview } from '../../../../../data/f05/dot01/entry';
@@ -22,13 +24,13 @@ import type { TransferStart } from '../../../../../data/ledger/transferSettlemen
 import { getRepository } from '../../../../../data/repository/deviceRepository';
 import { useJurnl } from '../../../../state/store';
 import { DOT01 } from '../dot01Assets';
-import { Dot01Overlay, useSearchAddChips } from '../Dot01Frame';
+import { Dot01Overlay, useSearchAddChips, OVERLAY_CONTENT } from '../Dot01Frame';
 import { shortDate } from '../HistoryPage';
 import { Alert, Button, Paper, Row, SelectInput, TextInput } from '../kit';
 import { saveReceiptImage } from '../receiptStore';
 import { ReceiptFlow, type ReceiptCapture } from './ReceiptFlow';
 
-const CONTENT = { x: 30, y: 590, w: 881, h: 930 };
+const CONTENT = OVERLAY_CONTENT;
 const CATEGORIES = ['GROCERIES', 'FOOD', 'DINING', 'FUEL', 'TRANSPORT', 'HOUSING', 'UTILITIES', 'HEALTH', 'CLOTHING', 'SHOPPING', 'MEMBERSHIP', 'TRAVEL', 'OTHER'].map((c) => ({ id: c, label: c }));
 const isLiability = (a: JurnlAccountRecord) => accountNature(a.account_type) === 'LIABILITY';
 
@@ -207,13 +209,19 @@ export function PurchaseFlow({ accountId, mode, withType, startWithReceipt, onCl
   // form (16 / 18 / 19 / 28)
   const fromReceipt = !!capture;
   return (
-    <Dot01Overlay testId={fromReceipt ? 'd01-review-purchase' : 'd01-record'} env="SK03_FIELD" title={fromReceipt ? ['REVIEW', 'PURCHASE'] : title} subtitle={fromReceipt ? 'check before saving' : undefined} onClose={onClose} contentRect={CONTENT} contentScroll label={fromReceipt ? 'REVIEW EXTRACTED PURCHASE' : title.join(' ')} content={
+    <Dot01Overlay testId={fromReceipt ? 'd01-review-purchase' : 'd01-record'} env="SK03_FIELD" fields={fromReceipt ? 'sheet' : 'strips'} fieldIcons={!fromReceipt && mode !== 'card' && mode !== 'cash' ? 'tiles' : 'ink'} title={fromReceipt ? ['REVIEW', 'PURCHASE'] : title} subtitle={fromReceipt ? 'check before saving' : undefined} onClose={onClose} contentRect={CONTENT} contentScroll label={fromReceipt ? 'REVIEW EXTRACTED PURCHASE' : title.join(' ')} content={
       <>
         {!fromReceipt ? (
-          <div className="d01-actions d01-actions--2">
-            <Button trigger="d01-scan-receipt" icon="camera" onClick={() => setStep('receipt')}>SCAN RECEIPT</Button>
-            <Button trigger="d01-manual-entry" quiet icon="edit" onClick={() => undefined}>MANUAL ENTRY</Button>
-          </div>
+          <Paper kind="blank" className="d01-scanblock" testId="d01-scan-block">
+            {/* registry slot ICON.SCAN.CAMERA (authorities 16, 18, 19): the founder's Batch 04 art */}
+            <span className="d01-scanblock__art" aria-hidden>
+              <MicroIcon id="F05.D01.ICON.SCAN.CAMERA" fallback={<Icon name="receipt" />} />
+            </span>
+            <div className="d01-scanblock__acts">
+              <Button trigger="d01-scan-receipt" icon="camera" onClick={() => setStep('receipt')}>SCAN RECEIPT</Button>
+              <Button trigger="d01-manual-entry" quiet icon="edit" onClick={() => undefined}>MANUAL ENTRY</Button>
+            </div>
+          </Paper>
         ) : (
           <Alert testId="d01-review-read">{read!.warnings.length ? `CHECK THE HIGHLIGHTED FIELDS: ${read!.warnings.map((w) => w.replace(/_/g, ' ')).join(', ')}.` : 'READ FROM YOUR RECEIPT. EDIT ANYTHING THAT LOOKS OFF.'}</Alert>
         )}
@@ -280,7 +288,7 @@ export function AddCashOverlay({ accountId, onClose }: { accountId: string; onCl
     setDone(true);
   };
   return (
-    <Dot01Overlay testId="d01-add-cash" env="SK03_FIELD" title={['ADD CASH']} onClose={onClose} contentRect={CONTENT} contentScroll label="ADD CASH" content={
+    <Dot01Overlay testId="d01-add-cash" env="SK03_FIELD" fields="strips" title={['ADD CASH']} onClose={onClose} contentRect={CONTENT} contentScroll label="ADD CASH" content={
       done ? (
         <>
           <Paper kind="sheet">
@@ -354,7 +362,7 @@ export function CardPaymentOverlay({ accountId, onClose }: { accountId: string; 
     setPreview(p.value);
   };
   return (
-    <Dot01Overlay testId="d01-card-payment" env="SK03_FIELD" title={['RECORD CARD', 'PAYMENT']} onClose={onClose} contentRect={CONTENT} contentScroll label="RECORD CARD PAYMENT" content={
+    <Dot01Overlay testId="d01-card-payment" env="SK03_FIELD" fields="strips" fieldIcons="tiles" title={['RECORD CARD', 'PAYMENT']} onClose={onClose} contentRect={CONTENT} contentScroll label="RECORD CARD PAYMENT" content={
       done ? (
         <>
           <Paper kind="sheet">
