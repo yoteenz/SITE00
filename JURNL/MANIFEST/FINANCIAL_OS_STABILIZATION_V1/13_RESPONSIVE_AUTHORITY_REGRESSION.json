@@ -1,0 +1,445 @@
+{
+  "sprint": "P0.JURNL.FINANCIAL-OS.FOUNDER-DECISIONS-TRANSFER-SETTLEMENT-AND-E2E-STABILIZATION1",
+  "comparison": "PR #1705 head c56691ec (dev server 5175, worktree) vs this branch (5174); same synthetic bootstrap; deviceScaleFactor 1; pixelmatch threshold 0.1",
+  "viewports": [
+    "360x780",
+    "393x852",
+    "834x1194",
+    "1440x900"
+  ],
+  "routes": [
+    "activity",
+    "ahead",
+    "credit",
+    "goals",
+    "income",
+    "money",
+    "paydown",
+    "plan",
+    "purchases",
+    "records",
+    "safe",
+    "today",
+    "trips",
+    "upcoming"
+  ],
+  "max_changed_pct": 0.93,
+  "results": [
+    {
+      "viewport": "small-360",
+      "route": "today",
+      "changedPixels": 1501,
+      "changedPct": 0.53
+    },
+    {
+      "viewport": "small-360",
+      "route": "activity",
+      "changedPixels": 0,
+      "changedPct": 0
+    },
+    {
+      "viewport": "small-360",
+      "route": "money",
+      "changedPixels": 556,
+      "changedPct": 0.2
+    },
+    {
+      "viewport": "small-360",
+      "route": "income",
+      "changedPixels": 655,
+      "changedPct": 0.23
+    },
+    {
+      "viewport": "small-360",
+      "route": "upcoming",
+      "changedPixels": 710,
+      "changedPct": 0.25
+    },
+    {
+      "viewport": "small-360",
+      "route": "plan",
+      "changedPixels": 0,
+      "changedPct": 0
+    },
+    {
+      "viewport": "small-360",
+      "route": "safe",
+      "changedPixels": 1016,
+      "changedPct": 0.36
+    },
+    {
+      "viewport": "small-360",
+      "route": "purchases",
+      "changedPixels": 772,
+      "changedPct": 0.27
+    },
+    {
+      "viewport": "small-360",
+      "route": "trips",
+      "changedPixels": 2598,
+      "changedPct": 0.93
+    },
+    {
+      "viewport": "small-360",
+      "route": "credit",
+      "changedPixels": 683,
+      "changedPct": 0.24
+    },
+    {
+      "viewport": "small-360",
+      "route": "paydown",
+      "changedPixels": 1639,
+      "changedPct": 0.58
+    },
+    {
+      "viewport": "small-360",
+      "route": "goals",
+      "changedPixels": 465,
+      "changedPct": 0.17
+    },
+    {
+      "viewport": "small-360",
+      "route": "ahead",
+      "changedPixels": 721,
+      "changedPct": 0.26
+    },
+    {
+      "viewport": "small-360",
+      "route": "records",
+      "changedPixels": 546,
+      "changedPct": 0.19
+    },
+    {
+      "viewport": "mobile-393",
+      "route": "today",
+      "changedPixels": 1765,
+      "changedPct": 0.53
+    },
+    {
+      "viewport": "mobile-393",
+      "route": "activity",
+      "changedPixels": 0,
+      "changedPct": 0
+    },
+    {
+      "viewport": "mobile-393",
+      "route": "money",
+      "changedPixels": 672,
+      "changedPct": 0.2
+    },
+    {
+      "viewport": "mobile-393",
+      "route": "income",
+      "changedPixels": 660,
+      "changedPct": 0.2
+    },
+    {
+      "viewport": "mobile-393",
+      "route": "upcoming",
+      "changedPixels": 669,
+      "changedPct": 0.2
+    },
+    {
+      "viewport": "mobile-393",
+      "route": "plan",
+      "changedPixels": 0,
+      "changedPct": 0
+    },
+    {
+      "viewport": "mobile-393",
+      "route": "safe",
+      "changedPixels": 882,
+      "changedPct": 0.26
+    },
+    {
+      "viewport": "mobile-393",
+      "route": "purchases",
+      "changedPixels": 722,
+      "changedPct": 0.22
+    },
+    {
+      "viewport": "mobile-393",
+      "route": "trips",
+      "changedPixels": 2587,
+      "changedPct": 0.77
+    },
+    {
+      "viewport": "mobile-393",
+      "route": "credit",
+      "changedPixels": 829,
+      "changedPct": 0.25
+    },
+    {
+      "viewport": "mobile-393",
+      "route": "paydown",
+      "changedPixels": 1735,
+      "changedPct": 0.52
+    },
+    {
+      "viewport": "mobile-393",
+      "route": "goals",
+      "changedPixels": 464,
+      "changedPct": 0.14
+    },
+    {
+      "viewport": "mobile-393",
+      "route": "ahead",
+      "changedPixels": 745,
+      "changedPct": 0.22
+    },
+    {
+      "viewport": "mobile-393",
+      "route": "records",
+      "changedPixels": 526,
+      "changedPct": 0.16
+    },
+    {
+      "viewport": "tablet-834",
+      "route": "today",
+      "changedPixels": 5419,
+      "changedPct": 0.54
+    },
+    {
+      "viewport": "tablet-834",
+      "route": "activity",
+      "changedPixels": 0,
+      "changedPct": 0
+    },
+    {
+      "viewport": "tablet-834",
+      "route": "money",
+      "changedPixels": 1883,
+      "changedPct": 0.19
+    },
+    {
+      "viewport": "tablet-834",
+      "route": "income",
+      "changedPixels": 680,
+      "changedPct": 0.07
+    },
+    {
+      "viewport": "tablet-834",
+      "route": "upcoming",
+      "changedPixels": 671,
+      "changedPct": 0.07
+    },
+    {
+      "viewport": "tablet-834",
+      "route": "plan",
+      "changedPixels": 0,
+      "changedPct": 0
+    },
+    {
+      "viewport": "tablet-834",
+      "route": "safe",
+      "changedPixels": 1931,
+      "changedPct": 0.19
+    },
+    {
+      "viewport": "tablet-834",
+      "route": "purchases",
+      "changedPixels": 754,
+      "changedPct": 0.08
+    },
+    {
+      "viewport": "tablet-834",
+      "route": "trips",
+      "changedPixels": 2689,
+      "changedPct": 0.27
+    },
+    {
+      "viewport": "tablet-834",
+      "route": "credit",
+      "changedPixels": 2326,
+      "changedPct": 0.23
+    },
+    {
+      "viewport": "tablet-834",
+      "route": "paydown",
+      "changedPixels": 1797,
+      "changedPct": 0.18
+    },
+    {
+      "viewport": "tablet-834",
+      "route": "goals",
+      "changedPixels": 473,
+      "changedPct": 0.05
+    },
+    {
+      "viewport": "tablet-834",
+      "route": "ahead",
+      "changedPixels": 745,
+      "changedPct": 0.07
+    },
+    {
+      "viewport": "tablet-834",
+      "route": "records",
+      "changedPixels": 549,
+      "changedPct": 0.06
+    },
+    {
+      "viewport": "desktop-1440",
+      "route": "today",
+      "changedPixels": 3298,
+      "changedPct": 0.25
+    },
+    {
+      "viewport": "desktop-1440",
+      "route": "activity",
+      "changedPixels": 0,
+      "changedPct": 0
+    },
+    {
+      "viewport": "desktop-1440",
+      "route": "money",
+      "changedPixels": 1187,
+      "changedPct": 0.09
+    },
+    {
+      "viewport": "desktop-1440",
+      "route": "income",
+      "changedPixels": 644,
+      "changedPct": 0.05
+    },
+    {
+      "viewport": "desktop-1440",
+      "route": "upcoming",
+      "changedPixels": 694,
+      "changedPct": 0.05
+    },
+    {
+      "viewport": "desktop-1440",
+      "route": "plan",
+      "changedPixels": 0,
+      "changedPct": 0
+    },
+    {
+      "viewport": "desktop-1440",
+      "route": "safe",
+      "changedPixels": 1923,
+      "changedPct": 0.15
+    },
+    {
+      "viewport": "desktop-1440",
+      "route": "purchases",
+      "changedPixels": 695,
+      "changedPct": 0.05
+    },
+    {
+      "viewport": "desktop-1440",
+      "route": "trips",
+      "changedPixels": 2626,
+      "changedPct": 0.2
+    },
+    {
+      "viewport": "desktop-1440",
+      "route": "credit",
+      "changedPixels": 1459,
+      "changedPct": 0.11
+    },
+    {
+      "viewport": "desktop-1440",
+      "route": "paydown",
+      "changedPixels": 1743,
+      "changedPct": 0.13
+    },
+    {
+      "viewport": "desktop-1440",
+      "route": "goals",
+      "changedPixels": 495,
+      "changedPct": 0.04
+    },
+    {
+      "viewport": "desktop-1440",
+      "route": "ahead",
+      "changedPixels": 722,
+      "changedPct": 0.06
+    },
+    {
+      "viewport": "desktop-1440",
+      "route": "records",
+      "changedPixels": 568,
+      "changedPct": 0.04
+    }
+  ],
+  "interpretation": "Every hub differs by < 1% of pixels; the differences are the replaced text lines only (headline/question/period line). No plate, layout box, type style or navigation moved. PLAN and ACTIVITY 0%.",
+  "today_headline_measurement": {
+    "method": "text bounding box right edge in the live TODAY composition (same left edge), px",
+    "WHAT IS TRUE.": {
+      "360": 220,
+      "393": 241,
+      "834": 497,
+      "1440": 781
+    },
+    "YOUR MONEY.": {
+      "360": 208,
+      "393": 227,
+      "834": 473,
+      "1440": 762
+    },
+    "YOUR MONEY NOW. (rejected)": {
+      "360": 278,
+      "393": 303,
+      "834": 611,
+      "1440": 866
+    },
+    "verdict": "YOUR MONEY. is narrower than the approved headline at every viewport; no overlap with the olive branch or statue"
+  },
+  "plan_empty_state_question": {
+    "checked": [
+      "360x780",
+      "1440x900"
+    ],
+    "verdict": "MONEY SET ASIDE FOR / BILLS, PLANS AND GOALS. stays on the right page, clear of the index tabs"
+  },
+  "f09_period_line": {
+    "verdict": "NEXT 30 DAYS · TO {DATE} · CHANGE renders in the approved line box under the amount; it is the only element of the art layer that takes pointer events"
+  },
+  "stabilization_screenshots": {
+    "desktop": [
+      "01-safe-parent-period-line.png",
+      "02-horizon-no-income.png",
+      "03-horizon-before-next-income.png",
+      "04-transfer-in-transit-form.png",
+      "05-places-in-transit.png",
+      "06-card-payment-pending.png",
+      "07-plan-set-aside-shared.png",
+      "08-today-headline.png",
+      "09-credit-headline.png"
+    ],
+    "mobile": [
+      "01-safe-parent-period-line.png",
+      "02-horizon-no-income.png",
+      "03-horizon-before-next-income.png",
+      "04-transfer-in-transit-form.png",
+      "05-places-in-transit.png",
+      "06-card-payment-pending.png",
+      "07-plan-set-aside-shared.png",
+      "08-today-headline.png",
+      "09-credit-headline.png"
+    ],
+    "small": [
+      "01-safe-parent-period-line.png",
+      "02-horizon-no-income.png",
+      "03-horizon-before-next-income.png",
+      "04-transfer-in-transit-form.png",
+      "05-places-in-transit.png",
+      "06-card-payment-pending.png",
+      "07-plan-set-aside-shared.png",
+      "08-today-headline.png",
+      "09-credit-headline.png"
+    ],
+    "tablet": [
+      "01-safe-parent-period-line.png",
+      "02-horizon-no-income.png",
+      "03-horizon-before-next-income.png",
+      "04-transfer-in-transit-form.png",
+      "05-places-in-transit.png",
+      "06-card-payment-pending.png",
+      "07-plan-set-aside-shared.png",
+      "08-today-headline.png",
+      "09-credit-headline.png"
+    ]
+  },
+  "visual_authority_preserved": true
+}

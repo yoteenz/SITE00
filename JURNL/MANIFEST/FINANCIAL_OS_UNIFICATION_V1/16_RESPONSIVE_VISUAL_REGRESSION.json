@@ -1,0 +1,121 @@
+{
+  "method": "Same synthetic snapshot loaded into main (e413590e, :5175) and this branch (:5174); 8 family parents captured at 393x852 and 1440x900; pixelmatch threshold 0.1. Images in the full evidence ZIP (visual-regression/).",
+  "root_authority_parents": {
+    "routes": [
+      "today",
+      "money",
+      "plan",
+      "safe",
+      "credit"
+    ],
+    "max_changed_pct": 0.86,
+    "reading": "text only (status line, plain labels); plates, composition, nav unchanged"
+  },
+  "frame_families": {
+    "routes": [
+      "income",
+      "upcoming",
+      "activity"
+    ],
+    "reading": "new panels (daily earnings totals, funding facts) and actions inside the existing rail; archetype, plate and nav unchanged"
+  },
+  "no_page_overflow": "asserted by the TODAY journey at 360/393/834/1440 (document scroll width/height within the viewport)",
+  "results": [
+    {
+      "viewport": "mobile-393",
+      "route": "today",
+      "changedPixels": 1844,
+      "changedPct": 0.55
+    },
+    {
+      "viewport": "mobile-393",
+      "route": "money",
+      "changedPixels": 1056,
+      "changedPct": 0.32
+    },
+    {
+      "viewport": "mobile-393",
+      "route": "income",
+      "changedPixels": 61031,
+      "changedPct": 18.23
+    },
+    {
+      "viewport": "mobile-393",
+      "route": "upcoming",
+      "changedPixels": 38085,
+      "changedPct": 11.37
+    },
+    {
+      "viewport": "mobile-393",
+      "route": "plan",
+      "changedPixels": 1206,
+      "changedPct": 0.36
+    },
+    {
+      "viewport": "mobile-393",
+      "route": "safe",
+      "changedPixels": 2874,
+      "changedPct": 0.86
+    },
+    {
+      "viewport": "mobile-393",
+      "route": "credit",
+      "changedPixels": 0,
+      "changedPct": 0
+    },
+    {
+      "viewport": "mobile-393",
+      "route": "activity",
+      "changedPixels": 13645,
+      "changedPct": 4.08
+    },
+    {
+      "viewport": "desktop-1440",
+      "route": "today",
+      "changedPixels": 3151,
+      "changedPct": 0.24
+    },
+    {
+      "viewport": "desktop-1440",
+      "route": "money",
+      "changedPixels": 1541,
+      "changedPct": 0.12
+    },
+    {
+      "viewport": "desktop-1440",
+      "route": "income",
+      "changedPixels": 85233,
+      "changedPct": 6.58
+    },
+    {
+      "viewport": "desktop-1440",
+      "route": "upcoming",
+      "changedPixels": 11929,
+      "changedPct": 0.92
+    },
+    {
+      "viewport": "desktop-1440",
+      "route": "plan",
+      "changedPixels": 1942,
+      "changedPct": 0.15
+    },
+    {
+      "viewport": "desktop-1440",
+      "route": "safe",
+      "changedPixels": 3368,
+      "changedPct": 0.26
+    },
+    {
+      "viewport": "desktop-1440",
+      "route": "credit",
+      "changedPixels": 0,
+      "changedPct": 0
+    },
+    {
+      "viewport": "desktop-1440",
+      "route": "activity",
+      "changedPixels": 17961,
+      "changedPct": 1.39
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+ "run": "jurnl-golden-journey.e2e.ts alone, --workers=1, after freeing disk",
+ "results": [
+  {
+   "project": "mobile",
+   "status": "passed",
+   "duration_s": 46.8
+  },
+  {
+   "project": "tablet",
+   "status": "passed",
+   "duration_s": 45.1
+  },
+  {
+   "project": "desktop",
+   "status": "passed",
+   "duration_s": 44.1
+  }
+ ],
+ "note": "In the full run this test timed out at its 90 s budget on all three projects (2 workers, heavy load; the disk allowance ran out during the run: ENOSPC on a first tablet rerun). Typical duration in earlier full runs: 76-88 s."
+}

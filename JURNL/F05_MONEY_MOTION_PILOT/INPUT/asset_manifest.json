@@ -1,0 +1,24 @@
+{
+  "pilot_id": "F05.MONEY.PARENT.MOTION.PILOT.V0",
+  "authority": "reference/approved_parent.png",
+  "production_readiness": "NOT_READY_ART_ASSET_EXTRACTION_PENDING",
+  "layout": {"target": "mobile 1024x1536 visual proportions", "no_page_scroll": true, "global_nav": ["HOME","MONEY","ADD","PLAN","CREDIT"]},
+  "files": [
+    {"id":"reference", "path":"reference/approved_parent.png", "status":"FOUNDER_APPROVED_COMPOSITE", "has_live_UI":false},
+    {"id":"sidekick_preview", "path":"assets/sidekick_preview_crop.png", "status":"LOW_RES_CROPPED_PREVIEW", "contains_UI":false, "production_usable":false},
+    {"id":"statue_foreground", "target":"assets/statue_foreground.png", "status":"NEEDS_CLEAN_TRANSPARENT_EXTRACTION", "motion":"entrance-depth-only"},
+    {"id":"lemon_branch_foreground", "target":"assets/lemon_branch_foreground.png", "status":"NEEDS_CLEAN_TRANSPARENT_EXTRACTION", "motion":"micro-parallax-on-interaction"},
+    {"id":"wax_seal", "target":"assets/wax_seal.png", "status":"NEEDS_CLEAN_TRANSPARENT_EXTRACTION", "motion":"entrance-rotate-1deg"},
+    {"id":"title_paper", "target":"assets/title_paper.png", "status":"NEEDS_TEXT_FREE_ALPHA", "live_text":["MONEY","where your money lives"]},
+    {"id":"metrics_paper", "target":"assets/metrics_paper.png", "status":"NEEDS_TEXT_FREE_ALPHA", "live_text":["HELD","OWED","COMMITTED","AVAILABLE","amounts"]},
+    {"id":"account_paper_bank", "target":"assets/account_paper_bank.png", "status":"NEEDS_TEXT_FREE_ALPHA", "live_text":["BANK ACCOUNT","amount"]},
+    {"id":"account_paper_rideshare", "target":"assets/account_paper_rideshare.png", "status":"NEEDS_TEXT_FREE_ALPHA", "live_text":["RIDESHARE CARD","amount"]},
+    {"id":"account_paper_cash", "target":"assets/account_paper_cash.png", "status":"NEEDS_TEXT_FREE_ALPHA", "live_text":["CASH ON HAND","amount"]},
+    {"id":"account_paper_credit", "target":"assets/account_paper_credit.png", "status":"NEEDS_TEXT_FREE_ALPHA", "live_text":["CREDIT CARD","amount","OWED"]},
+    {"id":"global_nav_paper", "target":"assets/global_nav_paper.png", "status":"NEEDS_TEXT_FREE_ALPHA", "live_text":["HOME","MONEY","ADD","PLAN","CREDIT"]},
+    {"id":"overlay_move", "path":"prototype.html", "status":"HTML_MOCK_INTERACTION", "account_mutation":false},
+    {"id":"overlay_add", "path":"prototype.html", "status":"HTML_MOCK_INTERACTION", "account_mutation":false}
+  ],
+  "excluded_from_background": ["financial amounts","account labels","title wordmark","interactive navigation","buttons","status text"],
+  "proof_required": ["native-resolution-alpha-pack", "zero-motion-composite-vs-approved", "responsive-captures", "financial-state-bound-motion", "real-runtime-playwright"]
+}

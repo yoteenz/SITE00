@@ -21,6 +21,7 @@ import {
   useCurrency,
 } from '../../data/home/money';
 import { accountDisplayOptions } from '../../data/foundation/accounts';
+import { suggestAccount } from '../../data/ledger/moneyPositions';
 import { JurnlButton, JurnlDrawer, OverlayLayer, useOverlayFocus } from '../components/primitives';
 import { REPLICA_W, fitSize, sheetScale, useKeyboardViewport, useOverlayHost } from '../components/OverlayAuthority';
 import { RefIcon, RefText, at, typeAt } from '../components/ReferenceStage';
@@ -107,7 +108,8 @@ export function QuickAddV2Sheet({ familyId, onClose }: { familyId: string | null
   const [amount, setAmount] = useState('');
   const [direction, setDirection] = useState<'EXPENSE' | 'INCOME'>('EXPENSE');
   const accountOptions = useMemo(() => accountDisplayOptions(), []);
-  const [account, setAccount] = useState(() => accountOptions[0]?.id ?? 'CHECKING');
+  // Usual account for everyday spending (a preference; any account can still be chosen).
+  const [account, setAccount] = useState(() => suggestAccount('MISC').account?.display_name ?? accountOptions[0]?.id ?? 'CHECKING');
   const [keyboard, setKeyboard] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const currency = useCurrency();

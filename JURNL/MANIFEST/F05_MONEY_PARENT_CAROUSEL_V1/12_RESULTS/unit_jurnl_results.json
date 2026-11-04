@@ -1,0 +1,180 @@
+{
+ "run": "vitest tests/jurnl (all JURNL unit suites)",
+ "total": 737,
+ "passed": 737,
+ "failed": 0,
+ "files": {
+  "jurnlBespokeCompositionGrammar1.test.ts": {
+   "tests": 3,
+   "passed": 3
+  },
+  "jurnlCachedRepoView.test.ts": {
+   "tests": 1,
+   "passed": 1
+  },
+  "jurnlCenterStage.test.tsx": {
+   "tests": 62,
+   "passed": 62
+  },
+  "jurnlCurrencyEngine.test.ts": {
+   "tests": 9,
+   "passed": 9
+  },
+  "jurnlDeviceServerMerge.test.ts": {
+   "tests": 2,
+   "passed": 2
+  },
+  "jurnlE2eFixture.test.ts": {
+   "tests": 1,
+   "passed": 1
+  },
+  "jurnlEmailEngine1.test.ts": {
+   "tests": 21,
+   "passed": 21
+  },
+  "jurnlEntryV2FirstSeven1.test.tsx": {
+   "tests": 21,
+   "passed": 21
+  },
+  "jurnlErrorTelemetry.test.ts": {
+   "tests": 2,
+   "passed": 2
+  },
+  "jurnlF01DesignWorkspace.test.tsx": {
+   "tests": 34,
+   "passed": 34
+  },
+  "jurnlF01ParentAssetFirstAssembly.test.ts": {
+   "tests": 3,
+   "passed": 3
+  },
+  "jurnlF01ProjectIngestion.test.ts": {
+   "tests": 15,
+   "passed": 15
+  },
+  "jurnlF01Runtime.test.tsx": {
+   "tests": 175,
+   "passed": 175
+  },
+  "jurnlF02Runtime.test.tsx": {
+   "tests": 28,
+   "passed": 28
+  },
+  "jurnlF03F04Runtime.test.tsx": {
+   "tests": 12,
+   "passed": 12
+  },
+  "jurnlF05Carousel.test.ts": {
+   "tests": 10,
+   "passed": 10
+  },
+  "jurnlF05MotionPilot.test.ts": {
+   "tests": 20,
+   "passed": 20
+  },
+  "jurnlF09ArtDirectionRegenCorrection1.test.ts": {
+   "tests": 8,
+   "passed": 8
+  },
+  "jurnlF09CompositionBlueprintCorrection1.test.ts": {
+   "tests": 30,
+   "passed": 30
+  },
+  "jurnlF09CreativeDirectionCorrection1.test.ts": {
+   "tests": 13,
+   "passed": 13
+  },
+  "jurnlF09PromptForensicsAudit1.test.ts": {
+   "tests": 19,
+   "passed": 19
+  },
+  "jurnlF09ReferenceReplica1.test.ts": {
+   "tests": 10,
+   "passed": 10
+  },
+  "jurnlF09VisualAuthorityTerritoryProof1.test.ts": {
+   "tests": 15,
+   "passed": 15
+  },
+  "jurnlFinancialInvariants.test.ts": {
+   "tests": 40,
+   "passed": 40
+  },
+  "jurnlFinancialStabilization.test.ts": {
+   "tests": 27,
+   "passed": 27
+  },
+  "jurnlGatewayMigration.test.ts": {
+   "tests": 8,
+   "passed": 8
+  },
+  "jurnlLiveProofPrecheck.test.ts": {
+   "tests": 2,
+   "passed": 2
+  },
+  "jurnlMobileComposition.test.tsx": {
+   "tests": 24,
+   "passed": 24
+  },
+  "jurnlMonetizationFoundation.test.tsx": {
+   "tests": 34,
+   "passed": 34
+  },
+  "jurnlOverlayReplica1.test.tsx": {
+   "tests": 11,
+   "passed": 11
+  },
+  "jurnlParentChildDerivationProtocol1.test.ts": {
+   "tests": 8,
+   "passed": 8
+  },
+  "jurnlProductUtilityAudit1.test.ts": {
+   "tests": 2,
+   "passed": 2
+  },
+  "jurnlReferenceHygiene1.test.ts": {
+   "tests": 3,
+   "passed": 3
+  },
+  "jurnlRootAuthorityReconstruction1.test.tsx": {
+   "tests": 7,
+   "passed": 7
+  },
+  "jurnlStructuralBlueprint.test.ts": {
+   "tests": 8,
+   "passed": 8
+  },
+  "jurnlTimezoneEdges.test.ts": {
+   "tests": 3,
+   "passed": 3
+  },
+  "jurnlUploadGuard.test.ts": {
+   "tests": 3,
+   "passed": 3
+  },
+  "jurnlWave0Foundations.test.ts": {
+   "tests": 8,
+   "passed": 8
+  },
+  "jurnlWave1Global.test.ts": {
+   "tests": 9,
+   "passed": 9
+  },
+  "jurnlWave2Families.test.ts": {
+   "tests": 6,
+   "passed": 6
+  },
+  "jurnlWave3Families.test.ts": {
+   "tests": 7,
+   "passed": 7
+  },
+  "jurnlWave4Families.test.ts": {
+   "tests": 9,
+   "passed": 9
+  },
+  "jurnlWave5Production.test.ts": {
+   "tests": 4,
+   "passed": 4
+  }
+ }
+}

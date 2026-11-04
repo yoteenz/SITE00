@@ -3,8 +3,14 @@
 import { useState, type ReactNode } from 'react';
 import { useParams } from 'react-router-dom';
 import { accountById, creditAccounts } from '../../data/foundation/accounts';
-import { creditAttributesFor, creditSummary, upsertCreditTerms, useCreditAccounts } from '../../data/f12/creditStore';
+import { creditSummary, useCreditAccounts } from '../../data/f12/creditStore';
 import { createManualAccount } from '../../data/foundation/accountMutations';
+import { getTodayKey } from '../../data/foundation/dates';
+import { useRepoTick } from '../../data/home/money';
+import { parseMoneyInput } from '../../data/ledger/ledgerOps';
+import { paymentSafety } from '../../data/f12/creditGuidance';
+import { CardPaymentSheet, CardPlanSheet, CardTermsSheet, OverallUtilizationRows, cardFactRows } from '../finance/CreditSheets';
+import { OpenTransfersPanel, TransferDetailSheet } from '../finance/FinanceSheets';
 import { formatMoney, useCurrency } from '../../data/home/money';
 import { PARENT_PLATES } from '../../data/parents/plates';
 import { SIDEKICK_PLATES } from '../../data/parents/sidekickPlates';
@@ -50,6 +56,7 @@ export function CreditHubScreen() {
   const { go, openOverlay, closeOverlay, overlay } = useJurnl();
   useCurrency();
   const accounts = useCreditAccounts();
+  useRepoTick();
   const spec = parentById('F12')!;
   const [utilOpen, setUtilOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
@@ -73,12 +80,7 @@ export function CreditHubScreen() {
           {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F12" onClose={closeOverlay} /> : null}
           {overlay === 'ask' ? <AskJurnlSheet familyId="F12" nodeId="F12.00" onClose={closeOverlay} /> : null}
           {utilOpen ? <UtilizationSheet accounts={accounts} onClose={() => setUtilOpen(false)} /> : null}
-          {addOpen ?
-            <JurnlDrawer expression="form" size="long" testId="credit-add" title="ADD A CARD OR LOAN" onClose={() => setAddOpen(false)}
-              footer={<JurnlButton trigger="credit-add-save" onClick={() => { const ac = createManualAccount('NEW CARD', 'CREDIT_CARD', 0); upsertCreditTerms(ac.account_id, { credit_limit: 5000, current_balance: 0, payment_due_day: 15, minimum_payment: 25 }); setAddOpen(false); go(`credit/${ac.account_id}`); }}>SAVE</JurnlButton>}>
-              <p>CREATES A MANUAL CREDIT PLACE IN THE REGISTRY.</p>
-            </JurnlDrawer>
-          : null}
+          {addOpen ? <AddCardSheet onClose={() => setAddOpen(false)} onSaved={(id) => { setAddOpen(false); go(`credit/${id}`); }} /> : null}
         </>
       }
     >
@@ -174,69 +176,84 @@ export function CreditAccountScreen() {
   const { accountId } = useParams<{ accountId: string }>();
   const { go, openOverlay } = useJurnl();
   useCurrency();
+  useRepoTick();
   const account = accountId ? accountById(accountId) : null;
-  const [termsOpen, setTermsOpen] = useState(false);
+  const [sheet, setSheet] = useState<'terms' | 'plan' | 'pay' | null>(null);
+  const [openTransfer, setOpenTransfer] = useState<string | null>(null);
   if (!account || (account.account_type !== 'CREDIT_CARD' && account.account_type !== 'LOAN')) {
     return (
       <CreditShell screenId="F12.ACCOUNT">
         <FamilyChrome familyId="F12" nodeId="F12.ACCOUNT" backLabel="BACK" onBack={() => go('credit')} onAsk={() => openOverlay('ask')} />
-        <JurnlPanel role="empty" className="jrn-home__panel"><b>NOT A CREDIT PLACE</b></JurnlPanel>
+        <JurnlPanel role="empty" className="jrn-home__panel"><b>NOT A CREDIT CARD OR LOAN</b></JurnlPanel>
       </CreditShell>
     );
   }
   const s = creditSummary(account);
+  const f = s.facts;
+  const safety = f ? paymentSafety(f, getTodayKey()) : null;
+  const rows = cardFactRows(account);
   return (
     <CreditShell screenId="F12.ACCOUNT">
       <FamilyChrome familyId="F12" nodeId="F12.ACCOUNT" backLabel="BACK TO CREDIT" onBack={() => go('credit')} onAsk={() => openOverlay('ask')} />
       <div className="jrn-home__intro" data-jrn-zone="intro">
         <h1 className="jrn-home__h">{account.display_name}</h1>
-        <p className="jrn-home__sub">{s.util != null ? `${s.util}% UTILIZATION` : 'LIMIT UNKNOWN'}</p>
+        <p className="jrn-home__sub" data-testid="card-headline">{`${formatMoney(s.used)} OWED · ${s.util != null ? `${s.util}% OF THE LIMIT USED` : 'NO LIMIT ENTERED'}`}</p>
       </div>
       <div className="jrn-parent__rail" data-jrn-zone="content-rail">
-        <JurnlPanel role="detail" className="jrn-home__panel">
-          <b>USED</b>
-          <p>{formatMoney(s.used)}</p>
-          <b>LIMIT</b>
-          <p>{s.limit != null ? formatMoney(s.limit) : 'NOT SET'}</p>
-          <b>MIN PAYMENT</b>
-          <p>{s.minPay != null ? formatMoney(s.minPay) : 'NOT SET'}</p>
-          <b>DUE DAY</b>
-          <p>{s.dueDay ?? 'NOT SET'}</p>
+        {safety ? <JurnlPanel role="signal" className="jrn-home__panel" data-testid="card-safety-line" data-state={safety.state}><b>PAYMENT</b><p>{safety.line}</p></JurnlPanel> : null}
+        <JurnlPanel role="detail" className="jrn-home__panel" data-testid="card-facts">
+          {rows.slice(0, 9).map(([k, v]) => (
+            <span key={k}><b>{k}</b><p>{v}</p></span>
+          ))}
         </JurnlPanel>
-        <JurnlButton trigger="credit-edit-terms" onClick={() => setTermsOpen(true)}>CREDIT TERMS</JurnlButton>
+        <OpenTransfersPanel accountId={account.account_id} onOpen={setOpenTransfer} />
+        <JurnlButton trigger="credit-plan" onClick={() => setSheet('plan')}>PLAN A PAYMENT</JurnlButton>
+        <JurnlButton variant="secondary" trigger="credit-record-payment" onClick={() => setSheet('pay')}>RECORD PAYMENT</JurnlButton>
+        <JurnlButton variant="secondary" trigger="credit-edit-terms" onClick={() => setSheet('terms')}>CARD TERMS</JurnlButton>
         <JurnlButton variant="secondary" trigger="credit-activity" onClick={() => go('activity')}>ACTIVITY</JurnlButton>
       </div>
-      {termsOpen ? <TermsSheet accountId={account.account_id} onClose={() => setTermsOpen(false)} /> : null}
+      {sheet === 'terms' ? <CardTermsSheet card={account} onClose={() => setSheet(null)} /> : null}
+      {sheet === 'plan' ? <CardPlanSheet card={account} onClose={() => setSheet(null)} onRecord={() => setSheet('pay')} /> : null}
+      {sheet === 'pay' ? <CardPaymentSheet card={account} onClose={() => setSheet(null)} /> : null}
+      {openTransfer ? <TransferDetailSheet linkId={openTransfer} onClose={() => setOpenTransfer(null)} /> : null}
     </CreditShell>
   );
 }
 
 function UtilizationSheet({ accounts, onClose }: { accounts: ReturnType<typeof creditAccounts>; onClose: () => void }) {
+  useCurrency();
   return (
-    <JurnlDrawer expression="analysis" size="long" testId="credit-util" title="UTILIZATION" lead="NOT A CREDIT SCORE." onClose={onClose}>
-      {accounts.map((a) => {
-        const s = creditSummary(a);
-        return <p key={a.account_id}>{a.display_name} · {s.util != null ? `${s.util}%` : 'N/A'}</p>;
-      })}
+    <JurnlDrawer expression="analysis" size="long" testId="credit-util" title="HOW MUCH IS USED" lead="BALANCE OWED DIVIDED BY THE CREDIT LIMIT, FROM THE NUMBERS YOU ENTERED. NOT A CREDIT SCORE." onClose={onClose}>
+      <OverallUtilizationRows />
+      <ul className="jrn-why">
+        {accounts.map((a) => {
+          const s = creditSummary(a);
+          return (
+            <li key={a.account_id}>
+              <span>{a.display_name}</span>
+              <b>{s.util != null ? `${s.util}% · ${formatMoney(s.used)} OF ${formatMoney(s.limit ?? 0)}` : `${formatMoney(s.used)} · NO LIMIT ENTERED`}</b>
+            </li>
+          );
+        })}
+      </ul>
+      <p className="jrn-currency__note">OPEN A CARD AND CHOOSE PLAN A PAYMENT TO SEE WHAT A TARGET YOU PICK WOULD TAKE.</p>
     </JurnlDrawer>
   );
 }
 
-function TermsSheet({ accountId, onClose }: { accountId: string; onClose: () => void }) {
-  const attrs = creditAttributesFor(accountId);
-  const [limit, setLimit] = useState(String(attrs?.credit_limit ?? ''));
-  const [balance, setBalance] = useState(String(attrs?.current_balance ?? ''));
-  const [minPay, setMinPay] = useState(String(attrs?.minimum_payment ?? ''));
-  const [dueDay, setDueDay] = useState(String(attrs?.payment_due_day ?? ''));
-  const [apr, setApr] = useState(String(attrs?.apr ?? ''));
+function AddCardSheet({ onClose, onSaved }: { onClose: () => void; onSaved: (id: string) => void }) {
+  const [name, setName] = useState('');
+  const [owed, setOwed] = useState('');
+  const [limit, setLimit] = useState('');
+  const owedValue = parseMoneyInput(owed, true);
+  const limitValue = limit.trim() ? parseMoneyInput(limit) : null;
+  const valid = name.trim().length >= 2 && owed.trim() !== '' && owedValue != null && (!limit.trim() || limitValue != null);
   return (
-    <JurnlDrawer expression="form" size="long" testId="credit-terms" title="CREDIT TERMS" onClose={onClose}
-      footer={<JurnlButton trigger="credit-terms-save" onClick={() => { upsertCreditTerms(accountId, { credit_limit: Number(limit) || null, current_balance: Number(balance) || null, minimum_payment: Number(minPay) || null, payment_due_day: Number(dueDay) || null, apr: Number(apr) || null }); onClose(); }}>SAVE</JurnlButton>}>
-      <JurnlInput label="LIMIT" value={limit} onValue={setLimit} trigger="credit-limit" inputMode="decimal" />
-      <JurnlInput label="BALANCE OWED" value={balance} onValue={setBalance} trigger="credit-balance" inputMode="decimal" />
-      <JurnlInput label="MIN PAYMENT" value={minPay} onValue={setMinPay} trigger="credit-min" inputMode="decimal" />
-      <JurnlInput label="DUE DAY (1-28)" value={dueDay} onValue={setDueDay} trigger="credit-due" inputMode="numeric" />
-      <JurnlInput label="APR" value={apr} onValue={setApr} trigger="credit-apr" inputMode="decimal" />
+    <JurnlDrawer expression="form" size="long" testId="credit-add" title="ADD A CARD" lead="ENTER WHAT YOU OWE NOW. ADD THE STATEMENT, DUE DATE AND MINIMUM NEXT IN CARD TERMS." onClose={onClose}
+      footer={<JurnlButton trigger="credit-add-save" disabled={!valid} onClick={() => { const ac = createManualAccount(name, 'CREDIT_CARD', owedValue ?? 0, getTodayKey(), { creditLimit: limitValue }); onSaved(ac.account_id); }}>SAVE</JurnlButton>}>
+      <JurnlInput label="CARD NAME" value={name} onValue={setName} trigger="credit-add-name" />
+      <JurnlInput label="BALANCE OWED NOW" value={owed} onValue={setOwed} trigger="credit-add-owed" inputMode="decimal" />
+      <JurnlInput label="CREDIT LIMIT (OPTIONAL)" value={limit} onValue={setLimit} trigger="credit-add-limit" inputMode="decimal" />
     </JurnlDrawer>
   );
 }
