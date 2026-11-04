@@ -61,7 +61,7 @@ export function TransactionDetailPage() {
       <div className="d01-split" style={{ gridTemplateColumns: entry.receipt ? '1.25fr 1fr' : '1fr' }}>
         <Paper kind="sheet" testId="d01-tx-detail">
           <div className="d01-rows">
-            <Row icon="merchant" label="MERCHANT" value={entry.merchant} />
+            <Row icon="merchant" label="MERCHANT" value={r.label} />
             <Row icon="calendar" label="DATE" value={shortDate(r.date)} />
             <Row icon="coins" label="AMOUNT" value={formatMoney(Math.abs(entry.amount))} testId="d01-tx-amount" />
             <Row icon="tag" label="CATEGORY" value={entry.category || '—'} />

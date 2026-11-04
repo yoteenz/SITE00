@@ -25,6 +25,7 @@ import { getRepository } from '../../../../data/repository/deviceRepository';
 import { shortDate } from './HistoryPage';
 import { NotFoundPage } from './NotFoundPage';
 import { Dot01Sheets, type Dot01SheetState } from './sheets/Dot01Sheets';
+import { useLongPress, usePocketManager } from './PocketManager';
 import cardPayout from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_PAYOUT.webp';
 import cardCash from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_CASH.webp';
 import cardCredit from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_CREDIT.webp';
@@ -56,8 +57,11 @@ export function AccountPage() {
   const [sheet, setSheet] = useState<Dot01SheetState>(null);
   const [move, setMove] = useState(false);
   const today = getTodayKey();
+  const manager = usePocketManager('detail');
+  const hold = useLongPress((el, key) => manager.open(key, el));
   const v = placeId ? accountView(placeId, today) : null;
-  if (!v) return <NotFoundPage />;
+  // an archived (deleted) Pocket is no longer a page: its history stays in ACTIVITY
+  if (!v || v.archived) return <NotFoundPage />;
   const id = v.account.account_id;
   const toHistory = () => go(`money/places/${id}/history`);
   const toDetails = () => go(`money/places/${id}/settings`);
@@ -147,6 +151,8 @@ export function AccountPage() {
         {amountText}
       </b>
       {v.liability ? <i className="jrn-d01__on jrn-d01__on--caption" style={{ left: BAL.x, width: BAL.w, top: by(L, BAL.y) + 232, textAlign: 'center' }}>OWED</i> : null}
+      {/* hold the balance paper to manage the Pocket (the MANAGE POCKET chip does the same for keyboard / readers) */}
+      <div className="jrn-d01__hold" aria-hidden data-jrn-trigger="d01-pocket-hold" style={{ left: BAL.x, top: by(L, BAL.y), width: BAL.w, height: BAL.h }} {...hold.bind(id)} />
       {/* stats paper */}
       {stats.map(([label, value, key], i) => (
         <p key={key} className="jrn-d01__stat" data-stat={key} style={{ left: STATS.x + 36, width: STATS.w - 78, top: by(L, STATS.y) + 46 + i * 78 }}>
@@ -181,11 +187,15 @@ export function AccountPage() {
       layers={layers}
       board={board}
       testId="d01-account"
-      chips={[{ id: 'd01-back', label: 'BACK TO MONEY', icon: 'back', onClick: () => back() || go('money') }]}
+      chips={[
+        { id: 'd01-manage', label: 'MANAGE POCKET', icon: 'more', menu: { open: manager.openFor === id }, onClick: (e) => manager.open(id, e?.currentTarget ?? null) },
+        { id: 'd01-back', label: 'BACK TO MONEY', icon: 'back', onClick: () => back() || go('money') },
+      ]}
       overlays={
         <>
           {move ? <TransferSheet fromId={id} onClose={() => setMove(false)} /> : null}
           <Dot01Sheets state={sheet} onClose={() => setSheet(null)} />
+          {manager.node}
         </>
       }
     />

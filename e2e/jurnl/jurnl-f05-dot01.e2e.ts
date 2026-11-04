@@ -105,7 +105,7 @@ test.describe('F05 DOT 01 — accounts directory, order and setup', () => {
   test('06 / 32 · ALL ACCOUNTS lists every place; the saved order persists and drives the MONEY parent', async ({ page }) => {
     await open(page, 'money/places');
     expect(await directoryIds(page)).toEqual(['bank', 'ride', 'cash', 'visa']);
-    await expect(page.getByTestId('d01-directory-summary')).toContainText('4 PLACES');
+    await expect(page.getByTestId('d01-directory-summary')).toContainText('4 POCKETS');
     await shot(page, '06-all-accounts');
     await clickTrigger(page, 'd01-reorder');
     await expect(page.getByTestId('d01-reorder')).toBeVisible();
@@ -596,7 +596,8 @@ test.describe('F05 DOT 01 — overlays, navigation, typography, accessibility', 
   test('chips follow the authorities: back on 02–29, search + add on 30–37 (and 31)', async ({ page }) => {
     await open(page, 'money/places/bank');
     const ids = () => page.locator('.jrn-d01__chip').evaluateAll((els) => els.filter((e) => (e as HTMLElement).offsetParent !== null).map((e) => e.getAttribute('data-jrn-trigger')));
-    expect(await ids()).toEqual(['d01-back']);
+    // a Pocket page adds the MANAGE POCKET chip beside back (POCKET-CONTEXT-MANAGEMENT sprint)
+    expect(await ids()).toEqual(['d01-manage', 'd01-back']);
     await gotoJurnl(page, 'money/transactions');
     await page.locator('[data-jrn-f05-dot01-stage]').first().waitFor();
     expect(await ids()).toEqual(['d01-search', 'd01-add']);

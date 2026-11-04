@@ -17,6 +17,7 @@
  */
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type ReactNode, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
+import sheetPaper from '../../../../families/F05_MONEY/DOT01/F05_DOT01_14_LARGE_PARCHMENT_SHEET.webp';
 import './jurnl-f05-surfaces.css';
 
 type Place = { left: number; width: number; top?: number; bottom?: number; maxH: number };
@@ -39,7 +40,8 @@ export function JurnlPopover({ anchor, onDismiss, children, minWidth = 220, want
     const hr0 = h.getBoundingClientRect();
     // the global dock (06, 31) is drawn above the stage: the surface never opens underneath it
     const nav = document.querySelector<HTMLElement>('.jrn-nav');
-    const nr = nav && nav.offsetParent !== null ? nav.getBoundingClientRect() : null;
+    // (the dock is position: fixed, so offsetParent is always null: whether it is drawn is read from its boxes)
+    const nr = nav && nav.getClientRects().length > 0 ? nav.getBoundingClientRect() : null;
     const floor = nr && nr.height > 0 && nr.top < hr0.bottom && nr.top > ar.bottom ? nr.top : hr0.bottom;
     const hr = { left: hr0.left, top: hr0.top, width: hr0.width, bottom: floor, hostBottom: hr0.bottom };
     const gap = 6;
@@ -74,7 +76,8 @@ export function JurnlPopover({ anchor, onDismiss, children, minWidth = 220, want
     };
   }, [anchor, measure, onDismiss]);
   if (!host || !place) return null;
-  const style: CSSProperties = { left: place.left, width: place.width, maxHeight: place.maxH, top: place.top, bottom: place.bottom };
+  // the founder's sheet paper travels with the surface, so it renders the same on hosts that do not define it (MONEY parent)
+  const style: CSSProperties = { left: place.left, width: place.width, maxHeight: place.maxH, top: place.top, bottom: place.bottom, ['--jrn-pop-sheet' as string]: `url("${sheetPaper}")` } as CSSProperties;
   return createPortal(
     <div ref={box} className={`jrn-pop ${className}`} style={style} data-side={place.top != null ? 'below' : 'above'} data-testid={testId}>
       {children}

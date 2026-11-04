@@ -38,7 +38,7 @@ export function differenceOf(tracked: number, actual: number): number {
  */
 export function adjustToActual(accountId: string, actual: number, today: CalendarDate = getTodayKey(), note?: { reason?: string; notes?: string }): Done<{ difference: number; entryId: string | null }> {
   const r = reconciliationOf(accountId, today);
-  if (!r) return { ok: false, error: 'PLACE NOT FOUND.' };
+  if (!r) return { ok: false, error: 'POCKET NOT FOUND.' };
   const difference = differenceOf(r.tracked, actual);
   if (difference === 0) return { ok: true, value: { difference, entryId: null } };
   const s = getRepository().getSnapshot();
@@ -54,7 +54,7 @@ export function adjustToActual(accountId: string, actual: number, today: Calenda
 
 export function markReconciled(accountId: string, actual: number, today: CalendarDate = getTodayKey()): Done<null> {
   const r = reconciliationOf(accountId, today);
-  if (!r) return { ok: false, error: 'PLACE NOT FOUND.' };
+  if (!r) return { ok: false, error: 'POCKET NOT FOUND.' };
   const difference = differenceOf(r.tracked, actual);
   if (difference !== 0) return { ok: false, error: 'THERE IS STILL A DIFFERENCE. REVIEW IT OR RECORD AN ADJUSTMENT FIRST.' };
   const repo = getRepository();
@@ -76,7 +76,7 @@ export function reviewIssues(accountId: string, today: CalendarDate = getTodayKe
   const out: ReviewIssue[] = [];
   const unconfirmed = transferViews(snap.transactions, today).filter((t) => t.state === 'NEEDS_RECONCILIATION' && (t.fromId === accountId || t.toId === accountId));
   if (unconfirmed.length) out.push({ id: 'UNCONFIRMED_TRANSFER', label: 'TRANSFER NEEDS CONFIRMATION', detail: `${unconfirmed.length} ${unconfirmed.length === 1 ? 'TRANSFER WAS' : 'TRANSFERS WERE'} NEVER CONFIRMED AS ARRIVED.`, action: 'TRANSFERS' });
-  if (v.entered === 0 && v.entryCount === 0) out.push({ id: 'NO_BALANCE', label: 'MISSING BALANCE', detail: 'NO BALANCE HAS BEEN ENTERED FOR THIS PLACE.', action: 'EDIT' });
+  if (v.entered === 0 && v.entryCount === 0) out.push({ id: 'NO_BALANCE', label: 'MISSING BALANCE', detail: 'NO BALANCE HAS BEEN ENTERED FOR THIS POCKET.', action: 'EDIT' });
   if (v.daysSinceUpdate != null && v.daysSinceUpdate > STALE_DAYS) out.push({ id: 'STALE_BALANCE', label: 'BALANCE NOT UPDATED', detail: `LAST UPDATED ${v.daysSinceUpdate} DAYS AGO. CHECK IT AGAINST THE REAL BALANCE.`, action: 'BALANCE_REVIEW' });
   const rec = reconciliationOf(accountId, today);
   if (rec && rec.status === 'NOT RECONCILED') out.push({ id: 'NOT_RECONCILED', label: 'RECONCILIATION NEEDED', detail: `THE BALANCE CHANGED SINCE YOU CONFIRMED IT ON ${rec.on}.`, action: 'BALANCE_REVIEW' });

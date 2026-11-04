@@ -12,6 +12,7 @@ import { getRepository } from '../../../../data/repository/deviceRepository';
 import { moveInOrder, orderAccounts, setAccountOrder } from '../../../../data/f05/dot01/accountOrder';
 import { kindOf } from '../../../../data/f05/dot01/accountView';
 import { reviewIssues } from '../../../../data/f05/dot01/reconciliation';
+import { useLongPress, usePocketManager } from './PocketManager';
 import { useJurnl } from '../../../state/store';
 import { Dot01Frame, type Dot01Chip } from './Dot01Frame';
 import { Icon } from './icons';
@@ -20,6 +21,8 @@ import { Dot01Sheets, type Dot01SheetState } from './sheets/Dot01Sheets';
 
 export function DirectoryPage() {
   const { go, back } = useJurnl();
+  const manager = usePocketManager('directory');
+  const hold = useLongPress((el, key) => manager.open(key, el));
   useCurrency();
   useRepoTick();
   const [sheet, setSheet] = useState<Dot01SheetState>(null);
@@ -44,13 +47,13 @@ export function DirectoryPage() {
     <ReorderList ids={accounts.map((a) => a.account_id)} onDone={() => setReorder(false)} />
   ) : (
     <>
-      <div className="d01-grid" role="list" aria-label="YOUR PLACES">
+      <div className="d01-grid" role="list" aria-label="YOUR POCKETS">
         {accounts.map((a, i) => {
           const p = pos(a.account_id);
           const issues = reviewIssues(a.account_id, today);
           return (
             <div role="listitem" key={a.account_id} style={{ ['--i' as string]: i } as CSSProperties} className="d01-slip">
-              <AccountCard account={a} amount={p?.nature === 'LIABILITY' ? p.owed : (p?.held ?? 0)} liability={p?.nature === 'LIABILITY'} trigger={`d01-place-${a.account_id}`} badge={issues.length ? 'NEEDS REVIEW' : undefined} onOpen={() => go(issues.length ? `money/places/${a.account_id}/attention` : `money/places/${a.account_id}`)} />
+              <AccountCard account={a} amount={p?.nature === 'LIABILITY' ? p.owed : (p?.held ?? 0)} liability={p?.nature === 'LIABILITY'} trigger={`d01-place-${a.account_id}`} hold={hold.bind(a.account_id)} badge={issues.length ? 'NEEDS REVIEW' : undefined} onOpen={() => go(issues.length ? `money/places/${a.account_id}/attention` : `money/places/${a.account_id}`)} />
             </div>
           );
         })}
@@ -66,7 +69,7 @@ export function DirectoryPage() {
       </Paper>
       {/* the authority draws no summary line here: it stays for screen readers only */}
       <p className="d01-sr" data-testid="d01-directory-summary">
-        {`${accounts.length} ${accounts.length === 1 ? 'PLACE' : 'PLACES'} · ${money(pic.summary.ownedAssets)} HELD${pic.summary.owed > 0 ? ` · ${money(pic.summary.owed)} OWED` : ''}`}
+        {`${accounts.length} ${accounts.length === 1 ? 'POCKET' : 'POCKETS'} · ${money(pic.summary.ownedAssets)} HELD${pic.summary.owed > 0 ? ` · ${money(pic.summary.owed)} OWED` : ''}`}
       </p>
     </>
   );
@@ -84,7 +87,10 @@ export function DirectoryPage() {
       contentRect={{ x: 30, y: 600, w: 881, h: nav ? 846 : 940 }}
       contentScroll
       content={content}
-      overlays={<Dot01Sheets state={sheet} onClose={() => setSheet(null)} />}
+      overlays={<>
+        <Dot01Sheets state={sheet} onClose={() => setSheet(null)} />
+        {manager.node}
+      </>}
     />
   );
 }

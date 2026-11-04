@@ -15,6 +15,7 @@ import cardCredit from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_C
 import { Chevron, Icon } from './icons';
 import { MicroIcon } from '../MicroIcon';
 import type { MicroAssetId } from '../microAssets';
+import type { LongPressBind } from './PocketManager';
 import { JurnlDateField, JurnlSelect } from '../surfaces/JurnlSurfaces';
 
 export const CARD_SRC = { bank: cardBank, payout: cardPayout, cash: cardCash, credit: cardCredit } as const;
@@ -136,7 +137,7 @@ export function Button({ children, onClick, trigger, quiet, danger, disabled, ic
 }
 
 /** An account paper (SK01's own card art for its kind) with live name and amount; a real button when onOpen is set. */
-export function AccountCard({ account, amount, liability, onOpen, trigger, badge, compact }: { account: JurnlAccountRecord; amount: number; liability: boolean; onOpen?: () => void; trigger?: string; badge?: string; compact?: boolean }) {
+export function AccountCard({ account, amount, liability, onOpen, trigger, badge, compact, hold }: { account: JurnlAccountRecord; amount: number; liability: boolean; onOpen?: () => void; trigger?: string; badge?: string; compact?: boolean; hold?: LongPressBind }) {
   const kind = kindOf(account);
   const lines = nameLines(account.display_name);
   const body = (
@@ -160,7 +161,7 @@ export function AccountCard({ account, amount, liability, onOpen, trigger, badge
   );
   const cls = `d01-card ${compact ? 'd01-card--compact' : ''}`;
   return onOpen ? (
-    <button type="button" className={cls} data-jrn-trigger={trigger} data-account-id={account.account_id} aria-label={`${account.display_name}. ${formatMoney(amount)} ${liability ? 'OWED' : 'HELD'}${badge ? `. ${badge}` : ''}. OPEN.`} onClick={onOpen}>
+    <button type="button" className={cls} data-jrn-trigger={trigger} data-account-id={account.account_id} aria-label={`${account.display_name}. ${formatMoney(amount)} ${liability ? 'OWED' : 'HELD'}${badge ? `. ${badge}` : ''}. OPEN.`} aria-keyshortcuts={hold ? 'Shift+F10' : undefined} aria-description={hold ? 'PRESS AND HOLD, OR SHIFT F10, TO MANAGE THIS POCKET.' : undefined} onClick={onOpen} {...hold}>
       {body}
     </button>
   ) : (

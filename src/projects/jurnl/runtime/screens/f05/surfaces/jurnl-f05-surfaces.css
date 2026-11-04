@@ -61,7 +61,7 @@
   box-sizing: border-box;
   border-style: solid;
   border-width: 12px 14px;
-  border-image: var(--d01-img-sheet) 64 70 fill / 12px 14px / 0 stretch;
+  border-image: var(--d01-img-sheet, var(--jrn-pop-sheet)) 64 70 fill / 12px 14px / 0 stretch;
   padding: 2px 2px;
   color: var(--d01-ink, #1c1610);
   filter: drop-shadow(0 10px 16px rgba(14, 9, 4, 0.5)) drop-shadow(0 2px 3px rgba(14, 9, 4, 0.35));
@@ -216,4 +216,92 @@
 @keyframes jrn-pop-in-up {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: none; }
+}
+
+/* MANAGE POCKET menu (proposed interactive-state surface; no authority draws an open menu) */
+.jrn .jrn-pop--menu {
+  padding: 4px 6px 6px;
+}
+.jrn .jrn-menu__title {
+  margin: 2px 0 0;
+  text-align: center;
+  font: 600 15px / 1.1 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.16em;
+  color: var(--d01-ink, #1c1610);
+}
+.jrn .jrn-menu__sub {
+  margin: 2px 0 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(160, 112, 40, 0.55);
+  text-align: center;
+  font: 500 12px / 1.2 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.1em;
+  color: rgba(31, 24, 16, 0.72);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.jrn .jrn-menu__item {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 46px;
+  margin: 3px 0 0;
+  padding: 6px 12px;
+  border: 1.5px solid rgba(31, 24, 16, 0.32);
+  border-radius: 10px;
+  background: rgba(255, 251, 241, 0.72);
+  color: var(--d01-ink, #1c1610);
+  font: 600 15px / 1.1 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.08em;
+  text-align: left;
+  cursor: pointer;
+}
+.jrn .jrn-menu__item svg {
+  width: 20px;
+  height: 20px;
+}
+.jrn .jrn-menu__item--danger {
+  color: #6c1d12;
+  border-color: rgba(122, 31, 26, 0.5);
+}
+.jrn .jrn-menu__item:hover,
+.jrn .jrn-menu__item:focus-visible {
+  background: rgba(47, 52, 32, 0.12);
+}
+.jrn .jrn-menu__item--danger:hover,
+.jrn .jrn-menu__item--danger:focus-visible {
+  background: rgba(122, 31, 26, 0.12);
+}
+.jrn .jrn-menu__item:focus-visible {
+  outline: 3px solid var(--d01-gold, #e2ae4e);
+  outline-offset: 1px;
+}
+
+/* press and hold: the Pocket answers with a slight settle (no menu without a completed hold) */
+.jrn [data-holding='true'] {
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+.jrn .d01-card,
+.jrn .jrn-f05m__paper,
+.jrn .jrn-d01__hold {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .jrn .d01-card[data-holding='true'],
+  .jrn .jrn-f05m__paper[data-holding='true'] {
+    transform: scale(0.985);
+    transition: transform 420ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+}
+.jrn .jrn-d01__hold {
+  position: absolute;
+  pointer-events: auto;
+  background: transparent;
+  touch-action: manipulation;
 }

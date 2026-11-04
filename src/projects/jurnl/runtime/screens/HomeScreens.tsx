@@ -492,7 +492,7 @@ const OWNER_OF: Record<string, { label: string; route: (e: LedgerEntry) => strin
   DAILY_EARNINGS: { label: 'CHANGE THIS IN INCOME', route: () => 'income' },
   BILL_PAYMENT: { label: 'CHANGE THIS ON THE BILL', route: (e) => `upcoming/${e.obligation_id ?? ''}` },
   CARD_PAYMENT: { label: 'OPEN THE CARD', route: (e) => `credit/${e.counterparty_account_id && e.link?.leg === 'OUT' ? e.counterparty_account_id : e.account_id ?? ''}` },
-  TRANSFER: { label: 'OPEN PLACES', route: () => 'money/places' },
+  TRANSFER: { label: 'OPEN POCKETS', route: () => 'money/places' },
   BALANCE_CORRECTION: { label: 'OPEN THE ACCOUNT', route: (e) => `money/places/${e.account_id ?? ''}` },
 };
 

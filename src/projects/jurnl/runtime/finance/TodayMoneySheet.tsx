@@ -66,13 +66,13 @@ export function TodayMoneySheet({ onClose }: { onClose: () => void }) {
 
       <p className="jrn-eyebrow">WHERE YOUR MONEY IS</p>
       <ul className="jrn-why" data-testid="today-places">
-        <Row k="CASH ON HAND" v={money(t.summary.cashOnHand)} sub={cashPlaces.length ? undefined : 'NO CASH PLACE YET. ADD ONE IN MONEY.'} />
+        <Row k="CASH ON HAND" v={money(t.summary.cashOnHand)} sub={cashPlaces.length ? undefined : 'NO CASH POCKET YET. ADD ONE IN MONEY.'} />
         {assets.map((p) => (
           <Row key={p.account_id} k={p.account.display_name} v={money(p.held)} sub={`${LOCATION_KIND_LABEL[p.kind]} · ${BALANCE_BASIS_LABEL[p.basis]}${p.freshness === 'OLDER' ? ` · LAST UPDATED ${p.daysSinceUpdate} DAYS AGO` : ''}`} />
         ))}
         {t.setAsideTotal > 0 ? <Row k="SET ASIDE FOR PAYMENTS" v={money(t.setAsideTotal)} sub="STILL IN YOUR ACCOUNTS. EARMARKED, NOT SPENT." /> : null}
         {s.inTransit > 0 ? <Row k="IN TRANSIT" v={money(s.inTransit)} sub={`LEFT ONE ACCOUNT, NOT ARRIVED. NOT AVAILABLE ANYWHERE YET. TOTAL TRACKED ${money(s.trackedAssets)}.`} /> : null}
-        {s.transfersToConfirm > 0 ? <Row k="TRANSFERS TO CONFIRM" v={String(s.transfersToConfirm)} sub="RECORDED BEFORE JURNL TRACKED WHERE MONEY IS. OPEN PLACES TO SAY WHAT HAPPENED." /> : null}
+        {s.transfersToConfirm > 0 ? <Row k="TRANSFERS TO CONFIRM" v={String(s.transfersToConfirm)} sub="RECORDED BEFORE JURNL TRACKED WHERE MONEY IS. OPEN POCKETS TO SAY WHAT HAPPENED." /> : null}
         {cards.map((p) => (
           <Row key={p.account_id} k={`${p.account.display_name} OWES`} v={money(p.owed)} sub="A CARD BALANCE. NOT TAKEN FROM CASH." />
         ))}

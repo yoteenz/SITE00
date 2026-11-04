@@ -16,6 +16,7 @@
  * so the papers keep the authority's vertical rhythm.
  */
 
+import type React from 'react';
 import { Fragment, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type ReactNode } from 'react';
 import { OverlayLayer } from '../../../components/primitives';
 import { JurnlProductNav } from '../../../components/ProductNav';
@@ -132,7 +133,7 @@ const STAGE_VARS = {
  * `amber` = glossy amber square-rounded tile with a light glyph (06–10, and the add tile of 01 / 30–37),
  * `bare` = the glyph alone on the scene (search on 01 / 30–37). */
 export type Dot01ChipTone = 'paper' | 'amber' | 'bare';
-export type Dot01Chip = { id: string; label: string; icon: 'back' | 'search' | 'plus' | 'close'; onClick: () => void; tone?: Dot01ChipTone };
+export type Dot01Chip = { id: string; label: string; icon: 'back' | 'search' | 'plus' | 'close' | 'more'; onClick: (e?: React.MouseEvent<HTMLButtonElement>) => void; tone?: Dot01ChipTone; menu?: { open: boolean } };
 /** Chip widths in board px (authority tiles: paper ≈ 88 × 78, amber ≈ 72 × 66, search glyph ≈ 50) and their gap. */
 const CHIP_W: Record<Dot01ChipTone, number> = { paper: 88, amber: 72, bare: 56 };
 const CHIP_RIGHT = 902;
@@ -246,7 +247,7 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
               right = lefts[i]! - CHIP_GAP;
             }
             return chips.map((c, i) => (
-              <button key={c.id} type="button" className={`jrn-d01__chip jrn-d01__chip--${tones[i]}`} data-tone={tones[i]} data-jrn-trigger={c.id} aria-label={c.label} style={{ left: lefts[i] }} onClick={c.onClick}>
+              <button key={c.id} type="button" className={`jrn-d01__chip jrn-d01__chip--${tones[i]}`} data-tone={tones[i]} data-jrn-trigger={c.id} aria-label={c.label} aria-haspopup={c.menu ? 'menu' : undefined} aria-expanded={c.menu ? c.menu.open : undefined} style={{ left: lefts[i] }} onClick={(e) => c.onClick(e)}>
                 <ChipIcon icon={c.icon} tone={tones[i]!} />
               </button>
             ));
@@ -383,6 +384,8 @@ export function ChipIcon({ icon, tone = 'paper' }: { icon: Dot01Chip['icon']; to
   // tile (Batch 01 / 04, which carries its own tile); the amber back tile and the light search glyph wait for Batch 05
   const art = icon === 'back' && tone === 'paper' ? microAssetSrc('F05.D01.ICON.ARROW.HANDINK') : icon === 'plus' && tone === 'amber' ? microAssetSrc('F05.D01.ICON.PLUS.FRAMED') : null;
   if (art) return <img className="jrn-d01__chip-art" src={art} alt="" aria-hidden draggable={false} data-micro-asset={icon === 'back' ? 'F05.D01.ICON.ARROW.HANDINK' : 'F05.D01.ICON.PLUS.FRAMED'} />;
+  // MANAGE POCKET: three ink dots on the paper tile (no overflow glyph in Batches 01–04; line glyph until one exists)
+  if (icon === 'more') return <svg viewBox="0 0 24 24" aria-hidden><circle cx="5" cy="12" r="1.9" fill="currentColor" /><circle cx="12" cy="12" r="1.9" fill="currentColor" /><circle cx="19" cy="12" r="1.9" fill="currentColor" /></svg>;
   if (icon === 'back') return <svg viewBox="0 0 24 24" aria-hidden><path d="M19 12H6m6-6-6 6 6 6" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" /></svg>;
   if (icon === 'search') return <svg viewBox="0 0 24 24" aria-hidden><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" strokeWidth="1.8" /><path d="M15.5 15.5L21 21" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>;
   if (icon === 'close') return <svg viewBox="0 0 24 24" aria-hidden><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" /></svg>;
