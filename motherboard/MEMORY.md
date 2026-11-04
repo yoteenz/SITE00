@@ -16805,3 +16805,10 @@ Summary of the whole conversation in this chat.
 
 - **Context:** Founder requested bottom-row caption updates on MONEY carousel panels.
 - **Changes:** `moneyCarousel.ts` — `NOTHING IN TRANSIT` → `NOTHING MOVING`; `ADD A POCKET FIRST` → `ADD A POCKET` (safe-to-spend + reserved mock states); `NOTHING RECORDED` → `NO RECORDS` (spending insights empty). Matching aria + `jurnlF05Carousel.test.ts` / `jurnl-f05-carousel.e2e.ts`.
+
+---
+
+## 2026-11-04 — BILLS + SUBSCRIPTIONS panel title +1.5px
+
+- **Context:** Founder asked to increase only the BILLS + SUBSCRIPTIONS carousel header by 1.5px.
+- **Changes:** `panelNameFont()` in `CarouselPanelPaper.tsx` adds 1.5px when `panel.id === 'bills'`; vitest guard in `jurnlF05Carousel.test.ts`.
