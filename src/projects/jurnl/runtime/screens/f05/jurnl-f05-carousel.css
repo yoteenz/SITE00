@@ -93,6 +93,10 @@
   opacity: 0.55;
   font-size: calc(40px - var(--f05-type-nudge, 0px));
 }
+/* panel grid: empty states share the same size and top as amounts so NONE and $ figures align */
+.jrn .jrn-f05m__paper--panel .jrn-f05m__paper-amount[data-empty='true'] {
+  font-size: inherit;
+}
 .jrn .jrn-f05m__paper-caption {
   position: absolute;
   left: calc(var(--f05m-name-left, 38px) + 2px);

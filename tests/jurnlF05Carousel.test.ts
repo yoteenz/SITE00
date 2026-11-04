@@ -6,6 +6,8 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { commitmentParts, computeMoneyCarousel, COLLECTIONS } from '../src/projects/jurnl/data/f05/moneyCarousel';
+import { paperRhythm, PANEL_TITLE_LINES } from '../src/projects/jurnl/runtime/screens/f05/CarouselPanelPaper';
+import { F05_COMPOSITION as C } from '../src/projects/jurnl/runtime/screens/f05/f05Composition';
 import { computeMoneyParentReading } from '../src/projects/jurnl/data/f05/moneyParentReading';
 import { computeSafeToSpend, nextExpectedIncome } from '../src/projects/jurnl/data/f09/safeToSpend';
 import { createBillOrSubscription } from '../src/projects/jurnl/data/f07/obligationLifecycle';
@@ -196,5 +198,16 @@ describe('The E2E carousel world is what the app itself records', () => {
     expect(v('outlook', 'next_income')).toMatchObject({ kind: 'amount', amount: 780 });
     expect(v('outlook', 'insights')).toMatchObject({ kind: 'amount', amount: 80.5 });
     expect(c.reading.held).toBe(1217.5 + 722 + 350);
+  });
+});
+
+describe('Panel paper rhythm', () => {
+  it('reserves two title lines so one-line and two-line panels share amount and caption rows', () => {
+    const h = 292;
+    const one = paperRhythm(1, h);
+    const two = paperRhythm(2, h);
+    expect(one.amountTop).toBe(two.amountTop);
+    expect(one.captionTop).toBe(two.captionTop);
+    expect(one.amountTop).toBe(C.panel.nameTop + PANEL_TITLE_LINES * C.card.namePitch + C.panel.amountGap);
   });
 });

@@ -36,11 +36,17 @@ export const PANEL_ART: Record<string, string> = {
   outlook_insights: outlookInsights,
 };
 
-/** Vertical rhythm of a paper (source px from its top), by the number of title lines. */
-export function paperRhythm(lines: number, height: number) {
-  const amountTop = C.panel.nameTop + lines * C.card.namePitch + C.panel.amountGap;
+/** Carousel panel titles may be one or two lines; the 2×2 grid always reserves two so values and captions line up. */
+export const PANEL_TITLE_LINES = 2;
+
+/** Account pocket papers in the rail use the same reserve so amounts and OWED line up across a row. */
+export const ACCOUNT_PAPER_TITLE_LINES = 2;
+
+/** Vertical rhythm of a carousel panel paper (source px from its top). */
+export function paperRhythm(_lines: number, height: number) {
+  const amountTop = C.panel.nameTop + PANEL_TITLE_LINES * C.card.namePitch + C.panel.amountGap;
   // a caption never runs past the paper's bottom edge (one caption line ≈ 23 board px, plus a margin)
-  return { amountTop, captionTop: Math.min(amountTop + C.card.captionGap, height - 30), linkCaptionTop: height - C.card.linkFromBottom };
+  return { amountTop, captionTop: Math.min(amountTop + C.card.captionGap, height - 30) };
 }
 
 /** Long amounts shrink to stay inside their paper; the value itself is never abbreviated. */
@@ -85,8 +91,7 @@ export function CarouselPanelPaper({
   collection: string;
   onOpen: (panel: CarouselPanel) => void;
 }) {
-  const lines = panel.title.length;
-  const r = paperRhythm(lines, slot.h);
+  const r = paperRhythm(panel.title.length, slot.h);
   const v = panel.value;
   const amountText = v.kind === 'amount' ? fmt(v.amount) : v.kind === 'none' ? v.text : '';
   return (
@@ -112,12 +117,16 @@ export function CarouselPanelPaper({
           className="jrn-f05m__paper-amount"
           data-empty={v.kind === 'none' ? 'true' : undefined}
           data-jrn-amount-cents={v.kind === 'amount' ? Math.round(v.amount * 100) : undefined}
-          style={{ top: r.amountTop, fontSize: v.kind === 'amount' ? f05BoardType(amountSize(amountText, C.card.amountSize)) : undefined }}
+          style={{
+            top: r.amountTop,
+            fontSize:
+              v.kind === 'amount' ? f05BoardType(amountSize(amountText, C.card.amountSize)) : f05BoardType(C.card.amountSize),
+          }}
         >
           {amountText}
         </b>
       : null}
-      <i className="jrn-f05m__paper-caption" style={{ top: v.kind === 'link' ? r.linkCaptionTop : r.captionTop }}>
+      <i className="jrn-f05m__paper-caption" style={{ top: r.captionTop }}>
         {v.caption}
       </i>
       <svg className="jrn-f05m__chev" viewBox="0 0 14 24" aria-hidden>
