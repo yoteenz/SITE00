@@ -316,7 +316,7 @@ test.describe('F05 MONEY carousel', () => {
       await expect(page.locator(`[data-panel="${id}"]`)).toHaveAttribute('data-value-kind', 'none');
       await expect(page.locator(`[data-panel="${id}"] [data-jrn-amount-cents]`)).toHaveCount(0);
     }
-    await expect(page.locator('[data-panel="in_transit"]')).toContainText('NOTHING IN TRANSIT');
+    await expect(page.locator('[data-panel="in_transit"]')).toContainText('NOTHING MOVING');
     await shot(page, '14-transfers-empty');
     await clickTrigger(page, 'f05m-dot-commitments');
     await expectActive(page, 'commitments');
@@ -327,7 +327,7 @@ test.describe('F05 MONEY carousel', () => {
     await expectActive(page, 'outlook');
     await expect(page.locator('[data-panel="next_income"]')).toHaveAttribute('data-value-kind', 'none');
     await expect(page.locator('[data-panel="next_income"]')).toContainText('NOT SET');
-    await expect(page.locator('[data-panel="insights"]')).toContainText('NOTHING RECORDED');
+    await expect(page.locator('[data-panel="insights"]')).toContainText('NO RECORDS');
     await shot(page, '14-outlook-empty');
     // a missing income date opens the place to add one
     await clickTrigger(page, 'f05m-panel-next_income');
@@ -337,10 +337,10 @@ test.describe('F05 MONEY carousel', () => {
   test('14 · no places at all: Safe to Spend and RESERVED are not known, never a sample figure', async ({ page }) => {
     await open(page, 'none', 'outlook');
     await expect(page.locator('[data-panel="safe_to_spend"] [data-jrn-amount-cents]')).toHaveCount(0);
-    await expect(page.locator('[data-panel="safe_to_spend"]')).toContainText('ADD A POCKET FIRST');
+    await expect(page.locator('[data-panel="safe_to_spend"]')).toContainText('ADD A POCKET');
     await clickTrigger(page, 'f05m-dot-commitments');
     await expectActive(page, 'commitments');
-    await expect(page.locator('[data-panel="reserved"]')).toContainText('ADD A POCKET FIRST');
+    await expect(page.locator('[data-panel="reserved"]')).toContainText('ADD A POCKET');
     await clickTrigger(page, 'f05m-dot-accounts');
     await expectActive(page, 'accounts');
     await expect(page.getByTestId('f05m-empty')).toBeVisible();

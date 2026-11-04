@@ -56,7 +56,7 @@ describe('Collection 02 — transfers follow the #1706 settlement model', () => 
   it('nothing in progress: honest empty panels, no invented amounts', () => {
     const t = read().transfers;
     expect(t.map((p) => [p.id, p.value.kind])).toEqual([['in_transit', 'none'], ['pending', 'none'], ['scheduled', 'none'], ['recent', 'link']]);
-    expect(t[0]!.value).toMatchObject({ text: 'NONE', caption: 'NOTHING IN TRANSIT' });
+    expect(t[0]!.value).toMatchObject({ text: 'NONE', caption: 'NOTHING MOVING' });
   });
 
   it('in transit, pending and scheduled sum their own states; balances follow the ledger', () => {
@@ -132,7 +132,7 @@ describe('Collection 04 — outlook', () => {
   });
 
   it('spending is the recorded spending of the last 30 days; forecast opens F15', () => {
-    expect(panel('outlook', 'insights').value).toMatchObject({ kind: 'none', caption: 'NOTHING RECORDED' });
+    expect(panel('outlook', 'insights').value).toMatchObject({ kind: 'none', caption: 'NO RECORDS' });
     recordExpense({ merchant: 'GROCER', amount: 42.5, account_id: 'bank', category: 'GROCERIES', occurred_on: TODAY });
     expect(panel('outlook', 'insights').value).toMatchObject({ kind: 'amount', amount: 42.5, caption: 'LAST 30 DAYS' });
     expect(panel('outlook', 'insights').aria).toContain('RECORDED IN THE LAST 30 DAYS');
