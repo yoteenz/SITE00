@@ -5,7 +5,7 @@
  */
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useNavigationType, useSearchParams } from 'react-router-dom';
 import { f03ScreenForRoute } from '../../data/f03/screens';
 import { f04ScreenForRoute } from '../../data/f04/screens';
 import { F01_ENTRY_V2_SCREENS, F01_FAMILY_BOUNDARY, F01_SCREENS, F01_STATE_OVERLAYS, f01ScreenForRoute } from '../../data/f01/screens';
@@ -133,6 +133,7 @@ export function resolveJurnlRoute(target: string): string {
 export function JurnlStoreProvider({ basePath, mode, children }: { basePath: string; mode: 'design-preview' | 'production'; children: ReactNode }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const navigationType = useNavigationType();
   const [params] = useSearchParams();
   // Inspection switches (?state / ?overlay / ?scenario / ?os) exist for the SITE 00 design workspace only. A production
   // shell never honours them — the user-facing app has no debug surface.
@@ -246,6 +247,9 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
         const idx = trail.current.lastIndexOf(locationKey);
         trail.current = idx >= 0 ? trail.current.slice(0, idx + 1) : [locationKey];
       }
+    } else if (navigationType === 'REPLACE' && trail.current.length) {
+      // A replace (e.g. the F05 carousel's ?c=) changes the current entry; it is not a step to go back to.
+      trail.current[trail.current.length - 1] = locationKey;
     } else if (trail.current[trail.current.length - 1] !== locationKey) {
       trail.current.push(locationKey);
     }

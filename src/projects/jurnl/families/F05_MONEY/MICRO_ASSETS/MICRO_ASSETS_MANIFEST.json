@@ -1,0 +1,851 @@
+{
+ "package": "JURNL_F05_DOT01_BATCHES_01_TO_04_MASTER_LITE_40_ICONS.zip",
+ "package_sha256": "59c2b6a4a8d1c94a11051ce26087768b3a514d553b14e4641b1cdb127ff939f8",
+ "note": "LITE 768 px sources; the 1254 px originals were not supplied. Derivatives are trims + resizes only.",
+ "pending": {
+  "BATCH_05": "PENDING_GENERATION_AND_MOUNT",
+  "BATCH_06": "PENDING_GENERATION_AND_MOUNT"
+ },
+ "files": [
+  {
+   "registry_id": "F05.D01.ICON.ARROW.HANDINK",
+   "source": "BATCH_01/01_back_arrow.png",
+   "source_sha256": "05b637d06b3e049603012c98ecd5d484e43f33eae1da68e1b58b82f060d7939f",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    242,
+    277,
+    283,
+    215
+   ],
+   "runtime": "BATCH_01/01_back_arrow.webp",
+   "runtime_px": [
+    192,
+    146
+   ],
+   "runtime_bytes": 8796
+  },
+  {
+   "registry_id": "F05.D01.ICON.CHEVRON.INK",
+   "source": "BATCH_01/02_row_chevron.png",
+   "source_sha256": "7427a2e4f73565ee8fe84dd091262d36a48eb4a4bff94a6c0e68dbd1ab25cc31",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    308,
+    260,
+    146,
+    247
+   ],
+   "runtime": "BATCH_01/02_row_chevron.webp",
+   "runtime_px": [
+    113,
+    192
+   ],
+   "runtime_bytes": 6772
+  },
+  {
+   "registry_id": "F05.D01.ICON.SEARCH.INK",
+   "source": "BATCH_01/03_search.png",
+   "source_sha256": "f4c0288783e77569a1896739176a18a056aae65d85c4b20340143d8141f7bb8d",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    138,
+    133,
+    479,
+    491
+   ],
+   "runtime": "BATCH_01/03_search.webp",
+   "runtime_px": [
+    187,
+    192
+   ],
+   "runtime_bytes": 12476
+  },
+  {
+   "registry_id": "F05.D01.ICON.PLUS.FRAMED",
+   "source": "BATCH_01/04_add_symbol.png",
+   "source_sha256": "127160dd093bf25a6435e555ccee79aedcdcef960b0228d4afbf1866b95681bc",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    216,
+    227,
+    333,
+    314
+   ],
+   "runtime": "BATCH_01/04_add_symbol.webp",
+   "runtime_px": [
+    192,
+    181
+   ],
+   "runtime_bytes": 18346
+  },
+  {
+   "registry_id": "F05.D01.ICON.CLOSE.INK",
+   "source": "BATCH_01/05_close.png",
+   "source_sha256": "7695df747eb3f65d2f80e020a65ec2f462c0bf34f0cdfa242e3992aedf80489e",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    251,
+    263,
+    264,
+    255
+   ],
+   "runtime": "BATCH_01/05_close.webp",
+   "runtime_px": [
+    192,
+    185
+   ],
+   "runtime_bytes": 19470
+  },
+  {
+   "registry_id": "F05.D01.ICON.BANK.COLUMN",
+   "source": "BATCH_01/06_bank_column.png",
+   "source_sha256": "65e636c8a12b87d3d8c5e5069ee495638afae88c5d353aa48421f62d1c7356f1",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    99,
+    185,
+    567,
+    412
+   ],
+   "runtime": "BATCH_01/06_bank_column.webp",
+   "runtime_px": [
+    192,
+    140
+   ],
+   "runtime_bytes": 17072
+  },
+  {
+   "registry_id": "F05.D01.ICON.COINS.STACK",
+   "source": "BATCH_01/07_coins_stack.png",
+   "source_sha256": "767bb39a585df318a0b15ad16d6778a048ef8774bb67465d3ae9595f1781d2f8",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    97,
+    194,
+    567,
+    398
+   ],
+   "runtime": "BATCH_01/07_coins_stack.webp",
+   "runtime_px": [
+    192,
+    135
+   ],
+   "runtime_bytes": 15586
+  },
+  {
+   "registry_id": "F05.D01.ICON.CREDIT.CARD",
+   "source": "BATCH_01/08_payment_card.png",
+   "source_sha256": "ad1358cf04b16fb9795eb5901c721b6699bb5455df48b57a903beda0f49d37b7",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    174,
+    258,
+    419,
+    254
+   ],
+   "runtime": "BATCH_01/08_payment_card.webp",
+   "runtime_px": [
+    192,
+    116
+   ],
+   "runtime_bytes": 17016
+  },
+  {
+   "registry_id": "F05.D01.ICON.RECEIPT.INK",
+   "source": "BATCH_01/09_receipt.png",
+   "source_sha256": "181b7cb434e5d69a9acaa27ab7d4badcdde52859d5d4ae515988c38acef887db",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    217,
+    208,
+    333,
+    349
+   ],
+   "runtime": "BATCH_01/09_receipt.webp",
+   "runtime_px": [
+    183,
+    192
+   ],
+   "runtime_bytes": 23670
+  },
+  {
+   "registry_id": "F05.D01.ICON.HISTORY.LEDGER",
+   "source": "BATCH_01/10_ledger.png",
+   "source_sha256": "5e69d0a5afce6e9cf166e4de137a890cd9e44ab8abba2c415eb2d4c3783454ec",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    230,
+    231,
+    305,
+    305
+   ],
+   "runtime": "BATCH_01/10_ledger.webp",
+   "runtime_px": [
+    192,
+    192
+   ],
+   "runtime_bytes": 27386
+  },
+  {
+   "registry_id": "F05.D01.ICON.INFO.MEDALLION",
+   "source": "BATCH_02/01_information_medallion.png",
+   "source_sha256": "6507a969ab2ff06da865722d9d8f64432e5ab9074923dd91906ca2aa09aa6c69",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    188,
+    188,
+    382,
+    392
+   ],
+   "runtime": "BATCH_02/01_information_medallion.webp",
+   "runtime_px": [
+    187,
+    192
+   ],
+   "runtime_bytes": 20136
+  },
+  {
+   "registry_id": "F05.D01.ICON.PAYMENT.BANK",
+   "source": "BATCH_02/02_bank_payment_badge.png",
+   "source_sha256": "ce6649478d1121e1c5645d832327f8b394550014946adb91cb4f23be0b3391dc",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    147,
+    136,
+    472,
+    480
+   ],
+   "runtime": "BATCH_02/02_bank_payment_badge.webp",
+   "runtime_px": [
+    189,
+    192
+   ],
+   "runtime_bytes": 23150
+  },
+  {
+   "registry_id": "F05.D01.ICON.CASH.COIN",
+   "source": "BATCH_02/03_brass_coin_stacks.png",
+   "source_sha256": "5f7a63dfde0533c302d8e72f7fe1e4c2bb2888308d376ef908debe7aba10b641",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    93,
+    162,
+    535,
+    445
+   ],
+   "runtime": "BATCH_02/03_brass_coin_stacks.webp",
+   "runtime_px": [
+    192,
+    160
+   ],
+   "runtime_bytes": 18724
+  },
+  {
+   "registry_id": "F05.D01.ICON.CHART.BARS",
+   "source": "BATCH_02/04_bar_chart.png",
+   "source_sha256": "6606172656a3bd133575030cdac49aecbfdf4522a472acd457e22141ae754558",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    114,
+    151,
+    531,
+    456
+   ],
+   "runtime": "BATCH_02/04_bar_chart.webp",
+   "runtime_px": [
+    192,
+    165
+   ],
+   "runtime_bytes": 19520
+  },
+  {
+   "registry_id": "F05.D01.ICON.PURCHASE.BASKET",
+   "source": "BATCH_02/05_purchase_basket.png",
+   "source_sha256": "88239ba53a568b5a739e0bf1b463615f29234e2dd20f99a75104e0628a1c61f3",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    163,
+    165,
+    436,
+    446
+   ],
+   "runtime": "BATCH_02/05_purchase_basket.webp",
+   "runtime_px": [
+    188,
+    192
+   ],
+   "runtime_bytes": 21130
+  },
+  {
+   "registry_id": "F05.D01.ICON.DAILY.PAYOUT",
+   "source": "BATCH_02/06_coastal_payout.png",
+   "source_sha256": "ebde8c172c499770ec9f4b653d4f270fa6d366848da2430eca2414051713504c",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    28,
+    164,
+    709,
+    473
+   ],
+   "runtime": "BATCH_02/06_coastal_payout.webp",
+   "runtime_px": [
+    192,
+    128
+   ],
+   "runtime_bytes": 20170
+  },
+  {
+   "registry_id": "F05.D01.ICON.FOOD.BASKET",
+   "source": "BATCH_02/07_citrus_market_crate.png",
+   "source_sha256": "54d3ded2d78cbb5172b9832c19b746104ccf4a510c49c754a4f87988b6a68879",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    55,
+    172,
+    647,
+    441
+   ],
+   "runtime": "BATCH_02/07_citrus_market_crate.webp",
+   "runtime_px": [
+    192,
+    131
+   ],
+   "runtime_bytes": 19164
+  },
+  {
+   "registry_id": "F05.D01.ICON.PAYOUT.FEE",
+   "source": "BATCH_02/08_roman_fee_medallion.png",
+   "source_sha256": "278d8ce64cba1de6bb5053e221ed07b683ad4eab6162f02af2efc3912b9d9145",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    67,
+    73,
+    638,
+    610
+   ],
+   "runtime": "BATCH_02/08_roman_fee_medallion.webp",
+   "runtime_px": [
+    192,
+    184
+   ],
+   "runtime_bytes": 22972
+  },
+  {
+   "registry_id": "F05.D01.ICON.FUEL.PUMP",
+   "source": "BATCH_02/09_fuel_pump.png",
+   "source_sha256": "5192a4cb766ae7db68f46a7c6fa57fb4155cb49906fcab229cfbaed30796cc24",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    80,
+    69,
+    598,
+    616
+   ],
+   "runtime": "BATCH_02/09_fuel_pump.webp",
+   "runtime_px": [
+    186,
+    192
+   ],
+   "runtime_bytes": 24278
+  },
+  {
+   "registry_id": "F05.D01.ICON.TIPS.FRUIT",
+   "source": "BATCH_02/10_citrus_branch.png",
+   "source_sha256": "ac8402e0326f46563be9540c863721ede7b1f8e893d805b67f8519d0d623a12e",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    60,
+    72,
+    663,
+    635
+   ],
+   "runtime": "BATCH_02/10_citrus_branch.webp",
+   "runtime_px": [
+    192,
+    184
+   ],
+   "runtime_bytes": 20816
+  },
+  {
+   "registry_id": "F05.D01.ICON.CATEGORY.DINING",
+   "source": "BATCH_03/01_dining.png",
+   "source_sha256": "8212de3de603ca8fa773c6325c792f636015d796aa330d7a61b05639d2a2956a",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    70,
+    65,
+    626,
+    643
+   ],
+   "runtime": "BATCH_03/01_dining.webp",
+   "runtime_px": [
+    187,
+    192
+   ],
+   "runtime_bytes": 18978
+  },
+  {
+   "registry_id": "F05.D01.ICON.CATEGORY.GROCERY",
+   "source": "BATCH_03/02_grocery_basket.png",
+   "source_sha256": "1088e1acbbb69694b17aabbed677e221013e08128a3a66dd932762ae8aa1397e",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    122,
+    136,
+    509,
+    502
+   ],
+   "runtime": "BATCH_03/02_grocery_basket.webp",
+   "runtime_px": [
+    192,
+    189
+   ],
+   "runtime_bytes": 25210
+  },
+  {
+   "registry_id": "F05.D01.ICON.CATEGORY.TRAVEL",
+   "source": "BATCH_03/03_travel_stamp.png",
+   "source_sha256": "5b78e6e8b65430866bc53477f8cad4e9ec7cc64b0b58464aa3744b2f983bfd10",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    113,
+    118,
+    538,
+    523
+   ],
+   "runtime": "BATCH_03/03_travel_stamp.webp",
+   "runtime_px": [
+    192,
+    187
+   ],
+   "runtime_bytes": 24914
+  },
+  {
+   "registry_id": "F05.D01.ICON.CATEGORY.PAYMENT",
+   "source": "BATCH_03/04_coin_payment.png",
+   "source_sha256": "9d5f83a824f6329380fec33799b64dc249df4e9cf55c06f259a4129a45fd3aa0",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    190,
+    203,
+    383,
+    363
+   ],
+   "runtime": "BATCH_03/04_coin_payment.webp",
+   "runtime_px": [
+    192,
+    182
+   ],
+   "runtime_bytes": 24020
+  },
+  {
+   "registry_id": "F05.D01.ICON.CATEGORY.FEE",
+   "source": "BATCH_03/05_fee_temple.png",
+   "source_sha256": "9a688c58ab17fa0aba2fb9c00175950a3f9ae083eb6c58c9a2b29e4e7b0fb6cf",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    164,
+    169,
+    436,
+    431
+   ],
+   "runtime": "BATCH_03/05_fee_temple.webp",
+   "runtime_px": [
+    192,
+    190
+   ],
+   "runtime_bytes": 23510
+  },
+  {
+   "registry_id": "F05.D01.ICON.EDIT.PEN",
+   "source": "BATCH_03/06_edit_document.png",
+   "source_sha256": "191544ccf89f103548f13d6592388f61700c2946cc4aa38b0f22dd98e04baad9",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    104,
+    101,
+    554,
+    563
+   ],
+   "runtime": "BATCH_03/06_edit_document.webp",
+   "runtime_px": [
+    189,
+    192
+   ],
+   "runtime_bytes": 21608
+  },
+  {
+   "registry_id": "F05.D01.ICON.TAG",
+   "source": "BATCH_03/07_tag.png",
+   "source_sha256": "b1939bcc8ce768c5c1e6a6a00dd5c005ccae3ac7fe2e411c4f2452529ecce581",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    161,
+    187,
+    408,
+    411
+   ],
+   "runtime": "BATCH_03/07_tag.webp",
+   "runtime_px": [
+    191,
+    192
+   ],
+   "runtime_bytes": 16510
+  },
+  {
+   "registry_id": "F05.D01.ICON.REVERSE.LOOP",
+   "source": "BATCH_03/08_reversal_loop.png",
+   "source_sha256": "d42538836ad232770af125e76241c50ddff9def86cfa589a7d5b9412f0531b13",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    96,
+    107,
+    565,
+    558
+   ],
+   "runtime": "BATCH_03/08_reversal_loop.webp",
+   "runtime_px": [
+    192,
+    190
+   ],
+   "runtime_bytes": 21692
+  },
+  {
+   "registry_id": "F05.D01.ICON.ARCHIVE.CHEST",
+   "source": "BATCH_03/09_archive.png",
+   "source_sha256": "81ce271044a0dded44fe2d3aaf99ba0560df420563b53cf93557ff1c3e705bb1",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    118,
+    127,
+    529,
+    512
+   ],
+   "runtime": "BATCH_03/09_archive.webp",
+   "runtime_px": [
+    192,
+    186
+   ],
+   "runtime_bytes": 22580
+  },
+  {
+   "registry_id": "F05.D01.ICON.BALANCE.SCALE",
+   "source": "BATCH_03/10_balance_scales.png",
+   "source_sha256": "8d5d01f972a8ce781f5957171bbd70119027842610e78715b342536678c2692f",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    38,
+    48,
+    681,
+    676
+   ],
+   "runtime": "BATCH_03/10_balance_scales.webp",
+   "runtime_px": [
+    192,
+    191
+   ],
+   "runtime_bytes": 18170
+  },
+  {
+   "registry_id": "F05.D01.ICON.CALENDAR",
+   "source": "BATCH_04/01_calendar.png",
+   "source_sha256": "481a8316dde9337e9cba5d3488c07550e3c46026e187fc7b14b30de0725ed5e9",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    110,
+    35,
+    584,
+    672
+   ],
+   "runtime": "BATCH_04/01_calendar.webp",
+   "runtime_px": [
+    167,
+    192
+   ],
+   "runtime_bytes": 17136
+  },
+  {
+   "registry_id": "F05.D01.ICON.WALLET",
+   "source": "BATCH_04/02_wallet.png",
+   "source_sha256": "8ff3d994b1bf400ec5478fea4fc19bab67469eefa26a537e2e909b9e8643eff7",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    73,
+    57,
+    610,
+    626
+   ],
+   "runtime": "BATCH_04/02_wallet.webp",
+   "runtime_px": [
+    187,
+    192
+   ],
+   "runtime_bytes": 20524
+  },
+  {
+   "registry_id": "F05.D01.ICON.SCAN.CAMERA",
+   "source": "BATCH_04/03_receipt_scan_camera.png",
+   "source_sha256": "4a356cf1dfd11fdaa9a50efb8236e0135b881dd61f8dd7cdf9b6f66937ca0f45",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    104,
+    62,
+    565,
+    644
+   ],
+   "runtime": "BATCH_04/03_receipt_scan_camera.webp",
+   "runtime_px": [
+    168,
+    192
+   ],
+   "runtime_bytes": 23076
+  },
+  {
+   "registry_id": "F05.D01.ICON.UPLOAD",
+   "source": "BATCH_04/04_upload.png",
+   "source_sha256": "d06fd7aa37aa3824a0ac21f1648090b1acee49aceafe5e82bffba29fb996f427",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    111,
+    138,
+    531,
+    495
+   ],
+   "runtime": "BATCH_04/04_upload.webp",
+   "runtime_px": [
+    192,
+    179
+   ],
+   "runtime_bytes": 16770
+  },
+  {
+   "registry_id": "F05.D01.ICON.CHECK.SEALED",
+   "source": "BATCH_04/05_approval_check.png",
+   "source_sha256": "696c5d83bfd360108f6c3ea378602bceeee07e9e638cb9f5bc3000572a617820",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    111,
+    42,
+    527,
+    661
+   ],
+   "runtime": "BATCH_04/05_approval_check.webp",
+   "runtime_px": [
+    153,
+    192
+   ],
+   "runtime_bytes": 18386
+  },
+  {
+   "registry_id": "F05.D01.ICON.ALERT.TRIANGLE",
+   "source": "BATCH_04/06_warning.png",
+   "source_sha256": "53d4816443288130c0962f7a5a39b2f8010914ee04fa484a5c02c7e00ef39429",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    57,
+    48,
+    645,
+    658
+   ],
+   "runtime": "BATCH_04/06_warning.webp",
+   "runtime_px": [
+    188,
+    192
+   ],
+   "runtime_bytes": 17684
+  },
+  {
+   "registry_id": "F05.D01.ICON.FILTER.SLIDERS",
+   "source": "BATCH_04/07_filter_sliders.png",
+   "source_sha256": "97b84cafa325383751cd212a24c9accf473b810b71397b08fae42b536b66fbb0",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    99,
+    101,
+    563,
+    562
+   ],
+   "runtime": "BATCH_04/07_filter_sliders.webp",
+   "runtime_px": [
+    192,
+    192
+   ],
+   "runtime_bytes": 20762
+  },
+  {
+   "registry_id": "F05.D01.ICON.REORDER.GRIP",
+   "source": "BATCH_04/08_reorder_grip.png",
+   "source_sha256": "508a31d643c04997a16b534466fd55e1745e5e5eeb76c8a028ec35cacd3973cd",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    146,
+    170,
+    476,
+    435
+   ],
+   "runtime": "BATCH_04/08_reorder_grip.webp",
+   "runtime_px": [
+    192,
+    175
+   ],
+   "runtime_bytes": 19626
+  },
+  {
+   "registry_id": "F05.D01.ICON.SAVE.FLOPPY",
+   "source": "BATCH_04/09_save.png",
+   "source_sha256": "1c22813883ef8d1e4363575f384122b63d240c3e54332c92b087eddbe8f487f0",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    106,
+    108,
+    579,
+    564
+   ],
+   "runtime": "BATCH_04/09_save.webp",
+   "runtime_px": [
+    192,
+    187
+   ],
+   "runtime_bytes": 19108
+  },
+  {
+   "registry_id": "F05.D01.ICON.LOCK.STATUS",
+   "source": "BATCH_04/10_lock_status.png",
+   "source_sha256": "332d9520bf40dfc2dfb3063e6c3aa1502dfb351b6a6d8e2f48cec0f02c6eda98",
+   "source_px": [
+    768,
+    768
+   ],
+   "alpha_bbox": [
+    148,
+    51,
+    502,
+    647
+   ],
+   "runtime": "BATCH_04/10_lock_status.webp",
+   "runtime_px": [
+    149,
+    192
+   ],
+   "runtime_bytes": 14042
+  }
+ ]
+}

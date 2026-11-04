@@ -72,7 +72,7 @@ export function AccountChips({ label, value, onChange, trigger, filter }: { labe
     .listAccounts()
     .filter((a) => a.status === 'ACTIVE' && (filter ? filter(a) : true))
     .map((a) => ({ id: a.account_id, label: a.display_name }));
-  if (!options.length) return <p className="jrn-currency__note" role="note">NO MATCHING ACCOUNT YET. ADD ONE IN MONEY → PLACES.</p>;
+  if (!options.length) return <p className="jrn-currency__note" role="note">NO MATCHING ACCOUNT YET. ADD ONE IN MONEY → POCKETS.</p>;
   return (
     <>
       <p className="jrn-eyebrow">{label}</p>

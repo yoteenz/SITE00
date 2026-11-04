@@ -1,0 +1,330 @@
+{
+  "overall_pct_px_gt24": 36.31,
+  "overall_mean_abs_diff": 25.68,
+  "regions": {
+    "statue_arch_botanicals (y<380)": {
+      "pct_px_gt24": 37.94,
+      "mean_abs_diff": 30.68,
+      "ref_vs_sidekick_pct_gt24": 42.93,
+      "runtime_vs_sidekick_pct_gt24": 9.32
+    },
+    "title_paper_and_seal": {
+      "pct_px_gt24": 37.39,
+      "mean_abs_diff": 38.09,
+      "ref_vs_sidekick_pct_gt24": 37.76,
+      "runtime_vs_sidekick_pct_gt24": 7.96
+    },
+    "summary_band": {
+      "pct_px_gt24": 22.51,
+      "mean_abs_diff": 34.02,
+      "ref_vs_sidekick_pct_gt24": 19.28,
+      "runtime_vs_sidekick_pct_gt24": 7.69
+    },
+    "papers_zone": {
+      "pct_px_gt24": 34.55,
+      "mean_abs_diff": 32.58,
+      "ref_vs_sidekick_pct_gt24": 51.22,
+      "runtime_vs_sidekick_pct_gt24": 54.23
+    },
+    "dots": {
+      "pct_px_gt24": 35.8,
+      "mean_abs_diff": 32.73,
+      "ref_vs_sidekick_pct_gt24": 31.65,
+      "runtime_vs_sidekick_pct_gt24": 5.78
+    },
+    "coast_illustration": {
+      "pct_px_gt24": 57.98,
+      "mean_abs_diff": 44.05,
+      "ref_vs_sidekick_pct_gt24": 58.76,
+      "runtime_vs_sidekick_pct_gt24": 7.44
+    },
+    "global_nav": {
+      "pct_px_gt24": 28.18,
+      "mean_abs_diff": 26.56,
+      "ref_vs_sidekick_pct_gt24": 28.57,
+      "runtime_vs_sidekick_pct_gt24": 19.3
+    }
+  },
+  "papers": [
+    {
+      "slot": 0,
+      "art_pct_px_gt24": 48.93,
+      "art_mean_abs_diff": 37.41,
+      "art_aligned_shift": [
+        -1,
+        -4
+      ],
+      "art_aligned_ncc": 0.8409,
+      "art_aligned_pct_px_gt24": 31.27,
+      "art_aligned_mean_abs_diff": 23.82,
+      "ref_lines": 4,
+      "run_lines": 4,
+      "line_pairs": [
+        {
+          "ref": [
+            82,
+            812,
+            188,
+            833
+          ],
+          "run": [
+            86,
+            812,
+            180,
+            830
+          ],
+          "dx0": 4,
+          "dy0": 0,
+          "h_ratio": 0.86
+        },
+        {
+          "ref": [
+            82,
+            845,
+            289,
+            865
+          ],
+          "run": [
+            86,
+            839,
+            287,
+            857
+          ],
+          "dx0": 4,
+          "dy0": -6,
+          "h_ratio": 0.9
+        },
+        {
+          "ref": [
+            82,
+            903,
+            288,
+            938
+          ],
+          "run": [
+            87,
+            903,
+            178,
+            937
+          ],
+          "dx0": 5,
+          "dy0": 0,
+          "h_ratio": 0.97
+        },
+        {
+          "ref": [
+            83,
+            953,
+            283,
+            966
+          ],
+          "run": [
+            88,
+            962,
+            247,
+            975
+          ],
+          "dx0": 5,
+          "dy0": 9,
+          "h_ratio": 1.0
+        }
+      ],
+      "median_abs_dy": 3.0,
+      "median_abs_dy_in_paper": 4.5,
+      "median_abs_dx_in_paper": 3.5
+    },
+    {
+      "slot": 1,
+      "art_pct_px_gt24": 22.6,
+      "art_mean_abs_diff": 19.53,
+      "art_aligned_shift": [
+        0,
+        -2
+      ],
+      "art_aligned_ncc": 0.9697,
+      "art_aligned_pct_px_gt24": 9.9,
+      "art_aligned_mean_abs_diff": 10.65,
+      "ref_lines": 3,
+      "run_lines": 3,
+      "line_pairs": [
+        {
+          "ref": [
+            511,
+            803,
+            720,
+            842
+          ],
+          "run": [
+            518,
+            806,
+            720,
+            844
+          ],
+          "dx0": 7,
+          "dy0": 3,
+          "h_ratio": 0.97
+        },
+        {
+          "ref": [
+            702,
+            863,
+            720,
+            895
+          ],
+          "run": [
+            518,
+            866,
+            720,
+            902
+          ],
+          "dx0": -184,
+          "dy0": 3,
+          "h_ratio": 1.12
+        },
+        {
+          "ref": [
+            513,
+            901,
+            720,
+            981
+          ],
+          "run": [
+            519,
+            927,
+            720,
+            984
+          ],
+          "dx0": 6,
+          "dy0": 26,
+          "h_ratio": 0.71
+        }
+      ],
+      "median_abs_dy": 3.0,
+      "median_abs_dy_in_paper": 1.0,
+      "median_abs_dx_in_paper": 7.0
+    },
+    {
+      "slot": 2,
+      "art_pct_px_gt24": 27.93,
+      "art_mean_abs_diff": 21.69,
+      "art_aligned_shift": [
+        1,
+        -1
+      ],
+      "art_aligned_ncc": 0.9645,
+      "art_aligned_pct_px_gt24": 16.15,
+      "art_aligned_mean_abs_diff": 14.02,
+      "ref_lines": 3,
+      "run_lines": 3,
+      "line_pairs": [
+        {
+          "ref": [
+            82,
+            1038,
+            262,
+            1061
+          ],
+          "run": [
+            85,
+            1034,
+            275,
+            1057
+          ],
+          "dx0": 3,
+          "dy0": -4,
+          "h_ratio": 1.0
+        },
+        {
+          "ref": [
+            83,
+            1073,
+            260,
+            1096
+          ],
+          "run": [
+            85,
+            1069,
+            267,
+            1092
+          ],
+          "dx0": 2,
+          "dy0": -4,
+          "h_ratio": 1.0
+        },
+        {
+          "ref": [
+            81,
+            1129,
+            288,
+            1220
+          ],
+          "run": [
+            86,
+            1123,
+            288,
+            1220
+          ],
+          "dx0": 5,
+          "dy0": -6,
+          "h_ratio": 1.07
+        }
+      ],
+      "median_abs_dy": 4.0,
+      "median_abs_dy_in_paper": 5.0,
+      "median_abs_dx_in_paper": 4.0
+    },
+    {
+      "slot": 3,
+      "art_pct_px_gt24": 22.47,
+      "art_mean_abs_diff": 19.55,
+      "art_aligned_shift": [
+        1,
+        -4
+      ],
+      "art_aligned_ncc": 0.9675,
+      "art_aligned_pct_px_gt24": 7.35,
+      "art_aligned_mean_abs_diff": 9.88,
+      "ref_lines": 2,
+      "run_lines": 2,
+      "line_pairs": [
+        {
+          "ref": [
+            511,
+            1041,
+            678,
+            1064
+          ],
+          "run": [
+            518,
+            1036,
+            698,
+            1059
+          ],
+          "dx0": 7,
+          "dy0": -5,
+          "h_ratio": 1.0
+        },
+        {
+          "ref": [
+            512,
+            1107,
+            721,
+            1222
+          ],
+          "run": [
+            519,
+            1090,
+            721,
+            1222
+          ],
+          "dx0": 7,
+          "dy0": -17,
+          "h_ratio": 1.15
+        }
+      ],
+      "median_abs_dy": 11.0,
+      "median_abs_dy_in_paper": 15.0,
+      "median_abs_dx_in_paper": 8.0
+    }
+  ]
+}

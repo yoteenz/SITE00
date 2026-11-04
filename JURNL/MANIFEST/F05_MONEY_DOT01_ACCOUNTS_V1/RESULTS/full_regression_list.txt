@@ -1,0 +1,810 @@
+
+Running 483 tests using 2 workers
+
+  ✓    2 [small] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:102:3 › F05 MONEY carousel › 01 · the first collection is ACCOUNTS: the approved four places with live, id-bound values (6.2s)
+  ✓    3 [small] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:129:3 › F05 MONEY carousel › a drag short of the threshold settles back; a drag never opens the paper it ends on (7.0s)
+  ✓    1 [small] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:112:3 › F05 MONEY carousel › 02 / 03 / 04 / 05 · swipes advance one collection at a time, reverse swipes return, the ends do not wrap (18.8s)
+  ✓    4 [small] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:142:3 › F05 MONEY carousel › 06 · dots, previous / next and the keyboard select the intended collection (10.9s)
+  ✓    6 [small] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:191:3 › F05 MONEY carousel › 11 · every collection is four papers, in the four approved places (8.2s)
+  ✓    5 [small] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:167:3 › F05 MONEY carousel › 07 / 08 / 09 / 10 · environment, MONEY title, summary and the global dock never move or re-mount (14.0s)
+  ✓    8 [small] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:268:3 › F05 MONEY carousel › 13 / 17 / 18 / 19 · figures are canonical: in-transit and pending are not available, debt stays apart, nothing counted twice (18.2s)
+  ✓    7 [small] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:211:3 › F05 MONEY carousel › 12 / 21 · every panel opens its owner; closing or coming back returns to the same collection (26.1s)
+  ✓    9 [small] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:313:3 › F05 MONEY carousel › 14 / 15 / 16 · missing data is said plainly: no invented transfers, bills, goals, income or spending (13.6s)
+  ✓   10 [small] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:337:3 › F05 MONEY carousel › 14 · no places at all: Safe to Spend and RESERVED are not known, never a sample figure (9.1s)
+  ✓   11 [small] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:350:3 › F05 MONEY carousel › 20 · changing collection — by swipe, dot, key, button or trackpad — never writes a record (10.9s)
+  ✓   12 [small] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:372:3 › F05 MONEY carousel › 23 · carousel gestures stay inside the carousel: no history entries, no route change, vertical and edge gestures ignored (11.2s)
+  ✓   13 [small] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:403:3 › F05 MONEY carousel › 24 · no duplicated images or ghosted layers once a change settles (9.5s)
+  ✓   15 [small] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:465:3 › F05 MONEY carousel › 26 · F05 logic intact from the carousel: a place opens by id and back returns to ACCOUNTS (7.7s)
+  ✓   14 [small] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:426:3 › F05 MONEY carousel › 25 · usable at this size: everything on screen, real touch targets, no page scroll (16.3s)
+  ✓   16 [small] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:476:3 › F05 MONEY carousel › 26 · more than four places: the first four places and VIEW ALL ACCOUNTS, which lists every place; still four dots (6.8s)
+  ✓   17 [small] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:485:3 › F05 MONEY carousel › accessibility: carousel semantics and no serious or critical axe violations in any collection (13.5s)
+  -   19 [small] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:537:3 › F05 MONEY carousel › motion: mid-drag, the papers follow the finger with resistance and a shadow lean; the shell stays put
+  ✓   20 [small] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:558:3 › F05 MONEY carousel — reduced motion › 22 · reduced motion: the collection changes at once; dots, swipes, keys and panels all still work (7.9s)
+  ✓   18 [small] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:497:3 › F05 MONEY carousel › motion: a collection change is an exit then an entry from the other side, ≤ 520 ms, without replaying the page entrance (21.3s)
+  ✓   22 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:123:3 › F05 DOT 01 — accounts directory, order and setup › 32 · cancelling a reorder changes nothing (8.4s)
+  ✓   21 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:99:3 › F05 DOT 01 — accounts directory, order and setup › 06 / 32 · ALL ACCOUNTS lists every place; the saved order persists and drives the MONEY parent (18.1s)
+  ✓   23 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:134:3 › F05 DOT 01 — accounts directory, order and setup › 22 / 14 / 30 · no accounts: an honest empty state; adding the first account opens it with the entered balance (10.9s)
+  ✓   24 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:151:3 › F05 DOT 01 — accounts directory, order and setup › 14 · a card limit is only what the user enters (never invented) (7.3s)
+  ✓   26 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:180:3 › F05 DOT 01 — account pages and histories › 07 / 31 · history search and filters live in the URL, rows open the transaction, back keeps the filter (11.4s)
+  ✓   25 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:165:3 › F05 DOT 01 — account pages and histories › 02–05 · each kind opens its own page with live, id-bound values; back returns to the directory (17.7s)
+  ✓   27 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:203:3 › F05 DOT 01 — account pages and histories › 10 · a card history reads like a statement; pending transfers show their state and no sign (10.4s)
+  ✓   28 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:212:3 › F05 DOT 01 — account pages and histories › 31 · all transactions can be narrowed to one account (7.1s)
+  ✓   29 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:222:3 › F05 DOT 01 — entries (16–20): one canonical entry each, correct accounting › 18 · cash spending lowers cash on hand only, saved once (7.1s)
+  ✓   30 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:245:3 › F05 DOT 01 — entries (16–20): one canonical entry each, correct accounting › 19 · a card purchase raises what the card owes and moves no cash (12.7s)
+  ✓   31 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:260:3 › F05 DOT 01 — entries (16–20): one canonical entry each, correct accounting › 20 · a card payment is recorded, never sent; only a confirmed payment moves money; overpaying is refused (12.8s)
+  ✓   32 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:288:3 › F05 DOT 01 — entries (16–20): one canonical entry each, correct accounting › 17 · cash from an account is a transfer (not income); a counted correction is a balance correction (7.4s)
+  ✓   34 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:368:3 › F05 DOT 01 — receipts (26–29, 33, 34): real on-device OCR on a synthetic receipt photo › 29 · a receipt that matches an existing purchase stops for review; USE EXISTING ENTRY saves nothing (13.0s)
+  ✓   33 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:306:3 › F05 DOT 01 — receipts (26–29, 33, 34): real on-device OCR on a synthetic receipt photo › 26 → 27 → 28 → 33 · scan, review, confirm: one entry with the receipt attached; the photo never leaves the device (15.0s)
+  ✓   36 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:404:3 › F05 DOT 01 — receipts (26–29, 33, 34): real on-device OCR on a synthetic receipt photo › 26 · a PDF is refused with a plain message and nothing is read or saved (6.5s)
+  ✓   35 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:383:3 › F05 DOT 01 — receipts (26–29, 33, 34): real on-device OCR on a synthetic receipt photo › 34 · an unreadable photo fails honestly; ENTER MANUALLY recovers and saves exactly one entry (10.3s)
+  ✓   38 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:448:3 › F05 DOT 01 — corrections, reconciliation and archiving › 24 · transfer legs are changed from their own steps, not here (7.0s)
+  ✓   37 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:415:3 › F05 DOT 01 — corrections, reconciliation and archiving › 24 / 37 · a correction shows original vs revised and keeps the trail; a reversal removes it once (14.8s)
+  ✓   39 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:454:3 › F05 DOT 01 — corrections, reconciliation and archiving › 13 / 23 · tracked, actual and difference stay apart; never reconciled with a difference (10.3s)
+  ✓   40 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:480:3 › F05 DOT 01 — corrections, reconciliation and archiving › 36 · archiving is blocked while anything depends on the place (9.5s)
+  ✓   41 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:492:3 › F05 DOT 01 — corrections, reconciliation and archiving › 25 · a place with nothing depending on it is archived; its history stays; it leaves the directory (10.5s)
+  ✓   42 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:504:3 › F05 DOT 01 — corrections, reconciliation and archiving › 12 / 15 / 21 · settings, rename and purposes (11.8s)
+  ✓   43 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:518:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › overlays trap focus, close on Escape, return focus to the opener and keep the page state (7.4s)
+  ✓   44 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:538:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › the MONEY collection is kept: VIEW ALL ACCOUNTS → back returns to ACCOUNTS (7.7s)
+  ✓   46 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:590:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › chips follow the authorities: back on 02–29, search + add on 30–37 (and 31) (21.1s)
+  ✓   47 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:607:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › typography inside overlays: uppercase, one lowercase cursive phrase at most (12.8s)
+  ✓   45 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:552:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › the dock appears only where its authority draws it (06, 31), on the nav paper; the other pages are full-bleed (46.9s)
+  ✓   48 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:617:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › accessibility: no serious or critical axe violations on the DOT 01 pages and overlays (1.1m)
+  ✓   50 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:671:3 › F05 DOT 01 — reduced motion › no animation runs; pages, overlays and saves still work (7.3s)
+  ✓   51 [small] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:53:3 › F05 MONEY parent motion pilot › 1 · no account records: an honest empty state, no invented figures (8.3s)
+  ✓   52 [small] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:65:3 › F05 MONEY parent motion pilot › 2 · one account: its paper and a place to add another (8.0s)
+  ✘   53 [small] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:72:3 › F05 MONEY parent motion pilot › 3 / 5 / 6 · four accounts: approved hierarchy, live values, assets never netted with debt (12.0s)
+  ✘   49 [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:640:3 › F05 DOT 01 — responsive (360×780 · 393×852 · 430×932 · 834×1194 · 1440×900) › nothing overflows sideways, controls stay on screen and touchable, inputs keep 16 px type (1.6m)
+  ✓   55 [small] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:113:3 › F05 MONEY parent motion pilot › 7 · the global dock keeps its five destinations, MONEY active, ADD opens Quick Add (5.9s)
+  ✓   54 [small] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:97:3 › F05 MONEY parent motion pilot › 4 · many accounts: the first four places and VIEW ALL ACCOUNTS; more places never add pages or dots (7.3s)
+  ✓   56 [small] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:124:3 › F05 MONEY parent motion pilot › 8 / 9 / 13 / 19 / 20 · selection routes by id, changes no record, back returns cleanly (7.2s)
+  ✓   57 [small] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:148:3 › F05 MONEY parent motion pilot › 10 / 11 · MOVE MONEY uses the transaction system; money on its way is not shown as received (9.5s)
+  ✓   59 [small] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:260:3 › F05 MONEY parent motion pilot › 12 · overlays open, trap focus, close on Escape and return focus to the trigger (10.1s)
+  ✓   60 [small] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:290:3 › F05 MONEY parent motion pilot › 15 / 16 / 17 / 18 · readable at once, no duplicates, nothing off-screen, no page scroll (4.3s)
+  ✓   61 [small] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:310:3 › F05 MONEY parent motion pilot › accessibility: no serious or critical axe violations on the pilot or its sheets (7.2s)
+  ✓   58 [small] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:173:3 › F05 MONEY parent motion pilot › transfer states drive the thread; only recorded steps move money (33.3s)
+  ✓   62 [small] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:319:3 › F05 MONEY parent motion pilot › motion frame sequence (entrance, paused and seeked) and the zero-motion composite (17.4s)
+  ✓   63 [small] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:351:3 › F05 MONEY parent motion pilot › route transition frame sequence: the selected paper becomes the account title (13.5s)
+  ✓   64 [small] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:374:3 › F05 motion pilot — reduced motion › 14 · reduced motion: no animation, every action and figure still works (6.1s)
+  ✓   65 [small] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:394:3 › F05 MONEY default stays the approved cabinet hub › without opting in, /money is the cabinet hub (4.4s)
+  ✓   66 [small] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:70:3 › Stabilization journeys › D1 Safe to Spend: next 30 days, then before next income; the 30-day number never changes (17.3s)
+  ✓   67 [small] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:97:3 › Stabilization journeys › transfer in transit: out of the source, not in the bank until it arrives, credited once (22.2s)
+  ✓   68 [small] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:122:3 › Stabilization journeys › a started transfer that never left can be cancelled with no change (19.7s)
+  ✓   69 [small] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:140:3 › Stabilization journeys › card payment on its way: the card is not settled until it confirms; the minimum is counted once (23.9s)
+  ✓   70 [small] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:163:3 › Stabilization journeys › D3 set money aside: the bill page and Plan show and change the same amount (27.4s)
+  ✓   71 [small] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:188:3 › Stabilization journeys › D2 a bill that is the card payment is counted once, through the card (17.3s)
+  ✓   72 [small] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:196:3 › Stabilization journeys › D4 headlines and TODAY: straightforward labels; ASK JURNL reachable with an honest fallback (18.7s)
+  ✓   73 [small] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:216:3 › Stabilization journeys › accessibility: new sheets have no serious or critical axe violations (17.8s)
+  ✓   75 [small] › e2e/jurnl/jurnl-financial-os.e2e.ts:106:3 › Financial operating system journeys › spending: card purchase raises what the card owes; cash purchase lowers cash; usual account suggested (33.7s)
+  ✓   74 [small] › e2e/jurnl/jurnl-financial-os.e2e.ts:63:3 › Financial operating system journeys › daily earnings: one entry, cash and digital land in the right places, edit without duplication (41.3s)
+  ✓   76 [small] › e2e/jurnl/jurnl-financial-os.e2e.ts:132:3 › Financial operating system journeys › transfer: moving money between owned accounts is not income (22.5s)
+  ✓   78 [small] › e2e/jurnl/jurnl-financial-os.e2e.ts:186:3 › Financial operating system journeys › subscriptions: add, see renewal and monthly / yearly cost (7.7s)
+  ✓   77 [small] › e2e/jurnl/jurnl-financial-os.e2e.ts:151:3 › Financial operating system journeys › bill funding: $95 set aside toward $140 does not lower Safe to Spend again; paying records one payment (38.7s)
+  ✓   79 [small] › e2e/jurnl/jurnl-financial-os.e2e.ts:198:3 › Financial operating system journeys › credit: payment plan shows minimum, source money and a target the user picks; recording a payment updates it (15.6s)
+  ✓   80 [small] › e2e/jurnl/jurnl-financial-os.e2e.ts:215:3 › Financial operating system journeys › today: real attention fact and the money reading in SEE WHY (11.2s)
+  ✓   81 [small] › e2e/jurnl/jurnl-financial-os.e2e.ts:229:3 › Financial operating system journeys › accessibility: new sheets have no serious or critical axe violations (22.5s)
+  ✓   82 [mobile] › e2e/jurnl/jurnl-a11y-core.e2e.ts:13:5 › JURNL core accessibility (automated) › axe today — no critical/serious (12.5s)
+  ✓   84 [mobile] › e2e/jurnl/jurnl-a11y-core.e2e.ts:13:5 › JURNL core accessibility (automated) › axe plan — no critical/serious (11.8s)
+  ✓   83 [mobile] › e2e/jurnl/jurnl-a11y-core.e2e.ts:13:5 › JURNL core accessibility (automated) › axe money — no critical/serious (12.4s)
+  ✓   86 [mobile] › e2e/jurnl/jurnl-a11y-core.e2e.ts:13:5 › JURNL core accessibility (automated) › axe goals — no critical/serious (10.7s)
+  ✓   85 [mobile] › e2e/jurnl/jurnl-a11y-core.e2e.ts:13:5 › JURNL core accessibility (automated) › axe safe — no critical/serious (11.8s)
+  ✓   87 [mobile] › e2e/jurnl/jurnl-a11y-core.e2e.ts:13:5 › JURNL core accessibility (automated) › axe records — no critical/serious (11.6s)
+  ✓   88 [mobile] › e2e/jurnl/jurnl-a11y-core.e2e.ts:13:5 › JURNL core accessibility (automated) › axe account — no critical/serious (11.3s)
+  ✓   89 [mobile] › e2e/jurnl/jurnl-core-mutations.e2e.ts:9:3 › Core mutations F05–F16 › F10 create purchase and mark purchased (10.6s)
+  ✓   90 [mobile] › e2e/jurnl/jurnl-core-mutations.e2e.ts:22:3 › Core mutations F05–F16 › F11 trip reserve affects safe to spend (18.5s)
+  ✓   91 [mobile] › e2e/jurnl/jurnl-core-mutations.e2e.ts:38:3 › Core mutations F05–F16 › F08 plan assign reduces STS (20.4s)
+  ✓   92 [mobile] › e2e/jurnl/jurnl-core-mutations.e2e.ts:54:3 › Core mutations F05–F16 › F14 goal set aside reduces STS (16.5s)
+  ✓   93 [mobile] › e2e/jurnl/jurnl-core-mutations.e2e.ts:67:3 › Core mutations F05–F16 › F13 paydown what-if keeps credit balance read-only (10.8s)
+  ✓   94 [mobile] › e2e/jurnl/jurnl-core-mutations.e2e.ts:74:3 › Core mutations F05–F16 › F15 ahead derived timeline (9.6s)
+  ✓   95 [mobile] › e2e/jurnl/jurnl-core-mutations.e2e.ts:80:3 › Core mutations F05–F16 › F16 record metadata create (10.9s)
+  ✓   96 [mobile] › e2e/jurnl/jurnl-core-mutations.e2e.ts:89:3 › Core mutations F05–F16 › F07 upcoming lists obligations (10.3s)
+  ✓   98 [mobile] › e2e/jurnl/jurnl-entry-setup.e2e.ts:5:3 › F01 entry + F02 handoff surfaces › F01 entry index resolves to a primary route (5.5s)
+  ✓   97 [mobile] › e2e/jurnl/jurnl-core-mutations.e2e.ts:95:3 › Core mutations F05–F16 › F12 credit hub opens account (10.5s)
+  ✓   99 [mobile] › e2e/jurnl/jurnl-entry-setup.e2e.ts:18:3 › F01 entry + F02 handoff surfaces › F02 setup route loads when navigated directly (6.4s)
+  ✓  101 [mobile] › e2e/jurnl/jurnl-entry-setup.e2e.ts:72:3 › F01 entry + F02 handoff surfaces › forgot password reaches CREATE NEW PASSWORD from the reset email (9.7s)
+  ✓  100 [mobile] › e2e/jurnl/jurnl-entry-setup.e2e.ts:31:3 › F01 entry + F02 handoff surfaces › a new account walks ENTRY from WELCOME to SETUP (the preview follows the emailed link) (15.0s)
+  ✓  102 [mobile] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:102:3 › F05 MONEY carousel › 01 · the first collection is ACCOUNTS: the approved four places with live, id-bound values (9.0s)
+  ✓  104 [mobile] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:129:3 › F05 MONEY carousel › a drag short of the threshold settles back; a drag never opens the paper it ends on (8.8s)
+  ✓  103 [mobile] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:112:3 › F05 MONEY carousel › 02 / 03 / 04 / 05 · swipes advance one collection at a time, reverse swipes return, the ends do not wrap (21.3s)
+  ✓  105 [mobile] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:142:3 › F05 MONEY carousel › 06 · dots, previous / next and the keyboard select the intended collection (11.5s)
+  ✓  107 [mobile] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:191:3 › F05 MONEY carousel › 11 · every collection is four papers, in the four approved places (8.8s)
+  ✓  106 [mobile] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:167:3 › F05 MONEY carousel › 07 / 08 / 09 / 10 · environment, MONEY title, summary and the global dock never move or re-mount (16.3s)
+  ✓  109 [mobile] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:268:3 › F05 MONEY carousel › 13 / 17 / 18 / 19 · figures are canonical: in-transit and pending are not available, debt stays apart, nothing counted twice (20.1s)
+  ✓  108 [mobile] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:211:3 › F05 MONEY carousel › 12 / 21 · every panel opens its owner; closing or coming back returns to the same collection (25.8s)
+  ✓  110 [mobile] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:313:3 › F05 MONEY carousel › 14 / 15 / 16 · missing data is said plainly: no invented transfers, bills, goals, income or spending (11.9s)
+  ✓  111 [mobile] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:337:3 › F05 MONEY carousel › 14 · no places at all: Safe to Spend and RESERVED are not known, never a sample figure (9.5s)
+  ✓  112 [mobile] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:350:3 › F05 MONEY carousel › 20 · changing collection — by swipe, dot, key, button or trackpad — never writes a record (9.4s)
+  ✓  113 [mobile] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:372:3 › F05 MONEY carousel › 23 · carousel gestures stay inside the carousel: no history entries, no route change, vertical and edge gestures ignored (12.4s)
+  ✓  114 [mobile] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:403:3 › F05 MONEY carousel › 24 · no duplicated images or ghosted layers once a change settles (12.1s)
+  ✓  116 [mobile] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:465:3 › F05 MONEY carousel › 26 · F05 logic intact from the carousel: a place opens by id and back returns to ACCOUNTS (6.9s)
+  ✓  115 [mobile] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:426:3 › F05 MONEY carousel › 25 · usable at this size: everything on screen, real touch targets, no page scroll (15.7s)
+  ✓  117 [mobile] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:476:3 › F05 MONEY carousel › 26 · more than four places: the first four places and VIEW ALL ACCOUNTS, which lists every place; still four dots (6.6s)
+  ✓  118 [mobile] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:485:3 › F05 MONEY carousel › accessibility: carousel semantics and no serious or critical axe violations in any collection (13.6s)
+  -  120 [mobile] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:537:3 › F05 MONEY carousel › motion: mid-drag, the papers follow the finger with resistance and a shadow lean; the shell stays put
+  ✓  121 [mobile] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:558:3 › F05 MONEY carousel — reduced motion › 22 · reduced motion: the collection changes at once; dots, swipes, keys and panels all still work (8.2s)
+  ✓  119 [mobile] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:497:3 › F05 MONEY carousel › motion: a collection change is an exit then an entry from the other side, ≤ 520 ms, without replaying the page entrance (22.2s)
+  ✓  123 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:123:3 › F05 DOT 01 — accounts directory, order and setup › 32 · cancelling a reorder changes nothing (7.4s)
+  ✓  122 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:99:3 › F05 DOT 01 — accounts directory, order and setup › 06 / 32 · ALL ACCOUNTS lists every place; the saved order persists and drives the MONEY parent (17.8s)
+  ✓  124 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:134:3 › F05 DOT 01 — accounts directory, order and setup › 22 / 14 / 30 · no accounts: an honest empty state; adding the first account opens it with the entered balance (11.9s)
+  ✓  125 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:151:3 › F05 DOT 01 — accounts directory, order and setup › 14 · a card limit is only what the user enters (never invented) (8.3s)
+  ✓  127 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:180:3 › F05 DOT 01 — account pages and histories › 07 / 31 · history search and filters live in the URL, rows open the transaction, back keeps the filter (11.5s)
+  ✓  126 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:165:3 › F05 DOT 01 — account pages and histories › 02–05 · each kind opens its own page with live, id-bound values; back returns to the directory (16.7s)
+  ✓  128 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:203:3 › F05 DOT 01 — account pages and histories › 10 · a card history reads like a statement; pending transfers show their state and no sign (8.7s)
+  ✓  129 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:212:3 › F05 DOT 01 — account pages and histories › 31 · all transactions can be narrowed to one account (6.4s)
+  ✓  130 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:222:3 › F05 DOT 01 — entries (16–20): one canonical entry each, correct accounting › 18 · cash spending lowers cash on hand only, saved once (6.6s)
+  ✓  131 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:245:3 › F05 DOT 01 — entries (16–20): one canonical entry each, correct accounting › 19 · a card purchase raises what the card owes and moves no cash (12.1s)
+  ✓  132 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:260:3 › F05 DOT 01 — entries (16–20): one canonical entry each, correct accounting › 20 · a card payment is recorded, never sent; only a confirmed payment moves money; overpaying is refused (12.3s)
+  ✓  133 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:288:3 › F05 DOT 01 — entries (16–20): one canonical entry each, correct accounting › 17 · cash from an account is a transfer (not income); a counted correction is a balance correction (8.1s)
+  ✓  135 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:368:3 › F05 DOT 01 — receipts (26–29, 33, 34): real on-device OCR on a synthetic receipt photo › 29 · a receipt that matches an existing purchase stops for review; USE EXISTING ENTRY saves nothing (13.0s)
+  ✓  134 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:306:3 › F05 DOT 01 — receipts (26–29, 33, 34): real on-device OCR on a synthetic receipt photo › 26 → 27 → 28 → 33 · scan, review, confirm: one entry with the receipt attached; the photo never leaves the device (19.5s)
+  ✓  136 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:383:3 › F05 DOT 01 — receipts (26–29, 33, 34): real on-device OCR on a synthetic receipt photo › 34 · an unreadable photo fails honestly; ENTER MANUALLY recovers and saves exactly one entry (13.2s)
+  ✓  137 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:404:3 › F05 DOT 01 — receipts (26–29, 33, 34): real on-device OCR on a synthetic receipt photo › 26 · a PDF is refused with a plain message and nothing is read or saved (8.4s)
+  ✓  139 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:448:3 › F05 DOT 01 — corrections, reconciliation and archiving › 24 · transfer legs are changed from their own steps, not here (6.3s)
+  ✓  138 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:415:3 › F05 DOT 01 — corrections, reconciliation and archiving › 24 / 37 · a correction shows original vs revised and keeps the trail; a reversal removes it once (18.4s)
+  ✓  140 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:454:3 › F05 DOT 01 — corrections, reconciliation and archiving › 13 / 23 · tracked, actual and difference stay apart; never reconciled with a difference (12.9s)
+  ✓  141 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:480:3 › F05 DOT 01 — corrections, reconciliation and archiving › 36 · archiving is blocked while anything depends on the place (8.8s)
+  ✓  142 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:492:3 › F05 DOT 01 — corrections, reconciliation and archiving › 25 · a place with nothing depending on it is archived; its history stays; it leaves the directory (11.2s)
+  ✓  143 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:504:3 › F05 DOT 01 — corrections, reconciliation and archiving › 12 / 15 / 21 · settings, rename and purposes (9.5s)
+  ✓  144 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:518:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › overlays trap focus, close on Escape, return focus to the opener and keep the page state (8.2s)
+  ✓  145 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:538:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › the MONEY collection is kept: VIEW ALL ACCOUNTS → back returns to ACCOUNTS (8.0s)
+  ✓  147 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:590:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › chips follow the authorities: back on 02–29, search + add on 30–37 (and 31) (22.3s)
+  ✓  148 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:607:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › typography inside overlays: uppercase, one lowercase cursive phrase at most (13.3s)
+  ✓  146 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:552:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › the dock appears only where its authority draws it (06, 31), on the nav paper; the other pages are full-bleed (48.6s)
+  -  150 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:640:3 › F05 DOT 01 — responsive (360×780 · 393×852 · 430×932 · 834×1194 · 1440×900) › nothing overflows sideways, controls stay on screen and touchable, inputs keep 16 px type
+  ✓  151 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:671:3 › F05 DOT 01 — reduced motion › no animation runs; pages, overlays and saves still work (7.7s)
+  ✓  152 [mobile] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:53:3 › F05 MONEY parent motion pilot › 1 · no account records: an honest empty state, no invented figures (9.0s)
+  ✓  153 [mobile] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:65:3 › F05 MONEY parent motion pilot › 2 · one account: its paper and a place to add another (8.6s)
+  ✓  154 [mobile] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:72:3 › F05 MONEY parent motion pilot › 3 / 5 / 6 · four accounts: approved hierarchy, live values, assets never netted with debt (17.8s)
+  ✓  155 [mobile] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:97:3 › F05 MONEY parent motion pilot › 4 · many accounts: the first four places and VIEW ALL ACCOUNTS; more places never add pages or dots (10.6s)
+  ✓  149 [mobile] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:617:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › accessibility: no serious or critical axe violations on the DOT 01 pages and overlays (1.0m)
+  ✓  156 [mobile] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:113:3 › F05 MONEY parent motion pilot › 7 · the global dock keeps its five destinations, MONEY active, ADD opens Quick Add (7.0s)
+  ✓  157 [mobile] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:124:3 › F05 MONEY parent motion pilot › 8 / 9 / 13 / 19 / 20 · selection routes by id, changes no record, back returns cleanly (8.5s)
+  ✓  158 [mobile] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:148:3 › F05 MONEY parent motion pilot › 10 / 11 · MOVE MONEY uses the transaction system; money on its way is not shown as received (10.7s)
+  ✓  160 [mobile] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:260:3 › F05 MONEY parent motion pilot › 12 · overlays open, trap focus, close on Escape and return focus to the trigger (13.7s)
+  ✓  161 [mobile] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:290:3 › F05 MONEY parent motion pilot › 15 / 16 / 17 / 18 · readable at once, no duplicates, nothing off-screen, no page scroll (6.6s)
+  ✓  159 [mobile] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:173:3 › F05 MONEY parent motion pilot › transfer states drive the thread; only recorded steps move money (39.7s)
+  ✓  162 [mobile] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:310:3 › F05 MONEY parent motion pilot › accessibility: no serious or critical axe violations on the pilot or its sheets (12.0s)
+  ✓  164 [mobile] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:351:3 › F05 MONEY parent motion pilot › route transition frame sequence: the selected paper becomes the account title (17.5s)
+  ✓  163 [mobile] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:319:3 › F05 MONEY parent motion pilot › motion frame sequence (entrance, paused and seeked) and the zero-motion composite (21.4s)
+  ✓  165 [mobile] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:374:3 › F05 motion pilot — reduced motion › 14 · reduced motion: no animation, every action and figure still works (8.4s)
+  ✓  166 [mobile] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:394:3 › F05 MONEY default stays the approved cabinet hub › without opting in, /money is the cabinet hub (6.6s)
+  ✓  167 [mobile] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F03 root today reachable (12.0s)
+  ✓  168 [mobile] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F04 root activity reachable (11.6s)
+  ✓  169 [mobile] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F05 root money reachable (13.1s)
+  ✓  170 [mobile] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F06 root income reachable (13.0s)
+  ✓  171 [mobile] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F07 root upcoming reachable (10.5s)
+  ✓  172 [mobile] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F08 root plan reachable (11.3s)
+  ✓  173 [mobile] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F09 root safe reachable (13.1s)
+  ✓  174 [mobile] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F10 root purchases reachable (12.4s)
+  ✓  175 [mobile] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F11 root trips reachable (11.1s)
+  ✓  176 [mobile] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F12 root credit reachable (12.1s)
+  ✓  177 [mobile] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F13 root paydown reachable (12.8s)
+  ✓  178 [mobile] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F14 root goals reachable (11.8s)
+  ✓  179 [mobile] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F15 root ahead reachable (11.7s)
+  ✓  180 [mobile] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F16 root records reachable (11.6s)
+  ✓  181 [mobile] › e2e/jurnl/jurnl-family-reachability.e2e.ts:33:3 › JURNL family reachability › 16/16 product families reachable from routes (6.0s)
+  ✓  182 [mobile] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:70:3 › Stabilization journeys › D1 Safe to Spend: next 30 days, then before next income; the 30-day number never changes (24.2s)
+  ✓  183 [mobile] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:97:3 › Stabilization journeys › transfer in transit: out of the source, not in the bank until it arrives, credited once (32.9s)
+  ✓  184 [mobile] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:122:3 › Stabilization journeys › a started transfer that never left can be cancelled with no change (31.6s)
+  ✓  185 [mobile] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:140:3 › Stabilization journeys › card payment on its way: the card is not settled until it confirms; the minimum is counted once (38.9s)
+  ✓  186 [mobile] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:163:3 › Stabilization journeys › D3 set money aside: the bill page and Plan show and change the same amount (41.5s)
+  ✓  187 [mobile] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:188:3 › Stabilization journeys › D2 a bill that is the card payment is counted once, through the card (26.1s)
+  ✓  188 [mobile] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:196:3 › Stabilization journeys › D4 headlines and TODAY: straightforward labels; ASK JURNL reachable with an honest fallback (28.3s)
+  ✓  189 [mobile] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:216:3 › Stabilization journeys › accessibility: new sheets have no serious or critical axe violations (23.0s)
+  ✓  191 [mobile] › e2e/jurnl/jurnl-financial-os.e2e.ts:106:3 › Financial operating system journeys › spending: card purchase raises what the card owes; cash purchase lowers cash; usual account suggested (55.6s)
+  ✓  190 [mobile] › e2e/jurnl/jurnl-financial-os.e2e.ts:63:3 › Financial operating system journeys › daily earnings: one entry, cash and digital land in the right places, edit without duplication (1.0m)
+  ✓  192 [mobile] › e2e/jurnl/jurnl-financial-os.e2e.ts:132:3 › Financial operating system journeys › transfer: moving money between owned accounts is not income (34.8s)
+  ✓  194 [mobile] › e2e/jurnl/jurnl-financial-os.e2e.ts:186:3 › Financial operating system journeys › subscriptions: add, see renewal and monthly / yearly cost (10.6s)
+  ✓  193 [mobile] › e2e/jurnl/jurnl-financial-os.e2e.ts:151:3 › Financial operating system journeys › bill funding: $95 set aside toward $140 does not lower Safe to Spend again; paying records one payment (44.8s)
+  ✓  195 [mobile] › e2e/jurnl/jurnl-financial-os.e2e.ts:198:3 › Financial operating system journeys › credit: payment plan shows minimum, source money and a target the user picks; recording a payment updates it (15.3s)
+  ✓  196 [mobile] › e2e/jurnl/jurnl-financial-os.e2e.ts:215:3 › Financial operating system journeys › today: real attention fact and the money reading in SEE WHY (11.0s)
+  ✓  198 [mobile] › e2e/jurnl/jurnl-global-systems.e2e.ts:9:3 › Global systems › Quick Add movement saves (20.2s)
+  ✓  197 [mobile] › e2e/jurnl/jurnl-financial-os.e2e.ts:229:3 › Financial operating system journeys › accessibility: new sheets have no serious or critical axe violations (24.5s)
+  ✓  199 [mobile] › e2e/jurnl/jurnl-global-systems.e2e.ts:21:3 › Global systems › Ask Jurnl opens without provider (14.7s)
+  ✓  200 [mobile] › e2e/jurnl/jurnl-global-systems.e2e.ts:31:3 › Global systems › Settings buffer persists after reload (19.0s)
+  ✓  201 [mobile] › e2e/jurnl/jurnl-global-systems.e2e.ts:44:5 › Quick Add types › Quick Add exposes MOVEMENT (13.9s)
+  ✓  202 [mobile] › e2e/jurnl/jurnl-global-systems.e2e.ts:44:5 › Quick Add types › Quick Add exposes INCOME (15.5s)
+  ✓  203 [mobile] › e2e/jurnl/jurnl-global-systems.e2e.ts:44:5 › Quick Add types › Quick Add exposes GOAL (14.9s)
+  ✓  204 [mobile] › e2e/jurnl/jurnl-global-systems.e2e.ts:44:5 › Quick Add types › Quick Add exposes PURCHASE (14.2s)
+  ✓  205 [mobile] › e2e/jurnl/jurnl-global-systems.e2e.ts:44:5 › Quick Add types › Quick Add exposes TRIP (14.1s)
+  ✓  207 [mobile] › e2e/jurnl/jurnl-paydown-sts.e2e.ts:5:3 › F13 paydown → F09 boundary › simulated extra payment alone does not reduce STS (29.3s)
+  ✓  208 [mobile] › e2e/jurnl/jurnl-paydown-sts.e2e.ts:16:3 › F13 paydown → F09 boundary › committed trip reserve reduces STS (contrast) (34.3s)
+  ✓  209 [mobile] › e2e/jurnl/jurnl-persistence.e2e.ts:6:3 › Persistence reload › purchase survives reload (21.2s)
+  ✘  206 [mobile] › e2e/jurnl/jurnl-golden-journey.e2e.ts:7:3 › JURNL golden journey › F01–F16 coherent path with reload verification (1.6m)
+  ✓  210 [mobile] › e2e/jurnl/jurnl-product-utility-journeys.e2e.ts:11:3 › Product utility audit journeys › Journey A — add subscription-like recurring obligation (17.2s)
+  ✓  211 [mobile] › e2e/jurnl/jurnl-product-utility-journeys.e2e.ts:25:3 › Product utility audit journeys › Journey B — obligation visible on Safe to Spend after amount entry (17.9s)
+  ✓  212 [mobile] › e2e/jurnl/jurnl-product-utility-journeys.e2e.ts:44:3 › Product utility audit journeys › Journey H — edit obligation amount (14.2s)
+  ✓  213 [mobile] › e2e/jurnl/jurnl-production-hardening.e2e.ts:5:3 › JURNL production hardening (design-preview parity) › core journey still loads with repository seed (7.0s)
+  ✓  214 [mobile] › e2e/jurnl/jurnl-production-hardening.e2e.ts:11:3 › JURNL production hardening (design-preview parity) › production config module is fail-closed without server flag (5.2s)
+  ✓  215 [mobile] › e2e/jurnl/jurnl-production-hardening.e2e.ts:31:3 › JURNL production hardening (design-preview parity) › no preview seed emails in production mode document (static guard) (5.3s)
+  ✓  216 [tablet] › e2e/jurnl/jurnl-a11y-core.e2e.ts:13:5 › JURNL core accessibility (automated) › axe today — no critical/serious (9.2s)
+  ✓  217 [tablet] › e2e/jurnl/jurnl-a11y-core.e2e.ts:13:5 › JURNL core accessibility (automated) › axe money — no critical/serious (9.2s)
+  ✓  218 [tablet] › e2e/jurnl/jurnl-a11y-core.e2e.ts:13:5 › JURNL core accessibility (automated) › axe plan — no critical/serious (9.2s)
+  ✓  219 [tablet] › e2e/jurnl/jurnl-a11y-core.e2e.ts:13:5 › JURNL core accessibility (automated) › axe safe — no critical/serious (9.6s)
+  ✓  220 [tablet] › e2e/jurnl/jurnl-a11y-core.e2e.ts:13:5 › JURNL core accessibility (automated) › axe goals — no critical/serious (7.8s)
+  ✓  221 [tablet] › e2e/jurnl/jurnl-a11y-core.e2e.ts:13:5 › JURNL core accessibility (automated) › axe records — no critical/serious (7.5s)
+  ✓  222 [tablet] › e2e/jurnl/jurnl-a11y-core.e2e.ts:13:5 › JURNL core accessibility (automated) › axe account — no critical/serious (8.2s)
+  ✓  223 [tablet] › e2e/jurnl/jurnl-core-mutations.e2e.ts:9:3 › Core mutations F05–F16 › F10 create purchase and mark purchased (8.3s)
+  ✓  224 [tablet] › e2e/jurnl/jurnl-core-mutations.e2e.ts:22:3 › Core mutations F05–F16 › F11 trip reserve affects safe to spend (14.6s)
+  ✓  225 [tablet] › e2e/jurnl/jurnl-core-mutations.e2e.ts:38:3 › Core mutations F05–F16 › F08 plan assign reduces STS (15.1s)
+  ✓  227 [tablet] › e2e/jurnl/jurnl-core-mutations.e2e.ts:67:3 › Core mutations F05–F16 › F13 paydown what-if keeps credit balance read-only (7.5s)
+  ✓  226 [tablet] › e2e/jurnl/jurnl-core-mutations.e2e.ts:54:3 › Core mutations F05–F16 › F14 goal set aside reduces STS (11.5s)
+  ✓  228 [tablet] › e2e/jurnl/jurnl-core-mutations.e2e.ts:74:3 › Core mutations F05–F16 › F15 ahead derived timeline (7.0s)
+  ✓  229 [tablet] › e2e/jurnl/jurnl-core-mutations.e2e.ts:80:3 › Core mutations F05–F16 › F16 record metadata create (8.2s)
+  ✓  230 [tablet] › e2e/jurnl/jurnl-core-mutations.e2e.ts:89:3 › Core mutations F05–F16 › F07 upcoming lists obligations (7.4s)
+  ✓  232 [tablet] › e2e/jurnl/jurnl-entry-setup.e2e.ts:5:3 › F01 entry + F02 handoff surfaces › F01 entry index resolves to a primary route (3.4s)
+  ✓  231 [tablet] › e2e/jurnl/jurnl-core-mutations.e2e.ts:95:3 › Core mutations F05–F16 › F12 credit hub opens account (8.1s)
+  ✓  233 [tablet] › e2e/jurnl/jurnl-entry-setup.e2e.ts:18:3 › F01 entry + F02 handoff surfaces › F02 setup route loads when navigated directly (4.4s)
+  ✓  235 [tablet] › e2e/jurnl/jurnl-entry-setup.e2e.ts:72:3 › F01 entry + F02 handoff surfaces › forgot password reaches CREATE NEW PASSWORD from the reset email (6.7s)
+  ✓  234 [tablet] › e2e/jurnl/jurnl-entry-setup.e2e.ts:31:3 › F01 entry + F02 handoff surfaces › a new account walks ENTRY from WELCOME to SETUP (the preview follows the emailed link) (13.9s)
+  ✓  236 [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:102:3 › F05 MONEY carousel › 01 · the first collection is ACCOUNTS: the approved four places with live, id-bound values (6.2s)
+  ✓  238 [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:129:3 › F05 MONEY carousel › a drag short of the threshold settles back; a drag never opens the paper it ends on (7.9s)
+  ✓  237 [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:112:3 › F05 MONEY carousel › 02 / 03 / 04 / 05 · swipes advance one collection at a time, reverse swipes return, the ends do not wrap (17.2s)
+  ✓  239 [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:142:3 › F05 MONEY carousel › 06 · dots, previous / next and the keyboard select the intended collection (10.5s)
+  ✘  240 [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:167:3 › F05 MONEY carousel › 07 / 08 / 09 / 10 · environment, MONEY title, summary and the global dock never move or re-mount (6.3s)
+  ✓  241 [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:191:3 › F05 MONEY carousel › 11 · every collection is four papers, in the four approved places (7.9s)
+  ✓  243 [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:268:3 › F05 MONEY carousel › 13 / 17 / 18 / 19 · figures are canonical: in-transit and pending are not available, debt stays apart, nothing counted twice (11.9s)
+  ✓  244 [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:313:3 › F05 MONEY carousel › 14 / 15 / 16 · missing data is said plainly: no invented transfers, bills, goals, income or spending (8.4s)
+  ✓  245 [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:337:3 › F05 MONEY carousel › 14 · no places at all: Safe to Spend and RESERVED are not known, never a sample figure (6.3s)
+  ✓  242 [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:211:3 › F05 MONEY carousel › 12 / 21 · every panel opens its owner; closing or coming back returns to the same collection (31.0s)
+  ✓  246 [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:350:3 › F05 MONEY carousel › 20 · changing collection — by swipe, dot, key, button or trackpad — never writes a record (9.9s)
+  ✓  247 [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:372:3 › F05 MONEY carousel › 23 · carousel gestures stay inside the carousel: no history entries, no route change, vertical and edge gestures ignored (9.7s)
+  ✓  248 [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:403:3 › F05 MONEY carousel › 24 · no duplicated images or ghosted layers once a change settles (8.1s)
+  ✘  249 [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:426:3 › F05 MONEY carousel › 25 · usable at this size: everything on screen, real touch targets, no page scroll (8.4s)
+  ✓  250 [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:465:3 › F05 MONEY carousel › 26 · F05 logic intact from the carousel: a place opens by id and back returns to ACCOUNTS (6.7s)
+  ✓  251 [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:476:3 › F05 MONEY carousel › 26 · more than four places: the first four places and VIEW ALL ACCOUNTS, which lists every place; still four dots (6.6s)
+  -  253 [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:497:3 › F05 MONEY carousel › motion: a collection change is an exit then an entry from the other side, ≤ 520 ms, without replaying the page entrance
+  ✓  254 [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:537:3 › F05 MONEY carousel › motion: mid-drag, the papers follow the finger with resistance and a shadow lean; the shell stays put (5.9s)
+  ✓  252 [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:485:3 › F05 MONEY carousel › accessibility: carousel semantics and no serious or critical axe violations in any collection (12.3s)
+  ✓  255 [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:558:3 › F05 MONEY carousel — reduced motion › 22 · reduced motion: the collection changes at once; dots, swipes, keys and panels all still work (6.0s)
+  ✓  257 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:123:3 › F05 DOT 01 — accounts directory, order and setup › 32 · cancelling a reorder changes nothing (7.3s)
+  ✓  256 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:99:3 › F05 DOT 01 — accounts directory, order and setup › 06 / 32 · ALL ACCOUNTS lists every place; the saved order persists and drives the MONEY parent (16.2s)
+  ✓  258 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:134:3 › F05 DOT 01 — accounts directory, order and setup › 22 / 14 / 30 · no accounts: an honest empty state; adding the first account opens it with the entered balance (8.1s)
+  ✓  259 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:151:3 › F05 DOT 01 — accounts directory, order and setup › 14 · a card limit is only what the user enters (never invented) (5.1s)
+  ✓  261 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:180:3 › F05 DOT 01 — account pages and histories › 07 / 31 · history search and filters live in the URL, rows open the transaction, back keeps the filter (7.0s)
+  ✓  260 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:165:3 › F05 DOT 01 — account pages and histories › 02–05 · each kind opens its own page with live, id-bound values; back returns to the directory (9.9s)
+  ✓  263 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:212:3 › F05 DOT 01 — account pages and histories › 31 · all transactions can be narrowed to one account (5.1s)
+  ✓  262 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:203:3 › F05 DOT 01 — account pages and histories › 10 · a card history reads like a statement; pending transfers show their state and no sign (7.5s)
+  ✓  264 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:222:3 › F05 DOT 01 — entries (16–20): one canonical entry each, correct accounting › 18 · cash spending lowers cash on hand only, saved once (6.2s)
+  ✓  265 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:245:3 › F05 DOT 01 — entries (16–20): one canonical entry each, correct accounting › 19 · a card purchase raises what the card owes and moves no cash (9.4s)
+  ✓  267 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:288:3 › F05 DOT 01 — entries (16–20): one canonical entry each, correct accounting › 17 · cash from an account is a transfer (not income); a counted correction is a balance correction (5.7s)
+  ✓  266 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:260:3 › F05 DOT 01 — entries (16–20): one canonical entry each, correct accounting › 20 · a card payment is recorded, never sent; only a confirmed payment moves money; overpaying is refused (12.2s)
+  ✓  268 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:306:3 › F05 DOT 01 — receipts (26–29, 33, 34): real on-device OCR on a synthetic receipt photo › 26 → 27 → 28 → 33 · scan, review, confirm: one entry with the receipt attached; the photo never leaves the device (10.7s)
+  ✓  269 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:368:3 › F05 DOT 01 — receipts (26–29, 33, 34): real on-device OCR on a synthetic receipt photo › 29 · a receipt that matches an existing purchase stops for review; USE EXISTING ENTRY saves nothing (10.7s)
+  ✓  271 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:404:3 › F05 DOT 01 — receipts (26–29, 33, 34): real on-device OCR on a synthetic receipt photo › 26 · a PDF is refused with a plain message and nothing is read or saved (6.3s)
+  ✓  270 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:383:3 › F05 DOT 01 — receipts (26–29, 33, 34): real on-device OCR on a synthetic receipt photo › 34 · an unreadable photo fails honestly; ENTER MANUALLY recovers and saves exactly one entry (9.5s)
+  ✓  273 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:448:3 › F05 DOT 01 — corrections, reconciliation and archiving › 24 · transfer legs are changed from their own steps, not here (6.2s)
+  ✓  272 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:415:3 › F05 DOT 01 — corrections, reconciliation and archiving › 24 / 37 · a correction shows original vs revised and keeps the trail; a reversal removes it once (14.0s)
+  ✓  274 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:454:3 › F05 DOT 01 — corrections, reconciliation and archiving › 13 / 23 · tracked, actual and difference stay apart; never reconciled with a difference (8.1s)
+  ✓  275 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:480:3 › F05 DOT 01 — corrections, reconciliation and archiving › 36 · archiving is blocked while anything depends on the place (6.3s)
+  ✓  276 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:492:3 › F05 DOT 01 — corrections, reconciliation and archiving › 25 · a place with nothing depending on it is archived; its history stays; it leaves the directory (6.5s)
+  ✓  277 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:504:3 › F05 DOT 01 — corrections, reconciliation and archiving › 12 / 15 / 21 · settings, rename and purposes (8.3s)
+  ✓  278 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:518:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › overlays trap focus, close on Escape, return focus to the opener and keep the page state (7.0s)
+  ✓  279 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:538:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › the MONEY collection is kept: VIEW ALL ACCOUNTS → back returns to ACCOUNTS (7.4s)
+  ✓  281 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:590:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › chips follow the authorities: back on 02–29, search + add on 30–37 (and 31) (19.0s)
+  ✓  282 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:607:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › typography inside overlays: uppercase, one lowercase cursive phrase at most (11.2s)
+  ✓  280 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:552:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › the dock appears only where its authority draws it (06, 31), on the nav paper; the other pages are full-bleed (42.3s)
+  -  284 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:640:3 › F05 DOT 01 — responsive (360×780 · 393×852 · 430×932 · 834×1194 · 1440×900) › nothing overflows sideways, controls stay on screen and touchable, inputs keep 16 px type
+  ✓  285 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:671:3 › F05 DOT 01 — reduced motion › no animation runs; pages, overlays and saves still work (5.0s)
+  ✓  286 [tablet] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:53:3 › F05 MONEY parent motion pilot › 1 · no account records: an honest empty state, no invented figures (5.1s)
+  ✓  287 [tablet] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:65:3 › F05 MONEY parent motion pilot › 2 · one account: its paper and a place to add another (5.6s)
+  ✓  288 [tablet] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:72:3 › F05 MONEY parent motion pilot › 3 / 5 / 6 · four accounts: approved hierarchy, live values, assets never netted with debt (12.7s)
+  ✓  289 [tablet] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:97:3 › F05 MONEY parent motion pilot › 4 · many accounts: the first four places and VIEW ALL ACCOUNTS; more places never add pages or dots (6.8s)
+  ✓  290 [tablet] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:113:3 › F05 MONEY parent motion pilot › 7 · the global dock keeps its five destinations, MONEY active, ADD opens Quick Add (6.6s)
+  ✓  291 [tablet] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:124:3 › F05 MONEY parent motion pilot › 8 / 9 / 13 / 19 / 20 · selection routes by id, changes no record, back returns cleanly (6.7s)
+  ✓  283 [tablet] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:617:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › accessibility: no serious or critical axe violations on the DOT 01 pages and overlays (58.4s)
+  ✓  292 [tablet] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:148:3 › F05 MONEY parent motion pilot › 10 / 11 · MOVE MONEY uses the transaction system; money on its way is not shown as received (8.6s)
+  ✓  294 [tablet] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:260:3 › F05 MONEY parent motion pilot › 12 · overlays open, trap focus, close on Escape and return focus to the trigger (9.7s)
+  ✓  295 [tablet] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:290:3 › F05 MONEY parent motion pilot › 15 / 16 / 17 / 18 · readable at once, no duplicates, nothing off-screen, no page scroll (7.5s)
+  ✓  293 [tablet] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:173:3 › F05 MONEY parent motion pilot › transfer states drive the thread; only recorded steps move money (29.1s)
+  -  297 [tablet] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:319:3 › F05 MONEY parent motion pilot › motion frame sequence (entrance, paused and seeked) and the zero-motion composite
+  -  298 [tablet] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:351:3 › F05 MONEY parent motion pilot › route transition frame sequence: the selected paper becomes the account title
+  ✓  296 [tablet] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:310:3 › F05 MONEY parent motion pilot › accessibility: no serious or critical axe violations on the pilot or its sheets (8.8s)
+  ✓  299 [tablet] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:374:3 › F05 motion pilot — reduced motion › 14 · reduced motion: no animation, every action and figure still works (6.1s)
+  ✓  300 [tablet] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:394:3 › F05 MONEY default stays the approved cabinet hub › without opting in, /money is the cabinet hub (5.9s)
+  ✓  301 [tablet] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F03 root today reachable (9.8s)
+  ✓  302 [tablet] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F04 root activity reachable (10.2s)
+  ✓  303 [tablet] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F05 root money reachable (10.8s)
+  ✓  304 [tablet] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F06 root income reachable (10.7s)
+  ✓  305 [tablet] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F07 root upcoming reachable (9.5s)
+  ✓  306 [tablet] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F08 root plan reachable (10.1s)
+  ✓  307 [tablet] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F09 root safe reachable (10.2s)
+  ✓  308 [tablet] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F10 root purchases reachable (9.5s)
+  ✓  309 [tablet] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F11 root trips reachable (9.7s)
+  ✓  310 [tablet] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F12 root credit reachable (9.3s)
+  ✓  311 [tablet] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F13 root paydown reachable (10.7s)
+  ✓  312 [tablet] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F14 root goals reachable (11.0s)
+  ✓  313 [tablet] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F15 root ahead reachable (10.3s)
+  ✓  314 [tablet] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F16 root records reachable (10.1s)
+  ✓  315 [tablet] › e2e/jurnl/jurnl-family-reachability.e2e.ts:33:3 › JURNL family reachability › 16/16 product families reachable from routes (5.4s)
+  ✓  316 [tablet] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:70:3 › Stabilization journeys › D1 Safe to Spend: next 30 days, then before next income; the 30-day number never changes (19.8s)
+  ✓  317 [tablet] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:97:3 › Stabilization journeys › transfer in transit: out of the source, not in the bank until it arrives, credited once (29.0s)
+  ✓  318 [tablet] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:122:3 › Stabilization journeys › a started transfer that never left can be cancelled with no change (25.3s)
+  ✓  319 [tablet] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:140:3 › Stabilization journeys › card payment on its way: the card is not settled until it confirms; the minimum is counted once (34.1s)
+  ✓  320 [tablet] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:163:3 › Stabilization journeys › D3 set money aside: the bill page and Plan show and change the same amount (34.0s)
+  ✓  321 [tablet] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:188:3 › Stabilization journeys › D2 a bill that is the card payment is counted once, through the card (23.8s)
+  ✓  322 [tablet] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:196:3 › Stabilization journeys › D4 headlines and TODAY: straightforward labels; ASK JURNL reachable with an honest fallback (24.5s)
+  ✓  323 [tablet] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:216:3 › Stabilization journeys › accessibility: new sheets have no serious or critical axe violations (23.9s)
+  ✓  325 [tablet] › e2e/jurnl/jurnl-financial-os.e2e.ts:106:3 › Financial operating system journeys › spending: card purchase raises what the card owes; cash purchase lowers cash; usual account suggested (42.2s)
+  ✓  324 [tablet] › e2e/jurnl/jurnl-financial-os.e2e.ts:63:3 › Financial operating system journeys › daily earnings: one entry, cash and digital land in the right places, edit without duplication (54.4s)
+  ✓  326 [tablet] › e2e/jurnl/jurnl-financial-os.e2e.ts:132:3 › Financial operating system journeys › transfer: moving money between owned accounts is not income (28.0s)
+  ✓  328 [tablet] › e2e/jurnl/jurnl-financial-os.e2e.ts:186:3 › Financial operating system journeys › subscriptions: add, see renewal and monthly / yearly cost (8.8s)
+  ✓  327 [tablet] › e2e/jurnl/jurnl-financial-os.e2e.ts:151:3 › Financial operating system journeys › bill funding: $95 set aside toward $140 does not lower Safe to Spend again; paying records one payment (40.1s)
+  ✓  330 [tablet] › e2e/jurnl/jurnl-financial-os.e2e.ts:215:3 › Financial operating system journeys › today: real attention fact and the money reading in SEE WHY (8.0s)
+  ✓  329 [tablet] › e2e/jurnl/jurnl-financial-os.e2e.ts:198:3 › Financial operating system journeys › credit: payment plan shows minimum, source money and a target the user picks; recording a payment updates it (13.7s)
+  ✓  332 [tablet] › e2e/jurnl/jurnl-global-systems.e2e.ts:9:3 › Global systems › Quick Add movement saves (19.0s)
+  ✓  331 [tablet] › e2e/jurnl/jurnl-financial-os.e2e.ts:229:3 › Financial operating system journeys › accessibility: new sheets have no serious or critical axe violations (21.5s)
+  ✓  333 [tablet] › e2e/jurnl/jurnl-global-systems.e2e.ts:21:3 › Global systems › Ask Jurnl opens without provider (12.8s)
+  ✓  334 [tablet] › e2e/jurnl/jurnl-global-systems.e2e.ts:31:3 › Global systems › Settings buffer persists after reload (17.4s)
+  ✓  335 [tablet] › e2e/jurnl/jurnl-global-systems.e2e.ts:44:5 › Quick Add types › Quick Add exposes MOVEMENT (12.1s)
+  ✓  336 [tablet] › e2e/jurnl/jurnl-global-systems.e2e.ts:44:5 › Quick Add types › Quick Add exposes INCOME (13.9s)
+  ✓  337 [tablet] › e2e/jurnl/jurnl-global-systems.e2e.ts:44:5 › Quick Add types › Quick Add exposes GOAL (11.6s)
+  ✓  338 [tablet] › e2e/jurnl/jurnl-global-systems.e2e.ts:44:5 › Quick Add types › Quick Add exposes PURCHASE (11.7s)
+  ✓  339 [tablet] › e2e/jurnl/jurnl-global-systems.e2e.ts:44:5 › Quick Add types › Quick Add exposes TRIP (13.2s)
+  ✓  341 [tablet] › e2e/jurnl/jurnl-paydown-sts.e2e.ts:5:3 › F13 paydown → F09 boundary › simulated extra payment alone does not reduce STS (23.6s)
+  ✓  342 [tablet] › e2e/jurnl/jurnl-paydown-sts.e2e.ts:16:3 › F13 paydown → F09 boundary › committed trip reserve reduces STS (contrast) (28.2s)
+  ✓  343 [tablet] › e2e/jurnl/jurnl-persistence.e2e.ts:6:3 › Persistence reload › purchase survives reload (17.9s)
+  ✓  344 [tablet] › e2e/jurnl/jurnl-product-utility-journeys.e2e.ts:11:3 › Product utility audit journeys › Journey A — add subscription-like recurring obligation (21.2s)
+  ✘  340 [tablet] › e2e/jurnl/jurnl-golden-journey.e2e.ts:7:3 › JURNL golden journey › F01–F16 coherent path with reload verification (1.6m)
+  ✓  345 [tablet] › e2e/jurnl/jurnl-product-utility-journeys.e2e.ts:25:3 › Product utility audit journeys › Journey B — obligation visible on Safe to Spend after amount entry (13.9s)
+  ✓  346 [tablet] › e2e/jurnl/jurnl-product-utility-journeys.e2e.ts:44:3 › Product utility audit journeys › Journey H — edit obligation amount (14.4s)
+  ✓  347 [tablet] › e2e/jurnl/jurnl-production-hardening.e2e.ts:5:3 › JURNL production hardening (design-preview parity) › core journey still loads with repository seed (4.8s)
+  ✓  348 [tablet] › e2e/jurnl/jurnl-production-hardening.e2e.ts:11:3 › JURNL production hardening (design-preview parity) › production config module is fail-closed without server flag (4.4s)
+  ✓  349 [tablet] › e2e/jurnl/jurnl-production-hardening.e2e.ts:31:3 › JURNL production hardening (design-preview parity) › no preview seed emails in production mode document (static guard) (4.1s)
+  ✓  350 [desktop] › e2e/jurnl/jurnl-a11y-core.e2e.ts:13:5 › JURNL core accessibility (automated) › axe today — no critical/serious (8.3s)
+  ✓  351 [desktop] › e2e/jurnl/jurnl-a11y-core.e2e.ts:13:5 › JURNL core accessibility (automated) › axe money — no critical/serious (8.7s)
+  ✓  352 [desktop] › e2e/jurnl/jurnl-a11y-core.e2e.ts:13:5 › JURNL core accessibility (automated) › axe plan — no critical/serious (8.8s)
+  ✓  353 [desktop] › e2e/jurnl/jurnl-a11y-core.e2e.ts:13:5 › JURNL core accessibility (automated) › axe safe — no critical/serious (9.5s)
+  ✓  354 [desktop] › e2e/jurnl/jurnl-a11y-core.e2e.ts:13:5 › JURNL core accessibility (automated) › axe goals — no critical/serious (8.6s)
+  ✓  355 [desktop] › e2e/jurnl/jurnl-a11y-core.e2e.ts:13:5 › JURNL core accessibility (automated) › axe records — no critical/serious (8.2s)
+  ✓  356 [desktop] › e2e/jurnl/jurnl-a11y-core.e2e.ts:13:5 › JURNL core accessibility (automated) › axe account — no critical/serious (8.5s)
+  ✓  357 [desktop] › e2e/jurnl/jurnl-core-mutations.e2e.ts:9:3 › Core mutations F05–F16 › F10 create purchase and mark purchased (8.3s)
+  ✓  358 [desktop] › e2e/jurnl/jurnl-core-mutations.e2e.ts:22:3 › Core mutations F05–F16 › F11 trip reserve affects safe to spend (15.9s)
+  ✓  359 [desktop] › e2e/jurnl/jurnl-core-mutations.e2e.ts:38:3 › Core mutations F05–F16 › F08 plan assign reduces STS (14.7s)
+  ✓  361 [desktop] › e2e/jurnl/jurnl-core-mutations.e2e.ts:67:3 › Core mutations F05–F16 › F13 paydown what-if keeps credit balance read-only (8.0s)
+  ✓  360 [desktop] › e2e/jurnl/jurnl-core-mutations.e2e.ts:54:3 › Core mutations F05–F16 › F14 goal set aside reduces STS (12.9s)
+  ✓  362 [desktop] › e2e/jurnl/jurnl-core-mutations.e2e.ts:74:3 › Core mutations F05–F16 › F15 ahead derived timeline (7.5s)
+  ✓  363 [desktop] › e2e/jurnl/jurnl-core-mutations.e2e.ts:80:3 › Core mutations F05–F16 › F16 record metadata create (8.0s)
+  ✓  364 [desktop] › e2e/jurnl/jurnl-core-mutations.e2e.ts:89:3 › Core mutations F05–F16 › F07 upcoming lists obligations (7.3s)
+  ✓  366 [desktop] › e2e/jurnl/jurnl-entry-setup.e2e.ts:5:3 › F01 entry + F02 handoff surfaces › F01 entry index resolves to a primary route (4.1s)
+  ✓  365 [desktop] › e2e/jurnl/jurnl-core-mutations.e2e.ts:95:3 › Core mutations F05–F16 › F12 credit hub opens account (8.2s)
+  ✓  367 [desktop] › e2e/jurnl/jurnl-entry-setup.e2e.ts:18:3 › F01 entry + F02 handoff surfaces › F02 setup route loads when navigated directly (4.5s)
+  ✓  369 [desktop] › e2e/jurnl/jurnl-entry-setup.e2e.ts:72:3 › F01 entry + F02 handoff surfaces › forgot password reaches CREATE NEW PASSWORD from the reset email (6.3s)
+  ✓  368 [desktop] › e2e/jurnl/jurnl-entry-setup.e2e.ts:31:3 › F01 entry + F02 handoff surfaces › a new account walks ENTRY from WELCOME to SETUP (the preview follows the emailed link) (14.0s)
+  ✓  370 [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:102:3 › F05 MONEY carousel › 01 · the first collection is ACCOUNTS: the approved four places with live, id-bound values (4.7s)
+  ✓  372 [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:129:3 › F05 MONEY carousel › a drag short of the threshold settles back; a drag never opens the paper it ends on (7.5s)
+  ✓  371 [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:112:3 › F05 MONEY carousel › 02 / 03 / 04 / 05 · swipes advance one collection at a time, reverse swipes return, the ends do not wrap (16.9s)
+  ✓  373 [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:142:3 › F05 MONEY carousel › 06 · dots, previous / next and the keyboard select the intended collection (10.6s)
+  ✘  374 [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:167:3 › F05 MONEY carousel › 07 / 08 / 09 / 10 · environment, MONEY title, summary and the global dock never move or re-mount (6.4s)
+  ✓  375 [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:191:3 › F05 MONEY carousel › 11 · every collection is four papers, in the four approved places (8.7s)
+  ✓  377 [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:268:3 › F05 MONEY carousel › 13 / 17 / 18 / 19 · figures are canonical: in-transit and pending are not available, debt stays apart, nothing counted twice (12.8s)
+  ✓  378 [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:313:3 › F05 MONEY carousel › 14 / 15 / 16 · missing data is said plainly: no invented transfers, bills, goals, income or spending (8.0s)
+  ✓  376 [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:211:3 › F05 MONEY carousel › 12 / 21 · every panel opens its owner; closing or coming back returns to the same collection (28.4s)
+  ✓  379 [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:337:3 › F05 MONEY carousel › 14 · no places at all: Safe to Spend and RESERVED are not known, never a sample figure (7.4s)
+  ✓  380 [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:350:3 › F05 MONEY carousel › 20 · changing collection — by swipe, dot, key, button or trackpad — never writes a record (10.6s)
+  ✓  381 [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:372:3 › F05 MONEY carousel › 23 · carousel gestures stay inside the carousel: no history entries, no route change, vertical and edge gestures ignored (9.8s)
+  ✓  382 [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:403:3 › F05 MONEY carousel › 24 · no duplicated images or ghosted layers once a change settles (8.4s)
+  ✘  383 [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:426:3 › F05 MONEY carousel › 25 · usable at this size: everything on screen, real touch targets, no page scroll (7.9s)
+  ✓  384 [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:465:3 › F05 MONEY carousel › 26 · F05 logic intact from the carousel: a place opens by id and back returns to ACCOUNTS (5.6s)
+  ✓  385 [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:476:3 › F05 MONEY carousel › 26 · more than four places: the first four places and VIEW ALL ACCOUNTS, which lists every place; still four dots (5.7s)
+  ✓  387 [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:497:3 › F05 MONEY carousel › motion: a collection change is an exit then an entry from the other side, ≤ 520 ms, without replaying the page entrance (7.5s)
+  ✓  386 [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:485:3 › F05 MONEY carousel › accessibility: carousel semantics and no serious or critical axe violations in any collection (10.7s)
+  ✓  388 [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:537:3 › F05 MONEY carousel › motion: mid-drag, the papers follow the finger with resistance and a shadow lean; the shell stays put (5.3s)
+  ✓  389 [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:558:3 › F05 MONEY carousel — reduced motion › 22 · reduced motion: the collection changes at once; dots, swipes, keys and panels all still work (5.8s)
+  ✓  391 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:123:3 › F05 DOT 01 — accounts directory, order and setup › 32 · cancelling a reorder changes nothing (5.4s)
+  ✓  392 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:134:3 › F05 DOT 01 — accounts directory, order and setup › 22 / 14 / 30 · no accounts: an honest empty state; adding the first account opens it with the entered balance (6.2s)
+  ✓  390 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:99:3 › F05 DOT 01 — accounts directory, order and setup › 06 / 32 · ALL ACCOUNTS lists every place; the saved order persists and drives the MONEY parent (12.6s)
+  ✓  393 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:151:3 › F05 DOT 01 — accounts directory, order and setup › 14 · a card limit is only what the user enters (never invented) (5.9s)
+  ✓  394 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:165:3 › F05 DOT 01 — account pages and histories › 02–05 · each kind opens its own page with live, id-bound values; back returns to the directory (9.5s)
+  ✓  395 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:180:3 › F05 DOT 01 — account pages and histories › 07 / 31 · history search and filters live in the URL, rows open the transaction, back keeps the filter (6.7s)
+  ✓  397 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:212:3 › F05 DOT 01 — account pages and histories › 31 · all transactions can be narrowed to one account (4.5s)
+  ✓  396 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:203:3 › F05 DOT 01 — account pages and histories › 10 · a card history reads like a statement; pending transfers show their state and no sign (9.0s)
+  ✓  398 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:222:3 › F05 DOT 01 — entries (16–20): one canonical entry each, correct accounting › 18 · cash spending lowers cash on hand only, saved once (5.0s)
+  ✓  399 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:245:3 › F05 DOT 01 — entries (16–20): one canonical entry each, correct accounting › 19 · a card purchase raises what the card owes and moves no cash (10.6s)
+  ✓  400 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:260:3 › F05 DOT 01 — entries (16–20): one canonical entry each, correct accounting › 20 · a card payment is recorded, never sent; only a confirmed payment moves money; overpaying is refused (9.9s)
+  ✓  401 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:288:3 › F05 DOT 01 — entries (16–20): one canonical entry each, correct accounting › 17 · cash from an account is a transfer (not income); a counted correction is a balance correction (5.7s)
+  ✓  402 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:306:3 › F05 DOT 01 — receipts (26–29, 33, 34): real on-device OCR on a synthetic receipt photo › 26 → 27 → 28 → 33 · scan, review, confirm: one entry with the receipt attached; the photo never leaves the device (10.0s)
+  ✓  403 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:368:3 › F05 DOT 01 — receipts (26–29, 33, 34): real on-device OCR on a synthetic receipt photo › 29 · a receipt that matches an existing purchase stops for review; USE EXISTING ENTRY saves nothing (9.5s)
+  ✓  405 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:404:3 › F05 DOT 01 — receipts (26–29, 33, 34): real on-device OCR on a synthetic receipt photo › 26 · a PDF is refused with a plain message and nothing is read or saved (6.0s)
+  ✓  404 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:383:3 › F05 DOT 01 — receipts (26–29, 33, 34): real on-device OCR on a synthetic receipt photo › 34 · an unreadable photo fails honestly; ENTER MANUALLY recovers and saves exactly one entry (8.8s)
+  ✓  407 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:448:3 › F05 DOT 01 — corrections, reconciliation and archiving › 24 · transfer legs are changed from their own steps, not here (4.2s)
+  ✓  408 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:454:3 › F05 DOT 01 — corrections, reconciliation and archiving › 13 / 23 · tracked, actual and difference stay apart; never reconciled with a difference (7.6s)
+  ✓  406 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:415:3 › F05 DOT 01 — corrections, reconciliation and archiving › 24 / 37 · a correction shows original vs revised and keeps the trail; a reversal removes it once (13.1s)
+  ✓  409 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:480:3 › F05 DOT 01 — corrections, reconciliation and archiving › 36 · archiving is blocked while anything depends on the place (5.3s)
+  ✓  410 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:492:3 › F05 DOT 01 — corrections, reconciliation and archiving › 25 · a place with nothing depending on it is archived; its history stays; it leaves the directory (6.4s)
+  ✓  411 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:504:3 › F05 DOT 01 — corrections, reconciliation and archiving › 12 / 15 / 21 · settings, rename and purposes (6.4s)
+  ✓  412 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:518:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › overlays trap focus, close on Escape, return focus to the opener and keep the page state (6.2s)
+  ✓  413 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:538:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › the MONEY collection is kept: VIEW ALL ACCOUNTS → back returns to ACCOUNTS (6.1s)
+  ✓  415 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:590:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › chips follow the authorities: back on 02–29, search + add on 30–37 (and 31) (15.9s)
+  ✓  416 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:607:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › typography inside overlays: uppercase, one lowercase cursive phrase at most (9.5s)
+  ✓  414 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:552:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › the dock appears only where its authority draws it (06, 31), on the nav paper; the other pages are full-bleed (40.3s)
+  -  418 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:640:3 › F05 DOT 01 — responsive (360×780 · 393×852 · 430×932 · 834×1194 · 1440×900) › nothing overflows sideways, controls stay on screen and touchable, inputs keep 16 px type
+  ✓  419 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:671:3 › F05 DOT 01 — reduced motion › no animation runs; pages, overlays and saves still work (6.1s)
+  ✓  420 [desktop] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:53:3 › F05 MONEY parent motion pilot › 1 · no account records: an honest empty state, no invented figures (5.8s)
+  ✓  421 [desktop] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:65:3 › F05 MONEY parent motion pilot › 2 · one account: its paper and a place to add another (5.4s)
+  ✓  422 [desktop] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:72:3 › F05 MONEY parent motion pilot › 3 / 5 / 6 · four accounts: approved hierarchy, live values, assets never netted with debt (13.1s)
+  ✓  423 [desktop] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:97:3 › F05 MONEY parent motion pilot › 4 · many accounts: the first four places and VIEW ALL ACCOUNTS; more places never add pages or dots (6.3s)
+  ✓  424 [desktop] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:113:3 › F05 MONEY parent motion pilot › 7 · the global dock keeps its five destinations, MONEY active, ADD opens Quick Add (6.3s)
+  ✓  417 [desktop] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:617:3 › F05 DOT 01 — overlays, navigation, typography, accessibility › accessibility: no serious or critical axe violations on the DOT 01 pages and overlays (55.7s)
+  ✓  425 [desktop] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:124:3 › F05 MONEY parent motion pilot › 8 / 9 / 13 / 19 / 20 · selection routes by id, changes no record, back returns cleanly (6.6s)
+  ✓  426 [desktop] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:148:3 › F05 MONEY parent motion pilot › 10 / 11 · MOVE MONEY uses the transaction system; money on its way is not shown as received (9.3s)
+  ✓  428 [desktop] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:260:3 › F05 MONEY parent motion pilot › 12 · overlays open, trap focus, close on Escape and return focus to the trigger (9.1s)
+  ✓  429 [desktop] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:290:3 › F05 MONEY parent motion pilot › 15 / 16 / 17 / 18 · readable at once, no duplicates, nothing off-screen, no page scroll (3.6s)
+  ✓  430 [desktop] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:310:3 › F05 MONEY parent motion pilot › accessibility: no serious or critical axe violations on the pilot or its sheets (7.6s)
+  ✓  431 [desktop] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:319:3 › F05 MONEY parent motion pilot › motion frame sequence (entrance, paused and seeked) and the zero-motion composite (9.3s)
+  ✓  427 [desktop] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:173:3 › F05 MONEY parent motion pilot › transfer states drive the thread; only recorded steps move money (36.6s)
+  ✓  432 [desktop] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:351:3 › F05 MONEY parent motion pilot › route transition frame sequence: the selected paper becomes the account title (7.7s)
+  ✓  433 [desktop] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:374:3 › F05 motion pilot — reduced motion › 14 · reduced motion: no animation, every action and figure still works (7.5s)
+  ✓  434 [desktop] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:394:3 › F05 MONEY default stays the approved cabinet hub › without opting in, /money is the cabinet hub (5.3s)
+  ✓  435 [desktop] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F03 root today reachable (9.3s)
+  ✓  436 [desktop] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F04 root activity reachable (8.9s)
+  ✓  437 [desktop] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F05 root money reachable (8.9s)
+  ✓  438 [desktop] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F06 root income reachable (9.7s)
+  ✓  439 [desktop] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F07 root upcoming reachable (10.1s)
+  ✓  440 [desktop] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F08 root plan reachable (9.0s)
+  ✓  441 [desktop] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F09 root safe reachable (10.5s)
+  ✓  442 [desktop] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F10 root purchases reachable (9.4s)
+  ✓  443 [desktop] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F11 root trips reachable (10.4s)
+  ✓  444 [desktop] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F12 root credit reachable (9.3s)
+  ✓  446 [desktop] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F14 root goals reachable (8.9s)
+  ✓  445 [desktop] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F13 root paydown reachable (9.3s)
+  ✓  447 [desktop] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F15 root ahead reachable (9.3s)
+  ✓  448 [desktop] › e2e/jurnl/jurnl-family-reachability.e2e.ts:27:5 › JURNL family reachability › F16 root records reachable (10.6s)
+  ✓  449 [desktop] › e2e/jurnl/jurnl-family-reachability.e2e.ts:33:3 › JURNL family reachability › 16/16 product families reachable from routes (5.0s)
+  ✓  450 [desktop] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:70:3 › Stabilization journeys › D1 Safe to Spend: next 30 days, then before next income; the 30-day number never changes (21.2s)
+  ✓  451 [desktop] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:97:3 › Stabilization journeys › transfer in transit: out of the source, not in the bank until it arrives, credited once (28.2s)
+  ✓  452 [desktop] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:122:3 › Stabilization journeys › a started transfer that never left can be cancelled with no change (26.2s)
+  ✓  453 [desktop] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:140:3 › Stabilization journeys › card payment on its way: the card is not settled until it confirms; the minimum is counted once (31.8s)
+  ✓  454 [desktop] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:163:3 › Stabilization journeys › D3 set money aside: the bill page and Plan show and change the same amount (33.9s)
+  ✓  455 [desktop] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:188:3 › Stabilization journeys › D2 a bill that is the card payment is counted once, through the card (22.0s)
+  ✓  456 [desktop] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:196:3 › Stabilization journeys › D4 headlines and TODAY: straightforward labels; ASK JURNL reachable with an honest fallback (22.7s)
+  ✓  457 [desktop] › e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts:216:3 › Stabilization journeys › accessibility: new sheets have no serious or critical axe violations (19.9s)
+  ✓  459 [desktop] › e2e/jurnl/jurnl-financial-os.e2e.ts:106:3 › Financial operating system journeys › spending: card purchase raises what the card owes; cash purchase lowers cash; usual account suggested (42.5s)
+  ✓  458 [desktop] › e2e/jurnl/jurnl-financial-os.e2e.ts:63:3 › Financial operating system journeys › daily earnings: one entry, cash and digital land in the right places, edit without duplication (53.9s)
+  ✓  460 [desktop] › e2e/jurnl/jurnl-financial-os.e2e.ts:132:3 › Financial operating system journeys › transfer: moving money between owned accounts is not income (27.2s)
+  ✓  462 [desktop] › e2e/jurnl/jurnl-financial-os.e2e.ts:186:3 › Financial operating system journeys › subscriptions: add, see renewal and monthly / yearly cost (8.5s)
+  ✓  463 [desktop] › e2e/jurnl/jurnl-financial-os.e2e.ts:198:3 › Financial operating system journeys › credit: payment plan shows minimum, source money and a target the user picks; recording a payment updates it (13.4s)
+  ✓  461 [desktop] › e2e/jurnl/jurnl-financial-os.e2e.ts:151:3 › Financial operating system journeys › bill funding: $95 set aside toward $140 does not lower Safe to Spend again; paying records one payment (43.6s)
+  ✓  464 [desktop] › e2e/jurnl/jurnl-financial-os.e2e.ts:215:3 › Financial operating system journeys › today: real attention fact and the money reading in SEE WHY (6.9s)
+  ✓  466 [desktop] › e2e/jurnl/jurnl-global-systems.e2e.ts:9:3 › Global systems › Quick Add movement saves (17.5s)
+  ✓  465 [desktop] › e2e/jurnl/jurnl-financial-os.e2e.ts:229:3 › Financial operating system journeys › accessibility: new sheets have no serious or critical axe violations (21.5s)
+  ✓  467 [desktop] › e2e/jurnl/jurnl-global-systems.e2e.ts:21:3 › Global systems › Ask Jurnl opens without provider (12.4s)
+  ✓  468 [desktop] › e2e/jurnl/jurnl-global-systems.e2e.ts:31:3 › Global systems › Settings buffer persists after reload (16.9s)
+  ✓  469 [desktop] › e2e/jurnl/jurnl-global-systems.e2e.ts:44:5 › Quick Add types › Quick Add exposes MOVEMENT (11.9s)
+  ✓  470 [desktop] › e2e/jurnl/jurnl-global-systems.e2e.ts:44:5 › Quick Add types › Quick Add exposes INCOME (11.6s)
+  ✓  471 [desktop] › e2e/jurnl/jurnl-global-systems.e2e.ts:44:5 › Quick Add types › Quick Add exposes GOAL (12.2s)
+  ✓  472 [desktop] › e2e/jurnl/jurnl-global-systems.e2e.ts:44:5 › Quick Add types › Quick Add exposes PURCHASE (11.8s)
+  ✓  473 [desktop] › e2e/jurnl/jurnl-global-systems.e2e.ts:44:5 › Quick Add types › Quick Add exposes TRIP (11.5s)
+  ✓  475 [desktop] › e2e/jurnl/jurnl-paydown-sts.e2e.ts:5:3 › F13 paydown → F09 boundary › simulated extra payment alone does not reduce STS (20.6s)
+  ✓  476 [desktop] › e2e/jurnl/jurnl-paydown-sts.e2e.ts:16:3 › F13 paydown → F09 boundary › committed trip reserve reduces STS (contrast) (25.4s)
+  ✓  477 [desktop] › e2e/jurnl/jurnl-persistence.e2e.ts:6:3 › Persistence reload › purchase survives reload (18.1s)
+  ✓  478 [desktop] › e2e/jurnl/jurnl-product-utility-journeys.e2e.ts:11:3 › Product utility audit journeys › Journey A — add subscription-like recurring obligation (23.0s)
+  ✘  474 [desktop] › e2e/jurnl/jurnl-golden-journey.e2e.ts:7:3 › JURNL golden journey › F01–F16 coherent path with reload verification (1.6m)
+  ✓  479 [desktop] › e2e/jurnl/jurnl-product-utility-journeys.e2e.ts:25:3 › Product utility audit journeys › Journey B — obligation visible on Safe to Spend after amount entry (15.4s)
+  ✓  481 [desktop] › e2e/jurnl/jurnl-production-hardening.e2e.ts:5:3 › JURNL production hardening (design-preview parity) › core journey still loads with repository seed (5.4s)
+  ✓  480 [desktop] › e2e/jurnl/jurnl-product-utility-journeys.e2e.ts:44:3 › Product utility audit journeys › Journey H — edit obligation amount (17.3s)
+  ✓  482 [desktop] › e2e/jurnl/jurnl-production-hardening.e2e.ts:11:3 › JURNL production hardening (design-preview parity) › production config module is fail-closed without server flag (4.8s)
+  ✓  483 [desktop] › e2e/jurnl/jurnl-production-hardening.e2e.ts:31:3 › JURNL production hardening (design-preview parity) › no preview seed emails in production mode document (static guard) (4.1s)
+
+
+  1) [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:640:3 › F05 DOT 01 — responsive (360×780 · 393×852 · 430×932 · 834×1194 · 1440×900) › nothing overflows sideways, controls stay on screen and touchable, inputs keep 16 px type 
+
+    Error: locator.waitFor: Target crashed 
+    Call log:
+      - waiting for locator('[data-project-runtime="jurnl"]')
+
+
+       at helpers/jurnl-page.ts:59
+
+      57 |   await page.goto(`${JURNL_RUNTIME_PREFIX}/${route.replace(/^\/+/, '')}`, { waitUntil: 'networkidle', timeout: 120_000 });
+      58 |   await page.locator('[data-testid="project-runtime-loading"]').waitFor({ state: 'detached', timeout: 120_000 }).catch(() => undefined);
+    > 59 |   await page.locator('[data-project-runtime="jurnl"]').waitFor({ state: 'attached', timeout: 120_000 });
+         |                                                        ^
+      60 | }
+      61 |
+      62 | export async function openSeededToday(page: Page, emptyDomains = false) {
+        at gotoJurnl (/home/user/SITE00/e2e/jurnl/helpers/jurnl-page.ts:59:56)
+        at /home/user/SITE00/e2e/jurnl/jurnl-f05-dot01.e2e.ts:647:9
+
+    Error: browserContext._wrapApiCall: ENOSPC: no space left on device, write
+
+    Error Context: playwright-test-results/jurnl-f05-dot01.e2e.ts-F05-d0053-able-inputs-keep-16-px-type-small/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-f05-dot01.e2e.ts-F05-d0053-able-inputs-keep-16-px-type-small/trace.zip
+    Usage:
+
+        npx playwright show-trace playwright-test-results/jurnl-f05-dot01.e2e.ts-F05-d0053-able-inputs-keep-16-px-type-small/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [small] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:72:3 › F05 MONEY parent motion pilot › 3 / 5 / 6 · four accounts: approved hierarchy, live values, assets never netted with debt 
+
+    Error: page.goto: Page crashed
+    Call log:
+      - navigating to "http://127.0.0.1:5174/production/jurnl/runtime/money?parent=motion", waiting until "networkidle"
+
+
+       at helpers/jurnl-page.ts:57
+
+      55 |
+      56 | export async function gotoJurnl(page: Page, route = 'today') {
+    > 57 |   await page.goto(`${JURNL_RUNTIME_PREFIX}/${route.replace(/^\/+/, '')}`, { waitUntil: 'networkidle', timeout: 120_000 });
+         |              ^
+      58 |   await page.locator('[data-testid="project-runtime-loading"]').waitFor({ state: 'detached', timeout: 120_000 }).catch(() => undefined);
+      59 |   await page.locator('[data-project-runtime="jurnl"]').waitFor({ state: 'attached', timeout: 120_000 });
+      60 | }
+        at gotoJurnl (/home/user/SITE00/e2e/jurnl/helpers/jurnl-page.ts:57:14)
+        at /home/user/SITE00/e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:92:11
+
+    Error: browserContext._wrapApiCall: ENOSPC: no space left on device, write
+
+    Error Context: playwright-test-results/jurnl-f05-motion-pilot.e2e-b8725-sets-never-netted-with-debt-small/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-f05-motion-pilot.e2e-b8725-sets-never-netted-with-debt-small/trace.zip
+    Usage:
+
+        npx playwright show-trace playwright-test-results/jurnl-f05-motion-pilot.e2e-b8725-sets-never-netted-with-debt-small/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [mobile] › e2e/jurnl/jurnl-golden-journey.e2e.ts:7:3 › JURNL golden journey › F01–F16 coherent path with reload verification 
+
+    Test timeout of 90000ms exceeded.
+
+    Error: page.reload: Test timeout of 90000ms exceeded.
+    Call log:
+      - waiting for navigation until "domcontentloaded"
+        - navigated to "http://127.0.0.1:5174/production/jurnl/runtime/account"
+
+
+      61 |     await clickTrigger(page, 'settings-buffer-save');
+      62 |
+    > 63 |     await page.reload({ waitUntil: 'domcontentloaded' });
+         |                ^
+      64 |     await gotoJurnl(page, 'purchases');
+      65 |     await expect(page.getByText('GOLDEN BUY')).toBeVisible();
+      66 |     await gotoJurnl(page, 'records');
+        at /home/user/SITE00/e2e/jurnl/jurnl-golden-journey.e2e.ts:63:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-golden-journey.e2e.t-4aafe-th-with-reload-verification-mobile/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-golden-journey.e2e.t-4aafe-th-with-reload-verification-mobile/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: playwright-test-results/jurnl-golden-journey.e2e.t-4aafe-th-with-reload-verification-mobile/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-golden-journey.e2e.t-4aafe-th-with-reload-verification-mobile/trace.zip
+    Usage:
+
+        npx playwright show-trace playwright-test-results/jurnl-golden-journey.e2e.t-4aafe-th-with-reload-verification-mobile/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:167:3 › F05 MONEY carousel › 07 / 08 / 09 / 10 · environment, MONEY title, summary and the global dock never move or re-mount 
+
+    Error: top of the page identical on transfers
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      175 |       expect(await shellMarks(page)).toBe(marked);
+      176 |       const now = await shellPixels(page);
+    > 177 |       expect(now.top === before.top, `top of the page identical on ${id}`).toBe(true);
+          |                                                                            ^
+      178 |       expect(now.dock === before.dock, `dock identical on ${id}`).toBe(true);
+      179 |       expect(await Promise.all(['held', 'owed', 'committed', 'available'].map((m) => metric(page, m)))).toEqual(figures);
+      180 |       const nav = page.locator('.jrn-nav[data-jrn-nav="parent"]');
+        at /home/user/SITE00/e2e/jurnl/jurnl-f05-carousel.e2e.ts:177:76
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-f05-carousel.e2e.ts--d36bf-dock-never-move-or-re-mount-tablet/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-f05-carousel.e2e.ts--d36bf-dock-never-move-or-re-mount-tablet/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: playwright-test-results/jurnl-f05-carousel.e2e.ts--d36bf-dock-never-move-or-re-mount-tablet/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-f05-carousel.e2e.ts--d36bf-dock-never-move-or-re-mount-tablet/trace.zip
+    Usage:
+
+        npx playwright show-trace playwright-test-results/jurnl-f05-carousel.e2e.ts--d36bf-dock-never-move-or-re-mount-tablet/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:426:3 › F05 MONEY carousel › 25 · usable at this size: everything on screen, real touch targets, no page scroll 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "f05m-panel-bills",
+    + ]
+
+      455 |         }),
+      456 |       );
+    > 457 |       expect(overflow).toEqual([]);
+          |                        ^
+      458 |       const m = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, w: innerWidth, sh: document.documentElement.scrollHeight, h: innerHeight }));
+      459 |       expect(m.sw).toBeLessThanOrEqual(m.w + 1);
+      460 |       expect(m.sh).toBeLessThanOrEqual(m.h + 1);
+        at /home/user/SITE00/e2e/jurnl/jurnl-f05-carousel.e2e.ts:457:24
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-f05-carousel.e2e.ts--576b1-ouch-targets-no-page-scroll-tablet/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-f05-carousel.e2e.ts--576b1-ouch-targets-no-page-scroll-tablet/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: playwright-test-results/jurnl-f05-carousel.e2e.ts--576b1-ouch-targets-no-page-scroll-tablet/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-f05-carousel.e2e.ts--576b1-ouch-targets-no-page-scroll-tablet/trace.zip
+    Usage:
+
+        npx playwright show-trace playwright-test-results/jurnl-f05-carousel.e2e.ts--576b1-ouch-targets-no-page-scroll-tablet/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [tablet] › e2e/jurnl/jurnl-golden-journey.e2e.ts:7:3 › JURNL golden journey › F01–F16 coherent path with reload verification 
+
+    Test timeout of 90000ms exceeded.
+
+    Error: page.goto: Test timeout of 90000ms exceeded.
+    Call log:
+      - navigating to "http://127.0.0.1:5174/production/jurnl/runtime/records", waiting until "networkidle"
+
+
+       at helpers/jurnl-page.ts:57
+
+      55 |
+      56 | export async function gotoJurnl(page: Page, route = 'today') {
+    > 57 |   await page.goto(`${JURNL_RUNTIME_PREFIX}/${route.replace(/^\/+/, '')}`, { waitUntil: 'networkidle', timeout: 120_000 });
+         |              ^
+      58 |   await page.locator('[data-testid="project-runtime-loading"]').waitFor({ state: 'detached', timeout: 120_000 }).catch(() => undefined);
+      59 |   await page.locator('[data-project-runtime="jurnl"]').waitFor({ state: 'attached', timeout: 120_000 });
+      60 | }
+        at gotoJurnl (/home/user/SITE00/e2e/jurnl/helpers/jurnl-page.ts:57:14)
+        at /home/user/SITE00/e2e/jurnl/jurnl-golden-journey.e2e.ts:66:11
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-golden-journey.e2e.t-4aafe-th-with-reload-verification-tablet/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-golden-journey.e2e.t-4aafe-th-with-reload-verification-tablet/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: playwright-test-results/jurnl-golden-journey.e2e.t-4aafe-th-with-reload-verification-tablet/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-golden-journey.e2e.t-4aafe-th-with-reload-verification-tablet/trace.zip
+    Usage:
+
+        npx playwright show-trace playwright-test-results/jurnl-golden-journey.e2e.t-4aafe-th-with-reload-verification-tablet/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:167:3 › F05 MONEY carousel › 07 / 08 / 09 / 10 · environment, MONEY title, summary and the global dock never move or re-mount 
+
+    Error: top of the page identical on transfers
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      175 |       expect(await shellMarks(page)).toBe(marked);
+      176 |       const now = await shellPixels(page);
+    > 177 |       expect(now.top === before.top, `top of the page identical on ${id}`).toBe(true);
+          |                                                                            ^
+      178 |       expect(now.dock === before.dock, `dock identical on ${id}`).toBe(true);
+      179 |       expect(await Promise.all(['held', 'owed', 'committed', 'available'].map((m) => metric(page, m)))).toEqual(figures);
+      180 |       const nav = page.locator('.jrn-nav[data-jrn-nav="parent"]');
+        at /home/user/SITE00/e2e/jurnl/jurnl-f05-carousel.e2e.ts:177:76
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-f05-carousel.e2e.ts--d36bf-dock-never-move-or-re-mount-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-f05-carousel.e2e.ts--d36bf-dock-never-move-or-re-mount-desktop/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: playwright-test-results/jurnl-f05-carousel.e2e.ts--d36bf-dock-never-move-or-re-mount-desktop/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-f05-carousel.e2e.ts--d36bf-dock-never-move-or-re-mount-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace playwright-test-results/jurnl-f05-carousel.e2e.ts--d36bf-dock-never-move-or-re-mount-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:426:3 › F05 MONEY carousel › 25 · usable at this size: everything on screen, real touch targets, no page scroll 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "f05m-panel-bills",
+    + ]
+
+      455 |         }),
+      456 |       );
+    > 457 |       expect(overflow).toEqual([]);
+          |                        ^
+      458 |       const m = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, w: innerWidth, sh: document.documentElement.scrollHeight, h: innerHeight }));
+      459 |       expect(m.sw).toBeLessThanOrEqual(m.w + 1);
+      460 |       expect(m.sh).toBeLessThanOrEqual(m.h + 1);
+        at /home/user/SITE00/e2e/jurnl/jurnl-f05-carousel.e2e.ts:457:24
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-f05-carousel.e2e.ts--576b1-ouch-targets-no-page-scroll-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-f05-carousel.e2e.ts--576b1-ouch-targets-no-page-scroll-desktop/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: playwright-test-results/jurnl-f05-carousel.e2e.ts--576b1-ouch-targets-no-page-scroll-desktop/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-f05-carousel.e2e.ts--576b1-ouch-targets-no-page-scroll-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace playwright-test-results/jurnl-f05-carousel.e2e.ts--576b1-ouch-targets-no-page-scroll-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) [desktop] › e2e/jurnl/jurnl-golden-journey.e2e.ts:7:3 › JURNL golden journey › F01–F16 coherent path with reload verification 
+
+    Test timeout of 90000ms exceeded.
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-golden-journey.e2e.t-4aafe-th-with-reload-verification-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-golden-journey.e2e.t-4aafe-th-with-reload-verification-desktop/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: playwright-test-results/jurnl-golden-journey.e2e.t-4aafe-th-with-reload-verification-desktop/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    playwright-test-results/jurnl-golden-journey.e2e.t-4aafe-th-with-reload-verification-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace playwright-test-results/jurnl-golden-journey.e2e.t-4aafe-th-with-reload-verification-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9 failed
+    [small] › e2e/jurnl/jurnl-f05-dot01.e2e.ts:640:3 › F05 DOT 01 — responsive (360×780 · 393×852 · 430×932 · 834×1194 · 1440×900) › nothing overflows sideways, controls stay on screen and touchable, inputs keep 16 px type 
+    [small] › e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts:72:3 › F05 MONEY parent motion pilot › 3 / 5 / 6 · four accounts: approved hierarchy, live values, assets never netted with debt 
+    [mobile] › e2e/jurnl/jurnl-golden-journey.e2e.ts:7:3 › JURNL golden journey › F01–F16 coherent path with reload verification 
+    [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:167:3 › F05 MONEY carousel › 07 / 08 / 09 / 10 · environment, MONEY title, summary and the global dock never move or re-mount 
+    [tablet] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:426:3 › F05 MONEY carousel › 25 · usable at this size: everything on screen, real touch targets, no page scroll 
+    [tablet] › e2e/jurnl/jurnl-golden-journey.e2e.ts:7:3 › JURNL golden journey › F01–F16 coherent path with reload verification 
+    [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:167:3 › F05 MONEY carousel › 07 / 08 / 09 / 10 · environment, MONEY title, summary and the global dock never move or re-mount 
+    [desktop] › e2e/jurnl/jurnl-f05-carousel.e2e.ts:426:3 › F05 MONEY carousel › 25 · usable at this size: everything on screen, real touch targets, no page scroll 
+    [desktop] › e2e/jurnl/jurnl-golden-journey.e2e.ts:7:3 › JURNL golden journey › F01–F16 coherent path with reload verification 
+  8 skipped
+  466 passed (57.6m)

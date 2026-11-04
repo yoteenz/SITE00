@@ -1,0 +1,5 @@
+ ✓ tests/jurnlF05Dot01.test.ts (61 tests) 82ms
+ ✓ tests/jurnlF05MotionPilot.test.ts (20 tests) 74ms
+ ✓ tests/jurnlF05Carousel.test.ts (10 tests) 55ms
+ Test Files  44 passed (44)
+      Tests  798 passed (798)

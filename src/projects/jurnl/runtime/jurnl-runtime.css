@@ -1041,6 +1041,7 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .jrn .jrn-screen,
+  .jrn .jrn-screen[data-transition],
   .jrn .jrn-drawer,
   .jrn .jrn-sheet,
   .jrn .jrn-modal,

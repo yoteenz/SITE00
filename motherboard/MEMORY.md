@@ -16701,3 +16701,53 @@ Summary of the whole conversation in this chat.
 - **Decisions / outcomes:** D1 Safe to Spend = NEXT 30 DAYS (canonical, inclusive of day 30) plus a BEFORE NEXT INCOME reading of the same formula (`computeSafeToSpendThrough`); the printed F09 date is now live. D2 card minimum counted once through the card; only card-confirmed in-cycle payments reduce it; linked card bills skipped, unlinked look-alikes flagged. D3 Plan's SET MONEY ASIDE opens the bill set-aside sheet (one reservation engine). D4 family questions plain-languaged; TODAY head `YOUR MONEY.` (fits the plate; `YOUR MONEY NOW.` did not). Transfers: each leg has a settlement, only SETTLED legs move balances; in-transit money is in no account; legacy PENDING transfer pairs read as NEEDS_RECONCILIATION (no data rewrite).
 - **Changes:** `data/ledger/{accounting,ledgerOps,transferSettlement,moneyPicture}.ts`, `data/f09/safeToSpend.ts`, `data/f12/*`, `data/f07/obligationLifecycle.ts`, `data/f08/billSetAsides.ts`, `runtime/finance/{FinanceSheets,CreditSheets,SafeHorizonSheet,TodayMoneySheet}.tsx`, Home/Money/Credit/Upcoming/Plan/Income/Paydown/SafeToSpend screens, `tests/jurnlFinancialStabilization.test.ts`, `e2e/jurnl/jurnl-financial-os-stabilization.e2e.ts`, evidence `JURNL/MANIFEST/FINANCIAL_OS_STABILIZATION_V1/`.
 - **Conventions:** Record transfer steps only through `recordTransferStep` (idempotent). Never delete a transfer that is IN_TRANSIT or RETURNING. E2E reads Safe to Spend from `[data-jrn-value="safe-to-spend"][data-jrn-amount-cents]`, not visual classes. Unit tests that render the production shell must resolve production config as CI does (`vi.mock` of productionConfig). Live RLS proof still PREREQUISITE_BLOCKED (nine secrets missing).
+
+---
+
+## 2026-11-03 — JURNL F05 MONEY parent: layered motion pilot
+
+- **Context:** Sprint P0.JURNL.F05-MONEY.PARENT-ANIMATED-COLLAGE-RECONSTRUCTION-AND-FIDELITY-PILOT.OPUS1. Prove the founder-approved MONEY collage (flattened 1024 × 1536, no alpha) can become a layered, live, animated page. Branch `claude/jurnl-f05-money-motion-pilot-um0u93`, stacked on draft #1706. No merge, deploy, DB change or generation.
+- **Decisions / outcomes:** Deterministic extraction (`scripts/jurnl/f05-motion-pilot/extract_layers.py`, OpenCV GrabCut + two-band same-material reconstruction, seed 20261103): text-free SIDEKICK, true-alpha title paper / seal / four card papers / torn edge, elastic panel tile. Moving layers use scale-only envelopes verified to expose 0 px of covered fill. Page is opt-in at `/money?parent=motion` (cabinet hub stays default). Figures: HELD / OWED from positions, COMMITTED = what Safe to Spend holds back, AVAILABLE = F09 Safe to Spend (the reference's $1,250 implies HELD − OWED − COMMITTED — founder decision). Recommendation OPTION B: approve the layered method; production layers need a native layered master ≥ 2048 × 3072.
+- **Changes:** `data/f05/moneyParentReading.ts`, `runtime/screens/f05/*` (layout, page, CSS, route), `families/F05_MONEY/MOTION_PILOT/*`, `public/.../pinyon-script-400.woff2` (OFL), tests `tests/jurnlF05MotionPilot.test.ts`, `e2e/jurnl/jurnl-f05-motion-pilot.e2e.ts`, evidence `JURNL/MANIFEST/F05_MONEY_PARENT_MOTION_PILOT_V1/`.
+- **Conventions:** JURNL CSS must stay under `.jrn`; root pseudo-elements (view transitions) use `html:has([data-jrn-screen])`. Motion frames for review are made by freezing CSS animations (`animation-play-state: paused` init style) and seeking with the Web Animations API, not timed screenshots. Shell `jrn-family` transition ignores reduced motion (pre-existing specificity gap; not fixed here).
+
+---
+
+## 2026-11-03 — JURNL F05 MONEY parent: four-collection carousel
+
+- **Context:** Sprint P0.JURNL.F05-MONEY.PARENT-FOUR-PANEL-CAROUSEL-AND-MOTION-AUTHORITY-EXPANSION.OPUS1, an in-flight follow-up to the motion pilot (same branch, PR #1707, stacked on #1706). The founder supplied four carousel screens (C01–C04, 941 × 1672) plus the earlier 9:16 reference and text-free SIDEKICK. No merge, deploy, DB change or generation.
+- **Decisions / outcomes:** One carousel, four collections of four papers: ACCOUNTS · TRANSFERS · COMMITMENTS · OUTLOOK. Only the papers move. The shell is the SIDEKICK, drawn once; it is not re-taken per screen, because the screens differ 9–10 % from each other. Values come from `computeMoneyCarousel` (`data/f05/moneyCarousel.ts`): #1706 transfer views, F09 parts, F14 goal set-asides, F06 next income and ledger `flowTotals`. RESERVED = COMMITTED (the reference's $420 excludes held-back; founder decision). Every collection is a fixed 2 × 2: no third row, and more than four places show 3 + ALL PLACES (+n). The active collection is in the URL (`?c=`, replace). A change is exit 300 ms then entry 360 ms from the other side (≤ 520 ms); reduced motion switches at once.
+- **Changes:** `data/f05/moneyCarousel.ts`, `runtime/screens/f05/{useMoneyCarousel.ts,CarouselPanelPaper.tsx,jurnl-f05-carousel.css,MoneyMotionParent.tsx,f05MotionLayout.ts,f05Composition.ts}`, `runtime/state/store.tsx` (a REPLACE navigation updates the trail's top entry instead of pushing), 12 `F05_PAPER_*.webp` from `scripts/jurnl/f05-motion-pilot/extract_carousel_papers.py`, tests `tests/jurnlF05Carousel.test.ts` and `e2e/jurnl/jurnl-f05-carousel.e2e.ts` (QA 01–28), evidence `JURNL/MANIFEST/F05_MONEY_PARENT_CAROUSEL_V1/`.
+- **Conventions:**
+  - The Playwright loader cannot import modules that pull in JSON (for example the ledger builders via the currency catalog). E2E worlds write literal records, and a unit test (`jurnlF05Carousel` "E2E carousel world is what the app itself records") checks them against the builders.
+  - Freeze a timed UI transition for frame capture with `page.clock.install()` + `pauseAt()`, and seek CSS animations with the Web Animations API.
+  - The full-repo vitest run has 91 failing tests in 58 non-JURNL files, identical at `274d7956`. They are pre-existing.
+
+---
+
+## 2026-11-04 — JURNL F05 MONEY DOT 01 (ACCOUNTS): 37 screens, receipts, corrections
+
+- **Context:** Sprint P0.JURNL.F05-MONEY.DOT01-ACCOUNTS.FULL-VISUAL-MOTION-AND-FINANCIAL-RUNTIME-CONVERGENCE.OPUS1. The founder's V9 package: 37 screen authorities, SK01 / SK02 / SK03 and 22 motion PNGs. Same branch and draft PR #1707, stacked on #1706. No merge, deploy, DB change, generation or paid provider.
+- **Decisions / outcomes:**
+  - **Screens:** the 37 authorities map to 7 routes, their states and one overlay switch (`dot01/sheets/Dot01Sheets.tsx`). Doc 03 has the map.
+  - **SIDEKICKs:** SK01 for the parent, SK02_FIELD for pages, SK03_FIELD for overlays, and the full SK03 for CAPTURE RECEIPT. Only 01 / 02 / 26 are pixel pairs; the other 34 authorities are separate renders.
+  - **Child-page chrome (founder correction):** pages follow their authorities. They are full-bleed, with no bottom panel. The dock appears only on 06 and 31, on SK01's nav paper inside the composition. Chips are per authority (back, or search + add on 30–37), and the shell corner chrome is hidden.
+  - **Tall phones:** the extra height is shared between papers inside the field zone (`by()` / `ZONE_TOP`), with the seam above the bottom landscape.
+  - **Receipts:** read on the device with tesseract.js, self-hosted under `/jurnl/ocr`. There is a live camera preview. Review is always required, and exactly one entry is saved, with `entry.receipt`. Images live in IndexedDB on the device only.
+  - **Corrections:** correct = same id plus `correction_history`; reverse = remove plus `settings.ledgerAudit`, once only.
+  - **Reconciliation:** never marked with a difference; an adjustment is one ADJUSTMENT entry.
+  - **Archiving:** checks dependencies first.
+  - **Card payments:** the DOT 01 preview refuses overpaying a card and taking cash below 0.
+- **Changes:**
+  - Data: `data/f05/dot01/*` (accountOrder, accountView, history, archive, corrections, reconciliation, receipt, entry).
+  - Runtime: `runtime/screens/f05/dot01/*` (Dot01Frame, pages, kit, icons, receipt OCR / store, `sheets/*`).
+  - Assets: `families/F05_MONEY/DOT01/*` from `scripts/jurnl/f05-motion-pilot/extract_dot01.py`, and `public/jurnl/ocr/*`.
+  - Tests: `tests/jurnlF05Dot01.test.ts` (61), `e2e/jurnl/jurnl-f05-dot01{,-camera}.e2e.ts`.
+  - Comparison: `scripts/jurnl/f05-motion-pilot/compare_dot01.py`.
+  - Evidence: `JURNL/MANIFEST/F05_MONEY_DOT01_ACCOUNTS_V1/`.
+- **Conventions:**
+  - Place a board paper by its top (`by(L, top)`) and anything on it relative to that top (`by(L, top) + dy`).
+  - Multi-line headings need real spaces between line spans (a grid ignores whitespace nodes).
+  - Playwright `launchOptions` (fake camera) must be top-level in its own spec file.
+  - Don't edit runtime code while a full E2E regression runs against the dev server: hot reloads fail tests mid-run.
+  - Compare against authorities at 471 × 836, where the board maps one to one.

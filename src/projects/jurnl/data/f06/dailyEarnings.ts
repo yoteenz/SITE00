@@ -100,8 +100,8 @@ export function validateDailyEarnings(input: DailyEarningsInput, accounts: Jurnl
   }
   if (b.cashReceived > 0) {
     const acct = accounts.find((a) => a.account_id === input.cash_account_id && a.status === 'ACTIVE');
-    if (!acct) return 'CHOOSE WHERE THE CASH TIPS ARE KEPT. ADD A CASH PLACE IN MONEY IF YOU HAVE NONE.';
-    if (accountNature(acct.account_type) === 'LIABILITY') return `${acct.display_name} IS A CREDIT ACCOUNT. CASH TIPS NEED A PLACE THAT HOLDS MONEY.`;
+    if (!acct) return 'CHOOSE WHERE THE CASH TIPS ARE KEPT. ADD A CASH POCKET IN MONEY IF YOU HAVE NONE.';
+    if (accountNature(acct.account_type) === 'LIABILITY') return `${acct.display_name} IS A CREDIT ACCOUNT. CASH TIPS NEED A POCKET THAT HOLDS MONEY.`;
   }
   return null;
 }

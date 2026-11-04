@@ -85,4 +85,32 @@ export type LedgerEntry = {
   /** Settlement of this leg (see LegSettlement). */
   settlement?: LegSettlement;
   settlement_history?: SettlementEvent[];
+  /** F05 DOT 01: every correction of this entry, oldest first (the values before each change). Never rewritten. */
+  correction_history?: EntryCorrection[];
+  /** F05 DOT 01: the receipt this purchase was recorded from (extracted values kept as read; the image stays on the device). */
+  receipt?: EntryReceipt;
+  /** F05 DOT 01: what the user typed, kept as entered (the display fields above are the canonical uppercase form). */
+  source_values?: { merchant?: string; memo?: string };
+};
+
+export type EntryCorrection = {
+  at: string;
+  reason: string;
+  before: { amount: number; merchant: string; category: string; account_id: string | null; occurred_on: string | null; memo: string };
+};
+
+export type EntryReceipt = {
+  receipt_id: string;
+  /** Where the image is kept. DEVICE: this device's private storage only (never uploaded). */
+  stored: 'DEVICE';
+  source: 'CAMERA' | 'UPLOAD';
+  mime: string;
+  captured_at: string;
+  /** SHA-256 of the image bytes (duplicate detection). */
+  image_sha256: string;
+  /** What the scan read, before the user's edits (null = not read). */
+  extracted: { merchant: string | null; date: string | null; total: number | null; subtotal: number | null; tax: number | null; tip: number | null; items: { name: string; amount: number }[] };
+  /** Fields the user changed or filled in during review. */
+  edited: string[];
+  ocr_confidence: number | null;
 };
