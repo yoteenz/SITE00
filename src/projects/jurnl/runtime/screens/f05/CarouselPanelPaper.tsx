@@ -81,8 +81,8 @@ export const nameFont = (lines: readonly string[]) => {
   return f05BoardType(`max(${(C.card.nameSize * k).toFixed(2)}px, calc(${(11 * k).toFixed(2)}px / var(--f05m-u, 1)))`);
 };
 
-/** COMMITMENTS · BILLS + SUBSCRIPTIONS title runs long; founder +2px on header only. */
-export const PANEL_BILLS_TITLE_ADD_PX = 2;
+/** COMMITMENTS · BILLS + SUBSCRIPTIONS title runs long; founder +4px on header only. */
+export const PANEL_BILLS_TITLE_ADD_PX = 4;
 
 export function panelNameFont(panel: CarouselPanel): string {
   const base = nameFont(panel.title);
