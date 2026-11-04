@@ -177,11 +177,31 @@
     width: min(100%, 60dvh);
     transform: translateX(-50%);
   }
+  /* F05 motion + DOT 01: fixed stages (inset 0) must stay viewport-anchored. A transformed .jrn-col
+     becomes their containing block and recreates pillarboxing on short phones (browser chrome). */
+  .jrn .jrn-screen[data-jrn-parent-authority='F05']:has(.jrn-f05m, .jrn-d01) .jrn-col {
+    left: 0;
+    right: 0;
+    width: 100%;
+    transform: none;
+  }
+  .jrn .jrn-screen[data-jrn-parent-authority='F05']:has(.jrn-f05m, .jrn-d01) .jrn-env {
+    left: 0;
+    right: auto;
+    width: 100%;
+    transform: none;
+  }
   /* The parent dock (jurnl-nav.css) stays within the column. */
   .jrn .jrn-nav[data-jrn-nav='parent'] {
     left: 50%;
     right: auto;
     width: min(100%, 60dvh, 640px);
     transform: translateX(-50%);
+  }
+  .jrn .jrn-screen[data-jrn-parent-authority='F05']:has(.jrn-f05m, .jrn-d01) .jrn-nav[data-jrn-nav='parent'] {
+    left: var(--f05m-nav-x, 0);
+    right: auto;
+    width: var(--f05m-nav-w, 100%);
+    transform: none;
   }
 }
