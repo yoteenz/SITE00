@@ -141,20 +141,6 @@
   color: #2a2016;
   white-space: nowrap;
 }
-.jrn .jrn-f05m__basis {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  top: var(--f05m-caption-top, 664px);
-  text-align: center;
-  margin: 0;
-  padding: 0 10px;
-  box-sizing: border-box;
-  font: 500 calc(16px - var(--f05-type-nudge, 0px))/1.35 'JURNL Sans', sans-serif;
-  letter-spacing: 0.14em;
-  white-space: normal;
-  color: rgba(243, 234, 216, 0.82);
-}
 .jrn .jrn-f05m__band {
   position: absolute;
   left: 0;
