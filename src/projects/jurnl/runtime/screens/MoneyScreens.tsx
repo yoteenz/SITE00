@@ -258,7 +258,7 @@ export function MoneyPlacesScreen() {
         : accounts.map((a) => {
             const p = positions.find((x) => x.account_id === a.account_id);
             const t = pic.transferTotals.byAccount.get(a.account_id);
-            const moving = [t && t.incoming > 0 ? `${formatMoney(t.incoming)} ON ITS WAY IN` : '', t && t.waitingToLeave > 0 ? `${formatMoney(t.waitingToLeave)} NOT SENT YET` : '', t && t.inTransitOut > 0 ? `${formatMoney(t.inTransitOut)} SENT, NOT ARRIVED` : ''].filter(Boolean).join(' · ');
+            const moving = [t && t.incoming > 0 ? `${formatMoney(t.incoming)} INCOMING` : '', t && t.waitingToLeave > 0 ? `${formatMoney(t.waitingToLeave)} PENDING` : '', t && t.inTransitOut > 0 ? `${formatMoney(t.inTransitOut)} SENT, NOT ARRIVED` : ''].filter(Boolean).join(' · ');
             return (
               <button key={a.account_id} type="button" className="jrn-tx jrn-row" data-jrn-trigger={`money-place-${a.account_id}`} onClick={() => go(`money/places/${a.account_id}`)}>
                 <span className="jrn-tx__copy">
