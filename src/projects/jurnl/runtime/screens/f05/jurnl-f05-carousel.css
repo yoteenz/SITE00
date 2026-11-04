@@ -98,12 +98,13 @@
   left: calc(var(--f05m-name-left, 38px) + 2px);
   /* the paper's text column (left of its art); longer captions wrap, as the reference's do */
   max-width: 196px;
-  font: italic 500 calc(max(18px, calc(7.5px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px))/ 1.25 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 600 calc(max(18px, calc(7.5px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px))/ 1.25 'JURNL Authority Serif', 'JURNL Display', serif;
+  font-style: normal;
   letter-spacing: 0.16em;
   white-space: normal;
   overflow: visible;
   text-overflow: clip;
-  color: #2a2016;
+  color: var(--f05m-burgundy, #70200d);
 }
 
 /* four collection dots: real buttons. The dot is the reference's (17 source px, 30 px pitch); each button is 44
