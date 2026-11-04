@@ -95,6 +95,10 @@ const bez = (p: Thread, k: number): Pt => ({
  * Where a transfer's thread runs, from its canonical state only. Not left yet (scheduled, submitted, unconfirmed):
  * the token rests at the source. In transit / returning: the token rests between the papers. Finished: no thread.
  */
+/** Lowest board y a resting token's centre may reach: the metric buttons end at labelTop − 12 + 104 (CSS height),
+ *  then half the token (24) and a 6 px margin. */
+const TOKEN_MIN_Y = C.band.labelTop - 12 + 104 + 24 + 6;
+
 function threadFor(t: MoneyParentTransfer, A: Rect, B: Rect): Thread {
   const sameRow = Math.abs(A.y - B.y) < 20;
   let a: Pt;
@@ -104,7 +108,9 @@ function threadFor(t: MoneyParentTransfer, A: Rect, B: Rect): Thread {
   if (sameRow) {
     a = { x: A.x + A.w / 2, y: A.y };
     b = { x: B.x + B.w / 2, y: B.y };
-    c = { x: (a.x + b.x) / 2, y: Math.min(a.y, b.y) - 74 };
+    // the arc rises up to 74 board px, but a token resting on it stays clear of the summary band
+    const top = Math.min(a.y, b.y);
+    c = { x: (a.x + b.x) / 2, y: Math.max(top - 74, 2 * TOKEN_MIN_Y - top) };
     outward = -1;
   } else {
     const down = A.y < B.y;
