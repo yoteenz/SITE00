@@ -35,6 +35,7 @@ export function JurnlServerEntitlementsBridge({ mode, children }: { mode: 'desig
       return;
     }
     if (session.status !== 'ACTIVE' || !signedInUserId) {
+      requestSeq.current += 1;
       setLoadState('SIGNED_OUT');
       setAuthorization(null);
       setPreview(null);

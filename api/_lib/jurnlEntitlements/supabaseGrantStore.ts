@@ -1,8 +1,7 @@
 /**
- * Durable internal grant persistence (Supabase service role).
+ * Durable internal grant persistence (Supabase service role + atomic RPC).
  */
 
-import { randomUUID } from 'node:crypto';
 import {
   INTERNAL_GRANT_SCHEMA_VERSION,
   type InternalGrantInput,
@@ -56,63 +55,25 @@ export async function upsertGrantInDb(input: InternalGrantInput & { granted_by: 
   if (!isValidPrincipalId(input.principal_id)) {
     return { ok: false, code: 'INVALID_PRINCIPAL', error: 'principal_id must be a UUID' };
   }
-  const sb = getSupabaseAdminServiceRole();
-  const now = new Date().toISOString();
-
-  const { data: existing, error: readErr } = await sb
-    .from('jurnl_internal_grants')
-    .select('*')
-    .eq('project_id', input.project_id)
-    .eq('principal_id', input.principal_id)
-    .eq('grant_type', input.grant_type)
-    .eq('status', 'ACTIVE')
-    .maybeSingle();
-  if (readErr) return { ok: false, code: 'PERSISTENCE_FAILED', error: readErr.message };
-
-  if (existing) {
-    const { data: updated, error: updErr } = await sb
-      .from('jurnl_internal_grants')
-      .update({ reason: input.reason, updated_at: now, granted_by: input.granted_by })
-      .eq('grant_id', existing.grant_id)
-      .select('*')
-      .single();
-    if (updErr) return { ok: false, code: 'PERSISTENCE_FAILED', error: updErr.message };
-    await sb.from('jurnl_internal_grant_audit').insert({
-      grant_id: existing.grant_id,
-      action: 'GRANT',
-      actor_id: input.granted_by,
-      reason: `IDEMPOTENT_UPDATE: ${input.reason}`,
-    });
-    return { ok: true, value: rowToRecord(updated as Record<string, unknown>) };
+  if (!isValidPrincipalId(input.granted_by)) {
+    return { ok: false, code: 'INVALID_PRINCIPAL', error: 'granted_by must be a UUID' };
   }
-
-  const grantId = randomUUID();
-  const { data: inserted, error: insErr } = await sb
-    .from('jurnl_internal_grants')
-    .insert({
-      grant_id: grantId,
-      project_id: input.project_id,
-      principal_id: input.principal_id,
-      grant_type: input.grant_type,
-      status: 'ACTIVE',
-      granted_by: input.granted_by,
-      reason: input.reason,
-      schema_version: INTERNAL_GRANT_SCHEMA_VERSION,
-      created_at: now,
-      updated_at: now,
-      revoked_at: null,
-    })
-    .select('*')
-    .single();
-  if (insErr) return { ok: false, code: 'PERSISTENCE_FAILED', error: insErr.message };
-
-  await sb.from('jurnl_internal_grant_audit').insert({
-    grant_id: grantId,
-    action: 'GRANT',
-    actor_id: input.granted_by,
-    reason: input.reason,
+  const sb = getSupabaseAdminServiceRole();
+  const { data, error } = await sb.rpc('jurnl_internal_grant_upsert', {
+    p_project_id: input.project_id,
+    p_principal_id: input.principal_id,
+    p_grant_type: input.grant_type,
+    p_granted_by: input.granted_by,
+    p_reason: input.reason,
+    p_schema_version: INTERNAL_GRANT_SCHEMA_VERSION,
   });
-  return { ok: true, value: rowToRecord(inserted as Record<string, unknown>) };
+  if (error) {
+    const msg = error.message ?? 'RPC failed';
+    if (msg.includes('INVALID_GRANT_TYPE')) return { ok: false, code: 'PERSISTENCE_FAILED', error: msg };
+    return { ok: false, code: 'PERSISTENCE_FAILED', error: msg };
+  }
+  if (!data) return { ok: false, code: 'PERSISTENCE_FAILED', error: 'Empty RPC result' };
+  return { ok: true, value: rowToRecord(data as Record<string, unknown>) };
 }
 
 export async function revokeGrantInDb(
@@ -122,37 +83,22 @@ export async function revokeGrantInDb(
   revokedBy: string,
   reason: string,
 ): Promise<GrantPersistenceOk<InternalGrantRecord> | GrantPersistenceError> {
+  if (!isValidPrincipalId(revokedBy)) {
+    return { ok: false, code: 'INVALID_PRINCIPAL', error: 'revoked_by must be a UUID' };
+  }
   const sb = getSupabaseAdminServiceRole();
-  const { data: active, error: readErr } = await sb
-    .from('jurnl_internal_grants')
-    .select('*')
-    .eq('project_id', projectId)
-    .eq('principal_id', principalId)
-    .eq('grant_type', grantType)
-    .eq('status', 'ACTIVE')
-    .maybeSingle();
-  if (readErr) return { ok: false, code: 'PERSISTENCE_FAILED', error: readErr.message };
-  if (!active) return { ok: false, code: 'PERSISTENCE_FAILED', error: 'GRANT_NOT_FOUND' };
-
-  const now = new Date().toISOString();
-  const { data: updated, error: updErr } = await sb
-    .from('jurnl_internal_grants')
-    .update({
-      status: 'REVOKED',
-      updated_at: now,
-      revoked_at: now,
-      reason: `${active.reason} · REVOKED: ${reason}`,
-    })
-    .eq('grant_id', active.grant_id)
-    .select('*')
-    .single();
-  if (updErr) return { ok: false, code: 'PERSISTENCE_FAILED', error: updErr.message };
-
-  await sb.from('jurnl_internal_grant_audit').insert({
-    grant_id: active.grant_id,
-    action: 'REVOKE',
-    actor_id: revokedBy,
-    reason,
+  const { data, error } = await sb.rpc('jurnl_internal_grant_revoke', {
+    p_project_id: projectId,
+    p_principal_id: principalId,
+    p_grant_type: grantType,
+    p_revoked_by: revokedBy,
+    p_reason: reason,
   });
-  return { ok: true, value: rowToRecord(updated as Record<string, unknown>) };
+  if (error) {
+    const msg = error.message ?? 'RPC failed';
+    if (msg.includes('GRANT_NOT_FOUND')) return { ok: false, code: 'PERSISTENCE_FAILED', error: 'GRANT_NOT_FOUND' };
+    return { ok: false, code: 'PERSISTENCE_FAILED', error: msg };
+  }
+  if (!data) return { ok: false, code: 'PERSISTENCE_FAILED', error: 'Empty RPC result' };
+  return { ok: true, value: rowToRecord(data as Record<string, unknown>) };
 }
