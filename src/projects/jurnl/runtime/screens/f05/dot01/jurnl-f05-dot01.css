@@ -1267,25 +1267,25 @@
 }
 
 /* field rows as separate torn strips (16–20): tile | rule | label | value, on the founder's action-strip paper */
-.jrn .jrn-d01__content[data-fields='strips'] .d01-paper--sheet {
+.jrn .jrn-d01__content[data-fields^='strips'] .d01-paper--sheet {
   border: 0;
   border-image: none;
   padding: 0;
   filter: none;
   display: grid;
-  gap: 3px;
+  gap: 6px;
 }
-.jrn .jrn-d01__content[data-fields='strips'] .d01-field {
+.jrn .jrn-d01__content[data-fields^='strips'] .d01-field {
   min-height: 0;
   padding: 0 4px;
   border-style: solid;
-  border-width: 5px 12px;
-  border-image: var(--d01-img-strip) 60 80 fill / 5px 12px / 0 stretch;
+  border-width: 8px 12px;
+  border-image: var(--d01-img-strip) 60 80 fill / 8px 12px / 0 stretch;
   filter: drop-shadow(0 2px 3px rgba(18, 10, 4, 0.3));
   gap: 8px;
   grid-template-columns: calc(var(--d01-fs) * 2.2) minmax(0, 0.95fr) minmax(0, 1.25fr);
 }
-.jrn .jrn-d01__content[data-fields='strips'] .d01-field > label {
+.jrn .jrn-d01__content[data-fields^='strips'] .d01-field > label {
   align-self: stretch;
   display: flex;
   flex-direction: column;
@@ -1293,17 +1293,17 @@
   padding-left: 10px;
   border-left: 2px solid rgba(31, 24, 16, 0.5);
 }
-.jrn .jrn-d01__content[data-fields='strips'] .d01-row__ico {
+.jrn .jrn-d01__content[data-fields^='strips'] .d01-row__ico {
   width: calc(var(--d01-fs) * 2.2);
   height: calc(var(--d01-fs) * 2.2);
 }
-.jrn .jrn-d01__content[data-fields='strips'] .d01-field input,
-.jrn .jrn-d01__content[data-fields='strips'] .jrn-sel {
-  min-height: 34px;
-  padding-top: 3px;
-  padding-bottom: 3px;
+.jrn .jrn-d01__content[data-fields^='strips'] .d01-field input,
+.jrn .jrn-d01__content[data-fields^='strips'] .jrn-sel {
+  min-height: 38px;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
-.jrn .jrn-d01__content[data-fields='strips'] {
+.jrn .jrn-d01__content[data-fields^='strips'] {
   gap: 7px;
 }
 
@@ -1423,15 +1423,18 @@
 }
 /* fit: the purchase form carries one more row than authority 16 (MERCHANT is required), so the strips keep a ≈ 43 px
    pitch and the scan block is a little shorter; the primary action stays on screen above the bottom landscape */
-.jrn .jrn-d01__content[data-fields='strips'] .d01-field {
+.jrn .jrn-d01__content[data-fields='strips-dense'] .d01-field {
   border-width: 4px 12px;
   border-image-width: 4px 12px;
 }
-.jrn .jrn-d01__content[data-fields='strips'] .d01-paper--sheet {
+.jrn .jrn-d01__content[data-fields='strips-dense'] .d01-paper--sheet {
   gap: 2px;
 }
-.jrn .jrn-d01__content[data-fields='strips'] .d01-field input,
-.jrn .jrn-d01__content[data-fields='strips'] .jrn-sel {
+.jrn .jrn-d01__content[data-fields='strips-dense'] .d01-paper--sheet {
+  gap: 2px;
+}
+.jrn .jrn-d01__content[data-fields='strips-dense'] .d01-field input,
+.jrn .jrn-d01__content[data-fields='strips-dense'] .jrn-sel {
   min-height: 32px;
 }
 .jrn .d01-scanblock__art {

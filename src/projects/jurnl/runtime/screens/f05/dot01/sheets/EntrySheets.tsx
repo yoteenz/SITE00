@@ -209,7 +209,7 @@ export function PurchaseFlow({ accountId, mode, withType, startWithReceipt, onCl
   // form (16 / 18 / 19 / 28)
   const fromReceipt = !!capture;
   return (
-    <Dot01Overlay testId={fromReceipt ? 'd01-review-purchase' : 'd01-record'} env="SK03_FIELD" fields={fromReceipt ? 'sheet' : 'strips'} fieldIcons={!fromReceipt && mode !== 'card' && mode !== 'cash' ? 'tiles' : 'ink'} title={fromReceipt ? ['REVIEW', 'PURCHASE'] : title} subtitle={fromReceipt ? 'check before saving' : undefined} onClose={onClose} contentRect={CONTENT} contentScroll label={fromReceipt ? 'REVIEW EXTRACTED PURCHASE' : title.join(' ')} content={
+    <Dot01Overlay testId={fromReceipt ? 'd01-review-purchase' : 'd01-record'} env="SK03_FIELD" fields={fromReceipt ? 'sheet' : 'strips-dense'} fieldIcons={!fromReceipt && mode !== 'card' && mode !== 'cash' ? 'tiles' : 'ink'} title={fromReceipt ? ['REVIEW', 'PURCHASE'] : title} subtitle={fromReceipt ? 'check before saving' : undefined} onClose={onClose} contentRect={CONTENT} contentScroll label={fromReceipt ? 'REVIEW EXTRACTED PURCHASE' : title.join(' ')} content={
       <>
         {!fromReceipt ? (
           <Paper kind="blank" className="d01-scanblock" testId="d01-scan-block">

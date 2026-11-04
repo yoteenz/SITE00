@@ -163,8 +163,9 @@ type BoardProps = {
   elasticY?: number;
   /** Surface of the back chip on this screen (authority: amber on 06–10, paper elsewhere). */
   chipTone?: Dot01ChipTone;
-  /** Field rows as separate torn strips (16–20) or rows on one sheet (default). */
-  fields?: 'sheet' | 'strips';
+  /** Field rows as separate torn strips at the authority pitch (17, 20), dense strips for the seven-row purchase form
+   * (16, 18, 19: one row more than drawn, so the action stays on screen), or rows on one sheet (default). */
+  fields?: 'sheet' | 'strips' | 'strips-dense';
   /** Icons in field rows and content strips: bare ink glyphs (default) or alternating moss / terracotta tiles. */
   fieldIcons?: 'ink' | 'tiles';
   stripIcons?: 'ink' | 'tiles';
