@@ -115,6 +115,11 @@
   text-transform: uppercase;
   outline: none;
 }
+.jrn .jrn-d01__title:focus,
+.jrn .jrn-d01__title:focus-visible {
+  /* the heading takes focus on arrival for screen readers; it is not an operable control */
+  outline: none;
+}
 .jrn .jrn-d01__title > span {
   white-space: nowrap;
 }
@@ -280,6 +285,7 @@
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  padding-top: 6px;
   padding-bottom: 12px;
 }
 .jrn .jrn-d01__content[data-scroll='true']::-webkit-scrollbar {
@@ -342,9 +348,13 @@
 }
 .jrn .d01-row > b {
   justify-self: end;
-  font: 500 calc(var(--d01-fs) * 1.08) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+  max-width: 100%;
+  font: 500 calc(var(--d01-fs) * 1.08) / 1.08 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.02em;
-  white-space: nowrap;
+  text-align: right;
+  /* money stays on one line; long names and lists wrap inside the row instead of running off the paper */
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 .jrn .d01-row small {
   display: block;
@@ -561,30 +571,34 @@
   outline: 3px solid var(--d01-gold);
   outline-offset: 2px;
 }
+/* notices are the authorities' wine ribbon (23, 29, 34) with cream lettering: legible on paper and on the field */
 .jrn .d01-alert {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 10px;
   align-items: center;
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: rgba(122, 31, 26, 0.12);
-  border: 1.5px solid rgba(122, 31, 26, 0.5);
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #8a261d, #6e1b15);
+  border: 1px solid rgba(40, 10, 6, 0.55);
+  box-shadow: 0 2px 6px rgba(20, 10, 4, 0.35), inset 0 1px 0 rgba(255, 220, 190, 0.18);
+  color: #f6ead2;
   font-size: calc(var(--d01-fs) * 0.86);
+  font-weight: 600;
   letter-spacing: 0.08em;
   line-height: 1.3;
 }
 .jrn .d01-alert svg {
-  width: 28px;
-  height: 28px;
-  color: var(--d01-wine);
+  width: 26px;
+  height: 26px;
+  color: #f6ead2;
 }
 .jrn .d01-ok {
-  border-color: rgba(47, 52, 32, 0.5);
-  background: rgba(47, 52, 32, 0.12);
+  background: linear-gradient(180deg, #46502c, #343c1f);
+  border-color: rgba(16, 20, 8, 0.55);
 }
 .jrn .d01-ok svg {
-  color: var(--d01-olive);
+  color: #f6ead2;
 }
 .jrn .d01-sr {
   position: absolute;
@@ -793,6 +807,9 @@
   padding: 0;
   list-style: none;
 }
+.jrn .d01-list--tx {
+  gap: 0;
+}
 .jrn .d01-reorder {
   display: grid;
   grid-template-columns: 56px 1fr auto auto;
@@ -868,6 +885,26 @@
   outline: 3px solid var(--d01-gold);
   outline-offset: -3px;
   border-radius: 8px;
+}
+.jrn .d01-tx__ico {
+  width: 22px;
+  height: 22px;
+  vertical-align: -5px;
+  flex: none;
+}
+.jrn .d01-tx__head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  padding: 2px 2px 6px;
+  border-bottom: 1px solid rgba(31, 24, 16, 0.32);
+  font: 600 calc(var(--d01-fs) * 0.74) / 1 'JURNL Sans', sans-serif;
+  letter-spacing: 0.12em;
+  color: var(--d01-ink);
+  opacity: 0.85;
+}
+.jrn .d01-tx__head > span:first-child {
+  min-width: 52px;
 }
 .jrn .d01-tx__date {
   min-width: 52px;

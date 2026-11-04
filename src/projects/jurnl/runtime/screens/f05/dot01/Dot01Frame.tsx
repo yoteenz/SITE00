@@ -11,7 +11,8 @@
  * zooms on iOS. The global dock sits under the composition on SK01's torn nav paper (child pages keep the dock).
  */
 
-import { useCallback, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type ReactNode } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type ReactNode } from 'react';
+import { OverlayLayer } from '../../../components/primitives';
 import { JurnlProductNav } from '../../../components/ProductNav';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../../../global/GlobalSheets';
 import { useJurnl } from '../../../state/store';
@@ -176,7 +177,7 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
         </div>
       </div>
       {content && cr ?
-        <section className="jrn-d01__content" data-scroll={contentScroll ? 'true' : 'false'} aria-label={label} style={{ left: cr.x, top: cr.y, width: cr.w, height: cr.h, ['--d01-s' as string]: String(Math.max(0.86, Math.min(1.25, S / 0.44))) } as CSSProperties}>
+        <section key={testId} className="jrn-d01__content" data-scroll={contentScroll ? 'true' : 'false'} aria-label={label} style={{ left: cr.x, top: cr.y, width: cr.w, height: cr.h, ['--d01-s' as string]: String(Math.max(0.86, Math.min(1.25, S / 0.44))) } as CSSProperties}>
           {typeof content === 'function' ? content(L) : content}
         </section>
       : null}
@@ -269,11 +270,25 @@ export function Dot01Overlay({ onClose, testId, env = 'SK03_FIELD', ...board }: 
       f[0]!.focus();
     }
   };
+  // a flow moves through steps in the same overlay (e.g. RECORD → REVIEW → SAVED): each step starts at its top with
+  // focus on its first control, and the original opener still gets focus back when the overlay closes
+  const firstStep = useRef(true);
+  useEffect(() => {
+    if (firstStep.current) {
+      firstStep.current = false;
+      return;
+    }
+    const box = boxRef.current;
+    (box?.querySelector<HTMLElement>('.jrn-d01__content input, .jrn-d01__content select, .jrn-d01__content button:not([disabled])') ?? box?.querySelector<HTMLElement>('h1'))?.focus({ preventScroll: true });
+  }, [testId]);
   const chips = board.chips ?? [{ id: `${testId}-close`, label: 'CLOSE', icon: 'back' as const, onClick: onClose }];
+  // portaled to the runtime overlay layer: a focused overlay covers the page, the global dock and the corner menu
   return (
-    <div ref={boxRef} className="jrn-d01-overlay" role="dialog" aria-modal="true" aria-labelledby={titleId} data-jrn-overlay={testId} onKeyDown={onKeyDown}>
-      <Dot01Board {...board} env={env} chips={chips} dock={false} titleId={titleId} testId={testId} />
-    </div>
+    <OverlayLayer>
+      <div ref={boxRef} className="jrn-d01-overlay" role="dialog" aria-modal="true" aria-labelledby={titleId} data-jrn-overlay={testId} data-testid={`${testId}-dialog`} onKeyDown={onKeyDown}>
+        <Dot01Board {...board} env={env} chips={chips} dock={false} titleId={titleId} testId={testId} />
+      </div>
+    </OverlayLayer>
   );
 }
 

@@ -48,7 +48,13 @@ function applyChange(entry: LedgerEntry, change: CorrectionChange): OpResult<Led
     origin_family: entry.origin_family ?? 'F04',
   });
   if (!built.ok) return built;
-  const revised: LedgerEntry = { ...built.value, id: entry.id, recorded_at: entry.recorded_at, receipt: entry.receipt, provenance: entry.provenance, correction_history: entry.correction_history };
+  const typed = {
+    merchant: change.merchant != null ? change.merchant.trim() : entry.source_values?.merchant,
+    memo: change.memo != null ? change.memo.trim() : entry.source_values?.memo,
+  };
+  const source_values = typed.merchant && typed.merchant !== typed.merchant.toUpperCase() ? { merchant: typed.merchant } : {};
+  if (typed.memo && typed.memo !== typed.memo.toUpperCase()) Object.assign(source_values, { memo: typed.memo });
+  const revised: LedgerEntry = { ...built.value, id: entry.id, recorded_at: entry.recorded_at, receipt: entry.receipt, provenance: entry.provenance, correction_history: entry.correction_history, ...(Object.keys(source_values).length ? { source_values } : {}) };
   return { ok: true, commit: { reason: 'ENTRY_CORRECTED', transactions: { upsert: [revised] } }, value: revised };
 }
 

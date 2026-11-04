@@ -29,10 +29,16 @@ export function ReceiptFlow({ onRead, onManual, onClose }: { onRead: (c: Receipt
   const cameraRef = useRef<HTMLInputElement>(null);
   const uploadRef = useRef<HTMLInputElement>(null);
   const alive = useRef(true);
+  useEffect(() => {
+    // set on every mount (StrictMode mounts, unmounts and mounts again in development)
+    alive.current = true;
+    return () => {
+      alive.current = false;
+    };
+  }, []);
   useEffect(() => () => {
-    alive.current = false;
     if (preview) URL.revokeObjectURL(preview);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [preview]);
 
   const fail = (f: Failure) => {
     if (!alive.current) return;
@@ -52,7 +58,6 @@ export function ReceiptFlow({ onRead, onManual, onClose }: { onRead: (c: Receipt
     } catch {
       return fail({ title: 'RECEIPT NOT CLEAR', reasons: ['THIS IMAGE COULD NOT BE OPENED ON THIS DEVICE (HEIC PHOTOS NEED SAFARI).', 'TAKE A NEW PHOTO OR UPLOAD A JPG / PNG.'] });
     }
-    if (preview) URL.revokeObjectURL(preview);
     setPreview(URL.createObjectURL(img));
     setStep('scanning');
     try {

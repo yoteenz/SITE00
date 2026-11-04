@@ -28,13 +28,24 @@ function impactOf(entries: LedgerEntry[], next: LedgerEntry[], ids: string[], to
   });
 }
 
+/** The user's own text, kept as typed when the canonical (uppercase) form differs. */
+export function sourceValues(merchant: string, memo?: string): LedgerEntry['source_values'] | undefined {
+  const m = merchant.trim();
+  const n = (memo ?? '').trim();
+  const out: NonNullable<LedgerEntry['source_values']> = {};
+  if (m && m !== m.toUpperCase()) out.merchant = m;
+  if (n && n !== n.toUpperCase()) out.memo = n;
+  return out.merchant || out.memo ? out : undefined;
+}
+
 export type PurchasePreview = { entry: LedgerEntry; kind: 'SPENDING' | 'CREDIT PURCHASE'; impact: Impact[]; duplicates: DuplicateMatch[] };
 
 export function previewPurchase(input: ExpenseInput, receipt?: EntryReceipt | null, today: CalendarDate = getTodayKey()): Done<PurchasePreview> {
   const s = getRepository().getSnapshot();
   const built = buildExpense(s.accounts, input);
   if (!built.ok) return built;
-  const entry: LedgerEntry = receipt ? { ...built.value, receipt } : built.value;
+  const source = sourceValues(input.merchant, input.memo);
+  const entry: LedgerEntry = { ...built.value, ...(receipt ? { receipt } : {}), ...(source ? { source_values: source } : {}) };
   const cls = entryClass(entry, s.accounts.find((a) => a.account_id === entry.account_id) ?? null);
   const duplicates = findDuplicatePurchase(s.transactions, { amount: input.amount, date: input.occurred_on, merchant: input.merchant, account_id: input.account_id, image_sha256: receipt?.image_sha256 ?? null });
   return { ok: true, value: { entry, kind: cls === 'CREDIT_PURCHASE' ? 'CREDIT PURCHASE' : 'SPENDING', impact: impactOf(s.transactions, [...s.transactions, entry], [entry.account_id!].filter(Boolean), today), duplicates } };

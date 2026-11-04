@@ -6,6 +6,7 @@
 import { useMemo, useState, type CSSProperties } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { accountView } from '../../../../data/f05/dot01/accountView';
+import { accountNature } from '../../../../data/ledger/accounting';
 import { categoriesIn, searchHistory, type HistoryFilter, type HistoryKind } from '../../../../data/f05/dot01/history';
 import { nameLines } from '../../../../data/f05/moneyParentReading';
 import { listActiveAccounts } from '../../../../data/foundation/accounts';
@@ -135,10 +136,18 @@ export function HistoryPage({ all = false }: { all?: boolean }) {
             {filter.q || filter.kind || filter.from || filter.to || filter.state || filter.category ? 'NO TRANSACTIONS MATCH THESE FILTERS.' : 'NO TRANSACTIONS RECORDED YET.'}
           </p>
         ) : (
-          <ul className="d01-list" role="list" data-testid="d01-history-list" key={JSON.stringify(filter)}>
+          <>
+          <div className="d01-tx__head" aria-hidden>
+            <span>DATE</span>
+            <span>{v?.kind === 'credit' ? 'DESCRIPTION' : 'TRANSACTION'}</span>
+            <span>AMOUNT</span>
+          </div>
+          <ul className="d01-list d01-list--tx" role="list" data-testid="d01-history-list" key={JSON.stringify(filter)}>
             {rows.slice(0, 200).map((r, i) => {
               const signed = r.effect !== 0 ? r.effect : 0;
-              const showSign = v ? (v.liability ? -signed : signed) : signed;
+              // a card's history reads like its statement: a charge raises what is owed (shown plain), a payment or
+              // refund lowers it (shown with a minus); a held place shows money in (+) and out (−)
+              const owedSide = !!v?.liability || (all && r.account != null && accountNature(r.account.account_type) === 'LIABILITY');
               return (
                 <li key={r.id} className={i < STAGGER_ROWS ? 'd01-slip' : undefined} style={{ ['--i' as string]: i } as CSSProperties}>
                   <button type="button" className="d01-tx" data-jrn-trigger={`d01-tx-${r.id}`} aria-label={`${shortDate(r.date)}, ${r.label}, ${formatMoney(Math.abs(r.entry.amount))} ${r.kind}${r.settled ? '' : `, ${r.state}`}${all && r.account ? `, ${r.account.display_name}` : ''}. OPEN.`} onClick={() => go(`money/entries/${r.id}`)}>
@@ -151,13 +160,14 @@ export function HistoryPage({ all = false }: { all?: boolean }) {
                     </span>
                     {!r.settled ? <span className="d01-tx__state">{r.state}</span> : <span />}
                     <span className="d01-tx__amt" data-jrn-amount-cents={Math.round(Math.abs(r.entry.amount) * 100)}>
-                      {r.settled ? formatMoney(showSign, true) : formatMoney(Math.abs(r.entry.amount))}
+                      {!r.settled ? formatMoney(Math.abs(r.entry.amount)) : owedSide && signed > 0 ? formatMoney(signed) : formatMoney(signed, true)}
                     </span>
                   </button>
                 </li>
               );
             })}
           </ul>
+          </>
         )}
         {rows.length > 200 ? <p className="d01-note">SHOWING THE FIRST 200. NARROW THE SEARCH TO SEE OLDER ENTRIES.</p> : null}
       </Paper>

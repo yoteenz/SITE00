@@ -89,6 +89,8 @@ export type LedgerEntry = {
   correction_history?: EntryCorrection[];
   /** F05 DOT 01: the receipt this purchase was recorded from (extracted values kept as read; the image stays on the device). */
   receipt?: EntryReceipt;
+  /** F05 DOT 01: what the user typed, kept as entered (the display fields above are the canonical uppercase form). */
+  source_values?: { merchant?: string; memo?: string };
 };
 
 export type EntryCorrection = {
