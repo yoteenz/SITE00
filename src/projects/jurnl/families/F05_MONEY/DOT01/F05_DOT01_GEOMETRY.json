@@ -1,0 +1,110 @@
+{
+  "source": {
+    "w": 941,
+    "h": 1672
+  },
+  "SK02": {
+    "scenic": {
+      "box": [
+        26,
+        852,
+        908,
+        1173
+      ],
+      "file": "F05_DOT01_SK02_SCENIC.webp"
+    },
+    "balance": {
+      "box": [
+        44,
+        596,
+        454,
+        891
+      ],
+      "file": "F05_DOT01_SK02_BALANCE.webp"
+    },
+    "stats": {
+      "box": [
+        485,
+        597,
+        919,
+        894
+      ],
+      "file": "F05_DOT01_SK02_STATS.webp"
+    },
+    "strip_1": {
+      "box": [
+        36,
+        1149,
+        912,
+        1286
+      ],
+      "file": "F05_DOT01_SK02_STRIP_1.webp"
+    },
+    "strip_2": {
+      "box": [
+        33,
+        1272,
+        908,
+        1419
+      ],
+      "file": "F05_DOT01_SK02_STRIP_2.webp"
+    },
+    "strip_3": {
+      "box": [
+        34,
+        1405,
+        912,
+        1548
+      ],
+      "file": "F05_DOT01_SK02_STRIP_3.webp"
+    }
+  },
+  "SK02_elastic": {
+    "y0": 980,
+    "y1": 1180,
+    "tile_h": 200
+  },
+  "SK03": {
+    "sheet": {
+      "box": [
+        27,
+        1186,
+        914,
+        1534
+      ],
+      "file": "F05_DOT01_SK03_SHEET.webp"
+    },
+    "frame": {
+      "box": [
+        93,
+        570,
+        844,
+        1040
+      ],
+      "file": "F05_DOT01_SK03_FRAME.webp"
+    },
+    "strip": {
+      "box": [
+        27,
+        1042,
+        914,
+        1211
+      ],
+      "file": "F05_DOT01_SK03_STRIP.webp"
+    }
+  },
+  "SK03_elastic": {
+    "y0": 980,
+    "y1": 1180,
+    "tile_h": 200
+  },
+  "nav_paper": {
+    "box": [
+      19,
+      1459,
+      930,
+      1662
+    ],
+    "file": "F05_DOT01_NAV_PAPER.webp"
+  }
+}

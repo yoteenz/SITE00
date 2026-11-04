@@ -1,0 +1,405 @@
+{
+  "sprint": "P0.JURNL.FINANCIAL-OS.FOUNDER-DECISIONS-TRANSFER-SETTLEMENT-AND-E2E-STABILIZATION1",
+  "run_at": "2026-11-03",
+  "runner": "vitest 2.1.9 (npx vitest run tests/)",
+  "financial_invariant_tests": {
+    "file": "tests/jurnlFinancialStabilization.test.ts",
+    "passed": 27,
+    "failed": 0,
+    "tests": [
+      {
+        "name": "Transfers — settlement and in-transit money T01 a scheduled transfer changes no balance",
+        "status": "PASSED"
+      },
+      {
+        "name": "Transfers — settlement and in-transit money T02 a started transfer whose money has not left changes no balance",
+        "status": "PASSED"
+      },
+      {
+        "name": "Transfers — settlement and in-transit money T03 / T04 money that left the source is out of the source and tracked as in transit",
+        "status": "PASSED"
+      },
+      {
+        "name": "Transfers — settlement and in-transit money T05 / T25 money on its way to the bank is not spendable there and cannot pay a bank bill",
+        "status": "PASSED"
+      },
+      {
+        "name": "Transfers — settlement and in-transit money T06 / T07 arrival credits the destination exactly once, however often it is confirmed",
+        "status": "PASSED"
+      },
+      {
+        "name": "Transfers — settlement and in-transit money T08 a failed transfer returns the money correctly",
+        "status": "PASSED"
+      },
+      {
+        "name": "Transfers — settlement and in-transit money T09 an unsent transfer can be cancelled with no change; a sent one cannot be cancelled or deleted",
+        "status": "PASSED"
+      },
+      {
+        "name": "Transfers — settlement and in-transit money T10 a cash deposit in transit keeps assets whole without overstating the bank",
+        "status": "PASSED"
+      },
+      {
+        "name": "Transfers — settlement and in-transit money T12 legacy \"still on its way\" records need confirmation and change nothing until confirmed",
+        "status": "PASSED"
+      },
+      {
+        "name": "Transfers — settlement and in-transit money a not-yet-sent transfer to an account outside Safe to Spend is held back from it once",
+        "status": "PASSED"
+      },
+      {
+        "name": "Card payments — settlement and minimums T11 a payment on its way does not settle the card; the minimum is counted once",
+        "status": "PASSED"
+      },
+      {
+        "name": "Card payments — settlement and minimums T16 a bill that is the card payment is counted once (linked), and flagged when not linked",
+        "status": "PASSED"
+      },
+      {
+        "name": "Card payments — settlement and minimums T17 only confirmed payments in this billing cycle reduce the minimum",
+        "status": "PASSED"
+      },
+      {
+        "name": "Card payments — settlement and minimums T18 an extra payment is never an additional minimum; a simulated paydown changes nothing",
+        "status": "PASSED"
+      },
+      {
+        "name": "Card payments — settlement and minimums T26 utilization never assumes a pending payment has reached the card",
+        "status": "PASSED"
+      },
+      {
+        "name": "Safe to Spend — 30 days and before next income T13 opening the next-income view never changes the 30-day number or the records",
+        "status": "PASSED"
+      },
+      {
+        "name": "Safe to Spend — 30 days and before next income T14 unknown next income is stated, never invented — daily earnings are not forecast",
+        "status": "PASSED"
+      },
+      {
+        "name": "Safe to Spend — 30 days and before next income T15 known expected income is labelled expected and never added to money held",
+        "status": "PASSED"
+      },
+      {
+        "name": "Safe to Spend — 30 days and before next income the 30-day period includes day 30: a monthly bill due today also counts its next occurrence when it falls on day 30",
+        "status": "PASSED"
+      },
+      {
+        "name": "Safe to Spend — 30 days and before next income T22 a partly paid bill contributes only what is still due, in both periods",
+        "status": "PASSED"
+      },
+      {
+        "name": "Safe to Spend — 30 days and before next income T23 / T24 per-account shortfalls stay visible; changing the paying account moves them without a transfer",
+        "status": "PASSED"
+      },
+      {
+        "name": "Money set aside — one model, two entry points T19 / T20 / T21 F07 and F08 show the same set-aside; changing it from either updates both; no extra deduction",
+        "status": "PASSED"
+      },
+      {
+        "name": "Labels and traceability T27 manually recorded data is labelled as such",
+        "status": "PASSED"
+      },
+      {
+        "name": "Labels and traceability T28 every Safe to Spend figure traces to canonical records",
+        "status": "PASSED"
+      },
+      {
+        "name": "TODAY COMING list real balances never sit next to sample bills: no bills entered → nothing coming, and Safe to Spend deducts nothing",
+        "status": "PASSED"
+      },
+      {
+        "name": "TODAY COMING list the preview (sample cash) keeps its sample bills, and says so",
+        "status": "PASSED"
+      },
+      {
+        "name": "Daily earnings regression (unchanged by settlement) digital and cash land instantly, once, with no transfer or pending state",
+        "status": "PASSED"
+      }
+    ]
+  },
+  "invariant_coverage_T01_T28": {
+    "T01": {
+      "covered": true,
+      "tests": [
+        "Transfers — settlement and in-transit money T01 a scheduled transfer changes no balance"
+      ]
+    },
+    "T02": {
+      "covered": true,
+      "tests": [
+        "Transfers — settlement and in-transit money T02 a started transfer whose money has not left changes no balance"
+      ]
+    },
+    "T03": {
+      "covered": true,
+      "tests": [
+        "Transfers — settlement and in-transit money T03 / T04 money that left the source is out of the source and tracked as in transit"
+      ]
+    },
+    "T04": {
+      "covered": true,
+      "tests": [
+        "Transfers — settlement and in-transit money T03 / T04 money that left the source is out of the source and tracked as in transit"
+      ]
+    },
+    "T05": {
+      "covered": true,
+      "tests": [
+        "Transfers — settlement and in-transit money T05 / T25 money on its way to the bank is not spendable there and cannot pay a bank bill"
+      ]
+    },
+    "T06": {
+      "covered": true,
+      "tests": [
+        "Transfers — settlement and in-transit money T06 / T07 arrival credits the destination exactly once, however often it is confirmed"
+      ]
+    },
+    "T07": {
+      "covered": true,
+      "tests": [
+        "Transfers — settlement and in-transit money T06 / T07 arrival credits the destination exactly once, however often it is confirmed"
+      ]
+    },
+    "T08": {
+      "covered": true,
+      "tests": [
+        "Transfers — settlement and in-transit money T08 a failed transfer returns the money correctly"
+      ]
+    },
+    "T09": {
+      "covered": true,
+      "tests": [
+        "Transfers — settlement and in-transit money T09 an unsent transfer can be cancelled with no change; a sent one cannot be cancelled or deleted"
+      ]
+    },
+    "T10": {
+      "covered": true,
+      "tests": [
+        "Transfers — settlement and in-transit money T10 a cash deposit in transit keeps assets whole without overstating the bank"
+      ]
+    },
+    "T11": {
+      "covered": true,
+      "tests": [
+        "Card payments — settlement and minimums T11 a payment on its way does not settle the card; the minimum is counted once"
+      ]
+    },
+    "T12": {
+      "covered": true,
+      "tests": [
+        "Transfers — settlement and in-transit money T12 legacy \"still on its way\" records need confirmation and change nothing until confirmed"
+      ]
+    },
+    "T13": {
+      "covered": true,
+      "tests": [
+        "Safe to Spend — 30 days and before next income T13 opening the next-income view never changes the 30-day number or the records"
+      ]
+    },
+    "T14": {
+      "covered": true,
+      "tests": [
+        "Safe to Spend — 30 days and before next income T14 unknown next income is stated, never invented — daily earnings are not forecast"
+      ]
+    },
+    "T15": {
+      "covered": true,
+      "tests": [
+        "Safe to Spend — 30 days and before next income T15 known expected income is labelled expected and never added to money held"
+      ]
+    },
+    "T16": {
+      "covered": true,
+      "tests": [
+        "Card payments — settlement and minimums T16 a bill that is the card payment is counted once (linked), and flagged when not linked"
+      ]
+    },
+    "T17": {
+      "covered": true,
+      "tests": [
+        "Card payments — settlement and minimums T17 only confirmed payments in this billing cycle reduce the minimum"
+      ]
+    },
+    "T18": {
+      "covered": true,
+      "tests": [
+        "Card payments — settlement and minimums T18 an extra payment is never an additional minimum; a simulated paydown changes nothing"
+      ]
+    },
+    "T19": {
+      "covered": true,
+      "tests": [
+        "Money set aside — one model, two entry points T19 / T20 / T21 F07 and F08 show the same set-aside; changing it from either updates both; no extra deduction"
+      ]
+    },
+    "T20": {
+      "covered": true,
+      "tests": [
+        "Money set aside — one model, two entry points T19 / T20 / T21 F07 and F08 show the same set-aside; changing it from either updates both; no extra deduction"
+      ]
+    },
+    "T21": {
+      "covered": true,
+      "tests": [
+        "Money set aside — one model, two entry points T19 / T20 / T21 F07 and F08 show the same set-aside; changing it from either updates both; no extra deduction"
+      ]
+    },
+    "T22": {
+      "covered": true,
+      "tests": [
+        "Safe to Spend — 30 days and before next income T22 a partly paid bill contributes only what is still due, in both periods"
+      ]
+    },
+    "T23": {
+      "covered": true,
+      "tests": [
+        "Safe to Spend — 30 days and before next income T23 / T24 per-account shortfalls stay visible; changing the paying account moves them without a transfer"
+      ]
+    },
+    "T24": {
+      "covered": true,
+      "tests": [
+        "Safe to Spend — 30 days and before next income T23 / T24 per-account shortfalls stay visible; changing the paying account moves them without a transfer"
+      ]
+    },
+    "T25": {
+      "covered": true,
+      "tests": [
+        "Transfers — settlement and in-transit money T05 / T25 money on its way to the bank is not spendable there and cannot pay a bank bill"
+      ]
+    },
+    "T26": {
+      "covered": true,
+      "tests": [
+        "Card payments — settlement and minimums T26 utilization never assumes a pending payment has reached the card"
+      ]
+    },
+    "T27": {
+      "covered": true,
+      "tests": [
+        "Labels and traceability T27 manually recorded data is labelled as such"
+      ]
+    },
+    "T28": {
+      "covered": true,
+      "tests": [
+        "Labels and traceability T28 every Safe to Spend figure traces to canonical records"
+      ]
+    }
+  },
+  "sprint1_invariants_regression": {
+    "file": "tests/jurnlFinancialInvariants.test.ts",
+    "passed": 40,
+    "failed": 0
+  },
+  "jurnl_unit_suite": {
+    "files": 41,
+    "passed": 707,
+    "failed": 0,
+    "note": "All JURNL unit test files (name contains jurnl). #1705 reported 678/680; the 2 F01 failures are fixed (doc 10)."
+  },
+  "full_repository_unit_suite": {
+    "passed": 8298,
+    "failed": 79,
+    "skipped": 4,
+    "total": 8381,
+    "non_jurnl_failures": {
+      "count": 79,
+      "files": 50,
+      "identical_on_main_e413590e": true,
+      "branch_only": 0,
+      "main_only": 0,
+      "classification": "PRE_EXISTING_ON_MAIN — non-JURNL suites (NDX, visual reconstruction, expression engine, founder ingestion). This branch changes no file they read.",
+      "list": [
+        "tests/campaignBoardP0VR1C.test.ts :: P0.VR.1C Campaign Board Structural Empty State 2-3. GhostSlot CSS uses canonical tokens, not dark-primary",
+        "tests/campaignBoardP0VR1C.test.ts :: P0.VR.1C Campaign Board Structural Empty State token sweep — raw NDX hex literals removed from workspace CSS",
+        "tests/campaignBoardP0VR1C.test.ts :: P0.VR.1C success criteria booleans reports all SUCCESS CRITERIA booleans",
+        "tests/clientProjectRoomP0Client2.test.ts :: P0.CLIENT.2 browser QA — client reviews routes renders review queue and detail on preview project room",
+        "tests/designControlPlaneP0Bridge1.test.ts :: P0.BRIDGE.1 design control plane Design review UI exposes prepare repo change panel",
+        "tests/founderCreativeIngestionP0CB1.test.ts :: P0.CB.1 Founder Creative Ingestion decompose resolves photography modes and queues FAL batch when configured",
+        "tests/founderCreativeIngestionP0CB1.test.ts :: P0.CB.1 Founder Creative Ingestion generation is founder-triggered only — no auto on init",
+        "tests/founderCreativeIngestionP0CB1.test.ts :: P0.CB.1 Founder Creative Ingestion three pilot posts as parent sequences + child slides preserved",
+        "tests/founderCreativeIngestionP0CB1A.test.ts :: P0.CB.1A Reference Board Replacement upload reference board via service path auto-redecomposes",
+        "tests/founderCreativeIngestionP0CB1B.test.ts :: P0.CB.1B workflow automation + preservation does not auto-promote draft reference on upload",
+        "tests/founderCreativeIngestionP0CB1B.test.ts :: P0.CB.1B workflow automation + preservation promote remains explicit founder action",
+        "tests/founderCreativeIngestionP0CB1B.test.ts :: P0.CB.1B workflow automation + preservation upload automatically starts decomposition and yields slide specs",
+        "tests/founderCreativeReferenceUpload.test.ts :: reference board upload uploads in vitest without calling Supabase",
+        "tests/livePageMirror.test.ts :: Live Page Mirror (P0.VR.8) 21. reference preview independent",
+        "tests/ndxBottomNavIconUrls.test.ts :: NDX bottom nav icon URLs builds public storage URLs when Supabase URL is configured",
+        "tests/ndxDuplicateMenuFix.test.ts :: NDXBOOK duplicate menu regression shell owns a single portaled FounderWorkspaceProjectMenu with vr region marker",
+        "tests/ndxIconSystemP0UI3.test.ts :: P0.UI.3 NDX SVG Icon System 10-12. bottom nav, project menu, header use NDXIcon",
+        "tests/ndxIconSystemP0UI3.test.ts :: P0.UI.3 NDX SVG Icon System 22. host canonical icons flagged without NDX-local red",
+        "tests/ndxNotificationCenterP0UI3C.test.ts :: P0.UI.3C Active Project Notification Center 25. success criteria booleans",
+        "tests/ndxNotificationCenterP0UI3C2.test.ts :: P0.UI.3C.2 Notification Center Visual Restoration 1-3. notification panel uses NDX typography tokens; generic serif absent",
+        "tests/ndxNotificationCenterP0UI3C2.test.ts :: P0.UI.3C.2 Notification Center Visual Restoration 26. success criteria booleans",
+        "tests/p0vrExperienceExpressionViewPanelMount1.test.ts :: P0.VR.EXPERIENCE-EXPRESSION-VIEW-PANEL-MOUNT1 hero rail switches CREATE to VIEW after FAL package is ready",
+        "tests/p0vrHeroRightRailButtonSurfaceCleanup1.test.ts :: P0.VR.HERO-RIGHT-RAIL-BUTTON-SURFACE-CLEANUP1 disabled gate actions use muted surface tier (not lime text)",
+        "tests/p0vrMobileAuthoritySelectionPersistAcrossRefresh1.test.ts :: P0 mobile authority selection persist across refresh rehydrates confirmed mobile authority from server pipelineSet after cold browser (no local family)",
+        "tests/p0vrTwinV21.test.ts :: P0.VR.TWINV2.1 concept-directed twin V2 visual concept API uses Railway on fsbw-dev when VITE_API_BASE empty",
+        "tests/pageConceptPipelineFounderReviewLive.test.ts :: Page concept pipeline founder review (live) runs CGPT→GPT2→NBP to READY_FOR_FOUNDER_REVIEW with real Playwright captures",
+        "tests/parentChildNavigationLinkageP0PCI2.test.ts :: P0.PCI.2 — Navigation Linkage System 31. PAGES pilot — wizard chain",
+        "tests/projectHubReconstructionP0VR1DA.test.ts :: P0.VR.1D.A NDXBOOK project hub reconstruction uses reference mobile overview only on overview route; other routes keep operate",
+        "tests/screenAuthorityIngestion.test.ts :: Screen Authority Ingestion UX 7. viewport selectable",
+        "tests/site00ExperienceEngineSprintA.test.ts :: Experience Engine Sprint A composeReferenceFrame uses focal anchor (center 75%)",
+        "tests/site00ExpressionEngineSprintB41.test.ts :: Expression Engine Sprint B4.1 — Entry 002 REEL Keyframe Rasterization 3. generates exactly 3 first-pass rasters with lineage",
+        "tests/site00ExpressionEngineSprintB41.test.ts :: Expression Engine Sprint B4.1 — Entry 002 REEL Keyframe Rasterization 4. no orphan assets or LEGACY_UNTRACKED",
+        "tests/site00ExpressionEngineSprintB41.test.ts :: Expression Engine Sprint B4.1 — Entry 002 REEL Keyframe Rasterization 5. QA is advisory only — not founder approval",
+        "tests/site00ExpressionEngineSprintB41.test.ts :: Expression Engine Sprint B4.1 — Entry 002 REEL Keyframe Rasterization 6. motion / Kling / rough cut / downstream remain blocked",
+        "tests/site00ExpressionEngineSprintB41.test.ts :: Expression Engine Sprint B4.1 — Entry 002 REEL Keyframe Rasterization 8. continuity analysis structure present",
+        "tests/site00ExpressionEngineSprintB41.test.ts :: Expression Engine Sprint B4.1 — Entry 002 REEL Keyframe Rasterization 9. registers planning receipts without generation receipts when not dispatched",
+        "tests/site00ExpressionEngineSprintB42.test.ts :: Expression Engine Sprint B4.2 — Keyframe execution dispatch 2. generation attempt requires actual dispatch",
+        "tests/site00ExpressionEngineSprintB42.test.ts :: Expression Engine Sprint B4.2 — Keyframe execution dispatch 3. actual result requires raster/file reference — no placeholder URL",
+        "tests/site00ExpressionEngineSprintB42.test.ts :: Expression Engine Sprint B4.2 — Keyframe execution dispatch 4. fixed asset IDs used for first-pass review assets",
+        "tests/site00ExpressionEngineSprintB42.test.ts :: Expression Engine Sprint B4.2 — Keyframe execution dispatch 5. founder judgment remains UNREVIEWED without self-approval",
+        "tests/site00ExpressionEngineSprintB42.test.ts :: Expression Engine Sprint B4.2 — Keyframe execution dispatch 6. no motion dispatch — Kling and rough cut blocked",
+        "tests/site00ExpressionEngineSprintB42.test.ts :: Expression Engine Sprint B4.2 — Keyframe execution dispatch 7. no downstream generation",
+        "tests/site00ExpressionEngineSprintB42.test.ts :: Expression Engine Sprint B4.2 — Keyframe execution dispatch 8. planning receipts distinguished from generation receipts",
+        "tests/site00ExpressionEngineSprintB53.test.ts :: B5.3 Entry 002 Expression Engine reference-fidelity 15. generation requires explicit founder action POST",
+        "tests/site00ExpressionEngineSprintB54.test.ts :: B5.4 Entry 001 archive taxonomy 4. new upload classification suggested from filename",
+        "tests/site00LocalApiTsxLoader.test.ts :: site00 Vite local API handler bundle bundles Digital Foundation admin handler without tsx runtime",
+        "tests/visualReconstructionP0VR1A.test.ts :: P0.VR.1A Visual Reconstruction Calibration 41-45. calibration routes + CALIBRATE mode + desktop/mobile",
+        "tests/visualReconstructionP0VR1A.test.ts :: P0.VR.1A Visual Reconstruction Calibration 49-50. generic engine exports remain; NDX logic in adapter file",
+        "tests/visualReconstructionP0VR1A.test.ts :: P0.VR.1A Visual Reconstruction Calibration 51-60. calibration run + region lock + build smoke",
+        "tests/visualReconstructionP0VR1D12.test.ts :: P0.VR.1D.12 reconstructed routes audit Overview uses NdxFounderWorkspacePage shell-preserving load",
+        "tests/visualReconstructionP0VR1D13.test.ts :: P0.VR.1D.13 Campaign Board full-screen reconstruction renders four quick action cards with real routes/actions",
+        "tests/visualReconstructionP0VR1D2.test.ts :: P0.VR.1D.2 live reconstruction execution allows explicit fixture fallback for dev only",
+        "tests/visualReconstructionP0VR1D2.test.ts :: P0.VR.1D.2 live reconstruction execution runs live reconstruction with skipRender=false when boards available",
+        "tests/visualReconstructionP0VR1D5.test.ts :: P0.VR.1D.5 mobile overview micro-fidelity uses explicit 4-column KPI grid and micro region IDs",
+        "tests/visualReconstructionP0VR2.test.ts :: P0.VR.2 master design workspace 1. design master page route exists",
+        "tests/visualReconstructionP0VR2A.test.ts :: P0.VR.2A reference asset slot compiler 18. notifications fire on completion with deep link",
+        "tests/visualReconstructionP0VR3D.test.ts :: P0.VR.3D SITE 00 manifest v2 reconciliation 20-22. design selector uses reconciled authority; inspect retains raw normalized screens",
+        "tests/visualReconstructionP0VR3E.test.ts :: P0.VR.3E implementation snapshot system 18-22. design workspace UI wiring",
+        "tests/visualReconstructionP0VR3E.test.ts :: P0.VR.3E implementation snapshot system 27-31. success criteria map",
+        "tests/visualReconstructionP0VR3E.test.ts :: P0.VR.3E implementation snapshot system 9-12. representative routes; missing routes; QA",
+        "tests/visualReconstructionP0VR3L.test.ts :: P0.VR.3L missing-target family derivation + shell propagation UI wiring: MISSING tab and design workspace components present",
+        "tests/visualReconstructionP0VR3L.test.ts :: P0.VR.3L missing-target family derivation + shell propagation derives Voice Lab from Character Lab sibling with Composer authorship and lineage",
+        "tests/visualReconstructionP0VR3M1.test.ts :: P0.VR.3M.1 design workspace shell completion bottom panel renders in SITE00 host shell (not tab-gated)",
+        "tests/visualReconstructionP0VR3M1.test.ts :: P0.VR.3M.1 design workspace shell completion preserves review/snapshot surfaces",
+        "tests/visualReconstructionP0VR3M2.test.ts :: P0.VR.3M.2 design footer visibility shell mounts single canonical footer via bottomPanel prop",
+        "tests/visualReconstructionP0VR3M2.test.ts :: P0.VR.3M.2 live browser footer verification live DOM footer is visible on /projects/site00/design across tabs and projects",
+        "tests/visualReconstructionP0VR4.test.ts :: P0.VR.4 reference asset reconstruction pipeline 36–40. UI wiring: asset list, detail, provider selectors, prompt history, principles",
+        "tests/visualReconstructionP0VR4R1.test.ts :: P0.VR.4R1 — live acceptance pipeline 28. golden acceptance conditions available",
+        "tests/visualReconstructionP0VR6.test.ts :: P0.VR.6 design workspace UX reconstruction 13-19. tab panels exist",
+        "tests/visualReconstructionP0VR6R1.test.ts :: P0.VR.6R1 pixel-fidelity calibration 11–12. pages filter scroll + featured structure preserved",
+        "tests/visualReconstructionP0VR6R1.test.ts :: P0.VR.6R1 pixel-fidelity calibration 9–10. generic blue leakage removed from CSS; emoji removed from More tab",
+        "tests/visualReconstructionP0VR6R2.test.ts :: P0.VR.6R2 visual convergence engine 26. More defaults to EXACT",
+        "tests/visualReconstructionP0VR8R3.test.ts :: P0.VR.8R3 — Capture orchestration recovery 28. Pages tab NEVER CAPTURED filter",
+        "tests/visualReconstructionP0VR8R3.test.ts :: P0.VR.8R3 — Capture orchestration recovery 30. live mirror empty state labels",
+        "tests/visualReconstructionP0VR8R3R3.test.ts :: P0.VR.8R3R3 — Capture transport recovery 5. invalid API base on host without configured API",
+        "tests/visualReconstructionP0VR8R3R5R1.test.ts :: P0.VR.8R3R5R1 — Wizard workspace 8. capture setup step",
+        "tests/visualReconstructionP0VR8ScreenReplication.test.ts :: P0.VR.8-SRF Screen Replication Fidelity 24. inspector + asset pending placeholder wired",
+        "tests/visualReconstructionP0VRAUTH1.test.ts :: P0.VR.AUTH.1 — authority + preview lifecycle gate requires PASS not UNKNOWN for design authority",
+        "tests/visualReconstructionP0VRCapture1R3A.test.ts :: P0.VR.CAPTURE.1R3A — Authority + artifact proof 10. upgrade gate disabled when capture SAVED without preview"
+      ]
+    }
+  },
+  "typescript": {
+    "command": "tsc --noEmit (part of npm run build)",
+    "result": "PASS"
+  },
+  "build": {
+    "command": "npm run build",
+    "result": "PASS",
+    "detail": "vite build ✓ 41.73s; verify-production-dist: OK (471 JS assets checked)"
+  }
+}

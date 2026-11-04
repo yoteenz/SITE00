@@ -20,8 +20,12 @@ test.describe('Global systems', () => {
 
   test('Ask Jurnl opens without provider', async ({ page }) => {
     await gotoJurnl(page, 'today');
+    // ASK JURNL lives under TODAY → MORE (the footer MORE was inert text before).
+    await clickTrigger(page, 'today-more');
     await clickTrigger(page, 'today-ask');
     await expect(page.locator('[data-jrn-trigger="ask-open-settings"]')).toBeVisible();
+    // Honest fallback: no AI provider is claimed.
+    await expect(page.locator('[data-jrn-overlay="ask"]')).toContainText('NO LIVE AI PROVIDER');
   });
 
   test('Settings buffer persists after reload', async ({ page }) => {
