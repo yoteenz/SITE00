@@ -34,6 +34,44 @@
 .jrn .jrn-f05m__carousel .jrn-f05m__paper {
   touch-action: pan-y;
 }
+/* ACCOUNTS top row: two pockets visible; snap-scroll pages of two (does not change collection carousel). */
+.jrn .jrn-f05m__accounts-rail {
+  position: absolute;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  touch-action: pan-x;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  z-index: 2;
+  pointer-events: auto;
+}
+.jrn .jrn-f05m__accounts-rail::-webkit-scrollbar {
+  display: none;
+}
+.jrn .jrn-f05m__accounts-track {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  min-width: 100%;
+}
+.jrn .jrn-f05m__accounts-page {
+  flex: 0 0 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  gap: var(--f05m-rail-gap, 0px);
+  height: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+.jrn .jrn-f05m__paper--rail {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  touch-action: pan-x;
+}
 /* drag: the whole collection follows the finger with resistance; shadows lean the other way */
 .jrn .jrn-f05m__collection[data-dragging='true'] {
   transform: translateX(var(--f05m-drag, 0px));

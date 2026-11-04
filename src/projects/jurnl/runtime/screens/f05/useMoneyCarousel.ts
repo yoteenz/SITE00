@@ -92,6 +92,7 @@ export function useMoneyCarousel(reduced: boolean) {
 
   const onPointerDown = (e: ReactPointerEvent) => {
     if (e.button !== 0) return;
+    if ((e.target as HTMLElement).closest('.jrn-f05m__accounts-rail')) return;
     if (e.pointerType !== 'mouse' && (e.clientX < EDGE || e.clientX > window.innerWidth - EDGE)) return;
     drag.current = { x: e.clientX, y: e.clientY, t: performance.now(), dx: 0, on: false, moved: false, id: e.pointerId };
   };

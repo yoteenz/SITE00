@@ -12,7 +12,7 @@
  * The active collection lives in the URL (?c=), so overlays, child routes and back return to it.
  */
 
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type ReactNode } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent, type ReactNode } from 'react';
 import { flushSync } from 'react-dom';
 import { COLLECTIONS, computeMoneyCarousel, type CarouselPanel, type CollectionId } from '../../../data/f05/moneyCarousel';
 import { type MoneyParentAccount, type MoneyParentTransfer, type MoneyPaperArt } from '../../../data/f05/moneyParentReading';
@@ -25,7 +25,7 @@ import { AskJurnlSheet, QuickAddV2Sheet } from '../../global/GlobalSheets';
 import { useJurnl } from '../../state/store';
 import { JurnlScreen, type FamilyPlate } from '../JurnlScreen';
 import { AddPlaceSheet } from '../MoneyScreens';
-import { accountItems, computeF05MotionLayout, PAPERS_PER_COLLECTION, SEAM_A, SEAM_C, SRC_H, SRC_W, toScreen, type Rect } from './f05MotionLayout';
+import { accountPaperRect, accountRailViewport, bottomRowItems, computeF05MotionLayout, PAPERS_PER_COLLECTION, SEAM_A, SEAM_C, SRC_H, SRC_W, toScreen, type Rect } from './f05MotionLayout';
 import { F05_COMPOSITION as C } from './f05Composition';
 import { amountSize, CarouselPanelPaper, nameFont } from './CarouselPanelPaper';
 import { useMoneyCarousel } from './useMoneyCarousel';
@@ -148,6 +148,8 @@ export function MoneyMotionParent() {
   const [detail, setDetail] = useState<string | null>(null);
   const [ghosts, setGhosts] = useState<(Thread & { outcome: 'resolved' | 'closed' })[]>([]);
   const prevThreads = useRef<Thread[]>([]);
+  const accountsRailRef = useRef<HTMLDivElement>(null);
+  const [railScroll, setRailScroll] = useState(0);
   const navigating = useRef(false);
   const { active, index: activeIndex, transition, surface, step, select, handlers } = useMoneyCarousel(reduced);
   const [moved, setMoved] = useState(false);
@@ -171,17 +173,26 @@ export function MoneyMotionParent() {
 
   // Every collection is the same 2 x 2 grid in the same places: the shell never moves between collections.
   const L = useMemo(() => computeF05MotionLayout(vp.w, vp.h, PAPERS_PER_COLLECTION), [vp.w, vp.h]);
-  // A place just added is shown even when there are more than four (it takes the third paper beside ALL PLACES).
-  // A place just added is shown even when it is beyond the first four (it takes the fourth paper until the page changes).
-  const baseItems = accountItems(reading.accounts.length);
-  const freshIndex = fresh ? reading.accounts.findIndex((a) => a.account_id === fresh) : -1;
-  const items = freshIndex >= PAPERS_PER_COLLECTION ? baseItems.map((it, i) => (i === PAPERS_PER_COLLECTION - 1 ? { kind: 'account' as const, index: freshIndex } : it)) : baseItems;
+  const bottomItems = bottomRowItems(reading.accounts.length);
+  const accountPages = useMemo(() => {
+    const pages: MoneyParentAccount[][] = [];
+    for (let i = 0; i < reading.accounts.length; i += 2) pages.push(reading.accounts.slice(i, i + 2));
+    return pages;
+  }, [reading.accounts]);
+
+  useLayoutEffect(() => {
+    const el = accountsRailRef.current;
+    if (!el || !fresh) return;
+    const idx = reading.accounts.findIndex((a) => a.account_id === fresh);
+    if (idx < 0) return;
+    const vp = accountRailViewport(L);
+    el.scrollLeft = Math.floor(idx / 2) * vp.w;
+    setRailScroll(el.scrollLeft);
+  }, [fresh, L, reading.accounts]);
 
   // Threads for unfinished transfers whose two places both have a paper (canonical state only).
   const slotOf = new Map<string, Rect>();
-  items.forEach((it, i) => {
-    if (it.kind === 'account' && L.slots[i]) slotOf.set(reading.accounts[it.index]!.account_id, L.slots[i]!);
-  });
+  reading.accounts.forEach((a, i) => slotOf.set(a.account_id, accountPaperRect(L, i, railScroll)));
   const threads: Thread[] = reading.transfers.filter((t) => t.fromId && t.toId && slotOf.has(t.fromId) && slotOf.has(t.toId)).map((t) => threadFor(t, slotOf.get(t.fromId!)!, slotOf.get(t.toId!)!));
   const threadKey = threads.map((t) => `${t.t.linkId}:${t.t.state}`).join('|');
   // A thread that leaves the open set resolves only after the ledger says so: COMPLETED resolves into the
@@ -333,10 +344,74 @@ export function MoneyMotionParent() {
   const gridBottom = Math.max(...L.slots.map((r) => r.y + r.h));
   const swipeZone: Rect = { x: L.visibleX[0], y: gridTop - 24, w: L.visibleX[1] - L.visibleX[0], h: L.dots.y + L.dots.h + 12 - (gridTop - 24) };
   const stepTop = (gridTop + gridBottom) / 2;
+  const railVp = accountRailViewport(L);
+  const railGap = accountRailGap(L);
+
+  const renderAccountPaper = (a: MoneyParentAccount, staggerIndex: number, inRail: boolean): ReactNode => {
+    const lines = a.lines;
+    const transit = a.transferLine;
+    return (
+      <button
+        key={a.account_id}
+        type="button"
+        className={`jrn-f05m__paper${inRail ? ' jrn-f05m__paper--rail' : ''}`}
+        data-jrn-trigger={`f05m-place-${a.account_id}`}
+        data-account-id={a.account_id}
+        data-art={a.art}
+        data-nature={a.nature}
+        data-pressed={pressed === a.account_id ? 'true' : undefined}
+        data-return={returned === a.account_id ? 'true' : undefined}
+        data-fresh={fresh === a.account_id ? 'true' : undefined}
+        aria-label={`${a.name}. ${a.nature === 'LIABILITY' ? `${formatMoney(a.amount)} OWED` : `${formatMoney(a.amount)} HELD`}${transit ? `. ${transit}` : ''}. OPEN.`}
+        style={{ ...(inRail ? undefined : at(L.slots[staggerIndex]!)), backgroundImage: inRail ? `url("${paperTile}")` : undefined, ['--i' as string]: staggerIndex } as CSSProperties}
+        onPointerDown={() => setPressed(a.account_id)}
+        onPointerUp={() => setPressed(null)}
+        onPointerLeave={() => setPressed(null)}
+        onClick={(e) => openPlace(a, e.currentTarget)}
+      >
+        <img className="jrn-f05m__paper-art" src={ART[a.art]} alt="" draggable={false} />
+        <span className="jrn-f05m__paper-name" style={{ fontSize: nameFont(lines) }}>
+          {lines.map((l) => (
+            <span key={l}>{l}</span>
+          ))}
+        </span>
+        <b className="jrn-f05m__paper-amount" data-jrn-amount-cents={Math.round(a.amount * 100)} style={{ fontSize: amountSize(formatMoney(a.amount), C.card.amountSize), top: C.card.nameTop + lines.length * C.card.namePitch + C.card.amountGap - (a.nature === 'LIABILITY' ? 4 : 0) }}>{formatMoney(a.amount)}</b>
+        {a.nature === 'LIABILITY' ? <i className="jrn-f05m__paper-note" style={{ top: C.card.nameTop + lines.length * C.card.namePitch + C.card.amountGap + C.card.amountSize + 4 }}>OWED</i> : null}
+        {transit ? <i className="jrn-f05m__paper-note jrn-f05m__paper-note--transit" data-testid="f05m-transit">{transit}</i> : null}
+        <svg className="jrn-f05m__chev" viewBox="0 0 14 24" aria-hidden>
+          <path d="M2 2l10 10L2 22" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+    );
+  };
+
+  const stopCarouselPointer = (e: PointerEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+  };
 
   const renderAccounts = (): ReactNode => (
     <>
-      {items.map((item, i) => {
+      {reading.accounts.length > 0 ?
+        <div
+          ref={accountsRailRef}
+          className="jrn-f05m__accounts-rail"
+          data-testid="f05m-accounts-rail"
+          role="region"
+          aria-label="YOUR POCKETS. SWIPE FOR MORE."
+          style={{ ...at(railVp), ['--f05m-rail-gap' as string]: `${railGap}px` } as CSSProperties}
+          onScroll={(e) => setRailScroll(e.currentTarget.scrollLeft)}
+          onPointerDown={stopCarouselPointer}
+        >
+          <div className="jrn-f05m__accounts-track">
+            {accountPages.map((page, pageIdx) => (
+              <div key={pageIdx} className="jrn-f05m__accounts-page" role="group" aria-label={`POCKETS ${pageIdx * 2 + 1}${page[1] ? `–${pageIdx * 2 + 2}` : ''} OF ${reading.accounts.length}`}>
+                {page.map((a, col) => renderAccountPaper(a, pageIdx * 2 + col, true))}
+              </div>
+            ))}
+          </div>
+        </div>
+      : null}
+      {bottomItems.map((item, i) => {
         if (item.kind === 'empty')
           return (
             <button key="empty" type="button" className="jrn-f05m__paper jrn-f05m__paper--add jrn-f05m__paper--wide" data-jrn-trigger="f05m-add-slot" data-testid="f05m-empty" style={{ ...at(L.wide), backgroundImage: `url("${paperTile}")`, ['--i' as string]: 0 } as CSSProperties} onClick={() => setSheet('add')}>
@@ -345,57 +420,20 @@ export function MoneyMotionParent() {
               <span className="jrn-f05m__plus" aria-hidden />
             </button>
           );
-        const slot = L.slots[i]!;
+        const slot = L.slots[i + 2]!;
         if (item.kind === 'add')
           return (
-            <button key="add" type="button" className="jrn-f05m__paper jrn-f05m__paper--add" data-jrn-trigger="f05m-add-slot" style={{ ...at(slot), backgroundImage: `url("${paperTile}")`, ['--i' as string]: i } as CSSProperties} onClick={() => setSheet('add')}>
+            <button key="add" type="button" className="jrn-f05m__paper jrn-f05m__paper--add" data-jrn-trigger="f05m-add-slot" style={{ ...at(slot), backgroundImage: `url("${paperTile}")`, ['--i' as string]: i + 2 } as CSSProperties} onClick={() => setSheet('add')}>
               <span className="jrn-f05m__paper-name"><span>ADD A</span><span>POCKET</span></span>
               <span className="jrn-f05m__add-sub">BANK, CARD OR CASH</span>
               <span className="jrn-f05m__plus" aria-hidden />
             </button>
           );
-        if (item.kind === 'move')
-          return (
-            <button key="move" type="button" className="jrn-f05m__paper jrn-f05m__paper--add" data-jrn-trigger="f05m-move" style={{ ...at(slot), backgroundImage: `url("${paperTile}")`, ['--i' as string]: i } as CSSProperties} onClick={() => setSheet('move')}>
-              <span className="jrn-f05m__paper-name"><span>MOVE</span><span>MONEY</span></span>
-              <span className="jrn-f05m__add-sub">BETWEEN YOUR POCKETS</span>
-              <svg className="jrn-f05m__move" viewBox="0 0 40 28" aria-hidden><path d="M3 9h30m-7-6 7 6-7 6M37 19H7m7-6-7 6 7 6" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            </button>
-          );
-        const a = reading.accounts[item.index]!;
-        const lines = a.lines;
-        const transit = a.transferLine;
         return (
-          <button
-            key={a.account_id}
-            type="button"
-            className="jrn-f05m__paper"
-            data-jrn-trigger={`f05m-place-${a.account_id}`}
-            data-account-id={a.account_id}
-            data-art={a.art}
-            data-nature={a.nature}
-            data-pressed={pressed === a.account_id ? 'true' : undefined}
-            data-return={returned === a.account_id ? 'true' : undefined}
-            data-fresh={fresh === a.account_id ? 'true' : undefined}
-            aria-label={`${a.name}. ${a.nature === 'LIABILITY' ? `${formatMoney(a.amount)} OWED` : `${formatMoney(a.amount)} HELD`}${transit ? `. ${transit}` : ''}. OPEN.`}
-            style={{ ...at(slot), ['--i' as string]: i } as CSSProperties}
-            onPointerDown={() => setPressed(a.account_id)}
-            onPointerUp={() => setPressed(null)}
-            onPointerLeave={() => setPressed(null)}
-            onClick={(e) => openPlace(a, e.currentTarget)}
-          >
-            <img className="jrn-f05m__paper-art" src={ART[a.art]} alt="" draggable={false} />
-            <span className="jrn-f05m__paper-name" style={{ fontSize: nameFont(lines) }}>
-              {lines.map((l) => (
-                <span key={l}>{l}</span>
-              ))}
-            </span>
-            <b className="jrn-f05m__paper-amount" data-jrn-amount-cents={Math.round(a.amount * 100)} style={{ fontSize: amountSize(formatMoney(a.amount), C.card.amountSize), top: C.card.nameTop + lines.length * C.card.namePitch + C.card.amountGap - (a.nature === 'LIABILITY' ? 4 : 0) }}>{formatMoney(a.amount)}</b>
-            {a.nature === 'LIABILITY' ? <i className="jrn-f05m__paper-note" style={{ top: C.card.nameTop + lines.length * C.card.namePitch + C.card.amountGap + C.card.amountSize + 4 }}>OWED</i> : null}
-            {transit ? <i className="jrn-f05m__paper-note jrn-f05m__paper-note--transit" data-testid="f05m-transit">{transit}</i> : null}
-            <svg className="jrn-f05m__chev" viewBox="0 0 14 24" aria-hidden>
-              <path d="M2 2l10 10L2 22" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+          <button key="move" type="button" className="jrn-f05m__paper jrn-f05m__paper--add" data-jrn-trigger="f05m-move" style={{ ...at(slot), backgroundImage: `url("${paperTile}")`, ['--i' as string]: i + 2 } as CSSProperties} onClick={() => setSheet('move')}>
+            <span className="jrn-f05m__paper-name"><span>MOVE</span><span>MONEY</span></span>
+            <span className="jrn-f05m__add-sub">BETWEEN YOUR POCKETS</span>
+            <svg className="jrn-f05m__move" viewBox="0 0 40 28" aria-hidden><path d="M3 9h30m-7-6 7 6-7 6M37 19H7m7-6-7 6 7 6" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </button>
         );
       })}

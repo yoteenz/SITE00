@@ -154,19 +154,44 @@ export function computeF05MotionLayout(W: number, H: number, items: number): F05
 }
 
 /**
- * The ACCOUNTS collection's four papers (authority 01). 0 places: one wide ADD paper. 1-3: the places, then ADD A PLACE
- * and (with two or more) MOVE MONEY in the free slots. 4 or more: the first four places in the user's order; every
- * place is one tap away through VIEW ALL ACCOUNTS, and the dots stay four, one per collection.
+ * ACCOUNTS collection chrome on the bottom row (authority 01). All places live in the top snap-scroll rail (two visible).
+ * 0 places: one wide ADD paper. 1+: ADD A POCKET and (with two or more) MOVE MONEY on the bottom row.
  */
 export type PaperItem = { kind: 'account'; index: number } | { kind: 'add' } | { kind: 'move' } | { kind: 'empty' };
 
+/** @deprecated Use {@link bottomRowItems} — accounts render in the horizontal rail, not the 2×2 grid. */
 export function accountItems(total: number): PaperItem[] {
+  return bottomRowItems(total);
+}
+
+export function bottomRowItems(total: number): PaperItem[] {
   if (total === 0) return [{ kind: 'empty' }];
-  const n = PAPERS_PER_COLLECTION;
-  const items: PaperItem[] = Array.from({ length: Math.min(total, n) }, (_, i) => ({ kind: 'account' as const, index: i }));
-  if (items.length < n) items.push({ kind: 'add' });
-  if (total >= 2 && items.length < n) items.push({ kind: 'move' });
+  const items: PaperItem[] = [{ kind: 'add' }];
+  if (total >= 2) items.push({ kind: 'move' });
   return items;
+}
+
+/** Top-row viewport: exactly two account papers wide (source px). */
+export function accountRailViewport(L: F05MotionLayout): Rect {
+  const s0 = L.slots[0]!;
+  const s1 = L.slots[1]!;
+  return { x: s0.x, y: s0.y, w: s1.x + s1.w - s0.x, h: s0.h };
+}
+
+/** Horizontal gap between account papers in the rail (source px). */
+export function accountRailGap(L: F05MotionLayout): number {
+  const s0 = L.slots[0]!;
+  const s1 = L.slots[1]!;
+  return s1.x - (s0.x + s0.w);
+}
+
+/** Board rect of one account paper in the rail; `scrollLeft` is the rail's scroll offset (source px). */
+export function accountPaperRect(L: F05MotionLayout, accountIndex: number, scrollLeft = 0): Rect {
+  const vp = accountRailViewport(L);
+  const s0 = L.slots[0]!;
+  const gap = accountRailGap(L);
+  const step = s0.w + gap;
+  return { x: vp.x + accountIndex * step - scrollLeft, y: vp.y, w: s0.w, h: vp.h };
 }
 
 /** Screen px rect of a board rect. */

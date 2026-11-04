@@ -11,7 +11,7 @@ import { recordTransfer, recordTransferStep } from '../src/projects/jurnl/data/l
 import { getRepository } from '../src/projects/jurnl/data/repository/deviceRepository';
 import { upsertCreditTerms } from '../src/projects/jurnl/data/f12/creditStore';
 import { addDays } from '../src/projects/jurnl/data/foundation/dates';
-import { accountItems, APPROVED_SLOTS, capacityFor, computeF05MotionLayout, CROP, SRC_H, SRC_W } from '../src/projects/jurnl/runtime/screens/f05/f05MotionLayout';
+import { accountItems, accountPaperRect, accountRailViewport, APPROVED_SLOTS, bottomRowItems, capacityFor, computeF05MotionLayout, CROP, SRC_H, SRC_W } from '../src/projects/jurnl/runtime/screens/f05/f05MotionLayout';
 import { resolveF05ParentVariant } from '../src/projects/jurnl/runtime/screens/f05/MoneyParentRoute';
 import { TODAY, acct, position, world } from './helpers/jurnlFinancialWorld';
 
@@ -253,20 +253,21 @@ describe('Layout', () => {
     }
   });
 
-  it('collections: always the 2 x 2 grid; ADD and MOVE fill free slots; more than four places open the full list', () => {
-    // Carousel sprint design change: every collection is four papers in the same places. A taller screen grows the
-    // gaps (elastic panel), never adds a third row, and extra places never add pages (the dots are the collections).
+  it('collections: 2 x 2 shell; accounts snap-scroll two per row; ADD and MOVE on the bottom row', () => {
     for (const [w, h] of [[512, 768], [393, 852], [360, 780], [360, 900], [834, 1194], [1440, 900]] as const) {
       expect(capacityFor(w, h)).toBe(4);
       expect(computeF05MotionLayout(w, h, 4).rows).toBe(2);
     }
-    expect(accountItems(0)).toEqual([{ kind: 'empty' }]);
-    expect(accountItems(1).map((i) => i.kind)).toEqual(['account', 'add']);
-    expect(accountItems(2).map((i) => i.kind)).toEqual(['account', 'account', 'add', 'move']);
-    expect(accountItems(3).map((i) => i.kind)).toEqual(['account', 'account', 'account', 'add']);
-    expect(accountItems(4).map((i) => i.kind)).toEqual(['account', 'account', 'account', 'account']);
-    // DOT 01 authority 01: four places, then VIEW ALL ACCOUNTS (a strip under the papers) opens the rest
-    expect(accountItems(7)).toEqual([{ kind: 'account', index: 0 }, { kind: 'account', index: 1 }, { kind: 'account', index: 2 }, { kind: 'account', index: 3 }]);
+    expect(bottomRowItems(0)).toEqual([{ kind: 'empty' }]);
+    expect(bottomRowItems(1).map((i) => i.kind)).toEqual(['add']);
+    expect(bottomRowItems(2).map((i) => i.kind)).toEqual(['add', 'move']);
+    expect(bottomRowItems(7).map((i) => i.kind)).toEqual(['add', 'move']);
+    expect(accountItems(7).map((i) => i.kind)).toEqual(['add', 'move']);
+    const L = computeF05MotionLayout(393, 852, 4);
+    const vp = accountRailViewport(L);
+    expect(vp.w).toBeCloseTo(L.slots[1]!.x + L.slots[1]!.w - L.slots[0]!.x, 0);
+    expect(accountPaperRect(L, 0, 0).x).toBe(vp.x);
+    expect(accountPaperRect(L, 2, vp.w).x).toBeCloseTo(vp.x, 0);
     expect(pageAccounts([1, 2, 3, 4, 5], 4)).toEqual([[1, 2, 3, 4], [5]]);
   });
 });
