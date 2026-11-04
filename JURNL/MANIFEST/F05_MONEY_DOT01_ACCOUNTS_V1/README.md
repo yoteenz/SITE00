@@ -29,3 +29,4 @@ Folders:
 - `13_FIDELITY/`: authority | runtime | difference sheets at 471 × 836, plus the metrics JSON.
 - `RESPONSIVE/`: five sizes.
 - `MOTION/`: the parent entrance, the account expansion and entrance, and the receipt workflow (animated WebP and frame strips).
+- `RESULTS/`: the list output of every browser run, the isolated reruns, the build tail and the unit summary.

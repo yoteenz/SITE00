@@ -44,4 +44,6 @@ DOT 01 adds no second ledger. Every write goes through these functions, and ever
 | `396bd0b3` | CAPTURE RECEIPT on the full SK03; comparison script |
 | `572f01fa` | founder correction: child pages follow their authorities (no bottom panel, full-bleed, authority chips) |
 | `e3994f7f` | live camera preview on CAPTURE RECEIPT; 9:16 comparisons |
-| (this commit) | evidence 01–18 |
+| `fc6e58be` | evidence 01–14 and 16, screenshots, comparisons, motion previews |
+| `fc608eb3` | parent at tablet / desktop: panel paper rhythm; in-transit token clear of the band (found by the full regression) |
+| (final) | browser results (15), responsive set, ZIPs 17 / 18 |
