@@ -145,8 +145,11 @@
   top: var(--f05m-caption-top, 664px);
   text-align: center;
   margin: 0;
-  font: 500 16px/1 'JURNL Sans', sans-serif;
-  letter-spacing: 0.18em;
+  padding: 0 10px;
+  box-sizing: border-box;
+  font: 500 16px/1.35 'JURNL Sans', sans-serif;
+  letter-spacing: 0.14em;
+  white-space: normal;
   color: rgba(243, 234, 216, 0.82);
 }
 .jrn .jrn-f05m__band {
@@ -230,6 +233,24 @@
 .jrn .jrn-f05m__paper-name > span {
   overflow: hidden;
   text-overflow: ellipsis;
+}
+/* ADD / MOVE papers: pocket labels must read in full (no ellipsis). */
+.jrn .jrn-f05m__paper--add .jrn-f05m__paper-name,
+.jrn .jrn-f05m__paper--wide .jrn-f05m__paper-name {
+  max-width: calc(100% - 88px);
+}
+.jrn .jrn-f05m__paper--add .jrn-f05m__paper-name > span,
+.jrn .jrn-f05m__paper--wide .jrn-f05m__paper-name > span {
+  overflow: visible;
+  text-overflow: clip;
+}
+.jrn .jrn-f05m__paper--add .jrn-f05m__add-sub {
+  right: 88px;
+  max-width: calc(100% - 96px);
+  white-space: normal;
+  line-height: 1.25;
+  overflow: visible;
+  text-overflow: clip;
 }
 .jrn .jrn-f05m__paper-amount {
   position: absolute;

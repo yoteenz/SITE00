@@ -61,8 +61,10 @@
   /* the paper's text column (left of its art); longer captions wrap, as the reference's do */
   max-width: 196px;
   font: italic 500 max(18px, calc(7.5px / var(--f05m-u, 1))) / 1.25 'JURNL Authority Serif', 'JURNL Display', serif;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.16em;
   white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
   color: #2a2016;
 }
 

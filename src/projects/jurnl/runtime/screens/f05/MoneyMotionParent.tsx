@@ -340,7 +340,7 @@ export function MoneyMotionParent() {
         if (item.kind === 'empty')
           return (
             <button key="empty" type="button" className="jrn-f05m__paper jrn-f05m__paper--add jrn-f05m__paper--wide" data-jrn-trigger="f05m-add-slot" data-testid="f05m-empty" style={{ ...at(L.wide), backgroundImage: `url("${paperTile}")`, ['--i' as string]: 0 } as CSSProperties} onClick={() => setSheet('add')}>
-              <span className="jrn-f05m__paper-name"><span>NO POCKETS YET</span></span>
+              <span className="jrn-f05m__paper-name"><span>NO POCKETS</span><span>YET</span></span>
               <span className="jrn-f05m__add-sub">ADD A BANK ACCOUNT, CARD OR CASH. NO BANK CONNECTION NEEDED.</span>
               <span className="jrn-f05m__plus" aria-hidden />
             </button>
@@ -349,7 +349,7 @@ export function MoneyMotionParent() {
         if (item.kind === 'add')
           return (
             <button key="add" type="button" className="jrn-f05m__paper jrn-f05m__paper--add" data-jrn-trigger="f05m-add-slot" style={{ ...at(slot), backgroundImage: `url("${paperTile}")`, ['--i' as string]: i } as CSSProperties} onClick={() => setSheet('add')}>
-              <span className="jrn-f05m__paper-name"><span>ADD A POCKET</span></span>
+              <span className="jrn-f05m__paper-name"><span>ADD A</span><span>POCKET</span></span>
               <span className="jrn-f05m__add-sub">BANK, CARD OR CASH</span>
               <span className="jrn-f05m__plus" aria-hidden />
             </button>
