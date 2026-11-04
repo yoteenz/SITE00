@@ -25,6 +25,13 @@ import {
   type TrialRecord,
   type UsageLimit,
 } from './contract.js';
+import {
+  activeInternalGrants,
+  hasActiveFounderFull,
+  type InternalGrantRecord,
+  type InternalGrantResolutionMeta,
+  type InternalGrantType,
+} from './internalGrants.js';
 
 export type EntitlementSource = 'SERVER_VERIFIED' | 'CLIENT_CACHE' | 'DESIGN_PREVIEW' | 'NONE';
 export const ENTITLEMENT_FAILURES = ['UNKNOWN_PLAN', 'OFFLINE_BILLING', 'ENTITLEMENT_LOAD_FAILURE', 'EXPIRED_ACCESS', 'PAYMENT_ISSUE', 'PROVIDER_UNAVAILABLE'] as const;
@@ -35,6 +42,8 @@ export type EntitlementInput = {
   subscription?: Subscription | null;
   addOns?: AccountAddOn[];
   trial?: TrialRecord | null;
+  /** Trusted internal grants (server-loaded only — never from client body on authorize). */
+  internalGrants?: InternalGrantRecord[];
   /** A failure observed while loading entitlements (billing offline, provider down, …). */
   failure?: EntitlementFailure | null;
   now?: Date | string;
@@ -55,6 +64,8 @@ export type ResolvedEntitlements = {
   addOns: { granted: string[]; ignored: { addOnId: string; reason: string }[] };
   trialActive: boolean;
   failure: EntitlementFailure | null;
+  /** Present when resolution ran on a trusted backend with grant context. */
+  internalGrants?: InternalGrantResolutionMeta;
 };
 
 /** Epoch ms, null when absent, NaN when unparseable (callers treat NaN as invalid → fail closed). */
@@ -81,7 +92,7 @@ function planLimits(c: ProjectMonetizationContract, planId: string, seen = new S
 
 const TIER_ORDER: Record<UsageLimit['tier'], number> = { LIMITED: 0, HIGHER: 1, UNLIMITED: 2 };
 /** Most generous limit per capability (a higher plan / add-on lifts, never lowers, a limit). */
-function mergeLimits(limits: UsageLimit[]): UsageLimit[] {
+export function mergeLimits(limits: UsageLimit[]): UsageLimit[] {
   const best = new Map<string, UsageLimit>();
   for (const l of limits) {
     const cur = best.get(l.capability);
@@ -90,9 +101,53 @@ function mergeLimits(limits: UsageLimit[]): UsageLimit[] {
   return [...best.values()];
 }
 
+export function mergeLimitsFromPlans(c: ProjectMonetizationContract, planIds: string[]): UsageLimit[] {
+  return mergeLimits(planIds.flatMap((id) => planLimits(c, id)));
+}
+
+/** Canonical capability union for FOUNDER_FULL (registry-derived; DISABLED surfaces stay off). */
+export function founderFullCapabilityUnion(c: ProjectMonetizationContract): string[] {
+  const caps = new Set<string>();
+  for (const plan of c.plans) {
+    if (!plan.baseSubscribable || plan.planClass === 'ADD_ON') continue;
+    for (const id of planCapabilities(c, plan.planId)) caps.add(id);
+  }
+  for (const addOn of c.addOns) {
+    for (const id of addOn.capabilityGrants) caps.add(id);
+  }
+  for (const id of safetyFloorCapabilities(c)) caps.add(id);
+  return enabledOnly(c, [...caps]);
+}
+
+export function founderFullLimits(c: ProjectMonetizationContract): UsageLimit[] {
+  const planIds = c.plans.filter((p) => p.baseSubscribable && p.planClass !== 'ADD_ON').map((p) => p.planId);
+  return mergeLimitsFromPlans(c, planIds);
+}
+
+function applyFounderFullToResolution(
+  c: ProjectMonetizationContract,
+  base: ResolvedEntitlements,
+  grants: InternalGrantRecord[] | undefined,
+): ResolvedEntitlements {
+  if (!hasActiveFounderFull(grants, c.projectId)) {
+    return { ...base, internalGrants: { active: [], enforcementSource: 'SUBSCRIPTION_ONLY' } };
+  }
+  const active: InternalGrantType[] = activeInternalGrants(grants, c.projectId).map((g) => g.grant_type);
+  return {
+    ...base,
+    capabilities: founderFullCapabilityUnion(c),
+    limits: founderFullLimits(c),
+    internalGrants: { active, enforcementSource: 'INTERNAL_GRANT' },
+  };
+}
+
+function finalizeResolution(c: ProjectMonetizationContract, input: EntitlementInput, base: ResolvedEntitlements): ResolvedEntitlements {
+  return applyFounderFullToResolution(c, base, input.internalGrants);
+}
+
 function fallback(c: ProjectMonetizationContract, input: EntitlementInput, failure: EntitlementFailure, state: SubscriptionState, requested: string | null): ResolvedEntitlements {
   const caps = enabledOnly(c, [...planCapabilities(c, c.defaultPlanId), ...safetyFloorCapabilities(c)]);
-  return {
+  return finalizeResolution(c, input, {
     projectId: c.projectId,
     status: 'FALLBACK',
     source: input.source,
@@ -105,7 +160,7 @@ function fallback(c: ProjectMonetizationContract, input: EntitlementInput, failu
     addOns: { granted: [], ignored: (input.addOns ?? []).map((a) => ({ addOnId: a.addOnId, reason: `NOT GRANTED WHILE ${failure}` })) },
     trialActive: false,
     failure,
-  };
+  });
 }
 
 export function resolveEntitlements(c: ProjectMonetizationContract, input: EntitlementInput): ResolvedEntitlements {
@@ -152,7 +207,7 @@ export function resolveEntitlements(c: ProjectMonetizationContract, input: Entit
         limits = [...limits, ...def.limits];
       }
     }
-    return {
+    return finalizeResolution(c, input, {
       projectId: c.projectId,
       status: 'RESOLVED',
       source: input.source,
@@ -165,11 +220,33 @@ export function resolveEntitlements(c: ProjectMonetizationContract, input: Entit
       addOns: { granted, ignored },
       trialActive,
       failure: null,
-    };
+    });
   } catch {
     // Entitlement failure must never crash a screen — and never reveal premium capabilities.
     return fallback(c, input, 'ENTITLEMENT_LOAD_FAILURE', 'NONE', null);
   }
+}
+
+/** Public-plan presentation simulation — never authoritative; do not pass to authorizeCapability. */
+export function resolvePresentationPlanEntitlements(
+  c: ProjectMonetizationContract,
+  planId: string,
+  now?: Date | string,
+): ResolvedEntitlements {
+  return resolveEntitlements(c, {
+    source: 'DESIGN_PREVIEW',
+    subscription: {
+      accountId: 'presentation-only',
+      planId,
+      state: 'ACTIVE',
+      startDate: '2026-01-01',
+      renewalDate: '2027-01-01',
+      cancelAtPeriodEnd: false,
+      provider: 'NONE',
+      providerRef: null,
+    },
+    now,
+  });
 }
 
 /** The ONE question feature code asks. Never compare plan names in UI. */
