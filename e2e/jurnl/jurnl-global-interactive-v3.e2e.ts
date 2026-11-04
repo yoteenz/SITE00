@@ -19,6 +19,11 @@ test.describe('V3 global menu', () => {
     await clickTrigger(page, 'f09-menu');
     const m = overlay(page, 'global-menu');
     await expect(m).toBeVisible();
+    await expect(trigger(page, 'f09-menu')).toHaveAttribute('aria-expanded', 'true');
+    await clickTrigger(page, 'f09-menu');
+    await expect(m).toHaveCount(0);
+    await clickTrigger(page, 'f09-menu');
+    await expect(m).toBeVisible();
     await expect(m).toHaveAttribute('data-jv3-family', 'A_NAVIGATION_DRAWER');
     for (const s of ['YOUR ACCOUNT', 'MEMBERSHIP & ACCESS', 'SUPPORT', 'SIGN OUT']) await expect(m).toContainText(s);
     for (const t of ['nav-home', 'nav-money', 'nav-add', 'nav-plan', 'nav-credit']) await expect(m.locator(`[data-jrn-trigger="${t}"]`)).toHaveCount(0);

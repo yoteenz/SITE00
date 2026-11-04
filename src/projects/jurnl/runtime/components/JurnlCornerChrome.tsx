@@ -19,6 +19,7 @@ export function JurnlCornerChromeProvider({ children }: { children: ReactNode })
   const close = useCallback(() => setPanel(null), []);
   const back = useCallback(() => setPanel('menu'), []);
   const open = useCallback((p: GlobalMenuPanel) => setPanel(p), []);
+  const toggleMenu = useCallback(() => setPanel((p) => (p === 'menu' ? null : 'menu')), []);
   const toDestination = useCallback(
     (d: GlobalMenuDestination) => {
       if (d === 'account') {
@@ -44,7 +45,7 @@ export function JurnlCornerChromeProvider({ children }: { children: ReactNode })
   }, [panel]);
   return (
     <>
-      <JurnlCornerChrome hidden={panel !== null} onMenu={() => setPanel('menu')} />
+      <JurnlCornerChrome hidden={panel !== null && panel !== 'menu'} menuExpanded={panel === 'menu'} onMenu={toggleMenu} />
       {children}
       {panel === 'menu' ? <GlobalMenu onClose={close} onOpen={open} onDestination={toDestination} /> : null}
       {panel === 'preferences' ? <AccountDrawer onClose={close} /> : null}
@@ -64,7 +65,7 @@ function appRoute(pathname: string): string {
   return i === -1 ? '' : pathname.slice(i + mark.length);
 }
 
-function JurnlCornerChrome({ hidden, onMenu }: { hidden: boolean; onMenu: () => void }) {
+function JurnlCornerChrome({ hidden, menuExpanded, onMenu }: { hidden: boolean; menuExpanded?: boolean; onMenu: () => void }) {
   const { go } = useJurnl();
   const { pathname } = useLocation();
   const rel = appRoute(pathname);
@@ -75,7 +76,7 @@ function JurnlCornerChrome({ hidden, onMenu }: { hidden: boolean; onMenu: () => 
   const rootHub = ROOT_HUBS.has(rel);
   return (
     <div className="jrn-corner" data-jrn-corner="app">
-      <button type="button" className="jrn-f09a__menu" aria-label="MENU" data-jrn-trigger="f09-menu" onClick={onMenu}>
+      <button type="button" className="jrn-f09a__menu" aria-label="MENU" data-jrn-trigger="f09-menu" aria-expanded={menuExpanded ? true : undefined} onClick={onMenu}>
         <svg viewBox="0 0 40 26" aria-hidden>
           <path d="M0 1.5h40M0 13h40M0 24.5h40" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
         </svg>

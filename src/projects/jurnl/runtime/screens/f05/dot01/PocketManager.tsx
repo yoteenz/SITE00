@@ -228,8 +228,15 @@ export function usePocketManager(where: 'detail' | 'directory' | 'parent') {
   const [st, setSt] = useState<{ id: string; anchor: HTMLElement | null; step: Step } | null>(null);
   const anchorRef = useRef<HTMLElement | null>(null);
   const open = useCallback((id: string, anchor: HTMLElement | null) => {
-    anchorRef.current = anchor;
-    setSt({ id, anchor, step: 'menu' });
+    setSt((prev) => {
+      if (prev?.id === id && prev.step === 'menu') {
+        anchorRef.current = anchor ?? prev.anchor;
+        window.setTimeout(() => anchorRef.current?.focus({ preventScroll: true }), 0);
+        return null;
+      }
+      anchorRef.current = anchor;
+      return { id, anchor, step: 'menu' };
+    });
   }, []);
   const close = useCallback((refocus = true) => {
     setSt(null);

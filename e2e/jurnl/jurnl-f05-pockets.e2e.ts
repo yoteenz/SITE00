@@ -220,6 +220,11 @@ test.describe('ENTRY B — the MANAGE POCKET chip', () => {
     await chip.click();
     await expect(menu(page)).toBeVisible();
     await expect(chip).toHaveAttribute('aria-expanded', 'true');
+    await chip.click();
+    await expect(menu(page)).toHaveCount(0);
+    await expect(chip).toHaveAttribute('aria-expanded', 'false');
+    await chip.click();
+    await expect(menu(page)).toBeVisible();
     await expect(menu(page).getByRole('menu')).toHaveAttribute('aria-label', 'MANAGE POCKET: BANK ACCOUNT');
     await expect(menu(page).getByRole('menuitem')).toHaveText(['RENAME POCKET', 'DELETE POCKET']);
     await expect(menu(page).getByRole('menuitem').first()).toBeFocused();
