@@ -27,7 +27,7 @@ import { JurnlScreen, type FamilyPlate } from '../JurnlScreen';
 import { AddPlaceSheet } from '../MoneyScreens';
 import { accountPaperRect, accountRailGap, accountRailViewport, bottomRowItems, computeF05MotionLayout, PAPERS_PER_COLLECTION, SEAM_A, SEAM_C, SRC_H, SRC_W, toScreen, type Rect } from './f05MotionLayout';
 import { F05_COMPOSITION as C } from './f05Composition';
-import { amountSize, CarouselPanelPaper, nameFont } from './CarouselPanelPaper';
+import { amountSize, CarouselPanelPaper, f05BoardType, nameFont } from './CarouselPanelPaper';
 import { useMoneyCarousel } from './useMoneyCarousel';
 import geometry from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_GEOMETRY.json';
 import sidekick from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_SIDEKICK.webp';
@@ -375,7 +375,7 @@ export function MoneyMotionParent() {
             <span key={l}>{l}</span>
           ))}
         </span>
-        <b className="jrn-f05m__paper-amount" data-jrn-amount-cents={Math.round(a.amount * 100)} style={{ fontSize: amountSize(formatMoney(a.amount), C.card.amountSize), top: C.card.nameTop + lines.length * C.card.namePitch + C.card.amountGap - (a.nature === 'LIABILITY' ? 4 : 0) }}>{formatMoney(a.amount)}</b>
+        <b className="jrn-f05m__paper-amount" data-jrn-amount-cents={Math.round(a.amount * 100)} style={{ fontSize: f05BoardType(amountSize(formatMoney(a.amount), C.card.amountSize)), top: C.card.nameTop + lines.length * C.card.namePitch + C.card.amountGap - (a.nature === 'LIABILITY' ? 4 : 0) }}>{formatMoney(a.amount)}</b>
         {a.nature === 'LIABILITY' ? <i className="jrn-f05m__paper-note" style={{ top: C.card.nameTop + lines.length * C.card.namePitch + C.card.amountGap + C.card.amountSize + 4 }}>OWED</i> : null}
         {transit ? <i className="jrn-f05m__paper-note jrn-f05m__paper-note--transit" data-testid="f05m-transit">{transit}</i> : null}
         <svg className="jrn-f05m__chev" viewBox="0 0 14 24" aria-hidden>
@@ -536,10 +536,10 @@ export function MoneyMotionParent() {
           <img className="jrn-f05m__obj jrn-f05m__seal" data-layer="L1" src={waxSeal} alt="" draggable={false} style={at(SEAL)} />
 
           {/* L2 — live type */}
-          <p className="jrn-f05m__mark" aria-label="JURNL" style={{ left: C.mark.left, top: C.mark.top, fontSize: C.mark.size, letterSpacing: `${C.mark.ls}em`, transform: `rotate(${C.mark.rot}deg)` }}>JURNL</p>
+          <p className="jrn-f05m__mark" aria-label="JURNL" style={{ left: C.mark.left, top: C.mark.top, fontSize: f05BoardType(C.mark.size), letterSpacing: `${C.mark.ls}em`, transform: `rotate(${C.mark.rot}deg)` }}>JURNL</p>
           <header className="jrn-f05m__title" data-jrn-zone="intro">
-            <h1 className="jrn-f05m__money" style={{ left: C.money.left, top: C.money.top, fontSize: C.money.size, letterSpacing: `${C.money.ls}em` }}>MONEY</h1>
-            <p className="jrn-f05m__script" lang="en" style={{ left: C.script.left, top: C.script.top, fontSize: C.script.size, letterSpacing: `${C.script.ls}em` }}>where your money lives</p>
+            <h1 className="jrn-f05m__money" style={{ left: C.money.left, top: C.money.top, fontSize: f05BoardType(C.money.size), letterSpacing: `${C.money.ls}em` }}>MONEY</h1>
+            <p className="jrn-f05m__script" lang="en" style={{ left: C.script.left, top: C.script.top, fontSize: f05BoardType(C.script.size), letterSpacing: `${C.script.ls}em` }}>where your money lives</p>
           </header>
           <section className="jrn-f05m__band" aria-label="MONEY SUMMARY" data-jrn-zone="summary">
             {DIVIDERS.map((x) => (
@@ -550,7 +550,7 @@ export function MoneyMotionParent() {
                 <span className="jrn-f05m__metric-label">{m.label}</span>
                 {unknown && (m.id === 'committed' || m.id === 'available') ?
                   <b className="jrn-f05m__metric-value" data-jrn-value={`money-${m.id}`} data-jrn-unknown="true">—</b>
-                : <b className="jrn-f05m__metric-value" data-jrn-value={`money-${m.id}`} data-jrn-amount-cents={Math.round(m.value * 100)} style={{ fontSize: amountSize(formatMoney(m.value), C.band.valueSize) }}>{formatMoney(m.value)}</b>}
+                : <b className="jrn-f05m__metric-value" data-jrn-value={`money-${m.id}`} data-jrn-amount-cents={Math.round(m.value * 100)} style={{ fontSize: f05BoardType(amountSize(formatMoney(m.value), C.band.valueSize)) }}>{formatMoney(m.value)}</b>}
               </button>
             ))}
             {unknown ? <p className="jrn-f05m__basis" data-testid="f05m-unknown">ADD A POCKET TO SEE WHAT IS COMMITTED AND AVAILABLE.</p> : null}

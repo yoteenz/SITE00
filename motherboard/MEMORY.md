@@ -16722,3 +16722,10 @@ Summary of the whole conversation in this chat.
   - The Playwright loader cannot import modules that pull in JSON (for example the ledger builders via the currency catalog). E2E worlds write literal records, and a unit test (`jurnlF05Carousel` "E2E carousel world is what the app itself records") checks them against the builders.
   - Freeze a timed UI transition for frame capture with `page.clock.install()` + `pauseAt()`, and seek CSS animations with the Web Animations API.
   - The full-repo vitest run has 91 failing tests in 58 non-JURNL files, identical at `274d7956`. They are pre-existing.
+
+---
+
+## 2026-11-04 — F05 type −2 screen px
+
+- **Context:** Founder asked to scale all text on MONEY family screens down together by 2px.
+- **Change:** `--f05-type-nudge: calc(2px / var(--f05m-u))` on the scaled board (motion parent + DOT01), so every board face loses 2 screen px. Screen-space DOT01 content subtracts 2px from each size. Form inputs stay at least 16px so iOS does not zoom. Nav labels on those screens drop 2px. `f05BoardType()` applies the same nudge to inline sizes.

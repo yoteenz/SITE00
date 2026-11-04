@@ -20,6 +20,7 @@ import { JurnlScreen } from '../../JurnlScreen';
 import { DOT01, DOT01_GEOMETRY } from './dot01Assets';
 import paperTile from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_PAPER_TILE.webp';
 import tornEdge from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_TORN_EDGE.webp';
+import { f05BoardType } from '../CarouselPanelPaper';
 import { computeF05BoardScale } from '../f05MotionLayout';
 import './jurnl-f05-dot01.css';
 
@@ -167,7 +168,7 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
         ))}
         <p className="jrn-d01__mark" aria-label="JURNL">JURNL</p>
         <header className="jrn-d01__heading" data-jrn-zone="intro">
-          <h1 id={titleId} className="jrn-d01__title" style={{ fontSize: tSize }} data-lines={title.length} tabIndex={-1}>
+          <h1 id={titleId} className="jrn-d01__title" style={{ fontSize: f05BoardType(tSize) }} data-lines={title.length} tabIndex={-1}>
             {/* a real space between the lines (a whitespace-only node is not a grid item, so layout is unchanged) */}
             {title.map((t, i) => (
               <Fragment key={`${i}-${t}`}>

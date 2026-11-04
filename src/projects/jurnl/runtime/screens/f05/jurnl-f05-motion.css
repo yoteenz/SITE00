@@ -22,6 +22,8 @@
   --f05m-cream: #f3ead8;
   --f05m-gold: #e2ae4e;
   --f05m-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  /* 2 screen px off every board face. Source px are scaled by --f05m-u, so the subtraction is 2 / u. */
+  --f05-type-nudge: calc(2px / var(--f05m-u, 1));
 }
 .jrn .jrn-screen .jrn-col > .jrn-f05m {
   width: auto;
@@ -109,7 +111,7 @@
 .jrn .jrn-f05m__mark {
   position: absolute;
   margin: 0;
-  font: 500 42px/1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 500 calc(42px - var(--f05-type-nudge, 0px))/1 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.17em;
   color: #1f1a14;
   transform-origin: 0 50%;
@@ -125,14 +127,14 @@
 .jrn .jrn-f05m__money {
   position: absolute;
   margin: 0;
-  font: 500 108px/1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 500 calc(108px - var(--f05-type-nudge, 0px))/1 'JURNL Authority Serif', 'JURNL Display', serif;
   color: #1b150f;
   white-space: nowrap;
 }
 .jrn .jrn-f05m__script {
   position: absolute;
   margin: 0;
-  font: 400 45px/1.1 'JURNL Script', cursive;
+  font: 400 calc(45px - var(--f05-type-nudge, 0px))/1.1 'JURNL Script', cursive;
   text-transform: none;
   letter-spacing: 0.01em;
   color: #2a2016;
@@ -147,7 +149,7 @@
   margin: 0;
   padding: 0 10px;
   box-sizing: border-box;
-  font: 500 16px/1.35 'JURNL Sans', sans-serif;
+  font: 500 calc(16px - var(--f05-type-nudge, 0px))/1.35 'JURNL Sans', sans-serif;
   letter-spacing: 0.14em;
   white-space: normal;
   color: rgba(243, 234, 216, 0.82);
@@ -180,13 +182,13 @@
 }
 .jrn .jrn-f05m__metric-label {
   /* never below 9.5 screen px on the narrowest phone */
-  font: 500 max(var(--f05m-label-size, 22px), calc(9.5px / var(--f05m-u, 1))) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 500 calc(max(var(--f05m-label-size, 22px), calc(9.5px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px))/ 1 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.12em;
   margin-top: 12px;
   opacity: 0.92;
 }
 .jrn .jrn-f05m__metric-value {
-  font: 400 var(--f05m-value-size, 52px) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 400 calc(var(--f05m-value-size, 52px) - var(--f05-type-nudge, 0px))/ 1 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.005em;
 }
 .jrn .jrn-f05m__metric[data-metric='available'] {
@@ -225,7 +227,7 @@
   left: var(--f05m-name-left, 38px);
   top: var(--f05m-name-top, 24px);
   display: grid;
-  font: 500 var(--f05m-name-size, 29px) / var(--f05m-name-line, 1.17) 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 500 calc(var(--f05m-name-size, 29px) - var(--f05-type-nudge, 0px))/ var(--f05m-name-line, 1.17) 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: var(--f05m-name-ls, 0.025em);
   white-space: nowrap;
   max-width: 250px;
@@ -256,7 +258,7 @@
   position: absolute;
   left: var(--f05m-name-left, 38px);
   top: var(--f05m-amount-top, calc(50% + 16px));
-  font: 500 48px/1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 500 calc(48px - var(--f05-type-nudge, 0px))/1 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.005em;
 }
 .jrn .jrn-f05m__paper[data-nature='LIABILITY'] .jrn-f05m__paper-amount {
@@ -266,7 +268,7 @@
   position: absolute;
   left: calc(var(--f05m-name-left, 38px) + 2px);
   top: var(--f05m-note-top, calc(50% + 62px));
-  font: italic 500 max(18px, calc(7.5px / var(--f05m-u, 1))) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: italic 500 calc(max(18px, calc(7.5px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px))/ 1 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.24em;
   white-space: nowrap;
 }
@@ -283,7 +285,7 @@
   border-radius: 6px;
   background: #efe3cb;
   box-shadow: 0 3px 6px rgba(40, 26, 12, 0.3), inset 0 0 0 1.5px rgba(110, 76, 40, 0.28);
-  font: 600 max(16px, calc(8.5px / var(--f05m-u, 1))) / 1 'JURNL Sans', sans-serif;
+  font: 600 calc(max(16px, calc(8.5px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px))/ 1 'JURNL Sans', sans-serif;
   font-style: normal;
   letter-spacing: 0.1em;
   color: #3b2a16;
@@ -312,7 +314,7 @@
   position: absolute;
   left: 40px;
   bottom: 30px;
-  font: 500 max(17px, calc(7.5px / var(--f05m-u, 1))) / 1 'JURNL Sans', sans-serif;
+  font: 500 calc(max(17px, calc(7.5px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px))/ 1 'JURNL Sans', sans-serif;
   letter-spacing: 0.18em;
   color: #6a5640;
 }
@@ -461,10 +463,10 @@
   border-color: #b8862f;
 }
 .jrn .jrn-f05m__token b {
-  font: 500 max(21px, calc(9px / var(--f05m-u, 1))) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 500 calc(max(21px, calc(9px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px))/ 1 'JURNL Authority Serif', 'JURNL Display', serif;
 }
 .jrn .jrn-f05m__token span {
-  font: 600 max(11px, calc(7px / var(--f05m-u, 1))) / 1 'JURNL Sans', sans-serif;
+  font: 600 calc(max(11px, calc(7px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px))/ 1 'JURNL Sans', sans-serif;
   letter-spacing: 0.14em;
 }
 .jrn .jrn-f05m__token:focus-visible {
@@ -556,7 +558,7 @@
   max-width: 100%;
   padding: 0;
   gap: calc(var(--f05m-u) * var(--f05m-nav-gap, 18) * 1px);
-  font: 600 max(9px, calc(var(--f05m-u) * var(--f05m-nav-label, 30) * 1px)) / 1 'JURNL Sans', sans-serif;
+  font: 600 max(9px, calc(var(--f05m-u) * var(--f05m-nav-label, 30) * 1px - 2px)) / 1 'JURNL Sans', sans-serif;
   letter-spacing: 0.14em;
   color: #1b1814;
   border-radius: calc(var(--f05m-u) * 30px);

@@ -16,6 +16,8 @@
   --d01-gold: #e2ae4e;
   --d01-wine: #7a1f1a;
   --d01-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  /* Same 2 screen px nudge as the MONEY parent. Board type subtracts this; screen-space content subtracts 2px directly. */
+  --f05-type-nudge: calc(2px / var(--f05m-u, 1));
 }
 .jrn .jrn-screen .jrn-col > .jrn-d01 {
   width: auto;
@@ -86,7 +88,7 @@
   left: 53px;
   top: 71px;
   margin: 0;
-  font: 500 38px/1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 500 calc(38px - var(--f05-type-nudge, 0px))/1 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.17em;
   color: #1f1a14;
   transform: rotate(-3.2deg);
@@ -125,7 +127,7 @@
 }
 .jrn .jrn-d01__script {
   margin: 10px 0 0 18px;
-  font: 400 33px/1.1 'JURNL Script', cursive;
+  font: 400 calc(33px - var(--f05-type-nudge, 0px))/1.1 'JURNL Script', cursive;
   letter-spacing: 0.04em;
   color: #2a2016;
   text-transform: none;
@@ -174,7 +176,7 @@
   text-transform: uppercase;
 }
 .jrn .jrn-d01__on--label {
-  font-size: max(42px, calc(12px / var(--f05m-u, 1)));
+  font-size: calc(max(42px, calc(12px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px));
   font-weight: 500;
   letter-spacing: 0.08em;
   line-height: 1.04;
@@ -187,7 +189,7 @@
   white-space: nowrap;
 }
 .jrn .jrn-d01__on--caption {
-  font: italic 500 max(20px, calc(8px / var(--f05m-u, 1))) / 1.2 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: italic 500 calc(max(20px, calc(8px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px))/ 1.2 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.2em;
 }
 .jrn .jrn-d01__stat {
@@ -197,7 +199,7 @@
   justify-content: space-between;
   gap: 16px;
   margin: 0;
-  font: 500 max(31px, calc(10px / var(--f05m-u, 1))) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 500 calc(max(31px, calc(10px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px))/ 1 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.08em;
   color: var(--d01-ink);
   text-transform: uppercase;
@@ -240,7 +242,7 @@
   background: rgba(31, 24, 16, 0.7);
 }
 .jrn .jrn-d01__strip-label {
-  font: 500 max(41px, calc(13px / var(--f05m-u, 1))) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 500 calc(max(41px, calc(13px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px))/ 1 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.1em;
   white-space: nowrap;
 }
@@ -278,7 +280,7 @@
   font-family: 'JURNL Sans', sans-serif;
   text-transform: uppercase;
   --d01-fs: calc(13px * var(--d01-s, 1));
-  font-size: var(--d01-fs);
+  font-size: calc(var(--d01-fs) - 2px);
 }
 .jrn .jrn-d01__content[data-scroll='true'] {
   overflow-y: auto;
@@ -313,19 +315,19 @@
 }
 .jrn .d01-h {
   margin: 0 0 6px;
-  font: 600 calc(var(--d01-fs) * 0.96) / 1.15 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 600 calc(var(--d01-fs) * 0.96 - 2px)/ 1.15 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.16em;
   text-align: center;
 }
 .jrn .d01-note {
   margin: 0;
-  font-size: calc(var(--d01-fs) * 0.82);
+  font-size: calc(var(--d01-fs) * 0.82 - 2px);
   letter-spacing: 0.1em;
   line-height: 1.35;
   color: var(--d01-ink-soft);
 }
 .jrn .d01-big {
-  font: 500 calc(var(--d01-fs) * 2.3) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 500 calc(var(--d01-fs) * 2.3 - 2px)/ 1 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.01em;
 }
 .jrn .d01-rows {
@@ -340,7 +342,7 @@
   min-height: calc(var(--d01-fs) * 2.4);
   padding: 4px 2px;
   border-bottom: 1px solid rgba(31, 24, 16, 0.2);
-  font-size: calc(var(--d01-fs) * 0.92);
+  font-size: calc(var(--d01-fs) * 0.92 - 2px);
   letter-spacing: 0.08em;
 }
 .jrn .d01-row:last-child {
@@ -349,7 +351,7 @@
 .jrn .d01-row > b {
   justify-self: end;
   max-width: 100%;
-  font: 500 calc(var(--d01-fs) * 1.08) / 1.08 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 500 calc(var(--d01-fs) * 1.08 - 2px)/ 1.08 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.02em;
   text-align: right;
   /* money stays on one line; long names and lists wrap inside the row instead of running off the paper */
@@ -406,7 +408,7 @@
   padding: 2px 6px;
   background: transparent;
   color: var(--d01-ink);
-  font: 500 calc(var(--d01-fs) * 1.02) / 1.1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 500 calc(var(--d01-fs) * 1.02 - 2px)/ 1.1 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.1em;
   text-align: left;
   text-transform: uppercase;
@@ -466,7 +468,7 @@
   border-radius: 14px;
   background: linear-gradient(180deg, #3b4128 0%, var(--d01-olive-deep) 100%);
   color: #f6eedd;
-  font: 600 calc(var(--d01-fs) * 1.02) / 1.1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 600 calc(var(--d01-fs) * 1.02 - 2px)/ 1.1 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   box-shadow: 0 5px 10px rgba(14, 10, 4, 0.36), inset 0 1px 0 rgba(255, 245, 220, 0.18);
@@ -509,7 +511,7 @@
   min-height: 48px;
   padding: 3px 0;
   border-bottom: 1px solid rgba(31, 24, 16, 0.18);
-  font-size: calc(var(--d01-fs) * 0.9);
+  font-size: calc(var(--d01-fs) * 0.9 - 2px);
   letter-spacing: 0.1em;
 }
 .jrn .d01-field--stack {
@@ -526,7 +528,7 @@
   border-radius: 10px;
   background: rgba(255, 251, 241, 0.72);
   color: var(--d01-ink);
-  font: 500 max(16px, calc(var(--d01-fs) * 1.02)) / 1.2 'JURNL Sans', sans-serif;
+  font: 500 max(16px, calc(var(--d01-fs) * 1.02 - 2px))/ 1.2 'JURNL Sans', sans-serif;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   box-sizing: border-box;
@@ -557,7 +559,7 @@
   border-radius: 10px;
   background: rgba(255, 251, 241, 0.6);
   color: var(--d01-ink);
-  font: 600 calc(var(--d01-fs) * 0.82) / 1 'JURNL Sans', sans-serif;
+  font: 600 calc(var(--d01-fs) * 0.82 - 2px)/ 1 'JURNL Sans', sans-serif;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   cursor: pointer;
@@ -583,7 +585,7 @@
   border: 1px solid rgba(40, 10, 6, 0.55);
   box-shadow: 0 2px 6px rgba(20, 10, 4, 0.35), inset 0 1px 0 rgba(255, 220, 190, 0.18);
   color: #f6ead2;
-  font-size: calc(var(--d01-fs) * 0.86);
+  font-size: calc(var(--d01-fs) * 0.86 - 2px);
   font-weight: 600;
   letter-spacing: 0.08em;
   line-height: 1.3;
@@ -742,7 +744,7 @@
   top: 9%;
   display: grid;
   max-width: 52%;
-  font-size: calc(var(--d01-fs) * 0.92);
+  font-size: calc(var(--d01-fs) * 0.92 - 2px);
   font-weight: 500;
   line-height: 1.05;
   letter-spacing: 0.08em;
@@ -756,7 +758,7 @@
   position: absolute;
   left: 7.5%;
   top: 50%;
-  font-size: calc(var(--d01-fs) * 1.45);
+  font-size: calc(var(--d01-fs) * 1.45 - 2px);
   font-weight: 500;
   letter-spacing: 0.01em;
   white-space: nowrap;
@@ -765,7 +767,7 @@
   position: absolute;
   left: 8%;
   top: 75%;
-  font: italic 500 calc(var(--d01-fs) * 0.64) / 1 'JURNL Authority Serif', serif;
+  font: italic 500 calc(var(--d01-fs) * 0.64 - 2px)/ 1 'JURNL Authority Serif', serif;
   letter-spacing: 0.22em;
 }
 .jrn .d01-card__chev {
@@ -783,7 +785,7 @@
   border-radius: 6px;
   background: var(--d01-wine);
   color: #f6eedd;
-  font: 600 calc(var(--d01-fs) * 0.58) / 1.2 'JURNL Sans', sans-serif;
+  font: 600 calc(var(--d01-fs) * 0.58 - 2px)/ 1.2 'JURNL Sans', sans-serif;
   letter-spacing: 0.12em;
 }
 .jrn button.d01-card:active {
@@ -820,7 +822,7 @@
   border-radius: 10px;
   background: rgba(255, 249, 236, 0.86);
   box-shadow: 0 2px 4px rgba(18, 10, 4, 0.28);
-  font: 500 calc(var(--d01-fs) * 0.95) / 1.1 'JURNL Authority Serif', serif;
+  font: 500 calc(var(--d01-fs) * 0.95 - 2px)/ 1.1 'JURNL Authority Serif', serif;
   letter-spacing: 0.08em;
   touch-action: none;
   transition: transform 160ms var(--d01-ease), box-shadow 160ms var(--d01-ease);
@@ -876,7 +878,7 @@
   background: transparent;
   color: var(--d01-ink);
   text-align: left;
-  font: 500 calc(var(--d01-fs) * 0.88) / 1.15 'JURNL Sans', sans-serif;
+  font: 500 calc(var(--d01-fs) * 0.88 - 2px)/ 1.15 'JURNL Sans', sans-serif;
   letter-spacing: 0.07em;
   text-transform: uppercase;
   cursor: pointer;
@@ -898,7 +900,7 @@
   gap: 8px;
   padding: 2px 2px 6px;
   border-bottom: 1px solid rgba(31, 24, 16, 0.32);
-  font: 600 calc(var(--d01-fs) * 0.74) / 1 'JURNL Sans', sans-serif;
+  font: 600 calc(var(--d01-fs) * 0.74 - 2px)/ 1 'JURNL Sans', sans-serif;
   letter-spacing: 0.12em;
   color: var(--d01-ink);
   opacity: 0.85;
@@ -912,7 +914,7 @@
   opacity: 0.8;
 }
 .jrn .d01-tx__amt {
-  font: 500 calc(var(--d01-fs) * 1.02) / 1 'JURNL Authority Serif', serif;
+  font: 500 calc(var(--d01-fs) * 1.02 - 2px)/ 1 'JURNL Authority Serif', serif;
   white-space: nowrap;
 }
 .jrn .d01-tx__state {
@@ -987,7 +989,7 @@
   padding: 3px 8px;
   border-radius: 9px;
   background: rgba(255, 249, 236, 0.78);
-  font-size: calc(var(--d01-fs) * 0.86);
+  font-size: calc(var(--d01-fs) * 0.86 - 2px);
   letter-spacing: 0.1em;
 }
 .jrn .d01-steps li[data-state='done'] svg {
@@ -1030,7 +1032,7 @@
   box-shadow: 0 10px 24px rgba(20, 10, 4, 0.45);
 }
 .jrn .d01-cap__empty {
-  font: 600 26px/1.2 'JURNL Sans', sans-serif;
+  font: 600 calc(26px - var(--f05-type-nudge, 0px))/1.2 'JURNL Sans', sans-serif;
   letter-spacing: 0.16em;
   color: rgba(247, 236, 214, 0.86);
   text-shadow: 0 2px 6px rgba(20, 10, 4, 0.7);
@@ -1056,7 +1058,7 @@
   display: flex;
   align-items: center;
   gap: 22px;
-  font: 500 28px/1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 500 calc(28px - var(--f05-type-nudge, 0px))/1 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.07em;
   color: var(--d01-ink);
   white-space: nowrap;
@@ -1078,7 +1080,7 @@
   align-items: center;
   justify-content: center;
   gap: 30px;
-  font: 500 50px/1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 500 calc(50px - var(--f05-type-nudge, 0px))/1 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.08em;
   color: var(--d01-ink);
   text-transform: uppercase;
@@ -1093,7 +1095,7 @@
   flex: none;
 }
 .jrn .d01-cap__btn:not(.d01-cap__btn--dark) {
-  font-size: 44px;
+  font-size: calc(44px - var(--f05-type-nudge, 0px));
 }
 .jrn .d01-cap__btn:not(.d01-cap__btn--dark) svg {
   width: 54px;
@@ -1104,7 +1106,7 @@
   align-items: center;
   justify-content: center;
   gap: 28px;
-  font: 600 31px/1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 600 calc(31px - var(--f05-type-nudge, 0px))/1 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.1em;
   color: var(--d01-ink);
   text-transform: uppercase;
@@ -1114,7 +1116,7 @@
   height: 2px;
 }
 .jrn .d01-cap__note {
-  font: 600 21px/1.2 'JURNL Authority Serif', 'JURNL Display', serif;
+  font: 600 calc(21px - var(--f05-type-nudge, 0px))/1.2 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.06em;
   text-align: center;
   white-space: nowrap;

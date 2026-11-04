@@ -54,10 +54,19 @@ export function nameScale(lines: readonly string[]): number {
   return longest <= 11 ? 1 : longest <= 14 ? 0.78 : longest <= 18 ? 0.66 : 0.58;
 }
 
-/** Name size in board px, never below 11 screen px. */
+/**
+ * Board font size, 2 screen px smaller. The board is `scale(--f05m-u)`, so the source-px
+ * subtraction lives in `--f05-type-nudge` and every face moves by the same screen amount.
+ */
+export function f05BoardType(size: number | string): string {
+  const expr = typeof size === 'number' ? `${size}px` : size;
+  return `calc(${expr} - var(--f05-type-nudge, 0px))`;
+}
+
+/** Name size in board px, never below 11 screen px before the shared 2px nudge. */
 export const nameFont = (lines: readonly string[]) => {
   const k = nameScale(lines);
-  return `max(${(C.card.nameSize * k).toFixed(2)}px, calc(${(11 * k).toFixed(2)}px / var(--f05m-u, 1)))`;
+  return f05BoardType(`max(${(C.card.nameSize * k).toFixed(2)}px, calc(${(11 * k).toFixed(2)}px / var(--f05m-u, 1)))`);
 };
 
 export function CarouselPanelPaper({
@@ -102,7 +111,7 @@ export function CarouselPanelPaper({
           className="jrn-f05m__paper-amount"
           data-empty={v.kind === 'none' ? 'true' : undefined}
           data-jrn-amount-cents={v.kind === 'amount' ? Math.round(v.amount * 100) : undefined}
-          style={{ top: r.amountTop, fontSize: v.kind === 'amount' ? amountSize(amountText, C.card.amountSize) : undefined }}
+          style={{ top: r.amountTop, fontSize: v.kind === 'amount' ? f05BoardType(amountSize(amountText, C.card.amountSize)) : undefined }}
         >
           {amountText}
         </b>

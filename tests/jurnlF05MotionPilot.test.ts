@@ -310,6 +310,8 @@ describe('Opt-in route and assets', () => {
     expect(css).toContain('transform-origin: 18% 70%;');
     expect(css).toMatch(/@media \(prefers-reduced-motion: no-preference\) \{[\s\S]*f05m-paper/);
     expect(css).toMatch(/@media \(prefers-reduced-motion: reduce\)/);
+    expect(css).toContain('--f05-type-nudge: calc(2px / var(--f05m-u, 1))');
+    expect(css).toContain('calc(108px - var(--f05-type-nudge, 0px))');
     // numbers never count up
     expect(css).not.toMatch(/counter|@property --num/);
   });

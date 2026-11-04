@@ -14,7 +14,7 @@ import { getTodayKey } from '../../../../data/foundation/dates';
 import { formatMoney, useCurrency, useRepoTick } from '../../../../data/home/money';
 import { TransferSheet } from '../../../finance/FinanceSheets';
 import { useJurnl } from '../../../state/store';
-import { amountSize } from '../CarouselPanelPaper';
+import { amountSize, f05BoardType } from '../CarouselPanelPaper';
 import { DOT01, DOT01_GEOMETRY } from './dot01Assets';
 import { Dot01Frame, type BoardRect, type Dot01Layer, type Dot01Layout, by } from './Dot01Frame';
 import { Chevron, Icon } from './icons';
@@ -122,7 +122,7 @@ export function AccountPage() {
           </Fragment>
         ))}
       </div>
-      <b className="jrn-d01__on jrn-d01__on--amount" data-testid="d01-balance" data-jrn-amount-cents={Math.round(amount * 100)} style={{ left: BAL.x + 10, width: BAL.w - 20, top: by(L, BAL.y + 128), textAlign: 'center', fontSize: amountSize(amountText, 100) } as CSSProperties}>
+      <b className="jrn-d01__on jrn-d01__on--amount" data-testid="d01-balance" data-jrn-amount-cents={Math.round(amount * 100)} style={{ left: BAL.x + 10, width: BAL.w - 20, top: by(L, BAL.y + 128), textAlign: 'center', fontSize: f05BoardType(amountSize(amountText, 100)) } as CSSProperties}>
         {amountText}
       </b>
       {v.liability ? <i className="jrn-d01__on jrn-d01__on--caption" style={{ left: BAL.x, width: BAL.w, top: by(L, BAL.y + 232), textAlign: 'center' }}>OWED</i> : null}
