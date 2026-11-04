@@ -16722,3 +16722,32 @@ Summary of the whole conversation in this chat.
   - The Playwright loader cannot import modules that pull in JSON (for example the ledger builders via the currency catalog). E2E worlds write literal records, and a unit test (`jurnlF05Carousel` "E2E carousel world is what the app itself records") checks them against the builders.
   - Freeze a timed UI transition for frame capture with `page.clock.install()` + `pauseAt()`, and seek CSS animations with the Web Animations API.
   - The full-repo vitest run has 91 failing tests in 58 non-JURNL files, identical at `274d7956`. They are pre-existing.
+
+---
+
+## 2026-11-04 — JURNL F05 MONEY DOT 01 (ACCOUNTS): 37 screens, receipts, corrections
+
+- **Context:** Sprint P0.JURNL.F05-MONEY.DOT01-ACCOUNTS.FULL-VISUAL-MOTION-AND-FINANCIAL-RUNTIME-CONVERGENCE.OPUS1. The founder's V9 package: 37 screen authorities, SK01 / SK02 / SK03 and 22 motion PNGs. Same branch and draft PR #1707, stacked on #1706. No merge, deploy, DB change, generation or paid provider.
+- **Decisions / outcomes:**
+  - **Screens:** the 37 authorities map to 7 routes, their states and one overlay switch (`dot01/sheets/Dot01Sheets.tsx`). Doc 03 has the map.
+  - **SIDEKICKs:** SK01 for the parent, SK02_FIELD for pages, SK03_FIELD for overlays, and the full SK03 for CAPTURE RECEIPT. Only 01 / 02 / 26 are pixel pairs; the other 34 authorities are separate renders.
+  - **Child-page chrome (founder correction):** pages follow their authorities. They are full-bleed, with no bottom panel. The dock appears only on 06 and 31, on SK01's nav paper inside the composition. Chips are per authority (back, or search + add on 30–37), and the shell corner chrome is hidden.
+  - **Tall phones:** the extra height is shared between papers inside the field zone (`by()` / `ZONE_TOP`), with the seam above the bottom landscape.
+  - **Receipts:** read on the device with tesseract.js, self-hosted under `/jurnl/ocr`. There is a live camera preview. Review is always required, and exactly one entry is saved, with `entry.receipt`. Images live in IndexedDB on the device only.
+  - **Corrections:** correct = same id plus `correction_history`; reverse = remove plus `settings.ledgerAudit`, once only.
+  - **Reconciliation:** never marked with a difference; an adjustment is one ADJUSTMENT entry.
+  - **Archiving:** checks dependencies first.
+  - **Card payments:** the DOT 01 preview refuses overpaying a card and taking cash below 0.
+- **Changes:**
+  - Data: `data/f05/dot01/*` (accountOrder, accountView, history, archive, corrections, reconciliation, receipt, entry).
+  - Runtime: `runtime/screens/f05/dot01/*` (Dot01Frame, pages, kit, icons, receipt OCR / store, `sheets/*`).
+  - Assets: `families/F05_MONEY/DOT01/*` from `scripts/jurnl/f05-motion-pilot/extract_dot01.py`, and `public/jurnl/ocr/*`.
+  - Tests: `tests/jurnlF05Dot01.test.ts` (61), `e2e/jurnl/jurnl-f05-dot01{,-camera}.e2e.ts`.
+  - Comparison: `scripts/jurnl/f05-motion-pilot/compare_dot01.py`.
+  - Evidence: `JURNL/MANIFEST/F05_MONEY_DOT01_ACCOUNTS_V1/`.
+- **Conventions:**
+  - Place a board paper by its top (`by(L, top)`) and anything on it relative to that top (`by(L, top) + dy`).
+  - Multi-line headings need real spaces between line spans (a grid ignores whitespace nodes).
+  - Playwright `launchOptions` (fake camera) must be top-level in its own spec file.
+  - Don't edit runtime code while a full E2E regression runs against the dev server: hot reloads fail tests mid-run.
+  - Compare against authorities at 471 × 836, where the board maps one to one.
