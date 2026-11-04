@@ -242,7 +242,7 @@ body:has([data-jrn-screen='F09.00']),
   letter-spacing: 0.14em;
   color: #2c2824;
 }
-/* Menu on the left; back on the right (same cream chip geometry as WHY THIS NUMBER). */
+/* Back on the left; menu on the right (same cream chip geometry as WHY THIS NUMBER). */
 .jrn .jrn-f09a__back,
 .jrn .jrn-f09a__menu {
   pointer-events: auto;
@@ -260,11 +260,11 @@ body:has([data-jrn-screen='F09.00']),
   box-shadow: 0 3px 7px rgba(50, 36, 20, 0.12);
   color: #1c1915;
 }
-.jrn .jrn-f09a__menu {
+.jrn .jrn-f09a__back {
   left: 5.6%;
   right: auto;
 }
-.jrn .jrn-f09a__back {
+.jrn .jrn-f09a__menu {
   left: auto;
   right: 5.6%;
 }
@@ -748,11 +748,11 @@ body:has([data-jrn-screen='F09.00']),
     height: 48px;
     border-radius: 12px;
   }
-  .jrn .jrn-f09a__menu {
+  .jrn .jrn-f09a__back {
     left: 22px;
     right: auto;
   }
-  .jrn .jrn-f09a__back {
+  .jrn .jrn-f09a__menu {
     left: auto;
     right: 22px;
   }
@@ -908,11 +908,11 @@ body:has([data-jrn-screen='F09.00']),
     height: 33px;
     border-radius: 9px;
   }
-  .jrn .jrn-f09a__menu {
+  .jrn .jrn-f09a__back {
     left: 28px;
     right: auto;
   }
-  .jrn .jrn-f09a__back {
+  .jrn .jrn-f09a__menu {
     left: auto;
     right: 28px;
   }

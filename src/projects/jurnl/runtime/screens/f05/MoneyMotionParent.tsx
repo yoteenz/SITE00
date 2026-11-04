@@ -242,12 +242,11 @@ export function MoneyMotionParent() {
     handlers.onKeyDown(e);
   };
 
-  // Chips: search and add stay on the right; the global menu sits on the left (swapped with the back chip on other routes).
+  // Chips: global menu on the far-right approved square; search and add sit to its left on the board.
   const chipRight = Math.min(CHIP_RIGHT, L.visibleX[1] - 14);
-  const chipLeft = L.visibleX[0] + 14;
-  const plusX = chipRight - CHIP;
+  const menuX = chipRight - CHIP;
+  const plusX = menuX - CHIP - CHIP_GAP;
   const searchX = plusX - CHIP - CHIP_GAP;
-  const menuX = chipLeft;
 
   // The dock and the global menu live outside this screen (viewport hosts); place them on the board through CSS vars.
   useLayoutEffect(() => {
