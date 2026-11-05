@@ -17,7 +17,7 @@
  * FOUNDER_FULL grant (server-resolved, #1708) is shown as FOUNDER ACCESS and suppresses every upgrade prompt; it never
  * changes what is authorized (the trusted backend decides). Unknown entitlement state withholds (fail closed).
  */
-import { ART, EdArt, REGION } from '../surfaces/editorial/Editorial';
+import { ART, EdArt, EdLift } from '../surfaces/editorial/Editorial';
 import { useState } from 'react';
 import { addOnById, capabilityById, planById, type AddOnDefinition } from '../../../../../shared/site00-monetization/contract.js';
 import { JURNL_MONETIZATION_CONTRACT as CONTRACT } from '../../data/monetization/contract';
@@ -69,13 +69,29 @@ export function planDisplayName(planId: string): string {
 export function GlobalMenu({ onClose, onOpen, onDestination }: { onClose: () => void; onOpen: (panel: GlobalMenuPanel) => void; onDestination: (d: GlobalMenuDestination) => void }) {
   const { signOut, showToast } = useJurnl();
   return (
-    <V3Drawer label="MENU" material="olive" onClose={onClose} testId="global-menu">
+    <V3Drawer
+      label="MENU"
+      material="olive"
+      onClose={onClose}
+      testId="global-menu"
+      decor={
+        <>
+          {/* founder board 08: the red drape down the left edge, the arch and its coast down the right edge, the olive
+              leaves, and the dark torn sheet the sections sit on — each at its board place (panel 08, board units) */}
+          <EdLift part="B08_FABRIC" at={[0, 0, 60]} className="jed-art--fabric" />
+          <EdLift part="B08_FABRIC" at={[0, 404, 60]} className="jed-art--fabric jed-art--fabric-2" />
+          <EdArt art={ART.sk01} region={[690, 40, 251, 560]} className="jed-art--arch" />
+          <EdLift art={ART.foliage} at={[-30, 88, 96]} className="jed-art--olive" />
+          <span className="jed-art jed-menu-sheet" aria-hidden />
+        </>
+      }
+    >
       {/* founder board 08: the classical head of the menu — the SK01 bust, a lemon branch, the torn headline paper */}
       <div className="jed-menu-head">
-        <EdArt art={ART.sk01} region={REGION.bust} className="jed-art--bust" torn={13} />
-        <EdArt art={ART.lemonBranch} className="jed-art--lemon" />
+        <EdLift part="BUST" at={[-14, -4, 104]} className="jed-art--bust" />
+        <EdLift art={ART.lemonBranch} at={[226, -40, 74]} className="jed-art--lemon" />
         <div className="jed-menu-head__title">
-          <span className="jed-head__paper" aria-hidden style={{ backgroundImage: `url("${ART.heading.src}")` }} />
+          <span className="jed-head__paper" aria-hidden />
           <h2 className="jed-head__title">MENU</h2>
           <p className="jv3-t-script">tools, membership and more</p>
         </div>

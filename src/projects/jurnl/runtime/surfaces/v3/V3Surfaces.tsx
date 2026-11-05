@@ -116,7 +116,7 @@ export function useStableFocus(onClose: () => void) {
 }
 
 /* ── A / B · drawer ── */
-export function V3Drawer({ label, material = 'olive', onClose, testId, children }: { label: string; material?: 'olive' | 'ledger'; onClose: () => void; testId: string; children: ReactNode }) {
+export function V3Drawer({ label, material = 'olive', onClose, testId, children, decor }: { label: string; material?: 'olive' | 'ledger'; onClose: () => void; testId: string; children: ReactNode; decor?: ReactNode }) {
   const { ref } = useStableFocus(onClose);
   const torn = useMemo(() => tornClip(7, ['left'], 3.4, 60), []);
   return (
@@ -125,6 +125,7 @@ export function V3Drawer({ label, material = 'olive', onClose, testId, children 
         <div className="jv3-scrim" onClick={onClose} aria-hidden />
         <div className="jv3-drawer-shadow">
           <div ref={ref} role="dialog" aria-modal="true" aria-label={label} className="jv3-drawer" data-material={material} style={{ '--jv3-torn': torn } as CSSProperties}>
+            {decor ? <div className="jv3-drawer__decor" aria-hidden>{decor}</div> : null}
             <div className="jv3-drawer__head">
               <button type="button" className="jv3-close" aria-label={`CLOSE ${label}`} data-jrn-trigger={`${testId}-close`} onClick={onClose}>
                 <V3Icon name="close" />

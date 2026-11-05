@@ -8,7 +8,7 @@ import { getRepository } from '../../../data/repository/deviceRepository';
 import { formatMoney, useRepoTick } from '../../../data/home/money';
 import { JurnlInput } from '../../components/primitives';
 import { useJurnl } from '../../state/store';
-import { ART, EdAction, EdArt, EdChoices, EdGlyph, EditorialOverlay, REGION } from './Editorial';
+import { ART, EdAction, EdArt, EdChoices, EdGlyph, EdLift, EditorialOverlay, REGION } from './Editorial';
 
 type Filter = 'ALL' | 'POCKETS' | 'TRANSACTIONS';
 type Hit = { key: string; kind: 'pocket' | 'entry'; title: string; sub: string; value: string; route: string; when?: string };
@@ -48,8 +48,16 @@ export function GlobalSearchDrawer({ onClose }: { onClose: () => void }) {
       onClose={onClose}
       decor={
         <>
-          <EdArt art={ART.sk01} region={REGION.arch} className="jed-art--arch" torn={3} />
-          <EdArt art={ART.paperStack} className="jed-art--stack" />
+          {/* founder board 05: the arch and its coast on the left (SK01, mirrored as drawn), a lemon over it, the stack
+              of ledgers on the red drape, the painted coast along the foot, one large torn sheet on the right */}
+          <EdArt art={ART.sk01} region={REGION.arch} className="jed-art--arch" />
+          <EdLift art={ART.lemonBranch} at={[34, -46, 76]} className="jed-art--lemon" />
+          <EdLift part="B05_FABRIC" className="jed-art--fabric" />
+          <EdLift art={ART.oxbloodBranch} at={[-14, 372, 84]} className="jed-art--branch" />
+          <EdLift part="B05_FABRIC" at={[0, 34, 180.5]} bottom className="jed-art--fabric" />
+          <EdLift part="B05_BOOKS" className="jed-art--books" />
+          <EdLift part="B01_COAST" at={[92, 0, 256]} bottom className="jed-art--coast" />
+          <span className="jed-art jed-bodysheet" aria-hidden />
         </>
       }
       footer={

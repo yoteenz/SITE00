@@ -26,7 +26,8 @@ import { ReferenceLockup } from '../components/ReferenceLockup';
 import { JurnlDrawer, JurnlToggle, OverlayLayer, useOverlayFocus } from '../components/primitives';
 import { REPLICA_H, REPLICA_W, drawerScale, fitSize, useKeyboardViewport, useOverlayHost } from '../components/OverlayAuthority';
 import { OVR_DRAWER } from '../layout/overlayReferenceLayout';
-import drawerShell from '../global/overlays/F09_ACCOUNT_DRAWER_SHELL.webp';
+import { PART } from '../surfaces/editorial/boardParts';
+import foliageArt from '../../families/F05_MONEY/DOT01/F05_DOT01_10_SMALL_OLIVE_FOLIAGE.webp';
 import profileThumb from '../global/overlays/F09_DRAWER_PROFILE_THUMB.jpg';
 import privacyCard from '../global/overlays/F09_DRAWER_PRIVACY_PHOTO.jpg';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
@@ -276,8 +277,17 @@ export function AccountScreen() {
   );
 }
 
-/** Drawer shell in the reference frame: the registered handoff shell, stretched 0.6% to meet the screen's right edge. */
-const DRAWER_SHELL: RefBox = [228.5, 3, REPLICA_W, 1671];
+/**
+ * Founder board 06 imagery in the reference frame (x0, y0, x1, y1; each box keeps its image's own aspect): the parchment
+ * sheet under the cards, the drape, the olive leaves beside ASK JURNL CONTEXT, the landscape along the foot, the
+ * medallion left of the close mark (above the ACCOUNT title) and the columns beside PRIVACY at the panel's left edge.
+ */
+const DRAWER_SHEET: RefBox = [310, 84, 930, 1452];
+const DRAWER_DRAPE: RefBox = [284, 300, 354, 570];
+const DRAWER_FOLIAGE: RefBox = [296, 792, 420, 927];
+const DRAWER_LANDSCAPE: RefBox = [295, 1428, 941, 1606];
+const DRAWER_MEDALLION: RefBox = [640, 88, 840, 263];
+const DRAWER_COLUMNS: RefBox = [232, 1250, 344, 1472];
 /**
  * The reference's panel: a clean rounded sheet from x 295, y 70 to 1608, running off the right edge (corner radii 30 top,
  * 40 bottom). The shell is clipped to it; only the olive branch overhangs the top (x ≥ 540). Taps on the panel never fall
@@ -332,9 +342,17 @@ export function AccountDrawer({ onClose }: { onClose: () => void }) {
           style={{ '--k': k, top: top - lift } as CSSProperties}
         >
           <span className="jrn-dr__panel" style={at(DRAWER_PANEL)} aria-hidden />
-          <span className="jrn-dr__paper" style={{ clipPath: DRAWER_CLIP }} aria-hidden>
-            <img className="jrn-dr__shell" src={drawerShell} alt="" draggable={false} data-asset-id="F09_ACCOUNT_DRAWER_OVERLAY_SHELL" style={at(DRAWER_SHELL)} />
+          {/* founder board 06 (ACCOUNT / SETTINGS DRAWER): the dark ground, the red drape at the left edge, one warm torn
+              parchment sheet under the cards, the painted landscape along the foot, the classical-head laurel medallion
+              and the columns — the board's own lifted subjects, in the replica's unchanged layout */}
+          <span className="jrn-dr__paper" style={{ clipPath: DRAWER_CLIP }} aria-hidden data-asset-id="F05_ED_BOARD06_DRAWER">
+            <span className="jed-art jrn-dr__art" style={{ ...at(DRAWER_DRAPE), backgroundImage: `url("${PART.B06_FABRIC.src}")` }} />
+            <span className="jrn-dr__sheet" style={at(DRAWER_SHEET)} />
+            <span className="jed-art jrn-dr__art" style={{ ...at(DRAWER_FOLIAGE), backgroundImage: `url("${foliageArt}")` }} />
+            <span className="jed-art jrn-dr__art jrn-dr__landscape" style={{ ...at(DRAWER_LANDSCAPE), backgroundImage: `url("${PART.B06_LANDSCAPE.src}")` }} />
+            <span className="jed-art jrn-dr__art jrn-dr__medallion" style={{ ...at(DRAWER_MEDALLION), backgroundImage: `url("${PART.B06_MEDALLION.src}")` }} />
           </span>
+          <span className="jed-art jrn-dr__art jrn-dr__columns" aria-hidden style={{ ...at(DRAWER_COLUMNS), backgroundImage: `url("${PART.B06_COLUMNS.src}")` }} />
           <span className="jrn-dr__rim" style={at(DRAWER_PANEL)} aria-hidden />
 
           <ReferenceLockup L={{ box: { sprig: D.box.sprig, word: D.box.word }, text: { desc1: D.text.desc1, desc2: D.text.desc2 } }} />

@@ -1,7 +1,7 @@
 /** F05 MONEY — structural completion (Wave 2). */
 
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react';
-import { ART, EdAction, EdArt, EdChoices, EditorialOverlay } from '../surfaces/editorial/Editorial';
+import { ART, EdAction, EdChoices, EdLift, EditorialOverlay } from '../surfaces/editorial/Editorial';
 import { TYPE_GLYPH } from '../surfaces/editorial/MoneyOverlays';
 import { getRepository } from '../../data/repository/deviceRepository';
 import { useParams, useSearchParams } from 'react-router-dom';
@@ -434,8 +434,9 @@ export function AddPlaceSheet({ onClose, onSaved }: { onClose: () => void; onSav
     const a = createManualAccount(name, kind, amount ?? 0, getTodayKey(), { creditLimit: card ? limitValue : undefined, isPayoutCard: payout });
     onSaved(a.account_id);
   };
-  // founder board 02: a registration folio — bronze temple seal on the headline, oxblood behind, one sheet with a compact
-  // type grid (every supported type, none as a full-width row) and the balance; CANCEL paper + SAVE POCKET dark strip
+  // founder board 02: a registration folio — the board's own money-bag laurel medallion over the headline, the red drape
+  // behind, one large torn sheet holding the compact type grid (every supported type, none as a full-width row), the
+  // balance with the coin stack beside it, and the CANCEL / SAVE POCKET pills; every layer at its board place
   return (
     <EditorialOverlay
       testId="money-add-place"
@@ -443,13 +444,16 @@ export function AddPlaceSheet({ onClose, onSaved }: { onClose: () => void; onSav
       title={['ADD A POCKET']}
       script="create a new pocket for your money"
       onClose={onClose}
+      closeTone="cream"
       decor={
         <>
-          <EdArt art={ART.templeSeal} className="jed-art--seal" />
-          <EdArt art={ART.oxbloodBranch} className="jed-art--oxblood" />
-          <EdArt art={ART.foliage} className="jed-art--foliage" />
+          <EdLift part="B02_FABRIC" className="jed-art--fabric" />
+          <EdLift art={ART.foliage} at={[-34, 118, 84]} className="jed-art--olive" />
+          <EdLift art={ART.foliage} at={[226, -52, 70]} className="jed-art--olive-top" />
+          <span className="jed-art jed-bodysheet" aria-hidden />
         </>
       }
+      front={<EdLift part="B02_MEDALLION" className="jed-art--medallion" />}
       footer={
         <>
           <EdAction trigger="money-add-cancel" material="cream" title="CANCEL" onClick={onClose} />
@@ -465,6 +469,7 @@ export function AddPlaceSheet({ onClose, onSaved }: { onClose: () => void; onSav
         <EdChoices label="ACCOUNT TYPE" value={kind} options={PLACE_KINDS.map((k) => ({ ...k, icon: TYPE_GLYPH[k.id], wide: k.id === 'CASH' }))} onChange={(k) => { setKind(k); if (k === 'CREDIT_CARD' || k === 'CASH') setPayout(false); }} trigger="money-add-kind" />
         <div className="jed-field jed-balance" style={{ marginTop: 10 }}>
           <JurnlInput label={card ? 'BALANCE OWED NOW' : 'BALANCE NOW'} value={balance} onValue={setBalance} trigger="money-add-balance" inputMode="decimal" />
+          <EdLift part="B02_COINS" at={[168, -14, 91.5]} className="jed-art--coins" />
         </div>
         {card ? (
           <div className="jed-field" style={{ marginTop: 8 }}>

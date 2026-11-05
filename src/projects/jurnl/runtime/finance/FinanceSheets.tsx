@@ -33,7 +33,8 @@ import { applyOp } from '../../data/ledger/ledgerOps';
 import { getRepository } from '../../data/repository/deviceRepository';
 import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
 import { useJurnl } from '../state/store';
-import { ART, EdAction, EdArt, EdChoices, EdSeal, EditorialOverlay, REGION } from '../surfaces/editorial/Editorial';
+import { ART, EdAction, EdArt, EdChoices, EdLift, EditorialOverlay } from '../surfaces/editorial/Editorial';
+import { PART } from '../surfaces/editorial/boardParts';
 import { PocketPick } from '../surfaces/editorial/MoneyOverlays';
 
 // ─── Small shared pieces ─────────────────────────────────────────────────────
@@ -340,8 +341,9 @@ export function TransferSheet({ fromId, toId, onClose }: { fromId?: string | nul
       showToast({ tone: 'success', title: v.kind === 'CARD_PAYMENT' ? 'CARD PAYMENT RECORDED' : 'TRANSFER RECORDED', body: `${money(value ?? 0)} · ${(v.kind === 'CARD_PAYMENT' ? CARD_PAYMENT_STATE_LABEL : TRANSFER_STATE_LABEL)[start]} · RECORDED BY YOU, NOT CONFIRMED BY A BANK.`, testId: 'transfer-result' });
       onClose();
     });
-  // founder board 03: the movement between two pockets is the composition — FROM fragment, the bronze direction seal,
-  // TO fragment — then a compact ledger (amount, date, where the money is now). JURNL records it; it moves nothing.
+  // founder board 03: the movement between two pockets is the composition — FROM fragment, the board's red wax direction
+  // seal, TO fragment — on one large torn sheet under the SK01 bust, lemons and arch; then a compact ledger (amount,
+  // date, where the money is now). JURNL records it; it moves nothing.
   return (
     <EditorialOverlay
       testId="transfer-sheet"
@@ -351,9 +353,12 @@ export function TransferSheet({ fromId, toId, onClose }: { fromId?: string | nul
       onClose={onClose}
       decor={
         <>
-          <EdArt art={ART.sk01} region={REGION.bust} className="jed-art--bust" torn={5} />
-          <EdArt art={ART.sk01} region={REGION.arch} className="jed-art--arch" torn={9} />
-          <EdArt art={ART.lemonBranch} className="jed-art--lemon" />
+          <EdArt art={ART.sk01} region={[600, 56, 341, 244]} className="jed-art--scene" />
+          <EdLift art={ART.lemonBranch} at={[92, -40, 58]} className="jed-art--lemon-top" />
+          <EdLift part="BUST" at={[-10, -14, 112]} className="jed-art--bust" />
+          <EdLift art={ART.lemonBranch} at={[290, 64, 62]} className="jed-art--lemon" />
+          <EdLift art={ART.foliage} at={[296, 270, 66]} className="jed-art--olive" />
+          <span className="jed-art jed-bodysheet" aria-hidden />
         </>
       }
       footer={
@@ -369,7 +374,9 @@ export function TransferSheet({ fromId, toId, onClose }: { fromId?: string | nul
     >
       <p className="jed-note jed-note--ground" style={{ margin: "0 4px 8px" }}>BETWEEN YOUR OWN ACCOUNTS. NOT INCOME OR SPENDING. JURNL RECORDS IT; IT DOES NOT MOVE REAL MONEY.</p>
       <PocketPick dir="FROM" accountId={from} options={accounts.filter(assetOnly)} figure={position} onChange={setFrom} trigger="transfer-from" />
-      <EdSeal glyph="transfer" className="jed-direction" />
+      <span className="jed-seal jed-direction jed-direction--wax" aria-hidden>
+        <img src={PART.B03_SEAL.src} alt="" draggable={false} />
+      </span>
       <PocketPick dir="TO" accountId={to} options={accounts.filter((a) => a.account_id !== from)} figure={position} onChange={setTo} trigger="transfer-to" />
       <div className="jed-sheet" style={{ marginTop: 10 }}>
         <div className="jed-ledger">

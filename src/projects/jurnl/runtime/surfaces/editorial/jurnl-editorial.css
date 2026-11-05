@@ -38,6 +38,20 @@
   isolation: isolate;
   animation: jed-in 260ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
+/* board units: one px of the composition's board panel at the folio's width (container query units resolve against the
+ * folio for every layer inside it), so each layer sits where the authority draws it at every phone width */
+.jrn .jed-host {
+  --jb: calc(100cqw / var(--jbw, 346));
+}
+.jrn .jed-folio {
+  container-type: inline-size;
+}
+.jrn .jed-lift {
+  position: absolute;
+  height: auto;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
 /* the exposed dark environmental ground: olive field with a torn silhouette (never a beige rectangle) */
 .jrn .jed-ground {
   position: absolute;
@@ -77,7 +91,10 @@
   position: absolute;
   inset: -6px -8px -8px -10px;
   z-index: -1;
-  background-size: 100% 100%;
+  /* 9-slice: the torn rim keeps its drawn scale at any box size; only the plain parchment between stretches */
+  border-style: solid;
+  border-width: calc(var(--jb, 0.32px) * 13) calc(var(--jb, 0.32px) * 15);
+  border-image: url('../../../families/F05_MONEY/DOT01/F05_DOT01_01_HEADING_PARCHMENT.webp') 62 72 fill / calc(var(--jb, 0.32px) * 13) calc(var(--jb, 0.32px) * 15) / 0 stretch;
   filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.45));
 }
 .jrn .jed-head__title {
@@ -132,6 +149,36 @@
   width: 20px;
   height: 20px;
 }
+.jrn .jed-host .jed-close {
+  top: calc(var(--jed-close-y, 30) * var(--jb) - 22px);
+  right: calc(var(--jed-close-r, 28) * var(--jb) - 22px);
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  isolation: isolate;
+}
+.jrn .jed-host .jed-close::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--jb) * 33);
+  height: calc(var(--jb) * 33);
+  min-width: 30px;
+  min-height: 30px;
+  translate: -50% -50%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #3a3a22, #1c1d0d 70%);
+  box-shadow: inset 0 0 0 1.5px rgba(232, 214, 176, 0.75), 0 3px 6px rgba(0, 0, 0, 0.45);
+}
+.jrn .jed-host[data-close='cream'] .jed-close {
+  color: var(--jed-ink);
+}
+.jrn .jed-host[data-close='cream'] .jed-close::before {
+  background: radial-gradient(circle at 40% 35%, #f6ead2, #e2cfa8 75%);
+  box-shadow: inset 0 0 0 1px rgba(90, 64, 30, 0.35), 0 3px 6px rgba(0, 0, 0, 0.4);
+}
 .jrn .jed-close:focus-visible,
 .jrn .jed-action:focus-visible,
 .jrn .jed-choice:focus-visible,
@@ -164,8 +211,38 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  background-size: 100% 100%;
   filter: drop-shadow(0 5px 7px rgba(0, 0, 0, 0.45));
+}
+/* a large action paper (01): the heading parchment, 9-sliced, over a darker under-sheet (the board's layered papers) */
+.jrn .jed-action__paper {
+  border-style: solid;
+  border-width: calc(var(--jb, 0.32px) * 15) calc(var(--jb, 0.32px) * 17);
+  border-image: url('../../../families/F05_MONEY/DOT01/F05_DOT01_01_HEADING_PARCHMENT.webp') 62 72 fill / calc(var(--jb, 0.32px) * 15) calc(var(--jb, 0.32px) * 17) / 0 stretch;
+}
+.jrn [data-jed='action'] .jed-action::before {
+  content: '';
+  position: absolute;
+  inset: calc(var(--jb) * 5) calc(var(--jb) * 4) calc(var(--jb) * -9) calc(var(--jb) * -10);
+  z-index: -2;
+  border-style: solid;
+  border-width: calc(var(--jb) * 14) calc(var(--jb) * 16);
+  border-image: url('../../../families/F05_MONEY/DOT01/F05_DOT01_13_TORN_PARCHMENT_PANEL.webp') 60 70 fill / calc(var(--jb) * 14) calc(var(--jb) * 16) / 0 stretch;
+  filter: brightness(0.8) sepia(0.3) drop-shadow(0 5px 7px rgba(0, 0, 0, 0.4));
+  rotate: -1.8deg;
+  pointer-events: none;
+}
+/* footer actions: the SK03 SIDEKICK's own lifted pills (cream / dark olive), caps 9-sliced, never stretched */
+.jrn .jed-foot .jed-action__paper,
+.jrn .jed-foot .jed-action__strip {
+  inset: 0;
+  border-style: solid;
+  border-width: 0 calc(var(--jed-pill-h, 52px) * 0.522);
+  border-image: url('../../../families/F05_MONEY/DOT01/SCENES/F05_DOT01_PILL_SK03_CREAM.webp') 0 48 fill / 0 calc(var(--jed-pill-h, 52px) * 0.522) / 0 stretch;
+  filter: drop-shadow(0 4px 5px rgba(0, 0, 0, 0.4));
+}
+.jrn .jed-foot .jed-action__strip {
+  border-width: 0 calc(var(--jed-pill-h, 52px) * 0.513);
+  border-image: url('../../../families/F05_MONEY/DOT01/SCENES/F05_DOT01_PILL_SK03_DARK.webp') 0 58 fill / 0 calc(var(--jed-pill-h, 52px) * 0.513) / 0 stretch;
 }
 .jrn .jed-action[data-material='olive'] {
   color: var(--jed-cream);
@@ -326,8 +403,10 @@
   letter-spacing: 0.06em;
 }
 .jrn .jed-foot .jed-action {
-  min-height: 52px;
-  padding: 10px 14px;
+  --jed-pill-h: 50px;
+  height: var(--jed-pill-h);
+  min-height: 0;
+  padding: 0 18px;
   justify-content: center;
   text-align: center;
 }
@@ -359,174 +438,253 @@
   mix-blend-mode: multiply;
 }
 
-/* ══ 01 MONEY ACTION SHEET — a compact editorial choice scene ══ */
+/* ══ 01 MONEY ACTION SHEET — board panel 01 (346 × 460 board px; `--jb` = one board px at the folio's width) ══ */
+.jrn [data-jed='action'] {
+  --jbw: 346;
+}
 .jrn [data-jed='action'] .jed-folio {
-  min-height: min(540px, calc(var(--jrn-vvh, 100dvh) - 20px));
+  aspect-ratio: 346 / 460;
 }
 .jrn [data-jed='action'] .jed-head {
-  width: 60%;
-  margin-top: 46px;
+  justify-self: start;
+  width: calc(var(--jb) * 215);
+  margin: calc(var(--jb) * 55) 0 0 calc(var(--jb) * 100);
+  padding: calc(var(--jb) * 17) calc(var(--jb) * 14) calc(var(--jb) * 16) calc(var(--jb) * 20);
+  text-align: center;
+  transform: rotate(-1.4deg);
 }
-.jrn [data-jed='action'] .jed-art--bust {
-  left: -4%;
-  top: 0;
-  width: 54%;
-  height: 210px;
-  filter: drop-shadow(4px 6px 8px rgba(0, 0, 0, 0.5));
+.jrn [data-jed='action'] .jed-head__title {
+  font-size: calc(var(--jb) * 34);
+  letter-spacing: 0.04em;
+  justify-content: center;
 }
-.jrn [data-jed='action'] .jed-art--lemon {
-  right: -6%;
-  top: -16px;
-  width: 30%;
-  height: 160px;
-  background-size: contain !important;
-  background-position: center !important;
-  transform: rotate(18deg);
-}
-.jrn [data-jed='action'] .jed-art--oxblood {
-  left: -12%;
-  top: 200px;
-  width: 44%;
-  height: 360px;
-  background-size: contain !important;
-  background-position: center !important;
-  transform: rotate(-8deg);
-}
-.jrn [data-jed='action'] .jed-art--coast {
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 86px;
-  background-size: cover !important;
-  background-position: center !important;
-  opacity: 0.95;
+.jrn [data-jed='action'] .jed-head .jed-script {
+  font-size: calc(var(--jb) * 15);
+  margin-top: calc(var(--jb) * 4);
+  white-space: nowrap;
 }
 .jrn [data-jed='action'] .jed-body {
   display: grid;
   align-content: start;
-  gap: 16px;
-  padding: 18px 16px 96px;
+  gap: calc(var(--jb) * 3);
+  padding: calc(var(--jb) * 18) 0 calc(var(--jb) * 60) calc(var(--jb) * 40);
   overflow: visible;
 }
 .jrn [data-jed='action'] .jed-action {
-  min-height: 112px;
-  padding: 16px 44% 16px 22px;
+  width: calc(var(--jb) * 280);
+  min-height: calc(var(--jb) * 118);
+  padding: calc(var(--jb) * 14) calc(var(--jb) * 136) calc(var(--jb) * 30) calc(var(--jb) * 35);
+  align-items: flex-start;
 }
 .jrn [data-jed='action'] .jed-action__title {
-  font-size: clamp(22px, 6.6vw, 27px);
-  letter-spacing: 0.04em;
-  line-height: 0.98;
+  font-size: calc(var(--jb) * 26);
+  letter-spacing: 0.03em;
+  line-height: 0.95;
+}
+.jrn [data-jed='action'] .jed-action__note {
+  margin-top: calc(var(--jb) * 4);
+  font-size: calc(var(--jb) * 15);
+  line-height: 1.1;
 }
 .jrn [data-jed='action'] .jed-action--add {
-  width: 92%;
-  transform: rotate(-1.4deg);
+  transform: rotate(-0.8deg);
 }
 .jrn [data-jed='action'] .jed-action--move {
-  width: 92%;
-  justify-self: end;
-  transform: rotate(1.2deg);
+  width: calc(var(--jb) * 285);
+  min-height: calc(var(--jb) * 120);
+  transform: rotate(0.6deg);
 }
 .jrn [data-jed='action'] .jed-action__art {
-  right: -4%;
-  top: -16px;
-  width: 44%;
-  height: calc(100% + 26px);
-  filter: drop-shadow(-3px 6px 7px rgba(0, 0, 0, 0.45));
-}
-.jrn [data-jed='action'] .jed-action__art .jed-art {
   inset: 0;
+  z-index: 1;
 }
-.jrn [data-jed='action'] .jed-action--move .jed-action__art {
-  right: -2%;
-  width: 42%;
+.jrn [data-jed='action'] .jed-art--amphora,
+.jrn [data-jed='action'] .jed-art--coin {
+  filter: drop-shadow(-3px 6px 6px rgba(0, 0, 0, 0.42));
 }
 .jrn [data-jed='action'] .jed-action .jed-chev {
   position: absolute;
-  right: 46%;
-  bottom: 18px;
+  left: calc(var(--jb) * 161);
+  top: calc(var(--jb) * 66);
+  width: calc(var(--jb) * 9);
+  height: calc(var(--jb) * 15);
+}
+.jrn [data-jed='action'] .jed-action--move .jed-chev {
+  top: calc(var(--jb) * 70);
+}
+.jrn [data-jed='action'] .jed-art--olive {
+  rotate: 16deg;
+}
+.jrn [data-jed='action'] .jed-art--lemon {
+  rotate: -96deg;
+}
+.jrn [data-jed='action'] .jed-art--branch {
+  rotate: 24deg;
+}
+.jrn [data-jed='action'] .jed-art--bust {
+  filter: drop-shadow(4px 6px 8px rgba(0, 0, 0, 0.45));
 }
 
-/* ══ 02 ADD A POCKET — an editorial registration folio ══ */
-.jrn [data-jed='register'] .jed-head {
-  width: 70%;
-  margin-top: 18px;
+/* ══ 02 ADD A POCKET — board panel 02 (337 × 460) ══ */
+.jrn [data-jed='register'] {
+  --jbw: 337;
+  --jed-close-y: 33;
+  --jed-close-r: 29;
 }
-.jrn [data-jed='register'] .jed-art--seal {
-  left: 3%;
-  top: 8px;
-  width: 92px;
-  height: 86px;
+.jrn .jed-front {
+  position: absolute;
+  inset: 0;
   z-index: 2;
-  background-size: contain !important;
+  pointer-events: none;
+}
+.jrn [data-jed='register'] .jed-head {
+  justify-self: start;
+  width: calc(var(--jb) * 272);
+  margin: calc(var(--jb) * 22) 0 0 calc(var(--jb) * 56);
+  padding: calc(var(--jb) * 20) calc(var(--jb) * 12) calc(var(--jb) * 16) calc(var(--jb) * 70);
+  transform: rotate(-0.8deg);
+}
+.jrn [data-jed='register'] .jed-head__title {
+  font-size: calc(var(--jb) * 24);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+.jrn [data-jed='register'] .jed-head .jed-script {
+  font-size: calc(var(--jb) * 14);
+  white-space: nowrap;
+}
+/* the one large torn sheet of the board: under every field and the two pills */
+.jrn [data-jed='register'] .jed-bodysheet {
+  left: calc(var(--jb) * 22);
+  right: calc(var(--jb) * 14);
+  top: calc(var(--jb) * 96);
+  bottom: calc(var(--jb) * 6);
+  border-style: solid;
+  border-width: calc(var(--jb) * 15) calc(var(--jb) * 16);
+  border-image: url('../../../families/F05_MONEY/DOT01/F05_DOT01_14_LARGE_PARCHMENT_SHEET.webp') 64 70 fill / calc(var(--jb) * 15) calc(var(--jb) * 16) / 0 stretch;
+  filter: drop-shadow(0 6px 9px rgba(0, 0, 0, 0.5));
+}
+.jrn [data-jed='register'] .jed-body .jed-sheet {
+  border-image: none;
+  border-width: 0;
+  filter: none;
+  padding: calc(var(--jb) * 10) calc(var(--jb) * 30) 0 calc(var(--jb) * 30);
+}
+.jrn [data-jed='register'] .jed-foot {
+  padding: calc(var(--jb) * 8) calc(var(--jb) * 30) calc(var(--jb) * 18) calc(var(--jb) * 40);
+}
+.jrn [data-jed='register'] .jed-art--medallion {
+  filter: drop-shadow(2px 6px 7px rgba(0, 0, 0, 0.5));
+}
+.jrn [data-jed='register'] .jed-art--olive {
+  rotate: 8deg;
+}
+.jrn [data-jed='register'] .jed-art--olive-top {
+  rotate: -84deg;
 }
 .jrn [data-jed='register'] .jed-decor {
   z-index: 0;
 }
-.jrn [data-jed='register'] .jed-art--oxblood {
-  left: -10%;
-  top: 90px;
-  width: 30%;
-  height: 340px;
-  background-size: contain !important;
-  background-position: center !important;
-  transform: rotate(-6deg);
-  z-index: -1;
-}
-.jrn [data-jed='register'] .jed-art--foliage {
-  right: -8%;
-  bottom: 60px;
-  width: 34%;
-  height: 160px;
-  background-size: contain !important;
-  background-position: center !important;
-  transform: rotate(-20deg);
-  z-index: -1;
-}
 .jrn [data-jed='register'] .jed-body,
-.jrn [data-jed='transfer'] .jed-body,
-.jrn [data-jed='search'] .jed-body,
 .jrn [data-jed='account'] .jed-body {
   padding: 6px 12px 4px;
 }
 .jrn [data-jed='register'] .jed-balance {
   position: relative;
 }
+.jrn [data-jed='register'] .jed-balance {
+  margin-right: calc(var(--jb) * 56);
+}
 .jrn [data-jed='register'] .jed-balance .jed-art--coins {
-  right: -6px;
-  bottom: -4px;
-  width: 78px;
-  height: 64px;
-  background-size: contain !important;
-  background-position: center bottom !important;
   z-index: 1;
+  filter: drop-shadow(-2px 4px 4px rgba(0, 0, 0, 0.4));
 }
 
-/* ══ 03 MOVE MONEY — two pockets and the direction between them ══ */
+/* ══ 03 MOVE MONEY — board panel 03 (342 × 460) ══ */
+.jrn [data-jed='transfer'] {
+  --jbw: 342;
+  --jed-close-y: 33;
+  --jed-close-r: 26;
+}
 .jrn [data-jed='transfer'] .jed-head {
-  width: 64%;
-  margin-top: 30px;
+  justify-self: start;
+  width: calc(var(--jb) * 252);
+  margin: calc(var(--jb) * 70) 0 0 calc(var(--jb) * 68);
+  padding: calc(var(--jb) * 16) calc(var(--jb) * 14) calc(var(--jb) * 14) calc(var(--jb) * 22);
+  text-align: center;
+  transform: rotate(-0.6deg);
+}
+.jrn [data-jed='transfer'] .jed-head__title {
+  font-size: calc(var(--jb) * 26);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  justify-content: center;
+}
+.jrn [data-jed='transfer'] .jed-head .jed-script {
+  font-size: calc(var(--jb) * 15);
+  white-space: nowrap;
+}
+.jrn [data-jed='transfer'] .jed-art--scene {
+  left: calc(var(--jb) * 172);
+  top: calc(var(--jb) * -8);
+  width: calc(var(--jb) * 172);
+  height: calc(var(--jb) * 123);
+}
+.jrn [data-jed='transfer'] .jed-art--lemon-top {
+  rotate: -18deg;
+}
+.jrn [data-jed='transfer'] .jed-pick--from,
+.jrn [data-jed='transfer'] .jed-pick--to {
+  margin-left: 0;
+  margin-right: 0;
 }
 .jrn [data-jed='transfer'] .jed-art--bust {
-  left: -6%;
-  top: 0;
-  width: 44%;
-  height: 170px;
-}
-.jrn [data-jed='transfer'] .jed-art--arch {
-  right: 0;
-  top: 0;
-  width: 40%;
-  height: 150px;
-  opacity: 0.85;
+  filter: drop-shadow(4px 6px 8px rgba(0, 0, 0, 0.45));
 }
 .jrn [data-jed='transfer'] .jed-art--lemon {
-  right: -8%;
-  top: 220px;
-  width: 26%;
-  height: 150px;
-  background-size: contain !important;
-  background-position: center !important;
-  transform: rotate(24deg);
+  rotate: 14deg;
+}
+.jrn [data-jed='transfer'] .jed-art--olive {
+  rotate: -14deg;
+}
+.jrn [data-jed='transfer'] .jed-bodysheet {
+  left: calc(var(--jb) * 14);
+  right: calc(var(--jb) * 12);
+  top: calc(var(--jb) * 122);
+  bottom: calc(var(--jb) * 6);
+  border-style: solid;
+  border-width: calc(var(--jb) * 15) calc(var(--jb) * 16);
+  border-image: url('../../../families/F05_MONEY/DOT01/F05_DOT01_14_LARGE_PARCHMENT_SHEET.webp') 64 70 fill / calc(var(--jb) * 15) calc(var(--jb) * 16) / 0 stretch;
+  filter: drop-shadow(0 6px 9px rgba(0, 0, 0, 0.5));
+}
+.jrn [data-jed='transfer'] .jed-body {
+  padding: calc(var(--jb) * 8) calc(var(--jb) * 30) calc(var(--jb) * 4) calc(var(--jb) * 28);
+}
+.jrn [data-jed='transfer'] .jed-note--ground {
+  color: var(--jed-ink-soft);
+  text-shadow: none;
+}
+.jrn [data-jed='transfer'] .jed-body .jed-sheet {
+  border-image: none;
+  border-width: 0;
+  filter: none;
+  padding: calc(var(--jb) * 4) 0 0;
+}
+.jrn [data-jed='transfer'] .jed-foot {
+  padding: calc(var(--jb) * 8) calc(var(--jb) * 24) calc(var(--jb) * 18) calc(var(--jb) * 30);
+}
+.jrn [data-jed='transfer'] .jed-decor {
+  z-index: 0;
+}
+.jrn .jed-direction.jed-direction--wax {
+  width: calc(var(--jb) * 70);
+  height: auto;
+  margin: calc(var(--jb) * -4) auto;
+}
+.jrn .jed-direction--wax img {
+  display: block;
+  width: 100%;
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.4));
 }
 .jrn .jed-pick {
   position: relative;
@@ -615,25 +773,87 @@
   grid-column: 1 / -1;
 }
 
-/* ══ 05 SEARCH DRAWER ══ */
-.jrn [data-jed='search'] .jed-head {
-  width: 68%;
+/* ══ 05 SEARCH DRAWER — board panel 05 (346 × 414) ══ */
+.jrn [data-jed='search'] {
+  --jbw: 346;
+  --jed-close-y: 26;
+  --jed-close-r: 22;
 }
-.jrn [data-jed='search'] .jed-art--stack {
-  left: -10%;
-  bottom: 40px;
-  width: 38%;
-  height: 230px;
-  background-size: contain !important;
-  background-position: center bottom !important;
-  transform: rotate(-6deg);
-  opacity: 0.95;
+.jrn [data-jed='search'] .jed-head {
+  justify-self: start;
+  width: calc(var(--jb) * 200);
+  margin: calc(var(--jb) * 30) 0 0 calc(var(--jb) * 124);
+  padding: 0;
+  text-align: center;
+  transform: none;
+}
+.jrn [data-jed='search'] .jed-head__paper {
+  display: none;
+}
+.jrn [data-jed='search'] .jed-head__title {
+  font-size: calc(var(--jb) * 34);
+  letter-spacing: 0.05em;
+  justify-content: center;
+}
+.jrn [data-jed='search'] .jed-head .jed-script {
+  font-size: calc(var(--jb) * 15);
+}
+.jrn [data-jed='search'] .jed-decor {
+  z-index: 0;
 }
 .jrn [data-jed='search'] .jed-art--arch {
   left: 0;
-  top: 0;
-  width: 34%;
-  height: 190px;
+  top: calc(var(--jb) * 18);
+  width: calc(var(--jb) * 110);
+  height: calc(var(--jb) * 181);
+  scale: -1 1;
+}
+.jrn [data-jed='search'] .jed-art--lemon {
+  rotate: 8deg;
+}
+.jrn [data-jed='search'] .jed-art--books {
+  filter: drop-shadow(3px 6px 7px rgba(0, 0, 0, 0.5));
+}
+.jrn [data-jed='search'] .jed-bodysheet {
+  left: calc(var(--jb) * 104);
+  right: calc(var(--jb) * 6);
+  top: calc(var(--jb) * 14);
+  bottom: calc(var(--jb) * 70);
+  border-style: solid;
+  border-width: calc(var(--jb) * 15) calc(var(--jb) * 16);
+  border-image: url('../../../families/F05_MONEY/DOT01/F05_DOT01_14_LARGE_PARCHMENT_SHEET.webp') 64 70 fill / calc(var(--jb) * 15) calc(var(--jb) * 16) / 0 stretch;
+  filter: drop-shadow(0 6px 9px rgba(0, 0, 0, 0.5));
+}
+.jrn [data-jed='search'] .jed-body {
+  padding: calc(var(--jb) * 8) calc(var(--jb) * 14) calc(var(--jb) * 8) calc(var(--jb) * 112);
+}
+.jrn [data-jed='search'] .jed-art--branch {
+  rotate: -10deg;
+}
+/* the board's filter chips: three compact tiles in the sheet's column (labels kept whole) */
+.jrn [data-jed='search'] .jed-choices {
+  grid-template-columns: auto auto auto;
+  justify-content: start;
+  gap: 6px;
+}
+.jrn [data-jed='search'] .jed-choice {
+  gap: 4px;
+  padding: 6px 8px;
+  font-size: 11.5px;
+  letter-spacing: 0.05em;
+}
+.jrn [data-jed='search'] .jed-choice__icon {
+  width: 16px;
+  height: 16px;
+}
+.jrn [data-jed='search'] .jed-body .jed-sheet {
+  border-image: none;
+  border-width: 0;
+  filter: none;
+  padding: 0;
+}
+.jrn [data-jed='search'] .jed-foot {
+  padding: calc(var(--jb) * 10) calc(var(--jb) * 14) calc(var(--jb) * 14) calc(var(--jb) * 14);
 }
 .jrn .jed-row {
   display: grid;
@@ -704,90 +924,243 @@
   .jrn .jed-folio { animation: none; }
 }
 
-/* ══ 04 MANAGE POCKET — the anchored fragment, clipped on, with the pocket's own illustration ══ */
+/* ══ 04 MANAGE POCKET — board panel 04: the fragment 297 × 245 board px (85 % of the phone), over the blurred page ══ */
+.jrn .jrn-pop-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 79;
+  background: rgba(24, 18, 8, 0.18);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+  animation: jv3-fade 200ms ease-out both;
+}
 .jrn .jrn-pop.jv3-fragment {
   overflow: visible;
+  /* the parchment is drawn by .jed-pop-paper (a child) so the drape can sit under it */
+  border-image: none;
+  border-color: transparent;
+  padding: 16px 16px 14px;
+}
+.jrn .jrn-pop.jv3-fragment .jed-pop-paper {
+  position: absolute;
+  inset: -14px -16px;
+  z-index: -1;
+  border-style: solid;
+  border-width: 16px 18px;
+  border-image: url('../../../families/F05_MONEY/DOT01/F05_DOT01_09_BLANK_TORN_PARCHMENT.webp') 70 80 fill / 16px 18px / 0 stretch;
+  pointer-events: none;
+}
+.jrn .jrn-pop.jv3-fragment .jed-pop-fabric {
+  left: -26px;
+  top: 6px;
+  width: 64%;
+  z-index: -2;
 }
 .jrn .jrn-pop.jv3-fragment .jed-pop-clip {
-  left: 12px;
+  left: 7%;
   top: -30px;
-  width: 58px;
-  height: 46px;
-  background-size: cover;
-  transform: rotate(-14deg);
-  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.4));
+  width: 19%;
   z-index: 2;
+  filter: drop-shadow(1px 3px 3px rgba(0, 0, 0, 0.4));
 }
 .jrn .jrn-pop.jv3-fragment .jed-pop-art {
   position: absolute;
-  right: 12px;
-  top: 10px;
-  width: 78px;
-  height: 52px;
+  right: -4px;
+  top: 40px;
+  width: 42%;
+  height: 84px;
   overflow: hidden;
-  border-radius: 8px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  border-radius: 0;
+  box-shadow: none;
+  /* the illustration is torn diagonally into the fragment's corner, as drawn */
+  clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%, 6% 78%, 3% 62%, 12% 46%, 10% 30%, 22% 18%);
   pointer-events: none;
 }
 .jrn .jrn-pop.jv3-fragment .jed-pop-art .jed-art {
   inset: 0;
 }
-.jrn .jrn-pop.jv3-fragment .jrn-menu__title,
+.jrn .jrn-pop.jv3-fragment .jrn-menu__title {
+  position: relative;
+  z-index: 1;
+  padding: 8px 0 0 52px;
+  font-size: 20px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
 .jrn .jrn-pop.jv3-fragment .jrn-menu__sub {
-  padding-right: 92px;
+  position: relative;
+  z-index: 1;
+  white-space: normal;
+  text-align: left;
+  border-bottom: 0;
+  padding: 10px 38% 16px 22px;
+  font: 600 17px / 1.15 var(--v3-serif, 'JURNL Authority Serif', serif);
+  letter-spacing: 0.06em;
+  color: var(--v3-ink, #1c1610);
+}
+.jrn .jrn-pop.jv3-fragment .jrn-menu__item {
+  position: relative;
+  z-index: 1;
+  min-height: 48px;
+  font-size: 15px;
 }
 
-/* ══ 07 ARCHIVE BLOCKED — the stone beside the oxblood caution ══ */
+/* ══ 07 ARCHIVE BLOCKED — board panel 07: the oxblood drape (its crumpled torn rim lifted from the board), the laurel
+ * caution medallion, the BLOCKERS on a torn parchment card, the column beside it ══ */
 .jrn .jv3-caution {
   position: relative;
 }
+.jrn .jv3-caution:has(.jed-caution-card) {
+  background:
+    url('../../../families/F05_MONEY/EDITORIAL/F05_ED_B07_FABRIC.webp') center top / 100% auto no-repeat,
+    radial-gradient(110% 80% at 15% 0%, rgba(170, 52, 28, 0.5) 0%, transparent 60%),
+    linear-gradient(170deg, #8f2414 0%, #761c0d 60%, #5c1609 100%);
+}
+.jrn .jv3-caution .jed-caution-medallion {
+  width: 84px;
+  height: auto;
+  margin: -8px -6px -8px -8px;
+  background: none;
+  box-shadow: none;
+}
+.jrn .jv3-caution .jed-caution-medallion > img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(2px 5px 6px rgba(0, 0, 0, 0.5));
+}
 .jrn .jv3-caution .jed-caution-stone {
-  right: 6px;
-  bottom: 8px;
-  width: 92px;
-  height: 150px;
-  background-size: cover;
-  filter: drop-shadow(-3px 5px 6px rgba(0, 0, 0, 0.45)) sepia(0.15);
-  opacity: 0.9;
-  /* the caution's clip-path makes it a stacking context: the stone paints above its oxblood, below its text */
-  z-index: -1;
+  position: absolute;
+  right: -2px;
+  bottom: 0;
+  width: 15%;
+  height: auto;
+  background-size: 100% 100%;
+  filter: drop-shadow(-3px 5px 6px rgba(0, 0, 0, 0.45));
+  /* the caution's clip-path makes it a stacking context: the column paints above its oxblood, below its card */
+  z-index: 0;
+}
+.jrn .jv3-caution .jed-caution-card {
+  position: relative;
+  z-index: 1;
+  margin: 0 4px 0 0;
+  padding: 4px 8px 0;
+  border-style: solid;
+  border-width: 12px 14px;
+  border-image: url('../../../families/F05_MONEY/DOT01/F05_DOT01_14_LARGE_PARCHMENT_SHEET.webp') 64 70 fill / 12px 14px / 0 stretch;
+  filter: drop-shadow(0 6px 9px rgba(20, 4, 0, 0.5));
+}
+.jrn .jv3-caution .jed-caution-card .jv3-rule-label {
+  margin: 0 0 2px;
+  color: #7a1f0f;
+}
+.jrn .jv3-caution .jed-caution-card .jv3-row {
+  color: var(--jed-ink, #1c1610);
+  border-bottom-color: rgba(60, 44, 24, 0.22);
+}
+.jrn .jv3-caution .jed-caution-card .jv3-row svg {
+  color: #7a1f0f;
+}
+.jrn .jv3-caution__actions {
+  position: relative;
+  z-index: 1;
 }
 
-/* ══ 08 GLOBAL MENU — the classical head above the sections ══ */
+/* ══ 08 GLOBAL MENU — board panel 08 (349 × 414; `--jb` = one board px at the drawer's width) ══ */
+.jrn [data-jrn-overlay='global-menu'] .jv3-drawer {
+  container-type: inline-size;
+  --jb: calc(100cqw / 349);
+}
+.jrn [data-jrn-overlay='global-menu'] .jv3-drawer__decor {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.jrn [data-jrn-overlay='global-menu'] .jv3-drawer__decor .jed-art--fabric-2 {
+  scale: 1 -1;
+}
+.jrn [data-jrn-overlay='global-menu'] .jv3-drawer__decor .jed-art--arch {
+  left: calc(var(--jb) * 284);
+  top: calc(var(--jb) * 50);
+  width: calc(var(--jb) * 150);
+  height: calc(var(--jb) * 335);
+}
+.jrn [data-jrn-overlay='global-menu'] .jv3-drawer__decor .jed-art--olive {
+  rotate: 14deg;
+}
+/* the dark torn sheet the sections sit on (the drawer's own olive field, torn at both edges) */
+.jrn [data-jrn-overlay='global-menu'] .jed-menu-sheet {
+  left: calc(var(--jb) * 18);
+  right: calc(var(--jb) * 56);
+  top: calc(var(--jb) * 104);
+  bottom: 0;
+  background:
+    linear-gradient(180deg, rgba(31, 32, 14, 0.55), rgba(22, 23, 9, 0.75)),
+    url('../../../families/F05_MONEY/DOT01/F05_DOT01_SK02_FIELD_TILE.webp') center / 300px auto,
+    #23240f;
+  clip-path: polygon(0 1.2%, 6% 0.4%, 18% 1.1%, 33% 0.2%, 52% 0.9%, 71% 0.1%, 88% 0.8%, 100% 0.3%, 99.2% 12%, 100% 26%, 98.8% 41%, 99.6% 58%, 98.9% 74%, 99.7% 90%, 99% 100%, 0.8% 100%, 0 86%, 1.2% 70%, 0.3% 52%, 1.1% 35%, 0.2% 18%);
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.55));
+}
+.jrn [data-jrn-overlay='global-menu'] .jv3-drawer__head {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 3;
+  padding: calc(var(--jb) * 15) calc(var(--jb) * 6) 0 0;
+}
+.jrn [data-jrn-overlay='global-menu'] .jv3-close {
+  position: relative;
+  color: var(--jed-ink, #1c1610);
+  background: none;
+  isolation: isolate;
+}
+.jrn [data-jrn-overlay='global-menu'] .jv3-close::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--jb) * 36);
+  height: calc(var(--jb) * 36);
+  translate: -50% -50%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #f6ead2, #e2cfa8 75%);
+  box-shadow: inset 0 0 0 1px rgba(90, 64, 30, 0.35), 0 3px 6px rgba(0, 0, 0, 0.45);
+}
+.jrn [data-jrn-overlay='global-menu'] .jv3-drawer__body {
+  position: relative;
+  padding: 0 calc(var(--jb) * 66) max(18px, env(safe-area-inset-bottom, 0px)) calc(var(--jb) * 34);
+}
 .jrn .jed-menu-head {
   position: relative;
-  height: 148px;
-  margin: -6px -6px 4px;
+  height: calc(var(--jb, 1px) * 128);
+  margin: 0 calc(var(--jb, 1px) * -66) 0 calc(var(--jb, 1px) * -34);
   pointer-events: none;
 }
 .jrn .jed-menu-head .jed-art--bust {
-  left: -4px;
-  top: 0;
-  width: 50%;
-  height: 148px;
+  filter: drop-shadow(4px 6px 8px rgba(0, 0, 0, 0.5));
 }
 .jrn .jed-menu-head .jed-art--lemon {
-  right: -14px;
-  top: -18px;
-  width: 30%;
-  height: 120px;
-  background-size: contain;
-  background-position: center;
-  transform: rotate(16deg);
+  rotate: -28deg;
 }
 .jrn .jed-menu-head__title {
   position: absolute;
-  right: 14px;
-  bottom: 6px;
-  width: 58%;
-  padding: 14px 14px 12px 18px;
-  transform: rotate(-2deg);
+  left: calc(var(--jb, 1px) * 86);
+  top: calc(var(--jb, 1px) * 28);
+  width: calc(var(--jb, 1px) * 214);
+  padding: calc(var(--jb, 1px) * 18) calc(var(--jb, 1px) * 12) calc(var(--jb, 1px) * 18) calc(var(--jb, 1px) * 16);
+  text-align: center;
+  transform: rotate(-1.2deg);
   color: var(--jed-ink, #1c1610);
 }
 .jrn .jed-menu-head__title .jed-head__title {
-  font-size: clamp(24px, 7vw, 30px);
+  font-size: calc(var(--jb, 1px) * 36);
+  justify-content: center;
 }
 .jrn .jed-menu-head__title .jv3-t-script {
-  margin: 2px 0 0;
+  margin: calc(var(--jb, 1px) * 4) 0 0;
+  font-size: calc(var(--jb, 1px) * 17);
+  white-space: nowrap;
   color: #3a2e20;
 }

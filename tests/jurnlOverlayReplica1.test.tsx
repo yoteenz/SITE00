@@ -94,8 +94,14 @@ describe('ACCOUNT drawer: founder reference replica', () => {
     const html = renderDrawer();
     expect(html).toContain('data-jrn-overlay="account-drawer"');
     expect(html).toContain('data-jrn-overlay-authority="F09_ACCOUNT_DRAWER_OVERLAY_SOURCE"');
-    expect(html).toContain('data-asset-id="F09_ACCOUNT_DRAWER_OVERLAY_SHELL"');
-    for (const f of ['F09_ACCOUNT_DRAWER_SHELL.webp', 'F09_DRAWER_PROFILE_THUMB.jpg', 'F09_DRAWER_PRIVACY_PHOTO.jpg']) expect(html, f).toMatch(new RegExp(`src="[^"]*${f.replace('.', '\\.')}"`));
+    // founder board 06 (ACCOUNT / SETTINGS DRAWER, eight-panel board) supersedes the F09 grey shell's imagery: the
+    // replica's layout is unchanged and the panel now draws the board's own lifted parts (medallion, columns, landscape,
+    // drape) on the parchment sheet; the superseded shell is no longer drawn
+    expect(html).toContain('data-asset-id="F05_ED_BOARD06_DRAWER"');
+    expect(html).not.toContain('F09_ACCOUNT_DRAWER_SHELL.webp');
+    for (const f of ['F05_ED_B06_MEDALLION.webp', 'F05_ED_B06_COLUMNS.webp', 'F05_ED_B06_LANDSCAPE.webp', 'F05_ED_B06_FABRIC.webp']) expect(html, f).toMatch(new RegExp(`url\\(&quot;[^&]*${f.replace('.', '\\.')}&quot;\\)`));
+    expect(html).toContain('class="jrn-dr__sheet"');
+    for (const f of ['F09_DRAWER_PROFILE_THUMB.jpg', 'F09_DRAWER_PRIVACY_PHOTO.jpg']) expect(html, f).toMatch(new RegExp(`src="[^"]*${f.replace('.', '\\.')}"`));
     const text = visible(html);
     for (const line of [
       'FINANCIAL LIFE.',

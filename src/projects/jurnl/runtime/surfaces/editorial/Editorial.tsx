@@ -34,6 +34,7 @@ import templeSeal from '../../../families/F05_MONEY/DOT01/SCENES/F05_DOT01_SEAL_
 import scene04 from '../../../families/F05_MONEY/DOT01/SCENES/F05_DOT01_SCENE_04.webp';
 import scene05 from '../../../families/F05_MONEY/DOT01/SCENES/F05_DOT01_SCENE_05.webp';
 import reorderGlyph from '../../../families/F05_MONEY/DOT01/SCENES/F05_DOT01_ICON06_REORDER.webp';
+import { PART, type PartName } from './boardParts';
 import './jurnl-editorial.css';
 
 /** A source image and its pixel size: a crop is a region of it, drawn without stretching (uniform scale, cover). */
@@ -96,11 +97,29 @@ export function EdArt({ art, region, className, torn, style }: { art: Src; regio
   return <span className={`jed-art ${className}`} aria-hidden style={{ backgroundImage: `url("${art.src}")`, backgroundSize: bs, backgroundPosition: bp, clipPath: clip, ...style }} />;
 }
 
+/** A length in board units: `n` px of the composition's board panel at the folio's current width (`--jb`). */
+export const bu = (n: number) => `calc(var(--jb) * ${n})`;
+
+/**
+ * A cut-out mounted where the board draws it: `part` is one of the board's own lifted subjects (its panel rect is the
+ * default placement) or `art` any approved image; `at` = [x, y, width] in board px of the overlay's panel, the height
+ * follows the image's own aspect (so it is never stretched). `bottom` anchors it to the folio's lower edge instead
+ * (y is then measured up from the panel's bottom). Decorative: a background on an aria-hidden span, never a target.
+ */
+export function EdLift({ part, art, at, bottom, className = '', style, flip }: { part?: PartName; art?: Src; at?: readonly [number, number, number]; bottom?: boolean; className?: string; style?: CSSProperties; flip?: boolean }) {
+  const p = part ? PART[part] : null;
+  const src = p ? p.src : art!.src;
+  const [iw, ih] = p ? [p.w, p.h] : [art!.w, art!.h];
+  const [x, y, w] = at ?? (p?.rect ? [p.rect[0], p.rect[1], p.rect[2]] : [0, 0, iw]);
+  const pos: CSSProperties = bottom ? { left: bu(x), bottom: bu(y), width: bu(w) } : { left: bu(x), top: bu(y), width: bu(w) };
+  return <span className={`jed-art jed-lift ${className}`} aria-hidden data-part={part} style={{ ...pos, aspectRatio: `${iw} / ${ih}`, backgroundImage: `url("${src}")`, ...(flip ? { scale: '-1 1' } : null), ...style }} />;
+}
+
 /** The torn headline parchment: a live uppercase title and one sparse lowercase cursive annotation. */
 export function EdHead({ id, title, script, children }: { id: string; title: string[]; script?: string; children?: ReactNode }) {
   return (
     <div className="jed-head">
-      <span className="jed-head__paper" aria-hidden style={{ backgroundImage: `url("${ART.heading.src}")` }} />
+      <span className="jed-head__paper" aria-hidden />
       {children}
       <h2 className="jed-head__title" id={id}>
         {title.map((t, i) => (
@@ -117,18 +136,22 @@ export function EdHead({ id, title, script, children }: { id: string; title: str
  * `children` the live content (it scrolls inside itself when it is taller than the screen); `footer` the action
  * fragments, which stay reachable.
  */
-export function EditorialOverlay({ testId, composition, title, script, onClose, decor, head, children, footer, place = 'center', closeLabel = 'CLOSE', labelledBy }: {
+export function EditorialOverlay({ testId, composition, title, script, onClose, decor, front, head, children, footer, place = 'center', closeLabel = 'CLOSE', closeTone = 'dark', labelledBy }: {
   testId: string;
   composition: 'action' | 'register' | 'transfer' | 'search' | 'account';
   title: string[];
   script?: string;
   onClose: () => void;
   decor?: ReactNode;
+  /** decorative layers drawn over the papers (a medallion over its heading, a coin stack over its field) */
+  front?: ReactNode;
   head?: ReactNode;
   children: ReactNode;
   footer?: ReactNode;
   place?: 'center' | 'bottom';
   closeLabel?: string;
+  /** the board's close: a dark disc (01, 03) or a cream parchment disc (02, 08) */
+  closeTone?: 'dark' | 'cream';
   labelledBy?: string;
 }) {
   const { ref } = useStableFocus(onClose);
@@ -136,7 +159,7 @@ export function EditorialOverlay({ testId, composition, title, script, onClose, 
   const ground = useMemo(() => tornClip(composition.length * 7 + 3, ['top', 'right', 'bottom', 'left'], 1.1, 30), [composition]);
   return (
     <OverlayLayer>
-      <div className="jed-host" data-jrn-overlay={testId} data-jed={composition} data-place={place}>
+      <div className="jed-host" data-jrn-overlay={testId} data-jed={composition} data-place={place} data-close={closeTone}>
         <div className="jed-scrim" onClick={onClose} aria-hidden />
         <div ref={ref} role="dialog" aria-modal="true" aria-labelledby={labelledBy ?? id} className="jed-folio" data-testid={`${testId}-folio`} style={{ ['--jed-ground' as string]: ground } as CSSProperties}>
           <span className="jed-ground" aria-hidden />
@@ -144,6 +167,7 @@ export function EditorialOverlay({ testId, composition, title, script, onClose, 
           <EdHead id={id} title={title} script={script}>{head}</EdHead>
           <div className="jed-body">{children}</div>
           {footer ? <div className="jed-foot">{footer}</div> : null}
+          {front ? <div className="jed-front" aria-hidden>{front}</div> : null}
           <button type="button" className="jed-close" data-jrn-trigger={`${testId}-close`} aria-label={closeLabel} onClick={onClose}>
             <svg viewBox="0 0 24 24" aria-hidden><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" /></svg>
           </button>
@@ -168,8 +192,8 @@ export function EdAction({ trigger, material = 'paper', title, note, art, onClic
 }) {
   return (
     <button type="button" className={`jed-action ${className}`} data-material={material} data-jrn-trigger={trigger} disabled={disabled} aria-label={ariaLabel} onClick={onClick}>
-      {material === 'paper' || material === 'cream' ? <span className="jed-action__paper" aria-hidden style={{ backgroundImage: `url("${ART.panel.src}")` }} /> : null}
-      {material === 'olive' ? <span className="jed-action__strip" aria-hidden style={{ backgroundImage: `url("${ART.darkStrip.src}")` }} /> : null}
+      {material === 'paper' || material === 'cream' ? <span className="jed-action__paper" aria-hidden /> : null}
+      {material === 'olive' ? <span className="jed-action__strip" aria-hidden /> : null}
       {art ? <span className="jed-action__art" aria-hidden>{art}</span> : null}
       <span className="jed-action__text">
         <span className="jed-action__title">{title}</span>

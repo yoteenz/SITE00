@@ -27,7 +27,7 @@ function hostOf(el: HTMLElement | null): HTMLElement {
 }
 
 /** JURNL_POPOVER: a parchment surface anchored to a field, in the stage's layer. */
-export function JurnlPopover({ anchor, onDismiss, children, minWidth = 220, want = 320, className = '', testId }: { anchor: RefObject<HTMLElement | null>; onDismiss: () => void; children: ReactNode; minWidth?: number; want?: number; className?: string; testId?: string }) {
+export function JurnlPopover({ anchor, onDismiss, children, minWidth = 220, want = 320, className = '', testId, backdrop = false }: { anchor: RefObject<HTMLElement | null>; onDismiss: () => void; children: ReactNode; minWidth?: number; want?: number; className?: string; testId?: string; backdrop?: boolean }) {
   const [host, setHost] = useState<HTMLElement | null>(null);
   const [place, setPlace] = useState<Place | null>(null);
   const box = useRef<HTMLDivElement>(null);
@@ -79,9 +79,13 @@ export function JurnlPopover({ anchor, onDismiss, children, minWidth = 220, want
   // the founder's sheet paper travels with the surface, so it renders the same on hosts that do not define it (MONEY parent)
   const style: CSSProperties = { left: place.left, width: place.width, maxHeight: place.maxH, top: place.top, bottom: place.bottom, ['--jrn-pop-sheet' as string]: `url("${sheetPaper}")` } as CSSProperties;
   return createPortal(
-    <div ref={box} className={`jrn-pop ${className}`} style={style} data-side={place.top != null ? 'below' : 'above'} data-testid={testId}>
-      {children}
-    </div>,
+    <>
+      {/* founder board 04: the page behind a context fragment is blurred (decorative; taps still reach the page and dismiss) */}
+      {backdrop ? <div className="jrn-pop-backdrop" aria-hidden /> : null}
+      <div ref={box} className={`jrn-pop ${className}`} style={style} data-side={place.top != null ? 'below' : 'above'} data-testid={testId}>
+        {children}
+      </div>
+    </>,
     host,
   );
 }

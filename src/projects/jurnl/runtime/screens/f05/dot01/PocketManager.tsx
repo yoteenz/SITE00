@@ -11,7 +11,8 @@
  */
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactNode } from 'react';
 import { accountView, kindOf, type Dot01Kind } from '../../../../data/f05/dot01/accountView';
-import { ART, EdArt, KIND_ART, REGION } from '../../../surfaces/editorial/Editorial';
+import { EdArt, KIND_ART } from '../../../surfaces/editorial/Editorial';
+import { PART } from '../../../surfaces/editorial/boardParts';
 import { getTodayKey } from '../../../../data/foundation/dates';
 import { renameAccount } from '../../../../data/ledger/ledgerOps';
 import { checkPocketName, POCKET_NAME_MAX } from '../../../../data/f05/dot01/pocketName';
@@ -154,11 +155,13 @@ function PocketMenu({ anchor, name, kind, onRename, onDelete, onClose }: { ancho
     } else if (e.key === 'Tab') onClose(false);
   };
   return (
-    <JurnlPopover anchor={ref} onDismiss={() => onClose(false)} minWidth={292} want={240} className="jrn-pop--menu jv3-fragment" testId="d01-pocket-menu">
+    <JurnlPopover anchor={ref} onDismiss={() => onClose(false)} minWidth={FRAGMENT_W()} want={260} className="jrn-pop--menu jv3-fragment" testId="d01-pocket-menu" backdrop>
       <div ref={attach} role="menu" aria-label={`MANAGE POCKET: ${name}`} onKeyDown={onKey}>
-        {/* founder board 04: the fragment is clipped on (the binder clip of the V9 receipt stack) and carries this
-            pocket's own 06 illustration; decorative only */}
-        <EdArt art={ART.paperStack} region={REGION.clip} className="jed-pop-clip" />
+        {/* founder board 04: the torn fragment over the blurred page, the red drape showing under its left edge, the
+            board's own copper paper clip, and this pocket's own painted illustration torn into its corner; decorative only */}
+        <span className="jed-pop-paper" aria-hidden />
+        <span className="jed-art jed-lift jed-pop-fabric" aria-hidden style={{ backgroundImage: `url("${PART.B04_FABRIC.src}")`, aspectRatio: `${PART.B04_FABRIC.w} / ${PART.B04_FABRIC.h}` }} />
+        <span className="jed-art jed-lift jed-pop-clip" aria-hidden style={{ backgroundImage: `url("${PART.B04_CLIP.src}")`, aspectRatio: `${PART.B04_CLIP.w} / ${PART.B04_CLIP.h}` }} />
         <span className="jed-pop-art" aria-hidden><EdArt art={KIND_ART[kind].art} region={KIND_ART[kind].region} className="jed-art--kind" /></span>
         <p className="jrn-menu__title" aria-hidden>MANAGE POCKET</p>
         <p className="jrn-menu__sub" aria-hidden>{name}</p>
@@ -176,6 +179,9 @@ function PocketMenu({ anchor, name, kind, onRename, onDelete, onClose }: { ancho
     </JurnlPopover>
   );
 }
+
+/** Founder board 04: the fragment is 297 of the panel's 349 board px — 85 % of the phone, at most 334 px. */
+const FRAGMENT_W = () => Math.round(Math.min(334, (typeof window === 'undefined' ? 393 : window.innerWidth) * 0.85));
 
 /** RENAME POCKET: current name, the editable name, CANCEL and SAVE NAME. Rename by id; balances and history untouched. */
 export function RenamePocketOverlay({ accountId, onClose, onSaved }: { accountId: string; onClose: () => void; onSaved: (name: string) => void }) {

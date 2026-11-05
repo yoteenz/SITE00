@@ -6,9 +6,13 @@ import type { ReactNode } from 'react';
 import type { JurnlAccountRecord } from '../../../data/foundation/accounts';
 import { kindOf } from '../../../data/f05/dot01/accountView';
 import { formatMoney } from '../../../data/home/money';
-import { ART, EdAction, EdArt, EdGlyph, EditorialOverlay, KIND_ART, REGION } from './Editorial';
+import { ART, EdAction, EdArt, EdGlyph, EdLift, EditorialOverlay, KIND_ART } from './Editorial';
 
-/** 01 MONEY ACTION SHEET: two distinct editorial choices over the classical scene (not two stacked buttons). */
+/**
+ * 01 MONEY ACTION SHEET: two distinct editorial choices over the classical scene (not two stacked buttons). Every
+ * layer is the board's own subject at the board's own place (panel 01, board units): the red drapes, the SK01 bust,
+ * the lemon sprig, the olive leaves, the painted coast, the amphora and the coin over the ends of their papers.
+ */
 export function MoneyActionSheet({ canMove, onAdd, onMove, onClose }: { canMove: boolean; onAdd: () => void; onMove: () => void; onClose: () => void }) {
   return (
     <EditorialOverlay
@@ -19,10 +23,12 @@ export function MoneyActionSheet({ canMove, onAdd, onMove, onClose }: { canMove:
       onClose={onClose}
       decor={
         <>
-          <EdArt art={ART.sk01} region={REGION.bust} className="jed-art--bust" torn={11} />
-          <EdArt art={ART.oxbloodBranch} className="jed-art--oxblood" />
-          <EdArt art={ART.lemonBranch} className="jed-art--lemon" />
-          <EdArt art={ART.coast} className="jed-art--coast" />
+          <EdLift part="B01_FABRIC" className="jed-art--fabric" />
+          <EdLift art={ART.foliage} at={[-40, 104, 104]} className="jed-art--olive" />
+          <EdLift art={ART.lemonBranch} at={[184, -40, 84]} className="jed-art--lemon" />
+          <EdLift part="BUST" at={[24, -16, 132]} className="jed-art--bust" />
+          <EdLift art={ART.oxbloodBranch} at={[268, 286, 92]} className="jed-art--branch" />
+          <EdLift part="B01_COAST" at={[0, 0, 264]} bottom className="jed-art--coast" />
         </>
       }
     >
@@ -31,7 +37,7 @@ export function MoneyActionSheet({ canMove, onAdd, onMove, onClose }: { canMove:
         className="jed-action--add"
         title={<><span>ADD A</span> <span>POCKET</span></>}
         note="create a new place for your money"
-        art={<EdArt art={ART.scene04} region={REGION.amphora} className="jed-art--amphora" />}
+        art={<EdLift part="B01_AMPHORA" at={[180.5, 9, 83]} className="jed-art--amphora" />}
         onClick={onAdd}
       />
       <EdAction
@@ -42,7 +48,7 @@ export function MoneyActionSheet({ canMove, onAdd, onMove, onClose }: { canMove:
         note={canMove ? 'transfer between your pockets' : 'add two pockets first'}
         ariaLabel={canMove ? 'MOVE MONEY' : 'MOVE MONEY · ADD TWO POCKETS FIRST'}
         disabled={!canMove}
-        art={<EdArt art={ART.scene05} region={REGION.coinOxblood} className="jed-art--coin" torn={33} />}
+        art={<EdLift part="B01_COIN" at={[179, 3.5, 103]} className="jed-art--coin" />}
         onClick={onMove}
       />
     </EditorialOverlay>

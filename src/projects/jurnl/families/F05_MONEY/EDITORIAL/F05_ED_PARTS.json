@@ -1,0 +1,905 @@
+{
+ "note": "Editorial overlay parts lifted from the founder eight-panel board (and the same bust from SK01); crop + Lanczos 2x + segmentation alpha. No pixel is generated.",
+ "board": {
+  "file": "JURNL/MANIFEST/JURNL_EDITORIAL_OVERLAYS_OPUS2_V1/input/FOUNDER_EIGHT_PANEL_BOARD.webp",
+  "sha256": "252343d723df3568e99c510d7e2db61e54e49d01f1cca2f74f23620324c09e7d",
+  "panels": {
+   "01": [
+    18,
+    140,
+    346,
+    460
+   ],
+   "02": [
+    378,
+    140,
+    337,
+    460
+   ],
+   "03": [
+    728,
+    140,
+    342,
+    460
+   ],
+   "04": [
+    1083,
+    140,
+    349,
+    460
+   ],
+   "05": [
+    18,
+    644,
+    346,
+    414
+   ],
+   "06": [
+    378,
+    644,
+    337,
+    414
+   ],
+   "07": [
+    728,
+    644,
+    342,
+    414
+   ],
+   "08": [
+    1083,
+    644,
+    349,
+    414
+   ]
+  }
+ },
+ "sk01": {
+  "file": "JURNL/F05_MONEY_DOT01/INPUT_V9/SIDEKICKS/SK01_PARENT_MONEY.png",
+  "sha256": "b68e5012f29fd47ae8a844daeb6c387ac3252d3f959d195d10848febcc6d4fca"
+ },
+ "parts": {
+  "BUST": {
+   "sk01_box": [
+    150,
+    0,
+    560,
+    352
+   ],
+   "note": "SK01 bust (the same marble head the board draws in 01 / 03 / 08); GrabCut, lower cut at the SK01 heading paper.",
+   "runtime": "F05_ED_BUST.webp",
+   "size": [
+    341,
+    351
+   ],
+   "bytes": 35762,
+   "trim": [
+    23,
+    1,
+    364,
+    352
+   ],
+   "source": "SK01_PARENT_MONEY.png"
+  },
+  "B01_AMPHORA": {
+   "panel": "01",
+   "panel_size": [
+    346,
+    460
+   ],
+   "panel_box": [
+    214,
+    170,
+    306,
+    282
+   ],
+   "board_box": [
+    232,
+    310,
+    324,
+    422
+   ],
+   "scale": 2,
+   "mode": "grabcut",
+   "note": "the copper amphora over the end of ADD A POCKET",
+   "runtime": "F05_ED_B01_AMPHORA.webp",
+   "size": [
+    166,
+    210
+   ],
+   "bytes": 11206,
+   "trim": [
+    13,
+    8,
+    179,
+    218
+   ],
+   "source": "FOUNDER_EIGHT_PANEL_BOARD.webp",
+   "panel_rect": [
+    220.5,
+    174.0,
+    83.0,
+    105.0
+   ]
+  },
+  "B01_COIN": {
+   "panel": "01",
+   "panel_size": [
+    346,
+    460
+   ],
+   "panel_box": [
+    214,
+    284,
+    326,
+    396
+   ],
+   "board_box": [
+    232,
+    424,
+    344,
+    536
+   ],
+   "scale": 2,
+   "mode": "disc",
+   "note": "the silver coin over the end of MOVE MONEY",
+   "runtime": "F05_ED_B01_COIN.webp",
+   "size": [
+    206,
+    206
+   ],
+   "bytes": 15072,
+   "trim": [
+    10,
+    9,
+    216,
+    215
+   ],
+   "source": "FOUNDER_EIGHT_PANEL_BOARD.webp",
+   "panel_rect": [
+    219.0,
+    288.5,
+    103.0,
+    103.0
+   ]
+  },
+  "B01_FABRIC": {
+   "panel": "01",
+   "panel_size": [
+    346,
+    460
+   ],
+   "panel_box": [
+    0,
+    0,
+    346,
+    460
+   ],
+   "board_box": [
+    18,
+    140,
+    364,
+    600
+   ],
+   "scale": 2,
+   "mode": "red",
+   "note": "the red drapes behind the papers (colour key)",
+   "runtime": "F05_ED_B01_FABRIC.webp",
+   "size": [
+    692,
+    884
+   ],
+   "bytes": 57568,
+   "trim": [
+    0,
+    3,
+    692,
+    887
+   ],
+   "source": "FOUNDER_EIGHT_PANEL_BOARD.webp",
+   "panel_rect": [
+    0.0,
+    1.5,
+    346.0,
+    442.0
+   ]
+  },
+  "B02_MEDALLION": {
+   "panel": "02",
+   "panel_size": [
+    337,
+    460
+   ],
+   "panel_box": [
+    14,
+    0,
+    132,
+    106
+   ],
+   "board_box": [
+    392,
+    140,
+    510,
+    246
+   ],
+   "scale": 2,
+   "mode": "grabcut",
+   "note": "the bronze laurel medallion with the money bag",
+   "runtime": "F05_ED_B02_MEDALLION.webp",
+   "size": [
+    200,
+    178
+   ],
+   "bytes": 13864,
+   "trim": [
+    10,
+    16,
+    210,
+    194
+   ],
+   "source": "FOUNDER_EIGHT_PANEL_BOARD.webp",
+   "panel_rect": [
+    19.0,
+    8.0,
+    100.0,
+    89.0
+   ]
+  },
+  "B02_COINS": {
+   "panel": "02",
+   "panel_size": [
+    337,
+    460
+   ],
+   "panel_box": [
+    200,
+    330,
+    312,
+    402
+   ],
+   "board_box": [
+    578,
+    470,
+    690,
+    542
+   ],
+   "scale": 2,
+   "mode": "grabcut",
+   "note": "the coin stack beside the opening balance",
+   "runtime": "F05_ED_B02_COINS.webp",
+   "size": [
+    183,
+    118
+   ],
+   "bytes": 6900,
+   "trim": [
+    33,
+    12,
+    216,
+    130
+   ],
+   "source": "FOUNDER_EIGHT_PANEL_BOARD.webp",
+   "panel_rect": [
+    216.5,
+    336.0,
+    91.5,
+    59.0
+   ]
+  },
+  "B02_FABRIC": {
+   "panel": "02",
+   "panel_size": [
+    337,
+    460
+   ],
+   "panel_box": [
+    0,
+    0,
+    337,
+    460
+   ],
+   "board_box": [
+    378,
+    140,
+    715,
+    600
+   ],
+   "scale": 2,
+   "mode": "red",
+   "note": "the red drape behind the medallion",
+   "runtime": "F05_ED_B02_FABRIC.webp",
+   "size": [
+    613,
+    759
+   ],
+   "bytes": 25662,
+   "trim": [
+    0,
+    2,
+    613,
+    761
+   ],
+   "source": "FOUNDER_EIGHT_PANEL_BOARD.webp",
+   "panel_rect": [
+    0.0,
+    1.0,
+    306.5,
+    379.5
+   ]
+  },
+  "B03_SEAL": {
+   "panel": "03",
+   "panel_size": [
+    342,
+    460
+   ],
+   "panel_box": [
+    136,
+    190,
+    210,
+    246
+   ],
+   "board_box": [
+    864,
+    330,
+    938,
+    386
+   ],
+   "scale": 2,
+   "mode": "grabcut",
+   "note": "the red wax direction seal with its white arrows",
+   "runtime": "F05_ED_B03_SEAL.webp",
+   "size": [
+    140,
+    99
+   ],
+   "bytes": 5052,
+   "trim": [
+    2,
+    8,
+    142,
+    107
+   ],
+   "source": "FOUNDER_EIGHT_PANEL_BOARD.webp",
+   "panel_rect": [
+    137.0,
+    194.0,
+    70.0,
+    49.5
+   ]
+  },
+  "B04_CLIP": {
+   "panel": "04",
+   "panel_size": [
+    349,
+    460
+   ],
+   "panel_box": [
+    46,
+    124,
+    110,
+    200
+   ],
+   "board_box": [
+    1129,
+    264,
+    1193,
+    340
+   ],
+   "scale": 2,
+   "mode": "copper",
+   "note": "the copper paper clip",
+   "runtime": "F05_ED_B04_CLIP.webp",
+   "size": [
+    111,
+    139
+   ],
+   "bytes": 5264,
+   "trim": [
+    8,
+    7,
+    119,
+    146
+   ],
+   "source": "FOUNDER_EIGHT_PANEL_BOARD.webp",
+   "panel_rect": [
+    50.0,
+    127.5,
+    55.5,
+    69.5
+   ]
+  },
+  "B04_FABRIC": {
+   "panel": "04",
+   "panel_size": [
+    349,
+    460
+   ],
+   "panel_box": [
+    0,
+    150,
+    200,
+    400
+   ],
+   "board_box": [
+    1083,
+    290,
+    1283,
+    540
+   ],
+   "scale": 2,
+   "mode": "red",
+   "note": "the red drape under the fragment",
+   "runtime": "F05_ED_B04_FABRIC.webp",
+   "size": [
+    383,
+    494
+   ],
+   "bytes": 14658,
+   "trim": [
+    0,
+    0,
+    383,
+    494
+   ],
+   "source": "FOUNDER_EIGHT_PANEL_BOARD.webp",
+   "panel_rect": [
+    0.0,
+    150.0,
+    191.5,
+    247.0
+   ]
+  },
+  "B05_BOOKS": {
+   "panel": "05",
+   "panel_size": [
+    346,
+    414
+   ],
+   "panel_box": [
+    0,
+    204,
+    114,
+    378
+   ],
+   "board_box": [
+    18,
+    848,
+    132,
+    1022
+   ],
+   "scale": 2,
+   "mode": "poly",
+   "note": "the stack of three ledgers (spine lettering inpainted away)",
+   "runtime": "F05_ED_B05_BOOKS.webp",
+   "size": [
+    217,
+    348
+   ],
+   "bytes": 14860,
+   "trim": [
+    0,
+    0,
+    217,
+    348
+   ],
+   "source": "FOUNDER_EIGHT_PANEL_BOARD.webp",
+   "panel_rect": [
+    0.0,
+    204.0,
+    108.5,
+    174.0
+   ]
+  },
+  "B05_FABRIC": {
+   "panel": "05",
+   "panel_size": [
+    346,
+    414
+   ],
+   "panel_box": [
+    0,
+    330,
+    200,
+    414
+   ],
+   "board_box": [
+    18,
+    974,
+    218,
+    1058
+   ],
+   "scale": 2,
+   "mode": "red",
+   "note": "the red drape under the ledgers",
+   "runtime": "F05_ED_B05_FABRIC.webp",
+   "size": [
+    361,
+    124
+   ],
+   "bytes": 9134,
+   "trim": [
+    0,
+    44,
+    361,
+    168
+   ],
+   "source": "FOUNDER_EIGHT_PANEL_BOARD.webp",
+   "panel_rect": [
+    0.0,
+    352.0,
+    180.5,
+    62.0
+   ]
+  },
+  "B06_MEDALLION": {
+   "panel": "06",
+   "panel_size": [
+    337,
+    414
+   ],
+   "panel_box": [
+    6,
+    0,
+    146,
+    126
+   ],
+   "board_box": [
+    384,
+    644,
+    524,
+    770
+   ],
+   "scale": 2,
+   "mode": "grabcut",
+   "note": "the bronze laurel medallion with the classical head",
+   "runtime": "F05_ED_B06_MEDALLION.webp",
+   "size": [
+    259,
+    227
+   ],
+   "bytes": 22374,
+   "trim": [
+    11,
+    24,
+    270,
+    251
+   ],
+   "source": "FOUNDER_EIGHT_PANEL_BOARD.webp",
+   "panel_rect": [
+    11.5,
+    12.0,
+    129.5,
+    113.5
+   ]
+  },
+  "B06_COLUMNS": {
+   "panel": "06",
+   "panel_size": [
+    337,
+    414
+   ],
+   "panel_box": [
+    0,
+    276,
+    70,
+    414
+   ],
+   "board_box": [
+    378,
+    920,
+    448,
+    1058
+   ],
+   "scale": 2,
+   "mode": "poly",
+   "note": "the two columns at the lower left",
+   "runtime": "F05_ED_B06_COLUMNS.webp",
+   "size": [
+    137,
+    272
+   ],
+   "bytes": 11414,
+   "trim": [
+    0,
+    4,
+    137,
+    276
+   ],
+   "source": "FOUNDER_EIGHT_PANEL_BOARD.webp",
+   "panel_rect": [
+    0.0,
+    278.0,
+    68.5,
+    136.0
+   ]
+  },
+  "B06_LANDSCAPE": {
+   "panel": "06",
+   "panel_size": [
+    337,
+    414
+   ],
+   "panel_box": [
+    54,
+    336,
+    337,
+    414
+   ],
+   "board_box": [
+    432,
+    980,
+    715,
+    1058
+   ],
+   "scale": 2,
+   "mode": "poly",
+   "note": "the painted landscape under SIGN OUT",
+   "runtime": "F05_ED_B06_LANDSCAPE.webp",
+   "size": [
+    566,
+    156
+   ],
+   "bytes": 28420,
+   "trim": [
+    0,
+    0,
+    566,
+    156
+   ],
+   "source": "FOUNDER_EIGHT_PANEL_BOARD.webp",
+   "panel_rect": [
+    54.0,
+    336.0,
+    283.0,
+    78.0
+   ]
+  },
+  "B06_FABRIC": {
+   "panel": "06",
+   "panel_size": [
+    337,
+    414
+   ],
+   "panel_box": [
+    0,
+    60,
+    60,
+    300
+   ],
+   "board_box": [
+    378,
+    704,
+    438,
+    944
+   ],
+   "scale": 2,
+   "mode": "red",
+   "note": "the red drape at the left edge",
+   "runtime": "F05_ED_B06_FABRIC.webp",
+   "size": [
+    120,
+    462
+   ],
+   "bytes": 9682,
+   "trim": [
+    0,
+    14,
+    120,
+    476
+   ],
+   "source": "FOUNDER_EIGHT_PANEL_BOARD.webp",
+   "panel_rect": [
+    0.0,
+    67.0,
+    60.0,
+    231.0
+   ]
+  },
+  "B07_MEDALLION": {
+   "panel": "07",
+   "panel_size": [
+    342,
+    414
+   ],
+   "panel_box": [
+    16,
+    20,
+    122,
+    132
+   ],
+   "board_box": [
+    744,
+    664,
+    850,
+    776
+   ],
+   "scale": 2,
+   "mode": "grabcut",
+   "note": "the bronze laurel medallion with the caution sign",
+   "runtime": "F05_ED_B07_MEDALLION.webp",
+   "size": [
+    194,
+    179
+   ],
+   "bytes": 13704,
+   "trim": [
+    8,
+    21,
+    202,
+    200
+   ],
+   "source": "FOUNDER_EIGHT_PANEL_BOARD.webp",
+   "panel_rect": [
+    20.0,
+    30.5,
+    97.0,
+    89.5
+   ]
+  },
+  "B07_COLUMN": {
+   "panel": "07",
+   "panel_size": [
+    342,
+    414
+   ],
+   "panel_box": [
+    288,
+    196,
+    342,
+    414
+   ],
+   "board_box": [
+    1016,
+    840,
+    1070,
+    1058
+   ],
+   "scale": 2,
+   "mode": "poly",
+   "note": "the column at the right",
+   "runtime": "F05_ED_B07_COLUMN.webp",
+   "size": [
+    108,
+    436
+   ],
+   "bytes": 11382,
+   "trim": [
+    0,
+    0,
+    108,
+    436
+   ],
+   "source": "FOUNDER_EIGHT_PANEL_BOARD.webp",
+   "panel_rect": [
+    288.0,
+    196.0,
+    54.0,
+    218.0
+   ]
+  },
+  "B07_FABRIC": {
+   "panel": "07",
+   "panel_size": [
+    342,
+    414
+   ],
+   "panel_box": [
+    0,
+    0,
+    342,
+    414
+   ],
+   "board_box": [
+    728,
+    644,
+    1070,
+    1058
+   ],
+   "scale": 2,
+   "mode": "red",
+   "note": "the oxblood drape as one sheet: its outline filled and every hole (lettering, medallion, cards) inpainted from the drape itself",
+   "runtime": "F05_ED_B07_FABRIC.webp",
+   "size": [
+    647,
+    785
+   ],
+   "bytes": 40864,
+   "trim": [
+    26,
+    24,
+    673,
+    809
+   ],
+   "source": "FOUNDER_EIGHT_PANEL_BOARD.webp",
+   "panel_rect": [
+    13.0,
+    12.0,
+    323.5,
+    392.5
+   ]
+  },
+  "B08_FABRIC": {
+   "panel": "08",
+   "panel_size": [
+    349,
+    414
+   ],
+   "panel_box": [
+    0,
+    0,
+    60,
+    414
+   ],
+   "board_box": [
+    1083,
+    644,
+    1143,
+    1058
+   ],
+   "scale": 2,
+   "mode": "red",
+   "note": "the red drape along the left edge",
+   "runtime": "F05_ED_B08_FABRIC.webp",
+   "size": [
+    120,
+    824
+   ],
+   "bytes": 11162,
+   "trim": [
+    0,
+    4,
+    120,
+    828
+   ],
+   "source": "FOUNDER_EIGHT_PANEL_BOARD.webp",
+   "panel_rect": [
+    0.0,
+    2.0,
+    60.0,
+    412.0
+   ]
+  },
+  "B01_COAST": {
+   "panel": "01",
+   "panel_size": [
+    346,
+    460
+   ],
+   "panel_box": [
+    0,
+    398,
+    264,
+    460
+   ],
+   "board_box": [
+    18,
+    538,
+    282,
+    600
+   ],
+   "scale": 2,
+   "mode": "poly",
+   "note": "the painted coastal village at the lower left",
+   "runtime": "F05_ED_B01_COAST.webp",
+   "size": [
+    528,
+    122
+   ],
+   "bytes": 19644,
+   "trim": [
+    0,
+    2,
+    528,
+    124
+   ],
+   "source": "FOUNDER_EIGHT_PANEL_BOARD.webp",
+   "panel_rect": [
+    0.0,
+    399.0,
+    264.0,
+    61.0
+   ]
+  }
+ }
+}

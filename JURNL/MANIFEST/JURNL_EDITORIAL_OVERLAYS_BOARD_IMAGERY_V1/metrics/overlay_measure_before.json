@@ -1,0 +1,138 @@
+{
+ "01-393x852": {
+  "name": "MONEY ACTION SHEET",
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "off": [],
+  "primary_in_view": true,
+  "primary_found": true,
+  "close_in_view": true,
+  "folio": [
+   10,
+   156,
+   373,
+   540
+  ],
+  "focus_inside": true
+ },
+ "02-393x852": {
+  "name": "ADD A POCKET",
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "off": [],
+  "primary_in_view": true,
+  "primary_found": true,
+  "close_in_view": true,
+  "folio": [
+   10,
+   79,
+   373,
+   694
+  ],
+  "focus_inside": true
+ },
+ "03-393x852": {
+  "name": "MOVE MONEY",
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "off": [],
+  "primary_in_view": true,
+  "primary_found": true,
+  "close_in_view": true,
+  "folio": [
+   10,
+   10,
+   373,
+   832
+  ],
+  "focus_inside": true
+ },
+ "04-393x852": {
+  "name": "MANAGE POCKET",
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "off": [],
+  "primary_in_view": true,
+  "primary_found": true,
+  "close_in_view": null,
+  "folio": [
+   38,
+   476,
+   232,
+   179
+  ],
+  "focus_inside": true
+ },
+ "05-393x852": {
+  "name": "SEARCH DRAWER",
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "off": [],
+  "primary_in_view": true,
+  "primary_found": true,
+  "close_in_view": true,
+  "folio": [
+   10,
+   29,
+   373,
+   795
+  ],
+  "focus_inside": true
+ },
+ "06-393x852": {
+  "name": "ACCOUNT / SETTINGS",
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "off": [],
+  "primary_in_view": true,
+  "primary_found": true,
+  "close_in_view": true,
+  "folio": [
+   -87,
+   0,
+   480,
+   852
+  ],
+  "focus_inside": true
+ },
+ "07-393x852": {
+  "name": "ARCHIVE BLOCKED",
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "off": [],
+  "primary_in_view": true,
+  "primary_found": true,
+  "close_in_view": null,
+  "folio": [
+   0,
+   0,
+   393,
+   852
+  ],
+  "focus_inside": true
+ },
+ "08-393x852": {
+  "name": "GLOBAL MENU",
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "off": [],
+  "primary_in_view": true,
+  "primary_found": true,
+  "close_in_view": true,
+  "folio": [
+   55,
+   0,
+   338,
+   852
+  ],
+  "focus_inside": true
+ }
+}
