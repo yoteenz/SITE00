@@ -24,6 +24,7 @@ import { AskJurnlSheet, QuickAddV2Sheet } from '../../../global/GlobalSheets';
 import { useJurnl } from '../../../state/store';
 import { JurnlScreen } from '../../JurnlScreen';
 import { DOT01, DOT01_GEOMETRY } from './dot01Assets';
+import sk03Seal from '../../../../families/F05_MONEY/DOT01/SCENES/F05_DOT01_SEAL_SK03.webp';
 import { microAssetSrc } from '../microAssets';
 import paperTile from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_PAPER_TILE.webp';
 import tornEdge from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_TORN_EDGE.webp';
@@ -67,9 +68,32 @@ const NAV_PAPER_BOX = { x: 19, y: 1459, w: 911, h: 203 };
 const NAV_RECT = { x: 34, y: 1478, w: 870, h: 138 };
 
 export type BoardRect = { x: number; y: number; w: number; h: number };
+/**
+ * The overlay title papers and their text-safe zones (board px), measured on the PNGs (OPUS3B doc 04).
+ * `env`: the SK03 SIDEKICK's own heading paper, as baked (visible paper x 50–640, y 318–555). The wax seal takes its
+ *   left end; its torn lower-right corner, with the foliage over it, rises from y 470 (right edge 607 at y 480, 590 at
+ *   y 500, 550 at y 520), so each lower title line has less width: `lines` is the measure of line 1, 2, 3.
+ * `wide`: authorities whose title paper runs further right, sits higher and is shorter (16 RECORD TRANSACTION: paper
+ *   x ≈ 90–715, y 296–500, title x 192–685). Drawn with the approved V9 wide torn banner (motion asset 12, 1200 × 330,
+ *   aspect 3.64 against the authority's 3.4), mirrored so its torn end is on the right and its cut end bleeds off the
+ *   board's left edge under the wax seal — never stretched (uniform scale).
+ */
+export const OVERLAY_HEADINGS = {
+  env: { safe: { x: 196, y: 340, w: 410, h: 200 }, lines: [410, 380, 350] },
+  wide: { paper: { x: 0, y: 298, w: 724, h: 199 }, safe: { x: 192, y: 308, w: 492, h: 184 }, lines: [492, 480, 460] },
+} as const satisfies Record<string, { safe: BoardRect; lines: readonly number[]; paper?: BoardRect }>;
+/** The SK03 SIDEKICK's own laurel seal, lifted with a disc alpha (lift_dot01_sk03_parts.py): the wide title paper covers
+ * the SIDEKICK's heading, so the frame draws this seal over it unless the screen mounts its own seal layer. */
+const SK03_SEAL_BOX: BoardRect = { x: 25, y: 324, w: 154, h: 154 };
+export type Dot01Heading = keyof typeof OVERLAY_HEADINGS;
+/** Mean advance of an uppercase letter of the title face at the overlay tracking (em), measured on the runtime. */
+const TITLE_ADVANCE = 0.66;
 /** The content region of every overlay (authorities 14–37): under the overlay heading paper (board y ≈ 552) down onto
  * the top of the bottom landscape, where the authorities seat their primary action (≈ 1574). It grows with the seam. */
 export const OVERLAY_CONTENT: BoardRect = { x: 30, y: 552, w: 881, h: 1022 };
+/** Under the wide title paper (it ends at board y ≈ 497, authority 16's scan block starts at 524): the content starts
+ * just below it, so the SK03 paper's lower band is covered by the first content paper, as the authority layers it. */
+export const OVERLAY_CONTENT_WIDE: BoardRect = { x: 30, y: 512, w: 881, h: 1062 };
 export type Dot01Env = 'SK01_FIELD' | 'SK02' | 'SK02_FIELD' | 'SK03' | 'SK03_FIELD';
 export type Dot01Layer = { id: string; src: string; box: BoardRect; order?: number; className?: string; alt?: string; vt?: string };
 
@@ -150,11 +174,24 @@ function tileStyle(env: Dot01Env, L: Dot01Layout, tile: string): CSSProperties {
  * Overlays (SK03): the authorities set a heavier, tighter title further right on a smaller heading paper, in a 500 px
  * measure (authorities 14–37; measured on 16 RECORD TRANSACTION, 17 ADD CASH, 23 BALANCE ADJUSTMENT, 26 CAPTURE RECEIPT).
  */
-function titleSize(lines: string[], overlay: boolean): number {
+/**
+ * Content type scale (× 13 px): authority-relative — it follows the board (S / 0.44: 1 at a 393-wide phone), floored at
+ * 0.86 for legibility on the smallest phones and capped at 1.75 so a tablet keeps the phone's proportions (834 × 1194: 1.62;
+ * before OPUS3B the cap was 1.25, so tablets drew the forms 23 % smaller than their papers and left an olive void).
+ */
+export function contentScale(S: number): number {
+  return Math.max(0.86, Math.min(1.75, S / 0.44));
+}
+
+export function titleSize(lines: string[], overlay: boolean, heading: Dot01Heading = 'env'): number {
   const longest = Math.max(...lines.map((l) => l.length));
   if (overlay) {
-    const cap = lines.length <= 1 ? 88 : lines.length === 2 ? 70 : 54;
-    return Math.min(cap, 500 / Math.max(1, longest * 0.66));
+    // each line is fitted to its own measure on the heading paper (OVERLAY_HEADINGS: the torn lower-right corner of the
+    // SK03 paper narrows the lower lines), at the authority's cap for its line count — never to overrun the paper
+    const H = OVERLAY_HEADINGS[heading];
+    const cap = lines.length <= 1 ? 80 : lines.length === 2 ? 68 : 50;
+    const fit = lines.map((l, i) => H.lines[Math.min(i, H.lines.length - 1)]! / Math.max(1, l.length * TITLE_ADVANCE));
+    return Math.min(cap, ...fit);
   }
   const cap = lines.length <= 1 ? 82 : lines.length === 2 ? 74 : 56;
   return Math.min(cap, 430 / Math.max(1, longest * 0.69));
@@ -211,9 +248,12 @@ type BoardProps = {
   /** Icons in field rows and content strips: bare ink glyphs (default) or alternating moss / terracotta tiles. */
   fieldIcons?: 'ink' | 'tiles';
   stripIcons?: 'ink' | 'tiles';
+  /** Overlay title paper: the SK03 SIDEKICK's own (default) or the wide torn banner where the authority's title paper
+   * is wider and shorter (OVERLAY_HEADINGS). */
+  heading?: Dot01Heading;
 };
 
-function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, content, contentRect, contentScroll = false, label, testId, titleId, page, nav = false, onLayout, maxCrop = CROP, elasticY, absorb, chipTone = 'paper', fields = 'sheet', fieldIcons = 'ink', stripIcons = 'ink' }: BoardProps & { page: boolean; nav?: boolean; onLayout?: (L: Dot01Layout, el: HTMLDivElement | null) => void }) {
+function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, content, contentRect, contentScroll = false, label, testId, titleId, page, nav = false, onLayout, maxCrop = CROP, elasticY, absorb, chipTone = 'paper', fields = 'sheet', fieldIcons = 'ink', stripIcons = 'ink', heading = 'env' }: BoardProps & { page: boolean; nav?: boolean; onLayout?: (L: Dot01Layout, el: HTMLDivElement | null) => void }) {
   // SK01_FIELD carries its own torn nav paper below its seam, so a page with the dock still grows at that seam
   const { ref, L } = useDot01Layout(maxCrop, elasticY ?? (nav && env !== 'SK01_FIELD' ? NAV_SEAM : SEAM[env]), elasticY != null ? null : ZONE_TOP[env], absorb ?? null);
   useLayoutEffect(() => onLayout?.(L, ref.current), [L, onLayout, ref]);
@@ -231,15 +271,18 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
   // a short screen took height out at the seam: the lower slice overlaps the upper one, feathered into it
   const overlapped = L.extra <= -1;
   const overlayHead = env === 'SK03' || env === 'SK03_FIELD';
-  const tSize = titleSize(title, overlayHead);
-  const mapped = contentRect ? boardToScreen(L, contentRect) : null;
+  const head: Dot01Heading = overlayHead ? heading : 'env';
+  const tSize = titleSize(title, overlayHead, head);
+  // the content region follows the title paper: under the wide paper it starts where that paper ends
+  const region = head === 'wide' && contentRect === OVERLAY_CONTENT ? OVERLAY_CONTENT_WIDE : contentRect;
+  const mapped = region ? boardToScreen(L, region) : null;
   // a short phone (width-first, so the board's foot is below the screen) never puts a control below the fold: the
   // content region ends on screen and scrolls inside itself; a tall phone, a tablet or a desktop never clamps
   const clamped = !!mapped && mapped.y + mapped.h > L.h - 4;
   const cr = mapped && clamped ? { ...mapped, h: Math.max(0, L.h - 4 - mapped.y) } : mapped;
   const boardStyle: CSSProperties = { width: SRC_W, height: L.boardH, transform: `translate(${L.ox}px, 0) scale(${S})`, ['--f05m-u' as string]: String(S) } as CSSProperties;
   return (
-    <div ref={ref} className="jrn-d01" data-jrn-f05-dot01-stage data-env={env} data-testid={testId} data-wide={L.ox > 0.5 ? 'true' : 'false'} style={STAGE_VARS}>
+    <div ref={ref} className="jrn-d01" data-jrn-f05-dot01-stage data-env={env} data-heading={overlayHead ? head : undefined} data-testid={testId} data-wide={L.ox > 0.5 ? 'true' : 'false'} style={STAGE_VARS}>
       <div className="jrn-d01__board" style={boardStyle} data-jrn-zone="board">
         <div className="jrn-d01__env" aria-hidden data-layer="L0">
           {sliced ?
@@ -271,6 +314,14 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
             <img className="jrn-d01__layer" data-layer="L1" data-layer-id="sk01_seal" src={sk01Seal} alt="" aria-hidden draggable={false} style={{ left: SK01_SEAL_BOX.x, top: SK01_SEAL_BOX.y, width: SK01_SEAL_BOX.w, height: SK01_SEAL_BOX.h, ['--i' as string]: 1 } as CSSProperties} />
           </>
         : null}
+        {head === 'wide' ? (
+          <>
+            <img className="jrn-d01__layer jrn-d01__headpaper" data-layer="L1" data-layer-id="heading_paper_wide" src={DOT01['12_WIDE_TORN_BANNER']} alt="" aria-hidden draggable={false} style={{ left: OVERLAY_HEADINGS.wide.paper.x, top: OVERLAY_HEADINGS.wide.paper.y, width: OVERLAY_HEADINGS.wide.paper.w, height: OVERLAY_HEADINGS.wide.paper.h }} />
+            {layers.some((l) => l.id.startsWith('seal')) ? null : (
+              <img className="jrn-d01__layer" data-layer="L1" data-layer-id="seal_sk03" src={sk03Seal} alt="" aria-hidden draggable={false} style={{ left: SK03_SEAL_BOX.x, top: SK03_SEAL_BOX.y, width: SK03_SEAL_BOX.w, height: SK03_SEAL_BOX.h }} />
+            )}
+          </>
+        ) : null}
         {layers.map((l, i) => (
           <img
             key={l.id}
@@ -321,7 +372,7 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
         </div>
       </div>
       {content && cr ?
-        <section key={testId} className="jrn-d01__content" data-scroll={contentScroll || clamped ? 'true' : 'false'} data-clamped={clamped ? 'true' : undefined} data-fields={fields} data-field-icons={fieldIcons} data-strip-icons={stripIcons} aria-label={label} style={{ left: cr.x, top: cr.y, width: cr.w, height: cr.h, ['--d01-s' as string]: String(Math.max(0.86, Math.min(1.25, S / 0.44))) } as CSSProperties}>
+        <section key={testId} className="jrn-d01__content" data-scroll={contentScroll || clamped ? 'true' : 'false'} data-clamped={clamped ? 'true' : undefined} data-fields={fields} data-field-icons={fieldIcons} data-strip-icons={stripIcons} aria-label={label} style={{ left: cr.x, top: cr.y, width: cr.w, height: cr.h, ['--d01-s' as string]: String(contentScale(S)) } as CSSProperties}>
           {typeof content === 'function' ? content(L) : content}
         </section>
       : null}

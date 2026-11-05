@@ -1,0 +1,183 @@
+{
+ "note": "Action pills lifted from the SK03 SIDEKICK action sheet: crop + stadium alpha of the measured rim outline; no pixels painted.",
+ "source": "F05_DOT01_SK03_SHEET.webp",
+ "source_sha256": "fa0163a99d053cbf4b20b93e6336e19c8fbdc8b8883864a00cd4081ca80bd14a",
+ "source_size": [
+  887,
+  348
+ ],
+ "pills": {
+  "DARK": {
+   "runtime": "F05_DOT01_PILL_SK03_DARK.webp",
+   "crop": [
+    57,
+    34,
+    831,
+    147
+   ],
+   "outline": [
+    59,
+    36,
+    829,
+    145
+   ],
+   "size": [
+    774,
+    113
+   ],
+   "radius": 54.5,
+   "cap_slice": 58,
+   "bytes": 14110
+  },
+  "CREAM": {
+   "runtime": "F05_DOT01_PILL_SK03_CREAM.webp",
+   "crop": [
+    57,
+    158,
+    830,
+    250
+   ],
+   "outline": [
+    59,
+    160,
+    828,
+    248
+   ],
+   "size": [
+    773,
+    92
+   ],
+   "radius": 44.0,
+   "cap_slice": 48,
+   "bytes": 16366
+  }
+ },
+ "seal": {
+  "runtime": "F05_DOT01_SEAL_SK03.webp",
+  "source": "F05_DOT01_SK03_FIELD.webp",
+  "source_sha256": "f5c89e496e4e1fc904d81daa2a21ca492484c525819babb9da9361b6746ca95d",
+  "centre": [
+   102.0,
+   401.0
+  ],
+  "radius": 74.5,
+  "box": [
+   25,
+   324,
+   179,
+   478
+  ],
+  "bytes": 9906
+ },
+ "seals": {
+  "16": {
+   "runtime": "F05_DOT01_SEAL_16.webp",
+   "source": "16_RECORD_BANK_TRANSACTION.png",
+   "source_sha256": "67fa6d71ed592d9f23d954c9db35eb23d94cddd4b386f060bf165cad1c9830b6",
+   "centre": [
+    96,
+    374
+   ],
+   "radius": 68,
+   "mask_radius": 66.5,
+   "box": [
+    26,
+    304,
+    167,
+    445
+   ],
+   "bytes": 8498
+  },
+  "17": {
+   "runtime": "F05_DOT01_SEAL_17.webp",
+   "source": "17_ADD_CASH.png",
+   "source_sha256": "16f57d4cf45367e64e44bea89b36e5949a3c8bbdb3afa8f90a36cf0b60eb2f43",
+   "centre": [
+    93,
+    414
+   ],
+   "radius": 75,
+   "mask_radius": 73.5,
+   "box": [
+    16,
+    337,
+    171,
+    492
+   ],
+   "bytes": 10102
+  },
+  "18": {
+   "runtime": "F05_DOT01_SEAL_18.webp",
+   "source": "18_RECORD_CASH_SPENDING.png",
+   "source_sha256": "58dd22f1b67dacb1698b7dd0037002605b90c8121148d2570202f56ce313f581",
+   "centre": [
+    95,
+    407
+   ],
+   "radius": 74,
+   "mask_radius": 72.5,
+   "box": [
+    19,
+    331,
+    172,
+    484
+   ],
+   "bytes": 10660
+  },
+  "19": {
+   "runtime": "F05_DOT01_SEAL_19.webp",
+   "source": "19_RECORD_CREDIT_CARD_PURCHASE.png",
+   "source_sha256": "6c2e155f37912619ceafe5edceebbe45c1e8ffb1acc46a23d1b5bfd3dedc94d0",
+   "centre": [
+    112,
+    422
+   ],
+   "radius": 87,
+   "mask_radius": 85.5,
+   "box": [
+    23,
+    333,
+    202,
+    512
+   ],
+   "bytes": 16438
+  },
+  "20": {
+   "runtime": "F05_DOT01_SEAL_20.webp",
+   "source": "20_RECORD_CREDIT_CARD_PAYMENT.png",
+   "source_sha256": "21ec530c85fe396d6409589905a69f9b5720368c0126e0e47185cd8951be7028",
+   "centre": [
+    95,
+    400
+   ],
+   "radius": 72,
+   "mask_radius": 70.5,
+   "box": [
+    21,
+    326,
+    170,
+    475
+   ],
+   "bytes": 8786
+  }
+ },
+ "scan_art_16": {
+  "runtime": "F05_DOT01_SCANART_16.webp",
+  "source": "16_RECORD_BANK_TRANSACTION.png",
+  "crop": [
+   58,
+   547,
+   346,
+   805
+  ],
+  "patch_outline": [
+   61,
+   550,
+   "under the pills",
+   802
+  ],
+  "corner_radius": 40.0,
+  "right_fade_px": 30,
+  "bytes": 27834
+ }
+}

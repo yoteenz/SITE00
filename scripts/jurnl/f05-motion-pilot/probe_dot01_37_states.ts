@@ -91,10 +91,74 @@ const ICON_SCAN = `function icons() {
     }
     return out.map(({ el, ...o }) => o);
   }`;
+// CONTROLS=1: every visible control with its real surface source (border-image paper, background art, mounted img,
+// generic CSS), its rendered size, whether a grounding drop-shadow is applied, its type size and whether its label
+// overflows. TEXT=1: the title-in-safe-zone check, every text run that leaves its paper or control, and icon/text
+// collisions inside a control — the evidence for the typography / parchment-geometry audit.
+const CONTROL_SCAN = `function controls() {
+    const root = document.querySelector('[data-jrn-overlay]') || document;
+    const file = (v) => { const m = /url\\(["']?([^"')]+)/.exec(v || ''); return m ? m[1].split('/').pop().replace(/[-.][\\w-]{6,}(?=\\.\\w+$)/, '') : null; };
+    const out = [];
+    for (const e of root.querySelectorAll('button, a[href], [role=button], input:not([type=file]), select, textarea')) {
+      const r = e.getBoundingClientRect();
+      if (r.width < 2 || r.height < 2 || r.bottom < 0 || r.top > innerHeight || e.closest('.d01-sr')) continue;
+      const cs = getComputedStyle(e);
+      const bis = file(cs.borderImageSource); const bg = file(cs.backgroundImage);
+      const img = e.querySelector('img'); const isrc = img ? (img.getAttribute('data-micro-asset') || file('url(' + img.getAttribute('src') + ')')) : null;
+      const surface = bis ? 'PAPER:' + bis : bg ? 'ART:' + bg : (img && img.getBoundingClientRect().width > r.width * 0.6) ? 'IMG:' + isrc : (cs.backgroundColor !== 'rgba(0, 0, 0, 0)' || cs.backgroundImage !== 'none') ? 'CSS' : 'NONE';
+      const shadow = /drop-shadow/.test(cs.filter) || /drop-shadow/.test(getComputedStyle(e.parentElement).filter) || (img ? /drop-shadow/.test(getComputedStyle(img).filter) : false) || cs.boxShadow !== 'none';
+      out.push({ trigger: e.getAttribute('data-jrn-trigger') || e.getAttribute('aria-label') || e.tagName, cls: (e.className && e.className.baseVal === undefined ? e.className : '').split(' ').slice(0, 2).join(' '), surface, w: Math.round(r.width), h: Math.round(r.height), shadow, font: Math.round(parseFloat(cs.fontSize) * 10) / 10, overflow: e.tagName === 'BUTTON' && !!(e.textContent || '').trim() && !e.matches('.jrn-d01__chip, .d01-dir__paper, .d01-card') && e.scrollWidth > e.clientWidth + 1 });
+    }
+    return out;
+  }`;
+const TEXT_SCAN = `function texts() {
+    const root = document.querySelector('[data-jrn-overlay]') || document;
+    const rr = (r) => [Math.round(r.left), Math.round(r.top), Math.round(r.width), Math.round(r.height)];
+    const h = root.querySelector('.jrn-d01__heading'); const h1 = h ? h.querySelector('h1, .jrn-d01__title') : null;
+    let title = null;
+    if (h && h1) {
+      // per line (span), horizontally exact; vertically the em box of an all-caps line carries ≈ 0.16 em of empty ascent
+      // above the cap height, so a line is out only when its caps would be (tolerance 0.16 em top / 0.06 em bottom)
+      const hb = h.getBoundingClientRect(); const fpx = parseFloat(getComputedStyle(h1).fontSize) * (hb.width / h.offsetWidth || 1);
+      const lines = [...h1.querySelectorAll(':scope > span')].map((sp) => { const rg = document.createRange(); rg.selectNodeContents(sp); const b = rg.getBoundingClientRect(); return { text: sp.textContent, l: Math.round(b.left - hb.left), r: Math.round(hb.right - b.right), t: Math.round(b.top - hb.top), b: Math.round(hb.bottom - b.bottom), out: b.left < hb.left - 1 || b.right > hb.right + 1 || b.top < hb.top - fpx * 0.16 || b.bottom > hb.bottom + fpx * 0.06 }; });
+      const rg = document.createRange(); rg.selectNodeContents(h1); const tb = rg.getBoundingClientRect();
+      title = { box: rr(hb), text: rr(tb), font: parseFloat(getComputedStyle(h1).fontSize), lines, inside: lines.every((l) => !l.out), overflow: h1.scrollWidth > h1.clientWidth + 1 };
+    }
+    const PAPER = '.d01-field, .jrn-d01__strip, .d01-btn, .d01-chipbtn, .jrn-d01__chip, .d01-paper, .jrn-d01__heading, .d01-dir__action, .d01-row, .d01-scanblock, button';
+    const leaks = []; const collide = [];
+    const walker = document.createTreeWalker(root === document ? document.body : root, NodeFilter.SHOW_TEXT);
+    for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+      if (!n.textContent.trim()) continue;
+      const el = n.parentElement; if (!el || el.closest('.d01-sr, [aria-hidden=true], script, style')) continue;
+      const cs = getComputedStyle(el); if (cs.visibility === 'hidden' || el.offsetParent === null) continue;
+      const rg = document.createRange(); rg.selectNodeContents(n); const t = rg.getBoundingClientRect();
+      if (t.width < 1 || t.bottom < 0 || t.top > innerHeight) continue;
+      const paper = el.closest(PAPER); if (!paper || paper.matches('.jrn-d01__heading')) continue;
+      // inputs/scrollers clip by design: a run inside an element that clips is measured against that element
+      let clip = null; for (let a = el; a && a !== paper.parentElement; a = a.parentElement) { const o = getComputedStyle(a).overflow; if (o !== 'visible') { clip = a; break; } }
+      const box = (clip || paper).getBoundingClientRect();
+      if (t.left < box.left - 1 || t.right > box.right + 1 || t.top < box.top - 2 || t.bottom > box.bottom + 2) leaks.push({ text: n.textContent.trim().slice(0, 28), in: (paper.getAttribute('data-jrn-trigger') || paper.className.split(' ')[0]), by: [Math.round(Math.max(box.left - t.left, t.right - box.right, box.top - t.top, t.bottom - box.bottom))] });
+      if (paper.matches('button, .d01-btn')) {
+        // per line box (a wrapped label's union rect would cover its own icon), against real icons only (a full-bleed
+        // card illustration under the label is the control's surface, not an icon)
+        const pr = paper.getBoundingClientRect();
+        const lineRects = [...rg.getClientRects()];
+        for (const ic of paper.querySelectorAll('svg, img')) {
+          const ir = ic.getBoundingClientRect(); if (ir.width < 2 || ir.width > pr.width * 0.5 || ic.contains(el)) continue;
+          if (lineRects.some((t) => Math.min(ir.right, t.right) - Math.max(ir.left, t.left) > 1 && Math.min(ir.bottom, t.bottom) - Math.max(ir.top, t.top) > 1)) collide.push({ text: n.textContent.trim().slice(0, 28), in: paper.getAttribute('data-jrn-trigger') });
+        }
+      }
+    }
+    return { title, leaks, collide };
+  }`;
+const CONTROLS = !!process.env.CONTROLS;
+const TEXT = !!process.env.TEXT;
 const ICONS = !!process.env.ICONS;
 const METRICS = `(() => {
-  const ICONS = ${ICONS};
+  const ICONS = ${ICONS}, CONTROLS = ${CONTROLS}, TEXT = ${TEXT};
   ${ICON_SCAN}
+  ${CONTROL_SCAN}
+  ${TEXT_SCAN}
   const vw = innerWidth, vh = innerHeight, de = document.documentElement;
   const stage = document.querySelector('[data-jrn-overlay] [data-jrn-f05-dot01-stage]') || document.querySelector('[data-jrn-f05-dot01-stage]') || document.querySelector('[data-jrn-f05-stage]');
   const sr = stage ? stage.getBoundingClientRect() : null;
@@ -118,6 +182,8 @@ const METRICS = `(() => {
     internal_scroll: content ? { sh: content.scrollHeight, ch: content.clientHeight, scrolls: content.scrollHeight > content.clientHeight + 1 } : null,
     offscreen_controls: off, offscreen_in_scroller: inScroll.length, nav_visible: navVisible, corner_chrome: corner, chips,
     icons: ICONS ? icons() : undefined,
+    controls: CONTROLS ? controls() : undefined,
+    text: TEXT ? texts() : undefined,
   };
 })()`;
 (async () => {

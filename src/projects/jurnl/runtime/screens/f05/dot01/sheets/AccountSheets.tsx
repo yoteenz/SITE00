@@ -78,7 +78,8 @@ export function AddAccountOverlay({ preset, onClose, onSaved }: { preset?: Dot01
     <Dot01Overlay
       testId="d01-add-account"
       env="SK03_FIELD"
-      title={kind ? ['ACCOUNT', 'SETUP'] : ['ADD', 'ACCOUNT']}
+      title={kind ? ['ACCOUNT SETUP'] : ['ADD', 'ACCOUNT']}
+      heading={kind ? 'wide' : undefined}
       chips={kind ? searchAdd : undefined}
       subtitle={kind ? 'create a new account' : undefined}
       onClose={onClose}
