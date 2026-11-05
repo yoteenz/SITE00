@@ -77,7 +77,7 @@ export function GlobalMenu({ onClose, onOpen, onDestination }: { onClose: () => 
         <div className="jed-menu-head__title">
           <span className="jed-head__paper" aria-hidden style={{ backgroundImage: `url("${ART.heading.src}")` }} />
           <h2 className="jed-head__title">MENU</h2>
-          <p className="jv3-t-script">tools, membership and more</p>
+          <p className="jv3-t-script">tools, membership, preferences & more</p>
         </div>
       </div>
       <V3NavSection title="YOUR ACCOUNT">
