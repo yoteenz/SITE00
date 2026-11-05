@@ -135,6 +135,8 @@ export function computeF05MotionLayout(W: number, H: number, items: number): F05
   const gap = ROW_GAP + gapGrowth;
   const exact = extra < 1 && rows === 2;
   const topPad = exact ? 0 : Math.max(0, (free - gapGrowth * (rows - 1)) * (rows === 1 && extra < 1 ? 0 : 0.42));
+  /** Foot absorb (negative extra): shift approved geometry with dots / view-all / nav so nothing overlaps. */
+  const footDy = extra < 0 ? extra : 0;
   const tops: number[] = [];
   let y = ROW_TOP + topPad;
   for (let r = 0; r < rows; r += 1) {
@@ -145,10 +147,15 @@ export function computeF05MotionLayout(W: number, H: number, items: number): F05
   for (let r = 0; r < rows; r += 1) {
     for (let c = 0; c < 2; c += 1) {
       const approved = extra < 1 && r < 2 ? APPROVED_SLOTS[r * 2 + c]! : null;
-      slots.push(approved ? { ...approved, row: r, col: c } : { x: COLS[c]!, y: tops[r]!, w: COL_W[c]!, h: heights[r]!, row: r, col: c });
+      slots.push(
+        approved ?
+          { ...approved, y: approved.y + footDy, row: r, col: c }
+        : { x: COLS[c]!, y: tops[r]!, w: COL_W[c]!, h: heights[r]!, row: r, col: c },
+      );
     }
   }
-  const wide = { x: COLS[0]!, y: tops[0]!, w: COLS[1]! + COL_W[1]! - COLS[0]!, h: ROW_H[0]! };
+  const wideY = extra < 1 && rows >= 1 ? APPROVED_SLOTS[0]!.y + footDy : tops[0]!;
+  const wide = { x: COLS[0]!, y: wideY, w: COLS[1]! + COL_W[1]! - COLS[0]!, h: ROW_H[0]! };
   return {
     u,
     ox,

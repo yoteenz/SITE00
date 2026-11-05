@@ -244,6 +244,8 @@ describe('Layout', () => {
       expect(L.boardH * L.u).toBeCloseTo(h, 1);
       expect((L.navZone.y + L.navZone.h) * L.u).toBeLessThanOrEqual(h + 2);
       expect(L.u).toBeLessThan(w / (SRC_W - 2 * CROP));
+      const gridBottom = Math.max(...L.slots.map((s) => s.y + s.h));
+      expect(L.viewAll.y).toBeGreaterThanOrEqual(gridBottom + 8);
     }
   });
 
