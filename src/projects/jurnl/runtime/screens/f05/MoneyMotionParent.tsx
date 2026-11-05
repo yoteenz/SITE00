@@ -172,15 +172,31 @@ export function MoneyMotionParent() {
   useLayoutEffect(() => {
     const el = stageRef.current;
     if (!el) return;
-    const update = () => el.clientWidth && el.clientHeight && setVp({ w: el.clientWidth, h: el.clientHeight });
+    const update = () => {
+      if (!el.clientWidth) return;
+      const vv = typeof window !== 'undefined' ? window.visualViewport : null;
+      const h = vv?.height ? Math.round(vv.height) : el.clientHeight;
+      setVp({ w: el.clientWidth, h: Math.max(1, h) });
+    };
     update();
+    const vv = typeof window !== 'undefined' ? window.visualViewport : null;
+    vv?.addEventListener('resize', update);
+    vv?.addEventListener('scroll', update);
     if (typeof ResizeObserver === 'undefined') {
       window.addEventListener('resize', update);
-      return () => window.removeEventListener('resize', update);
+      return () => {
+        window.removeEventListener('resize', update);
+        vv?.removeEventListener('resize', update);
+        vv?.removeEventListener('scroll', update);
+      };
     }
     const ro = new ResizeObserver(update);
     ro.observe(el);
-    return () => ro.disconnect();
+    return () => {
+      ro.disconnect();
+      vv?.removeEventListener('resize', update);
+      vv?.removeEventListener('scroll', update);
+    };
   }, []);
 
   // Every collection is the same 2 x 2 grid in the same places: the shell never moves between collections.

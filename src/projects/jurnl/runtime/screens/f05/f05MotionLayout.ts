@@ -74,6 +74,8 @@ export type F05MotionLayout = {
  * four accounts open the full list from the fourth paper instead of adding pages.
  */
 export const PAPERS_PER_COLLECTION = 4;
+/** Board px the motion parent may close at the SK01 seam before height-fitting (dock on torn nav paper, same foot as DOT 01). */
+export const F05_MOTION_FOOT_ABSORB = 86;
 export function capacityFor(_W: number, _H: number): number {
   return PAPERS_PER_COLLECTION;
 }
@@ -108,8 +110,19 @@ export function computeF05BoardScale(viewportW: number, viewportH: number, crop 
 export function computeF05MotionLayout(W: number, H: number, items: number): F05MotionLayout {
   const w = Math.max(1, W);
   const h = Math.max(1, H);
-  const { u, ox } = computeF05BoardScale(w, h, CROP, h);
-  const extra = Math.max(0, h / u - SRC_H);
+  const avail = h;
+  let { u, ox } = computeF05BoardScale(w, h, CROP, avail);
+  let extra = Math.max(0, avail / u - SRC_H);
+  const deficit = SRC_H - avail / u;
+  if (f05WidthFirstScale(w, h) && deficit > 0) {
+    const absorb = F05_MOTION_FOOT_ABSORB;
+    if (deficit <= absorb) extra = -deficit;
+    else {
+      extra = -absorb;
+      u = avail / (SRC_H - absorb);
+      ox = (w - SRC_W * u) / 2;
+    }
+  }
   const sliced = extra >= 1;
   const visibleX: [number, number] = [Math.max(0, -ox / u), Math.min(SRC_W, (w - ox) / u)];
   const capacityRows = 2;
