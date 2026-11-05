@@ -16819,3 +16819,11 @@ Summary of the whole conversation in this chat.
 
 - **Context:** Founder wanted the upper-right three-dot MANAGE POCKET chip (and global menu) to collapse when tapped again while open.
 - **Changes:** `usePocketManager` toggles off when the same pocket menu is open; `JurnlCornerChrome` keeps the hamburger visible while `panel === 'menu'` and toggles closed; e2e T06 + G1. Commit `42c8c27d1` on preview branch.
+
+---
+
+## 2026-11-04 — Opus DOT01 OPUS3A/3B merged onto pinned tunnel overlay
+
+- **Context:** Founder asked to mount Opus DOT01 interactive artwork + typography/parchment work (`claude/jurnl-f05-dot01-artwork-typography-um0u93` @ `550a6f83d`) on the founder-visible tunnel, which stays pinned to `cursor/jurnl-tunnel-opus-v3-overlays-4e5a` (not `preview/tunnel` / main).
+- **Changes:** Merged Opus branch into overlay at `76ded47bf` (281 files: lifted seals, SK03 pills, `screenSeals.ts`, `directoryScene.ts`, editorial overlays, OPUS3 manifests). Pushed `origin/cursor/jurnl-tunnel-opus-v3-overlays-4e5a`. Remounted `/tmp/site00-jurnl-integration-wt` to `76ded47bf`; restarted Vite on `:5174`. Lineage: `/tmp/site00-preview-runtime-lineage.txt` records `OPUS_DOT01_ARTWORK=550a6f83d`.
+- **Conventions:** Tunnel pin updates are merge-to-overlay-branch + worktree checkout + Vite restart; do not assume `preview/tunnel` shows Opus until merged to main.
