@@ -14,6 +14,9 @@ import { addDays } from '../src/projects/jurnl/data/foundation/dates';
 import { accountItems, accountPaperRect, accountRailViewport, APPROVED_SLOTS, bottomRowItems, capacityFor, computeF05MotionLayout, CROP, SRC_H, SRC_W } from '../src/projects/jurnl/runtime/screens/f05/f05MotionLayout';
 import { resolveF05ParentVariant } from '../src/projects/jurnl/runtime/screens/f05/MoneyParentRoute';
 import { F05_NAV_KEY, mergeMoneySearchParams, patchF05Nav, readF05Nav } from '../src/projects/jurnl/runtime/screens/f05/f05NavPersistence';
+import { applyF05PreviewPocketSeed } from '../src/projects/jurnl/runtime/screens/f05/f05PreviewPocketSeed';
+import { createManualAccount } from '../src/projects/jurnl/data/foundation/accountMutations';
+import { listActiveAccounts } from '../src/projects/jurnl/data/foundation/accounts';
 import { TODAY, acct, position, world } from './helpers/jurnlFinancialWorld';
 
 const ASSET_DIR = path.resolve('src/projects/jurnl/families/F05_MONEY/MOTION_PILOT');
@@ -315,6 +318,20 @@ describe('Opt-in route and assets', () => {
     expect(css).toContain('calc(108px - var(--f05-type-nudge, 0px))');
     // numbers never count up
     expect(css).not.toMatch(/counter|@property --num/);
+  });
+});
+
+describe('F05 preview pocket seed', () => {
+  it('cash-third adds CASH when two asset pockets exist and none is CASH', () => {
+    world({
+      user: 'f05-seed@jurnl.test',
+      accounts: [acct('one', 'ONE', 'CHECKING', 100), acct('two', 'TWO', 'SAVINGS', 200)],
+    });
+    expect(listActiveAccounts()).toHaveLength(2);
+    applyF05PreviewPocketSeed('cash-third');
+    const active = listActiveAccounts();
+    expect(active).toHaveLength(3);
+    expect(active.some((a) => a.account_type === 'CASH' && a.balance === 0)).toBe(true);
   });
 });
 

@@ -6,7 +6,9 @@
 
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useJurnl } from '../../state/store';
 import { MoneyHubScreen } from '../MoneyScreens';
+import { applyF05PreviewPocketSeed } from './f05PreviewPocketSeed';
 import { MoneyMotionParent } from './MoneyMotionParent';
 import { patchF05Nav } from './f05NavPersistence';
 
@@ -33,6 +35,7 @@ export function resolveF05ParentVariant(param: string | null): F05ParentVariant 
 }
 
 export function MoneyParentRoute() {
+  const { mode } = useJurnl();
   const [params, setParams] = useSearchParams();
   const variant = resolveF05ParentVariant(params.get('parent'));
   useEffect(() => {
@@ -41,5 +44,10 @@ export function MoneyParentRoute() {
     next.set('parent', variant);
     setParams(next, { replace: true });
   }, [params, setParams, variant]);
+  const f05seed = params.get('f05seed');
+  useEffect(() => {
+    if (mode !== 'design-preview' || variant !== 'motion') return;
+    applyF05PreviewPocketSeed(f05seed);
+  }, [mode, variant, f05seed]);
   return variant === 'motion' ? <MoneyMotionParent /> : <MoneyHubScreen />;
 }
