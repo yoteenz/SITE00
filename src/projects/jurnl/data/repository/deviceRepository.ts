@@ -636,8 +636,37 @@ class DeviceJurnlRepository implements JurnlRepository {
 
 let repo: DeviceJurnlRepository | null = null;
 
+/** Pockets saved under preview-guest before unlock are merged into the signed-in viewer's snapshot. */
+function mergePreviewGuestPocketsInto(targetUserId: string) {
+  if (targetUserId === 'preview-guest') return;
+  const guest = peekDeviceSnapshot('preview-guest');
+  if (!guest) return;
+  const guestManual = guest.accounts.filter((a) => a.is_manual && a.status === 'ACTIVE');
+  if (!guestManual.length) return;
+
+  const target =
+    peekDeviceSnapshot(targetUserId) ??
+    (() => {
+      readSnapshot(targetUserId);
+      return peekDeviceSnapshot(targetUserId);
+    })();
+  if (!target) return;
+
+  const known = new Set(target.accounts.map((a) => a.account_id));
+  const additions = guestManual.filter((a) => !known.has(a.account_id)).map((a) => ({ ...a, user_id: targetUserId }));
+  if (!additions.length) return;
+
+  importSnapshotForUser(targetUserId, {
+    ...target,
+    accounts: [...target.accounts, ...additions],
+    updatedAt: new Date().toISOString(),
+  });
+}
+
 export function setRepositoryUserId(userId: string) {
   if (repo?.userId === userId) return;
+  const prev = repo?.userId ?? activeUserId;
+  if (prev === 'preview-guest' && userId !== 'preview-guest') mergePreviewGuestPocketsInto(userId);
   activeUserId = userId;
   repo = new DeviceJurnlRepository(userId);
 }
