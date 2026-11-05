@@ -16872,3 +16872,11 @@ Summary of the whole conversation in this chat.
 
 - **Context:** Founder screenshot after tunnel restart still showed VIEW ALL overlapping ADD/MOVE. Public tunnel was already serving `f05SeamY` / `directoryAbsorb`. With two pockets, `directoryAbsorb(2)` is the one-row slack, so a short Safari viewport slid VIEW ALL and the dock up into the two-row grid while the scale stayed width-first.
 - **Changes:** `F05_MOTION_FOOT_CLEAR` is only the gap under the second row. A larger deficit height-fits the whole board. Pocket count is ignored. Preview remounted on `cursor/jurnl-tunnel-opus-v3-overlays-4e5a`.
+
+---
+
+## 2026-11-05 — F05 pocket persistence (preview repository scope)
+
+- **Context:** Founder reported new pockets “deleted” after add on motion MONEY tunnel.
+- **Root cause:** Design-preview `setRepositoryUserId` used `preview-guest` until ACTIVE session, while route resume allowed MONEY with only `device.remembered` — pockets saved under guest, then invisible after refresh/unlock on remembered email scope.
+- **Changes:** `resolveRepositoryUserId()` (session email → remembered email → preview-guest); store init/effect use it; `mergePreviewGuestPocketsInto` on guest→viewer switch. Tests `jurnlRepositoryUserScope.test.ts`. Commit `fe788533b` on overlay + `cursor/jurnl-f05-pocket-persist-4e5a`.
