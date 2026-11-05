@@ -16682,3 +16682,16 @@ Summary of the whole conversation in this chat.
 - **Decisions / outcomes:** Strip `-webkit-autofill` yellow via inset box-shadow on `.jrn-e2__input` and `.jrn-field__input`; non-password typed values uppercased in `E2Field` and `JurnlInput` `onChange`; e2 CSS `text-transform: uppercase` with password exception; Supabase auth adapter still lowercases email on sign-in.
 - **Changes:** `jurnl-entry-v2.css`, `jurnl-runtime.css`, `EntryV2Parts.tsx`, `primitives.tsx`, `jurnlEntryV2FirstSeven1.test.tsx`.
 - **Conventions:** Keep Authority Serif on e2 autofill pseudo-states; do not revert e2 inputs to `text-transform: none`.
+
+---
+
+## 2026-11-04 — JURNL connected-first financial intelligence foundation audit
+
+Summary of this documentation sprint. Earlier F05 MONEY visual, tunnel, and inner-shell work in the same long conversation lives on `cursor/jurnl-tunnel-opus-v3-overlays-4e5a` and was not modified here.
+
+- **Context:** Founder corrected the product: JURNL is a connected, intelligent financial workspace, not a manual-first record book. This sprint is audit and specification only.
+- **Topics covered:** Repository forensics of the unmerged financial engine, simulated bank connection, ledger and settlement invariants, provider evaluation without a vendor selection, ingestion and canonical transaction design, purpose versus category, business-fuel learning, corrections, splits, rideshare net-versus-gross, recurrence, transfer and card reconciliation, balance truth, security and tenancy, AI boundaries, cross-dot matrix, forty scenario contracts, and phased implementation.
+- **Decisions / outcomes:** Manual ledger and transfer state machine are real on the overlay tip `8ba653faf` and are not on `main` (`e413590e1`). Plaid, MX, Teller, Finicity, and Yodlee are not integrated. F02 CONNECTED is simulated (blocker B12). Plaid is a candidate only. Uber Pro Card appears in a Plaid coverage CSV snapshot; Lyft Direct compatibility was not established. Three confirmations make a rule eligible, not automatic. Tax stays undetermined. No application code, database mutation, paid call, deploy, or merge.
+- **Changes:** `JURNL/MANIFEST/FINANCIAL_INTELLIGENCE_FOUNDATION_AUDIT_V1/` documents 01–28 on `cursor/jurnl-financial-intelligence-audit-4e5a`. Draft documentation PR only.
+- **Conventions:** Do not treat a designed or drafted financial PR as merged. Do not dedupe transactions by merchant and amount. Do not invent gross rideshare earnings. Do not let classification failure drop an imported fact. Learning rules are per owner.
+
