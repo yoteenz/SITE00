@@ -93,7 +93,7 @@ export function f05WidthFirstScale(viewportW: number, viewportH: number): boolea
 /**
  * Board scale for F05 motion and DOT 01. `contentH` is the vertical space for the board (full viewport, or minus dock).
  */
-export function computeF05BoardScale(viewportW: number, viewportH: number, crop = CROP, contentH = viewportH): { u: number; ox: number } {
+export function computeF05BoardScale(viewportW: number, viewportH: number, crop: number = CROP, contentH = viewportH): { u: number; ox: number } {
   const w = Math.max(1, viewportW);
   const vh = Math.max(1, viewportH);
   const ch = Math.max(1, contentH);
