@@ -1,0 +1,136 @@
+{
+ "note": "31 at 471x836: icon boxes vs text line boxes (css px). The flagged overlap is the wrapped line em box top (<= 3 px, empty ascent) meeting the icon box bottom; no ink overlap.",
+ "rows": [
+  {
+   "id": "d01-tx-tx-d01-coffee",
+   "icons": [
+    [
+     88,
+     697,
+     30,
+     31
+    ]
+   ],
+   "text_line_boxes": [
+    [
+     "NOV 4",
+     [
+      [
+       28,
+       710,
+       41,
+       17
+      ]
+     ]
+    ],
+    [
+     "COFFEE CART",
+     [
+      [
+       125,
+       701,
+       112,
+       21
+      ]
+     ]
+    ],
+    [
+     "CASH ON HAND",
+     [
+      [
+       88,
+       725,
+       105,
+       17
+      ]
+     ]
+    ],
+    [
+     "-$4.50",
+     [
+      [
+       385,
+       707,
+       58,
+       23
+      ]
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "d01-tx-tx-xfer-e2e-scheduled-in",
+   "icons": [
+    [
+     88,
+     569,
+     22,
+     22
+    ]
+   ],
+   "text_line_boxes": [
+    [
+     "NOV 5",
+     [
+      [
+       28,
+       587,
+       41,
+       17
+      ]
+     ]
+    ],
+    [
+     "TRANSFER FROM BANK ACCOUNT",
+     [
+      [
+       114,
+       569,
+       136,
+       21
+      ],
+      [
+       88,
+       589,
+       128,
+       21
+      ]
+     ]
+    ],
+    [
+     "RIDESHARE CARD",
+     [
+      [
+       88,
+       607,
+       121,
+       17
+      ]
+     ]
+    ],
+    [
+     "SCHEDULED",
+     [
+      [
+       308,
+       588,
+       77,
+       15
+      ]
+     ]
+    ],
+    [
+     "$200",
+     [
+      [
+       398,
+       585,
+       45,
+       23
+      ]
+     ]
+    ]
+   ]
+  }
+ ]
+}

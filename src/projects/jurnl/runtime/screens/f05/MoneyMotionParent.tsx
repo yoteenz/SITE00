@@ -17,10 +17,11 @@ import { flushSync } from 'react-dom';
 import { COLLECTIONS, computeMoneyCarousel, type CarouselPanel, type CollectionId } from '../../../data/f05/moneyCarousel';
 import { type MoneyParentAccount, type MoneyParentTransfer, type MoneyPaperArt } from '../../../data/f05/moneyParentReading';
 import { formatMoney, useCurrency, useRepoTick } from '../../../data/home/money';
-import { JurnlButton, JurnlDrawer } from '../../components/primitives';
 import { JurnlProductNav } from '../../components/ProductNav';
 import { SafeHorizonSheet } from '../../finance/SafeHorizonSheet';
 import { TransferDetailSheet, TransferSheet } from '../../finance/FinanceSheets';
+import { MoneyActionSheet } from '../../surfaces/editorial/MoneyOverlays';
+import { GlobalSearchDrawer } from '../../surfaces/editorial/SearchDrawer';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../../global/GlobalSheets';
 import { useJurnl } from '../../state/store';
 import { JurnlScreen, type FamilyPlate } from '../JurnlScreen';
@@ -134,7 +135,7 @@ const SHORT: Record<'TRANSFER' | 'CARD_PAYMENT', Record<string, string>> = {
   CARD_PAYMENT: { SCHEDULED: 'SCHEDULED', PENDING: 'SUBMITTED', IN_TRANSIT: 'NOT CONFIRMED', RETURNING: 'FAILED', NEEDS_RECONCILIATION: 'CONFIRM?' },
 };
 
-type Sheet = null | 'actions' | 'add' | 'move' | 'period';
+type Sheet = null | 'actions' | 'add' | 'move' | 'search' | 'period';
 
 const COLLECTION_LABEL: Record<CollectionId, string> = Object.fromEntries(COLLECTIONS.map((c) => [c.id, c.label])) as Record<CollectionId, string>;
 const slideLabel = (id: CollectionId) => `${COLLECTION_LABEL[id]}, ${COLLECTIONS.findIndex((c) => c.id === id) + 1} OF ${COLLECTIONS.length}`;
@@ -633,7 +634,7 @@ export function MoneyMotionParent() {
           </section>
 
           {/* L4 — corner chips (approved squares; the global menu takes the far-right one) */}
-          <button type="button" className="jrn-f05m__chip" data-jrn-trigger="f05m-search" aria-label="SEARCH ACTIVITY" style={{ ...at({ x: searchX, y: CHIP_TOP, w: CHIP, h: CHIP }), top: CHIP_TOP_SAFE }} onClick={() => go('activity')}>
+          <button type="button" className="jrn-f05m__chip" data-jrn-trigger="f05m-search" aria-label="SEARCH POCKETS AND ACTIVITY" aria-haspopup="dialog" style={{ ...at({ x: searchX, y: CHIP_TOP, w: CHIP, h: CHIP }), top: CHIP_TOP_SAFE }} onClick={() => setSheet('search')}>
             <svg viewBox="0 0 24 24" aria-hidden><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" strokeWidth="1.8" /><path d="M15.5 15.5L21 21" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
           </button>
           <button type="button" className="jrn-f05m__chip" data-jrn-trigger="f05m-actions" aria-label="ADD A POCKET OR MOVE MONEY" style={{ ...at({ x: plusX, y: CHIP_TOP, w: CHIP, h: CHIP }), top: CHIP_TOP_SAFE }} onClick={() => setSheet('actions')}>
@@ -647,12 +648,7 @@ export function MoneyMotionParent() {
       {overlay === 'ask' ? <AskJurnlSheet familyId="F05" nodeId="F05.00" onClose={closeOverlay} /> : null}
       {manager.node}
       {sheet === 'actions' ?
-        <JurnlDrawer size="short" testId="f05m-actions-sheet" title="MONEY" lead="ADD WHERE MONEY LIVES, OR MOVE IT BETWEEN YOUR POCKETS." onClose={() => setSheet(null)}>
-          <JurnlButton trigger="f05m-actions-add" onClick={() => setSheet('add')}>ADD A POCKET</JurnlButton>
-          <JurnlButton variant="secondary" trigger="f05m-actions-move" disabled={reading.accounts.length < 2} onClick={() => setSheet('move')}>
-            {reading.accounts.length < 2 ? 'MOVE MONEY · ADD TWO POCKETS FIRST' : 'MOVE MONEY'}
-          </JurnlButton>
-        </JurnlDrawer>
+        <MoneyActionSheet canMove={reading.accounts.length >= 2} onAdd={() => setSheet('add')} onMove={() => setSheet('move')} onClose={() => setSheet(null)} />
       : null}
       {sheet === 'add' ?
         <AddPlaceSheet
@@ -667,6 +663,7 @@ export function MoneyMotionParent() {
         />
       : null}
       {sheet === 'move' ? <TransferSheet onClose={() => setSheet(null)} /> : null}
+      {sheet === 'search' ? <GlobalSearchDrawer onClose={() => setSheet(null)} /> : null}
       {sheet === 'period' ? <SafeHorizonSheet onClose={() => setSheet(null)} /> : null}
       {detail ? <TransferDetailSheet linkId={detail} onClose={() => setDetail(null)} /> : null}
     </JurnlScreen>

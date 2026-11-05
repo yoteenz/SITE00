@@ -24,10 +24,19 @@ import type { TransferStart } from '../../../../../data/ledger/transferSettlemen
 import { getRepository } from '../../../../../data/repository/deviceRepository';
 import { useJurnl } from '../../../../state/store';
 import { DOT01 } from '../dot01Assets';
-import { Dot01Overlay, useSearchAddChips, OVERLAY_CONTENT } from '../Dot01Frame';
+import { Dot01Overlay, useSearchAddChips, OVERLAY_CONTENT, OVERLAY_CONTENT_WIDE } from '../Dot01Frame';
+import { screenSeal } from '../screenSeals';
+import scanArt16 from '../../../../../families/F05_MONEY/DOT01/SCENES/F05_DOT01_SCANART_16.webp';
 import { shortDate } from '../HistoryPage';
 import { Alert, Button, Paper, Row, SelectInput, TextInput } from '../kit';
 import { saveReceiptImage } from '../receiptStore';
+
+/** 16 RECORD BANK TRANSACTION seals its heading with the temple (bank) emblem — the 22 authority's own seal, lifted in
+ * OPUS3 — over SK03's laurel, at the same place (it covers it). */
+/** Each record screen's own wax seal (screenSeals.ts: lifted from its authority, seated for its title paper). */
+const RECORD_SEAL = { bank: screenSeal('16', 'wide'), cash: screenSeal('18', 'env'), card: screenSeal('19', 'env') } as const;
+const ADD_CASH_SEAL = screenSeal('17', 'env');
+const CARD_PAYMENT_SEAL = screenSeal('20', 'wide');
 import { ReceiptFlow, type ReceiptCapture } from './ReceiptFlow';
 
 const CONTENT = OVERLAY_CONTENT;
@@ -145,7 +154,7 @@ export function PurchaseFlow({ accountId, mode, withType, startWithReceipt, onCl
   if (step === 'duplicate' && preview) {
     const m = preview.duplicates[0]!;
     return (
-      <Dot01Overlay testId="d01-receipt-duplicate" env="SK03_FIELD" title={['REVIEW', 'RECEIPT']} subtitle="something needs your attention" onClose={onClose} contentRect={CONTENT} contentScroll label="POSSIBLE DUPLICATE" content={
+      <Dot01Overlay testId="d01-receipt-duplicate" env="SK03_FIELD" heading="wide" layers={screenSeal('29', 'wide')} title={['REVIEW RECEIPT']} subtitle="something needs your attention" onClose={onClose} contentRect={CONTENT} contentScroll label="POSSIBLE DUPLICATE" content={
         <>
           <Alert role="alert" testId="d01-duplicate-found">POSSIBLE DUPLICATE FOUND. THIS {capture ? 'RECEIPT' : 'PURCHASE'} APPEARS TO MATCH AN EXISTING TRANSACTION. NOTHING HAS BEEN SAVED.</Alert>
           <div className="d01-split">
@@ -209,14 +218,21 @@ export function PurchaseFlow({ accountId, mode, withType, startWithReceipt, onCl
   // form (16 / 18 / 19 / 28)
   const fromReceipt = !!capture;
   return (
-    <Dot01Overlay testId={fromReceipt ? 'd01-review-purchase' : 'd01-record'} env="SK03_FIELD" fields={fromReceipt ? 'sheet' : 'strips-dense'} fieldIcons={!fromReceipt && mode !== 'card' && mode !== 'cash' ? 'tiles' : 'ink'} title={fromReceipt ? ['REVIEW', 'PURCHASE'] : title} subtitle={fromReceipt ? 'check before saving' : undefined} onClose={onClose} contentRect={CONTENT} contentScroll label={fromReceipt ? 'REVIEW EXTRACTED PURCHASE' : title.join(' ')} content={
+    <Dot01Overlay testId={fromReceipt ? 'd01-review-purchase' : 'd01-record'} env="SK03_FIELD" layers={fromReceipt ? screenSeal('28', 'env') : RECORD_SEAL[mode]} heading={!fromReceipt && mode === 'bank' ? 'wide' : undefined} fields={fromReceipt ? 'sheet' : 'strips-dense'} fieldIcons={!fromReceipt && mode !== 'card' && mode !== 'cash' ? 'tiles' : 'ink'} title={fromReceipt ? ['REVIEW', 'PURCHASE'] : title} subtitle={fromReceipt ? 'check before saving' : undefined} onClose={onClose} contentRect={!fromReceipt && mode === 'bank' ? OVERLAY_CONTENT_WIDE : CONTENT} contentScroll label={fromReceipt ? 'REVIEW EXTRACTED PURCHASE' : title.join(' ')} content={
       <>
         {!fromReceipt ? (
           <Paper kind="blank" className="d01-scanblock" testId="d01-scan-block">
-            {/* registry slot ICON.SCAN.CAMERA (authorities 16, 18, 19): the founder's Batch 04 art */}
-            <span className="d01-scanblock__art" aria-hidden>
-              <MicroIcon id="F05.D01.ICON.SCAN.CAMERA" fallback={<Icon name="receipt" />} />
-            </span>
+            {/* 16 draws its own illustration (the receipt in its capture brackets, lifted from authority 16); 18 / 19 keep the
+                registry slot ICON.SCAN.CAMERA (the founder's Batch 04 art) until their own compositions are lifted */}
+            {mode === 'bank' ? (
+              <span className="d01-scanblock__art" data-art="authority" aria-hidden>
+                <img src={scanArt16} alt="" draggable={false} />
+              </span>
+            ) : (
+              <span className="d01-scanblock__art" aria-hidden>
+                <MicroIcon id="F05.D01.ICON.SCAN.CAMERA" fallback={<Icon name="receipt" />} />
+              </span>
+            )}
             <div className="d01-scanblock__acts">
               <Button trigger="d01-scan-receipt" icon="camera" onClick={() => setStep('receipt')}>SCAN RECEIPT</Button>
               <Button trigger="d01-manual-entry" quiet icon="edit" onClick={() => undefined}>MANUAL ENTRY</Button>
@@ -288,7 +304,7 @@ export function AddCashOverlay({ accountId, onClose }: { accountId: string; onCl
     setDone(true);
   };
   return (
-    <Dot01Overlay testId="d01-add-cash" env="SK03_FIELD" fields="strips" title={['ADD CASH']} onClose={onClose} contentRect={CONTENT} contentScroll label="ADD CASH" content={
+    <Dot01Overlay testId="d01-add-cash" env="SK03_FIELD" layers={ADD_CASH_SEAL} fields="strips" title={['ADD CASH']} onClose={onClose} contentRect={CONTENT} contentScroll label="ADD CASH" content={
       done ? (
         <>
           <Paper kind="sheet">
@@ -362,7 +378,7 @@ export function CardPaymentOverlay({ accountId, onClose }: { accountId: string; 
     setPreview(p.value);
   };
   return (
-    <Dot01Overlay testId="d01-card-payment" env="SK03_FIELD" fields="strips" fieldIcons="tiles" title={['RECORD CARD', 'PAYMENT']} onClose={onClose} contentRect={CONTENT} contentScroll label="RECORD CARD PAYMENT" content={
+    <Dot01Overlay testId="d01-card-payment" env="SK03_FIELD" heading="wide" layers={CARD_PAYMENT_SEAL} fields="strips" fieldIcons="tiles" title={['RECORD CARD', 'PAYMENT']} onClose={onClose} contentRect={CONTENT} contentScroll label="RECORD CARD PAYMENT" content={
       done ? (
         <>
           <Paper kind="sheet">

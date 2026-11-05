@@ -1,0 +1,9 @@
+{
+ "e2e": {
+  "passed": 415,
+  "failed": 33,
+  "skipped": 8
+ },
+ "unit": "850 / 851",
+ "new_failures": []
+}

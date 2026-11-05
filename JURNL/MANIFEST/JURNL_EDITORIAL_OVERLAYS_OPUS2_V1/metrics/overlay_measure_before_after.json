@@ -1,0 +1,540 @@
+{
+ "before": {
+  "01-393x852": {
+   "name": "MONEY ACTION SHEET",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": true,
+   "folio": [
+    0,
+    612,
+    393,
+    240
+   ],
+   "focus_inside": true
+  },
+  "01-393x660": {
+   "name": "MONEY ACTION SHEET",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": true,
+   "folio": [
+    0,
+    420,
+    393,
+    240
+   ],
+   "focus_inside": true
+  },
+  "02-393x852": {
+   "name": "ADD A POCKET",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": true,
+   "folio": [
+    0,
+    164,
+    393,
+    688
+   ],
+   "focus_inside": true
+  },
+  "02-393x660": {
+   "name": "ADD A POCKET",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": true,
+   "folio": [
+    0,
+    92,
+    393,
+    568
+   ],
+   "focus_inside": true
+  },
+  "03-393x852": {
+   "name": "MOVE MONEY",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": true,
+   "folio": [
+    0,
+    119,
+    393,
+    733
+   ],
+   "focus_inside": true
+  },
+  "03-393x660": {
+   "name": "MOVE MONEY",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": true,
+   "folio": [
+    0,
+    92,
+    393,
+    568
+   ],
+   "focus_inside": true
+  },
+  "04-393x852": {
+   "name": "MANAGE POCKET",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": null,
+   "folio": [
+    38,
+    476,
+    232,
+    158
+   ],
+   "focus_inside": true
+  },
+  "04-393x660": {
+   "name": "MANAGE POCKET",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": null,
+   "folio": [
+    38,
+    56,
+    232,
+    158
+   ],
+   "focus_inside": true
+  },
+  "05-393x852": {
+   "name": "SEARCH DRAWER",
+   "open": false,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": null,
+   "primary_found": false,
+   "close_in_view": null,
+   "folio": null,
+   "focus_inside": false
+  },
+  "05-393x660": {
+   "name": "SEARCH DRAWER",
+   "open": false,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": null,
+   "primary_found": false,
+   "close_in_view": null,
+   "folio": null,
+   "focus_inside": false
+  },
+  "06-393x852": {
+   "name": "ACCOUNT / SETTINGS",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": true,
+   "folio": [
+    -87,
+    0,
+    480,
+    852
+   ],
+   "focus_inside": true
+  },
+  "06-393x660": {
+   "name": "ACCOUNT / SETTINGS",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": true,
+   "folio": [
+    22,
+    0,
+    371,
+    660
+   ],
+   "focus_inside": true
+  },
+  "07-393x852": {
+   "name": "ARCHIVE BLOCKED",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": null,
+   "folio": [
+    0,
+    0,
+    393,
+    852
+   ],
+   "focus_inside": true
+  },
+  "07-393x660": {
+   "name": "ARCHIVE BLOCKED",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": false,
+   "primary_found": true,
+   "close_in_view": null,
+   "folio": [
+    0,
+    0,
+    393,
+    660
+   ],
+   "focus_inside": true
+  },
+  "08-393x852": {
+   "name": "GLOBAL MENU",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": true,
+   "folio": [
+    55,
+    0,
+    338,
+    852
+   ],
+   "focus_inside": true
+  },
+  "08-393x660": {
+   "name": "GLOBAL MENU",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": true,
+   "folio": [
+    55,
+    0,
+    338,
+    660
+   ],
+   "focus_inside": true
+  }
+ },
+ "after": {
+  "01-393x852": {
+   "name": "MONEY ACTION SHEET",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": true,
+   "folio": [
+    10,
+    156,
+    373,
+    540
+   ],
+   "focus_inside": true
+  },
+  "01-393x660": {
+   "name": "MONEY ACTION SHEET",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": true,
+   "folio": [
+    10,
+    60,
+    373,
+    540
+   ],
+   "focus_inside": true
+  },
+  "02-393x852": {
+   "name": "ADD A POCKET",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": true,
+   "folio": [
+    10,
+    79,
+    373,
+    694
+   ],
+   "focus_inside": true
+  },
+  "02-393x660": {
+   "name": "ADD A POCKET",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": true,
+   "folio": [
+    10,
+    10,
+    373,
+    640
+   ],
+   "focus_inside": true
+  },
+  "03-393x852": {
+   "name": "MOVE MONEY",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": true,
+   "folio": [
+    10,
+    10,
+    373,
+    832
+   ],
+   "focus_inside": true
+  },
+  "03-393x660": {
+   "name": "MOVE MONEY",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": true,
+   "folio": [
+    10,
+    10,
+    373,
+    640
+   ],
+   "focus_inside": true
+  },
+  "04-393x852": {
+   "name": "MANAGE POCKET",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": null,
+   "folio": [
+    38,
+    476,
+    232,
+    179
+   ],
+   "focus_inside": true
+  },
+  "04-393x660": {
+   "name": "MANAGE POCKET",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": null,
+   "folio": [
+    38,
+    36,
+    232,
+    179
+   ],
+   "focus_inside": true
+  },
+  "05-393x852": {
+   "name": "SEARCH DRAWER",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": true,
+   "folio": [
+    10,
+    29,
+    373,
+    795
+   ],
+   "focus_inside": true
+  },
+  "05-393x660": {
+   "name": "SEARCH DRAWER",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": true,
+   "folio": [
+    10,
+    10,
+    373,
+    640
+   ],
+   "focus_inside": true
+  },
+  "06-393x852": {
+   "name": "ACCOUNT / SETTINGS",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": true,
+   "folio": [
+    -87,
+    0,
+    480,
+    852
+   ],
+   "focus_inside": true
+  },
+  "06-393x660": {
+   "name": "ACCOUNT / SETTINGS",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": true,
+   "folio": [
+    22,
+    0,
+    371,
+    660
+   ],
+   "focus_inside": true
+  },
+  "07-393x852": {
+   "name": "ARCHIVE BLOCKED",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": null,
+   "folio": [
+    0,
+    0,
+    393,
+    852
+   ],
+   "focus_inside": true
+  },
+  "07-393x660": {
+   "name": "ARCHIVE BLOCKED",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": false,
+   "primary_found": true,
+   "close_in_view": null,
+   "folio": [
+    0,
+    0,
+    393,
+    660
+   ],
+   "focus_inside": true
+  },
+  "08-393x852": {
+   "name": "GLOBAL MENU",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": true,
+   "primary_found": true,
+   "close_in_view": true,
+   "folio": [
+    55,
+    0,
+    338,
+    852
+   ],
+   "focus_inside": true
+  },
+  "08-393x660": {
+   "name": "GLOBAL MENU",
+   "open": true,
+   "page_scroll_y": false,
+   "page_scroll_x": false,
+   "off": [],
+   "primary_in_view": false,
+   "primary_found": true,
+   "close_in_view": true,
+   "folio": [
+    55,
+    0,
+    338,
+    660
+   ],
+   "focus_inside": true
+  }
+ }
+}

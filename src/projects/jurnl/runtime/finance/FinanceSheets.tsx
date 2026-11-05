@@ -33,6 +33,8 @@ import { applyOp } from '../../data/ledger/ledgerOps';
 import { getRepository } from '../../data/repository/deviceRepository';
 import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
 import { useJurnl } from '../state/store';
+import { ART, EdAction, EdArt, EdChoices, EdSeal, EditorialOverlay, REGION } from '../surfaces/editorial/Editorial';
+import { PocketPick } from '../surfaces/editorial/MoneyOverlays';
 
 // ─── Small shared pieces ─────────────────────────────────────────────────────
 
@@ -328,47 +330,59 @@ export function TransferSheet({ fromId, toId, onClose }: { fromId?: string | nul
     PENDING: 'NO BALANCE CHANGES YET. MARK WHEN THE MONEY LEAVES AND WHEN IT ARRIVES.',
     SCHEDULED: 'NO BALANCE CHANGES. MARK IT WHEN IT HAPPENS.',
   };
+  const accounts = getRepository().listAccounts().filter((a) => a.status === 'ACTIVE');
+  const position = (a: JurnlAccountRecord) => {
+    const p = positionsNow().find((x) => x.account_id === a.account_id);
+    return p ? (p.nature === 'LIABILITY' ? `${money(p.owed)} OWED` : money(p.held)) : '';
+  };
+  const save = () =>
+    run(recordTransfer({ from_account_id: from, to_account_id: to, amount: value ?? 0, occurred_on: date.trim() as CalendarDate, start, memo, allowDuplicate: allowDup }), (v) => {
+      showToast({ tone: 'success', title: v.kind === 'CARD_PAYMENT' ? 'CARD PAYMENT RECORDED' : 'TRANSFER RECORDED', body: `${money(value ?? 0)} · ${(v.kind === 'CARD_PAYMENT' ? CARD_PAYMENT_STATE_LABEL : TRANSFER_STATE_LABEL)[start]} · RECORDED BY YOU, NOT CONFIRMED BY A BANK.`, testId: 'transfer-result' });
+      onClose();
+    });
+  // founder board 03: the movement between two pockets is the composition — FROM fragment, the bronze direction seal,
+  // TO fragment — then a compact ledger (amount, date, where the money is now). JURNL records it; it moves nothing.
   return (
-    <JurnlDrawer
-      expression="form"
-      material="v3"
-      size="long"
+    <EditorialOverlay
       testId="transfer-sheet"
-      title={toCard ? 'PAY A CARD' : 'MOVE MONEY'}
-      lead="BETWEEN YOUR OWN ACCOUNTS. THIS IS NOT INCOME OR SPENDING. JURNL RECORDS IT; IT DOES NOT MOVE REAL MONEY."
+      composition="transfer"
+      title={toCard ? ['PAY A CARD'] : ['MOVE MONEY']}
+      script={toCard ? 'record a card payment' : 'transfer between your pockets'}
       onClose={onClose}
+      decor={
+        <>
+          <EdArt art={ART.sk01} region={REGION.bust} className="jed-art--bust" torn={5} />
+          <EdArt art={ART.sk01} region={REGION.arch} className="jed-art--arch" torn={9} />
+          <EdArt art={ART.lemonBranch} className="jed-art--lemon" />
+        </>
+      }
       footer={
         <>
           <ErrorLine error={error} />
           {error && /ALREADY RECORDED/.test(error) ? (
-            <JurnlButton variant="secondary" trigger="transfer-allow-duplicate" onClick={() => setAllowDup(true)}>{allowDup ? 'IT HAPPENED TWICE ✓' : 'IT HAPPENED TWICE'}</JurnlButton>
+            <EdAction trigger="transfer-allow-duplicate" material="cream" title={allowDup ? 'IT HAPPENED TWICE ✓' : 'IT HAPPENED TWICE'} onClick={() => setAllowDup(true)} className="jed-action--wide" />
           ) : null}
-          <JurnlButton
-            trigger="transfer-save"
-            disabled={value == null || !isCalendarDate(date.trim())}
-            onClick={() =>
-              run(recordTransfer({ from_account_id: from, to_account_id: to, amount: value ?? 0, occurred_on: date.trim() as CalendarDate, start, memo, allowDuplicate: allowDup }), (v) => {
-                showToast({ tone: 'success', title: v.kind === 'CARD_PAYMENT' ? 'CARD PAYMENT RECORDED' : 'TRANSFER RECORDED', body: `${money(value ?? 0)} · ${(v.kind === 'CARD_PAYMENT' ? CARD_PAYMENT_STATE_LABEL : TRANSFER_STATE_LABEL)[start]} · RECORDED BY YOU, NOT CONFIRMED BY A BANK.`, testId: 'transfer-result' });
-                onClose();
-              })
-            }
-          >
-            {toCard ? 'RECORD CARD PAYMENT' : 'RECORD TRANSFER'}
-          </JurnlButton>
+          <EdAction trigger="transfer-cancel" material="cream" title="CANCEL" onClick={onClose} />
+          <EdAction trigger="transfer-save" material="olive" title={toCard ? 'RECORD CARD PAYMENT' : 'RECORD TRANSFER'} disabled={value == null || !isCalendarDate(date.trim())} onClick={save} />
         </>
       }
     >
-      <AccountChips label="FROM" value={from} onChange={setFrom} trigger="transfer-from" filter={assetOnly} />
-      {fromPos ? <p className="jrn-currency__note">{`${fromPos.account.display_name} HAS ${money(fromPos.held)} RECORDED.`}</p> : null}
-      <AccountChips label="TO" value={to} onChange={setTo} trigger="transfer-to" filter={(a) => a.account_id !== from} />
-      <JurnlInput label="AMOUNT" value={amount} onValue={setAmount} trigger="transfer-amount" inputMode="decimal" />
-      <JurnlInput label="DATE (YYYY-MM-DD)" value={date} onValue={setDate} trigger="transfer-date" inputMode="numeric" />
-      <p className="jrn-eyebrow">WHERE IS THE MONEY NOW?</p>
-      <Chips label="WHERE IS THE MONEY NOW" value={start} options={startOptions(fromName, toCard)} onChange={setStart} trigger="transfer-status" />
-      <p className="jrn-currency__note" data-testid="transfer-effect">{effect[start]}</p>
-      <JurnlInput label="NOTE (OPTIONAL)" value={memo} onValue={setMemo} trigger="transfer-memo" />
-      {toCard ? <p className="jrn-currency__note">PAYING A CARD LOWERS WHAT IT OWES. IT IS NOT A SECOND PURCHASE.</p> : null}
-    </JurnlDrawer>
+      <p className="jed-note jed-note--ground" style={{ margin: "0 4px 8px" }}>BETWEEN YOUR OWN ACCOUNTS. NOT INCOME OR SPENDING. JURNL RECORDS IT; IT DOES NOT MOVE REAL MONEY.</p>
+      <PocketPick dir="FROM" accountId={from} options={accounts.filter(assetOnly)} figure={position} onChange={setFrom} trigger="transfer-from" />
+      <EdSeal glyph="transfer" className="jed-direction" />
+      <PocketPick dir="TO" accountId={to} options={accounts.filter((a) => a.account_id !== from)} figure={position} onChange={setTo} trigger="transfer-to" />
+      <div className="jed-sheet" style={{ marginTop: 10 }}>
+        <div className="jed-ledger">
+          <div className="jed-field"><JurnlInput label="AMOUNT" value={amount} onValue={setAmount} trigger="transfer-amount" inputMode="decimal" /></div>
+          <div className="jed-field"><JurnlInput label="DATE (YYYY-MM-DD)" value={date} onValue={setDate} trigger="transfer-date" inputMode="numeric" /></div>
+        </div>
+        <span className="jed-label">WHERE IS THE MONEY NOW?</span>
+        <EdChoices label="WHERE IS THE MONEY NOW" value={start} options={startOptions(fromName, toCard)} onChange={setStart} trigger="transfer-status" />
+        <p className="jed-note" data-testid="transfer-effect">{effect[start]}</p>
+        <div className="jed-field" style={{ marginTop: 8 }}><JurnlInput label="NOTE (OPTIONAL)" value={memo} onValue={setMemo} trigger="transfer-memo" /></div>
+        {toCard ? <p className="jed-note">PAYING A CARD LOWERS WHAT IT OWES. IT IS NOT A SECOND PURCHASE.</p> : null}
+      </div>
+    </EditorialOverlay>
   );
 }
 

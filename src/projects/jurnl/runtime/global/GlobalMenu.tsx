@@ -17,6 +17,7 @@
  * FOUNDER_FULL grant (server-resolved, #1708) is shown as FOUNDER ACCESS and suppresses every upgrade prompt; it never
  * changes what is authorized (the trusted backend decides). Unknown entitlement state withholds (fail closed).
  */
+import { ART, EdArt, REGION } from '../surfaces/editorial/Editorial';
 import { useState } from 'react';
 import { addOnById, capabilityById, planById, type AddOnDefinition } from '../../../../../shared/site00-monetization/contract.js';
 import { JURNL_MONETIZATION_CONTRACT as CONTRACT } from '../../data/monetization/contract';
@@ -69,6 +70,16 @@ export function GlobalMenu({ onClose, onOpen, onDestination }: { onClose: () => 
   const { signOut, showToast } = useJurnl();
   return (
     <V3Drawer label="MENU" material="olive" onClose={onClose} testId="global-menu">
+      {/* founder board 08: the classical head of the menu — the SK01 bust, a lemon branch, the torn headline paper */}
+      <div className="jed-menu-head">
+        <EdArt art={ART.sk01} region={REGION.bust} className="jed-art--bust" torn={13} />
+        <EdArt art={ART.lemonBranch} className="jed-art--lemon" />
+        <div className="jed-menu-head__title">
+          <span className="jed-head__paper" aria-hidden style={{ backgroundImage: `url("${ART.heading.src}")` }} />
+          <h2 className="jed-head__title">MENU</h2>
+          <p className="jv3-t-script">tools, membership and more</p>
+        </div>
+      </div>
       <V3NavSection title="YOUR ACCOUNT">
         <V3NavItem icon="person" label="ACCOUNT & PROFILE" trigger="menu-account" onClick={() => onDestination('account')} />
         <V3NavItem icon="gear" label="PREFERENCES" trigger="menu-preferences" onClick={() => onDestination('preferences')} />
