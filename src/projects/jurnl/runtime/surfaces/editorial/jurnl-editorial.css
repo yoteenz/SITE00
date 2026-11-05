@@ -193,6 +193,13 @@
   flex: 1;
   min-width: 0;
 }
+.jrn .jed-action__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
 .jrn .jed-action__title {
   font: 600 clamp(15px, 4.4vw, 17px) / 1.05 'JURNL Authority Serif', 'JURNL Display', serif;
   letter-spacing: 0.08em;
@@ -456,10 +463,23 @@
   right: -2%;
   width: 42%;
 }
+/* Chevron sits on the second title row (POCKET / MONEY), not beside the cursive note */
+.jrn [data-jed='action'] .jed-action__heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  column-gap: 8px;
+}
+.jrn [data-jed='action'] .jed-action__title {
+  display: block;
+}
+.jrn [data-jed='action'] .jed-action__title > span {
+  display: block;
+}
 .jrn [data-jed='action'] .jed-action .jed-chev {
-  position: absolute;
-  right: 46%;
-  bottom: 18px;
+  position: static;
+  align-self: end;
+  margin-bottom: 0.08em;
 }
 
 /* ══ 02 ADD A POCKET — an editorial registration folio ══ */

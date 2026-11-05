@@ -172,11 +172,13 @@ export function EdAction({ trigger, material = 'paper', title, note, art, onClic
       {material === 'olive' ? <span className="jed-action__strip" aria-hidden style={{ backgroundImage: `url("${ART.darkStrip.src}")` }} /> : null}
       {art ? <span className="jed-action__art" aria-hidden>{art}</span> : null}
       <span className="jed-action__text">
-        <span className="jed-action__title">{title}</span>
+        <span className="jed-action__heading">
+          <span className="jed-action__title">{title}</span>
+          <svg className="jed-chev" viewBox="0 0 10 16" aria-hidden><path d="M2 2l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        </span>
         {note ? <span className="jed-script jed-action__note">{note.toLowerCase()}</span> : null}
       </span>
       {children}
-      <svg className="jed-chev" viewBox="0 0 10 16" aria-hidden><path d="M2 2l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" /></svg>
     </button>
   );
 }
