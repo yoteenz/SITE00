@@ -80,14 +80,15 @@ def main():
     Image.fromarray(a, 'RGBA').save(path, 'WEBP', quality=92, method=6)
     out['seal'] = {'runtime': 'F05_DOT01_SEAL_SK03.webp', 'source': os.path.basename(SEAL_SRC), 'source_sha256': hashlib.sha256(open(SEAL_SRC, 'rb').read()).hexdigest(), 'centre': [cx, cy], 'radius': r, 'box': [x0, y0, x1, y1], 'bytes': os.path.getsize(path)}
     print('SEAL', w, h, os.path.getsize(path))
-    # per-screen wax seals of the record flow (OPUS3 gate 1): each authority's own seal, lifted with a disc alpha slightly
+    # per-screen wax seals (OPUS3 gate 1; 16–20 OPUS3A, 21–29 the continuation): each authority's own seal, lifted with a disc alpha slightly
     # inside its measured rim (the authority text never reaches the seal; nothing is painted). Discs measured on the
     # 941 x 1672 authority PNGs (centre x, centre y, radius) and checked by overlay (evidence: seals_lift_check).
     auth = os.environ.get('JURNL_AUTHORITY_PNG')  # the V9 authority masters are not in the repository
     out['seals'] = {}
     if auth:
         import glob
-        SEALS = {'16': (96, 374, 68), '17': (93, 414, 75), '18': (95, 407, 74), '19': (112, 422, 87), '20': (95, 400, 72)}
+        SEALS = {'16': (96, 374, 68), '17': (93, 414, 75), '18': (95, 407, 74), '19': (112, 422, 87), '20': (95, 400, 72),
+                 '21': (106, 406, 64), '23': (99, 400, 68.5), '24': (101.5, 397, 65), '25': (100.5, 394.5, 66.5), '27': (100, 410.5, 77), '28': (101.5, 401, 68.5), '29': (99.5, 395, 67.5)}
         for k, (sx, sy, sr) in SEALS.items():
             src_p = glob.glob(os.path.join(auth, f'{k}_*.png'))[0]
             im = Image.open(src_p).convert('RGBA')

@@ -30,10 +30,10 @@
 
 * 17 ADD CASH's authority paper is wider than SK03's, with an amphora over it. It needs a structural rebuild
   (PARCHMENT_GEOMETRY_MISMATCHES = 1).
-* On 16 the form keeps one more strip than drawn (MERCHANT), so the pitch is 84 against the drawn 99. The icon tiles are square,
-  not the drawn 88 × 61.
+* On 16 the form keeps one more strip than drawn (MERCHANT), so the pitch is 84 against the drawn 99 (the icon tiles now have
+  the drawn proportion).
 * The title serif is wider per letter than the authority's lettering, so long titles are 5–10 % smaller than drawn.
-* Page titles (SK02, 02–13) were not re-fitted this sprint. 32's one line overhangs its page box by 1–2 px, as on the base.
+* Page titles are now covered by the measured clamp (32's base overhang closed); their papers were not re-shaped.
 * iOS Safari: UNVERIFIED.
 
 ## Founder approval gates

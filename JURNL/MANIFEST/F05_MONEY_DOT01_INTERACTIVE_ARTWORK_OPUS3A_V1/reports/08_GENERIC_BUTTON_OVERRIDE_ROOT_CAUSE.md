@@ -26,7 +26,7 @@ finding: the authorities draw a dark-olive **pill** with a thin cream rim (prima
 | Head | `.d01-btn` controls in the 37 states | with an artwork surface | with a CSS surface |
 |---|---|---|---|
 | before (`8e0b8d861`) | 49 | 0 | 49 |
-| after (this branch) | 47 | 47 (SK03 dark / cream pill; 37's quiet pair on the V9 narrow parchment strip) | 0 |
+| after (this branch) | 49 | 49 (SK03 dark / cream pill; 37's quiet pair on the V9 narrow parchment strip) | 0 |
 
 ## Secondary causes checked
 

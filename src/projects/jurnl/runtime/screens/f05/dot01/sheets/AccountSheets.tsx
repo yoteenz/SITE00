@@ -5,6 +5,7 @@
  * a card's limit is only what the user enters (never invented). Archiving re-checks every dependency first.
  */
 import { useState } from 'react';
+import { screenSeal } from '../screenSeals';
 import { archiveAccountSafely, archiveBlockers } from '../../../../../data/f05/dot01/archive';
 import { accountView, type Dot01Kind } from '../../../../../data/f05/dot01/accountView';
 import { accountById } from '../../../../../data/foundation/accounts';
@@ -202,6 +203,7 @@ export function PurposesOverlay({ accountId, onClose }: { accountId: string; onC
     <Dot01Overlay
       testId="d01-purposes"
       env="SK03_FIELD"
+      layers={screenSeal('21', 'env')}
       title={['ACCOUNT', 'PURPOSES']}
       subtitle="how this account is used"
       onClose={onClose}
@@ -264,6 +266,7 @@ export function ArchiveOverlay({ accountId, onClose, mode = 'archive', onDone }:
       chips={blocked ? searchAdd : undefined}
       env="SK03_FIELD"
       title={del ? (blocked ? ['DELETE', 'POCKET'] : ['DELETE THIS', 'POCKET?']) : ['ARCHIVE', 'ACCOUNT']}
+      layers={!del && !blocked ? screenSeal('25', 'env') : undefined}
       subtitle={blocked ? 'action blocked' : done ? undefined : 'before you continue'}
       onClose={onClose}
       contentRect={CONTENT}
@@ -346,7 +349,7 @@ export function ArchiveOverlay({ accountId, onClose, mode = 'archive', onDone }:
                   {del ? 'CONFIRM DELETE' : 'ARCHIVE ACCOUNT'}
                 </Button>
                 {del ? null : (
-                  <Button trigger="d01-keep-active" quiet onClick={onClose}>
+                  <Button trigger="d01-keep-active" quiet icon="cancel" onClick={onClose}>
                     KEEP ACCOUNT ACTIVE
                   </Button>
                 )}

@@ -9,7 +9,7 @@
    coordinates (Δ 0 px).
 2. `evidence/compare/16.webp`, `25.webp`, `37.webp`, `14.webp`: every DOT 01 action now draws the SK03 SIDEKICK's own dark-olive
    pill or cream pill. 25 ARCHIVE ACCOUNT is the dark pill, as drawn. 37 CANCEL / VIEW ORIGINAL are torn parchment, as drawn.
-3. `evidence/controls/`: the lifted surfaces, the five per-screen seals (16–20) and the SK03 seal.
+3. `evidence/controls/seals_lift_check.webp`: the twelve per-screen seals (16–21, 23–25, 27–29) and the SK03 seal, lifted; `evidence/compare/21–29` show them seated.
 
 ## Acceptance (sprint §24)
 
@@ -24,7 +24,7 @@
 | 09 | other generic controls corrected where the source permits | yes: every `.d01-btn` (49 CSS surfaces before → 0) |
 | 10 | nothing unsuitable force-mounted | yes (report 05) |
 | 11 | no SIDEKICK generation | 0 |
-| 12 | missing art documented | 0 proven missing; 4 recoverable lifts listed (report 15 §B) |
+| 12 | missing art documented | 0 proven missing; 4 recoverable lifts left (report 15 §B; the seals 21–29 were lifted in the continuation) |
 | 13 | account-count variants usable | yes (OPUS3 directory suite, 24 / 24) |
 | 14 | no page-level scroll | 0 in every measured state and viewport |
 | 15 | V3 overlays functional | editorial suite 27 / 27 |
@@ -34,8 +34,8 @@
 
 ## Why PARTIAL
 
-* The per-screen seals of 21 / 23 / 24 / 25 / 27 / 28 / 29 and the scan compositions of 18 / 19 are still to be lifted (all
-  recoverable from the authorities, report 15 §B).
+* The scan compositions of 18 / 19 / 27 are still to be lifted (recoverable from the authorities, report 15 §B). The
+  per-screen seals are complete (continuation: 21–29 added to 16–20).
 * Structural rebuilds from OPUS3 gate 2 (07–13, 17, 23, 24, 28, 31, 33) are unchanged. Their actions now draw the right pills,
   but their page structures still differ from the authorities.
 * Field values are CSS cream fields, not the authority's deckled paper fields (LIFT-FIELD-DECKLED).
@@ -43,6 +43,6 @@
 
 ## Founder approval gates
 
-G-A1 the SK03 pill lifts as the DOT 01 action surface · G-A2 the five lifted seals (16–20) · G-A3 16's lifted scan illustration
+G-A1 the SK03 pill lifts as the DOT 01 action surface · G-A2 the twelve lifted seals (16–29) and their seating on the SK03 paper (drawn up to the SIDEKICK seal's size where an authority's seal is smaller: 21 / 23 / 24 / 25 / 28) · G-A3 16's lifted scan illustration
 (it keeps a small corner of the authority's olive leaf) · G-A4 the 25 destructive action as the dark pill · G-A5 the 37 torn
 CANCEL / VIEW ORIGINAL.

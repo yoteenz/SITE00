@@ -31,14 +31,14 @@ that leave their paper or their own clipping box (probe `TEXT=1`, 471 × 836).
 | 22 | EMPTY ACCOUNTS | authority 22 | PARTIAL | PASS | unchanged | page box | 0 | 0 | PASS | PASS | CANDIDATE | PENDING |
 | 23 | BALANCE ADJUSTMENT REVIEW | authority 23 | PARTIAL | PASS | PASS | yes | 0 | 0 | PASS | PASS | PARTIAL | PENDING |
 | 24 | TRANSACTION CORRECTION / REVERSAL | authority 24 | PARTIAL | PASS | PASS | yes | 0 | 0 | PASS | PASS | PARTIAL | PENDING |
-| 25 | ACCOUNT ARCHIVE CONFIRMATION | authority 25 | PARTIAL | PASS | PASS | yes | 0 | 0 | PASS | PASS | PARTIAL | PENDING |
+| 25 | ACCOUNT ARCHIVE CONFIRMATION | authority 25 | PASS | PASS | PASS | yes | 0 | 0 | PASS | PASS | CANDIDATE | PENDING |
 | 26 | CAPTURE RECEIPT | authority 26 | PARTIAL | PASS | PASS | yes | 0 | 0 | PASS | PASS | PARTIAL | PENDING |
 | 27 | SCANNING RECEIPT | authority 27 | PARTIAL | PASS | PASS | yes | 0 | 0 | PASS | PASS | PARTIAL | PENDING |
 | 28 | REVIEW EXTRACTED PURCHASE | authority 28 | PARTIAL | PASS | PASS | yes | 0 | 0 | PASS | PASS | PARTIAL | PENDING |
-| 29 | RECEIPT EXCEPTION / DUPLICATE | authority 29 | PASS | PASS | PASS | yes | 0 | 0 | PASS | PASS | PARTIAL | PENDING |
+| 29 | RECEIPT EXCEPTION / DUPLICATE | authority 29 | PASS | PASS | PASS | yes | 0 | 0 | PASS | PASS | CANDIDATE | PENDING |
 | 30 | ACCOUNT SETUP DETAILS | authority 30 | PASS | PASS | PASS | yes | 0 | 0 | PASS | PASS | PARTIAL | PENDING |
 | 31 | TRANSACTION SEARCH AND FILTER | authority 31 | PARTIAL | PASS | unchanged | page box | 0 | 5 | PASS | CHECK | PARTIAL | PENDING |
-| 32 | REORDER ACCOUNTS | authority 32 | PARTIAL | FAIL | unchanged | page box | 0 | 0 | PASS | PASS | PARTIAL | PENDING |
+| 32 | REORDER ACCOUNTS | authority 32 | PARTIAL | PASS | unchanged | page box | 0 | 0 | PASS | PASS | PARTIAL | PENDING |
 | 33 | TRANSACTION REVIEW | authority 33 | PARTIAL | PASS | PASS | yes | 0 | 0 | PASS | PASS | PARTIAL | PENDING |
 | 34 | RECEIPT CAPTURE FAILURE | authority 34 | PARTIAL | PASS | PASS | yes | 0 | 0 | PASS | PASS | PARTIAL | PENDING |
 | 35 | ACCOUNT NEEDS REVIEW | authority 35 | PARTIAL | PASS | unchanged | page box | 0 | 0 | PASS | PASS | PARTIAL | PENDING |

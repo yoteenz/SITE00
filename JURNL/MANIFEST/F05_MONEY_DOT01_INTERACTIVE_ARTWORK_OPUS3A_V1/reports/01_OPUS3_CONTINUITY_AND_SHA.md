@@ -17,3 +17,12 @@ the account-count composition, 22's scene, 03 / 04 / 05, the shell corrections a
 
 Between `c4787f382` and the base, DOT 01 changed in two files only (`PocketManager.tsx` clip + kind art of the pocket menu,
 `AccountSheets.tsx` the 36 caution stone — both OPUS2); both are preserved.
+
+## Continuation (same branch, re-issued brief)
+
+The founder re-issued OPUS3A / OPUS3B after the first delivery (`8079962d3`). Per §00 (do not restart, do not duplicate), the
+same branch continued from that head and closed the source-recoverable gaps it had recorded: the per-screen seals of 21, 23,
+24, 25, 27, 28, 29 (lifted, mounted through one helper, `screenSeals.ts`), 25's drawn ⊗ glyph and glyph / label rule, the
+authority proportion of the 16 / 20 strip icon tiles, and a measured title clamp that guarantees no title line can pass its
+text-safe box (it also brings 32's page title, 1–2 px over on the base, inside). The reports were updated in place.
+

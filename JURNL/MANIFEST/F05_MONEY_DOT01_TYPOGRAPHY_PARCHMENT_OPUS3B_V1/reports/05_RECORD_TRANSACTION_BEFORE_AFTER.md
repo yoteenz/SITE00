@@ -26,7 +26,7 @@ V9 asset 12 (wide torn banner), the SK03 action sheet (pills). Runtime: `Purchas
 
 * The form carries seven strips (MERCHANT is required by the ledger; the authority draws six), so the strip pitch is 84 instead
   of 99 — the scan block is a little taller (its illustration keeps its own aspect) and the whole form ends 22 px higher than drawn.
-* The strip icon tiles are square (65 px) where the authority's are wider (88 × 61).
+* (closed in the continuation) the strip icon tiles now have the drawn proportion (2.9 × 2.0 fs ≈ 88 × 61 board px at a 471 phone).
 * The title is 64 px where the authority's lettering is ≈ 68–71 px (the runtime serif is wider per letter: 0.66 em vs 0.6 em).
 * The authority's labels are a shade heavier.
 

@@ -1654,7 +1654,8 @@
    "name": "SCANNING RECEIPT",
    "overlay": true,
    "controls_after": {
-    "ILLUSTRATED": 1
+    "ILLUSTRATED": 3,
+    "FIELD": 6
    },
    "controls_before": {
     "ILLUSTRATED": 1,
@@ -1662,7 +1663,9 @@
     "GENERIC": 2
    },
    "provenance_after": {
-    "PARTIAL_SOURCE_CANDIDATE": 1
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 6,
+    "EXACT_APPROVED_SOURCE": 2
    },
    "provenance_before": {
     "PARTIAL_SOURCE_CANDIDATE": 1,
@@ -1684,16 +1687,16 @@
    "leaks_before_list": [],
    "title_paper_after": [
     {
-     "text": "SCANNING",
-     "right": 546,
+     "text": "REVIEW",
+     "right": 460,
      "paper_edge": 634,
-     "overrun": -88
+     "overrun": -174
     },
     {
-     "text": "RECEIPT",
-     "right": 486,
+     "text": "PURCHASE",
+     "right": 557,
      "paper_edge": 597,
-     "overrun": -110
+     "overrun": -39
     }
    ],
    "title_paper_before": [
@@ -2012,8 +2015,8 @@
     "CSS_RECONSTRUCTION": 10
    },
    "title_after": {
-    "title_inside": false,
-    "title_font": 75.9
+    "title_inside": true,
+    "title_font": 75.0
    },
    "title_before": {
     "title_inside": false,
@@ -2389,24 +2392,24 @@
   }
  },
  "inventory_counts": {
-  "controls": 302,
+  "controls": 310,
   "by_kind": {
    "GENERIC": 15,
    "ON_PAPER": 61,
-   "ILLUSTRATED": 114,
-   "FIELD": 54,
+   "ILLUSTRATED": 116,
+   "FIELD": 60,
    "DOCK": 12,
    "CHIP": 45,
    "V3": 1
   },
   "by_provenance": {
-   "CSS_RECONSTRUCTION": 115,
-   "EXACT_APPROVED_SOURCE": 157,
+   "CSS_RECONSTRUCTION": 121,
+   "EXACT_APPROVED_SOURCE": 159,
    "PARTIAL_SOURCE_CANDIDATE": 30
   },
   "by_method": {
-   "C": 115,
-   "A": 181,
+   "C": 121,
+   "A": 183,
    "B": 6
   }
  },
@@ -2430,9 +2433,9 @@
  "d01_btn_css_before": 49,
  "d01_btn_css_after": 0,
  "d01_btn_css_after_list": [],
- "d01_btn_total_after": 47,
+ "d01_btn_total_after": 49,
  "icons_after": {
-  "INLINE_SVG": 239,
+  "INLINE_SVG": 251,
   "DOCK_COMPONENT": 15,
   "MICRO": 47,
   "AUTHORITY_LIFT": 2
@@ -2696,7 +2699,7 @@
    "32": {
     "scroll": false,
     "off": 0,
-    "title_inside": false,
+    "title_inside": true,
     "leaks": 0,
     "collide": 0,
     "status": "RENDERED"
@@ -2994,7 +2997,7 @@
    "32": {
     "scroll": false,
     "off": 0,
-    "title_inside": false,
+    "title_inside": true,
     "leaks": 0,
     "collide": 0,
     "status": "RENDERED"
@@ -3292,7 +3295,7 @@
    "32": {
     "scroll": false,
     "off": 0,
-    "title_inside": false,
+    "title_inside": true,
     "leaks": 0,
     "collide": 0,
     "status": "RENDERED"
@@ -3359,7 +3362,7 @@
     "scroll": false,
     "off": 0,
     "title_inside": true,
-    "leaks": 0,
+    "leaks": 1,
     "collide": 0,
     "status": "RENDERED"
    },
@@ -3745,8 +3748,8 @@
    }
   }
  },
- "illustrated_found": 187,
- "illustrated_converged": 157,
+ "illustrated_found": 189,
+ "illustrated_converged": 159,
  "resp_rows": [
   [
    "360x780",
@@ -3754,7 +3757,7 @@
    0,
    0,
    0,
-   0,
+   1,
    0,
    0
   ],
@@ -3773,7 +3776,7 @@
    37,
    0,
    3,
-   1,
+   0,
    2,
    11,
    0
@@ -3783,7 +3786,7 @@
    37,
    0,
    2,
-   1,
+   0,
    1,
    14,
    0
@@ -3803,7 +3806,7 @@
    37,
    0,
    2,
-   1,
+   0,
    8,
    10,
    0

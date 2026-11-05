@@ -7,12 +7,12 @@ shortest phones keep the 0.86 floor and the 16 px input floor (no iOS zoom); a s
 
 | Viewport | States | Page scroll | Controls off screen (not in a scroller) | Title lines out of the safe zone | Text runs leaving their paper | Icon/text collisions | Failed |
 |---|---|---|---|---|---|---|---|
-| 360x780 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 360x780 | 7 | 0 | 0 | 0 | 1 | 0 | 0 |
 | 375x667 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
-| 393x660 | 37 | 0 | 3 | 1 | 2 | 11 | 0 |
-| 393x852 | 37 | 0 | 2 | 1 | 1 | 14 | 0 |
+| 393x660 | 37 | 0 | 3 | 0 | 2 | 11 | 0 |
+| 393x852 | 37 | 0 | 2 | 0 | 1 | 14 | 0 |
 | 430x932 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
-| 471x836 | 37 | 0 | 2 | 1 | 8 | 10 | 0 |
+| 471x836 | 37 | 0 | 2 | 0 | 8 | 10 | 0 |
 | 768x1024 | 7 | 0 | 0 | 0 | 8 | 0 | 0 |
 | 834x1194 | 7 | 0 | 0 | 0 | 16 | 0 | 0 |
 | 1024x768 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -24,8 +24,11 @@ shortest phones keep the 0.86 floor and the 16 px input floor (no iOS zoom); a s
   right of the horizontal rail, OPUS3 gate 5) on every phone, plus 26 ENTER MANUALLY at 393 × 660 (OPUS3 gate 7). Both are the
   same on the base. No DOT 01 V9 overlay control is off screen after; 16 / 18 / 19 were re-measured at six phone sizes with the
   final scan block (0 off screen; the interim 52-px SCAN RECEIPT pushed the pair off a 360 / 393 phone and was corrected).
-* **Title lines out of the safe zone (1 per phone viewport)** — 32 REORDER ACCOUNTS, a page title (SK01 title paper, not an
-  overlay): ACCOUNTS ends 1–2 px past its 430-px page box and well inside the paper; identical on the base (same 75.9 px).
+* **Title lines out of the safe zone: 0 everywhere.** The first delivery had 1 per phone viewport — 32 REORDER ACCOUNTS, a page
+  title whose ACCOUNTS ended 1–2 px past its 430-px page box (identical on the base). The continuation's measured title clamp
+  sets it at 75.0 px instead of 75.9 and it sits inside; no other title needed the clamp (census diff: only 32's size changed).
+* **Text runs leaving their paper (360 × 780: 1)** — 16's CATEGORY select: SELECT CATEGORY ellipsises in its own box at 360 px
+  (the unclipped range overhangs by 2 px); the full value is the button's accessible name and is listed in the listbox.
 * **Text runs leaving their paper (471 × 836: 8)** — 01 parent rail card names (2 px), identical on the base.
 * **Text runs leaving their paper (768 × 1024: 8 · 834 × 1194: 16)** — 14 type cards and 16 / 20 select values on tablets: the
   em box of 21–22 px type overhangs its own line box by 3 px (vertical, 2 px tolerance); the ink sits well inside its field and

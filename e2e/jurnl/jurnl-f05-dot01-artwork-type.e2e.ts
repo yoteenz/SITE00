@@ -117,15 +117,16 @@ test.describe('OPUS3B · RECORD TRANSACTION (16) — wide title paper, text-safe
 });
 
 test.describe('OPUS3B · every overlay title stays inside its heading paper', () => {
-  const cases: [string, string, string, string][] = [
-    ['14 ADD ACCOUNT', 'money/places', 'd01-add-account', 'd01-add-account'],
-    ['15 EDIT ACCOUNT', 'money/places/bank/settings', 'd01-rename', 'd01-edit-account'],
-    ['20 RECORD CARD PAYMENT', 'money/places/visa', 'd01-strip-pay', 'd01-card-payment'],
-    ['21 ACCOUNT PURPOSES', 'money/places/bank/settings', 'd01-purposes', 'd01-purposes'],
-    ['24 CORRECT TRANSACTION', 'money/entries/tx-d01-trattoria', 'd01-tx-correct', 'd01-correct'],
-    ['36 ARCHIVE BLOCKED', 'money/places/bank/settings', 'd01-archive', 'd01-archive-blocked'],
+  // the last field: the screen's own lifted seal (null = the authority draws the SIDEKICK's laurel seal)
+  const cases: [string, string, string, string, string | null][] = [
+    ['14 ADD ACCOUNT', 'money/places', 'd01-add-account', 'd01-add-account', null],
+    ['15 EDIT ACCOUNT', 'money/places/bank/settings', 'd01-rename', 'd01-edit-account', null],
+    ['20 RECORD CARD PAYMENT', 'money/places/visa', 'd01-strip-pay', 'd01-card-payment', '20'],
+    ['21 ACCOUNT PURPOSES', 'money/places/bank/settings', 'd01-purposes', 'd01-purposes', '21'],
+    ['24 CORRECT TRANSACTION', 'money/entries/tx-d01-trattoria', 'd01-tx-correct', 'd01-correct', '24'],
+    ['36 ARCHIVE BLOCKED', 'money/places/bank/settings', 'd01-archive', 'd01-archive-blocked', null],
   ];
-  for (const [name, route, open1, id] of cases) {
+  for (const [name, route, open1, id, seal] of cases) {
     test(`H · ${name}: title lines inside the text-safe zone; actions are illustrated pills`, async ({ page }) => {
       await open(page, route);
       await clickTrigger(page, open1);
@@ -133,6 +134,12 @@ test.describe('OPUS3B · every overlay title stays inside its heading paper', ()
       const fit = await titleFit(page, id);
       expect(fit.lines).toBeGreaterThan(0);
       expect(fit.out, name).toEqual([]);
+      const seals = overlay(page, id).locator('[data-layer-id^="seal"]');
+      if (seal) {
+        await expect(seals).toHaveCount(1);
+        expect(await seals.getAttribute('src'), name).toMatch(new RegExp(`F05_DOT01_SEAL_${seal}`));
+        await expect(seals).toHaveAttribute('aria-hidden', 'true');
+      } else await expect(seals).toHaveCount(0);
       for (const a of await actions(page, `[data-jrn-overlay="${id}"]`)) {
         // no generic rounded rectangle: a lifted pill, or (destructive only) the terracotta stadium
         if (a.danger) expect(a.radius, `${a.trigger} stadium`).toMatch(/px/);

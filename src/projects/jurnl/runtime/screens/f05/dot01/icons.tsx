@@ -33,6 +33,8 @@ const ICONS: Record<string, ReactNode> = {
   wallet: <><path {...P} d="M3 7.5h16.5V20H3z" /><path {...P} d="M3 7.5 15 4v3.5M15 13.5h4.5" /></>,
   reverse: <><path {...P} d="M20 8a8 8 0 0 0-14.5-2.5M4 4v4h4M4 16a8 8 0 0 0 14.5 2.5M20 20v-4h-4" /></>,
   duplicate: <><rect {...P} x="8" y="8" width="12" height="12" rx="2" /><path {...P} d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3" /></>,
+  // ⊗ — authority 25 KEEP ACCOUNT ACTIVE (a thin ring with a cross, the engraved line style of the other glyphs)
+  cancel: <><circle {...P} cx="12" cy="12" r="8.5" /><path {...P} d="m9 9 6 6m0-6-6 6" /></>,
   trash: <><path {...P} d="M4 6.5h16M9 6.5V4h6v2.5M6.5 6.5 7.5 20h9l1-13.5" /></>,
   calendar: <><rect {...P} x="3.5" y="5" width="17" height="15.5" rx="2" /><path {...P} d="M3.5 10h17M8 3v4M16 3v4" /></>,
   note: <><path {...P} d="M5 3.5h14v17H5zM8.5 8h7M8.5 12h7M8.5 16h4" /></>,

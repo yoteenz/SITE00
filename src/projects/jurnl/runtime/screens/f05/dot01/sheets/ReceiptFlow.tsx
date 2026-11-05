@@ -5,6 +5,7 @@
  * again, upload instead or enter the purchase manually. Nothing is saved here: the read values go to review.
  */
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from 'react';
+import { screenSeal } from '../screenSeals';
 import { checkReceiptFile, parseReceiptText, type ReceiptRead } from '../../../../../data/f05/dot01/receipt';
 import { DOT01 } from '../dot01Assets';
 import { by, Dot01Overlay, useSearchAddChips, type Dot01Layout, OVERLAY_CONTENT } from '../Dot01Frame';
@@ -151,7 +152,7 @@ export function ReceiptFlow({ onRead, onManual, onClose }: { onRead: (c: Receipt
 
   if (step === 'scanning')
     return (
-      <Dot01Overlay testId="d01-receipt-scanning" env="SK03_FIELD" title={['SCANNING', 'RECEIPT']} subtitle="pulling in the details" onClose={onClose} contentRect={CONTENT} contentScroll label="SCANNING RECEIPT" content={
+      <Dot01Overlay testId="d01-receipt-scanning" env="SK03_FIELD" layers={screenSeal('27', 'env')} title={['SCANNING', 'RECEIPT']} subtitle="pulling in the details" onClose={onClose} contentRect={CONTENT} contentScroll label="SCANNING RECEIPT" content={
         <>
           {frame(false, <span className="d01-scanline" data-on="true" aria-hidden />)}
           <Paper kind="sheet">

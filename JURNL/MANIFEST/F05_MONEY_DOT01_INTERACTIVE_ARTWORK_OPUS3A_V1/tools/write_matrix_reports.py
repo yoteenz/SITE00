@@ -28,23 +28,23 @@ NOTE = {
  '13': ('MARK RECONCILED → SK03 pill', 'structural mismatch (gate 2)', 'PARTIAL'),
  '14': ('CREATE ACCOUNT / CANCEL → SK03 pills, primary centred 78 %; title per-line fit on the SK03 paper', 'layout pass (gate 3); CREATE dimmed until a type is chosen', 'CANDIDATE'),
  '15': ('SAVE / CANCEL → pills; title fit', 'layout pass (gate 3)', 'PARTIAL'),
- '16': ('PILOT: wide title paper (V9 asset 12), its own bank seal, its own scan illustration, SCAN RECEIPT / MANUAL ENTRY / RECORD TRANSACTION pills at the authority type, strip labels / values at the authority type, value column widened, content under the wide paper', 'one more strip than drawn (MERCHANT is required) → 84 px pitch vs 99; icon tiles narrower than drawn', 'CANDIDATE'),
+ '16': ('PILOT: wide title paper (V9 asset 12), its own bank seal, its own scan illustration, SCAN RECEIPT / MANUAL ENTRY / RECORD TRANSACTION pills at the authority type, strip labels / values at the authority type, value column widened, icon tiles at the drawn 1.45 : 1, content under the wide paper', 'one more strip than drawn (MERCHANT is required) → 84 px pitch vs 99', 'CANDIDATE'),
  '17': ('its own coins seal; ADD TO CASH / REVIEW pill', 'structural: the amphora + coins over the paper, filled strips (gate 2 / LIFT-17-JUG)', 'PARTIAL'),
  '18': ('its own amphora seal; pills; strip type', 'scan composition differs (LIFT-SCAN-18)', 'PARTIAL'),
  '19': ('its own coin-portrait seal; pills; strip type', 'scan composition differs (LIFT-SCAN-19)', 'PARTIAL'),
- '20': ('wide title paper, its own card seal, REVIEW & SAVE pill', 'status row icons', 'CANDIDATE'),
- '21': ('pills; title fit', 'its own seal (LIFT-SEALS-21-29); layout pass (gate 3)', 'PARTIAL'),
+ '20': ('wide title paper, its own card seal, REVIEW & SAVE pill, icon tiles at the drawn proportion', 'status row icons', 'CANDIDATE'),
+ '21': ('pills; title fit; its own cards seal (lifted)', 'layout pass (gate 3)', 'PARTIAL'),
  '22': ('unchanged (OPUS3 scene)', '—', 'CANDIDATE'),
- '23': ('pills; title fit', 'its own seal (scales); structural (gate 2)', 'PARTIAL'),
- '24': ('pills; title fit', 'its own seal (arrows); structural (gate 2)', 'PARTIAL'),
- '25': ('ARCHIVE ACCOUNT: CSS terracotta → the authority\'s dark pill; KEEP ACCOUNT ACTIVE cream pill', 'its own seal (archive box); icon divider in the pills; layout pass (gate 3)', 'PARTIAL'),
+ '23': ('pills; title fit; its own scales seal (lifted)', 'structural (gate 2)', 'PARTIAL'),
+ '24': ('pills; title fit; its own circular-arrows seal (lifted)', 'structural (gate 2); GO BACK is a text link in the authority (cream pill here: on the olive field an ink link fails contrast)', 'PARTIAL'),
+ '25': ('ARCHIVE ACCOUNT: CSS terracotta → the authority\'s dark pill; KEEP ACCOUNT ACTIVE cream pill with its ⊗ glyph; the rule between glyph and label in both pills; its own archive-box seal (lifted)', 'layout pass (gate 3)', 'CANDIDATE'),
  '26': ('pills; title fit', 'gate 7 (ENTER MANUALLY at 393 × 660)', 'PARTIAL'),
- '27': ('title fit', 'its own seal (coin portrait)', 'PARTIAL'),
- '28': ('pills; title fit', 'its own seal (receipt); structural (gate 2)', 'PARTIAL'),
- '29': ('wide title paper, one line as drawn (REVIEW RECEIPT); pills', 'its own seal (receipt)', 'PARTIAL'),
- '30': ('wide title paper, one line as drawn (ACCOUNT SETUP); CREATE ACCOUNT pill', 'CANCEL is a text link in the authority (cream pill here)', 'PARTIAL'),
+ '27': ('title fit; its own coin-portrait seal (lifted)', 'scan composition (receipt frame + progress strips) differs', 'PARTIAL'),
+ '28': ('pills; title fit; its own receipt seal (lifted)', 'structural (gate 2)', 'PARTIAL'),
+ '29': ('wide title paper, one line as drawn (REVIEW RECEIPT); pills; its own receipt seal (lifted)', 'comparison panel layout', 'CANDIDATE'),
+ '30': ('wide title paper, one line as drawn (ACCOUNT SETUP); CREATE ACCOUNT pill', 'CANCEL is a text link in the authority (cream pill here: contrast on the olive field)', 'PARTIAL'),
  '31': ('CLEAR FILTERS pill', 'structural (gate 2)', 'PARTIAL'),
- '32': ('pills', 'layout pass (gate 3)', 'PARTIAL'),
+ '32': ('pills; page title clamped into its box (was 1–2 px over on the base)', 'layout pass (gate 3)', 'PARTIAL'),
  '33': ('pills; title fit', 'structural (gate 2)', 'PARTIAL'),
  '34': ('pills; title fit', 'layout pass (gate 3)', 'PARTIAL'),
  '35': ('pills', 'layout pass (gate 3)', 'PARTIAL'),
@@ -124,7 +124,7 @@ w(os.path.join(A3A, 'reports/09_CONTROL_SURFACE_SOURCE_MAP.md'),
   '| `SCENES/F05_DOT01_PILL_SK03_DARK.webp` (774 × 113) | SK03 SIDEKICK action sheet `F05_DOT01_SK03_SHEET.webp` | crop + stadium alpha of the cream-rim outline | every primary `.d01-btn` (9-slice caps 58 px) |\n'
   '| `SCENES/F05_DOT01_PILL_SK03_CREAM.webp` (773 × 92) | same sheet | crop + stadium alpha | every quiet `.d01-btn` (caps 48 px) |\n'
   '| `SCENES/F05_DOT01_SEAL_SK03.webp` (154²) | `F05_DOT01_SK03_FIELD.webp` | disc alpha r 74.5 @ 102, 401 | redrawn over the wide title paper when a screen has no seal of its own |\n'
-  '| `SCENES/F05_DOT01_SEAL_16…20.webp` | authorities 16 / 17 / 18 / 19 / 20 | disc alpha, hand-verified outlines | the record-flow overlays |\n'
+  '| `SCENES/F05_DOT01_SEAL_16…29.webp` (12) | authorities 16 · 17 · 18 · 19 · 20 · 21 · 23 · 24 · 25 · 27 · 28 · 29 | disc alpha, hand-verified outlines (`metrics/seal_fit_attempts.json`) | each overlay, seated by `screenSeals.ts` (on the SK03 paper: centred on, and covering, the SIDEKICK seal; on the wide paper: at the authority place) |\n'
   '| `SCENES/F05_DOT01_SCANART_16.webp` (288 × 258) | authority 16 | rounded-patch alpha, right side faded under the pills | 16 scan block |\n'
   '| `F05_DOT01_12_WIDE_TORN_BANNER.webp` (V9 motion asset, mounted, mirrored) | V9 | uniform scale 0.603 | wide title paper 16 / 20 / 29 / 30 |\n'
   '| `F05_DOT01_20_NARROW_PARCHMENT_ACTION_STRIP.webp` (V9) | V9 | 9-slice ends (150 px) | 37 CANCEL / VIEW ORIGINAL |\n\n'
@@ -137,8 +137,8 @@ w(os.path.join(A3A, 'reports/10_ICON_VARIANT_SOURCE_MAP.md'),
   'holds the per-icon table; not duplicated here).\n\n'
   + table(['Source class', 'Before', 'After'], [[k, S['icons_before'].get(k, 0), S['icons_after'].get(k, 0)] for k in sorted(set(S['icons_before']) | set(S['icons_after']))])
   + '\nChanges this sprint: 16\'s scan block now shows the authority\'s own receipt illustration (`SCANART_16`, counted with the\n'
-  'surfaces, not the icons) instead of the Batch 04 camera micro-asset; 16–20 show their own lifted seals (layers, not\n'
-  'icons). The Batch 01 framed plus stays on the amber `+` chip; the Batch 04 reorder grip stays the drag handle of 32 and is not\n'
+  'surfaces, not the icons) instead of the Batch 04 camera micro-asset; 16–21, 23–25 and 27–29 show their own lifted seals\n'
+  '(layers, not icons); 25 KEEP ACCOUNT ACTIVE gains its drawn ⊗ glyph (inline line glyph `cancel`, the engraved line style). The Batch 01 framed plus stays on the amber `+` chip; the Batch 04 reorder grip stays the drag handle of 32 and is not\n'
   'substituted for 06\'s engraved arrows. INLINE_SVG counts fall because fewer controls render in the measured states (the\n'
   'button glyphs are unchanged inline line glyphs: camera, pencil, check, archive — the authorities draw them as thin cream /\n'
   'ink line glyphs on the pills, which the inline vectors match in silhouette; they are counted as fallbacks, not as matches).\n'
@@ -200,7 +200,7 @@ for i in IDS:
     pa = s['title_paper_after'] or []
     hdr_bounds = ('PASS' if all(l['overrun'] <= 0 for l in pa) else 'FAIL') if pa else ('PASS' if s['title_after']['title_inside'] else ('n/a' if s['title_after']['title_inside'] is None else 'FAIL'))
     note = NOTE.get(i, ('', '', 'PARTIAL'))
-    font_match = 'PASS' if i in ('16', '20', '29', '30', '14', '36', '37') else 'PARTIAL'
+    font_match = 'PASS' if i in ('16', '20', '29', '30', '14', '25', '36', '37') else 'PARTIAL'
     rows.append([i, s['name'], f"authority {i}", font_match, hdr_bounds, 'PASS' if s['overlay'] else 'unchanged', 'yes' if s['overlay'] else 'page box', s['leaks_after'], s['collide_after'], 'PASS', 'PASS' if s['collide_after'] == 0 else 'CHECK', note[2], 'PENDING'])
 w(os.path.join(A3B, 'reports/07_ALL_37_TYPOGRAPHY_MATRIX.md'),
   '# 07 · All 37 screens — typography matrix (after)\n\n'

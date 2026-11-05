@@ -25,11 +25,7 @@ import { getRepository } from '../../../../../data/repository/deviceRepository';
 import { useJurnl } from '../../../../state/store';
 import { DOT01 } from '../dot01Assets';
 import { Dot01Overlay, useSearchAddChips, OVERLAY_CONTENT, OVERLAY_CONTENT_WIDE } from '../Dot01Frame';
-import seal16 from '../../../../../families/F05_MONEY/DOT01/SCENES/F05_DOT01_SEAL_16.webp';
-import seal17 from '../../../../../families/F05_MONEY/DOT01/SCENES/F05_DOT01_SEAL_17.webp';
-import seal18 from '../../../../../families/F05_MONEY/DOT01/SCENES/F05_DOT01_SEAL_18.webp';
-import seal19 from '../../../../../families/F05_MONEY/DOT01/SCENES/F05_DOT01_SEAL_19.webp';
-import seal20 from '../../../../../families/F05_MONEY/DOT01/SCENES/F05_DOT01_SEAL_20.webp';
+import { screenSeal } from '../screenSeals';
 import scanArt16 from '../../../../../families/F05_MONEY/DOT01/SCENES/F05_DOT01_SCANART_16.webp';
 import { shortDate } from '../HistoryPage';
 import { Alert, Button, Paper, Row, SelectInput, TextInput } from '../kit';
@@ -37,15 +33,10 @@ import { saveReceiptImage } from '../receiptStore';
 
 /** 16 RECORD BANK TRANSACTION seals its heading with the temple (bank) emblem — the 22 authority's own seal, lifted in
  * OPUS3 — over SK03's laurel, at the same place (it covers it). */
-/**
- * Each record screen's own wax seal, lifted from its authority with a disc alpha (lift_dot01_sk03_parts.py; OPUS3 gate 1):
- * on the wide title paper at the authority's own place; on the SK03 paper centred on — and just covering — the SIDEKICK's
- * laurel seal (centre 102, 401), so no rim of the SIDEKICK's seal shows around it.
- */
-const seal = (id: string, src: string, cx: number, cy: number, d: number) => [{ id: `seal_${id}`, src, box: { x: cx - d / 2, y: cy - d / 2, w: d, h: d }, alt: '' }];
-const RECORD_SEAL = { bank: seal('16', seal16, 96, 374, 141), cash: seal('18', seal18, 102, 401, 159), card: seal('19', seal19, 106, 410, 179) } as const;
-const ADD_CASH_SEAL = seal('17', seal17, 102, 401, 160);
-const CARD_PAYMENT_SEAL = seal('20', seal20, 95, 400, 149);
+/** Each record screen's own wax seal (screenSeals.ts: lifted from its authority, seated for its title paper). */
+const RECORD_SEAL = { bank: screenSeal('16', 'wide'), cash: screenSeal('18', 'env'), card: screenSeal('19', 'env') } as const;
+const ADD_CASH_SEAL = screenSeal('17', 'env');
+const CARD_PAYMENT_SEAL = screenSeal('20', 'wide');
 import { ReceiptFlow, type ReceiptCapture } from './ReceiptFlow';
 
 const CONTENT = OVERLAY_CONTENT;
@@ -163,7 +154,7 @@ export function PurchaseFlow({ accountId, mode, withType, startWithReceipt, onCl
   if (step === 'duplicate' && preview) {
     const m = preview.duplicates[0]!;
     return (
-      <Dot01Overlay testId="d01-receipt-duplicate" env="SK03_FIELD" heading="wide" title={['REVIEW RECEIPT']} subtitle="something needs your attention" onClose={onClose} contentRect={CONTENT} contentScroll label="POSSIBLE DUPLICATE" content={
+      <Dot01Overlay testId="d01-receipt-duplicate" env="SK03_FIELD" heading="wide" layers={screenSeal('29', 'wide')} title={['REVIEW RECEIPT']} subtitle="something needs your attention" onClose={onClose} contentRect={CONTENT} contentScroll label="POSSIBLE DUPLICATE" content={
         <>
           <Alert role="alert" testId="d01-duplicate-found">POSSIBLE DUPLICATE FOUND. THIS {capture ? 'RECEIPT' : 'PURCHASE'} APPEARS TO MATCH AN EXISTING TRANSACTION. NOTHING HAS BEEN SAVED.</Alert>
           <div className="d01-split">
@@ -227,7 +218,7 @@ export function PurchaseFlow({ accountId, mode, withType, startWithReceipt, onCl
   // form (16 / 18 / 19 / 28)
   const fromReceipt = !!capture;
   return (
-    <Dot01Overlay testId={fromReceipt ? 'd01-review-purchase' : 'd01-record'} env="SK03_FIELD" layers={fromReceipt ? undefined : [...RECORD_SEAL[mode]]} heading={!fromReceipt && mode === 'bank' ? 'wide' : undefined} fields={fromReceipt ? 'sheet' : 'strips-dense'} fieldIcons={!fromReceipt && mode !== 'card' && mode !== 'cash' ? 'tiles' : 'ink'} title={fromReceipt ? ['REVIEW', 'PURCHASE'] : title} subtitle={fromReceipt ? 'check before saving' : undefined} onClose={onClose} contentRect={!fromReceipt && mode === 'bank' ? OVERLAY_CONTENT_WIDE : CONTENT} contentScroll label={fromReceipt ? 'REVIEW EXTRACTED PURCHASE' : title.join(' ')} content={
+    <Dot01Overlay testId={fromReceipt ? 'd01-review-purchase' : 'd01-record'} env="SK03_FIELD" layers={fromReceipt ? screenSeal('28', 'env') : RECORD_SEAL[mode]} heading={!fromReceipt && mode === 'bank' ? 'wide' : undefined} fields={fromReceipt ? 'sheet' : 'strips-dense'} fieldIcons={!fromReceipt && mode !== 'card' && mode !== 'cash' ? 'tiles' : 'ink'} title={fromReceipt ? ['REVIEW', 'PURCHASE'] : title} subtitle={fromReceipt ? 'check before saving' : undefined} onClose={onClose} contentRect={!fromReceipt && mode === 'bank' ? OVERLAY_CONTENT_WIDE : CONTENT} contentScroll label={fromReceipt ? 'REVIEW EXTRACTED PURCHASE' : title.join(' ')} content={
       <>
         {!fromReceipt ? (
           <Paper kind="blank" className="d01-scanblock" testId="d01-scan-block">

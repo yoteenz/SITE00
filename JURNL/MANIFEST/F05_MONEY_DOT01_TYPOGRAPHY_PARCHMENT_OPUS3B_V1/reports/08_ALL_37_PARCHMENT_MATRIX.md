@@ -29,11 +29,11 @@ asset drawn at uniform scale or 9-sliced on its torn ends only (no vertical stre
 | 22 | EMPTY ACCOUNTS | page / scene papers (unchanged) | uniform scale / 9-slice ends only | page box | PASS | PASS | CANDIDATE |
 | 23 | BALANCE ADJUSTMENT REVIEW | SK03 paper = authority shape (≈ 560–640) | uniform scale / 9-slice ends only | yes | structural | PASS | PARTIAL |
 | 24 | TRANSACTION CORRECTION / REVERSAL | SK03 ≈ authority (≈ 660) | uniform scale / 9-slice ends only | yes | structural | PASS | PARTIAL |
-| 25 | ACCOUNT ARCHIVE CONFIRMATION | SK03 ≈ authority (≈ 660) | uniform scale / 9-slice ends only | yes | PASS | PASS | PARTIAL |
+| 25 | ACCOUNT ARCHIVE CONFIRMATION | SK03 ≈ authority (≈ 660) | uniform scale / 9-slice ends only | yes | PASS | PASS | CANDIDATE |
 | 26 | CAPTURE RECEIPT | SK03 paper = authority shape (≈ 560–640) | uniform scale / 9-slice ends only | yes | PASS | PASS | PARTIAL |
 | 27 | SCANNING RECEIPT | SK03 paper = authority shape (≈ 560–640) | uniform scale / 9-slice ends only | yes | PASS | PASS | PARTIAL |
 | 28 | REVIEW EXTRACTED PURCHASE | SK03 paper = authority shape (≈ 560–640) | uniform scale / 9-slice ends only | yes | structural | PASS | PARTIAL |
-| 29 | RECEIPT EXCEPTION / DUPLICATE | wide banner — MATCH | uniform scale / 9-slice ends only | yes | PASS | PASS | PARTIAL |
+| 29 | RECEIPT EXCEPTION / DUPLICATE | wide banner — MATCH | uniform scale / 9-slice ends only | yes | PASS | PASS | CANDIDATE |
 | 30 | ACCOUNT SETUP DETAILS | wide banner — MATCH | uniform scale / 9-slice ends only | yes | PASS | PASS | PARTIAL |
 | 31 | TRANSACTION SEARCH AND FILTER | page / scene papers (unchanged) | uniform scale / 9-slice ends only | page box | structural | PASS | PARTIAL |
 | 32 | REORDER ACCOUNTS | page / scene papers (unchanged) | uniform scale / 9-slice ends only | page box | PASS | PASS | PARTIAL |

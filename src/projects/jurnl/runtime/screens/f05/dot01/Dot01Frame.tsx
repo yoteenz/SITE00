@@ -273,6 +273,38 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
   const overlayHead = env === 'SK03' || env === 'SK03_FIELD';
   const head: Dot01Heading = overlayHead ? heading : 'env';
   const tSize = titleSize(title, overlayHead, head);
+  // text-safe guarantee: titleSize() sets the size from a mean letter advance; the rendered lines are then measured (after
+  // the faces load) and, only if a line would still pass its heading box, the title steps down to fit — never up
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const [titleFit, setTitleFit] = useState(1);
+  const titleKey = `${title.join('|')}|${tSize}|${head}`;
+  useLayoutEffect(() => {
+    const h1 = titleRef.current;
+    const box = h1?.parentElement;
+    if (!h1 || !box) return;
+    let live = true;
+    const measure = () => {
+      if (!live) return;
+      const avail = box.getBoundingClientRect().width;
+      let widest = 0;
+      for (const sp of h1.querySelectorAll<HTMLElement>(':scope > span')) {
+        const r = document.createRange();
+        r.selectNodeContents(sp);
+        widest = Math.max(widest, r.getBoundingClientRect().width);
+      }
+      if (!avail || !widest) return;
+      setTitleFit((f) => {
+        const natural = widest / f;
+        const next = natural > avail ? Math.floor((avail / natural) * 0.995 * 1000) / 1000 : 1;
+        return Math.abs(next - f) < 0.002 ? f : next;
+      });
+    };
+    measure();
+    void (typeof document !== 'undefined' && document.fonts ? document.fonts.ready.then(measure) : undefined);
+    return () => {
+      live = false;
+    };
+  }, [titleKey]);
   // the content region follows the title paper: under the wide paper it starts where that paper ends
   const region = head === 'wide' && contentRect === OVERLAY_CONTENT ? OVERLAY_CONTENT_WIDE : contentRect;
   const mapped = region ? boardToScreen(L, region) : null;
@@ -337,7 +369,7 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
         ))}
         <p className="jrn-d01__mark" aria-label="JURNL">JURNL</p>
         <header className="jrn-d01__heading" data-jrn-zone="intro">
-          <h1 id={titleId} className="jrn-d01__title" style={{ fontSize: f05BoardType(tSize) }} data-lines={title.length} tabIndex={-1}>
+          <h1 ref={titleRef} id={titleId} className="jrn-d01__title" style={{ fontSize: titleFit < 1 ? `calc(${f05BoardType(tSize)} * ${titleFit})` : f05BoardType(tSize) }} data-lines={title.length} data-fit={titleFit < 1 ? titleFit : undefined} tabIndex={-1}>
             {/* a real space between the lines (a whitespace-only node is not a grid item, so layout is unchanged) */}
             {title.map((t, i) => (
               <Fragment key={`${i}-${t}`}>

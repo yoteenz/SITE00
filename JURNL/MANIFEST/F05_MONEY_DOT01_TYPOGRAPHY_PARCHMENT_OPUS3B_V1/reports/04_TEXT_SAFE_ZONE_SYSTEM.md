@@ -20,7 +20,7 @@ heading boxes; enforced by `titleSize()` (per-line fit) and verified by the prob
 | per-line measure (`lines`) | 410 · 380 · 350 | 492 · 480 · 460 |
 | FONT_ROLE | `JURNL Authority Serif` 600, tracking 0.02 em, leading 0.94; cursive `JURNL Script` 38 px | same |
 | size rule | `min(cap, measure_i ÷ (letters_i × 0.66))`, cap 80 / 68 / 50 for 1 / 2 / 3 lines | same |
-| OVERFLOW_BEHAVIOR | never clipped: the type is fitted to the box; a 3rd line steps the cap down | same |
+| OVERFLOW_BEHAVIOR | never clipped: the type is fitted to the box; a 3rd line steps the cap down; then each rendered line is measured (after the faces load) and, if one would still pass the box, the title steps down by the measured ratio (`titleFit`, `data-fit` on the `<h1>`) — never up | same |
 
 ## Content papers (screen px inside the content region)
 
@@ -37,3 +37,12 @@ heading boxes; enforced by `titleSize()` (per-line fit) and verified by the prob
   its own clipping box; icon/text collisions per line box.
 * E2E R1 / H (six overlays): title lines inside the safe zone, the safe zone inside the drawn paper (16), action labels between
   the caps, no icon/text collision, no page scroll.
+
+## Measured clamp (all titles, pages and overlays)
+
+`titleSize()` sets the size from a mean letter advance (0.66 em overlays, 0.69 em pages); words with wide letters (ACCOUNTS,
+TRANSACTION) can run a little longer than the mean. `Dot01Board` therefore measures each title line's text range against its
+heading box after layout and after `document.fonts.ready`, and scales the title by `box ÷ natural width × 0.995` only when a line
+would overhang. The census confirms the effect: 32's page title (ACCOUNTS, 75.9 px, 1–2 px over its box on the base) is set at
+75.0 px and sits inside; no other title needed it.
+

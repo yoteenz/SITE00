@@ -2057,6 +2057,22 @@
 .jrn .d01-filters__clear .d01-btn {
   min-height: var(--d01-btn-h);
 }
+/* 25 ARCHIVE ACCOUNT: the authority sets a thin rule between the glyph and the label in both pills */
+.jrn [data-jrn-overlay='d01-archive'] .d01-btn > svg {
+  box-sizing: content-box;
+  padding-right: 0.6em;
+  margin-right: 0.15em;
+  border-right: 1.5px solid currentColor;
+}
+/* 16 / 20 strip icon tiles at the authority's proportion (16: 88 × 61 board px, ≈ 2.9 × 2.0 fs), not square */
+.jrn .jrn-d01__content[data-fields^='strips'][data-field-icons='tiles'] .d01-field {
+  grid-template-columns: calc(var(--d01-fs) * 2.9) minmax(0, 0.74fr) minmax(0, 1.42fr);
+}
+.jrn .jrn-d01__content[data-fields^='strips'][data-field-icons='tiles'] .d01-row__ico {
+  width: calc(var(--d01-fs) * 2.9);
+  height: calc(var(--d01-fs) * 2);
+  border-radius: 9px;
+}
 /* 16: the authority's own scan illustration (receipt in its brackets on the recessed tan patch) */
 .jrn .d01-scanblock__art[data-art='authority'] {
   aspect-ratio: 288 / 258;

@@ -4,7 +4,8 @@
 |---|---|
 | Branch | `claude/jurnl-f05-dot01-artwork-typography-um0u93` |
 | SHA_BEFORE | `8e0b8d86182ab56f3f1aa4cd1d268a2e7d415ac0` |
-| Implementation commit | `7a1fb1c6bf15783a840d39ea7eacf18904c6e560` |
+| Implementation commit (first delivery) | `7a1fb1c6bf15783a840d39ea7eacf18904c6e560` (delivered head `8079962d3ca371cceb553c947efa3772428e1a99`) |
+| Continuation commit | `CONT_SHA` |
 | SHA_AFTER (branch head, this report) | the commit that adds this line (see `git log -1` on the branch) |
 
 ## Runtime (presentation only)
@@ -33,6 +34,19 @@
 | `scripts/jurnl/f05-motion-pilot/lift_dot01_sk03_parts.py` | the lifts |
 | `scripts/jurnl/f05-motion-pilot/build_dot01_artwork_type_evidence.py` | evidence builder |
 | `JURNL/MANIFEST/F05_MONEY_DOT01_INTERACTIVE_ARTWORK_OPUS3A_V1/**`, `…_TYPOGRAPHY_PARCHMENT_OPUS3B_V1/**` | reports, evidence, metrics, tools |
+
+## Continuation (re-issued brief)
+
+| File | Change |
+|---|---|
+| `src/projects/jurnl/runtime/screens/f05/dot01/screenSeals.ts` (new) | one helper seating each overlay's own lifted seal: at its authority place on the wide paper; centred on, and covering, the SIDEKICK seal on the SK03 paper |
+| `sheets/EntrySheets.tsx`, `sheets/AccountSheets.tsx`, `sheets/CorrectionSheets.tsx`, `sheets/ReceiptFlow.tsx` | seals for 16–21, 23–25, 27–29 through the helper; 25 KEEP ACCOUNT ACTIVE glyph |
+| `icons.tsx` | `cancel` (⊗) line glyph, authority 25 |
+| `Dot01Frame.tsx` | measured title clamp (`titleFit`, `data-fit`) |
+| `jurnl-f05-dot01.css` | 25 glyph / label rule; 16 / 20 tile proportion |
+| `SCENES/F05_DOT01_SEAL_21 · 23 · 24 · 25 · 27 · 28 · 29.webp`, `F05_DOT01_PILL_SK03.json` | lifted seals + provenance |
+| `scripts/jurnl/f05-motion-pilot/lift_dot01_sk03_parts.py` | the seven discs |
+| `tests/jurnlF05Dot01ArtworkType.test.ts`, `e2e/jurnl/jurnl-f05-dot01-artwork-type.e2e.ts` | seal provenance, seating rule (S1 / S2), per-overlay seal assertions |
 
 Not changed: `src/projects/jurnl/data/**` (ledger, services, model), the editorial / V3 overlays, the OPUS3 scenes. The two
 generation ledgers a probe run rewrites (`F05_PARENT_GENERATION_LEDGER.json`, `F03_GENERATION_LEDGER.json`) were restored.

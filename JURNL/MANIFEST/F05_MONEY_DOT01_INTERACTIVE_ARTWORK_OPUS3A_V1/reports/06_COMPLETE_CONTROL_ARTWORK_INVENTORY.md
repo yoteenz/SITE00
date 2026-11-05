@@ -6,7 +6,7 @@ ILLUSTRATED / ON_PAPER / DOCK / FIELD / CHIP / V3 / GENERIC and by provenance (E
 CSS_RECONSTRUCTION). Per-control authority contracts for the 06 pair are in reports 03 / 04; the rule each kind follows is in
 report 09. Size in css px at 471 × 836; font = computed font-size (css px).
 
-Totals: 302 controls · by kind {'GENERIC': 15, 'ON_PAPER': 61, 'ILLUSTRATED': 114, 'FIELD': 54, 'DOCK': 12, 'CHIP': 45, 'V3': 1} · by provenance {'CSS_RECONSTRUCTION': 115, 'EXACT_APPROVED_SOURCE': 157, 'PARTIAL_SOURCE_CANDIDATE': 30} · by method {'C': 115, 'A': 181, 'B': 6}.
+Totals: 310 controls · by kind {'GENERIC': 15, 'ON_PAPER': 61, 'ILLUSTRATED': 116, 'FIELD': 60, 'DOCK': 12, 'CHIP': 45, 'V3': 1} · by provenance {'CSS_RECONSTRUCTION': 121, 'EXACT_APPROVED_SOURCE': 159, 'PARTIAL_SOURCE_CANDIDATE': 30} · by method {'C': 121, 'A': 183, 'B': 6}.
 Before (same classifier): {'CSS_RECONSTRUCTION': 170, 'EXACT_APPROVED_SOURCE': 110, 'PARTIAL_SOURCE_CANDIDATE': 30}.
 
 | Screen | Control | Kind | Visible surface | Provenance | Method | Size | Shadow | Font | Label |
@@ -144,13 +144,13 @@ Before (same classifier): {'CSS_RECONSTRUCTION': 170, 'EXACT_APPROVED_SOURCE': 1
 | 16 | `d01-record-close` | ILLUSTRATED | B05_01 back tile (founder review pending) | PARTIAL_SOURCE_CANDIDATE | A | 47×42 | yes | 16 | ok |
 | 16 | `d01-scan-receipt` | ILLUSTRATED | SK03 SIDEKICK action pill (DARK) | EXACT_APPROVED_SOURCE | A | 276×52 | yes | 20.4 | ok |
 | 16 | `d01-manual-entry` | ILLUSTRATED | SK03 SIDEKICK action pill (CREAM) | EXACT_APPROVED_SOURCE | A | 276×44 | yes | 17.3 | ok |
-| 16 | `d01-type` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 251×32 | yes | 16.7 | ok |
-| 16 | `d01-merchant` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 251×32 | yes | 16.7 | ok |
-| 16 | `d01-amount` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 251×32 | yes | 16.7 | ok |
-| 16 | `d01-category` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 251×32 | yes | 16.7 | ok |
-| 16 | `d01-date` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 251×32 | yes | 16.7 | ok |
-| 16 | `d01-notes` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 251×32 | yes | 16.7 | ok |
-| 16 | `d01-account` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 251×32 | yes | 16.7 | ok |
+| 16 | `d01-type` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 248×32 | yes | 16.7 | ok |
+| 16 | `d01-merchant` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 248×32 | yes | 16.7 | ok |
+| 16 | `d01-amount` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 248×32 | yes | 16.7 | ok |
+| 16 | `d01-category` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 248×32 | yes | 16.7 | ok |
+| 16 | `d01-date` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 248×32 | yes | 16.7 | ok |
+| 16 | `d01-notes` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 248×32 | yes | 16.7 | ok |
+| 16 | `d01-account` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 248×32 | yes | 16.7 | ok |
 | 16 | `d01-review-save` | ILLUSTRATED | SK03 SIDEKICK action pill (DARK) | EXACT_APPROVED_SOURCE | A | 367×49 | yes | 17.3 | ok |
 | 17 | `d01-add-cash-close` | ILLUSTRATED | B05_01 back tile (founder review pending) | PARTIAL_SOURCE_CANDIDATE | A | 47×42 | yes | 16 | ok |
 | 17 | `d01-cash-source` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 251×38 | yes | 16.7 | ok |
@@ -178,12 +178,12 @@ Before (same classifier): {'CSS_RECONSTRUCTION': 170, 'EXACT_APPROVED_SOURCE': 1
 | 19 | `d01-account` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 251×32 | yes | 16.7 | ok |
 | 19 | `d01-review-save` | ILLUSTRATED | SK03 SIDEKICK action pill (DARK) | EXACT_APPROVED_SOURCE | A | 367×49 | yes | 17.3 | ok |
 | 20 | `d01-card-payment-close` | ILLUSTRATED | B05_01 back tile (founder review pending) | PARTIAL_SOURCE_CANDIDATE | A | 47×42 | yes | 16 | ok |
-| 20 | `d01-pay-from` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 251×38 | yes | 16.7 | ok |
-| 20 | `d01-pay-card` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 251×38 | yes | 16.7 | ok |
-| 20 | `d01-pay-amount` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 251×38 | yes | 16.7 | ok |
-| 20 | `d01-pay-date` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 251×38 | yes | 16.7 | ok |
-| 20 | `d01-pay-status` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 251×38 | yes | 16.7 | ok |
-| 20 | `d01-pay-notes` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 251×38 | yes | 16.7 | ok |
+| 20 | `d01-pay-from` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 248×38 | yes | 16.7 | ok |
+| 20 | `d01-pay-card` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 248×38 | yes | 16.7 | ok |
+| 20 | `d01-pay-amount` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 248×38 | yes | 16.7 | ok |
+| 20 | `d01-pay-date` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 248×38 | yes | 16.7 | ok |
+| 20 | `d01-pay-status` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 248×38 | yes | 16.7 | ok |
+| 20 | `d01-pay-notes` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 248×38 | yes | 16.7 | ok |
 | 20 | `d01-pay-review` | ILLUSTRATED | SK03 SIDEKICK action pill (DARK) | EXACT_APPROVED_SOURCE | A | 471×49 | yes | 17.3 | ok |
 | 21 | `d01-purposes-close` | ILLUSTRATED | B05_01 back tile (founder review pending) | PARTIAL_SOURCE_CANDIDATE | A | 47×42 | yes | 16 | ok |
 | 21 | `d01-purpose-bills` | CHIP | smooth cream / olive pill (authority 21 / 31 draw smooth pills) | CSS_RECONSTRUCTION | C | 56×36 | no | 11 | ok |
@@ -224,7 +224,15 @@ Before (same classifier): {'CSS_RECONSTRUCTION': 170, 'EXACT_APPROVED_SOURCE': 1
 | 26 | `d01-receipt-upload` | ON_PAPER | hit area on an exact paper / scene (jrn-d01__hit) | EXACT_APPROVED_SOURCE | A | 409×44 | no | 42 | ok |
 | 26 | `d01-receipt-manual` | ON_PAPER | hit area on an exact paper / scene (jrn-d01__hit) | EXACT_APPROVED_SOURCE | A | 396×34 | no | 29 | ok |
 | 26 | `d01-receipt-capture-close` | ILLUSTRATED | B05_01 back tile (founder review pending) | PARTIAL_SOURCE_CANDIDATE | A | 47×42 | yes | 16 | ok |
-| 27 | `d01-receipt-scanning-close` | ILLUSTRATED | B05_01 back tile (founder review pending) | PARTIAL_SOURCE_CANDIDATE | A | 47×42 | yes | 16 | ok |
+| 27 | `d01-review-purchase-close` | ILLUSTRATED | B05_01 back tile (founder review pending) | PARTIAL_SOURCE_CANDIDATE | A | 47×42 | yes | 16 | ok |
+| 27 | `d01-merchant` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 210×40 | no | 16.1 | ok |
+| 27 | `d01-amount` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 210×40 | no | 16.1 | ok |
+| 27 | `d01-category` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 210×40 | yes | 15.5 | ok |
+| 27 | `d01-date` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 210×40 | yes | 15.5 | ok |
+| 27 | `d01-notes` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 210×40 | no | 16.1 | ok |
+| 27 | `d01-account` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 210×40 | yes | 15.5 | ok |
+| 27 | `d01-review-save` | ILLUSTRATED | SK03 SIDEKICK action pill (DARK) | EXACT_APPROVED_SOURCE | A | 367×49 | yes | 17.3 | ok |
+| 27 | `d01-scan-again` | ILLUSTRATED | SK03 SIDEKICK action pill (CREAM) | EXACT_APPROVED_SOURCE | A | 367×49 | yes | 17.3 | ok |
 | 28 | `d01-review-purchase-close` | ILLUSTRATED | B05_01 back tile (founder review pending) | PARTIAL_SOURCE_CANDIDATE | A | 47×42 | yes | 16 | ok |
 | 28 | `d01-merchant` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 210×40 | no | 16.1 | ok |
 | 28 | `d01-amount` | FIELD | light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 210×40 | no | 16.1 | ok |

@@ -8,6 +8,7 @@ import { existsSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { OVERLAY_CONTENT, OVERLAY_CONTENT_WIDE, OVERLAY_HEADINGS, contentScale, titleSize } from '../src/projects/jurnl/runtime/screens/f05/dot01/Dot01Frame';
+import { SK03_SEAL_DISC, screenSeal, type SealId } from '../src/projects/jurnl/runtime/screens/f05/dot01/screenSeals';
 
 const ROOT = join(__dirname, '..');
 const DOT01 = join(ROOT, 'src/projects/jurnl/families/F05_MONEY/DOT01');
@@ -92,23 +93,53 @@ describe('OPUS3A · actions draw the SIDEKICK pills, never a CSS rounded rectang
 
 describe('OPUS3A · every lifted surface exists with its provenance (no generated pixel)', () => {
   const meta = JSON.parse(readFileSync(join(DOT01, 'SCENES/F05_DOT01_PILL_SK03.json'), 'utf8'));
-  it('L1 pills, the SK03 seal, the record-flow seals and 16 scan art are on disk at their recorded size', () => {
+  it('L1 pills, the SK03 seal, the twelve per-screen seals and 16 scan art are on disk at their recorded size', () => {
     const files = [meta.pills.DARK, meta.pills.CREAM, meta.seal, ...Object.values(meta.seals), meta.scan_art_16] as { runtime: string; bytes: number }[];
-    expect(files.length).toBe(9);
+    expect(files.length).toBe(16);
     for (const f of files) {
       const p = join(DOT01, 'SCENES', f.runtime);
       expect(existsSync(p), f.runtime).toBe(true);
       expect(statSync(p).size, f.runtime).toBe(f.bytes);
     }
     expect(meta.source).toBe('F05_DOT01_SK03_SHEET.webp');
-    expect(Object.keys(meta.seals).sort()).toEqual(['16', '17', '18', '19', '20']);
+    expect(Object.keys(meta.seals).sort()).toEqual(['16', '17', '18', '19', '20', '21', '23', '24', '25', '27', '28', '29']);
     for (const s of Object.values(meta.seals) as { source: string; source_sha256: string }[]) {
-      expect(s.source).toMatch(/^(16|17|18|19|20)_.*\.png$/);
+      expect(s.source).toMatch(/^(16|17|18|19|20|21|23|24|25|27|28|29)_.*\.png$/);
       expect(s.source_sha256).toMatch(/^[0-9a-f]{64}$/);
     }
   });
   it('L2 the wide title paper is the approved V9 motion asset 12, mounted (never a generated banner)', () => {
     expect(existsSync(join(DOT01, 'F05_DOT01_12_WIDE_TORN_BANNER.webp'))).toBe(true);
     expect(readFileSync(join(ROOT, 'src/projects/jurnl/runtime/screens/f05/dot01/Dot01Frame.tsx'), 'utf8')).toMatch(/DOT01\['12_WIDE_TORN_BANNER'\]/);
+  });
+});
+
+describe('OPUS3A continuation · every overlay seals with its own seal, seated for its paper', () => {
+  const meta = JSON.parse(readFileSync(join(DOT01, 'SCENES/F05_DOT01_PILL_SK03.json'), 'utf8'));
+  const ids = Object.keys(meta.seals) as SealId[];
+  it('S1 on the SK03 paper a seal is centred on the SIDEKICK seal and its disc covers it (no laurel rim shows)', () => {
+    for (const id of ids) {
+      const [layer] = screenSeal(id, 'env');
+      const b = layer!.box;
+      const size = meta.seals[id].box[2] - meta.seals[id].box[0];
+      const discR = meta.seals[id].mask_radius * (b.w / size);
+      expect(b.x + b.w / 2, id).toBeCloseTo(SK03_SEAL_DISC.cx, 5);
+      expect(b.y + b.h / 2, id).toBeCloseTo(SK03_SEAL_DISC.cy, 5);
+      expect(discR, id).toBeGreaterThanOrEqual(SK03_SEAL_DISC.r + 1.5 - 1e-6);
+      expect(b.w, id).toBe(b.h);
+      // never shrunk below its own lifted size
+      expect(b.w, id).toBeGreaterThanOrEqual(size);
+      // clear of the overlay title's text-safe zone
+      expect(b.x + b.w, id).toBeLessThanOrEqual(OVERLAY_HEADINGS.env.safe.x);
+    }
+  });
+  it('S2 on the wide paper a seal sits at its authority place and size, clear of the wide safe zone', () => {
+    for (const id of ['16', '20', '29'] as SealId[]) {
+      const [layer] = screenSeal(id, 'wide');
+      const m = meta.seals[id];
+      expect(layer!.box).toEqual({ x: m.box[0], y: m.box[1], w: m.box[2] - m.box[0], h: m.box[3] - m.box[1] });
+      expect(layer!.box.x + layer!.box.w).toBeLessThanOrEqual(OVERLAY_HEADINGS.wide.safe.x);
+      expect(layer!.id).toBe(`seal_${id}`);
+    }
   });
 });

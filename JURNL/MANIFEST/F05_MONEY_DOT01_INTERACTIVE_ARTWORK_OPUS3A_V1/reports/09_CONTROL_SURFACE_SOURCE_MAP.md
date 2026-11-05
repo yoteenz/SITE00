@@ -9,7 +9,7 @@ nothing painted; `scripts/jurnl/f05-motion-pilot/lift_dot01_sk03_parts.py`, prov
 | `SCENES/F05_DOT01_PILL_SK03_DARK.webp` (774 × 113) | SK03 SIDEKICK action sheet `F05_DOT01_SK03_SHEET.webp` | crop + stadium alpha of the cream-rim outline | every primary `.d01-btn` (9-slice caps 58 px) |
 | `SCENES/F05_DOT01_PILL_SK03_CREAM.webp` (773 × 92) | same sheet | crop + stadium alpha | every quiet `.d01-btn` (caps 48 px) |
 | `SCENES/F05_DOT01_SEAL_SK03.webp` (154²) | `F05_DOT01_SK03_FIELD.webp` | disc alpha r 74.5 @ 102, 401 | redrawn over the wide title paper when a screen has no seal of its own |
-| `SCENES/F05_DOT01_SEAL_16…20.webp` | authorities 16 / 17 / 18 / 19 / 20 | disc alpha, hand-verified outlines | the record-flow overlays |
+| `SCENES/F05_DOT01_SEAL_16…29.webp` (12) | authorities 16 · 17 · 18 · 19 · 20 · 21 · 23 · 24 · 25 · 27 · 28 · 29 | disc alpha, hand-verified outlines (`metrics/seal_fit_attempts.json`) | each overlay, seated by `screenSeals.ts` (on the SK03 paper: centred on, and covering, the SIDEKICK seal; on the wide paper: at the authority place) |
 | `SCENES/F05_DOT01_SCANART_16.webp` (288 × 258) | authority 16 | rounded-patch alpha, right side faded under the pills | 16 scan block |
 | `F05_DOT01_12_WIDE_TORN_BANNER.webp` (V9 motion asset, mounted, mirrored) | V9 | uniform scale 0.603 | wide title paper 16 / 20 / 29 / 30 |
 | `F05_DOT01_20_NARROW_PARCHMENT_ACTION_STRIP.webp` (V9) | V9 | 9-slice ends (150 px) | 37 CANCEL / VIEW ORIGINAL |
@@ -18,11 +18,11 @@ Census (471 × 836, every control):
 
 | Visible surface | Provenance | Method | Controls | Screens |
 |---|---|---|---|---|
-| light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 54 | 01, 07, 08, 09, 10, 15, 16, 17, 18, 19, 20, 23, 28, 30, 31, 37 |
+| light cream field with ink rim (authority: deckled cream field) | CSS_RECONSTRUCTION | C | 60 | 01, 07, 08, 09, 10, 15, 16, 17, 18, 19, 20, 23, 27, 28, 30, 31, 37 |
 | smooth cream / olive pill (authority 21 / 31 draw smooth pills) | CSS_RECONSTRUCTION | C | 39 | 07, 08, 09, 10, 15, 21, 30, 31 |
-| SK03 SIDEKICK action pill (DARK) | EXACT_APPROVED_SOURCE | A | 24 | 08, 09, 10, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 25, 28, 29, 32, 33, 34, 35, 37 |
+| SK03 SIDEKICK action pill (DARK) | EXACT_APPROVED_SOURCE | A | 25 | 08, 09, 10, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 25, 27, 28, 29, 32, 33, 34, 35, 37 |
 | B05_01 back tile (founder review pending) | PARTIAL_SOURCE_CANDIDATE | A | 22 | 02, 03, 04, 05, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29 |
-| SK03 SIDEKICK action pill (CREAM) | EXACT_APPROVED_SOURCE | A | 21 | 08, 09, 10, 14, 15, 16, 18, 19, 21, 25, 28, 29, 31, 32, 33, 34, 35 |
+| SK03 SIDEKICK action pill (CREAM) | EXACT_APPROVED_SOURCE | A | 22 | 08, 09, 10, 14, 15, 16, 18, 19, 21, 25, 27, 28, 29, 31, 32, 33, 34, 35 |
 | hit area on an exact paper / scene (d01-tx) | EXACT_APPROVED_SOURCE | A | 20 | 07, 08, 09, 10, 31 |
 | hit area on an exact paper / scene (jrn-d01__strip) | EXACT_APPROVED_SOURCE | A | 14 | 02, 03, 04, 05 |
 | canonical dock (nav paper) | EXACT_APPROVED_SOURCE | A | 12 | 01, 06, 31 |

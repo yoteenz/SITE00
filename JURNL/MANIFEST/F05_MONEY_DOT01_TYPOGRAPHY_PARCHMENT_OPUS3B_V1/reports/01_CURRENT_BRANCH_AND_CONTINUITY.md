@@ -19,3 +19,9 @@ Affected components (identified before any change):
 | content type scale | `Dot01Frame.tsx` `--d01-s` | cap 1.25 broke authority-relative type on tablets |
 
 Not changed: the canonical ledger, the financial services, the data model, the editorial (V3) overlays, the OPUS3 scenes.
+
+## Continuation (same branch, re-issued brief)
+
+Continued from `8079962d3` (see OPUS3A report 01): per-screen seals 21–29, 16 / 20 tile proportion, 25 glyph rule, and the
+measured title clamp (report 04). Reports updated in place.
+

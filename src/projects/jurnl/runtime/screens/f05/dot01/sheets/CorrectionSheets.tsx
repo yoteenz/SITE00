@@ -8,6 +8,7 @@
  *   23  tracked vs actual: the difference is recorded as one BALANCE CORRECTION (never income, never spending).
  */
 import { useRef, useState, type CSSProperties } from 'react';
+import { screenSeal } from '../screenSeals';
 import { accountView } from '../../../../../data/f05/dot01/accountView';
 import { applyCorrection, correctionCheck, previewCorrection, reverseEntry, type CorrectionChange, type CorrectionPreview } from '../../../../../data/f05/dot01/corrections';
 import { previewReversal, type Impact } from '../../../../../data/f05/dot01/entry';
@@ -69,7 +70,7 @@ export function CorrectionOverlay({ entryId, mode, onClose, onDone }: { entryId:
   const entry = live.ok ? live.entry : step === 'done' ? opened.current : null;
   if (step !== 'done' && (!check.ok || !entry)) {
     return (
-      <Dot01Overlay testId="d01-correct" env="SK03_FIELD" stripIcons="tiles" title={['CORRECT', 'TRANSACTION']} onClose={onClose} contentRect={CONTENT} label="CORRECT TRANSACTION" content={
+      <Dot01Overlay testId="d01-correct" env="SK03_FIELD" layers={screenSeal('24', 'env')} stripIcons="tiles" title={['CORRECT', 'TRANSACTION']} onClose={onClose} contentRect={CONTENT} label="CORRECT TRANSACTION" content={
         <>
           <Alert role="alert" testId="d01-correct-refused">{check.ok ? '' : check.reason}</Alert>
           {!check.ok && check.owner ? <Button trigger="d01-correct-owner" onClick={() => go(check.owner!.route)}>{check.owner.label}</Button> : null}
@@ -256,7 +257,7 @@ export function CorrectionOverlay({ entryId, mode, onClose, onDone }: { entryId:
     );
 
   return (
-    <Dot01Overlay testId="d01-correct" env="SK03_FIELD" stripIcons="tiles" title={['CORRECT', 'TRANSACTION']} subtitle="fix or reverse this entry" onClose={onClose} contentRect={CONTENT} contentScroll label="CORRECT TRANSACTION" content={
+    <Dot01Overlay testId="d01-correct" env="SK03_FIELD" layers={screenSeal('24', 'env')} stripIcons="tiles" title={['CORRECT', 'TRANSACTION']} subtitle="fix or reverse this entry" onClose={onClose} contentRect={CONTENT} contentScroll label="CORRECT TRANSACTION" content={
       <>
         {summary}
         <p className="d01-note" style={{ textAlign: 'center', color: '#efe3cb' }}>USE THIS IF THE ENTRY IS WRONG OR DUPLICATED</p>
@@ -302,7 +303,7 @@ export function AdjustmentOverlay({ accountId, actual, onClose, onDone }: { acco
     else onClose();
   };
   return (
-    <Dot01Overlay testId="d01-adjust" env="SK03_FIELD" title={['BALANCE', 'ADJUSTMENT']} subtitle="review before saving" onClose={onClose} contentRect={CONTENT} contentScroll label="BALANCE ADJUSTMENT" content={
+    <Dot01Overlay testId="d01-adjust" env="SK03_FIELD" layers={screenSeal('23', 'env')} title={['BALANCE', 'ADJUSTMENT']} subtitle="review before saving" onClose={onClose} contentRect={CONTENT} contentScroll label="BALANCE ADJUSTMENT" content={
       <>
         <PlaceStrip icon={v.liability ? 'card' : 'bank'} label={v.account.display_name} />
         {/* authority 23: TRACKED / ACTUAL papers, the ADJUSTMENT AMOUNT on the dark band, then reason, date and notes */}
