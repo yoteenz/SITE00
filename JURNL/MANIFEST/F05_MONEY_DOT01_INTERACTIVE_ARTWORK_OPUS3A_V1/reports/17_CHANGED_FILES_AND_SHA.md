@@ -4,7 +4,7 @@
 |---|---|
 | Branch | `claude/jurnl-f05-dot01-artwork-typography-um0u93` |
 | SHA_BEFORE | `8e0b8d86182ab56f3f1aa4cd1d268a2e7d415ac0` |
-| Implementation commit | `IMPL_SHA` |
+| Implementation commit | `7a1fb1c6bf15783a840d39ea7eacf18904c6e560` |
 | SHA_AFTER (branch head, this report) | the commit that adds this line (see `git log -1` on the branch) |
 
 ## Runtime (presentation only)
