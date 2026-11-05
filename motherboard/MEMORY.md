@@ -16848,3 +16848,10 @@ Summary of the whole conversation in this chat.
 
 - **Context:** Chevrons sat on amphora/coin art; should stay on torn paper beside the title.
 - **Changes:** `[data-jed='action'] .jed-action__heading` — `width: fit-content` + `grid-template-columns: auto auto` so chev follows title width instead of stretching into the 34% art reserve.
+
+---
+
+## 2026-11-05 — F05 preview `f05seed` for third CASH pocket (tunnel QA)
+
+- **Context:** Tunnel restart cannot restore founder device localStorage; founder lost third CASH pocket and needed scroll-fix QA.
+- **Changes:** `f05PreviewPocketSeed.ts` — `?f05seed=cash-third` (design-preview + motion parent) re-adds CASH $0 when ≥2 pockets and no CASH; `?f05seed=three-pockets` fills to three. Wired in `MoneyParentRoute.tsx`. Commit `a495a3997`.
