@@ -30,7 +30,7 @@ export function MoneyActionSheet({ canMove, onAdd, onMove, onClose }: { canMove:
         trigger="f05m-actions-add"
         className="jed-action--add"
         title={<><span>ADD A</span> <span>POCKET</span></>}
-        note="create a new place for your money"
+        note="create a place for your money"
         art={<EdArt art={ART.scene04} region={REGION.amphora} className="jed-art--amphora" />}
         onClick={onAdd}
       />
