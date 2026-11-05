@@ -38,9 +38,9 @@ export function MoneyActionSheet({ canMove, onAdd, onMove, onClose }: { canMove:
         trigger="f05m-actions-move"
         className="jed-action--move"
         material="cream"
-        title={<><span>MOVE</span> <span>MONEY</span></>}
+        title={<><span>MOVE YOUR</span> <span>MONEY</span></>}
         note={canMove ? 'transfer between your pockets' : 'add two pockets first'}
-        ariaLabel={canMove ? 'MOVE MONEY' : 'MOVE MONEY · ADD TWO POCKETS FIRST'}
+        ariaLabel={canMove ? 'MOVE YOUR MONEY' : 'MOVE YOUR MONEY · ADD TWO POCKETS FIRST'}
         disabled={!canMove}
         art={<EdArt art={ART.scene05} region={REGION.coinOxblood} className="jed-art--coin" torn={33} />}
         onClick={onMove}

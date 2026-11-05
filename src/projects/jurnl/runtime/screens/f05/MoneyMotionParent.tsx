@@ -637,7 +637,7 @@ export function MoneyMotionParent() {
           <button type="button" className="jrn-f05m__chip" data-jrn-trigger="f05m-search" aria-label="SEARCH POCKETS AND ACTIVITY" aria-haspopup="dialog" style={{ ...at({ x: searchX, y: CHIP_TOP, w: CHIP, h: CHIP }), top: CHIP_TOP_SAFE }} onClick={() => setSheet('search')}>
             <svg viewBox="0 0 24 24" aria-hidden><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" strokeWidth="1.8" /><path d="M15.5 15.5L21 21" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
           </button>
-          <button type="button" className="jrn-f05m__chip" data-jrn-trigger="f05m-actions" aria-label="ADD A POCKET OR MOVE MONEY" style={{ ...at({ x: plusX, y: CHIP_TOP, w: CHIP, h: CHIP }), top: CHIP_TOP_SAFE }} onClick={() => setSheet('actions')}>
+          <button type="button" className="jrn-f05m__chip" data-jrn-trigger="f05m-actions" aria-label="ADD A POCKET OR MOVE YOUR MONEY" style={{ ...at({ x: plusX, y: CHIP_TOP, w: CHIP, h: CHIP }), top: CHIP_TOP_SAFE }} onClick={() => setSheet('actions')}>
             <svg viewBox="0 0 24 24" aria-hidden><path d="M12 4v16M4 12h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
           </button>
         </div>
