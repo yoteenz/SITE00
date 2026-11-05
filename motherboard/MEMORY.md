@@ -16834,3 +16834,10 @@ Summary of the whole conversation in this chat.
 
 - **Context:** Founder screenshot: action row chevrons sat beside cursive subtext; should align with second header line (POCKET / MONEY).
 - **Changes:** `Editorial.tsx` — chevron inside `jed-action__heading` with title; `jurnl-editorial.css` — `[data-jed='action']` grid `align-items: end`, block title spans, removed absolute `bottom: 18px` chev placement. Commit `38557db43` on `cursor/jurnl-tunnel-opus-v3-overlays-4e5a`.
+
+---
+
+## 2026-11-05 — F05 accounts rail stays on first page after add pocket (tunnel)
+
+- **Context:** Founder added a third pocket; UI jumped to that page so only the new CASH card showed full-width — looked like the first two were replaced (HELD still reflected all accounts).
+- **Changes:** `MoneyMotionParent.tsx` — removed auto-scroll to `fresh` pocket page; after save reset rail scroll to 0 and toast hints swipe when `accounts.length + 1 > 2`.
