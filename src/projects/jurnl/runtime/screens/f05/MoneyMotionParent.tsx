@@ -354,10 +354,13 @@ export function MoneyMotionParent() {
   // Carousel geometry (source px): the swipe zone covers the papers and the dots; steps sit at the visible edges.
   const gridTop = L.slots[0]!.y;
   const gridBottom = Math.max(...L.slots.map((r) => r.y + r.h));
-  const swipeZone: Rect = { x: L.visibleX[0], y: gridTop - 24, w: L.visibleX[1] - L.visibleX[0], h: L.dots.y + L.dots.h + 12 - (gridTop - 24) };
-  const stepTop = (gridTop + gridBottom) / 2;
   const railVp = accountRailViewport(L);
   const railGap = accountRailGap(L);
+  // Horizontal swipe for collection change starts below the accounts rail so pocket row scroll is not stolen.
+  const railBottom = reading.accounts.length > 0 ? railVp.y + railVp.h : gridTop;
+  const swipeTop = reading.accounts.length > 0 ? railBottom + 6 : gridTop - 24;
+  const swipeZone: Rect = { x: L.visibleX[0], y: swipeTop, w: L.visibleX[1] - L.visibleX[0], h: L.dots.y + L.dots.h + 12 - swipeTop };
+  const stepTop = (gridTop + gridBottom) / 2;
 
   const renderAccountPaper = (a: MoneyParentAccount, staggerIndex: number, inRail: boolean): ReactNode => {
     const lines = a.lines;

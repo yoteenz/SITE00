@@ -31,7 +31,8 @@
 .jrn .jrn-f05m__collection:not([data-phase='exit']) .jrn-f05m__token:not(.jrn-f05m__token--ghost) {
   pointer-events: auto;
 }
-.jrn .jrn-f05m__carousel .jrn-f05m__paper {
+/* Collection swipe uses vertical pan on panel papers only — rail pockets must allow horizontal scroll */
+.jrn .jrn-f05m__carousel .jrn-f05m__paper:not(.jrn-f05m__paper--rail) {
   touch-action: pan-y;
 }
 /* ACCOUNTS top row: two pockets visible; snap-scroll pages of two (does not change collection carousel). */
@@ -43,7 +44,7 @@
   touch-action: pan-x;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  z-index: 2;
+  z-index: 3;
   pointer-events: auto;
 }
 .jrn .jrn-f05m__accounts-rail::-webkit-scrollbar {
@@ -70,6 +71,9 @@
   flex: 1 1 0;
   min-width: 0;
   height: 100%;
+  touch-action: pan-x;
+}
+.jrn .jrn-f05m__accounts-rail .jrn-f05m__paper--rail {
   touch-action: pan-x;
 }
 /* drag: the whole collection follows the finger with resistance; shadows lean the other way */
