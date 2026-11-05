@@ -30,6 +30,7 @@ import { accountPaperRect, accountRailGap, accountRailViewport, bottomRowItems, 
 import { F05_COMPOSITION as C } from './f05Composition';
 import { ACCOUNT_PAPER_TITLE_LINES, amountSize, CarouselPanelPaper, f05BoardType, F05_PAPER_VALUE_ROW_SUB_PX, nameFont } from './CarouselPanelPaper';
 import { useMoneyCarousel } from './useMoneyCarousel';
+import { patchF05Nav, readF05Nav } from './f05NavPersistence';
 import geometry from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_GEOMETRY.json';
 import sidekick from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_SIDEKICK.webp';
 import panelTile from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_PANEL_TILE.webp';
@@ -160,7 +161,7 @@ export function MoneyMotionParent() {
   const [ghosts, setGhosts] = useState<(Thread & { outcome: 'resolved' | 'closed' })[]>([]);
   const prevThreads = useRef<Thread[]>([]);
   const accountsRailRef = useRef<HTMLDivElement>(null);
-  const [railScroll, setRailScroll] = useState(0);
+  const [railScroll, setRailScroll] = useState(() => readF05Nav().railScroll ?? 0);
   const navigating = useRef(false);
   const { active, index: activeIndex, transition, surface, step, select, handlers } = useMoneyCarousel(reduced);
   const [moved, setMoved] = useState(false);
@@ -190,6 +191,16 @@ export function MoneyMotionParent() {
     for (let i = 0; i < reading.accounts.length; i += 2) pages.push(reading.accounts.slice(i, i + 2));
     return pages;
   }, [reading.accounts]);
+
+  useLayoutEffect(() => {
+    const el = accountsRailRef.current;
+    if (!el) return;
+    const saved = readF05Nav().railScroll ?? 0;
+    if (!fresh && saved > 0 && el.scrollLeft === 0) {
+      el.scrollLeft = saved;
+      setRailScroll(saved);
+    }
+  }, [L, reading.accounts.length]);
 
   useLayoutEffect(() => {
     const el = accountsRailRef.current;
@@ -418,7 +429,11 @@ export function MoneyMotionParent() {
           role="region"
           aria-label="YOUR POCKETS. SWIPE FOR MORE."
           style={{ ...at(railVp), ['--f05m-rail-gap' as string]: `${railGap}px` } as CSSProperties}
-          onScroll={(e) => setRailScroll(e.currentTarget.scrollLeft)}
+          onScroll={(e) => {
+            const left = e.currentTarget.scrollLeft;
+            setRailScroll(left);
+            patchF05Nav({ railScroll: left });
+          }}
           onPointerDown={stopCarouselPointer}
         >
           <div className="jrn-f05m__accounts-track">

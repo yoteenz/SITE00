@@ -37,6 +37,8 @@ import {
   type JurnlScenario,
 } from './adapters';
 import { createSupabaseJurnlAuthAdapter } from './supabaseAuthAdapter';
+import { mergeMoneySearchParams } from '../screens/f05/f05NavPersistence';
+import { writeLastJurnlRoute } from './jurnlRoutePersistence';
 
 export type AiKey = 'personalizedInsights' | 'smartCategorization' | 'budgetRecommendations' | 'naturalLanguage' | 'marketTrends';
 
@@ -221,14 +223,18 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
   const go = useCallback(
     (target: string, query?: Record<string, string>) => {
       setOverlay(null);
-      const qs = new URLSearchParams(query ?? {});
+      const rel = resolveJurnlRoute(target);
+      let qs = new URLSearchParams(query ?? {});
+      if (rel === 'money' || rel.startsWith('money/')) {
+        qs = mergeMoneySearchParams(qs, params);
+      }
       // Scenario switches are host-owned; keep them across in-app navigation.
       for (const k of ['scenario', 'os']) {
         const v = inspect ? params.get(k) : null;
         if (v && !qs.has(k)) qs.set(k, v);
       }
       const s = qs.toString();
-      navigate(`${basePath}/${resolveJurnlRoute(target)}${s ? `?${s}` : ''}`);
+      navigate(`${basePath}/${rel}${s ? `?${s}` : ''}`);
     },
     [basePath, navigate, params, inspect],
   );
@@ -239,6 +245,13 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
   const suppressTrail = useRef(false);
   const [hasPrevious, setHasPrevious] = useState(false);
   const locationKey = location.pathname + location.search;
+  useEffect(() => {
+    const rel = location.pathname.slice(basePath.length).replace(/^\/+/, '');
+    if (rel && rel !== 'entry' && !rel.startsWith('entry/')) {
+      writeLastJurnlRoute(`${rel}${location.search}`);
+    }
+  }, [locationKey, location.pathname, location.search, basePath]);
+
   useEffect(() => {
     if (suppressTrail.current) {
       suppressTrail.current = false;

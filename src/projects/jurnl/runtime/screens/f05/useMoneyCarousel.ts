@@ -14,6 +14,7 @@
 import { useCallback, useEffect, useRef, useState, type PointerEvent as ReactPointerEvent, type WheelEvent as ReactWheelEvent } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { COLLECTIONS, type CollectionId } from '../../../data/f05/moneyCarousel';
+import { patchF05Nav, readF05Nav } from './f05NavPersistence';
 
 export type CarouselTransition = { from: CollectionId; to: CollectionId; dir: 'next' | 'prev'; drag: number } | null;
 
@@ -28,7 +29,11 @@ const WHEEL_REST = 600; // ms
 export function useMoneyCarousel(reduced: boolean) {
   const [params, setParams] = useSearchParams();
   const raw = params.get('c') as CollectionId | null;
-  const active: CollectionId = raw && IDS.includes(raw) ? raw : 'accounts';
+  const savedC = readF05Nav().c;
+  const active: CollectionId =
+    raw && IDS.includes(raw) ? raw
+    : savedC && IDS.includes(savedC) ? savedC
+    : 'accounts';
   const [transition, setTransition] = useState<CarouselTransition>(null);
   const timer = useRef<number | null>(null);
   const drag = useRef<{ x: number; y: number; t: number; dx: number; on: boolean; moved: boolean; id: number } | null>(null);
@@ -50,6 +55,7 @@ export function useMoneyCarousel(reduced: boolean) {
   const go = useCallback(
     (to: CollectionId, dir: 'next' | 'prev', fromDrag = 0) => {
       if (to === active) return;
+      patchF05Nav({ c: to });
       const next = new URLSearchParams(params);
       next.set('c', to);
       setParams(next, { replace: true });
@@ -88,6 +94,16 @@ export function useMoneyCarousel(reduced: boolean) {
 
   useEffect(() => () => {
     if (timer.current) window.clearTimeout(timer.current);
+  }, []);
+
+  // Keep ?c= on the URL so a refresh returns to the same collection (not only sessionStorage).
+  useEffect(() => {
+    if (raw === active) return;
+    const next = new URLSearchParams(params);
+    next.set('c', active);
+    setParams(next, { replace: true });
+    patchF05Nav({ c: active });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onPointerDown = (e: ReactPointerEvent) => {

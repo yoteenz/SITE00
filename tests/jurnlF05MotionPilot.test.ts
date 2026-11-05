@@ -4,7 +4,7 @@
  */
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { artFor, computeMoneyParentReading, nameLines, OPEN_TRANSFER_STATES, pageAccounts } from '../src/projects/jurnl/data/f05/moneyParentReading';
 import { computeSafeToSpend } from '../src/projects/jurnl/data/f09/safeToSpend';
 import { recordTransfer, recordTransferStep } from '../src/projects/jurnl/data/ledger/ledgerOps';
@@ -13,6 +13,7 @@ import { upsertCreditTerms } from '../src/projects/jurnl/data/f12/creditStore';
 import { addDays } from '../src/projects/jurnl/data/foundation/dates';
 import { accountItems, accountPaperRect, accountRailViewport, APPROVED_SLOTS, bottomRowItems, capacityFor, computeF05MotionLayout, CROP, SRC_H, SRC_W } from '../src/projects/jurnl/runtime/screens/f05/f05MotionLayout';
 import { resolveF05ParentVariant } from '../src/projects/jurnl/runtime/screens/f05/MoneyParentRoute';
+import { F05_NAV_KEY, mergeMoneySearchParams, patchF05Nav, readF05Nav } from '../src/projects/jurnl/runtime/screens/f05/f05NavPersistence';
 import { TODAY, acct, position, world } from './helpers/jurnlFinancialWorld';
 
 const ASSET_DIR = path.resolve('src/projects/jurnl/families/F05_MONEY/MOTION_PILOT');
@@ -314,5 +315,33 @@ describe('Opt-in route and assets', () => {
     expect(css).toContain('calc(108px - var(--f05-type-nudge, 0px))');
     // numbers never count up
     expect(css).not.toMatch(/counter|@property --num/);
+  });
+});
+
+describe('F05 navigation persistence', () => {
+  const tab = new Map<string, string>();
+  beforeEach(() => {
+    tab.clear();
+    vi.stubGlobal('sessionStorage', {
+      getItem: (k: string) => tab.get(k) ?? null,
+      setItem: (k: string, v: string) => void tab.set(k, v),
+      removeItem: (k: string) => void tab.delete(k),
+    });
+  });
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('mergeMoneySearchParams keeps parent and carousel from the live URL or tab memory', () => {
+    patchF05Nav({ parent: 'motion', c: 'transfers' });
+    const merged = mergeMoneySearchParams(new URLSearchParams(), new URLSearchParams('parent=motion&c=commitments'));
+    expect(merged.get('parent')).toBe('motion');
+    expect(merged.get('c')).toBe('commitments');
+    const fromMemory = mergeMoneySearchParams(new URLSearchParams(), new URLSearchParams());
+    expect(fromMemory.get('parent')).toBe('motion');
+    expect(fromMemory.get('c')).toBe('transfers');
+    expect(readF05Nav().railScroll).toBeUndefined();
+    patchF05Nav({ railScroll: 120 });
+    expect(readF05Nav().railScroll).toBe(120);
   });
 });

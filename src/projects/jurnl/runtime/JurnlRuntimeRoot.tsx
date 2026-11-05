@@ -17,6 +17,7 @@ import { JurnlRuntimeChrome } from './components/JurnlRuntimeChrome';
 import { JurnlCornerChromeProvider } from './components/JurnlCornerChrome';
 import { jurnlProductionFailClosed } from '../data/production/productionConfig';
 import { JurnlStoreProvider, useJurnl } from './state/store';
+import { lastRouteNavigateTo } from './state/jurnlRoutePersistence';
 import { CreateAccountScreen, GetStartedScreen, KeyBenefitsScreen, ReturningUnlockScreen, SignInScreen, ValuePropositionScreen, VerifyEmailScreen, WelcomeScreen } from './screens/EntryScreens';
 import { ForgotPasswordScreen, NewPasswordScreen, ResetSentScreen, ResetSuccessScreen } from './screens/RecoveryScreens';
 import { BiometricSetupScreen, DeviceTrustScreen, EntryCompleteScreen, PrivacyPrimerScreen, SecurityPrimerScreen } from './screens/SecurityScreens';
@@ -88,6 +89,13 @@ export const JURNL_ENTRY_V2_SCREEN_COMPONENTS = {
 function EntryIndex() {
   const { session, device, basePath, mode } = useJurnl();
   const { search } = useLocation();
+  const resumed = lastRouteNavigateTo(basePath);
+  const canResume =
+    resumed &&
+    (session.status === 'ACTIVE' || (mode === 'design-preview' && device.remembered.length > 0));
+  if (canResume) {
+    return <Navigate to={{ pathname: resumed.pathname, search: resumed.search || (mode === 'design-preview' ? search : '') }} replace />;
+  }
   const target = session.status === 'ACTIVE' ? 'entry/complete' : device.remembered.length ? 'entry/unlock' : 'entry';
   // Design-preview keeps host scenario switches; production never sees them.
   return <Navigate to={`${basePath}/${target}${mode === 'design-preview' ? search : ''}`} replace />;
