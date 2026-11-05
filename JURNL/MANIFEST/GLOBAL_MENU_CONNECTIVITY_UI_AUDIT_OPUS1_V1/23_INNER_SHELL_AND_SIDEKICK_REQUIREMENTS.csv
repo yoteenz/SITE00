@@ -1,0 +1,18 @@
+ID,KIND,NAME,SERVES,EVIDENCE_WHY_NEW,EXISTING_ALTERNATIVE,LAYER,STATUS
+IS-01,INNER_SHELL,INSTITUTION ROW FOLIO,CX-03,"31 rows are transaction rows (amount column); institution rows need name + coverage + status, no amount",DOT01 31 strips (partial),L1,CANDIDATE
+IS-02,INNER_SHELL,SECURE HANDOFF CARD,CX-04,no calm interstitial exists; board 07 / DOT01 36 are blocking cautions,none,L1,CANDIDATE
+IS-03,INNER_SHELL,INSTITUTION LEDGER FOLIO,CX-12 / CX-12b,DOT01 06 is pocket-centric; institution grouping + health has no composition,DOT01 06,L1,CANDIDATE
+IS-04,INNER_SHELL,COVERAGE TIMELINE STRIP,CX-08b,no timeline paper exists (requested vs returned window),V9 19/20 strips (too short),L1,CANDIDATE
+IS-05,INNER_SHELL,INTELLIGENCE EDITORIAL SPREAD,INTEL-A / A2,no first-run explainer composition,V9 14 sheet (generic — avoid single template),L1,CANDIDATE
+IS-06,INNER_SHELL,QUESTION INDEX CARD,"INTEL-C, F-1/F-2",question with 4 choices + context; SK03 sheet carries pills only,SK03 sheet,L1,CANDIDATE
+IS-07,INNER_SHELL,RULE CHARTER,INTEL-D / D2,proposal/approval needs scope sentence + evidence + seal,none,L1,CANDIDATE
+IS-08,INNER_SHELL,SPLIT LEDGER SLIP,"INTEL-F, F-7",split rows with a sum line,DOT01 28 (single item),L1,CANDIDATE
+IS-09,INNER_SHELL,RULE LEDGER BOOK,RULES-A / B / C / D,directory + detail + history need a book-page structure,DOT01 07 history strips (partial),L1,CANDIDATE
+IS-10,INNER_SHELL,CORRESPONDENCE FOLIO,M-08 ASK JURNL,conversation with contained scroll + input; no composition exists,none,L1,CANDIDATE
+IS-11,INNER_SHELL,"SETTINGS FOLIO SET (rate ledger, protected amount, consent, help topics, request ledger, scope ledger)",M-03/04/05/06/07/09,"menu destinations currently plain JurnlDrawer sheets; one family of 6 related folios, not one generic template",F09 drawer rows; V3 folio,L1,CANDIDATE (6 variants of one family)
+IA-01,INDEPENDENT_ART,SYNC MOTIF (2 states),CX-05 / CX-05b,27 scan art is receipt-specific; B05 scan beam REJECTED,none,L3,CANDIDATE (text-free)
+IA-02,INDEPENDENT_ART,HANDOFF PASSAGE MOTIF,CX-04,—,none,L3,CANDIDATE
+IA-03,INDEPENDENT_ART,CATEGORY × PURPOSE DIAGRAM,INTEL-A2,—,none,L3,CANDIDATE (text-free; labels live)
+IA-04,INDEPENDENT_ART,STATUS CHIP MOTIFS (healthy/delayed/reauth),CX-11/12,B05 STATUS.RED rejected; chips could be CSS,CSS chips,L3,OPTIONAL
+SK-01,SIDEKICK,SK04 INTELLIGENCE STUDY (classical library/study environment),"INTEL-*, RULES-*, ASK JURNL",only if founder wants intelligence visually distinct from MONEY detail (FD-13); otherwise SK02 suffices,SK02 ACCOUNT DETAILS; F16 ARCHIVE env,L0,OPTIONAL CANDIDATE
+SK-R,SIDEKICK,REUSE SK01 / SK02 / SK03,all connectivity,connectivity lives inside F05 MONEY; the three V9 SIDEKICKs cover parent / detail / overlay,—,L0,REUSE (no new connectivity SIDEKICK)
