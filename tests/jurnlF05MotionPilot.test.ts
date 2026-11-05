@@ -11,7 +11,8 @@ import { recordTransfer, recordTransferStep } from '../src/projects/jurnl/data/l
 import { getRepository } from '../src/projects/jurnl/data/repository/deviceRepository';
 import { upsertCreditTerms } from '../src/projects/jurnl/data/f12/creditStore';
 import { addDays } from '../src/projects/jurnl/data/foundation/dates';
-import { accountItems, accountPaperRect, accountRailViewport, APPROVED_SLOTS, bottomRowItems, capacityFor, computeF05MotionLayout, CROP, SRC_H, SRC_W } from '../src/projects/jurnl/runtime/screens/f05/f05MotionLayout';
+import { accountItems, accountPaperRect, accountRailGap, accountRailViewport, APPROVED_SLOTS, bottomRowItems, capacityFor, computeF05MotionLayout, CROP, SRC_H, SRC_W } from '../src/projects/jurnl/runtime/screens/f05/f05MotionLayout';
+import { DIRECTORY_MAX_CROP } from '../src/projects/jurnl/runtime/screens/f05/dot01/directoryScene';
 import { resolveF05ParentVariant } from '../src/projects/jurnl/runtime/screens/f05/MoneyParentRoute';
 import { F05_NAV_KEY, mergeMoneySearchParams, patchF05Nav, readF05Nav } from '../src/projects/jurnl/runtime/screens/f05/f05NavPersistence';
 import { applyF05PreviewPocketSeed } from '../src/projects/jurnl/runtime/screens/f05/f05PreviewPocketSeed';
@@ -224,8 +225,8 @@ describe('Layout', () => {
   it('phones fit the width with at most the crop allowance; the extra height is elastic, never stretched', () => {
     for (const [w, h] of [[360, 780], [393, 852]] as const) {
       const L = computeF05MotionLayout(w, h, 6);
-      expect(L.u).toBeCloseTo(w / (SRC_W - 2 * CROP), 5);
-      expect(L.visibleX[0]).toBeCloseTo(CROP, 3);
+      expect(L.u).toBeCloseTo(w / (SRC_W - 2 * DIRECTORY_MAX_CROP), 5);
+      expect(L.visibleX[0]).toBeCloseTo(DIRECTORY_MAX_CROP, 3);
       expect(L.boardH * L.u).toBeCloseTo(h, 3);
       expect(L.sliced).toBe(true);
       // 9:16 composition: phones keep the reference's two rows of papers (4 per page)
@@ -273,7 +274,8 @@ describe('Layout', () => {
     const vp = accountRailViewport(L);
     expect(vp.w).toBeCloseTo(L.slots[1]!.x + L.slots[1]!.w - L.slots[0]!.x, 0);
     expect(accountPaperRect(L, 0, 0).x).toBe(vp.x);
-    expect(accountPaperRect(L, 2, vp.w).x).toBeCloseTo(vp.x, 0);
+    const step = L.slots[0]!.w + accountRailGap(L);
+    expect(accountPaperRect(L, 2, 2 * step).x).toBeCloseTo(vp.x, 0);
     expect(pageAccounts([1, 2, 3, 4, 5], 4)).toEqual([[1, 2, 3, 4], [5]]);
   });
 });

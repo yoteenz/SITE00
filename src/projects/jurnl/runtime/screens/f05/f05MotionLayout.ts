@@ -14,6 +14,7 @@
  */
 
 import geometry from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_GEOMETRY.json';
+import { DIRECTORY_MAX_CROP, directoryAbsorb } from './dot01/directoryScene';
 import { F05_COMPOSITION as C } from './f05Composition';
 
 export const SRC_W = geometry.source.w;
@@ -74,8 +75,6 @@ export type F05MotionLayout = {
  * four accounts open the full list from the fourth paper instead of adding pages.
  */
 export const PAPERS_PER_COLLECTION = 4;
-/** Board px the motion parent may close at the SK01 seam before height-fitting (dock on torn nav paper, same foot as DOT 01). */
-export const F05_MOTION_FOOT_ABSORB = 86;
 export function capacityFor(_W: number, _H: number): number {
   return PAPERS_PER_COLLECTION;
 }
@@ -106,16 +105,35 @@ export function computeF05BoardScale(viewportW: number, viewportH: number, crop 
   return { u, ox };
 }
 
-/** `items` papers on this page (accounts plus any ADD / MOVE papers). */
-export function computeF05MotionLayout(W: number, H: number, items: number): F05MotionLayout {
+/** SK01 elastic seam (same as DOT 01 SK01_FIELD / ALL ACCOUNTS). */
+export const F05_MOTION_SEAM_Y = SEAM_C;
+
+/** Map authority y through the seam — matches Dot01 `by()`. */
+export function f05SeamY(L: { extra: number; ey: number; z0: number | null }, y: number): number {
+  if (y >= L.ey) return y + L.extra;
+  if (L.z0 != null && y > L.z0) return y + (L.extra * (y - L.z0)) / (L.ey - L.z0);
+  return y;
+}
+
+/** Board rect → screen px with seam mapping (dock alignment with ALL ACCOUNTS). */
+export function motionBoardToScreen(L: F05MotionLayout, r: Rect): Rect {
+  const seam = { extra: L.extra, ey: F05_MOTION_SEAM_Y, z0: null as number | null };
+  const top = f05SeamY(seam, r.y);
+  const bottom = r.y < seam.ey && r.y + r.h >= seam.ey - 2 ? f05SeamY(seam, seam.ey) + (r.y + r.h - seam.ey) : top + r.h;
+  return { x: L.ox + r.x * L.u, y: top * L.u, w: r.w * L.u, h: (bottom - top) * L.u };
+}
+
+/** `items` papers on this page (accounts plus any ADD / MOVE papers). `pocketCount` drives DOT 01 foot absorb (nav pages). */
+export function computeF05MotionLayout(W: number, H: number, items: number, pocketCount = 0): F05MotionLayout {
   const w = Math.max(1, W);
   const h = Math.max(1, H);
   const avail = h;
-  let { u, ox } = computeF05BoardScale(w, h, CROP, avail);
+  const maxCrop = DIRECTORY_MAX_CROP;
+  let { u, ox } = computeF05BoardScale(w, h, maxCrop, avail);
   let extra = Math.max(0, avail / u - SRC_H);
   const deficit = SRC_H - avail / u;
-  if (f05WidthFirstScale(w, h) && deficit > 0) {
-    const absorb = F05_MOTION_FOOT_ABSORB;
+  const absorb = directoryAbsorb(pocketCount);
+  if (deficit > 0 && absorb != null) {
     if (deficit <= absorb) extra = -deficit;
     else {
       extra = -absorb;
@@ -123,6 +141,8 @@ export function computeF05MotionLayout(W: number, H: number, items: number): F05
       ox = (w - SRC_W * u) / 2;
     }
   }
+  const seam = { extra, ey: F05_MOTION_SEAM_Y, z0: null as number | null };
+  const mapY = (y: number) => f05SeamY(seam, y);
   const sliced = extra >= 1;
   const visibleX: [number, number] = [Math.max(0, -ox / u), Math.min(SRC_W, (w - ox) / u)];
   const capacityRows = 2;
@@ -135,8 +155,6 @@ export function computeF05MotionLayout(W: number, H: number, items: number): F05
   const gap = ROW_GAP + gapGrowth;
   const exact = extra < 1 && rows === 2;
   const topPad = exact ? 0 : Math.max(0, (free - gapGrowth * (rows - 1)) * (rows === 1 && extra < 1 ? 0 : 0.42));
-  /** Foot absorb (negative extra): shift approved geometry with dots / view-all / nav so nothing overlaps. */
-  const footDy = extra < 0 ? extra : 0;
   const tops: number[] = [];
   let y = ROW_TOP + topPad;
   for (let r = 0; r < rows; r += 1) {
@@ -149,13 +167,12 @@ export function computeF05MotionLayout(W: number, H: number, items: number): F05
       const approved = extra < 1 && r < 2 ? APPROVED_SLOTS[r * 2 + c]! : null;
       slots.push(
         approved ?
-          { ...approved, y: approved.y + footDy, row: r, col: c }
-        : { x: COLS[c]!, y: tops[r]!, w: COL_W[c]!, h: heights[r]!, row: r, col: c },
+          { ...approved, y: mapY(approved.y), row: r, col: c }
+        : { x: COLS[c]!, y: mapY(tops[r]!), w: COL_W[c]!, h: heights[r]!, row: r, col: c },
       );
     }
   }
-  const wideY = extra < 1 && rows >= 1 ? APPROVED_SLOTS[0]!.y + footDy : tops[0]!;
-  const wide = { x: COLS[0]!, y: wideY, w: COLS[1]! + COL_W[1]! - COLS[0]!, h: ROW_H[0]! };
+  const wide = { x: COLS[0]!, y: extra < 1 && rows >= 1 ? mapY(APPROVED_SLOTS[0]!.y) : mapY(tops[0]!), w: COLS[1]! + COL_W[1]! - COLS[0]!, h: ROW_H[0]! };
   return {
     u,
     ox,
@@ -167,9 +184,9 @@ export function computeF05MotionLayout(W: number, H: number, items: number): F05
     rows,
     slots,
     wide,
-    dots: { x: C.dots.x, y: C.dots.y + extra, w: C.dots.w, h: C.dots.h },
-    viewAll: { x: C.viewAll.x, y: C.viewAll.y + extra, w: C.viewAll.w, h: C.viewAll.h },
-    navZone: { x: C.nav.x, y: C.nav.y + extra, w: C.nav.w, h: C.nav.h },
+    dots: { x: C.dots.x, y: mapY(C.dots.y), w: C.dots.w, h: C.dots.h },
+    viewAll: { x: C.viewAll.x, y: mapY(C.viewAll.y), w: C.viewAll.w, h: C.viewAll.h },
+    navZone: { x: C.nav.x, y: mapY(C.nav.y), w: C.nav.w, h: C.nav.h },
   };
 }
 

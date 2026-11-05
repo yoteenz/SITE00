@@ -26,7 +26,7 @@ import { AskJurnlSheet, QuickAddV2Sheet } from '../../global/GlobalSheets';
 import { useJurnl } from '../../state/store';
 import { JurnlScreen, type FamilyPlate } from '../JurnlScreen';
 import { AddPlaceSheet } from '../MoneyScreens';
-import { accountPaperRect, accountRailGap, accountRailViewport, bottomRowItems, computeF05MotionLayout, PAPERS_PER_COLLECTION, SEAM_A, SEAM_C, SRC_H, SRC_W, toScreen, type Rect } from './f05MotionLayout';
+import { accountPaperRect, accountRailGap, accountRailViewport, bottomRowItems, computeF05MotionLayout, motionBoardToScreen, PAPERS_PER_COLLECTION, SEAM_A, SEAM_C, SRC_H, SRC_W, toScreen, type Rect } from './f05MotionLayout';
 import { F05_COMPOSITION as C } from './f05Composition';
 import { ACCOUNT_PAPER_TITLE_LINES, amountSize, CarouselPanelPaper, f05BoardType, F05_PAPER_VALUE_ROW_SUB_PX, nameFont } from './CarouselPanelPaper';
 import { useMoneyCarousel } from './useMoneyCarousel';
@@ -200,7 +200,7 @@ export function MoneyMotionParent() {
   }, []);
 
   // Every collection is the same 2 x 2 grid in the same places: the shell never moves between collections.
-  const L = useMemo(() => computeF05MotionLayout(vp.w, vp.h, PAPERS_PER_COLLECTION), [vp.w, vp.h]);
+  const L = useMemo(() => computeF05MotionLayout(vp.w, vp.h, PAPERS_PER_COLLECTION, reading.accounts.length), [vp.w, vp.h, reading.accounts.length]);
   const bottomItems = bottomRowItems(reading.accounts.length);
   const accountPages = useMemo(() => {
     const pages: MoneyParentAccount[][] = [];
@@ -271,7 +271,7 @@ export function MoneyMotionParent() {
     const root = stageRef.current?.closest('.jrn') as HTMLElement | null;
     if (!root) return;
     root.setAttribute('data-jrn-f05-motion', '');
-    const nav = toScreen(L, L.navZone);
+    const nav = motionBoardToScreen(L, { x: C.nav.x, y: C.nav.y, w: C.nav.w, h: C.nav.h });
     const menu = toScreen(L, { x: menuX, y: CHIP_TOP, w: CHIP, h: CHIP });
     const vars: Record<string, string> = {
       '--f05m-nav-x': `${nav.x}px`,
