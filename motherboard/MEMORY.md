@@ -16855,3 +16855,13 @@ Summary of the whole conversation in this chat.
 
 - **Context:** Tunnel restart cannot restore founder device localStorage; founder lost third CASH pocket and needed scroll-fix QA.
 - **Changes:** `f05PreviewPocketSeed.ts` — `?f05seed=cash-third` (design-preview + motion parent) re-adds CASH $0 when ≥2 pockets and no CASH; `?f05seed=three-pockets` fills to three. Wired in `MoneyParentRoute.tsx`. Commit `a495a3997`.
+
+---
+
+## 2026-11-05 — Motion MONEY scale + dock aligned to ALL ACCOUNTS (tunnel)
+
+- **Context:** Founder: motion MONEY home still too zoomed; VIEW ALL, dots, and bottom nav too high vs **View all accounts** torn paper alignment.
+- **Topics covered:** Prior foot-absorb (`F05_MOTION_FOOT_ABSORB`), rail swipe, chevrons, pocket seed; layout parity with Dot01 SK01_FIELD.
+- **Decisions / outcomes:** Motion parent uses `DIRECTORY_MAX_CROP`, `directoryAbsorb(pocketCount)`, SK01 seam `f05SeamY` for slots/view-all/dots, and `motionBoardToScreen` for ProductNav (same as Dot01 `boardToScreen` + `NAV_RECT`).
+- **Changes:** `f05MotionLayout.ts`, `MoneyMotionParent.tsx` (pass `reading.accounts.length`), test crop + rail scroll fix. Commit `3aac2fa83` on `cursor/jurnl-tunnel-opus-v3-overlays-4e5a`; preview worktree reset + tunnel restart.
+- **Conventions:** Compare motion `?parent=motion` to `money/places` on the **pinned** tunnel before merge to main; 3–4 pockets use absorb 0 (height-fit on short phones, same as directory).
