@@ -156,11 +156,15 @@ test.describe('PILOT B · the five illustrated compositions', () => {
     await expect(trigger(page, 'd01-blocker-details')).toBeVisible();
   });
 
-  test('B4 · GLOBAL MENU over the MONEY parent: the classical head, only secondary destinations, focus returns', async ({ page }) => {
+  // OPUS2: the classical head is now the founder's OV08 shell itself (bust, lemons, arch, coast in one plate), so no
+  // separate head art is layered over it; the shell takes no taps (pointer-events none) and the rows live on top.
+  test('B4 · GLOBAL MENU over the MONEY parent: the OV08 shell head, only secondary destinations, focus returns', async ({ page }) => {
     await open(page, 'money?parent=motion');
     await clickTrigger(page, 'f09-menu');
     const m = overlay(page, 'global-menu');
-    await expect(m.locator('.jed-menu-head')).toBeVisible();
+    await expect(m.locator('img[data-asset-id="OV08-IS-GLOBAL-MENU-DRAWER"]')).toBeVisible();
+    expect(await m.locator('img[data-asset-id="OV08-IS-GLOBAL-MENU-DRAWER"]').evaluate((e) => getComputedStyle(e).pointerEvents)).toBe('none');
+    await expect(m.locator('.jgm-head')).toContainText('MENU');
     for (const t of ['nav-home', 'nav-money', 'nav-add', 'nav-plan', 'nav-credit']) await expect(m.locator(`[data-jrn-trigger="${t}"]`)).toHaveCount(0);
     expect(await artTakesTaps(page, '[data-jrn-overlay="global-menu"]')).toBe(0);
     await page.keyboard.press('Escape');

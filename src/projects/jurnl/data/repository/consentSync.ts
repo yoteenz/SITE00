@@ -1,4 +1,4 @@
-/** Bridge F01 device AI + F02 setup consents into repository (W1.7). */
+/** Bridge F01 device AI + F02 setup consents into repository (W1.7). ASK_JURNL_CONTEXT is never derived from them. */
 
 import type { SetupDraft } from '../f02/setupDraft';
 import type { DeviceState } from '../../runtime/state/store';
@@ -18,6 +18,6 @@ export function syncDeviceAiToRepository(device: DeviceState) {
   repo.patchConsent('AI_BUDGET', device.ai.budgetRecommendations, 'F01.11');
   repo.patchConsent('AI_NATURAL_LANGUAGE', device.ai.naturalLanguage, 'F01.11');
   repo.patchConsent('AI_MARKET_TRENDS', device.ai.marketTrends, 'F01.11');
-  const askContext = device.ai.naturalLanguage || device.ai.personalizedInsights;
-  repo.patchConsent('ASK_JURNL_CONTEXT', askContext, 'F01.11');
+  // ASK JURNL CONTEXT is its own consent: it is granted or withdrawn only by its own switch (PRIVACY & CONSENTS, the
+  // ACCOUNT page, the approved drawer). Syncing the AI choices never writes it, so an AI switch cannot turn it back on.
 }
