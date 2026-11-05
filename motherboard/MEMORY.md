@@ -16841,3 +16841,10 @@ Summary of the whole conversation in this chat.
 
 - **Context:** Founder added a third pocket; UI jumped to that page so only the new CASH card showed full-width — looked like the first two were replaced (HELD still reflected all accounts).
 - **Changes:** `MoneyMotionParent.tsx` — removed auto-scroll to `fresh` pocket page; after save reset rail scroll to 0 and toast hints swipe when `accounts.length + 1 > 2`.
+
+---
+
+## 2026-11-05 — MONEY action chevron horizontal inset (tunnel)
+
+- **Context:** Chevrons sat on amphora/coin art; should stay on torn paper beside the title.
+- **Changes:** `[data-jed='action'] .jed-action__heading` — `width: fit-content` + `grid-template-columns: auto auto` so chev follows title width instead of stretching into the 34% art reserve.
