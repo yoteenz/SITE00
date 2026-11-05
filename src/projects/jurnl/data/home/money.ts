@@ -5,10 +5,12 @@
 
 import { useSyncExternalStore } from 'react';
 import { getSetupDraft, type SetupDraft } from '../f02/setupDraft';
-import { computeSafeToSpend, setupObligationsAsUpcoming } from '../f09/safeToSpend';
+import { cashForSafeToSpend, computeSafeToSpend, setupObligationsAsUpcoming } from '../f09/safeToSpend';
 import { projectUpcoming } from '../foundation/upcomingProjection';
 import { cachedRepoView } from '../repository/cachedRepoView';
-import { getRepository } from '../repository/deviceRepository';
+import { getRepository, getRepositoryPersistRevision } from '../repository/deviceRepository';
+import { formatRelativeDate, getTodayKey } from '../foundation/dates';
+import { obligationFunding } from '../f07/obligationLifecycle';
 import type { QuickAddQuote } from './currency';
 import { MOCK_UPCOMING } from './mockScenario';
 import type { Clearance, Direction, LedgerEntry, UpcomingItem } from './moneyTypes';
@@ -68,21 +70,43 @@ export function useAddedEntries(): LedgerEntry[] {
   return useSyncExternalStore(subscribeRepo, addedEntries, addedEntries);
 }
 
+/** Re-renders on every repository change (for derived money views computed inline). */
+export function useRepoTick(): number {
+  return useSyncExternalStore(subscribeRepo, getRepositoryPersistRevision, getRepositoryPersistRevision);
+}
+
+/** Display date for an entry: relative to today for dated entries (TODAY, YESTERDAY, MONDAY, NOV 3), legacy label otherwise. */
+export function entryWhenLabel(entry: Pick<LedgerEntry, 'occurred_on' | 'when'>, today = getTodayKey()): string {
+  return entry.occurred_on ? formatRelativeDate(entry.occurred_on, today) : entry.when;
+}
+
 export function upcomingFor(draft: SetupDraft = getSetupDraft()): UpcomingItem[] {
   const income = getRepository().listIncomeSources();
   const obligations = getRepository().listObligations();
   if (income.length || obligations.length) {
-    return projectUpcoming(income, obligations).map((p) => ({
-      id: p.upcoming_id,
-      name: p.label,
-      when: p.due_date,
-      amount: p.amount,
-      kind: p.source_domain === 'OBLIGATION' ? 'BILL' : 'BILL',
-      source: 'SETUP' as const,
-    }));
+    const today = getTodayKey();
+    const snap = getRepository().getSnapshot();
+    return projectUpcoming(income, obligations).map((p) => {
+      const ob = p.source_domain === 'OBLIGATION' ? obligations.find((o) => o.obligation_id === p.source_id) : undefined;
+      const funding = ob ? obligationFunding(ob, snap.transactions, snap.reservations) : null;
+      const kindLabel = p.source_domain === 'INCOME' ? 'INCOME' : p.source_domain === 'CREDIT_PAYMENT' ? 'CARD PAYMENT' : ob?.kind === 'SUBSCRIPTION' ? 'SUBSCRIPTION' : 'BILL';
+      return {
+        id: p.upcoming_id,
+        name: p.label,
+        when: formatRelativeDate(p.due_date, today),
+        amount: funding ? funding.remaining || p.amount : p.amount,
+        kind: ob?.kind ?? 'BILL',
+        kindLabel,
+        fundingLabel: funding && funding.amount > 0 ? funding.label : null,
+        direction: p.direction,
+        source: 'SETUP' as const,
+      };
+    });
   }
   if (draft.obligations.length) return setupObligationsAsUpcoming(draft);
-  return MOCK_UPCOMING;
+  // Sample bills only go with sample cash (the preview). Real balances never sit next to fictional bills — Safe to
+  // Spend makes the same choice and deducts nothing for bills that were never entered.
+  return cashForSafeToSpend(getRepository().listTransactions()).source === 'MOCK' ? MOCK_UPCOMING : [];
 }
 
 export function ledgerEntries(): LedgerEntry[] {
@@ -136,9 +160,10 @@ export function applyActivityFilter(entries: LedgerEntry[], filter: ActivityFilt
     if (filter.account !== 'ALL' && entry.account !== filter.account) return false;
     if (filter.direction !== 'ALL' && entry.direction !== filter.direction) return false;
     if (filter.status !== 'ALL' && entry.status !== filter.status) return false;
-    if (filter.when !== 'ALL' && entry.when !== filter.when) return false;
+    const when = entryWhenLabel(entry);
+    if (filter.when !== 'ALL' && when !== filter.when) return false;
     if (!q) return true;
-    const hay = `${entry.merchant} ${entry.category} ${entry.account} ${entry.memo} ${entry.when}`.toUpperCase();
+    const hay = `${entry.merchant} ${entry.category} ${entry.account} ${entry.memo} ${when}`.toUpperCase();
     return hay.includes(q);
   });
 }
@@ -152,8 +177,8 @@ export function filterSummary(filter: ActivityFilter): string | null {
   if (filter.account !== 'ALL') parts.push(filter.account);
   if (filter.direction === 'INCOME') parts.push('MONEY IN');
   if (filter.direction === 'EXPENSE') parts.push('MONEY OUT');
-  if (filter.status === 'PENDING') parts.push('STILL MOVING');
-  if (filter.status === 'CLEARED') parts.push('SETTLED');
+  if (filter.status === 'PENDING') parts.push('PENDING');
+  if (filter.status === 'CLEARED') parts.push('CLEARED');
   if (filter.when !== 'ALL') parts.push(filter.when);
   return parts.length ? parts.join(' · ') : null;
 }

@@ -1,0 +1,131 @@
+{
+  "source": "approved_parent.png",
+  "size": [
+    1024,
+    1536
+  ],
+  "seed": 20261103,
+  "layers": {
+    "title_paper": {
+      "box": [
+        71,
+        281,
+        670,
+        563
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_px": 49688,
+      "partial_px": 10458,
+      "opaque_px": 108772
+    },
+    "wax_seal": {
+      "box": [
+        32,
+        280,
+        170,
+        410
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_px": 5129,
+      "partial_px": 2343,
+      "opaque_px": 10468
+    },
+    "card_bank": {
+      "box": [
+        76,
+        737,
+        495,
+        926
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_px": 2751,
+      "partial_px": 632,
+      "opaque_px": 75808
+    },
+    "card_payout": {
+      "box": [
+        525,
+        738,
+        946,
+        929
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_px": 2767,
+      "partial_px": 636,
+      "opaque_px": 77008
+    },
+    "card_cash": {
+      "box": [
+        76,
+        949,
+        496,
+        1163
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_px": 2855,
+      "partial_px": 658,
+      "opaque_px": 86367
+    },
+    "card_credit": {
+      "box": [
+        525,
+        949,
+        946,
+        1161
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_px": 2851,
+      "partial_px": 657,
+      "opaque_px": 85744
+    }
+  },
+  "reconstructed_regions": {
+    "card_bank_text": 9601,
+    "card_bank_chevron": 300,
+    "card_payout_text": 10603,
+    "card_payout_chevron": 295,
+    "card_cash_text": 10029,
+    "card_cash_chevron": 330,
+    "card_credit_text": 9759,
+    "card_credit_chevron": 291,
+    "chips": 12160,
+    "tag_text": 6242,
+    "title_text": 38780,
+    "band_text": 27307,
+    "panel_under_cards": 412201,
+    "nav_ui": 50082
+  },
+  "covered_regions": {
+    "under_title_paper_and_seal": 109701
+  },
+  "layers_extra": {
+    "torn_edge": {
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_px": 19405,
+      "partial_px": 9110,
+      "opaque_px": 58077
+    }
+  },
+  "motion_envelope_uncovered_px": {
+    "title_paper": {
+      "any_layer_pixel": 26,
+      "covered_fill_exposed": 0
+    },
+    "wax_seal": {
+      "any_layer_pixel": 0,
+      "covered_fill_exposed": 0
+    }
+  },
+  "composite_vs_source": {
+    "changed_px_gt24": 143419,
+    "changed_pct_gt24": 9.12,
+    "expected_changes": "text, values, icons, chips, dots, nav pill and card shadows (redrawn live / by CSS)"
+  }
+}

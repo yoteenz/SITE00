@@ -242,8 +242,7 @@ body:has([data-jrn-screen='F09.00']),
   letter-spacing: 0.14em;
   color: #2c2824;
 }
-/* Back takes the left slot the menu used. The chip matches WHY THIS NUMBER
-   (cream square, white edge, left chevron). The menu returns to the right. */
+/* Back on the left; menu on the right (same cream chip geometry as WHY THIS NUMBER). */
 .jrn .jrn-f09a__back,
 .jrn .jrn-f09a__menu {
   pointer-events: auto;
@@ -1010,4 +1009,24 @@ body:has([data-jrn-screen='F09.00']),
     height: 18px;
     width: 18px;
   }
+}
+
+/* Stabilization: the period line is a live control (was printed reference text). Same type and place; a larger
+   tap area without moving anything below it. */
+.jrn button.jrn-f09a__horizon {
+  display: block;
+  background: none;
+  border: 0;
+  padding: 8px 0 8px;
+  margin-top: 0;
+  margin-bottom: -8px;
+  cursor: pointer;
+  text-align: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+/* The art layer passes pointer events through except for its own controls; the period line is one of them. */
+.jrn .jrn-f09a__art .jrn-f09a__horizon {
+  pointer-events: auto;
 }

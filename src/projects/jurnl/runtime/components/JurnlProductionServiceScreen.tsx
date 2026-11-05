@@ -7,13 +7,13 @@ export function JurnlProductionServiceScreen() {
     <div className="jrn" data-jurnl-screen="F01.SERVICE" data-jurnl-data-plane="UNCONFIGURED" lang="en">
       <main className="jrn-screen jrn-entry" role="main">
         <h1 className="jrn-h1">JURNL SERVICE UNAVAILABLE</h1>
-        <p className="jrn-body">Production persistence is not configured for this environment.</p>
+        <p className="jrn-body">PRODUCTION PERSISTENCE IS NOT CONFIGURED FOR THIS ENVIRONMENT.</p>
         <ul className="jrn-body">
-          <li>Supabase: {cfg.supabaseConfigured ? 'OK' : 'MISSING'}</li>
-          <li>API base: {cfg.apiBase ? 'OK' : 'MISSING'}</li>
-          <li>Server persistence flag: {cfg.serverPersistenceConfigured ? 'ON' : 'OFF'}</li>
+          <li>SUPABASE: {cfg.supabaseConfigured ? 'OK' : 'MISSING'}</li>
+          <li>API BASE: {cfg.apiBase ? 'OK' : 'MISSING'}</li>
+          <li>SERVER PERSISTENCE FLAG: {cfg.serverPersistenceConfigured ? 'ON' : 'OFF'}</li>
         </ul>
-        <p className="jrn-caption">Contact support if this persists. Your device data is not synced until service is enabled.</p>
+        <p className="jrn-caption">CONTACT SUPPORT IF THIS PERSISTS. YOUR DEVICE DATA IS NOT SYNCED UNTIL SERVICE IS ENABLED.</p>
       </main>
     </div>
   );

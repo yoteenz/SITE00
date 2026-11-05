@@ -1,0 +1,286 @@
+{
+ "note": "ALL ACCOUNTS (06) layers lifted from the V9 authority; only live-text and glyph pixels are reconstructed (inpainted). Authority px (941 x 1672).",
+ "source": "06_ALL_ACCOUNTS.png",
+ "source_sha256": "4161e4075db14d2e7dd324385ab204da7dd052cc18ae8a6a63e5413f48113859",
+ "masked_px": 68000,
+ "papers": {
+  "BANK": {
+   "slot": 0,
+   "box": [
+    30,
+    625,
+    469,
+    872
+   ],
+   "seed": [
+    30,
+    624,
+    472,
+    876
+   ],
+   "masked_boxes": [
+    [
+     70,
+     666,
+     266,
+     744
+    ],
+    [
+     70,
+     768,
+     246,
+     828
+    ]
+   ],
+   "runtime": "F05_DOT01_CARD06_BANK.webp",
+   "runtime_bytes": 40612
+  },
+  "PAYOUT": {
+   "slot": 1,
+   "box": [
+    474,
+    625,
+    914,
+    874
+   ],
+   "seed": [
+    474,
+    624,
+    916,
+    876
+   ],
+   "masked_boxes": [
+    [
+     506,
+     666,
+     722,
+     744
+    ],
+    [
+     506,
+     768,
+     674,
+     828
+    ]
+   ],
+   "runtime": "F05_DOT01_CARD06_PAYOUT.webp",
+   "runtime_bytes": 37638
+  },
+  "CASH": {
+   "slot": 2,
+   "box": [
+    28,
+    877,
+    465,
+    1119
+   ],
+   "seed": [
+    28,
+    874,
+    470,
+    1120
+   ],
+   "masked_boxes": [
+    [
+     70,
+     912,
+     252,
+     984
+    ],
+    [
+     70,
+     1008,
+     206,
+     1062
+    ]
+   ],
+   "runtime": "F05_DOT01_CARD06_CASH.webp",
+   "runtime_bytes": 36298
+  },
+  "CREDIT": {
+   "slot": 3,
+   "box": [
+    474,
+    879,
+    915,
+    1116
+   ],
+   "seed": [
+    474,
+    874,
+    916,
+    1118
+   ],
+   "masked_boxes": [
+    [
+     506,
+     912,
+     660,
+     984
+    ],
+    [
+     506,
+     1006,
+     664,
+     1062
+    ]
+   ],
+   "runtime": "F05_DOT01_CARD06_CREDIT.webp",
+   "runtime_bytes": 42572
+  }
+ },
+ "actions": {
+  "ADD": {
+   "box": [
+    80,
+    1163,
+    471,
+    1303
+   ],
+   "seed": [
+    78,
+    1158,
+    476,
+    1306
+   ],
+   "glyph_box": [
+    140,
+    1190,
+    222,
+    1268
+   ],
+   "label_box": [
+    244,
+    1192,
+    426,
+    1268
+   ],
+   "glyph_colour": [
+    211,
+    208,
+    192
+   ],
+   "runtime": "F05_DOT01_ACTION06_ADD.webp",
+   "runtime_bytes": 13016,
+   "glyph": "F05_DOT01_ICON06_ADD.webp"
+  },
+  "REORDER": {
+   "box": [
+    485,
+    1154,
+    887,
+    1303
+   ],
+   "seed": [
+    484,
+    1156,
+    888,
+    1302
+   ],
+   "glyph_box": [
+    536,
+    1192,
+    614,
+    1266
+   ],
+   "label_box": [
+    638,
+    1194,
+    840,
+    1266
+   ],
+   "glyph_colour": [
+    40,
+    29,
+    18
+   ],
+   "runtime": "F05_DOT01_ACTION06_REORDER.webp",
+   "runtime_bytes": 18838,
+   "glyph": "F05_DOT01_ICON06_REORDER.webp"
+  }
+ },
+ "empty_seal": {
+  "box": [
+   24,
+   327,
+   164,
+   458
+  ],
+  "seed": [
+   16,
+   314,
+   172,
+   468
+  ],
+  "runtime": "F05_DOT01_SEAL_22.webp"
+ },
+ "empty": {
+  "source": "22_EMPTY_ACCOUNTS.png",
+  "source_sha256": "4f70fa1e61de3b38d8a01564d9aec7eaf40a93e0cd4cb34c27bcfc0ed8a96a12",
+  "band": [
+   0,
+   552,
+   941,
+   1540
+  ],
+  "masked_boxes": [
+   [
+    214,
+    808,
+    730,
+    864
+   ],
+   [
+    206,
+    900,
+    738,
+    978
+   ],
+   [
+    86,
+    1028,
+    258,
+    1102
+   ],
+   [
+    508,
+    1028,
+    700,
+    1102
+   ],
+   [
+    86,
+    1178,
+    254,
+    1252
+   ],
+   [
+    508,
+    1178,
+    640,
+    1252
+   ],
+   [
+    282,
+    1354,
+    722,
+    1410
+   ],
+   [
+    286,
+    1470,
+    708,
+    1518
+   ]
+  ],
+  "masked_px": 78026,
+  "feather": 22,
+  "tile": [
+   978,
+   994
+  ],
+  "runtime": "F05_DOT01_SCENE_22.webp",
+  "runtime_bytes": 243806,
+  "tile_runtime": "F05_DOT01_SCENE_22_TILE.webp"
+ }
+}

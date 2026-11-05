@@ -1,0 +1,44 @@
+{
+  "environment": "LOCAL_DEV",
+  "base_url": "http://127.0.0.1:5174",
+  "viewport": "393x852",
+  "note": "Not production or staging proof",
+  "runs": [
+    {
+      "suite": "jurnl-product-utility-journeys.e2e.ts",
+      "journey": "A_ADD_SUBSCRIPTION",
+      "result": "PASS",
+      "evidence": "playwright-test-results (mobile)"
+    },
+    {
+      "suite": "jurnl-product-utility-journeys.e2e.ts",
+      "journey": "B_BILL_STS_VISIBILITY",
+      "result": "FAIL",
+      "blocker": "Safe to Spend screen did not surface expected upcoming amount text within timeout (empty-domains bootstrap)"
+    },
+    {
+      "suite": "jurnl-product-utility-journeys.e2e.ts",
+      "journey": "H_EDIT_OBLIGATION",
+      "result": "FAIL",
+      "blocker": "upcoming-edit trigger not available on first seeded item (income/credit projection vs obligation)"
+    },
+    {
+      "suite": "jurnl-core-mutations.e2e.ts",
+      "journey": "F07_upcoming_lists",
+      "result": "PASS"
+    },
+    {
+      "suite": "jurnl-core-mutations.e2e.ts",
+      "journey": "F08_plan_assign_STS",
+      "result": "FAIL",
+      "blocker": "ASSIGNED label not visible after assign on dev server"
+    },
+    {
+      "suite": "jurnl-core-mutations.e2e.ts",
+      "journey": "F11_trip_reserve_STS",
+      "result": "FAIL",
+      "blocker": "STS number unchanged after trip reserve in dev run"
+    }
+  ],
+  "code_only_journeys": ["C", "D", "E", "F", "G", "I", "J"]
+}

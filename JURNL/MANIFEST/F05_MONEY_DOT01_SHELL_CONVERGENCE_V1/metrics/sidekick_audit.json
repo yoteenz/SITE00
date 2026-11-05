@@ -1,0 +1,1030 @@
+{
+ "sidekicks": {
+  "SK01_PARENT_MONEY": {
+   "path": "F05_MONEY_DOT01/INPUT_V9/SIDEKICKS/SK01_PARENT_MONEY.png",
+   "sha256": "b68e5012f29fd47ae8a844daeb6c387ac3252d3f959d195d10848febcc6d4fca",
+   "bytes": 2667355,
+   "size": [
+    941,
+    1672
+   ],
+   "mode": "RGB",
+   "opaque_px": 1573352,
+   "transparent_px": 0
+  },
+  "SK02_ACCOUNT_DETAILS": {
+   "path": "F05_MONEY_DOT01/INPUT_V9/SIDEKICKS/SK02_ACCOUNT_DETAILS.png",
+   "sha256": "547d2c70ea811f0f23ab8628743b4e9104102399d6a1c284cbb6bbacce57ea3b",
+   "bytes": 2886762,
+   "size": [
+    941,
+    1672
+   ],
+   "mode": "RGB",
+   "opaque_px": 1573352,
+   "transparent_px": 0
+  },
+  "SK03_RECEIPT_OVERLAYS": {
+   "path": "F05_MONEY_DOT01/INPUT_V9/SIDEKICKS/SK03_RECEIPT_OVERLAYS.png",
+   "sha256": "c11b040fe2af4ddc0b5962560aae0e520a54526478bf62b924e141e5cd3d11d9",
+   "bytes": 2781084,
+   "size": [
+    941,
+    1672
+   ],
+   "mode": "RGB",
+   "opaque_px": 1573352,
+   "transparent_px": 0
+  }
+ },
+ "authorities": {
+  "01": {
+   "file": "01_MONEY_DOT01_VIEW_ALL_ACCOUNTS.png",
+   "sha256": "12b95e927026c8dbf704f2f20db4c7cfa0fe21f3141249d20e956969ba2ee05d",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 5.8,
+     "middle": 15.4,
+     "foot": 29.1,
+     "left_margin": 6.5
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 18.2,
+     "middle": 91.1,
+     "foot": 76.8,
+     "left_margin": 41.5
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 18.4,
+     "middle": 75.9,
+     "foot": 69.1,
+     "left_margin": 51.0
+    }
+   },
+   "nearest_hero": "SK01_PARENT_MONEY",
+   "nearest_foot": "SK01_PARENT_MONEY"
+  },
+  "02": {
+   "file": "02_BANK_ACCOUNT.png",
+   "sha256": "019fc2d773722ab9c838743ced53e8dbefa6f0357704c82637e02726463988a1",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 18.7,
+     "middle": 92.3,
+     "foot": 67.2,
+     "left_margin": 41.5
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 6.0,
+     "middle": 14.5,
+     "foot": 9.1,
+     "left_margin": 5.9
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 19.1,
+     "middle": 93.9,
+     "foot": 54.7,
+     "left_margin": 44.2
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK02_ACCOUNT_DETAILS"
+  },
+  "03": {
+   "file": "03_RIDESHARE_CARD.png",
+   "sha256": "68895b97db856b29296aa07de869f35514271dddc98ca5702a3c3ea74ce56c99",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 19.0,
+     "middle": 65.6,
+     "foot": 50.3,
+     "left_margin": 46.3
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 9.8,
+     "middle": 98.5,
+     "foot": 63.5,
+     "left_margin": 41.5
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 19.3,
+     "middle": 78.7,
+     "foot": 54.4,
+     "left_margin": 49.5
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK01_PARENT_MONEY"
+  },
+  "04": {
+   "file": "04_CASH_ON_HAND.png",
+   "sha256": "9ecd23edf73e12f957bc3b0b62535e1c069a60809b7c51239876de5c42be0170",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 19.7,
+     "middle": 67.3,
+     "foot": 45.9,
+     "left_margin": 45.8
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 9.8,
+     "middle": 81.4,
+     "foot": 65.8,
+     "left_margin": 33.0
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 19.8,
+     "middle": 76.6,
+     "foot": 52.7,
+     "left_margin": 44.8
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK01_PARENT_MONEY"
+  },
+  "05": {
+   "file": "05_CREDIT_CARD.png",
+   "sha256": "ec4d6ab724b599ae84204d5fbd7d94984b0f762afad1f5b0fff5a046c28cb44d",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 18.5,
+     "middle": 87.0,
+     "foot": 68.6,
+     "left_margin": 59.6
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 8.8,
+     "middle": 84.9,
+     "foot": 47.9,
+     "left_margin": 56.8
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 19.0,
+     "middle": 66.7,
+     "foot": 56.5,
+     "left_margin": 66.9
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK02_ACCOUNT_DETAILS"
+  },
+  "06": {
+   "file": "06_ALL_ACCOUNTS.png",
+   "sha256": "4161e4075db14d2e7dd324385ab204da7dd052cc18ae8a6a63e5413f48113859",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 18.4,
+     "middle": 71.0,
+     "foot": 41.2,
+     "left_margin": 46.5
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 9.0,
+     "middle": 72.1,
+     "foot": 77.8,
+     "left_margin": 29.8
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 19.3,
+     "middle": 85.9,
+     "foot": 72.0,
+     "left_margin": 48.8
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK01_PARENT_MONEY"
+  },
+  "07": {
+   "file": "07_BANK_TRANSACTION_HISTORY.png",
+   "sha256": "7f70b6cd625125081a863bcf27cb316ff344964a72278e6bdcd50de0d7689d5f",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 18.9,
+     "middle": 51.4,
+     "foot": 76.9,
+     "left_margin": 33.2
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 8.9,
+     "middle": 84.0,
+     "foot": 59.8,
+     "left_margin": 52.3
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 19.7,
+     "middle": 88.7,
+     "foot": 70.0,
+     "left_margin": 56.9
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK02_ACCOUNT_DETAILS"
+  },
+  "08": {
+   "file": "08_RIDESHARE_ACTIVITY.png",
+   "sha256": "af2d15e1bb698360cee41d6f379080719f8e592f5d66426260a952ad6b7fc87f",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 18.8,
+     "middle": 56.3,
+     "foot": 84.5,
+     "left_margin": 44.7
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 8.7,
+     "middle": 86.6,
+     "foot": 59.3,
+     "left_margin": 35.8
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 19.5,
+     "middle": 74.2,
+     "foot": 68.0,
+     "left_margin": 42.6
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK02_ACCOUNT_DETAILS"
+  },
+  "09": {
+   "file": "09_CASH_USAGE_HISTORY.png",
+   "sha256": "406db89d39d0bf1b4266a295f7e4a20cc021fe49ecbbb33b60920901d0567329",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 18.8,
+     "middle": 57.9,
+     "foot": 80.0,
+     "left_margin": 35.7
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 8.4,
+     "middle": 83.4,
+     "foot": 60.7,
+     "left_margin": 51.4
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 19.6,
+     "middle": 78.0,
+     "foot": 70.4,
+     "left_margin": 58.5
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK02_ACCOUNT_DETAILS"
+  },
+  "10": {
+   "file": "10_CREDIT_CARD_ACTIVITY.png",
+   "sha256": "bc675a7604b0afba5805e05197c76efd94cbd951a25c6577366009a42be2aeb4",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 18.7,
+     "middle": 45.0,
+     "foot": 87.9,
+     "left_margin": 42.0
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 9.4,
+     "middle": 88.3,
+     "foot": 72.6,
+     "left_margin": 51.8
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 19.7,
+     "middle": 80.6,
+     "foot": 76.9,
+     "left_margin": 54.1
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK02_ACCOUNT_DETAILS"
+  },
+  "11": {
+   "file": "11_TRANSACTION_DETAIL.png",
+   "sha256": "ef2c511cbbe854b490c9d56d5325ac188328457bf2528049676544cf89c12e35",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 15.7,
+     "middle": 79.0,
+     "foot": 63.3,
+     "left_margin": 41.1
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 13.7,
+     "middle": 71.4,
+     "foot": 58.7,
+     "left_margin": 33.0
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 15.9,
+     "middle": 95.6,
+     "foot": 55.7,
+     "left_margin": 47.7
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK03_RECEIPT_OVERLAYS"
+  },
+  "12": {
+   "file": "12_ACCOUNT_DETAILS_AND_SETTINGS.png",
+   "sha256": "13224a23c779ca78231ac4e1c218ee566abf2c652f7c9da520491bb35cbc4b86",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 18.5,
+     "middle": 77.0,
+     "foot": 67.1,
+     "left_margin": 44.2
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 13.8,
+     "middle": 62.6,
+     "foot": 44.9,
+     "left_margin": 34.9
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 16.4,
+     "middle": 101.6,
+     "foot": 58.1,
+     "left_margin": 48.0
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK02_ACCOUNT_DETAILS"
+  },
+  "13": {
+   "file": "13_ACCOUNT_BALANCE_REVIEW.png",
+   "sha256": "4921b6df6d0a6d3ef89afc143fa3d893d3252cc7f7c1fb3a9eb1b0497915d225",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 17.0,
+     "middle": 88.7,
+     "foot": 103.7,
+     "left_margin": 47.5
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 12.2,
+     "middle": 64.7,
+     "foot": 84.3,
+     "left_margin": 39.8
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 15.9,
+     "middle": 94.7,
+     "foot": 91.5,
+     "left_margin": 50.8
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK02_ACCOUNT_DETAILS"
+  },
+  "14": {
+   "file": "14_ADD_ACCOUNT.png",
+   "sha256": "39dfbb1f46ec5e845476cf7599e10b13c98d348906fd97b9b2d04a1f201b386d",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 16.7,
+     "middle": 76.7,
+     "foot": 85.7,
+     "left_margin": 42.4
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 13.8,
+     "middle": 73.3,
+     "foot": 70.9,
+     "left_margin": 42.2
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 18.0,
+     "middle": 83.1,
+     "foot": 74.2,
+     "left_margin": 43.5
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK02_ACCOUNT_DETAILS"
+  },
+  "15": {
+   "file": "15_EDIT_ACCOUNT.png",
+   "sha256": "4c9f849c29868efd993ddcc2254ad240097a77c989689476e7f84b5de8cae459",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 15.3,
+     "middle": 81.4,
+     "foot": 58.4,
+     "left_margin": 40.3
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 12.0,
+     "middle": 65.8,
+     "foot": 58.3,
+     "left_margin": 29.9
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 15.7,
+     "middle": 92.5,
+     "foot": 50.3,
+     "left_margin": 38.6
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK03_RECEIPT_OVERLAYS"
+  },
+  "16": {
+   "file": "16_RECORD_BANK_TRANSACTION.png",
+   "sha256": "67fa6d71ed592d9f23d954c9db35eb23d94cddd4b386f060bf165cad1c9830b6",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 34.3,
+     "middle": 71.3,
+     "foot": 92.8,
+     "left_margin": 42.2
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 34.4,
+     "middle": 72.8,
+     "foot": 79.0,
+     "left_margin": 38.6
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 32.1,
+     "middle": 86.4,
+     "foot": 76.6,
+     "left_margin": 43.3
+    }
+   },
+   "nearest_hero": "SK03_RECEIPT_OVERLAYS",
+   "nearest_foot": "SK03_RECEIPT_OVERLAYS"
+  },
+  "17": {
+   "file": "17_ADD_CASH.png",
+   "sha256": "16f57d4cf45367e64e44bea89b36e5949a3c8bbdb3afa8f90a36cf0b60eb2f43",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 17.2,
+     "middle": 55.1,
+     "foot": 90.9,
+     "left_margin": 40.8
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 13.5,
+     "middle": 83.3,
+     "foot": 74.5,
+     "left_margin": 46.1
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 16.8,
+     "middle": 77.3,
+     "foot": 75.8,
+     "left_margin": 52.3
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK02_ACCOUNT_DETAILS"
+  },
+  "18": {
+   "file": "18_RECORD_CASH_SPENDING.png",
+   "sha256": "58dd22f1b67dacb1698b7dd0037002605b90c8121148d2570202f56ce313f581",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 16.7,
+     "middle": 68.7,
+     "foot": 91.4,
+     "left_margin": 51.4
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 12.5,
+     "middle": 84.4,
+     "foot": 78.5,
+     "left_margin": 34.9
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 16.7,
+     "middle": 82.9,
+     "foot": 94.9,
+     "left_margin": 44.2
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK02_ACCOUNT_DETAILS"
+  },
+  "19": {
+   "file": "19_RECORD_CREDIT_CARD_PURCHASE.png",
+   "sha256": "6c2e155f37912619ceafe5edceebbe45c1e8ffb1acc46a23d1b5bfd3dedc94d0",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 17.4,
+     "middle": 59.3,
+     "foot": 87.2,
+     "left_margin": 47.7
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 13.8,
+     "middle": 77.8,
+     "foot": 70.6,
+     "left_margin": 38.9
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 11.6,
+     "middle": 80.7,
+     "foot": 66.4,
+     "left_margin": 30.1
+    }
+   },
+   "nearest_hero": "SK03_RECEIPT_OVERLAYS",
+   "nearest_foot": "SK03_RECEIPT_OVERLAYS"
+  },
+  "20": {
+   "file": "20_RECORD_CREDIT_CARD_PAYMENT.png",
+   "sha256": "21ec530c85fe396d6409589905a69f9b5720368c0126e0e47185cd8951be7028",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 17.5,
+     "middle": 73.3,
+     "foot": 79.6,
+     "left_margin": 45.8
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 10.8,
+     "middle": 73.4,
+     "foot": 59.7,
+     "left_margin": 31.2
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 16.7,
+     "middle": 88.1,
+     "foot": 63.4,
+     "left_margin": 41.3
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK02_ACCOUNT_DETAILS"
+  },
+  "21": {
+   "file": "21_ACCOUNT_PURPOSE_PREFERENCES.png",
+   "sha256": "f8e55e1acb99b721a675e22883eb5975792786bd674809ccc7b7a71d12decf9d",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 15.1,
+     "middle": 89.7,
+     "foot": 53.7,
+     "left_margin": 39.5
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 17.8,
+     "middle": 76.3,
+     "foot": 59.7,
+     "left_margin": 40.9
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 16.4,
+     "middle": 90.3,
+     "foot": 50.3,
+     "left_margin": 46.5
+    }
+   },
+   "nearest_hero": "SK01_PARENT_MONEY",
+   "nearest_foot": "SK03_RECEIPT_OVERLAYS"
+  },
+  "22": {
+   "file": "22_EMPTY_ACCOUNTS.png",
+   "sha256": "4f70fa1e61de3b38d8a01564d9aec7eaf40a93e0cd4cb34c27bcfc0ed8a96a12",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 15.5,
+     "middle": 58.7,
+     "foot": 56.7,
+     "left_margin": 39.3
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 14.9,
+     "middle": 86.3,
+     "foot": 54.0,
+     "left_margin": 54.0
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 16.9,
+     "middle": 85.1,
+     "foot": 47.1,
+     "left_margin": 51.5
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK03_RECEIPT_OVERLAYS"
+  },
+  "23": {
+   "file": "23_BALANCE_ADJUSTMENT_REVIEW.png",
+   "sha256": "b128a2c24d224d30142d845190144401393d59eedb09259a3a80fcba49493ae9",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 16.2,
+     "middle": 86.0,
+     "foot": 50.0,
+     "left_margin": 46.0
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 15.5,
+     "middle": 66.5,
+     "foot": 61.6,
+     "left_margin": 37.0
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 15.1,
+     "middle": 78.2,
+     "foot": 44.1,
+     "left_margin": 49.1
+    }
+   },
+   "nearest_hero": "SK03_RECEIPT_OVERLAYS",
+   "nearest_foot": "SK03_RECEIPT_OVERLAYS"
+  },
+  "24": {
+   "file": "24_TRANSACTION_CORRECTION_REVERSAL.png",
+   "sha256": "6d03d0220a3b0841a29251ad527e11034c6c8ad2fcb944ad107eb98c845003a8",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 14.5,
+     "middle": 79.1,
+     "foot": 76.5,
+     "left_margin": 44.8
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 16.6,
+     "middle": 68.7,
+     "foot": 71.3,
+     "left_margin": 27.9
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 15.7,
+     "middle": 89.1,
+     "foot": 65.4,
+     "left_margin": 38.9
+    }
+   },
+   "nearest_hero": "SK01_PARENT_MONEY",
+   "nearest_foot": "SK03_RECEIPT_OVERLAYS"
+  },
+  "25": {
+   "file": "25_ACCOUNT_ARCHIVE_CONFIRMATION.png",
+   "sha256": "c226c511301675d98c857e98e5b66fa18f83ec45da60e2287e919c572b99e840",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 14.2,
+     "middle": 76.9,
+     "foot": 55.1,
+     "left_margin": 44.4
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 16.3,
+     "middle": 66.1,
+     "foot": 56.6,
+     "left_margin": 33.9
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 14.9,
+     "middle": 91.8,
+     "foot": 51.3,
+     "left_margin": 47.4
+    }
+   },
+   "nearest_hero": "SK01_PARENT_MONEY",
+   "nearest_foot": "SK03_RECEIPT_OVERLAYS"
+  },
+  "26": {
+   "file": "26_CAPTURE_RECEIPT.png",
+   "sha256": "8ee919a64720529fbc5f8e7af4a51fa9904f899e356ce1d8bfd09f50c8998aa2",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 17.9,
+     "middle": 79.8,
+     "foot": 54.0,
+     "left_margin": 50.2
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 17.5,
+     "middle": 87.7,
+     "foot": 55.6,
+     "left_margin": 44.2
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 6.0,
+     "middle": 42.4,
+     "foot": 12.8,
+     "left_margin": 6.5
+    }
+   },
+   "nearest_hero": "SK03_RECEIPT_OVERLAYS",
+   "nearest_foot": "SK03_RECEIPT_OVERLAYS"
+  },
+  "27": {
+   "file": "27_SCANNING_RECEIPT.png",
+   "sha256": "d13dfcce46be6c1e6da7f3aef9a588c3d5597ab5e9277c3bed4a40b1900bfd24",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 13.6,
+     "middle": 77.0,
+     "foot": 57.8,
+     "left_margin": 50.5
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 16.7,
+     "middle": 90.4,
+     "foot": 52.8,
+     "left_margin": 43.9
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 11.8,
+     "middle": 64.0,
+     "foot": 43.7,
+     "left_margin": 34.1
+    }
+   },
+   "nearest_hero": "SK03_RECEIPT_OVERLAYS",
+   "nearest_foot": "SK03_RECEIPT_OVERLAYS"
+  },
+  "28": {
+   "file": "28_REVIEW_EXTRACTED_PURCHASE.png",
+   "sha256": "6b552fd8d8a2bd115cb1ff8e2a8d2f83e94931cf84792ae0b40e2122164e8834",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 13.2,
+     "middle": 79.6,
+     "foot": 62.8,
+     "left_margin": 36.4
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 16.2,
+     "middle": 69.7,
+     "foot": 56.5,
+     "left_margin": 34.7
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 14.9,
+     "middle": 96.0,
+     "foot": 51.2,
+     "left_margin": 45.1
+    }
+   },
+   "nearest_hero": "SK01_PARENT_MONEY",
+   "nearest_foot": "SK03_RECEIPT_OVERLAYS"
+  },
+  "29": {
+   "file": "29_RECEIPT_EXCEPTION_DUPLICATE.png",
+   "sha256": "883740919c39619fe48a345276fde0457ca2da41bf19a177d22ffc3c0687e43e",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 14.6,
+     "middle": 76.2,
+     "foot": 56.5,
+     "left_margin": 37.3
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 16.7,
+     "middle": 76.1,
+     "foot": 61.1,
+     "left_margin": 48.1
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 15.9,
+     "middle": 84.7,
+     "foot": 54.5,
+     "left_margin": 47.7
+    }
+   },
+   "nearest_hero": "SK01_PARENT_MONEY",
+   "nearest_foot": "SK03_RECEIPT_OVERLAYS"
+  },
+  "30": {
+   "file": "30_ACCOUNT_SETUP_DETAILS.png",
+   "sha256": "c12ec558c4844e4bd4ee94e5b0bdb7b5d6d85ae46b50cd4c903e169d92fb2652",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 14.4,
+     "middle": 70.5,
+     "foot": 45.5,
+     "left_margin": 36.7
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 14.0,
+     "middle": 80.1,
+     "foot": 62.6,
+     "left_margin": 42.5
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 19.0,
+     "middle": 87.2,
+     "foot": 49.2,
+     "left_margin": 44.3
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK01_PARENT_MONEY"
+  },
+  "31": {
+   "file": "31_TRANSACTION_SEARCH_AND_FILTER.png",
+   "sha256": "341e66162b6b70c418a5fd00c7d1722ca8feabf57f277580e85882f6caf0691f",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 13.8,
+     "middle": 87.8,
+     "foot": 51.7,
+     "left_margin": 31.0
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 14.0,
+     "middle": 87.5,
+     "foot": 83.0,
+     "left_margin": 41.3
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 18.9,
+     "middle": 88.6,
+     "foot": 72.9,
+     "left_margin": 47.5
+    }
+   },
+   "nearest_hero": "SK01_PARENT_MONEY",
+   "nearest_foot": "SK01_PARENT_MONEY"
+  },
+  "32": {
+   "file": "32_REORDER_ACCOUNTS.png",
+   "sha256": "0cda0a43bbe9a6fd4aa0297afd7aaca649222e25ae60573ff108432ae1827bf0",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 14.0,
+     "middle": 71.6,
+     "foot": 58.1,
+     "left_margin": 35.8
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 13.9,
+     "middle": 75.0,
+     "foot": 90.1,
+     "left_margin": 20.3
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 18.9,
+     "middle": 79.3,
+     "foot": 71.6,
+     "left_margin": 39.0
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK01_PARENT_MONEY"
+  },
+  "33": {
+   "file": "33_TRANSACTION_REVIEW.png",
+   "sha256": "3831a61bb0a281a50ee3dc88a8067a53e1d76a02f4e0b9b56ad6ba2fd1ffcd2d",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 14.6,
+     "middle": 80.4,
+     "foot": 51.4,
+     "left_margin": 36.0
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 13.9,
+     "middle": 63.6,
+     "foot": 83.6,
+     "left_margin": 31.0
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 19.2,
+     "middle": 108.4,
+     "foot": 74.5,
+     "left_margin": 40.9
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK01_PARENT_MONEY"
+  },
+  "34": {
+   "file": "34_RECEIPT_CAPTURE_FAILURE.png",
+   "sha256": "f14076c887e54ece5fcdfc792f3bfd7ec65a7ad84708650251526bd61d9ea7b8",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 13.9,
+     "middle": 74.9,
+     "foot": 85.6,
+     "left_margin": 43.6
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 13.8,
+     "middle": 70.0,
+     "foot": 59.5,
+     "left_margin": 38.7
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 18.5,
+     "middle": 81.3,
+     "foot": 63.6,
+     "left_margin": 44.2
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK02_ACCOUNT_DETAILS"
+  },
+  "35": {
+   "file": "35_ACCOUNT_NEEDS_REVIEW.png",
+   "sha256": "26b5211c5aa4560459a11496376994f882875a55157bb88304dfdf43be2c9169",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 14.6,
+     "middle": 79.3,
+     "foot": 71.2,
+     "left_margin": 29.8
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 14.3,
+     "middle": 77.8,
+     "foot": 53.4,
+     "left_margin": 45.9
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 18.7,
+     "middle": 82.6,
+     "foot": 57.6,
+     "left_margin": 53.6
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK02_ACCOUNT_DETAILS"
+  },
+  "36": {
+   "file": "36_ARCHIVE_BLOCKED.png",
+   "sha256": "e98abf8a073fce7bafc83614bc3026810c09a65cf515129cb67dba2b54498044",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 13.9,
+     "middle": 94.4,
+     "foot": 47.8,
+     "left_margin": 33.7
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 13.8,
+     "middle": 71.5,
+     "foot": 60.7,
+     "left_margin": 42.9
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 18.5,
+     "middle": 104.8,
+     "foot": 50.7,
+     "left_margin": 46.3
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK01_PARENT_MONEY"
+  },
+  "37": {
+   "file": "37_CORRECTION_REVERSAL_CONFIRMATION.png",
+   "sha256": "a0f6655e06bb5ac7b3b8b49b4a7ca7d1b84e934fcc11a47a3d4ed9229b730c35",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 14.3,
+     "middle": 75.0,
+     "foot": 55.7,
+     "left_margin": 29.6
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 13.8,
+     "middle": 70.0,
+     "foot": 83.4,
+     "left_margin": 26.5
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 19.0,
+     "middle": 92.0,
+     "foot": 73.5,
+     "left_margin": 40.6
+    }
+   },
+   "nearest_hero": "SK02_ACCOUNT_DETAILS",
+   "nearest_foot": "SK01_PARENT_MONEY"
+  },
+  "SI": {
+   "file": "SIDEKICK_SK03_RECEIPT_OVERLAYS.png",
+   "sha256": "c11b040fe2af4ddc0b5962560aae0e520a54526478bf62b924e141e5cd3d11d9",
+   "mad": {
+    "SK01_PARENT_MONEY": {
+     "hero": 17.8,
+     "middle": 73.3,
+     "foot": 50.0,
+     "left_margin": 50.6
+    },
+    "SK02_ACCOUNT_DETAILS": {
+     "hero": 18.4,
+     "middle": 95.7,
+     "foot": 54.4,
+     "left_margin": 44.0
+    },
+    "SK03_RECEIPT_OVERLAYS": {
+     "hero": 0.0,
+     "middle": 0.0,
+     "foot": 0.0,
+     "left_margin": 0.0
+    }
+   },
+   "nearest_hero": "SK03_RECEIPT_OVERLAYS",
+   "nearest_foot": "SK03_RECEIPT_OVERLAYS"
+  }
+ }
+}

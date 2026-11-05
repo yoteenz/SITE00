@@ -1,0 +1,3 @@
+vitest run tests/jurnl: 45 files
+ Test Files  45 passed (45)
+      Tests  809 passed (809)

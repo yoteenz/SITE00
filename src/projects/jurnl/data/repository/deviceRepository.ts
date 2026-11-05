@@ -20,8 +20,14 @@ import type { JurnlPurchase } from '../foundation/purchases';
 import type { JurnlTrip } from '../foundation/trips';
 import type { JurnlPaydownPlan } from '../foundation/paydown';
 import type { JurnlRecord } from '../foundation/records';
+import type { JurnlDailyEarnings } from '../foundation/dailyEarnings';
+import type { JurnlReservation } from '../foundation/reservations';
+import { newEntityId } from './ids';
+import { entryClass, resolveEntryAccount } from '../ledger/accounting';
+import { getTodayKey, isCalendarDate, normalizeDateInput } from '../foundation/dates';
 import {
   REPOSITORY_SCHEMA_VERSION,
+  type FinancialCommit,
   type JurnlRepository,
   type RepositoryEvent,
   type RepositoryListener,
@@ -88,8 +94,21 @@ function emptySnapshot(userId: string): RepositorySnapshot {
     trips: [],
     paydownPlan: null,
     records: [],
+    dailyEarnings: [],
+    reservations: [],
     updatedAt: now,
   };
+}
+
+function upsertById<T>(list: T[], items: T[] | undefined, key: (item: T) => string): T[] {
+  if (!items?.length) return list;
+  const next = [...list];
+  for (const item of items) {
+    const idx = next.findIndex((x) => key(x) === key(item));
+    if (idx >= 0) next[idx] = item;
+    else next.push(item);
+  }
+  return next;
 }
 
 function finalizeSnapshot(parsed: RepositorySnapshot): RepositorySnapshot {
@@ -107,6 +126,8 @@ function finalizeSnapshot(parsed: RepositorySnapshot): RepositorySnapshot {
     trips: parsed.trips ?? [],
     paydownPlan: parsed.paydownPlan ?? null,
     records: parsed.records ?? [],
+    dailyEarnings: parsed.dailyEarnings ?? [],
+    reservations: parsed.reservations ?? [],
   };
   return {
     ...base,
@@ -231,10 +252,21 @@ class DeviceJurnlRepository implements JurnlRepository {
 
   appendTransaction(entry: Omit<LedgerEntry, 'id' | 'source' | 'status' | 'related' | 'recurring' | 'memo'> & { memo?: string }): LedgerEntry {
     const snap = readSnapshot(this.userId);
-    const added = snap.transactions.filter((t) => t.source === 'ADDED').length;
+    // Canonical fields for every write path (Quick Add, income received, purchase bought): stable account id, accounting
+    // class from the account's nature, and the calendar date. Explicit values from the caller win.
+    const account = resolveEntryAccount(entry, snap.accounts);
+    const today = getTodayKey();
+    const occurred = entry.occurred_on ?? (isCalendarDate(entry.when) ? entry.when : normalizeDateInput(entry.when, today));
+    // Unique per entry: a count-based id (tx-add-N) collided after a delete and could overwrite another movement.
     const next: LedgerEntry = {
+      recorded_at: new Date().toISOString(),
+      confirmation: 'RECORDED_BY_YOU',
+      origin_family: 'F04',
       ...entry,
-      id: `tx-add-${added + 1}`,
+      account_id: entry.account_id ?? account?.account_id ?? null,
+      txn_class: entry.txn_class ?? entryClass(entry, account),
+      occurred_on: occurred,
+      id: newEntityId('tx'),
       status: 'CLEARED',
       recurring: false,
       memo: entry.memo ?? 'ADDED BY HAND',
@@ -253,7 +285,16 @@ class DeviceJurnlRepository implements JurnlRepository {
     if (idx < 0) return null;
     const current = snap.transactions[idx];
     if (current.source !== 'ADDED') return null;
-    const next: LedgerEntry = { ...current, ...patch };
+    let next: LedgerEntry = { ...current, ...patch };
+    if (patch.account !== undefined && patch.account !== current.account) {
+      // Moving an entry to another account keeps its stable id and class in step (a card makes it a CARD PURCHASE).
+      const account = resolveEntryAccount({ account: patch.account, account_id: null }, snap.accounts);
+      const derived = !current.link && (current.txn_class == null || ['INCOME', 'EXPENSE', 'CREDIT_PURCHASE', 'REFUND'].includes(current.txn_class));
+      next = { ...next, account_id: account?.account_id ?? null, txn_class: derived ? entryClass({ direction: next.direction }, account) : next.txn_class };
+    }
+    if (patch.when !== undefined && patch.when !== current.when) {
+      next = { ...next, occurred_on: isCalendarDate(patch.when) ? patch.when : normalizeDateInput(patch.when, getTodayKey()) };
+    }
     const transactions = [...snap.transactions];
     transactions[idx] = next;
     persist({ ...snap, transactions, updatedAt: new Date().toISOString() });
@@ -547,6 +588,46 @@ class DeviceJurnlRepository implements JurnlRepository {
     return true;
   }
 
+  listDailyEarnings(): JurnlDailyEarnings[] {
+    return readSnapshot(this.userId).dailyEarnings;
+  }
+
+  listReservations(): JurnlReservation[] {
+    return readSnapshot(this.userId).reservations;
+  }
+
+  commit(change: FinancialCommit): void {
+    const snap = readSnapshot(this.userId);
+    const removeTx = new Set(change.transactions?.remove ?? []);
+    const removeRes = new Set(change.reservations?.remove ?? []);
+    const transactions = upsertById(
+      snap.transactions.filter((t) => !removeTx.has(t.id)),
+      change.transactions?.upsert,
+      (t) => t.id,
+    );
+    // New legs go first (newest first, like appendTransaction); upserts of existing ids keep their place.
+    const existingIds = new Set(snap.transactions.map((t) => t.id));
+    const fresh = transactions.filter((t) => !existingIds.has(t.id));
+    const kept = transactions.filter((t) => existingIds.has(t.id));
+    const next: RepositorySnapshot = {
+      ...snap,
+      transactions: [...fresh.reverse(), ...kept],
+      dailyEarnings: upsertById(snap.dailyEarnings, change.dailyEarnings?.upsert, (d) => d.earnings_id),
+      reservations: upsertById(
+        snap.reservations.filter((r) => !removeRes.has(r.reservation_id)),
+        change.reservations?.upsert,
+        (r) => r.reservation_id,
+      ),
+      obligations: upsertById(snap.obligations, change.obligations?.upsert, (o) => o.obligation_id),
+      creditAttributes: upsertById(snap.creditAttributes, change.creditAttributes?.upsert, (c) => c.account_id),
+      accounts: upsertById(snap.accounts, change.accounts?.upsert, (a) => a.account_id),
+      updatedAt: new Date().toISOString(),
+    };
+    persist(next);
+    emit('FINANCIAL_COMMIT', change.reason);
+    emit('SAFE_TO_SPEND_RECALCULATED');
+  }
+
   onEvent(cb: (event: RepositoryEvent) => void): () => void {
     eventSubs.add(cb);
     return () => eventSubs.delete(cb);
@@ -555,8 +636,37 @@ class DeviceJurnlRepository implements JurnlRepository {
 
 let repo: DeviceJurnlRepository | null = null;
 
+/** Pockets saved under preview-guest before unlock are merged into the signed-in viewer's snapshot. */
+function mergePreviewGuestPocketsInto(targetUserId: string) {
+  if (targetUserId === 'preview-guest') return;
+  const guest = peekDeviceSnapshot('preview-guest');
+  if (!guest) return;
+  const guestManual = guest.accounts.filter((a) => a.is_manual && a.status === 'ACTIVE');
+  if (!guestManual.length) return;
+
+  const target =
+    peekDeviceSnapshot(targetUserId) ??
+    (() => {
+      readSnapshot(targetUserId);
+      return peekDeviceSnapshot(targetUserId);
+    })();
+  if (!target) return;
+
+  const known = new Set(target.accounts.map((a) => a.account_id));
+  const additions = guestManual.filter((a) => !known.has(a.account_id)).map((a) => ({ ...a, user_id: targetUserId }));
+  if (!additions.length) return;
+
+  importSnapshotForUser(targetUserId, {
+    ...target,
+    accounts: [...target.accounts, ...additions],
+    updatedAt: new Date().toISOString(),
+  });
+}
+
 export function setRepositoryUserId(userId: string) {
   if (repo?.userId === userId) return;
+  const prev = repo?.userId ?? activeUserId;
+  if (prev === 'preview-guest' && userId !== 'preview-guest') mergePreviewGuestPocketsInto(userId);
   activeUserId = userId;
   repo = new DeviceJurnlRepository(userId);
 }

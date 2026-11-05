@@ -495,6 +495,7 @@ export function JurnlDrawer({
   testId,
   keyboard = false,
   expression,
+  material,
 }: {
   size: 'short' | 'long';
   title: string;
@@ -509,6 +510,9 @@ export function JurnlDrawer({
   keyboard?: boolean;
   /** Repeatable sheet role. Shared drawer, different expression. */
   expression?: 'form' | 'detail' | 'analysis' | 'filter' | 'confirmation';
+  /** Opt-in V3 interactive material (surfaces/v3/jurnl-v3.css: parchment task sheet, olive / cream / terracotta pills).
+   * Behaviour, DOM and triggers are unchanged; a caller migrates by passing it. */
+  material?: 'v3';
 }) {
   const { ref, el: sheet } = useOverlayFocus(onClose);
   const titleId = useId();
@@ -547,6 +551,7 @@ export function JurnlDrawer({
           aria-labelledby={titleId}
           className={`jrn-drawer jrn-drawer--${size}${tone ? ` jrn-drawer--${tone}` : ''}`}
           data-jrn-expression={expression}
+          data-jrn-material={material}
           data-keyboard={keyboard ? 'open' : 'closed'}
         >
           <span className="jrn-drawer__grab" aria-hidden />

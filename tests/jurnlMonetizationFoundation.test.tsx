@@ -8,7 +8,7 @@ import path from 'node:path';
 import { createElement, type ReactNode } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import {
   MONETIZATION_EVENT_NAMES,
   REVENUE_SOURCES,
@@ -55,6 +55,19 @@ import {
   JurnlUsageLimitNotice,
 } from '../src/projects/jurnl/runtime/monetization/JurnlMonetizationPrimitives';
 import { F01_SCREENS } from '../src/projects/jurnl/data/f01/screens';
+
+// Production mode fails closed unless the server data plane is configured. CI configures it with non-secret
+// placeholders in vitest.config.ts (import.meta.env is fixed when the worker starts, so a per-test stub cannot set it).
+// Resolve production exactly as CI does, so this file gives the same result on any runner.
+vi.mock('../src/projects/jurnl/data/production/productionConfig', async (importActual) => {
+  const actual = await importActual<typeof import('../src/projects/jurnl/data/production/productionConfig')>();
+  const ciConfigured = (mode: 'design-preview' | 'production') =>
+    mode === 'production' ?
+      { dataPlane: 'SERVER_SYNC' as const, authConfigured: true, serverPersistenceConfigured: true, supabaseConfigured: true, apiBase: 'https://api.site00.com' }
+    : actual.resolveJurnlProductionConfig(mode);
+  return { ...actual, resolveJurnlProductionConfig: ciConfigured, jurnlProductionFailClosed: (mode: 'design-preview' | 'production') => mode === 'production' && ciConfigured(mode).dataPlane === 'UNCONFIGURED' };
+});
+
 
 const root = path.resolve(__dirname, '..');
 const read = (rel: string) => readFileSync(path.join(root, rel), 'utf8');

@@ -7,7 +7,8 @@
  * sheet's top edge by one row pitch; tiles never resize.
  */
 
-import { useState } from 'react';
+import { useCallback, useRef, useState, type Ref } from 'react';
+import { useOverlayFocus } from '../components/primitives';
 import { useCurrency } from '../../data/home/money';
 import checkPlate from '../../families/F09_SAFE/REFERENCE_REPLICA/plates/F09_CHECK_PLATE.jpg';
 import catFashion from '../../families/F09_SAFE/REFERENCE_REPLICA/tiles/CATEGORY_FASHION.jpg';
@@ -102,10 +103,16 @@ export function SelectionSheet({
   const sheet = shiftBox(L.box.sheet as RefBox, dy);
   const titleId = `${testId}-title`;
   const label = L.text.label;
+  // the shared overlay focus behaviour (first control focused, Tab trapped, Escape closes, focus returns on close);
+  // the close callback is held stable so a re-render never re-traps or steals focus
+  const closeRef = useRef(onClose);
+  closeRef.current = onClose;
+  const close = useCallback(() => closeRef.current(), []);
+  const { ref } = useOverlayFocus(close);
   return (
     <>
-      <button type="button" className="jrn-ref__scrim" aria-label="CLOSE" data-jrn-trigger={`${testId}-scrim`} onClick={onClose} />
-      <section className="jrn-ref__sheet" role="dialog" aria-modal="true" aria-labelledby={titleId} data-jrn-sheet={testId} style={at(sheet)}>
+      <button type="button" className="jrn-ref__scrim" aria-label="CLOSE" tabIndex={-1} data-jrn-trigger={`${testId}-scrim`} onClick={onClose} />
+      <section ref={ref as unknown as Ref<HTMLElement>} className="jrn-ref__sheet" role="dialog" aria-modal="true" aria-labelledby={titleId} data-jrn-sheet={testId} style={at(sheet)}>
         <span className="jrn-ref__handle jrn-ref__abs" style={at(shiftBox(L.box.handle as RefBox, dy), sheet)} />
         <button type="button" aria-label="CLOSE" data-jrn-trigger={`${testId}-close`} onClick={onClose} style={at([L.box.close[0] - 16, L.box.close[1] + dy - 16, L.box.close[2] + 16, L.box.close[3] + dy + 16], sheet)}>
           <RefIcon name="close" box={[16, 16, 16 + L.box.close[2] - L.box.close[0], 16 + L.box.close[3] - L.box.close[1]]} stroke={2.6} />
@@ -157,7 +164,7 @@ export function CheckPurchaseScreen() {
   /** CHECK PURCHASE opens the purchase-result flow (purchases/checked) with what was entered here. */
   const check = () => {
     if (value <= 0) {
-      showToast({ tone: 'error', title: 'ENTER AN AMOUNT', body: 'ADD WHAT IT COSTS TO SEE HOW IT FITS.', testId: 'toast-check-amount' });
+      showToast({ tone: 'error', title: 'ENTER AN AMOUNT', body: 'ENTER THE PRICE TO COMPARE IT WITH SAFE TO SPEND.', testId: 'toast-check-amount' });
       return;
     }
     go('purchases/checked', { amount: String(value), category: categoryLabel ?? 'OTHER', pay: accountLabel ?? 'CHECKING' });
