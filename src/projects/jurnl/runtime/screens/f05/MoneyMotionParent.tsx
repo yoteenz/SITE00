@@ -202,16 +202,6 @@ export function MoneyMotionParent() {
     }
   }, [L, reading.accounts.length]);
 
-  useLayoutEffect(() => {
-    const el = accountsRailRef.current;
-    if (!el || !fresh) return;
-    const idx = reading.accounts.findIndex((a) => a.account_id === fresh);
-    if (idx < 0) return;
-    const vp = accountRailViewport(L);
-    el.scrollLeft = Math.floor(idx / 2) * vp.w;
-    setRailScroll(el.scrollLeft);
-  }, [fresh, L, reading.accounts]);
-
   // Threads for unfinished transfers whose two places both have a paper (canonical state only).
   const slotOf = new Map<string, Rect>();
   reading.accounts.forEach((a, i) => slotOf.set(a.account_id, accountPaperRect(L, i, railScroll)));
@@ -670,10 +660,22 @@ export function MoneyMotionParent() {
           onClose={() => setSheet(null)}
           onSaved={(id) => {
             setSheet(null);
-            // the new place is shown on ACCOUNTS (or counted in ALL PLACES when more than four)
             if (active !== 'accounts') select('accounts');
+            // Keep the first page of pockets in view; swipe the rail to reach the one just added.
+            const el = accountsRailRef.current;
+            if (el) {
+              el.scrollLeft = 0;
+              setRailScroll(0);
+              patchF05Nav({ railScroll: 0 });
+            }
             setFresh(id);
-            showToast({ tone: 'success', title: 'POCKET ADDED', body: 'THE BALANCE IS WHAT YOU ENTERED. NO BANK IS CONNECTED.', testId: 'f05m-added' });
+            const needsSwipe = reading.accounts.length + 1 > 2;
+            showToast({
+              tone: 'success',
+              title: 'POCKET ADDED',
+              body: needsSwipe ? 'SWIPE YOUR POCKETS LEFT TO SEE IT. THE BALANCE IS WHAT YOU ENTERED. NO BANK IS CONNECTED.' : 'THE BALANCE IS WHAT YOU ENTERED. NO BANK IS CONNECTED.',
+              testId: 'f05m-added',
+            });
           }}
         />
       : null}
