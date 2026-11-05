@@ -418,13 +418,14 @@
   letter-spacing: 0.04em;
   line-height: 0.98;
 }
-/* MONEY action sheet: one-line cursive subheads in approved oxblood (2px smaller than global .jed-script) */
+/* MONEY action sheet: cursive subheads in approved oxblood */
 .jrn [data-jed='action'] .jed-head .jed-script,
 .jrn [data-jed='action'] .jed-action__note {
   color: var(--jed-oxblood);
 }
+/* MONEY title line only — 4px below global .jed-script (15–18 → 11–14) */
 .jrn [data-jed='action'] .jed-head .jed-script {
-  font-size: clamp(13px, calc(4.4vw - 2px), 16px);
+  font-size: clamp(11px, calc(4.4vw - 4px), 14px);
 }
 .jrn [data-jed='action'] .jed-action__note {
   font-size: clamp(11px, calc(3.5vw - 2px), 13px);
