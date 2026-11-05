@@ -16865,3 +16865,10 @@ Summary of the whole conversation in this chat.
 - **Decisions / outcomes:** Motion parent uses `DIRECTORY_MAX_CROP`, `directoryAbsorb(pocketCount)`, SK01 seam `f05SeamY` for slots/view-all/dots, and `motionBoardToScreen` for ProductNav (same as Dot01 `boardToScreen` + `NAV_RECT`).
 - **Changes:** `f05MotionLayout.ts`, `MoneyMotionParent.tsx` (pass `reading.accounts.length`), test crop + rail scroll fix. Commit `3aac2fa83` on `cursor/jurnl-tunnel-opus-v3-overlays-4e5a`; preview worktree reset + tunnel restart.
 - **Conventions:** Compare motion `?parent=motion` to `money/places` on the **pinned** tunnel before merge to main; 3–4 pockets use absorb 0 (height-fit on short phones, same as directory).
+
+---
+
+## 2026-11-05 — Motion foot no longer uses 1-row directory absorb (tunnel)
+
+- **Context:** Founder screenshot after tunnel restart still showed VIEW ALL overlapping ADD/MOVE. Public tunnel was already serving `f05SeamY` / `directoryAbsorb`. With two pockets, `directoryAbsorb(2)` is the one-row slack, so a short Safari viewport slid VIEW ALL and the dock up into the two-row grid while the scale stayed width-first.
+- **Changes:** `F05_MOTION_FOOT_CLEAR` is only the gap under the second row. A larger deficit height-fits the whole board. Pocket count is ignored. Preview remounted on `cursor/jurnl-tunnel-opus-v3-overlays-4e5a`.

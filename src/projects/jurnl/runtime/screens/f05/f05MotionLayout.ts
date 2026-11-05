@@ -14,7 +14,7 @@
  */
 
 import geometry from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_GEOMETRY.json';
-import { DIRECTORY_MAX_CROP, directoryAbsorb } from './dot01/directoryScene';
+import { DIRECTORY_MAX_CROP } from './dot01/directoryScene';
 import { F05_COMPOSITION as C } from './f05Composition';
 
 export const SRC_W = geometry.source.w;
@@ -123,8 +123,16 @@ export function motionBoardToScreen(L: F05MotionLayout, r: Rect): Rect {
   return { x: L.ox + r.x * L.u, y: top * L.u, w: r.w * L.u, h: (bottom - top) * L.u };
 }
 
-/** `items` papers on this page (accounts plus any ADD / MOVE papers). `pocketCount` drives DOT 01 foot absorb (nav pages). */
-export function computeF05MotionLayout(W: number, H: number, items: number, pocketCount = 0): F05MotionLayout {
+/**
+ * Source px the motion foot may overlap before the whole board height-fits.
+ * The motion page always keeps two rows (rail + ADD/MOVE). Those rows end just above VIEW ALL,
+ * so the one-row slack from `directoryAbsorb(1|2)` would slide VIEW ALL and the dock up into the cards.
+ * Pocket count is ignored for that reason.
+ */
+export const F05_MOTION_FOOT_CLEAR = Math.max(0, C.viewAll.y - (APPROVED_SLOTS[2]!.y + APPROVED_SLOTS[2]!.h) - 8);
+
+/** `items` papers on this page (accounts plus any ADD / MOVE papers). */
+export function computeF05MotionLayout(W: number, H: number, items: number, _pocketCount = 0): F05MotionLayout {
   const w = Math.max(1, W);
   const h = Math.max(1, H);
   const avail = h;
@@ -132,8 +140,8 @@ export function computeF05MotionLayout(W: number, H: number, items: number, pock
   let { u, ox } = computeF05BoardScale(w, h, maxCrop, avail);
   let extra = Math.max(0, avail / u - SRC_H);
   const deficit = SRC_H - avail / u;
-  const absorb = directoryAbsorb(pocketCount);
-  if (deficit > 0 && absorb != null) {
+  const absorb = F05_MOTION_FOOT_CLEAR;
+  if (deficit > 0) {
     if (deficit <= absorb) extra = -deficit;
     else {
       extra = -absorb;

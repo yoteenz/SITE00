@@ -241,7 +241,7 @@ describe('Layout', () => {
 
   it('short phone viewports height-fit the foot so the torn nav paper stays on screen', () => {
     for (const [w, h] of [[393, 620], [390, 664]] as const) {
-      const L = computeF05MotionLayout(w, h, 4);
+      const L = computeF05MotionLayout(w, h, 4, 2);
       expect(L.boardH * L.u).toBeCloseTo(h, 1);
       expect((L.navZone.y + L.navZone.h) * L.u).toBeLessThanOrEqual(h + 2);
       expect(L.u).toBeLessThan(w / (SRC_W - 2 * CROP));
