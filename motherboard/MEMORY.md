@@ -16889,3 +16889,23 @@ Summary of the whole conversation in this chat.
 - **Root cause:** Board scales at `u ≈ viewportW / 881`; 3 source px ≈ 1–1.5 screen px on phone — below visible threshold.
 - **Changes:** `F05_ACCOUNTS_CHROME_NUDGE_SCREEN = 3` in `f05MotionLayout.ts` — adds `3/u` source px to VIEW ALL and dots **after** seam mapping (panels above unchanged). Commit `9ae4a8bce` on `cursor/jurnl-tunnel-opus-v3-overlays-4e5a`; preview pinned to that SHA.
 - **Conventions:** Founder layout tweaks on motion pilot should specify **screen px** when they mean on-device pixels; use layout-level `n/u` conversion, not raw composition y bumps.
+
+---
+
+## 2026-11-06 — Overlay micro-asset register (GROK1, not merged)
+
+- **Context:** Founder sprint to audit a provisional 70 overlay micro-asset slots, recover exact art, generate only real gaps, and package a review set. Same chat earlier nudged motion VIEW ALL by 3 screen pixels on the tunnel branch and published the GROK4 four-screen artwork release. This entry is the micro-asset sprint.
+- **Decisions:** Privacy and the global menu use thin cream line icons. Pocket, search, and archive use thin dark ink on parchment. DOT 01 bronze icons are a different family and were not reused. Debit and credit stay two cards. The wax seal already contains the transfer arrows. Large medallions and the ledger stay baked in the shells. Toggle track and thumb are separate; olive is ON, charcoal is OFF. OpenArt was not called. Resolve, Record Transfer, and Cancel papers did not separate cleanly and were not invented.
+- **Changes:** New unimported register `overlayMicroAssets.ts` and PNG masters under `MICRO_ASSETS/OVERLAY_GROK1/` on `cursor/jurnl-overlay-micro-assets-grok1-4e5a`. No screen, route, database, or deploy change. Founder approval is still required before Opus mounts anything. OV06 stays the F09 account drawer. FD-12 stays open.
+- **Conventions:** Do not treat a bronze DOT 01 file as the menu or privacy glyph because the name matches. Do not mount FG03, FG05, FG07, or FG09 a second time.
+
+
+---
+
+## 2026-11-06 — Overlay micro-asset correction (GROK2, not merged)
+
+- **Context:** Corrective sprint on the GROK1 overlay register. Finish the missing button papers, repair pixelated icon edges, reconcile the 71 / 55 / 49 / 53 counts, and build ten full-screen recompositions. Do not restart the audit. Do not mount, merge, or deploy.
+- **Decisions:** Resolve, Record Transfer, both Cancels, Archive Close, and Create Pocket were cut from the 2016 masters, which already had empty buttons. OpenArt was not used. The check shield stays a privacy emblem. The Safe to Spend menu row is held because no plain shield is on an authority. Founder CLOSE, HAMBURGER, SEARCH, and PLUS are not in this environment and were not invented. B06 close disc does not stand in for that CLOSE.
+- **Changes:** Updated `overlayMicroAssets.ts` and the PNGs under `MICRO_ASSETS/OVERLAY_GROK1/` on `cursor/jurnl-overlay-micro-assets-grok1-4e5a`. No screen imports the register.
+- **Conventions:** Role count, unique-file count, and a duplicate ZIP folder are different numbers. Comparison extracts are not extra roles. FG03, FG05, FG07, and FG09 stay baked.
+
