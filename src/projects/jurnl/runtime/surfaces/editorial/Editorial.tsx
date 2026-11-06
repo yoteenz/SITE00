@@ -15,6 +15,8 @@
 import { useId, useMemo, type CSSProperties, type ReactNode } from 'react';
 import { OverlayLayer } from '../../components/primitives';
 import { tornClip, useStableFocus } from '../v3/V3Surfaces';
+import { cleanArt, type CleanArtId } from '../../global/overlays/clean/registry';
+import { slot, useShellPlate, type ShellBox } from './Shell';
 import sk01 from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_SIDEKICK.webp';
 import heading from '../../../families/F05_MONEY/DOT01/F05_DOT01_01_HEADING_PARCHMENT.webp';
 import laurelSeal from '../../../families/F05_MONEY/DOT01/F05_DOT01_02_LAUREL_WAX_SEAL.webp';
@@ -117,7 +119,14 @@ export function EdHead({ id, title, script, children }: { id: string; title: str
  * `children` the live content (it scrolls inside itself when it is taller than the screen); `footer` the action
  * fragments, which stay reachable.
  */
-export function EditorialOverlay({ testId, composition, title, script, onClose, decor, head, children, footer, place = 'center', closeLabel = 'CLOSE', labelledBy }: {
+/**
+ * Plate mode: the composition is drawn on one regenerated founder shell (clean/registry.ts) at one uniform contain scale —
+ * the shell is the ground, the art and the paper. No CSS ground, no decor layers and no headline paper are drawn (they would
+ * duplicate the shell); the live head, body (the only scroll) and footer sit in measured regions of the shell.
+ */
+export type EdPlate = { art: CleanArtId; head: ShellBox; body: ShellBox; foot?: ShellBox; footExtra?: ShellBox };
+
+export function EditorialOverlay({ testId, composition, title, script, onClose, decor, head, children, footer, place = 'center', closeLabel = 'CLOSE', labelledBy, plate, headNote }: {
   testId: string;
   composition: 'action' | 'register' | 'transfer' | 'search' | 'account';
   title: string[];
@@ -129,6 +138,73 @@ export function EditorialOverlay({ testId, composition, title, script, onClose, 
   footer?: ReactNode;
   place?: 'center' | 'bottom';
   closeLabel?: string;
+  labelledBy?: string;
+  /** draw the composition on a regenerated founder shell (plate mode) */
+  plate?: EdPlate;
+  /** plate mode: one short live line under the script (an honesty note that belongs with the headline) */
+  headNote?: ReactNode;
+}) {
+  if (plate) return <PlateOverlay {...{ testId, composition, title, script, onClose, head, children, footer, closeLabel, labelledBy, plate, headNote }} />;
+  return <FolioOverlay {...{ testId, composition, title, script, onClose, decor, head, children, footer, place, closeLabel, labelledBy }} />;
+}
+
+function PlateOverlay({ testId, composition, title, script, onClose, head, children, footer, closeLabel, labelledBy, plate, headNote }: {
+  testId: string;
+  composition: string;
+  title: string[];
+  script?: string;
+  onClose: () => void;
+  head?: ReactNode;
+  children: ReactNode;
+  footer?: ReactNode;
+  closeLabel: string;
+  labelledBy?: string;
+  plate: EdPlate;
+  headNote?: ReactNode;
+}) {
+  const { ref } = useStableFocus(onClose);
+  const id = useId();
+  const art = cleanArt(plate.art);
+  const { ref: hostRef, w, h } = useShellPlate(1, art.width, art.height);
+  return (
+    <OverlayLayer>
+      <div ref={hostRef} className="jed-host" data-jrn-overlay={testId} data-jed={composition} data-plate="true" data-overlay-asset={plate.art}>
+        <div className="jed-scrim" onClick={onClose} aria-hidden />
+        <div ref={ref} role="dialog" aria-modal="true" aria-labelledby={labelledBy ?? id} className="jed-folio jed-folio--plate" data-testid={`${testId}-folio`} style={{ width: w, height: h }}>
+          <img className="jed-plate" src={art.src} width={art.width} height={art.height} alt="" aria-hidden draggable={false} data-asset-id={plate.art} />
+          <div className="jed-head jed-head--plate" style={slot(plate.head)}>
+            {head}
+            <h2 className="jed-head__title" id={id}>
+              {title.map((t, i) => (
+                <span key={`${i}-${t}`}>{i ? ' ' : null}<span>{t}</span></span>
+              ))}
+            </h2>
+            {script ? <p className="jed-script">{script.toLowerCase()}</p> : null}
+            {headNote ? <p className="jed-note jed-head__note">{headNote}</p> : null}
+          </div>
+          <div className="jed-body" style={slot(plate.body)}>{children}</div>
+          {footer ? <div className="jed-foot" style={slot(plate.foot ?? [plate.body[0], plate.body[3], plate.body[2], Math.min(0.98, plate.body[3] + 0.07)])}>{footer}</div> : null}
+          <button type="button" className="jed-close" data-jrn-trigger={`${testId}-close`} aria-label={closeLabel} onClick={onClose}>
+            <svg viewBox="0 0 24 24" aria-hidden><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" /></svg>
+          </button>
+        </div>
+      </div>
+    </OverlayLayer>
+  );
+}
+
+function FolioOverlay({ testId, composition, title, script, onClose, decor, head, children, footer, place, closeLabel, labelledBy }: {
+  testId: string;
+  composition: 'action' | 'register' | 'transfer' | 'search' | 'account';
+  title: string[];
+  script?: string;
+  onClose: () => void;
+  decor?: ReactNode;
+  head?: ReactNode;
+  children: ReactNode;
+  footer?: ReactNode;
+  place: 'center' | 'bottom';
+  closeLabel: string;
   labelledBy?: string;
 }) {
   const { ref } = useStableFocus(onClose);

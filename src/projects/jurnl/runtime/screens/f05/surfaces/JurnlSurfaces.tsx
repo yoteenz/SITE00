@@ -77,7 +77,8 @@ export function JurnlPopover({ anchor, onDismiss, children, minWidth = 220, want
   }, [anchor, measure, onDismiss]);
   if (!host || !place) return null;
   // the founder's sheet paper travels with the surface, so it renders the same on hosts that do not define it (MONEY parent)
-  const style: CSSProperties = { left: place.left, width: place.width, maxHeight: place.maxH, top: place.top, bottom: place.bottom, ['--jrn-pop-sheet' as string]: `url("${sheetPaper}")` } as CSSProperties;
+  // `--jrn-pop-maxh` lets an art-backed surface scale itself to the room it has (uniformly, never cropped)
+  const style: CSSProperties = { left: place.left, width: place.width, maxHeight: place.maxH, top: place.top, bottom: place.bottom, ['--jrn-pop-sheet' as string]: `url("${sheetPaper}")`, ['--jrn-pop-maxh' as string]: `${place.maxH}px` } as CSSProperties;
   return createPortal(
     <>
       {backdrop ? <div className="jrn-pop-backdrop" aria-hidden data-testid={testId ? `${testId}-backdrop` : undefined} /> : null}

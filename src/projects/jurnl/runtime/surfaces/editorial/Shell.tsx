@@ -19,6 +19,14 @@ import { cleanArt, type CleanArtId } from '../../global/overlays/clean/registry'
 import { useStableFocus } from '../v3/V3Surfaces';
 import './jurnl-shell-overlays.css';
 
+/**
+ * Measured crop lines of the regenerated candidates (scripts/jurnl/global-menu/measure_shell_borders.py): a thin white
+ * border left by cropping a generated board is not art, so it is clipped away; nothing is repainted.
+ */
+const SHELL_CROP: Partial<Record<CleanArtId, string>> = {
+  OV05_SEARCH_SHELL: 'inset(0% 0.344% 0% 1.377%)',
+};
+
 /** A region of the shell as fractions of its width and height: [x0, y0, x1, y1]. */
 export type ShellBox = readonly [number, number, number, number];
 export const SHELL_W = 2016;
@@ -103,7 +111,7 @@ export function ShellOverlay({
           data-testid={dialogTestId ?? `${testId}-folio`}
           style={{ width: w, height: h }}
         >
-          <img className="jsh-shell" src={art.src} width={art.width} height={art.height} alt="" aria-hidden draggable={false} data-asset-id={shell} />
+          <img className="jsh-shell" src={art.src} width={art.width} height={art.height} alt="" aria-hidden draggable={false} data-asset-id={shell} style={SHELL_CROP[shell] ? { clipPath: SHELL_CROP[shell] } : undefined} />
           <div className="jsh-head" data-tone={headTone} style={slot(head, titleSize ? ({ '--jsh-title-size': `${titleSize}cqw` } as CSSProperties) : undefined)}>
             <h2 className="jsh-head__title" id={id}>
               {title}

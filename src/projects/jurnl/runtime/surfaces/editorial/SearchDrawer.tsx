@@ -30,14 +30,14 @@ export function searchRecords(query: string, filter: Filter): { hits: Hit[]; rec
 }
 
 /**
- * OV05-SEARCH-OPEN-COMPOSITION regions (the curated OPUS3 composition, 2016 × 3584; fractions of the art): the headline
- * and one open column on the parchment. The art has no painted wells or rows: the field, the filters, the result rows
- * (any height, any count) and the actions are live and flow in the column; only the result list scrolls.
+ * OV05 SEARCH on the regenerated founder shell (581 × 887, named correct 2026-11-06; fractions of the art): the headline
+ * and one open column on its paper, right of the arch and the ledgers. The shell has no painted wells or rows: the field,
+ * the filters, the result rows (any height, any count) and the actions are live and flow in the column; only the result
+ * list scrolls.
  */
 export const OV05_OPEN = {
-  head: [0.335, 0.145, 0.905, 0.248],
-  /** the authority's open paper (Grok2 mount map: x 0.32-0.90, y 0.27-0.76), clear of the notches on its right edge */
-  column: [0.335, 0.258, 0.905, 0.772],
+  head: [0.4, 0.14, 0.95, 0.245],
+  column: [0.36, 0.25, 0.95, 0.83],
 } as const;
 const FILTERS: { id: Filter; label: string; icon?: 'pocket' | 'tag' }[] = [
   { id: 'ALL', label: 'ALL' },
@@ -61,7 +61,7 @@ export function GlobalSearchDrawer({ onClose }: { onClose: () => void }) {
     go(route);
   };
   return (
-    <ShellOverlay testId="global-search" composition="search" shell="OV05_OPEN_COMPOSITION" title="SEARCH" script="pockets and activity" head={OV05_OPEN.head} onClose={onClose}>
+    <ShellOverlay testId="global-search" composition="search" shell="OV05_SEARCH_SHELL" title="SEARCH" script="pockets and activity" head={OV05_OPEN.head} onClose={onClose}>
       <ShellSlot box={OV05_OPEN.column} className="jsx-column">
         <div className="jsx-field">
           <label className="jsx-field__label" htmlFor={inputId}>

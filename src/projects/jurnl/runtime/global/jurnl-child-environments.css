@@ -420,11 +420,8 @@
 }
 .jrn .jce-remove .jce-row__text small {
   color: rgba(246, 222, 206, 0.9);
-  font-size: clamp(10px, 2.45cqw, 14px);
-  line-height: 1.05;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: clamp(10px, 2.4cqw, 14px);
+  line-height: 1.02;
 }
 .jrn .jce-remove > svg {
   color: #f0c9a8;
@@ -434,4 +431,33 @@
 }
 .jrn .jce-remove:focus-visible {
   border-radius: 18px;
+}
+
+/* ── regenerated shells (2026-11-06) ── */
+/* CH01: no title paper — the headline, script and ornament are cream / gold on the olive field */
+.jrn .jsh-host[data-jed='child'] .jsh-head[data-tone='cream'] .jsh-head__script {
+  color: var(--jsh-cream);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+}
+.jrn .jsh-host[data-jed='child'] .jsh-head[data-tone='cream'] .jsh-ornament {
+  color: var(--v3-gold, #dcab4f);
+}
+.jrn .jce-intro {
+  display: grid;
+  align-content: center;
+}
+.jrn .jce-intro .jce-help {
+  padding: 0;
+  font-size: clamp(10px, 2.85cqw, 16px);
+  line-height: 1.45;
+}
+.jrn .jce-buffer {
+  padding-top: 0;
+}
+.jrn .jce-buffer > .jce-label-row:first-child {
+  margin-top: 0.4cqh;
+}
+/* CH02: the upper paper strip is level — the wordmark sits straight on it */
+.jrn .jsh-host[data-jrn-overlay='settings-consents-sheet'] .jsh-tag {
+  transform: none;
 }

@@ -1,7 +1,7 @@
 /** F05 MONEY — structural completion (Wave 2). */
 
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react';
-import { ART, EdAction, EdArt, EdChoices, EditorialOverlay } from '../surfaces/editorial/Editorial';
+import { EdAction, EdChoices, EditorialOverlay, type EdPlate } from '../surfaces/editorial/Editorial';
 import { TYPE_GLYPH } from '../surfaces/editorial/MoneyOverlays';
 import { getRepository } from '../../data/repository/deviceRepository';
 import { useParams, useSearchParams } from 'react-router-dom';
@@ -412,6 +412,14 @@ export function MoneyPlaceDetailScreen() {
   );
 }
 
+/** OV02 regions on the regenerated shell (1024 × 1536): headline under the medallion, the paper, the actions above the coins. */
+export const OV02_PLATE = {
+  art: 'OV02_ADD_POCKET_SHELL',
+  head: [0.14, 0.255, 0.86, 0.352],
+  body: [0.1, 0.36, 0.88, 0.748],
+  foot: [0.17, 0.756, 0.88, 0.83],
+} as const satisfies EdPlate;
+
 const PLACE_KINDS: { id: AccountType; label: string }[] = [
   { id: 'CHECKING', label: 'BANK ACCOUNT' },
   { id: 'SAVINGS', label: 'SAVINGS' },
@@ -434,8 +442,8 @@ export function AddPlaceSheet({ onClose, onSaved }: { onClose: () => void; onSav
     const a = createManualAccount(name, kind, amount ?? 0, getTodayKey(), { creditLimit: card ? limitValue : undefined, isPayoutCard: payout });
     onSaved(a.account_id);
   };
-  // founder board 02: a registration folio — bronze temple seal on the headline, oxblood behind, one sheet with a compact
-  // type grid (every supported type, none as a full-width row) and the balance; CANCEL paper + SAVE POCKET dark strip
+  // founder OV02 shell (regenerated, named correct 2026-11-06): the statue, the purse medallion, the paper, the coins and
+  // the drape are the shell's; the headline, the type grid, the balance, the notes and CANCEL / SAVE POCKET are live on it
   return (
     <EditorialOverlay
       testId="money-add-place"
@@ -443,13 +451,7 @@ export function AddPlaceSheet({ onClose, onSaved }: { onClose: () => void; onSav
       title={['ADD A POCKET']}
       script="create a new pocket for your money"
       onClose={onClose}
-      decor={
-        <>
-          <EdArt art={ART.templeSeal} className="jed-art--seal" />
-          <EdArt art={ART.oxbloodBranch} className="jed-art--oxblood" />
-          <EdArt art={ART.foliage} className="jed-art--foliage" />
-        </>
-      }
+      plate={OV02_PLATE}
       footer={
         <>
           <EdAction trigger="money-add-cancel" material="cream" title="CANCEL" onClick={onClose} />

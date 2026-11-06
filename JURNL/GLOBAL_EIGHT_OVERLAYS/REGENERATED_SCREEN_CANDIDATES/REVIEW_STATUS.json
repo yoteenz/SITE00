@@ -1,0 +1,18 @@
+{
+  "status": "VISUAL CANDIDATES ONLY - not approved production artwork or layer-separated assets",
+  "limitations": [
+    "Some files are crops of generated multi-panel boards and have lower source resolution.",
+    "Backdrops are compositional images, not transparent independently animatable layers.",
+    "The Add Pocket and Move Money images diverge from original founder-approved compositions.",
+    "Manage Pocket is not yet isolated with genuine alpha.",
+    "Do not install automatically into Opus."
+  ],
+  "files": [
+    "CH02_PRIVACY_CONSENTS.png",
+    "OV02_ADD_A_POCKET.png",
+    "OV03_MOVE_MONEY.png",
+    "OV04_MANAGE_POCKET.png",
+    "OV05_SEARCH.png",
+    "CH01_SAFE_TO_SPEND.png"
+  ]
+}

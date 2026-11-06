@@ -1,16 +1,15 @@
 /**
- * CH01 SAFE TO SPEND BUFFER and CH02 PRIVACY & CONSENTS on the shared OV08 menu environment — the founder authorities
- * (BUFFER- / PRIVACY-AUTHORITY-VS-ARTWORK, Grok2 OPUS_MOUNT_MAP, Grok4 13_REVISED_OPUS_MOUNT_MAP). The CH01 / CH02 clean
- * plates are a different sidekick and are not mounted (founder correction, clean/registry.ts).
+ * CH01 SAFE TO SPEND BUFFER and CH02 PRIVACY & CONSENTS on the founder's regenerated shells (named correct 2026-11-06;
+ * JURNL/GLOBAL_EIGHT_OVERLAYS/REGENERATED_SCREEN_CANDIDATES, clean/registry.ts).
  *
- * L0  OV08-SECTIONED-MENU-ENVIRONMENT (2016 × 3584, one uniform scale): bust, lemon canopy, arch, coast, oxblood, the blank
- *     tag and title papers, the open olive field. No second title paper is mounted over it (the header PNGs are withheld).
- * L1  independent papers at the authority placements (Grok4 ALPHA_STATS `place`, plate pixels), each at its native aspect
- *     ratio: CH01 amount, effect and BACK, the coin still life (fixed art, 1:1 at its authority origin, its stray top
- *     sliver clipped); CH02 REMOVE ACCESS and BACK. The amount / effect / back papers are the surfaces of live controls.
- * L2  everything else is live: the JURNL wordmark on the tag, the headline, script and ornament on the title paper, help
- *     text, rules, the amount field and its currency, the effect figure, warnings, consent switches, policy statements,
- *     data rows, dividers, SAVE BUFFER (the V3 olive control; its paper is withheld) and every label.
+ * L0+L1  the shell at one uniform scale (its own aspect ratio, opaque): CH01 — bust, lemons, coast, olive field, drape and
+ *        the coin still life; CH02 — bust, the blank tag and title papers, lemon, arch, coast, olive field, sprig, drape.
+ *        Nothing in a shell is drawn twice: no header paper, no coin still life and no second sprig is mounted.
+ * L1     independent papers at their native aspect ratio, each the surface of a live control: CH01 amount, effect and BACK;
+ *        CH02 REMOVE ACCESS and BACK.
+ * L2     everything else is live: the JURNL wordmark (CH02's tag), the headline, script and ornament, help text, rules, the
+ *        amount field and its currency, the effect figure and its disclosure, warnings, consent switches, policy statements,
+ *        data rows, dividers, SAVE BUFFER (the V3 olive control; its paper is withheld) and every label.
  *
  * Only the privacy list scrolls; the buffer column scrolls only when a long warning needs the room. The page never scrolls.
  * The behaviour, accounting and consent rules are the folios' (data/f09/safetyBuffer.ts, useAskContextConsent).
@@ -27,41 +26,32 @@ import { cleanArt, type CleanArtId } from './overlays/clean/registry';
 import type { MenuDestination, MenuPanel, SettingsToolId } from './menuPanels';
 import './jurnl-child-environments.css';
 
-const PW = 2016;
-const PH = 3584;
-/** A box from plate pixels (x, y, w, h) on the 2016 × 3584 OV08 plate. */
-const px = (x: number, y: number, w: number, h: number): ShellBox => [x / PW, y / PH, (x + w) / PW, (y + h) / PH];
-
 /**
- * Shared OV08 regions (fractions of the plate, measured on the installed PNG): the blank tag paper, the title paper's open
- * centre (the bust overlaps its left end), the close at the top end.
- */
-export const OV08_TAG: ShellBox = [0.352, 0.042, 0.575, 0.102];
-
-/**
- * CH01 on OV08, measured on the founder's full-resolution SAFE TO SPEND BUFFER authority (941 × 1672, drawn on this same
- * environment): help 0.333–0.403, gold rule 0.427, BUFFER AMOUNT 0.457, amount paper x 0.107–0.736 from y 0.479, effect
- * paper x 0.0895–0.745 to y ≈ 0.69, BACK x 0.095–0.368 and SAVE x 0.394–0.745 on y 0.854–0.906.
+ * CH01 on the regenerated SAFE TO SPEND shell (560 × 887; fractions of the art). It has no title paper: the headline is
+ * live cream type on the olive field, right of the hanging olive sprig (x < 0.27, y 0.25–0.43); the column runs below it;
+ * the actions sit right of the shell's coins and sprig (x < 0.38, y > 0.72).
  */
 export const CH01_BOX = {
-  head: [0.275, 0.128, 0.8, 0.278],
-  /** help, rule, BUFFER AMOUNT, amount paper, effect paper */
-  column: [0.0895, 0.326, 0.745, 0.694],
-  /** the coin still life: origin (35, 2427), 1048 × 581 master pixels, 1:1 */
-  coin: px(35, 2427, 1048, 581),
+  head: [0.3, 0.235, 0.96, 0.368],
+  /** the help line, beside the sprig */
+  intro: [0.3, 0.378, 0.95, 0.46],
+  /** rule, BUFFER AMOUNT, amount paper, warnings, effect paper */
+  column: [0.14, 0.466, 0.95, 0.785],
   /** BACK and SAVE BUFFER on one row */
-  actions: [0.095, 0.851, 0.745, 0.909],
+  actions: [0.38, 0.8, 0.95, 0.872],
 } as const satisfies Record<string, ShellBox>;
 
 /**
- * CH02 on OV08 (PRIVACY-AUTHORITY-VS-ARTWORK): the headline high on the title paper (PRIVACY & 0.135, CONSENTS 0.171,
- * script 0.202, ornament 0.233), the consent list in the olive field, REMOVE ACCESS (163, 2800) and BACK (315, 3108) under it.
+ * CH02 on the regenerated PRIVACY & CONSENTS shell (1024 × 1536): the wordmark on the upper paper strip (x 0.25–0.68,
+ * y 0.03–0.13), the headline on the title paper (x 0.14–0.82, y 0.13–0.27), the consent list in the olive field
+ * (x 0.045–0.78 from y 0.27), REMOVE ACCESS and BACK under it, clear of the arch.
  */
+export const CH02_TAG: ShellBox = [0.3, 0.04, 0.63, 0.118];
 export const CH02_BOX = {
-  head: [0.255, 0.122, 0.765, 0.266],
-  list: [0.095, 0.306, 0.765, 0.776],
-  remove: [0.0809, 0.7813, 0.772, 0.858],
-  back: px(315, 3108, 1206, 247),
+  head: [0.2, 0.135, 0.8, 0.262],
+  list: [0.105, 0.292, 0.765, 0.772],
+  remove: [0.15, 0.782, 0.775, 0.852],
+  back: [0.22, 0.858, 0.72, 0.928],
 } as const satisfies Record<string, ShellBox>;
 
 const aspect = (art: CleanArtId): CSSProperties => {
@@ -102,7 +92,6 @@ export function BufferEnvironment({ onBack, onCurrency }: { onBack: () => void; 
   const column = useRef<HTMLDivElement>(null);
   const code = b.currency.code;
   const blocked = b.rateState === 'UNAVAILABLE';
-  const coin = cleanArt('CH01_COIN_RESERVE');
   const save = () => {
     const r = b.save();
     if (r.ok) {
@@ -119,11 +108,11 @@ export function BufferEnvironment({ onBack, onCurrency }: { onBack: () => void; 
     if (el && typeof el.scrollIntoView === 'function') el.scrollIntoView({ block: 'nearest' });
   }, [error, blocked, info]);
   return (
-    <ShellOverlay testId="global-buffer" composition="child" shell="OV08_MENU_ENVIRONMENT" tag={OV08_TAG} ornament title={<>SAFE TO SPEND <span className="jce-title-line">BUFFER</span></>} script="a cushion you keep aside" head={CH01_BOX.head} onClose={onBack} closeLabel="CLOSE SAFE TO SPEND BUFFER">
-      {/* L1 fixed art: above the field, below the live column and the actions */}
-      <img className="jce-coin" src={coin.src} alt="" aria-hidden draggable={false} data-asset-id="CH01_COIN_RESERVE" style={slot(CH01_BOX.coin)} />
-      <div ref={column} className="jsh-slot jce-content jce-buffer" data-scroll="true" role="group" aria-label="SAFE TO SPEND BUFFER" style={slot(CH01_BOX.column)}>
+    <ShellOverlay testId="global-buffer" composition="child" shell="CH01_BUFFER_SHELL" headTone="cream" ornament title={<>SAFE TO SPEND <span className="jce-title-line">BUFFER</span></>} script="a cushion you keep aside" head={CH01_BOX.head} onClose={onBack} closeLabel="CLOSE SAFE TO SPEND BUFFER">
+      <ShellSlot box={CH01_BOX.intro} className="jce-intro">
         <p className="jce-text jce-help">{`SET ASIDE A CUSHION THAT ALWAYS REMAINS OUTSIDE YOUR SPENDABLE AMOUNT.${code === 'USD' ? '' : ` TYPE IT IN ${code}; JURNL KEEPS IT IN USD.`}`}</p>
+      </ShellSlot>
+      <div ref={column} className="jsh-slot jce-content jce-buffer" data-scroll="true" role="group" aria-label="SAFE TO SPEND BUFFER" style={slot(CH01_BOX.column)}>
         <div className="jce-label-row">
           <label className="jce-label" htmlFor={id}>
             BUFFER AMOUNT
@@ -248,7 +237,7 @@ function ToolRow({ icon, label, sub, trigger, onClick }: { icon: string; label: 
 export function PrivacyEnvironment({ onBack, onOpen, askOn, setAsk }: Nav & { askOn: boolean; setAsk: (v: boolean) => void }) {
   const draft = useSetup();
   return (
-    <ShellOverlay testId="settings-consents-sheet" composition="child" shell="OV08_MENU_ENVIRONMENT" tag={OV08_TAG} ornament title={<>PRIVACY & <span className="jce-title-line">CONSENTS</span></>} script="what jurnl may keep and use" head={CH02_BOX.head} onClose={onBack} closeLabel="CLOSE PRIVACY & CONSENTS">
+    <ShellOverlay testId="settings-consents-sheet" composition="child" shell="CH02_PRIVACY_SHELL" tag={CH02_TAG} ornament title={<>PRIVACY & <span className="jce-title-line">CONSENTS</span></>} script="what jurnl may keep and use" head={CH02_BOX.head} onClose={onBack} closeLabel="CLOSE PRIVACY & CONSENTS">
       <ShellSlot box={CH02_BOX.list} className="jce-content jce-list" scroll role="region" ariaLabel="PRIVACY & CONSENTS">
         <h3 className="jce-section">YOUR CONSENTS</h3>
         <ConsentRow icon="gear" label="REMEMBER SETUP" note="keep your setup answers on this device." on={draft.consentRemember} trigger="settings-consent-remember" onChange={(v) => patchSetup({ consentRemember: v })} />

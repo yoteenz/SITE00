@@ -51,14 +51,26 @@ describe('editorial overlays — composition, not a generic drawer', () => {
     expect((sheets.register.match(/data-jrn-trigger="money-add-kind-/g) ?? []).length).toBe(5);
   });
   it('O4 decorative layers are aria-hidden and never interactive; every label outside cursive is uppercase', () => {
-    // OPUS3: SEARCH is drawn on the curated open composition (one aria-hidden art layer, no EdArt decor over it)
-    const search = sheets.search.match(/<img class="jsh-shell"[^>]*>/g) ?? [];
-    expect(search).toHaveLength(1);
-    expect(search[0]).toContain('aria-hidden="true"');
-    expect(sheets.search).not.toContain('class="jed-art');
+    // the founder's regenerated shells (2026-11-06): SEARCH, ADD A POCKET and MOVE MONEY are each drawn on one aria-hidden
+    // shell (uniform scale); no EdArt decor, CSS ground or headline paper is layered over a shell
+    const shells: Record<string, [string, string]> = { search: ['jsh-shell', 'OV05_SEARCH_SHELL'], register: ['jed-plate', 'OV02_ADD_POCKET_SHELL'], transfer: ['jed-plate', 'OV03_MOVE_MONEY_SHELL'] };
+    for (const [k, [cls, id]] of Object.entries(shells)) {
+      const html = sheets[k as keyof typeof sheets];
+      const imgs = html.match(/<img [^>]*>/g) ?? [];
+      const shell = imgs.filter((i) => i.includes(`class="${cls}"`));
+      expect(shell, k).toHaveLength(1);
+      expect(shell[0], k).toContain('aria-hidden="true"');
+      expect(shell[0], k).toContain(`data-asset-id="${id}"`);
+      // no decor layer over the shell (a pocket's own illustration inside its FROM / TO card is content, not decor)
+      expect(html, k).not.toMatch(/class="jed-decor|jed-art--(bust|arch|lemon|seal|oxblood|foliage|coins)/);
+      expect(html, k).not.toContain('class="jed-ground');
+      expect(html, k).not.toContain('jed-head__paper');
+    }
+    // MOVE MONEY's direction seal is the shell's own: no second seal is drawn
+    expect(sheets.transfer).not.toMatch(/jed-direction|jed-seal/);
     for (const [k, html] of Object.entries(sheets)) {
       const arts = html.match(/<span class="jed-art[^"]*"[^>]*>/g) ?? [];
-      if (k !== 'search') expect(arts.length, k).toBeGreaterThan(0);
+      if (!(k in shells)) expect(arts.length, k).toBeGreaterThan(0);
       for (const a of arts) expect(a, k).toContain('aria-hidden="true"');
       expect(html.match(/<button[^>]*class="jed-art/g), k).toBeNull();
       expect(nonScript(html).match(/[a-z]/g), k).toBeNull();

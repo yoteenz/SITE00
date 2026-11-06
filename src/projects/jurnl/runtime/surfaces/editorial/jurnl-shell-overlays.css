@@ -430,3 +430,77 @@
     animation: none;
   }
 }
+
+/* OV04 MANAGE POCKET on the regenerated note: the popover itself draws nothing — the note (clipped to its own measured
+   outline) is the surface; it scales uniformly to the popover's width and to the room it has, never cropped */
+.jrn .jrn-pop.jsp-note-pop {
+  border: 0;
+  border-image: none;
+  padding: 0;
+  background: transparent;
+  overflow: visible;
+  filter: drop-shadow(0 10px 14px rgba(14, 9, 4, 0.5)) drop-shadow(0 2px 3px rgba(14, 9, 4, 0.35));
+}
+.jrn .jsp-note {
+  position: relative;
+  width: min(100%, calc(var(--jrn-pop-maxh, 9999px) * 642 / 741));
+  aspect-ratio: 642 / 741;
+  margin: 0 auto;
+  container-type: size;
+}
+.jrn .jsp-note__art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  user-select: none;
+}
+.jrn .jsp-note__head {
+  position: absolute;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+}
+.jrn .jrn-pop.jv3-fragment.jsp-note-pop .jrn-menu__title,
+.jrn .jrn-pop.jv3-fragment.jsp-note-pop .jrn-menu__sub {
+  margin: 0;
+  padding: 0;
+}
+.jrn .jrn-pop.jv3-fragment.jsp-note-pop .jrn-menu__title {
+  font-size: clamp(12px, 5cqw, 20px);
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+.jrn .jrn-pop.jv3-fragment.jsp-note-pop .jrn-menu__sub {
+  font-size: clamp(10px, 3.6cqw, 14px);
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.jrn .jsp-note__items {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3cqh;
+}
+.jrn .jrn-pop.jv3-fragment.jsp-note-pop .jsp-menu-paper {
+  margin: 0;
+  width: 100%;
+}
+/* the actions' type and glyphs scale with the note (it shrinks to the room it has) */
+.jrn .jrn-pop.jv3-fragment.jsp-note-pop .jsp-menu-paper {
+  min-height: 44px;
+  padding: 0 5cqw;
+  gap: 3cqw;
+  font-size: clamp(10px, 4.3cqw, 15px);
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+.jrn .jrn-pop.jv3-fragment.jsp-note-pop .jsp-menu-paper > svg:not(.jv3-chev) {
+  width: clamp(13px, 5cqw, 20px);
+  height: clamp(13px, 5cqw, 20px);
+}

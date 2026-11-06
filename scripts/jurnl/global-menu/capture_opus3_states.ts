@@ -1,5 +1,6 @@
 /* OPUS3 after-captures: every overlay changed by P0.JURNL.GLOBAL-OVERLAYS.CLEAN-ARTWORK-CURATED-MOUNT-AND-CHILD-ENVIRONMENT-
- * CONVERGENCE, opened over its real page with synthetic worlds, in every required state: MANAGE POCKET (menu, rename, delete
+ * CONVERGENCE, opened over its real page with synthetic worlds, in every required state: ADD A POCKET (and keyboard), MOVE
+ * MONEY, MANAGE POCKET (menu, rename, delete
  * confirm), SEARCH (recent, 0 / 4 / 20 results with a long merchant, keyboard open), the MENU (top, final item reached), SAFE TO
  * SPEND BUFFER (default, keyboard open, saved, long rate warning) and PRIVACY & CONSENTS (top, list end). Each capture records page
  * scroll and the overlay's art ids. Exchange rates are route-stubbed (no live provider).
@@ -42,6 +43,9 @@ const row = async (p: Page, id: string) => { await p.locator(T(id)).scrollIntoVi
 
 type S = { id: string; world: () => unknown; route: string; overlay: string; rates?: 'ok' | 'down'; currency?: string; open: (p: Page) => Promise<void> };
 const S: S[] = [
+  { id: '02-add-pocket', world: () => f05World('approved'), route: 'money?parent=motion', overlay: 'money-add-place', open: async (p) => { await p.click(T('f05m-actions')); await p.click(T('f05m-actions-add')); } },
+  { id: '02-add-pocket-keyboard', world: () => f05World('approved'), route: 'money?parent=motion', overlay: 'money-add-place', open: async (p) => { await p.click(T('f05m-actions')); await p.click(T('f05m-actions-add')); await keyboard(p, 'money-add-name'); } },
+  { id: '03-move-money', world: () => f05World('approved'), route: 'money?parent=motion', overlay: 'transfer-sheet', open: async (p) => { await p.click(T('f05m-actions')); await p.click(T('f05m-actions-move')); } },
   { id: '04-manage-pocket', world: () => f05World('approved'), route: 'money/places', overlay: 'd01-pocket-menu', open: async (p) => { await p.click('[data-testid="d01-directory"] [data-account-id="bank"]', { button: 'right' }); } },
   { id: '04-rename', world: () => deletableWorld(), route: 'money/places/long', overlay: 'd01-rename-pocket', open: async (p) => { await p.click(T('d01-manage')); await p.focus(T('d01-pocket-rename')); await p.keyboard.press('Enter'); } },
   { id: '04-delete-confirm', world: () => deletableWorld(), route: 'money/places/long', overlay: 'd01-delete-pocket', open: async (p) => { await p.click(T('d01-manage')); await p.focus(T('d01-pocket-delete')); await p.keyboard.press('Enter'); } },

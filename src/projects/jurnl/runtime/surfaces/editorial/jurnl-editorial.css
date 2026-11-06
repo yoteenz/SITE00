@@ -830,3 +830,98 @@
   margin: 2px 0 0;
   color: #3a2e20;
 }
+
+/* ══ plate mode — the composition drawn on a regenerated founder shell (Editorial.tsx PlateOverlay) ══
+   The shell is the ground, the art and the paper: no CSS ground, decor or headline paper; the live head, body (the only
+   scroll) and footer sit in measured regions; type is sized in container units of the plate, clamped. */
+.jrn .jed-host[data-plate='true'] {
+  padding: 0;
+}
+.jrn .jed-host[data-plate='true'] .jed-folio--plate {
+  display: block;
+  flex: 0 0 auto;
+  max-height: none;
+  container-type: size;
+  --jed-plate-ink: #2a2117;
+}
+.jrn .jed-host[data-plate='true'] .jed-plate {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%; /* the plate has the shell's own ratio: one uniform scale */
+  user-select: none;
+  pointer-events: none;
+  filter: drop-shadow(0 16px 24px rgba(8, 6, 2, 0.45));
+}
+.jrn .jed-host[data-plate='true'] .jed-head {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0.3cqh;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  transform: none;
+  pointer-events: none;
+}
+.jrn .jed-host[data-plate='true'] .jed-head__title {
+  display: block;
+  font-size: clamp(18px, 6.6cqw, 40px);
+  line-height: 1.02;
+  color: var(--jed-plate-ink);
+}
+.jrn .jed-host[data-plate='true'] .jed-head .jed-script {
+  margin: 0;
+  color: var(--jed-ink-soft);
+  font: italic 400 clamp(12px, 4cqw, 24px) / 1.12 'JURNL Authority Serif', 'JURNL Display', serif;
+}
+.jrn .jed-host[data-plate='true'] .jed-head__note {
+  margin: 0.4cqh 0 0;
+  max-width: 92%;
+  color: var(--jed-ink-soft);
+  font-size: clamp(9.5px, 2.6cqw, 14px);
+  line-height: 1.3;
+}
+.jrn .jed-host[data-plate='true'] .jed-body {
+  position: absolute;
+  z-index: 1;
+  padding: 0 1.5cqw;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.jrn .jed-host[data-plate='true'] .jed-foot {
+  position: absolute;
+  z-index: 2;
+  padding: 0;
+  align-content: center;
+}
+/* the shell's paper is the surface: no parchment card on top of it, no CSS-painted panel behind a pocket */
+.jrn .jed-host[data-plate='true'] .jed-sheet {
+  padding: 0;
+  border: 0;
+  border-image: none;
+  filter: none;
+  background: none;
+}
+.jrn .jed-host[data-plate='true'] .jed-pick {
+  border: 1px solid rgba(120, 88, 50, 0.38);
+  border-image: none;
+  border-radius: 10px;
+  background: rgba(255, 248, 232, 0.42);
+  filter: none;
+  transform: none;
+  margin: 0;
+  min-height: 58px;
+  padding: 6px 10px 6px 6px;
+}
+.jrn .jed-host[data-plate='true'] .jed-note--ground,
+.jrn .jed-host[data-plate='true'] .jed-note {
+  color: var(--jed-ink-soft);
+}
+.jrn .jed-host[data-plate='true'] .jed-close {
+  top: 1.6%;
+  right: 2.6%;
+}

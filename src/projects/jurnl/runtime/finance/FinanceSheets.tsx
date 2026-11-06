@@ -33,7 +33,7 @@ import { applyOp } from '../../data/ledger/ledgerOps';
 import { getRepository } from '../../data/repository/deviceRepository';
 import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
 import { useJurnl } from '../state/store';
-import { ART, EdAction, EdArt, EdChoices, EdSeal, EditorialOverlay, REGION } from '../surfaces/editorial/Editorial';
+import { EdAction, EdChoices, EditorialOverlay, type EdPlate } from '../surfaces/editorial/Editorial';
 import { PocketPick } from '../surfaces/editorial/MoneyOverlays';
 
 // ─── Small shared pieces ─────────────────────────────────────────────────────
@@ -306,6 +306,15 @@ export function startOptions(fromName: string, toCard: boolean): { id: TransferS
       ];
 }
 
+/** OV03 regions on the regenerated shell (941 × 1672): headline above the seal, FROM / TO / ledger below it, actions left of the coins. */
+export const OV03_PLATE = {
+  art: 'OV03_MOVE_MONEY_SHELL',
+  head: [0.12, 0.232, 0.9, 0.366],
+  body: [0.1, 0.56, 0.9, 0.795],
+  /** the full width of the paper, above the coins (x > 0.65 from y 0.87) */
+  foot: [0.08, 0.8, 0.92, 0.866],
+} as const satisfies EdPlate;
+
 export function TransferSheet({ fromId, toId, onClose }: { fromId?: string | null; toId?: string | null; onClose: () => void }) {
   useCurrency();
   useRepoTick();
@@ -340,8 +349,8 @@ export function TransferSheet({ fromId, toId, onClose }: { fromId?: string | nul
       showToast({ tone: 'success', title: v.kind === 'CARD_PAYMENT' ? 'CARD PAYMENT RECORDED' : 'TRANSFER RECORDED', body: `${money(value ?? 0)} · ${(v.kind === 'CARD_PAYMENT' ? CARD_PAYMENT_STATE_LABEL : TRANSFER_STATE_LABEL)[start]} · RECORDED BY YOU, NOT CONFIRMED BY A BANK.`, testId: 'transfer-result' });
       onClose();
     });
-  // founder board 03: the movement between two pockets is the composition — FROM fragment, the bronze direction seal,
-  // TO fragment — then a compact ledger (amount, date, where the money is now). JURNL records it; it moves nothing.
+  // founder OV03 shell (regenerated, named correct 2026-11-06): the paper with its twine and direction seal is the shell's;
+  // the headline and the honesty note sit above the seal, FROM / TO and the ledger below it. JURNL records it; it moves nothing.
   return (
     <EditorialOverlay
       testId="transfer-sheet"
@@ -349,13 +358,8 @@ export function TransferSheet({ fromId, toId, onClose }: { fromId?: string | nul
       title={toCard ? ['PAY A CARD'] : ['MOVE MONEY']}
       script={toCard ? 'record a card payment' : 'transfer between your pockets'}
       onClose={onClose}
-      decor={
-        <>
-          <EdArt art={ART.sk01} region={REGION.bust} className="jed-art--bust" torn={5} />
-          <EdArt art={ART.sk01} region={REGION.arch} className="jed-art--arch" torn={9} />
-          <EdArt art={ART.lemonBranch} className="jed-art--lemon" />
-        </>
-      }
+      plate={OV03_PLATE}
+      headNote="BETWEEN YOUR OWN ACCOUNTS. NOT INCOME OR SPENDING. JURNL RECORDS IT; IT DOES NOT MOVE REAL MONEY."
       footer={
         <>
           <ErrorLine error={error} />
@@ -367,9 +371,8 @@ export function TransferSheet({ fromId, toId, onClose }: { fromId?: string | nul
         </>
       }
     >
-      <p className="jed-note jed-note--ground" style={{ margin: "0 4px 8px" }}>BETWEEN YOUR OWN ACCOUNTS. NOT INCOME OR SPENDING. JURNL RECORDS IT; IT DOES NOT MOVE REAL MONEY.</p>
+ {/* the direction seal is the shell's own (between the headline and FROM): no second seal is drawn */}
       <PocketPick dir="FROM" accountId={from} options={accounts.filter(assetOnly)} figure={position} onChange={setFrom} trigger="transfer-from" />
-      <EdSeal glyph="transfer" className="jed-direction" />
       <PocketPick dir="TO" accountId={to} options={accounts.filter((a) => a.account_id !== from)} figure={position} onChange={setTo} trigger="transfer-to" />
       <div className="jed-sheet" style={{ marginTop: 10 }}>
         <div className="jed-ledger">

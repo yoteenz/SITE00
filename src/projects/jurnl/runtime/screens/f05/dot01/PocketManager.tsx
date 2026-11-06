@@ -11,13 +11,14 @@
  */
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactNode } from 'react';
 import { accountView, kindOf, type Dot01Kind } from '../../../../data/f05/dot01/accountView';
-import { ART, EdArt, KIND_ART, REGION } from '../../../surfaces/editorial/Editorial';
 import { getTodayKey } from '../../../../data/foundation/dates';
 import { renameAccount } from '../../../../data/ledger/ledgerOps';
 import { checkPocketName, POCKET_NAME_MAX } from '../../../../data/f05/dot01/pocketName';
 import { useJurnl } from '../../../state/store';
 import { JurnlPopover } from '../surfaces/JurnlSurfaces';
 import { cleanArt } from '../../../global/overlays/clean/registry';
+import { OV04_NOTE_OUTLINE } from '../../../global/overlays/clean/ov04NoteOutline';
+import { slot, type ShellBox } from '../../../surfaces/editorial/Shell';
 import '../../../surfaces/editorial/jurnl-shell-overlays.css';
 import { Dot01Overlay, OVERLAY_CONTENT } from './Dot01Frame';
 import { Alert, Button, Paper, Row, TextInput } from './kit';
@@ -120,7 +121,7 @@ export function useLongPress(onLongPress: (el: HTMLElement, key: string) => void
 }
 
 /** MANAGE POCKET: a parchment menu anchored to the Pocket (or its chip). */
-function PocketMenu({ anchor, name, kind, onRename, onDelete, onClose }: { anchor: HTMLElement; name: string; kind: Dot01Kind; onRename: () => void; onDelete: () => void; onClose: (refocus: boolean) => void }) {
+function PocketMenu({ anchor, name, onRename, onDelete, onClose }: { anchor: HTMLElement; name: string; kind: Dot01Kind; onRename: () => void; onDelete: () => void; onClose: (refocus: boolean) => void }) {
   const ref = useRef<HTMLElement | null>(anchor);
   ref.current = anchor;
   const box = useRef<HTMLDivElement | null>(null);
@@ -158,16 +159,18 @@ function PocketMenu({ anchor, name, kind, onRename, onDelete, onClose }: { ancho
   return (
     // the live page behind softens (a backdrop blur of the actual view, never a screenshot, in the popover's own layer);
     // it takes no taps, so the popover's outside-tap dismissal is unchanged
-    <JurnlPopover anchor={ref} onDismiss={() => onClose(false)} minWidth={292} want={252} className="jrn-pop--menu jv3-fragment" testId="d01-pocket-menu" backdrop>
-      <div ref={attach} role="menu" aria-label={`MANAGE POCKET: ${name}`} onKeyDown={onKey}>
-        {/* founder board 04: the fragment is clipped on (the binder clip of the V9 receipt stack) and carries this
-            pocket's own 06 illustration; decorative only */}
-        <EdArt art={ART.paperStack} region={REGION.clip} className="jed-pop-clip" />
-        <span className="jed-pop-art" aria-hidden><EdArt art={KIND_ART[kind].art} region={KIND_ART[kind].region} className="jed-art--kind" /></span>
-        <p className="jrn-menu__title" aria-hidden>MANAGE POCKET</p>
-        <p className="jrn-menu__sub" aria-hidden>{name}</p>
-        {/* OPUS3: each action wears its own independent text-free paper (L1 backing, native aspect, moves with the
-            control); the label, icon, focus and hit target are live */}
+    <JurnlPopover anchor={ref} onDismiss={() => onClose(false)} minWidth={300} want={372} className="jrn-pop--menu jv3-fragment jsp-note-pop" testId="d01-pocket-menu" backdrop>
+      {/* the founder's regenerated OV04 note (named correct 2026-11-06): note, paperclip, coastline tear and oxblood are one
+          piece of art, clipped to its own measured outline (the file has no alpha); nothing of it is drawn twice */}
+      <div ref={attach} role="menu" aria-label={`MANAGE POCKET: ${name}`} onKeyDown={onKey} className="jsp-note">
+        <img className="jsp-note__art" src={NOTE.src} alt="" aria-hidden draggable={false} data-asset-id="OV04_MANAGE_NOTE" style={{ clipPath: OV04_NOTE_OUTLINE }} />
+        <div className="jsp-note__head" style={slot(OV04_NOTE_BOX.head)}>
+          <p className="jrn-menu__title" aria-hidden>MANAGE POCKET</p>
+          <p className="jrn-menu__sub" aria-hidden>{name}</p>
+        </div>
+        {/* each action wears its own independent text-free paper (L1 backing, native aspect, moves with the control); the
+            label, icon, focus and hit target are live */}
+        <div className="jsp-note__items" style={slot(OV04_NOTE_BOX.items)}>
         <button type="button" role="menuitem" className="jrn-menu__item jsp-paper jsp-menu-paper" data-paper="rename" data-jrn-trigger="d01-pocket-rename" onClick={onRename} style={{ aspectRatio: `${RENAME.width} / ${RENAME.height}` }}>
           <img className="jsp-paper__art" src={RENAME.src} alt="" aria-hidden draggable={false} data-asset-id="OV04_RENAME_PAPER" />
           <svg viewBox="0 0 24 24" aria-hidden><path d="M4 20h4l11-11-4-4L4 16z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" /><path d="m13.5 6.5 4 4" fill="none" stroke="currentColor" strokeWidth="1.8" /></svg>
@@ -180,12 +183,22 @@ function PocketMenu({ anchor, name, kind, onRename, onDelete, onClose }: { ancho
           <span>DELETE POCKET</span>
           <svg className="jv3-chev" viewBox="0 0 10 16" aria-hidden><path d="M2 2l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
         </button>
+        </div>
       </div>
     </JurnlPopover>
   );
 }
 const RENAME = cleanArt('OV04_RENAME_PAPER');
 const DELETE = cleanArt('OV04_DELETE_PAPER');
+const NOTE = cleanArt('OV04_MANAGE_NOTE');
+/**
+ * OV04 note regions (fractions of the 642 x 741 art): the upper paper carries the paperclip and the coastline tear (art);
+ * the heading and the two actions sit on the open lower paper.
+ */
+export const OV04_NOTE_BOX = {
+  head: [0.16, 0.375, 0.86, 0.485],
+  items: [0.14, 0.5, 0.88, 0.85],
+} as const satisfies Record<string, ShellBox>;
 
 /** RENAME POCKET: current name, the editable name, CANCEL and SAVE NAME. Rename by id; balances and history untouched. */
 export function RenamePocketOverlay({ accountId, onClose, onSaved }: { accountId: string; onClose: () => void; onSaved: (name: string) => void }) {
