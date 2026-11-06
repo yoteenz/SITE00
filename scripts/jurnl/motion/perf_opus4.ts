@@ -91,10 +91,8 @@ async function leaks() {
   const n1 = await nodes();
   const left = await page.evaluate(() => ({ ghosts: document.querySelectorAll('.jm-ghost').length, oneShot: document.getAnimations().filter((a) => !String((a as CSSAnimation).animationName ?? '').startsWith('jm-amb-') && a.playState === 'running').length }));
   // hidden page
-  await page.evaluate(() => {
-    Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => 'hidden' });
-    document.dispatchEvent(new Event('visibilitychange'));
-  });
+  // a string: a getter written in tsx would carry its `__name` helper into the page
+  await page.evaluate(`Object.defineProperty(document, 'visibilityState', { configurable: true, get() { return 'hidden'; } }); document.dispatchEvent(new Event('visibilitychange'));`);
   const hidden = await page.evaluate(() => ({ phase: (document.querySelector('.jrn') as HTMLElement).dataset.jrnMotionPhase, ambient: (document.querySelector('.jrn') as HTMLElement).dataset.jrnAmbient, running: document.getAnimations().filter((a) => a.playState === 'running').length }));
   await b.close();
   return { cycles: 20 * 4, heapMbBefore: h0, heapMbAfter: h1, heapMbDelta: Math.round((h1 - h0) * 100) / 100, domNodesBefore: n0, domNodesAfter: n1, closingCopiesLeft: left.ghosts, oneShotAnimationsRunning: left.oneShot, hiddenPage: hidden };

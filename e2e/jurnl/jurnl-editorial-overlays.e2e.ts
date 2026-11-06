@@ -83,7 +83,9 @@ test.describe('PILOT A · the three founder-rejected financial overlays', () => 
     await expect(s).toHaveAttribute('data-overlay-asset', 'OV03_MOVE_MONEY_SHELL');
     await expect(s.locator('img.jed-plate')).toHaveCount(1);
     await expect(s.locator('.jed-direction')).toHaveCount(0); // the direction seal is the shell's own
-    // the shell's seal (y 0.37–0.55 of the plate) sits above the form: FROM, then TO, below it (read before the body scrolls)
+    // the shell's seal (y 0.37–0.55 of the plate) sits above the form: FROM, then TO, below it (read before the body scrolls,
+    // once the plate's entrance has settled: rects read mid-entrance disagree by a few px)
+    await page.waitForFunction(() => { const el = document.querySelector('[data-jrn-overlay="transfer-sheet"] .jed-folio--plate'); return !!el && el.getAnimations({ subtree: true }).every((a) => a.playState !== 'running'); });
     const plate = (await s.locator('.jed-folio--plate').boundingBox())!;
     const [f, t] = await Promise.all([page.getByTestId('transfer-from-selected').boundingBox(), page.getByTestId('transfer-to-selected').boundingBox()]);
     expect(f!.y).toBeGreaterThanOrEqual(plate.y + plate.height * 0.55 - 1);

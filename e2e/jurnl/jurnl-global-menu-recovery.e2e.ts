@@ -327,7 +327,7 @@ test.describe('OPUS3 · SEARCH on the regenerated OV05 shell', () => {
       await expect(host).toHaveAttribute('data-overlay-asset', 'OV05_SEARCH_SHELL');
       await expect(host.locator('img')).toHaveCount(1); // one art layer: no painted wells, no foreground duplicates
       const pb = await insidePlate(page, 'global-search', ['search-input', 'search-filter-all', 'search-filter-pockets', 'search-filter-transactions', 'search-all-activity', 'search-advanced']);
-      expect(pb.width / pb.height).toBeCloseTo(2016 / 3584, 2);
+      expect(pb.width / pb.height).toBeCloseTo(581 / 887, 2); // the regenerated OV05 shell's own ratio (one uniform scale)
       await trigger(page, 'search-input').fill('OPUS3');
       const results = page.getByTestId('search-results');
       const hits = results.locator('[data-jrn-trigger^="search-hit-"]');

@@ -1,0 +1,32 @@
+{
+ "P01_MONEY_PARENT": {
+  "title": "MONEY parent: idle ambience after the entrance, touch interruption and recovery, swipes, a cancelled drag, opening a pocket",
+  "steps": 11,
+  "events": 205
+ },
+ "P02_ADD_MANAGE_POCKET": {
+  "title": "ADD A POCKET (saved pocket settles once) and MANAGE POCKET from the directory (note lifts, closes with its copy, RENAME settles the paper, DELETE presses deliberately)",
+  "steps": 8,
+  "events": 69
+ },
+ "P02B_DELETE_BLOCKED": {
+  "title": "DELETE BLOCKED: the bronze warning seal settles once, slowly; nothing celebrates or loops",
+  "steps": 3,
+  "events": 41
+ },
+ "P03_MOVE_MONEY": {
+  "title": "MOVE MONEY and transfer states: recorded in transit (no completion motion, the source paper washes once), ARRIVED settles, a failure settles calmly",
+  "steps": 6,
+  "events": 117
+ },
+ "P04_GLOBAL_MENU": {
+  "title": "GLOBAL MENU: row response, SAFE TO SPEND BUFFER (saved settle, refused nudge), PRIVACY (consent acknowledged, OFF stays OFF), SEARCH while typing",
+  "steps": 8,
+  "events": 93
+ },
+ "P05_FINANCIAL_FEEDBACK_REDUCED_MOTION": {
+  "title": "REDUCED MOTION: no ambience, no entrance, no exit copy, no response — every action still works",
+  "steps": 4,
+  "events": 47
+ }
+}

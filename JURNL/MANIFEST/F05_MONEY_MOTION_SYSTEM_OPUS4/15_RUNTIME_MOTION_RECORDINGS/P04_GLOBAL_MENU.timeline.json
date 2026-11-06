@@ -1,0 +1,561 @@
+{
+ "id": "P04_GLOBAL_MENU",
+ "title": "GLOBAL MENU: row response, SAFE TO SPEND BUFFER (saved settle, refused nudge), PRIVACY (consent acknowledged, OFF stays OFF), SEARCH while typing",
+ "viewport": {
+  "width": 393,
+  "height": 852
+ },
+ "reducedMotion": false,
+ "wallMs": 31079,
+ "steps": [
+  {
+   "n": 1,
+   "label": "arrived",
+   "still": "P04_GLOBAL_MENU-01.png"
+  },
+  {
+   "n": 2,
+   "label": "the menu enters as a paper over the page",
+   "still": "P04_GLOBAL_MENU-02.png"
+  },
+  {
+   "n": 3,
+   "label": "SAFE TO SPEND BUFFER replaces the menu (no competing copy)",
+   "still": "P04_GLOBAL_MENU-03.png"
+  },
+  {
+   "n": 4,
+   "label": "SAVE: the stored amount changed, the effect paper settles once",
+   "still": "P04_GLOBAL_MENU-04.png"
+  },
+  {
+   "n": 5,
+   "label": "a refused amount: the amount paper nudges once; nothing is stored",
+   "still": "P04_GLOBAL_MENU-05.png"
+  },
+  {
+   "n": 6,
+   "label": "PRIVACY & CONSENTS: a stored consent change warms its row once; turned back OFF it stays OFF",
+   "still": "P04_GLOBAL_MENU-06.png"
+  },
+  {
+   "n": 7,
+   "label": "Escape: the menu closes with its shorter copy",
+   "still": "P04_GLOBAL_MENU-07.png"
+  },
+  {
+   "n": 8,
+   "label": "SEARCH: results change while typing without animating each row",
+   "still": "P04_GLOBAL_MENU-08.png"
+  }
+ ],
+ "timeline": [
+  {
+   "t": 1618,
+   "mode": "FULL",
+   "phase": "NAVIGATING",
+   "ambient": "off"
+  },
+  {
+   "t": 1710,
+   "css": "f05m-env",
+   "on": "jrn-f05m__env"
+  },
+  {
+   "t": 1805,
+   "css": "f05m-title",
+   "on": "jrn-f05m__obj"
+  },
+  {
+   "t": 1871,
+   "css": "f05m-seal",
+   "on": "jrn-f05m__obj"
+  },
+  {
+   "t": 1905,
+   "css": "f05m-reveal",
+   "on": "jrn-f05m__money"
+  },
+  {
+   "t": 1953,
+   "step": "arrived"
+  },
+  {
+   "t": 1971,
+   "css": "f05m-reveal",
+   "on": "jrn-f05m__script"
+  },
+  {
+   "t": 1971,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__divider"
+  },
+  {
+   "t": 1971,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__divider"
+  },
+  {
+   "t": 1971,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__divider"
+  },
+  {
+   "t": 1971,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__metric"
+  },
+  {
+   "t": 1971,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__metric"
+  },
+  {
+   "t": 1971,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__metric"
+  },
+  {
+   "t": 1971,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__metric"
+  },
+  {
+   "t": 2155,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 2155,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 2155,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 2155,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 2155,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 2155,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 2155,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__viewall"
+  },
+  {
+   "t": 2249,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 3249,
+   "mode": "FULL",
+   "phase": "AMBIENT",
+   "ambient": "D C"
+  },
+  {
+   "t": 3871,
+   "css": "jm-amb-light",
+   "on": "jma-light"
+  },
+  {
+   "t": 5157,
+   "step": "the menu enters as a paper over the page"
+  },
+  {
+   "t": 5471,
+   "css": "jm-amb-sheen",
+   "on": ""
+  },
+  {
+   "t": 5923,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 5924,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 5991,
+   "css": "jv3-fade",
+   "on": "jgm-scrim"
+  },
+  {
+   "t": 5991,
+   "css": "jm-ovl-in",
+   "on": "jgm-plate"
+  },
+  {
+   "t": 6826,
+   "mode": "FULL",
+   "phase": "IDLE",
+   "ambient": "off"
+  },
+  {
+   "t": 8228,
+   "step": "SAFE TO SPEND BUFFER replaces the menu (no competing copy)"
+  },
+  {
+   "t": 9273,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 9273,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 9297,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 9324,
+   "css": "jv3-fade",
+   "on": "jsh-scrim"
+  },
+  {
+   "t": 9324,
+   "css": "jm-ovl-in",
+   "on": "jsh-plate"
+  },
+  {
+   "t": 10921,
+   "step": "SAVE: the stored amount changed, the effect paper settles once"
+  },
+  {
+   "t": 12048,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 12069,
+   "waapi": "translateY(0) -> translateY(-3px) -> translateY(0)",
+   "ms": 340,
+   "on": "jsp-paper"
+  },
+  {
+   "t": 12069,
+   "mode": "FULL",
+   "phase": "CONFIRMED",
+   "ambient": "off"
+  },
+  {
+   "t": 12410,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 13109,
+   "mode": "FULL",
+   "phase": "IDLE",
+   "ambient": "off"
+  },
+  {
+   "t": 13680,
+   "step": "a refused amount: the amount paper nudges once; nothing is stored"
+  },
+  {
+   "t": 14634,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 14780,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 14787,
+   "waapi": "translateX(0) -> translateX(-3px) -> translateX(3px) -> translateX(-2px) -> translateX(0)",
+   "ms": 320,
+   "on": "jsp-paper"
+  },
+  {
+   "t": 14791,
+   "mode": "FULL",
+   "phase": "ERROR",
+   "ambient": "off"
+  },
+  {
+   "t": 15107,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 15807,
+   "mode": "FULL",
+   "phase": "IDLE",
+   "ambient": "off"
+  },
+  {
+   "t": 16472,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 16473,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 16531,
+   "css": "jv3-fade",
+   "on": "jgm-scrim"
+  },
+  {
+   "t": 16531,
+   "css": "jm-ovl-in",
+   "on": "jgm-plate"
+  },
+  {
+   "t": 17374,
+   "mode": "FULL",
+   "phase": "IDLE",
+   "ambient": "off"
+  },
+  {
+   "t": 17509,
+   "step": "PRIVACY & CONSENTS: a stored consent change warms its row once; turned back OFF it stays OFF"
+  },
+  {
+   "t": 18541,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 18541,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 18593,
+   "css": "jv3-fade",
+   "on": "jsh-scrim"
+  },
+  {
+   "t": 18593,
+   "css": "jm-ovl-in",
+   "on": "jsh-plate"
+  },
+  {
+   "t": 19443,
+   "mode": "FULL",
+   "phase": "IDLE",
+   "ambient": "off"
+  },
+  {
+   "t": 19839,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 19839,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 19863,
+   "waapi": " -> 1 -> ",
+   "ms": 600,
+   "on": "jce-ack"
+  },
+  {
+   "t": 19863,
+   "mode": "FULL",
+   "phase": "CONFIRMED",
+   "ambient": "off"
+  },
+  {
+   "t": 20464,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 21163,
+   "mode": "FULL",
+   "phase": "IDLE",
+   "ambient": "off"
+  },
+  {
+   "t": 21239,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 21240,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 21261,
+   "waapi": " -> 1 -> ",
+   "ms": 600,
+   "on": "jce-ack"
+  },
+  {
+   "t": 21261,
+   "mode": "FULL",
+   "phase": "CONFIRMED",
+   "ambient": "off"
+  },
+  {
+   "t": 21862,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 22561,
+   "mode": "FULL",
+   "phase": "IDLE",
+   "ambient": "off"
+  },
+  {
+   "t": 22639,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 22640,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 22705,
+   "css": "jv3-fade",
+   "on": "jgm-scrim"
+  },
+  {
+   "t": 22705,
+   "css": "jm-ovl-in",
+   "on": "jgm-plate"
+  },
+  {
+   "t": 23541,
+   "mode": "FULL",
+   "phase": "IDLE",
+   "ambient": "off"
+  },
+  {
+   "t": 23583,
+   "step": "Escape: the menu closes with its shorter copy"
+  },
+  {
+   "t": 24538,
+   "waapi": "none -> translateY(10px) scale(0.994)",
+   "ms": 220,
+   "on": "jgm-host"
+  },
+  {
+   "t": 24538,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 25438,
+   "mode": "FULL",
+   "phase": "AMBIENT",
+   "ambient": "D C"
+  },
+  {
+   "t": 25947,
+   "step": "SEARCH: results change while typing without animating each row"
+  },
+  {
+   "t": 26037,
+   "css": "jm-amb-light",
+   "on": "jma-light"
+  },
+  {
+   "t": 26672,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 26672,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 26702,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 26748,
+   "css": "jv3-fade",
+   "on": "jsh-scrim"
+  },
+  {
+   "t": 26749,
+   "css": "jm-ovl-in",
+   "on": "jsh-plate"
+  },
+  {
+   "t": 29646,
+   "waapi": "none -> translateY(10px) scale(0.994)",
+   "ms": 220,
+   "on": "jsh-host"
+  },
+  {
+   "t": 29647,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 30547,
+   "mode": "FULL",
+   "phase": "AMBIENT",
+   "ambient": "D C"
+  },
+  {
+   "t": 31154,
+   "css": "jm-amb-light",
+   "on": "jma-light"
+  }
+ ]
+}

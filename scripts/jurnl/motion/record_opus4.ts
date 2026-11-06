@@ -28,18 +28,19 @@ function deletableWorld() {
   return { ...w, snapshot: { ...w.snapshot, accounts, transactions: [purchase('tx-long-books', long, 'BOOKSHOP', 12.5, 'SHOPPING', 2, now)] } };
 }
 
-/** Timeline + touch indicator, installed before any page script. */
-const INSTRUMENT = () => {
-  const w = window as unknown as { __tl: unknown[]; __mark: (l: string) => void };
+/** Timeline + touch indicator, installed before any page script. Plain JavaScript text: a function passed from tsx would
+ * carry its compiler helpers (`__name`) into the page, where they do not exist. */
+const INSTRUMENT = `(() => {
+  const w = window;
   w.__tl = [];
   const t = () => Math.round(performance.now());
-  w.__mark = (label: string) => w.__tl.push({ t: t(), step: label });
+  w.__mark = (label) => w.__tl.push({ t: t(), step: label });
   let last = '';
   const watch = () => {
-    const r = document.querySelector('.jrn') as HTMLElement | null;
+    const r = document.querySelector('.jrn');
     if (!r) return void setTimeout(watch, 50);
     const log = () => {
-      const s = `${r.dataset.jrnMotionMode}|${r.dataset.jrnMotionPhase}|${r.dataset.jrnAmbient}`;
+      const s = r.dataset.jrnMotionMode + '|' + r.dataset.jrnMotionPhase + '|' + r.dataset.jrnAmbient;
       if (s === last) return;
       last = s;
       w.__tl.push({ t: t(), mode: r.dataset.jrnMotionMode, phase: r.dataset.jrnMotionPhase, ambient: r.dataset.jrnAmbient });
@@ -48,12 +49,12 @@ const INSTRUMENT = () => {
     new MutationObserver(log).observe(r, { attributes: true, attributeFilter: ['data-jrn-motion-mode', 'data-jrn-motion-phase', 'data-jrn-ambient'] });
   };
   watch();
-  document.addEventListener('animationstart', (e) => w.__tl.push({ t: t(), css: e.animationName, on: (e.target as Element).getAttribute('class')?.split(' ')[0] ?? '' }), true);
+  document.addEventListener('animationstart', (e) => w.__tl.push({ t: t(), css: e.animationName, on: ((e.target.getAttribute && e.target.getAttribute('class')) || '').split(' ')[0] }), true);
   const orig = Element.prototype.animate;
-  Element.prototype.animate = function (kf: Keyframe[] | PropertyIndexedKeyframes | null, o?: number | KeyframeAnimationOptions) {
-    const k = Array.isArray(kf) ? kf.map((f) => f.transform ?? f.opacity ?? '').join(' → ') : '';
-    w.__tl.push({ t: t(), waapi: k, ms: typeof o === 'object' ? o.duration : o, on: this.getAttribute('class')?.split(' ')[0] ?? this.tagName.toLowerCase() });
-    return orig.call(this, kf, o as KeyframeAnimationOptions);
+  Element.prototype.animate = function (kf, o) {
+    const k = Array.isArray(kf) ? kf.map((f) => f.transform || f.opacity || '').join(' -> ') : '';
+    w.__tl.push({ t: t(), waapi: k, ms: typeof o === 'object' ? o.duration : o, on: (this.getAttribute('class') || this.tagName.toLowerCase()).split(' ')[0] });
+    return orig.call(this, kf, o);
   };
   const dot = () => {
     if (!document.body) return void setTimeout(dot, 30);
@@ -61,17 +62,17 @@ const INSTRUMENT = () => {
     d.setAttribute('aria-hidden', 'true');
     d.style.cssText = 'position:fixed;z-index:2147483647;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:rgba(40,40,40,.32);border:2px solid rgba(255,255,255,.7);pointer-events:none;opacity:0;transition:opacity 120ms';
     document.body.appendChild(d);
-    const at = (e: PointerEvent) => { d.style.left = `${e.clientX}px`; d.style.top = `${e.clientY}px`; };
+    const at = (e) => { d.style.left = e.clientX + 'px'; d.style.top = e.clientY + 'px'; };
     addEventListener('pointerdown', (e) => { at(e); d.style.opacity = '1'; }, true);
     addEventListener('pointermove', (e) => { if (d.style.opacity === '1') at(e); }, true);
     addEventListener('pointerup', () => (d.style.opacity = '0'), true);
     addEventListener('pointercancel', () => (d.style.opacity = '0'), true);
   };
   dot();
-};
+})();`;
 
 type Rec = { id: string; title: string; world: () => unknown; route: string; reduced?: boolean; run: (r: Run) => Promise<void> };
-type Run = { page: Page; step: (label: string, settleMs?: number) => Promise<void>; wait: (ms: number) => Promise<void>; tap: (sel: string) => Promise<void>; swipe: (dx: number, slow?: boolean) => Promise<void>; hold: (ms: number) => Promise<void> };
+type Run = { page: Page; goto: (route: string) => Promise<void>; step: (label: string, settleMs?: number) => Promise<void>; wait: (ms: number) => Promise<void>; tap: (sel: string) => Promise<void>; swipe: (dx: number, slow?: boolean) => Promise<void>; hold: (ms: number) => Promise<void> };
 
 const RECS: Rec[] = [
   {
@@ -117,7 +118,8 @@ const RECS: Rec[] = [
     title: 'ADD A POCKET (saved pocket settles once) and MANAGE POCKET from the directory (note lifts, closes with its copy, RENAME settles the paper, DELETE presses deliberately)',
     world: () => deletableWorld(),
     route: 'money?parent=motion',
-    run: async ({ step, wait, tap, page }) => {
+    run: async (r0) => {
+      const { step, wait, tap, page } = r0;
       await step('arrived', 2400);
       await step('ADD A POCKET opens as a paper over the page');
       await tap(T('f05m-actions'));
@@ -132,7 +134,7 @@ const RECS: Rec[] = [
       await tap(T('money-add-save'));
       await wait(2600);
       await step('the pocket directory: press and hold a pocket — MANAGE POCKET presents the note from it', 0);
-      await page.goto(`${BASE}money/places`);
+      await r0.goto('money/places');
       await wait(2600);
       const long = page.locator('[data-testid="d01-directory"] [data-account-id="long"]');
       await long.scrollIntoViewIfNeeded();
@@ -343,7 +345,7 @@ async function seed(ctx: BrowserContext, world: unknown) {
     sessionStorage.setItem('seeded', '1');
     sessionStorage.setItem('jurnl.f05.parent', 'motion');
   }, { st: JURNL_E2E_STORAGE, bs });
-  await ctx.addInitScript(INSTRUMENT);
+  await ctx.addInitScript({ content: INSTRUMENT });
 }
 
 (async () => {
@@ -359,8 +361,19 @@ async function seed(ctx: BrowserContext, world: unknown) {
     await page.locator('[data-jrn-f05-stage], [data-jrn-f05-dot01-stage]').first().waitFor({ state: 'attached', timeout: 30_000 });
     let n = 0;
     const steps: { n: number; label: string; still: string }[] = [];
+    // a full page load resets the in-page log: keep what it held, with the wall-clock offset of each segment
+    const kept: unknown[] = [];
+    const flush = async () => {
+      const seg = await page.evaluate(() => (window as unknown as { __tl: unknown[] }).__tl);
+      kept.push({ segment: kept.length, events: seg });
+    };
     const run: Run = {
       page,
+      goto: async (route) => {
+        await flush();
+        await page.goto(`${BASE}${route}`);
+        await page.locator('[data-jrn-f05-stage], [data-jrn-f05-dot01-stage]').first().waitFor({ state: 'attached', timeout: 30_000 });
+      },
       wait: (ms) => page.waitForTimeout(ms),
       tap: async (sel) => {
         await page.locator(sel).first().scrollIntoViewIfNeeded();
@@ -387,7 +400,9 @@ async function seed(ctx: BrowserContext, world: unknown) {
     };
     const t0 = Date.now();
     await r.run(run);
-    const timeline = await page.evaluate(() => (window as unknown as { __tl: unknown[] }).__tl);
+    const last = await page.evaluate(() => (window as unknown as { __tl: unknown[] }).__tl);
+    // one flat timeline; each page load starts its own segment (times restart at that load)
+    const timeline = [...kept.flatMap((k) => [{ segmentStart: (k as { segment: number }).segment }, ...((k as { events: unknown[] }).events)]), ...(kept.length ? [{ segmentStart: kept.length }] : []), ...last];
     const finalStill = `${r.id}-final.png`;
     await page.screenshot({ path: join(OUT, finalStill) });
     const video = page.video();
