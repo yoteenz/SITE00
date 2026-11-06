@@ -11,7 +11,8 @@ import { recordTransfer, recordTransferStep } from '../src/projects/jurnl/data/l
 import { getRepository } from '../src/projects/jurnl/data/repository/deviceRepository';
 import { upsertCreditTerms } from '../src/projects/jurnl/data/f12/creditStore';
 import { addDays } from '../src/projects/jurnl/data/foundation/dates';
-import { accountItems, accountPaperRect, accountRailGap, accountRailViewport, APPROVED_SLOTS, bottomRowItems, capacityFor, computeF05MotionLayout, CROP, SRC_H, SRC_W } from '../src/projects/jurnl/runtime/screens/f05/f05MotionLayout';
+import { F05_COMPOSITION as F05C } from '../src/projects/jurnl/runtime/screens/f05/f05Composition';
+import { accountItems, accountPaperRect, accountRailGap, accountRailViewport, APPROVED_SLOTS, bottomRowItems, capacityFor, computeF05MotionLayout, CROP, F05_ACCOUNTS_CHROME_NUDGE_SCREEN, F05_MOTION_SEAM_Y, f05SeamY, SRC_H, SRC_W } from '../src/projects/jurnl/runtime/screens/f05/f05MotionLayout';
 import { DIRECTORY_MAX_CROP } from '../src/projects/jurnl/runtime/screens/f05/dot01/directoryScene';
 import { resolveF05ParentVariant } from '../src/projects/jurnl/runtime/screens/f05/MoneyParentRoute';
 import { F05_NAV_KEY, mergeMoneySearchParams, patchF05Nav, readF05Nav } from '../src/projects/jurnl/runtime/screens/f05/f05NavPersistence';
@@ -237,6 +238,16 @@ describe('Layout', () => {
         expect((s.y + s.h) * L.u).toBeLessThan(L.navZone.y * L.u);
       }
     }
+  });
+
+  it('VIEW ALL and collection dots nudge down together in screen pixels', () => {
+    const L = computeF05MotionLayout(393, 852, 4, 2);
+    const seam = { extra: L.extra, ey: F05_MOTION_SEAM_Y, z0: null as number | null };
+    const baseViewAll = f05SeamY(seam, F05C.viewAll.y);
+    const baseDots = f05SeamY(seam, F05C.dots.y);
+    expect((L.viewAll.y - baseViewAll) * L.u).toBeCloseTo(F05_ACCOUNTS_CHROME_NUDGE_SCREEN, 1);
+    expect((L.dots.y - baseDots) * L.u).toBeCloseTo(F05_ACCOUNTS_CHROME_NUDGE_SCREEN, 1);
+    expect(L.viewAll.y - L.dots.y).toBeCloseTo(baseViewAll - baseDots, 3);
   });
 
   it('short phone viewports height-fit the foot so the torn nav paper stays on screen', () => {

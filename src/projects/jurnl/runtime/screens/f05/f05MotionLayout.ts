@@ -108,6 +108,9 @@ export function computeF05BoardScale(viewportW: number, viewportH: number, crop:
 /** SK01 elastic seam (same as DOT 01 SK01_FIELD / ALL ACCOUNTS). */
 export const F05_MOTION_SEAM_Y = SEAM_C;
 
+/** Founder gap below bottom-row papers before VIEW ALL and the collection dots (screen px, not source). */
+export const F05_ACCOUNTS_CHROME_NUDGE_SCREEN = 3;
+
 /** Map authority y through the seam — matches Dot01 `by()`. */
 export function f05SeamY(L: { extra: number; ey: number; z0: number | null }, y: number): number {
   if (y >= L.ey) return y + L.extra;
@@ -181,6 +184,7 @@ export function computeF05MotionLayout(W: number, H: number, items: number, _poc
     }
   }
   const wide = { x: COLS[0]!, y: extra < 1 && rows >= 1 ? mapY(APPROVED_SLOTS[0]!.y) : mapY(tops[0]!), w: COLS[1]! + COL_W[1]! - COLS[0]!, h: ROW_H[0]! };
+  const chromeNudgeSrc = F05_ACCOUNTS_CHROME_NUDGE_SCREEN / u;
   return {
     u,
     ox,
@@ -192,8 +196,8 @@ export function computeF05MotionLayout(W: number, H: number, items: number, _poc
     rows,
     slots,
     wide,
-    dots: { x: C.dots.x, y: mapY(C.dots.y), w: C.dots.w, h: C.dots.h },
-    viewAll: { x: C.viewAll.x, y: mapY(C.viewAll.y), w: C.viewAll.w, h: C.viewAll.h },
+    dots: { x: C.dots.x, y: mapY(C.dots.y) + chromeNudgeSrc, w: C.dots.w, h: C.dots.h },
+    viewAll: { x: C.viewAll.x, y: mapY(C.viewAll.y) + chromeNudgeSrc, w: C.viewAll.w, h: C.viewAll.h },
     navZone: { x: C.nav.x, y: mapY(C.nav.y), w: C.nav.w, h: C.nav.h },
   };
 }
