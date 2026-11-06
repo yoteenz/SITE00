@@ -32,11 +32,18 @@ The handoff's own README says: "PNG color was quantized so this archive fits a s
 
 | Asset | State | Notes |
 |---|---|---|
-| OV08 GLOBAL MENU | **MOUNTED** | `GlobalMenu`: uniform contain, live rows in the olive field (the only scrollport), headline on the parchment, square-rounded live close. The seven baked labels of the founder JPEG are not drawn |
-| OV01–OV05, OV07 | INSTALLED_NOT_MOUNTED | The runtime shells are ready and registered. The live controls of these sheets (action folios, form wells, pickers, search list, blocker rows) still have to be measured onto each shell's baked wells. Rendering them over the plates unmeasured would misalign the live fields from the drawn wells. The next step is a measured mount, reviewed by the founder |
-| OV06 ACCOUNT SETTINGS | INSTALLED_NOT_MOUNTED | The approved F09 AccountDrawer stays controlling. OV06 has a different layout (three rows and a sign-out strip), and swapping it in needs founder decision FD-12 |
-| FG01–FG09 | NOT_MOUNTED_PRESENT_IN_SHELL | Each foreground is already drawn inside its shell. The mount map forbids double placement |
-| SK04 | CANDIDATE_NOT_MOUNTED | An environment candidate, not an overlay shell |
+| OV01 MONEY ACTION | **MOUNTED** | `MoneyActionSheet` (see 07) |
+| OV02 ADD A POCKET | **MOUNTED** | `AddPlaceSheet` |
+| OV03 MOVE MONEY | **MOUNTED** | `TransferSheet` |
+| OV04 MANAGE POCKET | **MOUNTED** | the DOT 01 pocket menu: full-frame at 90 % width, over a blur of the live page |
+| OV05 SEARCH | **MOUNTED** | `GlobalSearchDrawer` |
+| OV06 ACCOUNT SETTINGS | INSTALLED_NOT_MOUNTED | the approved F09 AccountDrawer stays controlling; needs founder decision FD-12 |
+| OV07 ARCHIVE BLOCKED | **MOUNTED** | DOT 01 archive / delete blocked caution |
+| OV08 GLOBAL MENU | **MOUNTED** | `GlobalMenu`: uniform contain, rows in the olive field, headline on the parchment, live close. The seven baked labels of the founder JPEG are not drawn |
+| FG01–FG09 | NOT_MOUNTED_PRESENT_IN_SHELL | each is already drawn inside its shell; the mount map forbids double placement |
+| SK04 | CANDIDATE_NOT_MOUNTED | an environment candidate, not an overlay shell |
 
-SK01, SK02 and SK03 are untouched. No artwork was stretched, and no duplicate sculpture, foliage, medal or scenery is drawn: the old
-menu head was removed because OV08 already contains it.
+SK01, SK02 and SK03 are untouched. No artwork is stretched. No duplicate sculpture, foliage, medal or scenery is drawn: the editorial
+decor layers were removed from these overlays because each shell already contains them.
+
+The founder's PART1 / PART2 re-send was verified byte-for-byte identical to the installed files (see 07).

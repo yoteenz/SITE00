@@ -35,3 +35,48 @@ family-reachability, persistence, production-hardening, core-mutations, product-
 * **Menu.** All 12 rows present at every size. The olive field is the only scroll container; it scrolls on short phones, and every
   row, SIGN OUT included, is reachable inside it with a tap target of at least 44 px (E2E S1).
 * **Unreachable menu actions.** 0.
+
+## Update: shell mounts OV01–OV05, OV07 (2026-11-06)
+
+All runs below are on the production build, Chromium.
+
+| Check | Result |
+|---|---|
+| Typecheck | the same 2 pre-existing errors as base `4ddbac6ce`; 0 new |
+| Build | PASS |
+| JURNL unit, 52 files | **894 / 894 PASS** |
+| Global group: 11 suites × mobile / tablet / desktop, now 219 tests with O1–O7 | **219 / 219**. The first pass had 212 pass and 7 fail; all 7 were browser-resource crashes (`Page crashed`, `ERR_INSUFFICIENT_RESOURCES`) in suites the mounts do not touch, and all 7 pass when re-run on their own |
+| F05 group: 10 suites, `small` 360×780, 119 tests | 88 pass, 1 skipped, 30 fail. **27 of the 30 fail identically on base `4ddbac6ce`** (same build procedure, same suites): carousel, motion pilot, directory D1–D7, DOT 01 02–05, the pocket URL checks that receive `?parent=motion` from Cursor's `mergeMoneySearchParams`, and SEARCH B1. The other 3 were browser crashes and pass when re-run on their own. **0 new failures** |
+
+### Defects found by the suites and fixed before this count
+
+* **OV04 opened on long press, then acted on the release.** The release of the long press that opens the menu landed on the
+  centred card. Two fixes:
+  * a strip acts only on a press that starts on it, or on the keyboard;
+  * the outside-tap dismiss acts only on a press that starts outside the card.
+  T16 and the pocket hold tests cover this.
+* **OV07's blocker list failed axe `scrollable-region-focusable`.** It is now a focusable region named BLOCKERS.
+
+### Existing tests changed to the shell contract (not weakened)
+
+* **Editorial overlays E2E.**
+  * A2: two type columns, then CASH across the row.
+  * A3: FROM well above the shell's seal band, TO well below it.
+  * B2: the OV04 card over a blurred page, under 90 % of the host width.
+  * B3: OV07.
+* **Editorial overlays unit.**
+  * O3: five distinct placed type chips, only CASH spans the row.
+  * O4: the only decorative layer is the aria-hidden shell, with no `.jed-art` layered on it.
+* **Artwork-type E2E H.** Case 36 moved to the OV07 checks: its authority is now the founder shell, not the DOT 01 heading paper.
+
+### Runtime captures (after: `capture_editorial_overlays.ts`, DSF 2)
+
+Captured at 393×852, 393×660, 360×640, 430×932, 820×1180 and 1440×900.
+
+* **Page scroll.** 48 / 48 captures with no page scroll.
+* **Off-screen controls.** 0 in any capture.
+* **Close.** In view on every shell overlay.
+* **Primary action.**
+  * Visible in every capture except the menu's SIGN OUT row, which sits inside the menu's scroll area by design (E2E S1 confirms it
+    can be reached by scrolling).
+  * OV07's RESOLVE ISSUES is now visible on the 393×660 and 360×640 phones; before, it was off screen.

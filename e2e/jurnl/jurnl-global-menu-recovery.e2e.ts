@@ -6,6 +6,8 @@
  */
 import { expect, test, type Page } from '@playwright/test';
 import { bootstrapJurnl, clickTrigger, gotoJurnl, storedSnapshot, trigger } from './helpers/jurnl-page';
+import { dot01World } from './helpers/jurnl-dot01-world';
+import { f05World } from './helpers/jurnl-f05-world';
 
 const overlay = (page: Page, id: string) => page.locator(`[data-jrn-overlay="${id}"]`);
 const pageScroll = (page: Page) => page.evaluate(() => ({ y: document.documentElement.scrollHeight > innerHeight + 1, x: document.documentElement.scrollWidth > innerWidth + 1 }));
@@ -269,4 +271,79 @@ test.describe('OPUS2 · short phones: the olive field scrolls, the page never do
       });
     });
   }
+});
+
+/** The founder production shells mounted on the live overlays (P0.JURNL.GLOBAL-EIGHT-OVERLAYS, OPUS1 parent contract). */
+type ShellCase = { id: string; asset: string; route: string; world: () => unknown; open: string[]; controls: string[]; contextmenu?: string };
+const SHELLS: ShellCase[] = [
+  { id: 'f05m-actions-sheet', asset: 'OV01', route: 'money?parent=motion', world: () => f05World('approved'), open: ['f05m-actions'], controls: ['f05m-actions-add', 'f05m-actions-move', 'f05m-actions-sheet-close'] },
+  { id: 'money-add-place', asset: 'OV02', route: 'money?parent=motion', world: () => f05World('approved'), open: ['f05m-actions', 'f05m-actions-add'], controls: ['money-add-name', 'money-add-kind-checking', 'money-add-kind-cash', 'money-add-balance', 'money-add-cancel', 'money-add-save'] },
+  { id: 'transfer-sheet', asset: 'OV03', route: 'money?parent=motion', world: () => f05World('approved'), open: ['f05m-actions', 'f05m-actions-move'], controls: ['transfer-amount', 'transfer-date', 'transfer-memo', 'transfer-status-in-transit', 'transfer-cancel', 'transfer-save'] },
+  { id: 'd01-pocket-menu', asset: 'OV04', route: 'money/places', world: () => f05World('approved'), open: [], contextmenu: '[data-testid="d01-directory"] [data-account-id="bank"]', controls: ['d01-pocket-rename', 'd01-pocket-delete'] },
+  { id: 'global-search', asset: 'OV05', route: 'money?parent=motion', world: () => dot01World(), open: ['f05m-search'], controls: ['search-input', 'search-filter-all', 'search-filter-pockets', 'search-filter-transactions', 'search-all-activity', 'search-advanced'] },
+  { id: 'd01-archive-blocked', asset: 'OV07', route: 'money/places/bank/settings', world: () => dot01World(), open: ['d01-archive'], controls: ['d01-blocker-details', 'd01-keep-active', 'd01-archive-blocked-close'] },
+];
+
+test.describe('OPUS1 · the founder production shells on the live overlays', () => {
+  for (const c of SHELLS) {
+    test(`O${c.asset.slice(3)} · ${c.asset} ${c.id}: the shell at one uniform scale, every control on it and reachable, no page scroll`, async ({ page }) => {
+      await page.addInitScript(() => sessionStorage.setItem('jurnl.f05.parent', 'motion'));
+      await bootstrapJurnl(page, c.world() as Parameters<typeof bootstrapJurnl>[1]);
+      await gotoJurnl(page, c.route);
+      if (c.contextmenu) await page.locator(c.contextmenu).click({ button: 'right' });
+      for (const t of c.open) await clickTrigger(page, t);
+      const host = overlay(page, c.id);
+      await expect(host).toHaveAttribute('data-overlay-asset', c.asset);
+      const img = host.locator('img.jsh-shell');
+      await expect(img).toBeVisible();
+      // one uniform scale: the drawn plate keeps the shell's 9:16 exactly (never stretched, never cropped)
+      const pb = (await host.locator('.jsh-plate').boundingBox())!;
+      expect(pb.width / pb.height).toBeCloseTo(2016 / 3584, 2);
+      const vp = page.viewportSize()!;
+      expect(pb.width).toBeLessThanOrEqual(vp.width + 1);
+      expect(pb.height).toBeLessThanOrEqual(vp.height + 1);
+      // the shell takes no tap; every live control is inside the plate and on screen
+      expect(await img.evaluate((e) => getComputedStyle(e).pointerEvents)).toBe('none');
+      for (const t of c.controls) {
+        const b = (await trigger(page, t).first().boundingBox())!;
+        expect(b, t).toBeTruthy();
+        expect(b.x, t).toBeGreaterThanOrEqual(pb.x - 1);
+        expect(b.x + b.width, t).toBeLessThanOrEqual(pb.x + pb.width + 1);
+        expect(b.y, t).toBeGreaterThanOrEqual(Math.max(0, pb.y) - 1);
+        expect(b.y + b.height, t).toBeLessThanOrEqual(Math.min(vp.height, pb.y + pb.height) + 1);
+      }
+      // no second sculpture / foliage / medal layer over the shell
+      await expect(host.locator('.jed-art')).toHaveCount(0);
+      expect(await pageScroll(page)).toEqual({ y: false, x: false });
+      if (c.asset === 'OV04') {
+        // full-frame at 90 % of the host width: the card is about 85 % wide when the width limits the plate (phones);
+        // when the height limits it (tablet, desktop column) it is narrower, never wider than 90 %
+        const card = (await page.getByTestId('d01-pocket-menu').boundingBox())!;
+        const hb = (await host.boundingBox())!;
+        expect(card.width / hb.width).toBeLessThan(0.9);
+        if (pb.width >= hb.width * 0.89) expect(card.width / hb.width).toBeGreaterThan(0.8);
+        await page.mouse.click(4, vp.height - 4); // outside the card: closes
+        await expect(host).toHaveCount(0);
+      } else {
+        await page.keyboard.press('Escape');
+        await expect(host).toHaveCount(0);
+      }
+    });
+  }
+
+  test('O7b · ARCHIVE BLOCKED on OV07: the real blockers sit on the shell rows; RESOLVE ISSUES on the dark strip leaves for the resolution', async ({ page }) => {
+    await bootstrapJurnl(page, dot01World() as Parameters<typeof bootstrapJurnl>[1]);
+    await gotoJurnl(page, 'money/places/bank/settings');
+    await clickTrigger(page, 'd01-archive');
+    const why = page.getByTestId('d01-blocked-why');
+    await expect(why).toContainText('THIS ACCOUNT CANNOT BE ARCHIVED YET');
+    const rows = why.locator('[data-testid^="d01-blocker-"]');
+    expect(await rows.count()).toBeGreaterThan(0);
+    const plate = (await overlay(page, 'd01-archive-blocked').locator('.jsh-plate').boundingBox())!;
+    const first = (await rows.first().boundingBox())!;
+    // the first blocker lands on the shell's first blank row (44.6 %–54.2 % of the shell height)
+    expect(Math.abs(first.y - (plate.y + plate.height * 0.4456))).toBeLessThan(plate.height * 0.012);
+    await clickTrigger(page, 'd01-blocker-details');
+    await expect(overlay(page, 'd01-archive-blocked')).toHaveCount(0);
+  });
 });

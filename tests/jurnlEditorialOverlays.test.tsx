@@ -22,7 +22,7 @@ function render(node: ReactNode) {
   );
 }
 const visible = (html: string) => html.replace(/<style[\s\S]*?<\/style>/g, '').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/\s+/g, ' ');
-const nonScript = (html: string) => visible(html.replace(/<p class="jed-script"[^>]*>[\s\S]*?<\/p>/g, ' ').replace(/<span class="jed-script[^"]*"[^>]*>[\s\S]*?<\/span>/g, ' '));
+const nonScript = (html: string) => visible(html.replace(/<p class="jed-script[^"]*"[^>]*>[\s\S]*?<\/p>/g, ' ').replace(/<span class="jed-script[^"]*"[^>]*>[\s\S]*?<\/span>/g, ' '));
 
 describe('editorial overlays — composition, not a generic drawer', () => {
   const sheets = {
@@ -45,17 +45,26 @@ describe('editorial overlays — composition, not a generic drawer', () => {
     expect(sheets.transfer).toContain('data-testid="transfer-effect"');
     for (const t of ['search-input', 'search-filter-all', 'search-filter-pockets', 'search-filter-transactions', 'search-advanced', 'search-all-activity']) expect(sheets.search, t).toContain(`data-jrn-trigger="${t}"`);
   });
-  it('O3 ADD A POCKET offers every supported type in a compact grid (no stacked full-width rows)', () => {
-    expect(sheets.register).toContain('class="jed-choices"');
+  // OV mount (P0.JURNL.GLOBAL-EIGHT-OVERLAYS): each sheet is drawn on its founder production shell; the type grid is the
+  // shell's five blank panels (2 + 2 + 1), so the five types are five distinct placed chips, never stacked full-width rows.
+  it('O3 ADD A POCKET offers every supported type on the OV02 shell\'s five type panels (no stacked full-width rows)', () => {
+    expect(sheets.register).toContain('data-overlay-asset="OV02"');
     expect(sheets.register).not.toContain('jrn-home__choices');
-    expect((sheets.register.match(/data-jrn-trigger="money-add-kind-/g) ?? []).length).toBe(5);
+    const kinds = sheets.register.match(/<button[^>]*data-jrn-trigger="money-add-kind-[^"]+"[^>]*>/g) ?? [];
+    expect(kinds).toHaveLength(5);
+    const places = kinds.map((b) => b.match(/left:([\d.]+)%;top:([\d.]+)%;width:([\d.]+)%/)!.slice(1).map(Number));
+    expect(new Set(places.map((p) => p.join(','))).size).toBe(5);
+    expect(places.filter((p) => p[2]! > 60)).toHaveLength(1); // only CASH spans the row, as on the shell
   });
-  it('O4 decorative layers are aria-hidden and never interactive; every label outside cursive is uppercase', () => {
+  it('O4 the only decorative layer is the founder shell (aria-hidden, never interactive, no second art layered); labels outside cursive are uppercase', () => {
+    const shell: Record<string, string> = { action: 'OV01', register: 'OV02', transfer: 'OV03', search: 'OV05' };
     for (const [k, html] of Object.entries(sheets)) {
-      const arts = html.match(/<span class="jed-art[^"]*"[^>]*>/g) ?? [];
-      expect(arts.length, k).toBeGreaterThan(0);
-      for (const a of arts) expect(a, k).toContain('aria-hidden="true"');
-      expect(html.match(/<button[^>]*class="jed-art/g), k).toBeNull();
+      expect(html, k).toContain(`data-overlay-asset="${shell[k]}"`);
+      const imgs = html.match(/<img class="jsh-shell"[^>]*>/g) ?? [];
+      expect(imgs, k).toHaveLength(1);
+      expect(imgs[0], k).toContain('aria-hidden="true"');
+      expect(html.match(/class="jed-art/g), k).toBeNull();
+      expect(html.match(/<button[^>]*class="jsh-shell/g), k).toBeNull();
       expect(nonScript(html).match(/[a-z]/g), k).toBeNull();
     }
   });

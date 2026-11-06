@@ -33,8 +33,7 @@ import { applyOp } from '../../data/ledger/ledgerOps';
 import { getRepository } from '../../data/repository/deviceRepository';
 import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
 import { useJurnl } from '../state/store';
-import { ART, EdAction, EdArt, EdChoices, EdSeal, EditorialOverlay, REGION } from '../surfaces/editorial/Editorial';
-import { PocketPick } from '../surfaces/editorial/MoneyOverlays';
+import { ShellAction, ShellField, ShellOverlay, ShellPocketWell, ShellSlot, slot } from '../surfaces/editorial/Shell';
 
 // ─── Small shared pieces ─────────────────────────────────────────────────────
 
@@ -340,51 +339,72 @@ export function TransferSheet({ fromId, toId, onClose }: { fromId?: string | nul
       showToast({ tone: 'success', title: v.kind === 'CARD_PAYMENT' ? 'CARD PAYMENT RECORDED' : 'TRANSFER RECORDED', body: `${money(value ?? 0)} · ${(v.kind === 'CARD_PAYMENT' ? CARD_PAYMENT_STATE_LABEL : TRANSFER_STATE_LABEL)[start]} · RECORDED BY YOU, NOT CONFIRMED BY A BANK.`, testId: 'transfer-result' });
       onClose();
     });
-  // founder board 03: the movement between two pockets is the composition — FROM fragment, the bronze direction seal,
-  // TO fragment — then a compact ledger (amount, date, where the money is now). JURNL records it; it moves nothing.
+  // founder OV03 shell: the FROM and TO wells (their illustrated insets and the oxblood direction seal between them are
+  // the shell's), the amount and date wells, CANCEL paper + the dark RECORD strip. Live: the pocket in each well with its
+  // pocket choices, where the money is now (on the paper under TO), the effect line, and the optional note beside the date.
+  const B = OV03_BOX;
+  const short: Record<TransferStart, string> = { COMPLETED: 'ARRIVED', IN_TRANSIT: 'IN TRANSIT', PENDING: 'PENDING', SCHEDULED: 'LATER' };
   return (
-    <EditorialOverlay
+    <ShellOverlay
       testId="transfer-sheet"
       composition="transfer"
-      title={toCard ? ['PAY A CARD'] : ['MOVE MONEY']}
+      shell="OV03"
+      titleSize={6.6}
+      title={toCard ? 'PAY A CARD' : 'MOVE MONEY'}
       script={toCard ? 'record a card payment' : 'transfer between your pockets'}
+      headNote="BETWEEN YOUR OWN ACCOUNTS. NOT INCOME OR SPENDING. JURNL RECORDS IT; IT DOES NOT MOVE REAL MONEY."
+      head={B.head}
       onClose={onClose}
-      decor={
-        <>
-          <EdArt art={ART.sk01} region={REGION.bust} className="jed-art--bust" torn={5} />
-          <EdArt art={ART.sk01} region={REGION.arch} className="jed-art--arch" torn={9} />
-          <EdArt art={ART.lemonBranch} className="jed-art--lemon" />
-        </>
-      }
-      footer={
-        <>
-          <ErrorLine error={error} />
-          {error && /ALREADY RECORDED/.test(error) ? (
-            <EdAction trigger="transfer-allow-duplicate" material="cream" title={allowDup ? 'IT HAPPENED TWICE ✓' : 'IT HAPPENED TWICE'} onClick={() => setAllowDup(true)} className="jed-action--wide" />
-          ) : null}
-          <EdAction trigger="transfer-cancel" material="cream" title="CANCEL" onClick={onClose} />
-          <EdAction trigger="transfer-save" material="olive" title={toCard ? 'RECORD CARD PAYMENT' : 'RECORD TRANSFER'} disabled={value == null || !isCalendarDate(date.trim())} onClick={save} />
-        </>
-      }
     >
-      <p className="jed-note jed-note--ground" style={{ margin: "0 4px 8px" }}>BETWEEN YOUR OWN ACCOUNTS. NOT INCOME OR SPENDING. JURNL RECORDS IT; IT DOES NOT MOVE REAL MONEY.</p>
-      <PocketPick dir="FROM" accountId={from} options={accounts.filter(assetOnly)} figure={position} onChange={setFrom} trigger="transfer-from" />
-      <EdSeal glyph="transfer" className="jed-direction" />
-      <PocketPick dir="TO" accountId={to} options={accounts.filter((a) => a.account_id !== from)} figure={position} onChange={setTo} trigger="transfer-to" />
-      <div className="jed-sheet" style={{ marginTop: 10 }}>
-        <div className="jed-ledger">
-          <div className="jed-field"><JurnlInput label="AMOUNT" value={amount} onValue={setAmount} trigger="transfer-amount" inputMode="decimal" /></div>
-          <div className="jed-field"><JurnlInput label="DATE (YYYY-MM-DD)" value={date} onValue={setDate} trigger="transfer-date" inputMode="numeric" /></div>
-        </div>
-        <span className="jed-label">WHERE IS THE MONEY NOW?</span>
-        <EdChoices label="WHERE IS THE MONEY NOW" value={start} options={startOptions(fromName, toCard)} onChange={setStart} trigger="transfer-status" />
-        <p className="jed-note" data-testid="transfer-effect">{effect[start]}</p>
-        <div className="jed-field" style={{ marginTop: 8 }}><JurnlInput label="NOTE (OPTIONAL)" value={memo} onValue={setMemo} trigger="transfer-memo" /></div>
-        {toCard ? <p className="jed-note">PAYING A CARD LOWERS WHAT IT OWES. IT IS NOT A SECOND PURCHASE.</p> : null}
+      <ShellPocketWell box={B.from} dir="FROM" accountId={from} options={accounts.filter(assetOnly)} figure={position} onChange={setFrom} trigger="transfer-from" />
+      <ShellPocketWell box={B.to} dir="TO" accountId={to} options={accounts.filter((a) => a.account_id !== from)} figure={position} onChange={setTo} trigger="transfer-to" />
+      <div role="group" aria-label="WHERE IS THE MONEY NOW" className="jsh-status">
+        {startOptions(fromName, toCard).map((o, i) => (
+          <button key={o.id} type="button" className="jsh-chip" data-own="true" aria-pressed={start === o.id} aria-label={o.label} data-jrn-trigger={`transfer-status-${o.id.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} onClick={() => setStart(o.id)} style={slot(B.status[i]!)}>
+            {short[o.id]}
+          </button>
+        ))}
       </div>
-    </EditorialOverlay>
+      <ShellField box={B.amount} label="AMOUNT" value={amount} onValue={setAmount} trigger="transfer-amount" inputMode="decimal" />
+      <ShellSlot box={B.effect}>
+        {error ? (
+          <p className="jsh-text" data-tone="alert" role="alert">
+            {error}
+          </p>
+        ) : (
+          <p className="jsh-text" data-testid="transfer-effect">
+            {effect[start]}
+            {toCard ? ' PAYING A CARD LOWERS WHAT IT OWES. IT IS NOT A SECOND PURCHASE.' : ''}
+          </p>
+        )}
+      </ShellSlot>
+      {error && /ALREADY RECORDED/.test(error) ? (
+        <button type="button" className="jsh-chip" data-own="true" aria-pressed={allowDup} data-jrn-trigger="transfer-allow-duplicate" onClick={() => setAllowDup(true)} style={slot(B.duplicate)}>
+          {allowDup ? 'IT HAPPENED TWICE ✓' : 'IT HAPPENED TWICE'}
+        </button>
+      ) : null}
+      <ShellField box={B.date} label="DATE" placeholder="YYYY-MM-DD" value={date} onValue={setDate} trigger="transfer-date" inputMode="numeric" />
+      <ShellField box={B.memo} label="NOTE" placeholder="OPTIONAL" value={memo} onValue={setMemo} trigger="transfer-memo" />
+      <ShellAction box={B.cancel} trigger="transfer-cancel" title="CANCEL" onClick={onClose} align="center" />
+      <ShellAction box={B.save} trigger="transfer-save" tone="dark" title={toCard ? 'RECORD CARD PAYMENT' : 'RECORD TRANSFER'} disabled={value == null || !isCalendarDate(date.trim())} onClick={save} align="center" />
+    </ShellOverlay>
   );
 }
+
+/** OV03 regions (fractions of the shell, measured on the installed PNG). */
+export const OV03_BOX = {
+  head: [0.14, 0.175, 0.86, 0.305],
+  from: [0.372, 0.354, 0.902, 0.437],
+  to: [0.372, 0.521, 0.902, 0.607],
+  status: [[0.1, 0.614, 0.29, 0.651], [0.297, 0.614, 0.487, 0.651], [0.494, 0.614, 0.684, 0.651], [0.691, 0.614, 0.871, 0.651]],
+  amount: [0.099, 0.656, 0.871, 0.697],
+  effect: [0.1, 0.699, 0.871, 0.735],
+  duplicate: [0.6, 0.699, 0.871, 0.735],
+  date: [0.099, 0.737, 0.58, 0.779],
+  memo: [0.58, 0.737, 0.871, 0.779],
+  cancel: [0.09, 0.804, 0.39, 0.86],
+  save: [0.422, 0.804, 0.918, 0.86],
+} as const;
 
 /** One transfer or card payment: where the money is, its history, and the steps that are valid from here. */
 export function TransferDetailSheet({ linkId, onClose }: { linkId: string; onClose: () => void }) {

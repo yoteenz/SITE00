@@ -124,7 +124,8 @@ test.describe('OPUS3B · every overlay title stays inside its heading paper', ()
     ['20 RECORD CARD PAYMENT', 'money/places/visa', 'd01-strip-pay', 'd01-card-payment', '20'],
     ['21 ACCOUNT PURPOSES', 'money/places/bank/settings', 'd01-purposes', 'd01-purposes', '21'],
     ['24 CORRECT TRANSACTION', 'money/entries/tx-d01-trattoria', 'd01-tx-correct', 'd01-correct', '24'],
-    ['36 ARCHIVE BLOCKED', 'money/places/bank/settings', 'd01-archive', 'd01-archive-blocked', null],
+    // 36 ARCHIVE BLOCKED moved to the founder's OV07 caution shell (its own title, rows and strips are measured there):
+    // covered by jurnl-global-menu-recovery.e2e.ts O7.
   ];
   for (const [name, route, open1, id, seal] of cases) {
     test(`H · ${name}: title lines inside the text-safe zone; actions are illustrated pills`, async ({ page }) => {

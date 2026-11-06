@@ -46,6 +46,12 @@ The rows come from one source, `GLOBAL_MENU_SECTIONS`:
   POCKETS ONLY", "NOTHING LEARNED YET".
 * While the menu is open, the hamburger stays above it as the menu's toggle (`aria-expanded`), and the BACK chip is hidden.
 
+## Shell mounts (parent OPUS1 contract)
+
+Seven of the eight founder shells are mounted. OV01 MONEY ACTION, OV02 ADD A POCKET, OV03 MOVE MONEY, OV04 MANAGE POCKET, OV05
+SEARCH and OV07 ARCHIVE / DELETE BLOCKED run through `surfaces/editorial/Shell.tsx`, and OV08 is the menu. OV06 waits for
+founder decision FD-12. Measured regions and behaviour are in 07.
+
 ## Destinations
 
 | Row | Opens |

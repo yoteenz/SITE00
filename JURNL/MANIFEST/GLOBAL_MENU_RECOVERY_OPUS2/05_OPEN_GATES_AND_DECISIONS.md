@@ -4,7 +4,7 @@
 |---|---|---|
 | FOUNDER_APPROVAL | The sectioned menu on OV08, its destination copy, ACCOUNT & PROFILE opening the approved F09 drawer | PENDING |
 | FD-12 | OV06 vs the approved F09 AccountDrawer, and the `c34ef288f` re-skin (not carried) | PENDING |
-| MOUNT-OV01–05/07 | Measured mount of the remaining six shells onto their live sheets | PENDING (installed, registered, runtime shells ready) |
+| MOUNT-OV01–05/07 | Measured mount of the six shells onto their live sheets | DONE (founder visual review pending) |
 | ASSET-RGBA | The handoff PNGs are palette-quantized; unquantized RGBA only on founder request (OpenArt re-export) | PENDING |
 | OD-01 | Bank connection vendor; until then CONNECTED ACCOUNTS stays PROVIDER_UNAVAILABLE | OPEN (not authorized) |
 | AI provider | ASK JURNL stays explanation-only | OPEN (not authorized) |

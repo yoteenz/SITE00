@@ -317,6 +317,8 @@ describe('the eight overlays\' assets — installed as supplied, registered with
         expect(a.mount).toMatch(a.id === 'SK04' ? /^CANDIDATE_NOT_MOUNTED$/ : /^NOT_MOUNTED_PRESENT_IN_SHELL$/);
       }
     }
-    expect(OVERLAY_ASSETS.find((a) => a.id === 'OV08')!.mount).toBe('MOUNTED');
+    // seven shells are mounted on their live overlays; OV06 waits for the founder (the approved F09 drawer controls)
+    for (const id of ['OV01', 'OV02', 'OV03', 'OV04', 'OV05', 'OV07', 'OV08']) expect(OVERLAY_ASSETS.find((a) => a.id === id)!.mount, id).toBe('MOUNTED');
+    expect(OVERLAY_ASSETS.find((a) => a.id === 'OV06')!.mount).toBe('INSTALLED_NOT_MOUNTED');
   });
 });
