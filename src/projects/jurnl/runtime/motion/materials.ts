@@ -46,6 +46,8 @@ export const RESPONSES = {
   warningSettle: { keyframes: [{ transform: 'translateY(0)' }, { transform: 'translateY(2px)', offset: 0.4 }, { transform: 'translateY(0)' }], duration: 520, easing: EASE.textile, signal: 'WARNING' },
   /** a consent change, acknowledged: a warm wash on the row (its own `.jce-ack` layer) rises and fades once — opacity only */
   consentAck: { keyframes: [{ opacity: 0 }, { opacity: 1, offset: 0.25 }, { opacity: 0 }], duration: 600, easing: EASE.textile, signal: 'CONFIRMED' },
+  /** a pocket's stored balance changed: the same warm wash on the paper (its own `.jrn-f05m__paper-ack`) — the figure never moves */
+  balanceAck: { keyframes: [{ opacity: 0 }, { opacity: 1, offset: 0.3 }, { opacity: 0 }], duration: 700, easing: EASE.textile, signal: 'CONFIRMED' },
 } as const satisfies Record<string, Response>;
 
 export type ResponseName = keyof typeof RESPONSES;

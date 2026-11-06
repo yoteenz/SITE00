@@ -602,6 +602,16 @@
   pointer-events: none;
 }
 
+/* a stored balance change: one warm wash on the paper (motion/materials.ts balanceAck animates its opacity) */
+.jrn .jrn-f05m__paper-ack {
+  position: absolute;
+  inset: 4%;
+  border-radius: 12px;
+  background: radial-gradient(80% 70% at 30% 60%, rgba(255, 228, 170, 0.55), rgba(255, 228, 170, 0) 75%);
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* ─────────── Motion (entrance ≤ 650 ms; selection; return). Fill is backwards: once an animation ends it leaves no
    style behind (no held transforms). ─────────── */
 @media (prefers-reduced-motion: no-preference) {

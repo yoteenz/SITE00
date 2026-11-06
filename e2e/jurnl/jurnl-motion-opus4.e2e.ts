@@ -384,6 +384,10 @@ test.describe('OPUS4 · FINANCIAL FEEDBACK follows the stored state', () => {
     await clickTrigger(page, 'transfer-status-in-transit');
     await clickTrigger(page, 'transfer-save');
     await expect(page.locator('[data-jrn-overlay="transfer-sheet"]')).toHaveCount(0);
+    // the source's stored balance went down (it left): one opacity wash on that paper only; the figure never moves
+    const washes = () => page.evaluate(() => Object.fromEntries([...document.querySelectorAll('[data-account-id]')].map((p) => [p.getAttribute('data-account-id'), p.querySelector('.jrn-f05m__paper-ack')?.getAnimations().length ?? 0])));
+    expect(await washes()).toMatchObject({ ride: 1, bank: 0 });
+    expect(await page.locator('[data-account-id="ride"] .jrn-f05m__paper-amount').evaluate((e) => e.getAnimations().length)).toBe(0);
     await page.locator('.jrn-f05m__token:not(.jrn-f05m__token--ghost)').first().click();
     const status = page.getByTestId('transfer-detail-status');
     await expect(status).toContainText('IN TRANSIT');

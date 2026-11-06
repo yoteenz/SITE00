@@ -284,9 +284,10 @@ export function usePocketManager(where: 'detail' | 'directory' | 'parent') {
           onClose={() => close(true)}
           onSaved={(name) => {
             close(true);
-            // the renamed pocket's paper settles once, after the overlay's closing copy has gone (the rename is stored)
-            const paper = anchorRef.current?.closest('.jrn-f05m__paper, .d01-pocket, [data-account-id]') ?? anchorRef.current;
-            respond(paper, 'paperSettle', { delay: GHOST_MS });
+            // the renamed pocket's paper (parent rail, directory) settles once, after the overlay's closing copy has gone (the
+            // rename is stored). On the account page the anchor is the MANAGE chip and the title is live type: nothing moves.
+            const paper = anchorRef.current?.closest('[data-account-id]');
+            if (paper) respond(paper, 'paperSettle', { delay: GHOST_MS });
             showToast({ tone: 'success', title: 'POCKET RENAMED', body: `NOW CALLED ${name}. BALANCES AND HISTORY ARE UNCHANGED.`, testId: 'd01-pocket-renamed' });
           }}
         />

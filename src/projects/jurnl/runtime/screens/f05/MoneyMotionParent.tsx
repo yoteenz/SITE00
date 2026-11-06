@@ -44,6 +44,7 @@ import cardCash from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_C
 import cardCredit from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_CREDIT.webp';
 import { useLongPress, usePocketManager } from './dot01/PocketManager';
 import { useAmbientChannels } from '../../motion/useMotion';
+import { respond } from '../../motion/materials';
 import './jurnl-f05-motion.css';
 import './jurnl-f05-carousel.css';
 
@@ -232,6 +233,22 @@ export function MoneyMotionParent() {
     const id = window.setTimeout(() => setSettleOnce(null), 700);
     return () => window.clearTimeout(id);
   }, [settleOnce]);
+
+  // A pocket whose STORED balance changed (a recorded transfer, a correction) gets one restrained wash on its paper. Never
+  // on arrival, never for a pocket that just appeared, and the figure itself never moves.
+  const balanceKey = reading.accounts.map((a) => `${a.account_id}:${Math.round(a.amount * 100)}`).join('|');
+  const prevBalances = useRef<Map<string, number> | null>(null);
+  useEffect(() => {
+    const now = new Map(reading.accounts.map((a) => [a.account_id, Math.round(a.amount * 100)]));
+    const before = prevBalances.current;
+    prevBalances.current = now;
+    if (!before) return;
+    for (const [id, cents] of now) {
+      if (!before.has(id) || before.get(id) === cents) continue;
+      respond(stageRef.current?.querySelector(`[data-account-id="${CSS.escape(id)}"] .jrn-f05m__paper-ack`), 'balanceAck');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [balanceKey]);
 
   // Threads for unfinished transfers whose two places both have a paper (canonical state only).
   const slotOf = new Map<string, Rect>();
@@ -425,6 +442,7 @@ export function MoneyMotionParent() {
         onClick={(e) => openPlace(a, e.currentTarget)}
       >
         <img className="jrn-f05m__paper-art" src={ART[a.art]} alt="" draggable={false} />
+        <span className="jrn-f05m__paper-ack" aria-hidden />
         <span className="jrn-f05m__paper-name" style={{ fontSize: nameFont(lines) }}>
           {lines.map((l) => (
             <span key={l}>{l}</span>

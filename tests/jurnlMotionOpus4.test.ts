@@ -338,6 +338,7 @@ describe('OPUS4 · MATERIALS', () => {
       errorNudge: 'ERROR',
       warningSettle: 'WARNING',
       consentAck: 'CONFIRMED',
+      balanceAck: 'CONFIRMED',
     });
   });
 
@@ -383,6 +384,14 @@ describe('OPUS4 · STATE DRIVES MOTION', () => {
       expect(src, f).not.toMatch(/from '\.\.\/(state|\.\.\/data)/);
       expect(src, f).not.toMatch(/requestAnimationFrame|setInterval/);
     }
+  });
+
+  it('F5 · a pocket balance change is a wash on its paper (opacity only), keyed by the stored cents, skipped for a new pocket and on arrival', () => {
+    expect(RESPONSES.balanceAck.keyframes.every((k) => Object.keys(k).every((p) => p === 'opacity' || p === 'offset'))).toBe(true);
+    const src = read(`${RT}/screens/f05/MoneyMotionParent.tsx`);
+    expect(src).toMatch(/if \(!before\) return;/);
+    expect(src).toMatch(/if \(!before\.has\(id\) \|\| before\.get\(id\) === cents\) continue;/);
+    expect(src).toMatch(/\.jrn-f05m__paper-ack`\), 'balanceAck'\)/);
   });
 
   it('F4 · the Buffer effect paper answers the STORED amount and a refused save; consents answer the stored value (never the open)', () => {
