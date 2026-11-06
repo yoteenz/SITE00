@@ -65,6 +65,9 @@ const EXTRA: Record<string, ReactNode> = {
       <path {...P} d="M12 7.5V12l3 2" />
     </>
   ),
+  /* PRIVACY & CONSENTS authority: YOUR DATA (stored records) and DATA EXPORT (a copy out) */
+  database: <path {...P} d="M5 6.5c0-1.7 3.1-3 7-3s7 1.3 7 3-3.1 3-7 3-7-1.3-7-3zM5 6.5v11c0 1.7 3.1 3 7 3s7-1.3 7-3v-11M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3" />,
+  download: <path {...P} d="M12 4v10.5M7.5 10 12 14.5l4.5-4.5M5 15.5v4h14v-4" />,
 };
 export function V3Icon({ name, className }: { name: string; className?: string }) {
   if (EXTRA[name]) {

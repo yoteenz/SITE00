@@ -195,6 +195,9 @@ describe('child environments keep the accounting and consent rules', () => {
     expect(visible(html)).toContain('BUFFER AMOUNT');
     expect(html).toMatch(/data-testid="buffer-currency"[^>]*>USD</);
     expect(html).not.toContain('data-jrn-trigger="buffer-currency"');
+    // the authority's (i) beside the effect discloses what the buffer does (a real disclosure, never a dead control)
+    expect(html).toMatch(/data-jrn-trigger="buffer-effect-info"[^>]*aria-expanded="false"|aria-expanded="false"[^>]*data-jrn-trigger="buffer-effect-info"/);
+    expect(html).not.toContain('data-testid="buffer-effect-note"');
     const withSelector = render(createElement(BufferEnvironment, { onBack: noop, onCurrency: noop }));
     expect(withSelector).toMatch(/data-jrn-trigger="buffer-currency"/);
     expect(visible(withSelector)).toContain('USD ▾');

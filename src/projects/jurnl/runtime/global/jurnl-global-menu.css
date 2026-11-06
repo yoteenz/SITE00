@@ -58,8 +58,9 @@
   place-items: center;
   padding-left: 0.3em;
   color: var(--v3-ink);
-  font: 600 clamp(11px, 4cqw, 22px) / 1 var(--v3-serif);
-  letter-spacing: 0.3em;
+  font: 600 clamp(11px, 4.5cqw, 25px) / 1 var(--v3-serif);
+  letter-spacing: 0.24em;
+  transform: rotate(-9deg); /* the tag paper is tilted; the wordmark follows it (founder authority) */
   pointer-events: none;
   user-select: none;
 }
@@ -71,7 +72,8 @@
 }
 .jrn .jgm-head > .jv3-t-script {
   color: var(--v3-ink-soft, #4a3c2a);
-  font-size: clamp(14px, 4.2vw, 18px);
+  font: italic 400 clamp(13px, 4.2cqw, 22px) / 1.12 var(--v3-serif); /* the shared OV08 family's italic serif (BUFFER / PRIVACY authorities) */
+  letter-spacing: 0.005em;
 }
 /* the hamburger stays the menu's toggle while it is open: lift the corner chrome above the overlay host (z 60) */
 .jrn .jrn-corner[data-menu-open='true'] {

@@ -437,6 +437,12 @@ test.describe('OPUS3 · SAFE TO SPEND BUFFER and PRIVACY & CONSENTS on the share
     await expect(page.getByTestId('buffer-usd')).toHaveAttribute('data-usd', '250');
     await expect(page.getByTestId('buffer-usd')).toContainText('KEPT ASIDE');
     await page.setViewportSize(vp);
+    // the authority's (i) discloses what the buffer does, inside the column (never the page)
+    await clickTrigger(page, 'buffer-effect-info');
+    await expect(trigger(page, 'buffer-effect-info')).toHaveAttribute('aria-expanded', 'true');
+    await expect(page.getByTestId('buffer-effect-note')).toBeVisible();
+    await expect(page.getByTestId('buffer-effect-note')).toContainText('SAFE TO SPEND LEAVES THIS AMOUNT OUT');
+    expect(await pageScroll(page)).toEqual({ y: false, x: false });
     // the currency mark on the amount paper opens DISPLAY CURRENCY; BACK returns to the buffer
     await clickTrigger(page, 'buffer-currency');
     await expect(overlay(page, 'settings-currency-sheet')).toBeVisible();

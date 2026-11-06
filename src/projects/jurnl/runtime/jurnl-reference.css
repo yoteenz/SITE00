@@ -55,6 +55,21 @@
   font-display: swap;
   src: url('/site00/projects/jurnl/fonts/jurnl-authority-serif-600.woff2') format('woff2');
 }
+/* the authority script lines (child environments): Playfair Display Italic, unmodified (playfair-display-italic-OFL.txt) */
+@font-face {
+  font-family: 'JURNL Authority Serif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/site00/projects/jurnl/fonts/playfair-display-400-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JURNL Authority Serif';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/site00/projects/jurnl/fonts/playfair-display-500-italic.woff2') format('woff2');
+}
 
 .jrn .jrn-ref {
   --ref-ink: #0e0d0b;

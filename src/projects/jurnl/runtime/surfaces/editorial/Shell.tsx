@@ -131,14 +131,24 @@ export function ShellOverlay({
   );
 }
 
-/** The live laurel ornament: two hairline rules and a small sprig (drawn, not an image; it scales with the type). */
+/** The live laurel ornament: two hairline rules and the authority's V-shaped laurel sprig (drawn, not an image; it scales with the plate). */
 export function ShellOrnament() {
   return (
     <span className="jsh-ornament" aria-hidden>
-      <svg viewBox="13.4 2.4 13.2 12.8" aria-hidden>
-        <path d="M20 14.5V4.5" fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-        <path d="M20 13c-2.6-.2-4.8-1.6-5.6-4 2.6.1 4.6 1.5 5.6 4zM20 9.6c-2.2-.3-4-1.6-4.6-3.6 2.2.2 3.9 1.4 4.6 3.6zM20 6.4c-1.7-.4-3-1.6-3.3-3.2 1.7.3 2.9 1.4 3.3 3.2z" fill="currentColor" />
-        <path d="M20 13c2.6-.2 4.8-1.6 5.6-4-2.6.1-4.6 1.5-5.6 4zM20 9.6c2.2-.3 4-1.6 4.6-3.6-2.2.2-3.9 1.4-4.6 3.6zM20 6.4c1.7-.4 3-1.6 3.3-3.2-1.7.3-2.9 1.4-3.3 3.2z" fill="currentColor" />
+      <svg viewBox="8 2 24 20.5" aria-hidden>
+        <path d="M20 21.2C18.4 17.2 15.6 11.6 11.4 5.6M20 21.2C21.6 17.2 24.4 11.6 28.6 5.6" fill="none" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round" />
+        <g fill="currentColor">
+          <path transform="translate(17.9 18.2) rotate(-62)" d="M0 0C1.5-1.1 1.7-3.3 0-5.4-1.7-3.3-1.5-1.1 0 0z" />
+          <path transform="translate(16.2 15.1) rotate(-20)" d="M0 0C1.5-1.1 1.7-3.3 0-5.4-1.7-3.3-1.5-1.1 0 0z" />
+          <path transform="translate(14.4 12.4) rotate(-66)" d="M0 0C1.5-1.1 1.7-3.3 0-5.4-1.7-3.3-1.5-1.1 0 0z" />
+          <path transform="translate(12.9 9.4) rotate(-24)" d="M0 0C1.5-1.1 1.7-3.3 0-5.4-1.7-3.3-1.5-1.1 0 0z" />
+          <path transform="translate(11.6 6.3) rotate(-48)" d="M0 0C1.5-1.1 1.7-3.3 0-5.4-1.7-3.3-1.5-1.1 0 0z" />
+          <path transform="translate(22.1 18.2) rotate(62)" d="M0 0C1.5-1.1 1.7-3.3 0-5.4-1.7-3.3-1.5-1.1 0 0z" />
+          <path transform="translate(23.8 15.1) rotate(20)" d="M0 0C1.5-1.1 1.7-3.3 0-5.4-1.7-3.3-1.5-1.1 0 0z" />
+          <path transform="translate(25.6 12.4) rotate(66)" d="M0 0C1.5-1.1 1.7-3.3 0-5.4-1.7-3.3-1.5-1.1 0 0z" />
+          <path transform="translate(27.1 9.4) rotate(24)" d="M0 0C1.5-1.1 1.7-3.3 0-5.4-1.7-3.3-1.5-1.1 0 0z" />
+          <path transform="translate(28.4 6.3) rotate(48)" d="M0 0C1.5-1.1 1.7-3.3 0-5.4-1.7-3.3-1.5-1.1 0 0z" />
+        </g>
       </svg>
     </span>
   );

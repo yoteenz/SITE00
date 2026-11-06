@@ -14,19 +14,19 @@ Grok4 `13_REVISED_OPUS_MOUNT_MAP.md` ("Reuse OV08-MENU-ENVIRONMENT.png for Buffe
 
 | Surface | Component | Live region | Contents (all L2 unless noted) |
 |---|---|---|---|
-| all three | `GlobalMenu.tsx` / `ChildEnvironments.tsx` | tag `[0.352, 0.038, 0.575, 0.098]` | the JURNL wordmark on the blank tag paper (aria-hidden) |
-| MENU | `GlobalMenu.tsx` `OV08_REGION` | head `[0.29, 0.125, 0.79, 0.265]` | MENU · *tools, settings & support* |
+| all three | `GlobalMenu.tsx` / `ChildEnvironments.tsx` | tag `[0.352, 0.042, 0.575, 0.102]` | the JURNL wordmark on the blank tag paper, tilted −9° with it (aria-hidden) |
+| MENU | `GlobalMenu.tsx` `OV08_REGION` | head `[0.29, 0.125, 0.79, 0.265]` | MENU · *tools, settings & support* (italic serif) |
 | MENU | | port `[0.075, 0.306, 0.745, 0.885]` (only scroll) | YOUR FINANCES · YOUR INTELLIGENCE · YOUR ACCOUNT, 12 / 12 rows, icons, states, dividers |
-| BUFFER | `BufferEnvironment` `CH01_BOX` | head `[0.275, 0.118, 0.8, 0.284]` | SAFE TO SPEND / BUFFER · *a cushion you keep aside* · laurel ornament |
-| BUFFER | | column `[0.08, 0.322, 0.758, 0.696]` (scrolls only for a long warning) | help line · gold rule · BUFFER AMOUNT (+ SAVED / CLEARED status) · **amount paper** (L1) with the amount field, its symbol, a divider and the currency selector · warnings · **effect paper** (L1) with EFFECT ON SAFE TO SPEND and the kept-aside figure |
+| BUFFER | `BufferEnvironment` `CH01_BOX` | head `[0.275, 0.128, 0.8, 0.278]` | SAFE TO SPEND / BUFFER · *a cushion you keep aside* (italic serif) · laurel ornament |
+| BUFFER | | column `[0.0895, 0.326, 0.745, 0.694]` (scrolls only for a long warning) | help line · gold rule · BUFFER AMOUNT (+ SAVED / CLEARED status) · **amount paper** (L1) with the amount field, its symbol, a divider and the currency selector · warnings · **effect paper** (L1) with EFFECT ON SAFE TO SPEND, the kept-aside figure and the (i) disclosure |
 | BUFFER | | coin `px(35, 2427, 1048, 581)` | **CH01_COIN_RESERVE** (L1, fixed art, 1:1 master pixels at the authority origin; top sliver clipped) |
-| BUFFER | | actions `[0.0878, 0.846, 0.758, 0.911]` | **BACK paper** (L1, 42.9 % of the row as in the authority) · SAVE BUFFER (V3 olive control, gold rim) |
-| PRIVACY | `PrivacyEnvironment` `CH02_BOX` | head `[0.275, 0.118, 0.8, 0.284]` | PRIVACY & / CONSENTS · *what jurnl may keep and use* · laurel ornament |
+| BUFFER | | actions `[0.095, 0.851, 0.745, 0.909]` | **BACK paper** (L1, 42 % of the row as in the authority) · SAVE BUFFER (V3 olive control, warm olive, gold rim) |
+| PRIVACY | `PrivacyEnvironment` `CH02_BOX` | head `[0.255, 0.122, 0.765, 0.266]` | PRIVACY & / CONSENTS · *what jurnl may keep and use* (italic serif) · laurel ornament |
 | PRIVACY | | list `[0.095, 0.306, 0.765, 0.776]` (only scroll) | YOUR CONSENTS: REMEMBER SETUP (switch), LINKED ACCOUNTS OPTIONAL (statement), NOTHING SOLD (statement), ASK JURNL CONTEXT (switch) · YOUR DATA: AI ACCESS, YOUR DATA, DATA EXPORT (*not available yet.*) |
 | PRIVACY | | remove `[0.0809, 0.7813, 0.772, 0.858]` | **REMOVE ACCESS paper** (L1) with trash icon, label, *delete account · revoke access · turn ai off.*, chevron |
 | PRIVACY | | back `px(315, 3108, 1206, 247)` | **BACK paper** (L1) |
 
-Placements come from Grok4 `docs/ALPHA_STATS.json` `place` (plate pixels, the 864 authority grid × 7/3): amount (203, 1689),
+BUFFER is fitted to the founder's full-resolution authority (941 × 1672, see 04). Privacy placements come from Grok4 `docs/ALPHA_STATS.json` `place` (plate pixels, the 864 authority grid × 7/3): amount (203, 1689),
 effect (161, 2081), back_b (177, 3040), save (770, 3010), coins (35, 2427), remove (163, 2800), back_p (315, 3108). The amount and effect
 papers flow inside the column at the authority's widths (1297 and 1367 of 2016 px); the coin and the two privacy papers are absolute.
 

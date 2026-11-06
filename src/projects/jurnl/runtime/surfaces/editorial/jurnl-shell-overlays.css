@@ -86,8 +86,9 @@
   place-items: center;
   padding-left: 0.3em; /* optical: the tracking trails the last letter */
   color: var(--jsh-ink);
-  font: 600 clamp(11px, 4cqw, 22px) / 1 var(--v3-serif, serif);
-  letter-spacing: 0.3em;
+  font: 600 clamp(11px, 4.5cqw, 25px) / 1 var(--v3-serif, serif);
+  letter-spacing: 0.24em;
+  transform: rotate(-9deg); /* the tag paper is tilted; the wordmark follows it (founder authority) */
   user-select: none;
 }
 /* the live laurel ornament under the script: rule · sprig · rule */

@@ -9,24 +9,35 @@
   gap: 0.25cqh;
 }
 .jrn .jsh-host[data-jed='child'] .jsh-head__title {
-  font-size: clamp(15px, 5.1cqw, 30px);
+  font-size: clamp(16px, 5.55cqw, 34px); /* authority: SAFE TO SPEND spans x 0.293–0.727 */
   font-weight: 600;
-  line-height: 1.04;
-  letter-spacing: 0.08em;
+  line-height: 1.06;
+  letter-spacing: 0.02em;
 }
 .jrn .jsh-host[data-jrn-overlay='settings-consents-sheet'] .jsh-head__title {
-  font-size: clamp(16px, 6.1cqw, 34px);
+  font-size: clamp(16px, 5.9cqw, 36px); /* PRIVACY & stays clear of the baked lemon */
 }
 .jrn .jce-title-line {
   display: block;
 }
 .jrn .jsh-host[data-jrn-overlay='global-buffer'] .jce-title-line {
-  font-size: 1.24em;
+  font-size: 1.12em; /* BUFFER is ~1.1× the first line */
 }
+/* the authority's script lines are an italic serif (Playfair Display Italic, the serif's own italic) */
 .jrn .jsh-host[data-jed='child'] .jsh-head__script {
-  font-size: clamp(12px, 4.1cqw, 21px);
-  line-height: 1.1;
-  opacity: 0.95;
+  color: var(--jsh-ink);
+  font: italic 400 clamp(12px, 4cqw, 24px) / 1.12 var(--v3-serif, serif);
+  letter-spacing: 0.005em;
+  opacity: 1;
+}
+.jrn .jsh-host[data-jed='child'] .jsh-ornament {
+  width: min(72%, 35.2cqw); /* authority: rules x 0.318–0.44 and 0.54–0.67 around the sprig */
+  gap: 1.5cqw;
+  color: #2f271b;
+}
+.jrn .jsh-host[data-jed='child'] .jsh-ornament svg {
+  width: clamp(16px, 5.8cqw, 36px);
+  height: auto;
 }
 .jrn .jce-line {
   display: block;
@@ -86,10 +97,15 @@
 .jrn .jce-buffer {
   position: absolute;
   z-index: 2;
-  padding-top: 1.4cqh;
+  gap: 0;
+  padding-top: 0.7cqh;
 }
+/* vertical rhythm in plate units, from the authority: help 0.333–0.403, rule 0.427, label 0.457, amount from 0.479 */
 .jrn .jce-help {
-  padding: 0 7.5%;
+  padding: 0 14% 0 6.9%;
+  font-size: clamp(10px, 2.85cqw, 16px);
+  line-height: max(1.35em, 2.33cqh);
+  letter-spacing: 0.12em;
 }
 .jrn .jce-label-row {
   display: flex;
@@ -97,14 +113,14 @@
   align-items: baseline;
   justify-content: space-between;
   gap: 0.4cqh 3cqw;
-  margin: 0.6cqh 3% 0;
-  padding: 1.3cqh 4.5% 0;
-  border-top: 1px solid rgba(220, 171, 79, 0.62); /* the authority's gold rule */
+  margin: 2.3cqh 1.4% 0 5.1%;
+  padding: 1.9cqh 0 0 1.2%;
+  border-top: 1px solid rgba(220, 171, 79, 0.7); /* the authority's gold rule */
 }
 .jrn .jce-label {
   color: var(--jsh-cream);
-  font: 600 clamp(10px, 2.9cqw, 15px) / 1.1 var(--v3-serif, serif);
-  letter-spacing: 0.14em;
+  font: 600 clamp(11px, 3.4cqw, 19px) / 1.1 var(--v3-serif, serif);
+  letter-spacing: 0.1em;
 }
 .jrn .jce-saved {
   color: var(--v3-gold, #dcab4f);
@@ -123,11 +139,12 @@
 }
 .jrn .jce-amount {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr 29%; /* authority: the divider at ~71 % of the paper */
   align-items: center;
-  gap: 3cqw;
-  width: 94.6%; /* authority: the amount paper is narrower than the effect paper (1297 vs 1367 plate px) */
-  margin-left: 3%;
+  gap: 0;
+  width: 95.9%; /* authority: amount x 0.107–0.736 inside the effect paper's 0.0895–0.745 */
+  margin: 1.1cqh 0 0 2.7%;
+  padding: 0 0 0 7%;
 }
 .jrn .jce-amount__well {
   display: flex;
@@ -136,7 +153,7 @@
   min-width: 0;
   min-height: 44px;
   color: var(--jsh-ink);
-  font: 500 clamp(16px, 5.4cqw, 28px) / 1 var(--v3-serif, serif);
+  font: 500 clamp(16px, 6.4cqw, 36px) / 1 var(--v3-serif, serif);
 }
 .jrn .jce-amount__mark {
   font-weight: 600;
@@ -154,7 +171,7 @@
   outline: none;
 }
 .jrn .jce-amount__well input::placeholder {
-  color: rgba(42, 33, 23, 0.42);
+  color: rgba(70, 56, 40, 0.5);
 }
 .jrn .jce-amount:focus-within {
   filter: drop-shadow(0 0 3px rgba(220, 171, 79, 0.85));
@@ -162,22 +179,24 @@
 .jrn .jce-currency {
   display: inline-flex;
   align-items: center;
-  gap: 1.2cqw;
+  justify-content: center;
+  gap: 1.6cqw;
+  height: 46%;
   min-height: 44px;
-  padding: 0 0 0 3cqw;
+  padding: 0;
   border: 0;
-  border-left: 1px solid rgba(90, 66, 40, 0.42); /* live divider inside the paper */
+  border-left: 1px solid rgba(90, 66, 40, 0.45); /* live divider inside the paper */
   background: transparent;
   color: var(--jsh-ink);
-  font: 600 clamp(10px, 3cqw, 16px) / 1 var(--v3-serif, serif);
-  letter-spacing: 0.1em;
+  font: 600 clamp(11px, 3.4cqw, 19px) / 1 var(--v3-serif, serif);
+  letter-spacing: 0.06em;
   cursor: pointer;
 }
 .jrn span.jce-currency {
   cursor: default;
 }
 .jrn .jce-currency__caret {
-  font-size: 0.8em;
+  font-size: 0.72em;
 }
 .jrn .jce-currency:focus-visible {
   outline: 2px solid var(--v3-olive, #2b2810);
@@ -186,15 +205,16 @@
 }
 .jrn .jce-effect {
   display: grid;
-  grid-template-columns: auto 1px 1fr;
+  grid-template-columns: auto 1px 1fr auto;
   align-items: center;
-  gap: 3cqw;
-  padding: 0 6%;
+  gap: 2.4cqw;
+  margin-top: 1.3cqh;
+  padding: 0 3.6% 0 5.6%;
 }
 .jrn .jce-effect__kicker {
   color: var(--jsh-ink);
-  font: 600 clamp(8.5px, 2.45cqw, 13px) / 1.25 var(--v3-serif, serif);
-  letter-spacing: 0.1em;
+  font: 600 clamp(9px, 2.75cqw, 16px) / 1.2 var(--v3-serif, serif);
+  letter-spacing: 0.05em;
 }
 .jrn .jce-effect__rule {
   align-self: stretch;
@@ -206,8 +226,39 @@
   gap: 0.3cqh;
   min-width: 0;
   color: var(--jsh-ink);
-  font: 600 clamp(9px, 2.6cqw, 14px) / 1.2 var(--v3-serif, serif);
-  letter-spacing: 0.08em;
+  font: 600 clamp(9px, 2.5cqw, 15px) / 1.2 var(--v3-serif, serif);
+  letter-spacing: 0.04em;
+  white-space: nowrap; /* NO BUFFER SET stays one line, as in the authority */
+}
+/* the authority's (i): a glyph with a 44 px hit area that discloses what the buffer does */
+.jrn .jce-info {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(14px, 3.3cqw, 22px);
+  height: clamp(14px, 3.3cqw, 22px);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--jsh-ink);
+  cursor: pointer;
+}
+.jrn .jce-info::before {
+  content: '';
+  position: absolute;
+  inset: -15px;
+}
+.jrn .jce-info svg {
+  width: 100%;
+  height: 100%;
+}
+.jrn .jce-info:focus-visible {
+  outline: 2px solid var(--v3-olive, #2b2810);
+  outline-offset: 3px;
+  border-radius: 50%;
+}
+.jrn .jce-buffer > .jce-note {
+  margin-top: 1cqh;
 }
 .jrn .jce-effect__value small {
   color: var(--jsh-ink-soft);
@@ -228,7 +279,7 @@
 .jrn .jce-actions {
   display: flex;
   align-items: center;
-  gap: 3.5cqw;
+  gap: 2.6cqw;
   z-index: 2;
 }
 .jrn .jce-actions > .jv3-pill {
@@ -237,8 +288,15 @@
   height: 84%;
 }
 .jrn .jce-actions > .jv3-pill--olive {
-  border-color: rgba(220, 171, 79, 0.78); /* the authority's thin gold rim, on the live control */
-  font-size: clamp(11px, 3.1cqw, 16px);
+  border: 1.5px solid rgba(214, 170, 92, 0.92); /* the authority's thin gold rim, on the live control */
+  border-radius: 1.9cqw;
+  background: linear-gradient(180deg, #55522b 0%, #3d3a1a 52%, #2a2810 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 236, 190, 0.18), 0 3px 8px rgba(10, 8, 2, 0.45);
+  padding: 0 2cqw;
+  color: #f3e7cf;
+  font-size: clamp(11px, 3.4cqw, 20px);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
 }
 .jrn .jce-paper-control {
   justify-items: center;
@@ -258,12 +316,12 @@
   opacity: 0.6;
 }
 .jrn .jce-paper-control__label {
-  font: 600 clamp(11px, 3.3cqw, 17px) / 1.1 var(--v3-serif, serif);
-  letter-spacing: 0.14em;
+  font: 600 clamp(11px, 3.7cqw, 20px) / 1.1 var(--v3-serif, serif);
+  letter-spacing: 0.12em;
 }
 .jrn .jce-back {
-  flex: 0 0 42.9%; /* authority: BACK 579 of the 1351 plate px row */
-  width: 42.9%;
+  flex: 0 0 42%; /* authority: BACK x 0.095–0.368 of the 0.095–0.745 row */
+  width: 42%;
   min-height: 44px;
   padding: 0;
 }
@@ -278,8 +336,8 @@
   padding-right: 1.2cqw;
 }
 .jrn .jce-section {
-  margin: 0.9cqh 0 0;
-  padding: 0 1% 0.55cqh;
+  margin: 0.7cqh 0 0;
+  padding: 0 1% 0.45cqh;
   border-bottom: 1px solid rgba(220, 171, 79, 0.6);
   color: var(--jsh-cream);
   font: 600 clamp(10px, 3cqw, 15px) / 1.2 var(--v3-serif, serif);
@@ -295,7 +353,7 @@
   gap: 2.8cqw;
   width: 100%;
   min-height: 44px;
-  padding: 0.55cqh 1%;
+  padding: 0.45cqh 1%;
   border: 0;
   border-bottom: 1px solid rgba(236, 227, 207, 0.22);
   background: transparent;
@@ -304,7 +362,11 @@
 }
 .jrn .jce-row--statement {
   grid-template-columns: 6.4cqw 1fr;
-  min-height: 38px; /* not a control: no touch target to keep */
+  min-height: 36px; /* not a control: no touch target to keep */
+}
+/* a consent row is not itself a control: its switch carries a 44 px hit area (below), so the row may be shorter */
+.jrn .jce-row--consent {
+  min-height: 40px;
 }
 .jrn .jce-row--action {
   cursor: pointer;
@@ -324,10 +386,9 @@
 }
 .jrn .jce-row__text small {
   margin: 0;
-  color: rgba(244, 236, 218, 0.94);
-  font-size: clamp(12px, 3.4cqw, 17px); /* the house script stays legible: never under 12 px */
+  color: rgba(244, 236, 218, 0.92);
+  font: italic 400 clamp(10px, 2.6cqw, 15px) / 1.15 var(--v3-serif, serif); /* the authority's italic serif lines */
   letter-spacing: 0.01em;
-  line-height: 1.02;
   text-transform: none;
 }
 /* the 46 × 26 switch keeps its look; its hit area grows to the 44 px touch target */
@@ -359,8 +420,11 @@
 }
 .jrn .jce-remove .jce-row__text small {
   color: rgba(246, 222, 206, 0.9);
-  font-size: clamp(11px, 2.95cqw, 15px);
-  line-height: 0.98;
+  font-size: clamp(10px, 2.45cqw, 14px);
+  line-height: 1.05;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .jrn .jce-remove > svg {
   color: #f0c9a8;

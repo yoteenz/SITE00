@@ -36,22 +36,29 @@ const px = (x: number, y: number, w: number, h: number): ShellBox => [x / PW, y 
  * Shared OV08 regions (fractions of the plate, measured on the installed PNG): the blank tag paper, the title paper's open
  * centre (the bust overlaps its left end), the close at the top end.
  */
-export const OV08_TAG: ShellBox = [0.352, 0.038, 0.575, 0.098];
+export const OV08_TAG: ShellBox = [0.352, 0.042, 0.575, 0.102];
 
-/** CH01 on OV08: the authority boxes (Grok4 `place`, plate px; the 864 grid × 7/3). */
+/**
+ * CH01 on OV08, measured on the founder's full-resolution SAFE TO SPEND BUFFER authority (941 × 1672, drawn on this same
+ * environment): help 0.333–0.403, gold rule 0.427, BUFFER AMOUNT 0.457, amount paper x 0.107–0.736 from y 0.479, effect
+ * paper x 0.0895–0.745 to y ≈ 0.69, BACK x 0.095–0.368 and SAVE x 0.394–0.745 on y 0.854–0.906.
+ */
 export const CH01_BOX = {
-  head: [0.275, 0.118, 0.8, 0.284],
-  /** help, rule, BUFFER AMOUNT, amount paper, effect paper (amount 203,1689 · effect 161,2081 on the plate) */
-  column: [0.08, 0.322, 0.758, 0.696],
+  head: [0.275, 0.128, 0.8, 0.278],
+  /** help, rule, BUFFER AMOUNT, amount paper, effect paper */
+  column: [0.0895, 0.326, 0.745, 0.694],
   /** the coin still life: origin (35, 2427), 1048 × 581 master pixels, 1:1 */
   coin: px(35, 2427, 1048, 581),
-  /** BACK (177, 3040, 579 × 219) and SAVE beside it on the same row */
-  actions: [0.0878, 0.846, 0.758, 0.911],
+  /** BACK and SAVE BUFFER on one row */
+  actions: [0.095, 0.851, 0.745, 0.909],
 } as const satisfies Record<string, ShellBox>;
 
-/** CH02 on OV08: the consent list in the olive field, REMOVE ACCESS (163, 2800) and BACK (315, 3108) under it. */
+/**
+ * CH02 on OV08 (PRIVACY-AUTHORITY-VS-ARTWORK): the headline high on the title paper (PRIVACY & 0.135, CONSENTS 0.171,
+ * script 0.202, ornament 0.233), the consent list in the olive field, REMOVE ACCESS (163, 2800) and BACK (315, 3108) under it.
+ */
 export const CH02_BOX = {
-  head: [0.275, 0.118, 0.8, 0.284],
+  head: [0.255, 0.122, 0.765, 0.266],
   list: [0.095, 0.306, 0.765, 0.776],
   remove: [0.0809, 0.7813, 0.772, 0.858],
   back: px(315, 3108, 1206, 247),
@@ -90,6 +97,8 @@ export function BufferEnvironment({ onBack, onCurrency }: { onBack: () => void; 
   const id = useId();
   const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [info, setInfo] = useState(false);
+  const infoId = useId();
   const column = useRef<HTMLDivElement>(null);
   const code = b.currency.code;
   const blocked = b.rateState === 'UNAVAILABLE';
@@ -108,7 +117,7 @@ export function BufferEnvironment({ onBack, onCurrency }: { onBack: () => void; 
   useEffect(() => {
     const el = column.current?.querySelector<HTMLElement>('[data-jce-message]');
     if (el && typeof el.scrollIntoView === 'function') el.scrollIntoView({ block: 'nearest' });
-  }, [error, blocked]);
+  }, [error, blocked, info]);
   return (
     <ShellOverlay testId="global-buffer" composition="child" shell="OV08_MENU_ENVIRONMENT" tag={OV08_TAG} ornament title={<>SAFE TO SPEND <span className="jce-title-line">BUFFER</span></>} script="a cushion you keep aside" head={CH01_BOX.head} onClose={onBack} closeLabel="CLOSE SAFE TO SPEND BUFFER">
       {/* L1 fixed art: above the field, below the live column and the actions */}
@@ -168,7 +177,20 @@ export function BufferEnvironment({ onBack, onCurrency }: { onBack: () => void; 
             {b.storedUsd > 0 ? `${formatMoney(b.storedUsd)} KEPT ASIDE` : 'NO BUFFER SET'}
             {b.storedUsd > 0 && code !== 'USD' ? <small>{`KEPT AS USD ${b.storedUsd.toFixed(2)}`}</small> : null}
           </span>
+          <button type="button" className="jce-info" data-jrn-trigger="buffer-effect-info" aria-expanded={info} aria-controls={infoId} aria-label="WHAT THE BUFFER DOES" onClick={() => setInfo((v) => !v)}>
+            <svg viewBox="0 0 24 24" aria-hidden>
+              <circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" strokeWidth="1.5" />
+              <path d="M12 10.6v6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+              <circle cx="12" cy="7.4" r="1.1" fill="currentColor" />
+            </svg>
+          </button>
         </PaperSurface>
+        {info ? (
+          <p className="jce-note" id={infoId} data-testid="buffer-effect-note" data-jce-message>
+            <V3Icon name="info" />
+            <span>SAFE TO SPEND LEAVES THIS AMOUNT OUT OF WHAT YOU CAN SPEND. IT IS KEPT IN USD AND SHOWN IN YOUR DISPLAY CURRENCY.</span>
+          </p>
+        ) : null}
       </div>
       <ShellSlot box={CH01_BOX.actions} className="jce-actions">
         <PaperControl art="CH01_BACK_PAPER" trigger="buffer-back" onClick={onBack} className="jce-back">
@@ -191,7 +213,7 @@ function RowText({ label, sub }: { label: string; sub: string }) {
   return (
     <span className="jce-row__text">
       <span>{label}</span>
-      <small className="jed-script">{sub.toLowerCase()}</small>
+      <small>{sub.toLowerCase()}</small>
     </span>
   );
 }
@@ -235,8 +257,8 @@ export function PrivacyEnvironment({ onBack, onOpen, askOn, setAsk }: Nav & { as
         <ConsentRow icon="sparkle" label="ASK JURNL CONTEXT" note="let ask jurnl read the screen you are on to explain it. off stays off." on={askOn} trigger="privacy-ask-context" onChange={setAsk} />
         <h3 className="jce-section">YOUR DATA</h3>
         <ToolRow icon="sparkle" label={C.privacy.rows['ai-access']} sub="choose what ai features may use." trigger="privacy-tool-ai-access" onClick={() => onOpen(tool('privacy-ai-access'))} />
-        <ToolRow icon="book" label={C.privacy.rows['your-data']} sub="what jurnl keeps on this device." trigger="privacy-tool-your-data" onClick={() => onOpen(tool('privacy-your-data'))} />
-        <ToolRow icon="upload" label={C.privacy.rows['data-export']} sub="not available yet." trigger="privacy-tool-data-export" onClick={() => onOpen(tool('privacy-data-export'))} />
+        <ToolRow icon="database" label={C.privacy.rows['your-data']} sub="what jurnl keeps on this device." trigger="privacy-tool-your-data" onClick={() => onOpen(tool('privacy-your-data'))} />
+        <ToolRow icon="download" label={C.privacy.rows['data-export']} sub="not available yet." trigger="privacy-tool-data-export" onClick={() => onOpen(tool('privacy-data-export'))} />
       </ShellSlot>
       <ShellSlot box={CH02_BOX.remove} className="jce-actions">
         <PaperControl art="CH02_REMOVE_ACCESS_PAPER" tone="cream" trigger="privacy-tool-remove-access" onClick={() => onOpen(tool('privacy-remove-access'))} className="jce-remove" ariaLabel={`${C.privacy.rows['remove-access']}: DELETE ACCOUNT · REVOKE ACCESS · TURN AI OFF`}>
