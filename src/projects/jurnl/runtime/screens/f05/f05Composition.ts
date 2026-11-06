@@ -30,9 +30,9 @@ export const F05_COMPOSITION = {
    *  `card` above is authority 01's account papers. */
   panel: { nameTop: 12, amountGap: 18 },
   chips: { size: 64, gap: 20, top: 44, right: 908, radius: 15 },
-  dots: { x: 405, y: 1306, w: 132, h: 32 },
+  dots: { x: 405, y: 1309, w: 132, h: 32 },
   /** VIEW ALL ACCOUNTS: the paper strip under the four account papers (ACCOUNTS collection). */
-  viewAll: { x: 128, y: 1212, w: 702, h: 80, radius: 22, iconLeft: 64, labelLeft: 210, labelSize: 31, arrowRight: 46 },
+  viewAll: { x: 128, y: 1215, w: 702, h: 80, radius: 22, iconLeft: 64, labelLeft: 210, labelSize: 31, arrowRight: 46 },
   nav: { x: 34, y: 1478, w: 870, h: 138, cell: 175, labelSize: 28, glyph: 48, gap: 10, pillRadius: 30 },
 } as const;
 
