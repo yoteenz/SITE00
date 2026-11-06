@@ -16880,3 +16880,12 @@ Summary of the whole conversation in this chat.
 - **Context:** Founder reported new pockets “deleted” after add on motion MONEY tunnel.
 - **Root cause:** Design-preview `setRepositoryUserId` used `preview-guest` until ACTIVE session, while route resume allowed MONEY with only `device.remembered` — pockets saved under guest, then invisible after refresh/unlock on remembered email scope.
 - **Changes:** `resolveRepositoryUserId()` (session email → remembered email → preview-guest); store init/effect use it; `mergePreviewGuestPocketsInto` on guest→viewer switch. Tests `jurnlRepositoryUserScope.test.ts`. Commit `fe788533b` on overlay + `cursor/jurnl-f05-pocket-persist-4e5a`.
+
+---
+
+## 2026-11-05 — F05 VIEW ALL + dots: nudge in screen px (tunnel)
+
+- **Context:** Founder said “nothing changed” after +3 **source** px on VIEW ALL and collection dots on motion MONEY (tunnel preview).
+- **Root cause:** Board scales at `u ≈ viewportW / 881`; 3 source px ≈ 1–1.5 screen px on phone — below visible threshold.
+- **Changes:** `F05_ACCOUNTS_CHROME_NUDGE_SCREEN = 3` in `f05MotionLayout.ts` — adds `3/u` source px to VIEW ALL and dots **after** seam mapping (panels above unchanged). Commit `9ae4a8bce` on `cursor/jurnl-tunnel-opus-v3-overlays-4e5a`; preview pinned to that SHA.
+- **Conventions:** Founder layout tweaks on motion pilot should specify **screen px** when they mean on-device pixels; use layout-level `n/u` conversion, not raw composition y bumps.
