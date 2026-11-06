@@ -83,15 +83,15 @@ test.describe('PILOT A · the three founder-rejected financial overlays', () => 
     await expect(s).toHaveAttribute('data-overlay-asset', 'OV03_MOVE_MONEY_SHELL');
     await expect(s.locator('img.jed-plate')).toHaveCount(1);
     await expect(s.locator('.jed-direction')).toHaveCount(0); // the direction seal is the shell's own
-    await clickTrigger(page, 'transfer-from-bank');
-    await clickTrigger(page, 'transfer-to-cash');
-    await expect(page.getByTestId('transfer-from-selected')).toContainText('BANK ACCOUNT');
-    await expect(page.getByTestId('transfer-to-selected')).toContainText('CASH ON HAND');
-    // the shell's seal (y 0.37–0.55 of the plate) sits above the form: FROM, then TO, below it
+    // the shell's seal (y 0.37–0.55 of the plate) sits above the form: FROM, then TO, below it (read before the body scrolls)
     const plate = (await s.locator('.jed-folio--plate').boundingBox())!;
     const [f, t] = await Promise.all([page.getByTestId('transfer-from-selected').boundingBox(), page.getByTestId('transfer-to-selected').boundingBox()]);
     expect(f!.y).toBeGreaterThanOrEqual(plate.y + plate.height * 0.55 - 1);
     expect(f!.y).toBeLessThan(t!.y);
+    await clickTrigger(page, 'transfer-from-bank');
+    await clickTrigger(page, 'transfer-to-cash');
+    await expect(page.getByTestId('transfer-from-selected')).toContainText('BANK ACCOUNT');
+    await expect(page.getByTestId('transfer-to-selected')).toContainText('CASH ON HAND');
     await trigger(page, 'transfer-amount').first().fill('25');
     for (const st of ['completed', 'in-transit', 'pending', 'scheduled']) await expect(trigger(page, `transfer-status-${st}`)).toBeVisible();
     await clickTrigger(page, 'transfer-status-in-transit');
