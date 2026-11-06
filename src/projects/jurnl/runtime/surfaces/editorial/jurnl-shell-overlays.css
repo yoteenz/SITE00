@@ -1,0 +1,512 @@
+/*
+ * Overlays drawn on the founder's production shells (Shell.tsx). The plate is the shell at one uniform scale; every
+ * live region is a fraction of it, so type is sized in container units of the plate (clamped), never by the viewport.
+ */
+.jrn .jsh-host {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+.jrn .jsh-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(14, 12, 6, 0.46);
+  backdrop-filter: blur(3px);
+  animation: jv3-fade 200ms ease-out both;
+}
+.jrn .jsh-scrim[data-blur='true'] {
+  background: rgba(24, 18, 10, 0.24);
+  backdrop-filter: blur(9px) saturate(0.92);
+  -webkit-backdrop-filter: blur(9px) saturate(0.92);
+}
+.jrn .jsh-plate {
+  position: relative;
+  flex: 0 0 auto;
+  container-type: size;
+  animation: jsh-in 240ms var(--v3-ease, ease-out) both;
+  --jsh-ink: #2a2117;
+  --jsh-ink-soft: #5a4734;
+  --jsh-cream: #f2e8d2;
+  --jsh-oxblood: #6e1f19;
+}
+.jrn .jsh-plate > .jsh-shell,
+.jrn .jsh-plate > .jsh-head {
+  pointer-events: none;
+}
+/* OV04's outside is transparent: only the card takes taps there, the rest reaches the scrim (tap outside closes) */
+.jrn .jsh-host[data-shell='OV04'] .jsh-plate {
+  pointer-events: none;
+}
+.jrn .jsh-host[data-shell='OV04'] .jsh-plate > :not(.jsh-shell):not(.jsh-head) {
+  pointer-events: auto;
+}
+@keyframes jsh-in {
+  from {
+    transform: translateY(10px) scale(0.99);
+    opacity: 0;
+  }
+}
+.jrn .jsh-shell {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%; /* same 9:16 as the plate: one uniform scale */
+  user-select: none;
+  filter: drop-shadow(0 16px 24px rgba(8, 6, 2, 0.45));
+}
+
+/* headline on the shell's parchment */
+.jrn .jsh-head {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0.4cqh;
+  text-align: center;
+  color: var(--jsh-ink);
+}
+.jrn .jsh-head[data-tone='cream'] {
+  color: var(--jsh-cream);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+}
+.jrn .jsh-head__title {
+  margin: 0;
+  font: 500 clamp(17px, var(--jsh-title-size, 7.2cqw), 40px) / 1.02 var(--v3-serif, serif);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.jrn .jsh-head__script {
+  margin: 0;
+  color: inherit;
+  opacity: 0.86;
+  font-size: clamp(13px, 4.2cqw, 22px);
+}
+
+/* close: live, square-rounded, top end of the shell */
+.jrn .jsh-close {
+  position: absolute;
+  top: 1.3%;
+  right: 2.4%;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(160, 120, 70, 0.6);
+  border-radius: 12px;
+  background: rgba(244, 234, 212, 0.94);
+  color: var(--jsh-ink);
+  box-shadow: 0 6px 14px rgba(8, 6, 2, 0.3);
+  cursor: pointer;
+}
+.jrn .jsh-close svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* regions and controls */
+.jrn .jsh-slot {
+  display: grid;
+  align-content: start;
+  min-width: 0;
+  color: var(--jsh-ink);
+}
+.jrn .jsh-slot[data-scroll='true'] {
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+.jrn .jsh-action {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 0.6cqh;
+  padding: 0 4cqw;
+  border: 0;
+  border-radius: 2.4cqw;
+  background: transparent; /* the shell's folio is the surface */
+  color: var(--jsh-ink);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 140ms ease;
+}
+.jrn .jsh-action[data-align='center'] {
+  justify-items: center;
+  text-align: center;
+  padding: 0 2cqw;
+}
+.jrn .jsh-action[data-tone='dark'] {
+  color: var(--jsh-cream);
+}
+.jrn .jsh-action[data-tone='salmon'] {
+  color: var(--jsh-oxblood);
+}
+.jrn .jsh-action:hover:not(:disabled),
+.jrn .jsh-action:focus-visible {
+  background: rgba(255, 248, 230, 0.16);
+}
+.jrn .jsh-field:focus-within {
+  box-shadow: inset 0 0 0 1.5px rgba(150, 112, 50, 0.75), 0 0 0 2px rgba(220, 171, 79, 0.35);
+}
+.jrn .jsh-action:focus-visible,
+.jrn .jsh-close:focus-visible,
+.jrn .jsh-chip:focus-visible,
+.jrn .jsh-row:focus-visible {
+  outline: 2px solid var(--v3-olive, #2b2810);
+  outline-offset: 2px;
+}
+.jrn .jsh-action:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+.jrn .jsh-action__title {
+  font: 600 clamp(13px, 4.6cqw, 24px) / 1.08 var(--v3-serif, serif);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.jrn .jsh-action__note {
+  margin: 0;
+  color: var(--jsh-ink-soft);
+  font-size: clamp(13px, 4cqw, 21px);
+}
+.jrn .jsh-action[data-tone='dark'] .jsh-action__note {
+  color: rgba(242, 232, 210, 0.86);
+}
+.jrn .jsh-field {
+  display: flex;
+  align-items: center;
+  gap: 2cqw;
+  min-width: 0;
+  padding: 0 3.4cqw;
+  border-radius: 2cqw;
+  color: var(--jsh-ink);
+}
+.jrn .jsh-field[data-invalid='true'] {
+  box-shadow: inset 0 0 0 1.5px rgba(150, 50, 30, 0.75);
+}
+.jrn .jsh-field__label {
+  flex: 0 0 auto;
+  color: var(--jsh-ink-soft);
+  font: 600 clamp(9.5px, 2.7cqw, 14px) / 1 var(--v3-serif, serif);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.jrn .jsh-field__mark {
+  color: var(--jsh-ink-soft);
+  font: 500 16px / 1 var(--v3-serif, serif);
+}
+.jrn .jsh-field .jsh-field__input:focus,
+.jrn .jsh-field .jsh-field__input:focus-visible {
+  outline: none; /* the well shows focus (focus-within) */
+  box-shadow: none;
+}
+.jrn .jsh-field__input::placeholder {
+  color: rgba(70, 54, 36, 0.5);
+  font-size: clamp(10px, 2.7cqw, 14px);
+  letter-spacing: 0.08em;
+}
+.jrn .jsh-field__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--jsh-ink);
+  font: 500 16px / 1 var(--v3-serif, serif); /* 16 px: iOS never zooms */
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  outline: none;
+}
+.jrn .jsh-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6cqw;
+  min-width: 0;
+  padding: 0 2cqw;
+  border: 0;
+  border-radius: 2cqw;
+  background: rgba(255, 249, 236, 0.3);
+  color: var(--jsh-ink);
+  font: 600 clamp(9.5px, 2.75cqw, 14px) / 1.1 var(--v3-serif, serif);
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.jrn .jsh-chip[data-cover='true'] {
+  background: rgba(248, 236, 212, 0.97); /* covers the shell's baked dark panel when this type is not chosen */
+  box-shadow: inset 0 0 0 1px rgba(150, 112, 66, 0.35);
+}
+.jrn .jsh-chip[data-own='true'],
+.jrn .jsh-field[data-own='true'] {
+  background: rgba(252, 244, 228, 0.78);
+  box-shadow: inset 0 0 0 1px rgba(150, 112, 66, 0.42), inset 0 2px 3px rgba(90, 60, 20, 0.12);
+}
+.jrn .jsh-chip[aria-pressed='true'] {
+  background: rgba(43, 40, 16, 0.92);
+  color: var(--jsh-cream);
+}
+.jrn .jsh-chip .jed-glyph {
+  flex: 0 0 auto;
+  width: clamp(14px, 4cqw, 22px);
+  height: clamp(14px, 4cqw, 22px);
+}
+.jrn .jsh-text {
+  margin: 0;
+  color: var(--jsh-ink-soft);
+  font: 600 clamp(8.5px, 2.4cqw, 13px) / 1.3 var(--v3-serif, serif);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.jrn .jsh-text[data-tone='alert'] {
+  color: #8f2a1b;
+}
+.jrn .jsh-text[data-tone='cream'] {
+  color: var(--jsh-cream);
+}
+.jrn .jsh-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 2.4cqw;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.6cqh 2.4cqw;
+  border: 0;
+  border-bottom: 1px solid rgba(120, 90, 50, 0.22);
+  background: transparent;
+  color: var(--jsh-ink);
+  text-align: left;
+  cursor: pointer;
+  font: 600 clamp(11px, 3.1cqw, 15px) / 1.2 var(--v3-serif, serif);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.jrn .jsh-row small {
+  display: block;
+  color: var(--jsh-ink-soft);
+  font-size: clamp(9px, 2.4cqw, 12px);
+  letter-spacing: 0.06em;
+}
+.jrn .jsh-row b {
+  font-weight: 600;
+  white-space: nowrap;
+}
+.jrn .jsh-row .jed-glyph {
+  width: 18px;
+  height: 18px;
+}
+/* OV05: result rows land on the shell's four blank rows (height 6.1 % of the shell, pitch 7.15 %) and snap back onto them */
+.jrn .jsh-results {
+  scroll-snap-type: y mandatory;
+}
+.jrn .jsh-results ul {
+  display: grid;
+  gap: 1.05cqh;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.jrn .jsh-results li {
+  scroll-snap-align: start;
+}
+.jrn .jsh-results .jsh-row > span {
+  min-width: 0;
+  overflow: hidden;
+}
+.jrn .jsh-results .jsh-row > span,
+.jrn .jsh-results .jsh-row small {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.jrn .jsh-results .jsh-row {
+  font-size: clamp(10px, 2.75cqw, 15px);
+  height: 6.1cqh;
+  min-height: 44px;
+  border-bottom: 0;
+  border-radius: 2.4cqw;
+  padding: 0 3cqw;
+}
+.jrn .jsh-results__empty {
+  padding: 2cqh 3cqw;
+}
+.jrn .jsh-pill {
+  display: grid;
+  place-items: center;
+  min-height: 44px;
+  border: 1px solid rgba(120, 90, 50, 0.4);
+  border-radius: 999px;
+  background: rgba(250, 242, 224, 0.92);
+  color: var(--jsh-ink);
+  font: 600 clamp(9.5px, 2.6cqw, 14px) / 1.1 var(--v3-serif, serif);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(60, 40, 14, 0.18);
+}
+.jrn .jsh-pill[data-tone='olive'] {
+  border-color: rgba(220, 171, 79, 0.45);
+  background: rgba(43, 40, 16, 0.94);
+  color: var(--jsh-cream);
+}
+/* OV03 FROM / TO wells: the chosen pocket on the well paper, the choices in a strip under it */
+.jrn .jsh-head__note {
+  max-width: 92%;
+  font-size: clamp(7.5px, 2.05cqw, 11px);
+}
+.jrn .jsh-well {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 0.5cqh;
+  padding: 0.8cqh 2.6cqw 0.7cqh 1.6cqw;
+  min-width: 0;
+  color: var(--jsh-ink);
+}
+.jrn .jsh-well__sel {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 1.6cqw;
+  min-width: 0;
+}
+.jrn .jsh-well__dir {
+  color: var(--jsh-ink-soft);
+  font: 600 clamp(8px, 2.2cqw, 12px) / 1 var(--v3-serif, serif);
+  letter-spacing: 0.14em;
+}
+.jrn .jsh-well__name,
+.jrn .jsh-well__fig {
+  overflow: hidden;
+  font: 600 clamp(10.5px, 3cqw, 16px) / 1.1 var(--v3-serif, serif);
+  letter-spacing: 0.06em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.jrn .jsh-well__strip {
+  display: flex;
+  gap: 1.4cqw;
+  min-width: 0;
+  overflow-x: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+.jrn .jsh-well__strip::-webkit-scrollbar {
+  display: none;
+}
+.jrn .jsh-well__strip .jsh-chip {
+  flex: 0 0 auto;
+  min-height: 0;
+  padding: 0 2.4cqw;
+  background: rgba(252, 244, 228, 0.7);
+  box-shadow: inset 0 0 0 1px rgba(150, 112, 66, 0.4);
+  white-space: nowrap;
+}
+.jrn .jsh-well__strip .jsh-chip[aria-pressed='true'] {
+  background: rgba(43, 40, 16, 0.92);
+  box-shadow: none;
+}
+/* short chips get a taller invisible hit area (the paper around them is not a control) */
+.jrn .jsh-status .jsh-chip {
+  position: absolute;
+}
+.jrn .jsh-status .jsh-chip::after,
+.jrn .jsh-well__strip .jsh-chip::after {
+  content: '';
+  position: absolute;
+  inset: -5px 0;
+}
+.jrn .jsh-well__strip .jsh-chip {
+  position: relative;
+}
+/* OV04 MANAGE POCKET: the card is the shell's visible alpha region; its head and strips are relative to it */
+.jrn .jsh-card__menu {
+  position: absolute;
+  inset: 0;
+}
+.jrn .jsh-card__head {
+  display: grid;
+  align-content: center;
+  gap: 0.6cqh;
+  color: var(--jsh-ink);
+}
+.jrn .jsh-card__title {
+  margin: 0;
+  font: 600 clamp(13px, 4.3cqw, 24px) / 1.05 var(--v3-serif, serif);
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+.jrn .jsh-card__sub {
+  margin: 0;
+  overflow: hidden;
+  font: 600 clamp(11px, 3.4cqw, 18px) / 1.1 var(--v3-serif, serif);
+  letter-spacing: 0.08em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.jrn .jsh-card .jsh-action {
+  min-height: 44px;
+}
+.jrn .jsh-status .jsh-chip {
+  white-space: nowrap;
+  font-size: clamp(8.5px, 2.45cqw, 13px);
+  letter-spacing: 0.06em;
+}
+/* OV07 caution: the band and the blocker rows (height 9.64 % of the shell, pitch 11.25 %, as the shell's two rows) */
+.jrn .jsh-caution__band {
+  display: grid;
+  align-content: center;
+  gap: 0.5cqh;
+  padding: 0 3cqw;
+}
+.jrn .jsh-caution__title {
+  margin: 0;
+  color: var(--jsh-oxblood);
+  font: 600 clamp(9.5px, 2.9cqw, 16px) / 1.1 var(--v3-serif, serif);
+  letter-spacing: 0.08em;
+}
+.jrn .jsh-caution__rows {
+  display: grid;
+  align-content: start;
+  gap: 1.61cqh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+}
+.jrn .jsh-caution__row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 2.6cqw;
+  height: 9.64cqh;
+  padding: 0 4cqw;
+  scroll-snap-align: start;
+  color: var(--jsh-ink);
+  font: 600 clamp(11px, 3.2cqw, 16px) / 1.15 var(--v3-serif, serif);
+  letter-spacing: 0.08em;
+}
+.jrn .jsh-caution__row small {
+  display: block;
+  margin-top: 0.3cqh;
+  color: var(--jsh-ink-soft);
+  font-size: clamp(9px, 2.5cqw, 13px);
+  letter-spacing: 0.05em;
+}
+.jrn .jsh-caution__row svg {
+  width: clamp(18px, 5cqw, 26px);
+  height: clamp(18px, 5cqw, 26px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .jrn .jsh-plate,
+  .jrn .jsh-scrim {
+    animation: none;
+  }
+}

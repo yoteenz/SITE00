@@ -20,7 +20,7 @@ const S: S[] = [
   { id: '03', name: 'MOVE MONEY', world: () => f05World('approved'), route: 'money?parent=motion', open: async (p) => { await p.click(T('f05m-actions')); await p.click(T('f05m-actions-move')); }, overlay: 'transfer-sheet', primary: 'transfer-save' },
   { id: '04', name: 'MANAGE POCKET', world: () => f05World('approved'), route: 'money/places', open: async (p) => { await p.click('[data-testid="d01-directory"] [data-account-id="bank"]', { button: 'right' }); }, overlay: 'd01-pocket-menu', primary: 'd01-pocket-rename' },
   { id: '05', name: 'SEARCH DRAWER', world: () => dot01World(), route: 'money?parent=motion', open: async (p) => { await p.click(T('f05m-search')); }, overlay: 'global-search', primary: 'search-input' },
-  { id: '06', name: 'ACCOUNT / SETTINGS', world: () => f05World('approved'), route: 'today', open: async (p) => { await p.click(T('f09-menu')); await p.click(T('menu-preferences')); }, overlay: 'account-drawer', primary: 'account-drawer-close' },
+  { id: '06', name: 'ACCOUNT / SETTINGS', world: () => f05World('approved'), route: 'today', open: async (p) => { await p.click(T('f09-menu')); await p.click(T('menu-account')); }, overlay: 'account-drawer', primary: 'account-drawer-close' },
   { id: '07', name: 'ARCHIVE BLOCKED', world: () => dot01World(), route: 'money/places/bank/settings', open: async (p) => { await p.click(T('d01-archive')); }, overlay: 'd01-archive-blocked', primary: 'd01-blocker-details' },
   { id: '08', name: 'GLOBAL MENU', world: () => f05World('approved'), route: 'money?parent=motion', open: async (p) => { await p.click(T('f09-menu')); }, overlay: 'global-menu', primary: 'menu-sign-out' },
 ];

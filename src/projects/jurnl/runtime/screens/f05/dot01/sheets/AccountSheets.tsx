@@ -21,9 +21,10 @@ import { useJurnl } from '../../../../state/store';
 import { Dot01Overlay, useSearchAddChips, OVERLAY_CONTENT } from '../Dot01Frame';
 import { Icon } from '../icons';
 import { Alert, Button, CARD_SRC, ChipChoice, Paper, Row, TextInput } from '../kit';
-import { V3Caution, V3Pill, V3Row, V3RuleLabel } from '../../../../surfaces/v3/V3Surfaces';
+import { V3Caution, V3Icon, V3Pill, V3Row, V3RuleLabel } from '../../../../surfaces/v3/V3Surfaces';
 import type { ArchiveBlockerKind } from '../../../../../data/f05/dot01/archive';
 import { ART, EdArt, REGION } from '../../../../surfaces/editorial/Editorial';
+import { ShellAction, ShellOverlay, slot } from '../../../../surfaces/editorial/Shell';
 
 /** Each blocker's line icon on the caution surface. */
 const BLOCKER_ICON: Record<ArchiveBlockerKind, string> = {
@@ -260,6 +261,23 @@ export function ArchiveOverlay({ accountId, onClose, mode = 'archive', onDone }:
   const blocked = blockers.length > 0;
   const del = mode === 'delete';
   const W = del ? 'POCKET' : 'ACCOUNT';
+  if (blocked && !done) {
+    return (
+      <ArchiveBlockedShell
+        testId={del ? 'd01-delete-blocked' : 'd01-archive-blocked'}
+        del={del}
+        name={v.account.display_name}
+        figure={`${formatMoney(v.liability ? v.owed : v.held)} ${v.liability ? 'OWED' : 'BALANCE'}`}
+        blockers={blockers}
+        onClose={onClose}
+        onResolve={() => {
+          // close first: the resolution can be the page this surface was opened on (a card's PAY)
+          onClose();
+          go(blockers.find((b) => b.route)?.route ?? `money/places/${accountId}/settings`);
+        }}
+      />
+    );
+  }
   return (
     <Dot01Overlay
       testId={del ? (blocked ? 'd01-delete-blocked' : 'd01-delete-pocket') : blocked ? 'd01-archive-blocked' : 'd01-archive'}
@@ -359,5 +377,56 @@ export function ArchiveOverlay({ accountId, onClose, mode = 'archive', onDone }:
         </>
       }
     />
+  );
+}
+
+/** OV07 regions (fractions of the shell, measured on the installed PNG); the caution block's parts are relative to it. */
+const OV07_BOX = {
+  head: [0.38, 0.165, 0.94, 0.315],
+  caution: [0.068, 0.351, 0.94, 0.655],
+  band: [0.03, 0.068, 0.97, 0.3],
+  rows: [0.042, 0.311, 0.948, 1],
+  resolve: [0.113, 0.688, 0.852, 0.76],
+  keep: [0.13, 0.777, 0.836, 0.837],
+} as const;
+
+/**
+ * ARCHIVE BLOCKED (36) / DELETE BLOCKED on the founder's OV07 caution shell: the bronze caution medallion, oxblood, bust,
+ * column and coast are the shell's. Live: the title on the velvet, the pocket and why on the first band, the real
+ * blockers on the shell's blank rows (more than two scroll in place), RESOLVE ISSUES on the dark strip, KEEP on the paper.
+ */
+function ArchiveBlockedShell({ testId, del, name, figure, blockers, onClose, onResolve }: {
+  testId: string;
+  del: boolean;
+  name: string;
+  figure: string;
+  blockers: ReturnType<typeof archiveBlockers>;
+  onClose: () => void;
+  onResolve: () => void;
+}) {
+  const W = del ? 'POCKET' : 'ACCOUNT';
+  return (
+    <ShellOverlay testId={testId} shell="OV07" composition="caution" title={del ? 'DELETE POCKET' : 'ARCHIVE ACCOUNT'} script="action blocked" head={OV07_BOX.head} headTone="cream" titleSize={6.2} onClose={onClose} ariaLabel={del ? 'DELETE POCKET' : 'ARCHIVE ACCOUNT'}>
+      <div className="jsh-caution" data-testid="d01-blocked-why" role={del ? 'alert' : 'status'} style={slot(OV07_BOX.caution)}>
+        <div className="jsh-caution__band" style={slot(OV07_BOX.band)}>
+          <p className="jsh-caution__title">{`THIS ${W} CANNOT BE ${del ? 'DELETED' : 'ARCHIVED'} YET`}</p>
+          <p className="jsh-text">{`${name} · ${figure} · IT HAS OUTSTANDING ITEMS: RESOLVE THEM FIRST.`}</p>
+        </div>
+        {/* a scroll region of plain rows: focusable so keyboard users can scroll it (axe scrollable-region-focusable) */}
+        <div className="jsh-caution__rows" data-scroll="true" role="region" aria-label="BLOCKERS" tabIndex={0} style={slot(OV07_BOX.rows)}>
+          {blockers.map((b) => (
+            <div key={b.kind} className="jsh-caution__row" data-testid={`d01-blocker-${b.kind}`}>
+              <V3Icon name={BLOCKER_ICON[b.kind]} />
+              <span>
+                {b.label}
+                <small>{b.detail}</small>
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <ShellAction box={OV07_BOX.resolve} trigger="d01-blocker-details" tone="dark" title="RESOLVE ISSUES" onClick={onResolve} align="center" />
+      <ShellAction box={OV07_BOX.keep} trigger={del ? 'd01-keep-pocket' : 'd01-keep-active'} title={del ? 'KEEP POCKET' : 'KEEP ACCOUNT ACTIVE'} onClick={onClose} align="center" />
+    </ShellOverlay>
   );
 }

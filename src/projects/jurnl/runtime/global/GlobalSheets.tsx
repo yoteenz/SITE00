@@ -30,7 +30,11 @@ import type { RefBox, RefType } from '../layout/referenceLayout';
 import quickAddShell from './overlays/F09_QUICK_ADD_SHELL.webp';
 import { useJurnl } from '../state/store';
 
-export function AskJurnlSheet({ familyId, nodeId, onClose }: { familyId: string; nodeId: string; onClose: () => void }) {
+/**
+ * ASK JURNL: explanation only (no live AI provider). Its context permission is a separate consent that lives in
+ * PRIVACY & CONSENTS; from the menu the sheet links there (`onOpenPrivacy`), elsewhere to the ACCOUNT page.
+ */
+export function AskJurnlSheet({ familyId, nodeId, onClose, onOpenPrivacy }: { familyId: string; nodeId: string; onClose: () => void; onOpenPrivacy?: () => void }) {
   const { pathname } = useLocation();
   const { go } = useJurnl();
   const signal = safeToSpend();
@@ -42,9 +46,15 @@ export function AskJurnlSheet({ familyId, nodeId, onClose }: { familyId: string;
         {explanation.state === 'READY' ? `${formatMoney(signal.value)} · ${explanation.body}` : explanation.body}
       </p>
       <p className="jrn-currency__note">{explanation.headline}</p>
-      <JurnlButton variant="secondary" trigger="ask-open-settings" onClick={() => { onClose(); go('account'); }}>
-        OPEN ACCOUNT SETTINGS
-      </JurnlButton>
+      {onOpenPrivacy ? (
+        <JurnlButton variant="secondary" trigger="ask-open-privacy" onClick={onOpenPrivacy}>
+          ASK JURNL CONTEXT · PRIVACY & CONSENTS
+        </JurnlButton>
+      ) : (
+        <JurnlButton variant="secondary" trigger="ask-open-settings" onClick={() => { onClose(); go('account'); }}>
+          OPEN ACCOUNT SETTINGS
+        </JurnlButton>
+      )}
     </JurnlDrawer>
   );
 }

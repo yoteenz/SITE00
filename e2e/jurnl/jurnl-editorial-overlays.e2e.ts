@@ -57,9 +57,15 @@ test.describe('PILOT A · the three founder-rejected financial overlays', () => 
     await expect(s).toHaveAttribute('data-jed', 'register');
     const kinds = ['checking', 'savings', 'debit-card', 'credit-card', 'cash'];
     for (const k of kinds) await expect(trigger(page, `money-add-kind-${k}`)).toBeVisible();
-    // compact: two columns, not five full-width rows
-    const xs = new Set(await Promise.all(kinds.slice(0, 4).map(async (k) => Math.round((await trigger(page, `money-add-kind-${k}`).boundingBox())!.x))));
-    expect(xs.size).toBe(2);
+    // OV02: the types sit on the shell's five panels — two columns (2 + 2, the shell's right panels differ by a few px),
+    // then CASH across the row; never five full-width rows
+    await expect(s).toHaveAttribute('data-overlay-asset', 'OV02');
+    const boxes = await Promise.all(kinds.map(async (k) => (await trigger(page, `money-add-kind-${k}`).boundingBox())!));
+    const vw = page.viewportSize()!.width;
+    const cols = boxes.slice(0, 4).map((b) => (b.x < vw * 0.4 ? 'L' : 'R'));
+    expect(cols).toEqual(['L', 'R', 'L', 'R']);
+    for (const b of boxes.slice(0, 4)) expect(b.width).toBeLessThan(vw * 0.5);
+    expect(boxes[4]!.width).toBeGreaterThan(vw * 0.7);
     await clickTrigger(page, 'money-add-kind-credit-card');
     await expect(trigger(page, 'money-add-limit')).toBeVisible();
     await clickTrigger(page, 'money-add-kind-savings');
@@ -80,15 +86,18 @@ test.describe('PILOT A · the three founder-rejected financial overlays', () => 
     await clickTrigger(page, 'f05m-actions-move');
     const s = overlay(page, 'transfer-sheet');
     await expect(s).toHaveAttribute('data-jed', 'transfer');
-    await expect(s.locator('.jed-direction')).toBeVisible();
+    // OV03: the oxblood direction seal is the shell's own, between its FROM and TO wells
+    await expect(s).toHaveAttribute('data-overlay-asset', 'OV03');
+    await expect(s.locator('img.jsh-shell')).toBeVisible();
     await clickTrigger(page, 'transfer-from-bank');
     await clickTrigger(page, 'transfer-to-cash');
     await expect(page.getByTestId('transfer-from-selected')).toContainText('BANK ACCOUNT');
     await expect(page.getByTestId('transfer-to-selected')).toContainText('CASH ON HAND');
-    // the FROM fragment sits above the TO fragment, the seal between them
-    const [f, seal, t] = await Promise.all([page.getByTestId('transfer-from-selected').boundingBox(), s.locator('.jed-direction').boundingBox(), page.getByTestId('transfer-to-selected').boundingBox()]);
-    expect(f!.y).toBeLessThan(seal!.y);
-    expect(seal!.y).toBeLessThan(t!.y);
+    // the FROM well sits above the TO well with the shell's seal band between them (OV03 seal: 43–52 % of the shell height)
+    const [f, plate, t] = await Promise.all([page.getByTestId('transfer-from-selected').boundingBox(), s.locator('.jsh-plate').boundingBox(), page.getByTestId('transfer-to-selected').boundingBox()]);
+    const seal = { top: plate!.y + plate!.height * 0.433, bottom: plate!.y + plate!.height * 0.52 };
+    expect(f!.y + f!.height).toBeLessThanOrEqual(seal.top + 2);
+    expect(t!.y).toBeGreaterThanOrEqual(seal.bottom - 2);
     await trigger(page, 'transfer-amount').first().fill('25');
     for (const st of ['completed', 'in-transit', 'pending', 'scheduled']) await expect(trigger(page, `transfer-status-${st}`)).toBeVisible();
     await clickTrigger(page, 'transfer-status-in-transit');
@@ -131,14 +140,18 @@ test.describe('PILOT B · the five illustrated compositions', () => {
     await expect(overlay(page, 'global-search')).toHaveCount(0);
   });
 
-  test('B2 · MANAGE POCKET stays an anchored fragment (clip + the pocket\'s art), opened by right-click; Escape returns focus', async ({ page }) => {
+  // OV04: the founder's manage-pocket card, placed full-frame over a blur of the live page (the paperclip and coast are
+  // the shell's); tapping outside the card closes it
+  test('B2 · MANAGE POCKET is the OV04 card over the blurred page (about 85 % wide), opened by right-click; Escape returns focus', async ({ page }) => {
     await open(page, 'money/places');
     const card = page.locator('[data-testid="d01-directory"] [data-account-id="bank"]');
     await card.click({ button: 'right' });
     const m = page.getByTestId('d01-pocket-menu');
     await expect(m).toBeVisible();
-    await expect(m.locator('.jed-pop-clip')).toHaveCount(1);
-    await expect(m.locator('.jed-pop-art')).toHaveCount(1);
+    const host = page.locator('[data-jrn-overlay="d01-pocket-menu"]');
+    await expect(host).toHaveAttribute('data-overlay-asset', 'OV04');
+    await expect(host.locator('img.jsh-shell')).toHaveCount(1);
+    expect(await host.locator('.jsh-scrim').evaluate((e) => getComputedStyle(e).backdropFilter)).toMatch(/blur/);
     const box = (await m.boundingBox())!;
     expect(box.width).toBeLessThan(page.viewportSize()!.width * 0.9);
     await page.keyboard.press('Escape');
@@ -146,21 +159,26 @@ test.describe('PILOT B · the five illustrated compositions', () => {
     await expect(card).toBeFocused();
   });
 
-  test('B3 · ARCHIVE BLOCKED lists only the real blockers, on the oxblood caution with its stone; RESOLVE ISSUES and KEEP stay reachable', async ({ page }) => {
+  test('B3 · ARCHIVE BLOCKED lists only the real blockers, on the OV07 caution shell; RESOLVE ISSUES and KEEP stay reachable', async ({ page }) => {
     await open(page, 'money/places/bank/settings', dot01World());
     await clickTrigger(page, 'd01-archive');
     const c = page.getByTestId('d01-blocked-why');
     await expect(c).toBeVisible();
-    await expect(c.locator('.jed-caution-stone')).toHaveCount(1);
+    // OV07: the caution medallion, oxblood, bust and column are the shell's
+    await expect(overlay(page, 'd01-archive-blocked')).toHaveAttribute('data-overlay-asset', 'OV07');
     expect(await c.locator('[data-testid^="d01-blocker-"]').count()).toBeGreaterThan(0);
     await expect(trigger(page, 'd01-blocker-details')).toBeVisible();
   });
 
-  test('B4 · GLOBAL MENU over the MONEY parent: the classical head, only secondary destinations, focus returns', async ({ page }) => {
+  // OPUS2: the classical head is now the founder's OV08 shell itself (bust, lemons, arch, coast in one plate), so no
+  // separate head art is layered over it; the shell takes no taps (pointer-events none) and the rows live on top.
+  test('B4 · GLOBAL MENU over the MONEY parent: the OV08 shell head, only secondary destinations, focus returns', async ({ page }) => {
     await open(page, 'money?parent=motion');
     await clickTrigger(page, 'f09-menu');
     const m = overlay(page, 'global-menu');
-    await expect(m.locator('.jed-menu-head')).toBeVisible();
+    await expect(m.locator('img[data-asset-id="OV08-IS-GLOBAL-MENU-DRAWER"]')).toBeVisible();
+    expect(await m.locator('img[data-asset-id="OV08-IS-GLOBAL-MENU-DRAWER"]').evaluate((e) => getComputedStyle(e).pointerEvents)).toBe('none');
+    await expect(m.locator('.jgm-head')).toContainText('MENU');
     for (const t of ['nav-home', 'nav-money', 'nav-add', 'nav-plan', 'nav-credit']) await expect(m.locator(`[data-jrn-trigger="${t}"]`)).toHaveCount(0);
     expect(await artTakesTaps(page, '[data-jrn-overlay="global-menu"]')).toBe(0);
     await page.keyboard.press('Escape');

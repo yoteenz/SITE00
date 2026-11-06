@@ -1,0 +1,1 @@
+18 production PNGs at original pixel size. PNG color was quantized so this archive fits a single download. Alpha is intact. Pixel dimensions are unchanged: shells and SK04 are 2016x3584, foregrounds are 2048x2048.

@@ -32,16 +32,18 @@ const visible = (html: string) => html.replace(/<style[\s\S]*?<\/style>/g, '').r
 const nonScript = (html: string) => visible(html.replace(/<p class="jv3-t-script"[^>]*>[\s\S]*?<\/p>/g, ' '));
 
 describe('global menu (V3 · A editorial navigation drawer)', () => {
-  const html = render(createElement(GlobalMenu, { onClose: noop, onOpen: noop, onDestination: noop }));
+  const html = render(createElement(GlobalMenu, { onClose: noop, onOpen: noop }));
   it('M1 is secondary navigation: the dock destinations HOME · MONEY · ADD · PLAN · CREDIT never appear', () => {
     const text = visible(html);
     for (const dock of [' HOME ', ' MONEY ', ' ADD ', ' PLAN ', ' CREDIT ']) expect(text, dock).not.toContain(dock);
     for (const t of ['nav-home', 'nav-money', 'nav-add', 'nav-plan', 'nav-credit']) expect(html).not.toContain(`data-jrn-trigger="${t}"`);
   });
-  it('M2 has the three groups and every item routes to an existing surface (or says honestly that it is not built)', () => {
+  // OPUS2 menu recovery (FD-01): three sections replace the four V3 groups; PRIVACY & DATA is PRIVACY & CONSENTS again,
+  // and the financial capabilities PREFERENCES used to hide have their own rows. Every V3 trigger is still present.
+  it('M2 has the three sections and every item routes to an existing surface (or says honestly that it is not built)', () => {
     const text = visible(html);
-    for (const s of ['YOUR ACCOUNT', 'MEMBERSHIP & ACCESS', 'SUPPORT', 'ACCOUNT & PROFILE', 'PREFERENCES', 'PRIVACY & DATA', 'MY MEMBERSHIP', 'EXPLORE ADD-ONS', 'HELP & SUPPORT', 'SIGN OUT']) expect(text, s).toContain(s);
-    for (const t of ['menu-account', 'menu-preferences', 'menu-privacy', 'menu-membership', 'menu-add-ons', 'menu-help', 'menu-sign-out', 'global-menu-close']) expect(html, t).toContain(`data-jrn-trigger="${t}"`);
+    for (const s of ['YOUR FINANCES', 'YOUR INTELLIGENCE', 'YOUR ACCOUNT', 'CONNECTED ACCOUNTS & SYNC', 'CURRENCY & EXCHANGE', 'SAFE TO SPEND BUFFER', 'ASK JURNL', 'CLASSIFICATION & LEARNING RULES', 'ACCOUNT & PROFILE', 'PREFERENCES', 'PRIVACY & CONSENTS', 'MY MEMBERSHIP', 'EXPLORE ADD-ONS', 'HELP & SUPPORT', 'SIGN OUT']) expect(text, s).toContain(s);
+    for (const t of ['menu-connections', 'menu-currency', 'menu-buffer', 'menu-ask', 'menu-rules', 'menu-account', 'menu-preferences', 'menu-privacy', 'menu-membership', 'menu-add-ons', 'menu-help', 'menu-sign-out', 'global-menu-close']) expect(html, t).toContain(`data-jrn-trigger="${t}"`);
     expect(html).toContain('data-jv3-family="A_NAVIGATION_DRAWER"');
     expect(html).toMatch(/role="dialog" aria-modal="true" aria-label="MENU"/);
   });

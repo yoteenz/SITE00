@@ -1,38 +1,88 @@
 /**
- * JURNL global menu (the hamburger) and the MEMBERSHIP & ACCESS surfaces — V3 interactive system.
+ * JURNL global menu (the hamburger) and the MEMBERSHIP & ACCESS surfaces.
  *
- * The menu is SECONDARY navigation. The dock already owns HOME · MONEY · ADD · PLAN · CREDIT, so none of them appears
- * here. Every item routes to an existing management surface; nothing is invented:
+ * The menu is SECONDARY navigation drawn on the founder's OV08 menu shell (the production asset, uniform scale, never
+ * stretched; the bust, lemons, arch, coast and oxblood are in the shell, so nothing is layered on it twice). Its rows are
+ * live code inside the olive field, which is the only thing that scrolls. The dock already owns HOME · MONEY · ADD ·
+ * PLAN · CREDIT, so none of them appears here. Three sections (the founder's FD-01):
  *
- *   YOUR ACCOUNT          ACCOUNT & PROFILE → the ACCOUNT page (profile, currency, connection, context, buffer, …)
- *                         PREFERENCES       → the approved F09 account folio (currency, connection, ask context, buffer)
- *                         PRIVACY & DATA    → the existing PRIVACY & CONSENTS sheet
- *   MEMBERSHIP & ACCESS   MY MEMBERSHIP     → membership folio, read from the entitlement contract
- *                         EXPLORE ADD-ONS   → the add-on collection, read from the add-on registry
- *   SUPPORT               HELP & SUPPORT    → not built yet: says so (as the ACCOUNT page does)
- *   SIGN OUT
+ *   YOUR FINANCES      CONNECTED ACCOUNTS & SYNC → honest status + your pockets (no provider exists)
+ *                      CURRENCY & EXCHANGE       → the currency selector with its rate disclosure
+ *                      SAFE TO SPEND BUFFER      → the buffer, typed in the display currency, kept in USD
+ *   YOUR INTELLIGENCE  ASK JURNL                 → the explanation sheet (no live AI provider)
+ *                      CLASSIFICATION & RULES    → says honestly that nothing is learned yet
+ *   YOUR ACCOUNT       ACCOUNT & PROFILE         → the approved F09 account drawer (its ACCOUNT title opens the page)
+ *                      PREFERENCES               → general preferences and sign-in security
+ *                      PRIVACY & CONSENTS        → consents, ASK JURNL CONTEXT, the privacy tools
+ *                      MY MEMBERSHIP · EXPLORE ADD-ONS · HELP & SUPPORT · SIGN OUT (confirmed)
  *
  * Membership reads ONLY the resolved entitlements and the registries (plans, capabilities, add-ons). No price, no
  * checkout, no purchase state is shown or implied: billing is not configured, so nothing is AVAILABLE to buy. A
  * FOUNDER_FULL grant (server-resolved, #1708) is shown as FOUNDER ACCESS and suppresses every upgrade prompt; it never
  * changes what is authorized (the trusted backend decides). Unknown entitlement state withholds (fail closed).
  */
-import { ART, EdArt, REGION } from '../surfaces/editorial/Editorial';
-import { useState } from 'react';
+import type { CSSProperties } from 'react';
+import { consentGranted } from '../../data/foundation/consent';
+import { getRepository } from '../../data/repository/deviceRepository';
+import { storedBufferUsd } from '../../data/f09/safetyBuffer';
+import { formatMoney, useCurrency } from '../../data/home/money';
 import { addOnById, capabilityById, planById, type AddOnDefinition } from '../../../../../shared/site00-monetization/contract.js';
 import { JURNL_MONETIZATION_CONTRACT as CONTRACT } from '../../data/monetization/contract';
 import { JURNL_MONETIZATION_COPY as M } from '../../data/monetization/copy';
 import { useJurnlEntitlements } from '../monetization/JurnlEntitlements';
-import { useJurnl } from '../state/store';
-import { V3Card, V3Drawer, V3Folio, V3Icon, V3NavItem, V3NavSection, V3Notice, V3Pill, V3Row, V3RuleLabel, V3Seal, V3Status, type V3AccessState } from '../surfaces/v3/V3Surfaces';
+import { OverlayLayer } from '../components/primitives';
+import { useOverlayHost } from '../components/OverlayAuthority';
+import { V3Card, V3Chevron, V3Folio, V3Icon, V3NavSection, V3Notice, V3Pill, V3Row, V3RuleLabel, V3Seal, V3Status, useStableFocus, type V3AccessState } from '../surfaces/v3/V3Surfaces';
+import { overlayShell } from './overlays/eight/registry';
+import type { MenuDestination, MenuPanel } from './menuPanels';
 import laurelSeal from '../../families/F05_MONEY/DOT01/F05_DOT01_02_LAUREL_WAX_SEAL.webp';
 import artTravel from '../../families/F05_MONEY/DOT01/F05_DOT01_08_PARCHMENT_COASTAL_PANEL.webp';
 import artPurchase from '../../families/F05_MONEY/DOT01/F05_DOT01_15_TEMPLE_COASTAL_COMPOSITION.webp';
 import artBusiness from '../../families/F05_MONEY/DOT01/F05_DOT01_22_RECEIPT_PAPER_STACK.webp';
 import artCredit from '../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_CREDIT.webp';
+import './jurnl-global-menu.css';
 
-export type GlobalMenuPanel = 'menu' | 'membership' | 'add-ons' | { unlock: string };
-export type GlobalMenuDestination = 'account' | 'preferences' | 'privacy';
+export type GlobalMenuPanel = MenuPanel;
+export type GlobalMenuDestination = MenuDestination;
+
+/** The menu's rows, in order: [section, trigger, destination, label, icon]. One source for the menu and its tests. */
+export const GLOBAL_MENU_SECTIONS = [
+  {
+    title: 'YOUR FINANCES',
+    rows: [
+      { trigger: 'menu-connections', to: 'connections', label: 'CONNECTED ACCOUNTS & SYNC', icon: 'bank' },
+      { trigger: 'menu-currency', to: 'currency', label: 'CURRENCY & EXCHANGE', icon: 'coins' },
+      { trigger: 'menu-buffer', to: 'buffer', label: 'SAFE TO SPEND BUFFER', icon: 'shield' },
+    ],
+  },
+  {
+    title: 'YOUR INTELLIGENCE',
+    rows: [
+      { trigger: 'menu-ask', to: 'ask', label: 'ASK JURNL', icon: 'sparkle' },
+      { trigger: 'menu-rules', to: 'rules', label: 'CLASSIFICATION & LEARNING RULES', icon: 'tag' },
+    ],
+  },
+  {
+    title: 'YOUR ACCOUNT',
+    rows: [
+      { trigger: 'menu-account', to: 'account', label: 'ACCOUNT & PROFILE', icon: 'person' },
+      { trigger: 'menu-preferences', to: 'preferences', label: 'PREFERENCES', icon: 'gear' },
+      { trigger: 'menu-privacy', to: 'privacy', label: 'PRIVACY & CONSENTS', icon: 'lock' },
+      { trigger: 'menu-membership', to: 'membership', label: 'MY MEMBERSHIP', icon: 'crown' },
+      { trigger: 'menu-add-ons', to: 'add-ons', label: 'EXPLORE ADD-ONS', icon: 'grid' },
+      { trigger: 'menu-help', to: 'help', label: 'HELP & SUPPORT', icon: 'help' },
+      { trigger: 'menu-sign-out', to: 'sign-out', label: 'SIGN OUT', icon: 'signout' },
+    ],
+  },
+] as const satisfies readonly { title: string; rows: readonly { trigger: string; to: MenuDestination; label: string; icon: string }[] }[];
+
+/** OV08 native frame and its live regions, as fractions of the shell (measured on the installed PNG, see registry). */
+const OV08 = { w: 2016, h: 3584 } as const;
+const OV08_REGION = {
+  head: [0.235, 0.112, 0.765, 0.252],
+  port: [0.075, 0.298, 0.742, 0.905],
+} as const;
+const region = ([x0, y0, x1, y1]: readonly number[]): CSSProperties => ({ left: `${x0! * 100}%`, top: `${y0! * 100}%`, width: `${(x1! - x0!) * 100}%`, height: `${(y1! - y0!) * 100}%` });
 
 /** Founder access as the server resolved it (#1708 `internalGrants`); absent on a build without that work. */
 type WithGrants = { internalGrants?: { active?: string[] } };
@@ -65,35 +115,59 @@ export function planDisplayName(planId: string): string {
   return p.planName.endsWith(tier) ? p.planName : `${p.planName} ${tier}`;
 }
 
-/* ── the hamburger: deep-olive editorial folio ── */
-export function GlobalMenu({ onClose, onOpen, onDestination }: { onClose: () => void; onOpen: (panel: GlobalMenuPanel) => void; onDestination: (d: GlobalMenuDestination) => void }) {
-  const { signOut, showToast } = useJurnl();
+/** The small live state beside a row (never a fake status: only values JURNL actually holds). */
+function useRowAsides(): Partial<Record<string, string>> {
+  const currency = useCurrency();
+  const buffer = storedBufferUsd();
+  const ask = consentGranted(getRepository().getConsent(), 'ASK_JURNL_CONTEXT');
+  return {
+    'menu-connections': 'MANUAL POCKETS ONLY',
+    'menu-currency': `${currency.code} · ${currency.name}`.toUpperCase(),
+    'menu-buffer': buffer > 0 ? `${formatMoney(buffer)} KEPT ASIDE` : 'NONE SET',
+    'menu-ask': `CONTEXT ${ask ? 'ON' : 'OFF'}`,
+    'menu-rules': 'NOTHING LEARNED YET',
+  };
+}
+
+/* ── the hamburger: the OV08 shell, sections and rows in its olive field ── */
+export function GlobalMenu({ onClose, onOpen }: { onClose: () => void; onOpen: (d: MenuDestination) => void; onDestination?: (d: MenuDestination) => void }) {
+  const { ref } = useStableFocus(onClose);
+  const { host, ref: hostRef } = useOverlayHost();
+  const shell = overlayShell('OV08');
+  const k = Math.min(host.W / OV08.w, host.H / OV08.h);
+  const asides = useRowAsides();
   return (
-    <V3Drawer label="MENU" material="olive" onClose={onClose} testId="global-menu">
-      {/* founder board 08: the classical head of the menu — the SK01 bust, a lemon branch, the torn headline paper */}
-      <div className="jed-menu-head">
-        <EdArt art={ART.sk01} region={REGION.bust} className="jed-art--bust" torn={13} />
-        <EdArt art={ART.lemonBranch} className="jed-art--lemon" />
-        <div className="jed-menu-head__title">
-          <span className="jed-head__paper" aria-hidden style={{ backgroundImage: `url("${ART.heading.src}")` }} />
-          <h2 className="jed-head__title">MENU</h2>
-          <p className="jv3-t-script">tools, membership, preferences & more</p>
+    <OverlayLayer>
+      <div ref={hostRef} className="jgm-host" data-jrn-overlay="global-menu" data-jv3-family="A_NAVIGATION_DRAWER" data-overlay-asset="OV08">
+        <div className="jgm-scrim" onClick={onClose} aria-hidden />
+        <div ref={ref} role="dialog" aria-modal="true" aria-label="MENU" className="jgm-plate" style={{ width: Math.round(OV08.w * k), height: Math.round(OV08.h * k) }}>
+          <img className="jgm-shell" src={shell.src} width={shell.width} height={shell.height} alt="" aria-hidden draggable={false} data-asset-id="OV08-IS-GLOBAL-MENU-DRAWER" />
+          <div className="jgm-head" style={region(OV08_REGION.head)}>
+            <h2 className="jgm-title">MENU</h2>
+            <p className="jv3-t-script">tools, settings & support</p>
+          </div>
+          <button type="button" className="jgm-close" aria-label="CLOSE MENU" data-jrn-trigger="global-menu-close" onClick={onClose}>
+            <V3Icon name="close" />
+          </button>
+          <nav className="jgm-port" aria-label="MENU SECTIONS" data-jrn-menu-scrollport style={region(OV08_REGION.port)}>
+            {GLOBAL_MENU_SECTIONS.map((sec) => (
+              <V3NavSection key={sec.title} title={sec.title}>
+                {sec.rows.map((r) => (
+                  <button key={r.trigger} type="button" className="jv3-nav-item jv3-t-action jgm-row" data-jrn-trigger={r.trigger} data-variant={r.to === 'sign-out' ? 'quiet' : undefined} onClick={() => onOpen(r.to)}>
+                    <V3Icon name={r.icon} />
+                    <span className="jgm-row__text">
+                      <span>{r.label}</span>
+                      {asides[r.trigger] ? <small className="jgm-row__state" data-testid={`${r.trigger}-state`}>{asides[r.trigger]}</small> : null}
+                    </span>
+                    <V3Chevron />
+                  </button>
+                ))}
+              </V3NavSection>
+            ))}
+          </nav>
         </div>
       </div>
-      <V3NavSection title="YOUR ACCOUNT">
-        <V3NavItem icon="person" label="ACCOUNT & PROFILE" trigger="menu-account" onClick={() => onDestination('account')} />
-        <V3NavItem icon="gear" label="PREFERENCES" trigger="menu-preferences" onClick={() => onDestination('preferences')} />
-        <V3NavItem icon="shield" label="PRIVACY & DATA" trigger="menu-privacy" onClick={() => onDestination('privacy')} />
-      </V3NavSection>
-      <V3NavSection title="MEMBERSHIP & ACCESS">
-        <V3NavItem icon="crown" label="MY MEMBERSHIP" trigger="menu-membership" onClick={() => onOpen('membership')} />
-        <V3NavItem icon="grid" label="EXPLORE ADD-ONS" trigger="menu-add-ons" onClick={() => onOpen('add-ons')} />
-      </V3NavSection>
-      <V3NavSection title="SUPPORT">
-        <V3NavItem icon="help" label="HELP & SUPPORT" trigger="menu-help" onClick={() => showToast({ tone: 'error', title: 'HELP & SUPPORT', body: 'NOT IN THIS PREVIEW YET.', testId: 'toast-not-yet' })} />
-      </V3NavSection>
-      <V3NavItem icon="signout" label="SIGN OUT" trigger="menu-sign-out" variant="quiet" onClick={() => signOut()} />
-    </V3Drawer>
+    </OverlayLayer>
   );
 }
 
@@ -155,7 +229,8 @@ export function MembershipFolio({ onClose, onOpen }: { onClose: () => void; onOp
               BILLING IS NOT SET UP YET. NOTHING CAN BE BOUGHT IN JURNL TODAY, AND NOTHING IS CHARGED.
             </V3Notice>
           )}
-          <V3Row icon="gear" label="MANAGE MEMBERSHIP" sub={billingLive ? undefined : 'NOT AVAILABLE YET'} testId="membership-manage" />
+          {/* MANAGE MEMBERSHIP is not a control until billing exists: a static row that says so (never a dead button). */}
+          <V3Row icon="gear" label="MANAGE MEMBERSHIP" sub={billingLive ? 'MANAGED BY YOUR BILLING PROVIDER' : 'NOT AVAILABLE YET · NO BILLING IS SET UP'} testId="membership-manage" />
         </>
       )}
     </V3Folio>
@@ -208,7 +283,8 @@ export function UnlockFolio({ addOnId, onClose }: { addOnId: string; onClose: ()
       onClose={onClose}
       footer={<V3Pill tone="cream" trigger="unlock-not-now" onClick={onClose}>{state === 'FOUNDER' || state === 'ACTIVE' ? 'CLOSE' : 'NOT NOW'}</V3Pill>}
     >
-      <V3Card art={ADD_ON_ART[a.addOnId] ?? artTravel} title={a.name} body={a.capabilityGrants.map(capabilityLabel).join(' · ')} state={state} trigger="unlock-feature" onClick={() => undefined} />
+      {/* No checkout exists, so the feature card is a description, not a button (it used to be a no-op button). */}
+      <V3Card art={ADD_ON_ART[a.addOnId] ?? artTravel} title={a.name} body={a.capabilityGrants.map(capabilityLabel).join(' · ')} state={state} testId="unlock-feature" />
       <V3RuleLabel>{state === 'FOUNDER' ? 'YOUR ACCESS' : 'AVAILABLE WITH'}</V3RuleLabel>
       {state === 'FOUNDER' ? (
         <V3Row icon="crown" label="FOUNDER ACCESS" sub="INCLUDED FOR YOU" aside={<V3Status state="FOUNDER" />} />
@@ -222,10 +298,4 @@ export function UnlockFolio({ addOnId, onClose }: { addOnId: string; onClose: ()
       ) : null}
     </V3Folio>
   );
-}
-
-/** The menu host: which V3 panel is open, and the destinations it hands back to the caller. */
-export function useGlobalMenuState() {
-  const [panel, setPanel] = useState<GlobalMenuPanel | null>(null);
-  return { panel, setPanel };
 }

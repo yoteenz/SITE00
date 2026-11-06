@@ -258,11 +258,22 @@ export function PrivacyPrimerScreen() {
   );
 }
 
-function PrivacyDrawer({ id }: { id: string }) {
-  const { closeOverlay, openOverlay, device, setDevice, session, showToast } = useJurnl();
+/**
+ * How a privacy / security tool closes and opens its follow-on step. Onboarding (F01.11 / F01.12) uses the runtime
+ * overlay; the global menu (PRIVACY & CONSENTS, PREFERENCES → SECURITY) passes its own panel steps, so the same tools are
+ * reachable after onboarding without sending anyone back through it.
+ */
+export type ToolNav = { close: () => void; open: (id: 'delete-account' | 'revoke-session') => void };
+function useToolNav(nav?: ToolNav): ToolNav {
+  const { closeOverlay, openOverlay } = useJurnl();
+  return nav ?? { close: closeOverlay, open: openOverlay };
+}
+
+export function PrivacyDrawer({ id, nav }: { id: string; nav?: ToolNav }) {
+  const { device, setDevice, session, showToast } = useJurnl();
+  const { close: closeOverlay, open: openOverlay } = useToolNav(nav);
   const P = C.privacy;
   const [ai, setAi] = useState(device.ai);
-  const [exportState, setExportState] = useState<'idle' | 'requested'>(device.exportRequested ? 'requested' : 'idle');
   const [revokeNote, setRevokeNote] = useState(false);
   const title = P.rows[id as keyof typeof P.rows] ?? '';
   if (id === 'your-data') {
@@ -337,33 +348,19 @@ function PrivacyDrawer({ id }: { id: string }) {
         lead={P.exportData.lead}
         onClose={closeOverlay}
         footer={
-          exportState === 'requested' ?
-            <JurnlButton trigger="privacy-export-done" onClick={closeOverlay}>
-              {C.common.gotIt}
-            </JurnlButton>
-          : <JurnlButton
-              trigger="privacy-export-request"
-              onClick={() => {
-                setDevice({ exportRequested: true });
-                setExportState('requested');
-              }}
-            >
-              {P.exportData.request}
-            </JurnlButton>
+          <JurnlButton trigger="privacy-export-done" onClick={closeOverlay}>
+            {C.common.gotIt}
+          </JurnlButton>
         }
       >
-        {exportState === 'requested' ?
-          <JurnlSuccessPanel testId="privacy-export-requested" title={P.exportData.requestedTitle}>
-            <p className="jrn-body" data-claim="C10">
-              {P.exportData.requestedBody}
-            </p>
-          </JurnlSuccessPanel>
-        : <div className="jrn-list">
-            {P.exportData.items.map((it) => (
-              <JurnlRow key={it.id} icon="download" title={it.title} end={<span className="jrn-badge jrn-badge--muted">{it.sub}</span>} />
-            ))}
-          </div>
-        }
+        {/* No export pipeline exists: nothing is requested, recorded or promised (claim C10 is withheld). */}
+        <JurnlErrorPanel testId="privacy-export-unavailable" title={P.exportData.unavailableTitle} body={P.exportData.unavailableBody} />
+        {device.exportRequested ? <p className="jrn-eyebrow" data-testid="privacy-export-earlier">{P.exportData.earlierRequestNote}</p> : null}
+        <div className="jrn-list">
+          {P.exportData.items.map((it) => (
+            <JurnlRow key={it.id} icon="download" title={it.title} end={<span className="jrn-badge jrn-badge--muted">{it.sub}</span>} />
+          ))}
+        </div>
       </JurnlDrawer>
     );
   }
@@ -390,7 +387,10 @@ function PrivacyDrawer({ id }: { id: string }) {
             sub={P.remove.items[2]!.sub}
             trigger="privacy-remove-disable-ai"
             onClick={() => {
-              setDevice({ ai: { personalizedInsights: false, smartCategorization: false, budgetRecommendations: false, naturalLanguage: false, marketTrends: false } });
+              const off = { personalizedInsights: false, smartCategorization: false, budgetRecommendations: false, naturalLanguage: false, marketTrends: false };
+              setDevice({ ai: off });
+              setAi(off);
+              syncDeviceAiToRepository({ ...device, ai: off });
               showToast({ tone: 'success', title: P.remove.aiDisabledTitle, body: P.remove.aiDisabledBody, testId: 'toast-ai-disabled' });
             }}
           />
@@ -403,8 +403,9 @@ function PrivacyDrawer({ id }: { id: string }) {
   return null;
 }
 
-function DeleteAccountModal() {
-  const { auth, closeOverlay, session, signOut, setDevice, device, go } = useJurnl();
+export function DeleteAccountModal({ nav }: { nav?: ToolNav }) {
+  const { auth, session, signOut, setDevice, device, go } = useJurnl();
+  const { close: closeOverlay } = useToolNav(nav);
   const [loading, setLoading] = useState(false);
   const netToast = useNetworkToast();
   return (
@@ -485,8 +486,9 @@ export function SecurityPrimerScreen() {
   );
 }
 
-function SecurityDrawer({ id }: { id: string }) {
-  const { closeOverlay, openOverlay, device, setDevice, auth, showToast } = useJurnl();
+export function SecurityDrawer({ id, nav }: { id: string; nav?: ToolNav }) {
+  const { device, setDevice, auth, showToast } = useJurnl();
+  const { close: closeOverlay, open: openOverlay } = useToolNav(nav);
   const S = C.security;
   const row = S.rows[id as keyof typeof S.rows];
   const [bio, setBio] = useState(device.biometric === 'ENABLED');
@@ -617,8 +619,9 @@ function SecurityDrawer({ id }: { id: string }) {
   return null;
 }
 
-function RevokeSessionModal() {
-  const { auth, closeOverlay } = useJurnl();
+export function RevokeSessionModal({ nav }: { nav?: ToolNav }) {
+  const { auth } = useJurnl();
+  const { close: closeOverlay } = useToolNav(nav);
   const [state, setState] = useState<'confirm' | 'loading' | 'revoked'>('confirm');
   const netToast = useNetworkToast();
   const S = C.security.sessions;

@@ -57,6 +57,7 @@ const EXTRA: Record<string, ReactNode> = {
     </>
   ),
   signout: <path {...P} d="M10 4.5H5.5v15H10M14.5 8l4 4-4 4M18.5 12H9" />,
+  sparkle: <path {...P} d="M12 3.5c.6 3.9 2.2 5.5 6 6-3.8.6-5.4 2.2-6 6-.6-3.8-2.2-5.4-6-6 3.8-.5 5.4-2.1 6-6zM18.5 15.5c.3 1.6.9 2.2 2.5 2.5-1.6.3-2.2.9-2.5 2.5-.3-1.6-.9-2.2-2.5-2.5 1.6-.3 2.2-.9 2.5-2.5z" />,
   close: <path {...P} d="M6 6l12 12M18 6 6 18" strokeWidth={2} />,
   clock: (
     <>
@@ -296,16 +297,26 @@ export function V3Status({ state }: { state: V3AccessState }) {
 }
 
 /* ── H · collection card ── */
-export function V3Card({ art, title, body, state, onClick, trigger }: { art: string; title: string; body: string; state: V3AccessState; onClick: () => void; trigger: string }) {
-  return (
-    <button type="button" className="jv3-card" data-jrn-trigger={trigger} data-state={state} onClick={onClick}>
+/** An add-on card. With `onClick` it is a button; without one it is a description (never a button that does nothing). */
+export function V3Card({ art, title, body, state, onClick, trigger, testId }: { art: string; title: string; body: string; state: V3AccessState; onClick?: () => void; trigger?: string; testId?: string }) {
+  const inner = (
+    <>
       <img className="jv3-card__art" src={art} alt="" draggable={false} />
       <span className="jv3-card__text">
         <b>{title}</b>
         <span>{body}</span>
       </span>
       <V3Status state={state} />
+    </>
+  );
+  return onClick ? (
+    <button type="button" className="jv3-card" data-jrn-trigger={trigger} data-testid={testId} data-state={state} onClick={onClick}>
+      {inner}
     </button>
+  ) : (
+    <div className="jv3-card" data-static="true" data-testid={testId} data-state={state}>
+      {inner}
+    </div>
   );
 }
 

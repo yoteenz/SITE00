@@ -6,9 +6,9 @@
 import { useMemo, useState } from 'react';
 import { getRepository } from '../../../data/repository/deviceRepository';
 import { formatMoney, useRepoTick } from '../../../data/home/money';
-import { JurnlInput } from '../../components/primitives';
 import { useJurnl } from '../../state/store';
-import { ART, EdAction, EdArt, EdChoices, EdGlyph, EditorialOverlay, REGION } from './Editorial';
+import { EdGlyph } from './Editorial';
+import { ShellField, ShellOverlay, ShellSlot, slot } from './Shell';
 
 type Filter = 'ALL' | 'POCKETS' | 'TRANSACTIONS';
 type Hit = { key: string; kind: 'pocket' | 'entry'; title: string; sub: string; value: string; route: string; when?: string };
@@ -29,6 +29,27 @@ export function searchRecords(query: string, filter: Filter): { hits: Hit[]; rec
   return { hits: hits.slice(0, 30), recent: false };
 }
 
+/** OV05 regions (fractions of the shell, measured on the installed PNG): the well, three chips, four result rows. */
+export const OV05_BOX = {
+  head: [0.33, 0.155, 0.93, 0.262],
+  input: [0.325, 0.287, 0.935, 0.353],
+  chips: [[0.308, 0.378, 0.503, 0.429], [0.515, 0.378, 0.726, 0.429], [0.738, 0.378, 0.953, 0.429]],
+  count: [0.335, 0.431, 0.94, 0.457],
+  results: [0.332, 0.4585, 0.942, 0.738],
+  all: [0.34, 0.748, 0.632, 0.794],
+  advanced: [0.645, 0.748, 0.94, 0.794],
+} as const;
+const FILTERS: { id: Filter; label: string; icon?: 'pocket' | 'tag' }[] = [
+  { id: 'ALL', label: 'ALL' },
+  { id: 'POCKETS', label: 'POCKETS', icon: 'pocket' },
+  { id: 'TRANSACTIONS', label: 'ACTIVITY', icon: 'tag' },
+];
+
+/**
+ * 05 SEARCH on the founder's OV05 shell: the search well, the three filter chips and the result rows are the shell's own
+ * blank wells (the rows snap onto them while the list scrolls — only the list scrolls); the arch, sea, velvet and the
+ * blank ledgers are the shell's. ALL ACTIVITY / ADVANCED SEARCH sit on the paper below the rows.
+ */
 export function GlobalSearchDrawer({ onClose }: { onClose: () => void }) {
   useRepoTick();
   const { go } = useJurnl();
@@ -40,38 +61,26 @@ export function GlobalSearchDrawer({ onClose }: { onClose: () => void }) {
     go(route);
   };
   return (
-    <EditorialOverlay
-      testId="global-search"
-      composition="search"
-      title={['SEARCH']}
-      script="pockets and activity"
-      onClose={onClose}
-      decor={
-        <>
-          <EdArt art={ART.sk01} region={REGION.arch} className="jed-art--arch" torn={3} />
-          <EdArt art={ART.paperStack} className="jed-art--stack" />
-        </>
-      }
-      footer={
-        <>
-          <EdAction trigger="search-all-activity" material="cream" title="ALL ACTIVITY" onClick={() => open('activity')} />
-          <EdAction trigger="search-advanced" material="olive" title="ADVANCED SEARCH" onClick={() => open('money/transactions')} />
-        </>
-      }
-    >
-      <div className="jed-sheet">
-        <div className="jed-field">
-          <JurnlInput label="SEARCH POCKETS, MERCHANTS, CATEGORIES" value={query} onValue={setQuery} trigger="search-input" icon="search" />
-        </div>
-        <span className="jed-label">FILTER BY</span>
-        <EdChoices label="FILTER BY" value={filter} onChange={setFilter} trigger="search-filter" columns={3} options={[{ id: 'ALL', label: 'ALL' }, { id: 'POCKETS', label: 'POCKETS', icon: <EdGlyph name="pocket" /> }, { id: 'TRANSACTIONS', label: 'ACTIVITY', icon: <EdGlyph name="tag" /> }]} />
-        <span className="jed-label" aria-live="polite">{recent ? 'RECENT ACTIVITY' : `${hits.length} ${hits.length === 1 ? 'RESULT' : 'RESULTS'}`}</span>
+    <ShellOverlay testId="global-search" composition="search" shell="OV05" title="SEARCH" script="pockets and activity" head={OV05_BOX.head} onClose={onClose}>
+      <ShellField box={OV05_BOX.input} label="SEARCH" placeholder="POCKETS, MERCHANTS, CATEGORIES" value={query} onValue={setQuery} trigger="search-input" />
+      <div role="group" aria-label="FILTER BY">
+        {FILTERS.map((f, i) => (
+          <button key={f.id} type="button" className="jsh-chip" aria-pressed={filter === f.id} data-jrn-trigger={`search-filter-${f.id.toLowerCase()}`} onClick={() => setFilter(f.id)} style={slot(OV05_BOX.chips[i]!)}>
+            {f.icon ? <EdGlyph name={f.icon} /> : null}
+            <span>{f.label}</span>
+          </button>
+        ))}
+      </div>
+      <ShellSlot box={OV05_BOX.count}>
+        <p className="jsh-text" aria-live="polite">{recent ? 'RECENT ACTIVITY' : `${hits.length} ${hits.length === 1 ? 'RESULT' : 'RESULTS'}`}</p>
+      </ShellSlot>
+      <ShellSlot box={OV05_BOX.results} scroll className="jsh-results">
         {hits.length ? (
-          <ul className="jed-results" aria-label="SEARCH RESULTS" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+          <ul aria-label="SEARCH RESULTS">
             {hits.map((h) => (
               <li key={h.key}>
-                <button type="button" className="jed-row" data-jrn-trigger={`search-hit-${h.key.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} onClick={() => open(h.route)}>
-                  <span className="jed-row__icon"><EdGlyph name={h.kind === 'pocket' ? 'pocket' : 'search'} /></span>
+                <button type="button" className="jsh-row" data-jrn-trigger={`search-hit-${h.key.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} onClick={() => open(h.route)}>
+                  <EdGlyph name={h.kind === 'pocket' ? 'pocket' : 'search'} />
                   <span>
                     {h.title}
                     <small>{h.sub}</small>
@@ -82,9 +91,15 @@ export function GlobalSearchDrawer({ onClose }: { onClose: () => void }) {
             ))}
           </ul>
         ) : (
-          <p className="jed-note" data-testid="search-empty">{query.trim() ? 'NOTHING MATCHES. TRY A POCKET NAME, A MERCHANT OR A CATEGORY.' : 'NO ACTIVITY RECORDED YET.'}</p>
+          <p className="jsh-text jsh-results__empty" data-testid="search-empty">{query.trim() ? 'NOTHING MATCHES. TRY A POCKET NAME, A MERCHANT OR A CATEGORY.' : 'NO ACTIVITY RECORDED YET.'}</p>
         )}
-      </div>
-    </EditorialOverlay>
+      </ShellSlot>
+      <button type="button" className="jsh-pill" data-tone="cream" data-jrn-trigger="search-all-activity" onClick={() => open('activity')} style={slot(OV05_BOX.all)}>
+        ALL ACTIVITY
+      </button>
+      <button type="button" className="jsh-pill" data-tone="olive" data-jrn-trigger="search-advanced" onClick={() => open('money/transactions')} style={slot(OV05_BOX.advanced)}>
+        ADVANCED SEARCH
+      </button>
+    </ShellOverlay>
   );
 }

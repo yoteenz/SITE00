@@ -25,7 +25,8 @@ test.describe('V3 global menu', () => {
     await clickTrigger(page, 'f09-menu');
     await expect(m).toBeVisible();
     await expect(m).toHaveAttribute('data-jv3-family', 'A_NAVIGATION_DRAWER');
-    for (const s of ['YOUR ACCOUNT', 'MEMBERSHIP & ACCESS', 'SUPPORT', 'SIGN OUT']) await expect(m).toContainText(s);
+    // OPUS2 (FD-01): three sections over the OV08 shell
+    for (const s of ['YOUR FINANCES', 'YOUR INTELLIGENCE', 'YOUR ACCOUNT', 'SIGN OUT']) await expect(m).toContainText(s);
     for (const t of ['nav-home', 'nav-money', 'nav-add', 'nav-plan', 'nav-credit']) await expect(m.locator(`[data-jrn-trigger="${t}"]`)).toHaveCount(0);
     expect(await noPageScroll(page)).toEqual({ x: false, y: false });
     await page.keyboard.press('Escape');
@@ -33,20 +34,26 @@ test.describe('V3 global menu', () => {
     await expect(trigger(page, 'f09-menu')).toBeFocused();
   });
 
-  test('G2 · every destination opens its surface: ACCOUNT page, PREFERENCES folio, PRIVACY & DATA consents (labelled switches)', async ({ page }) => {
+  // OPUS2: PREFERENCES is general preferences (it no longer hides the account folio); ACCOUNT & PROFILE opens the
+  // approved F09 account drawer, whose ACCOUNT title opens the ACCOUNT page; every destination returns to the menu.
+  test('G2 · every destination opens its surface: ACCOUNT drawer → page, PREFERENCES folio, PRIVACY & CONSENTS (labelled switches)', async ({ page }) => {
     await clickTrigger(page, 'f09-menu');
     await clickTrigger(page, 'menu-preferences');
-    await expect(overlay(page, 'account-drawer')).toBeVisible();
-    await clickTrigger(page, 'account-drawer-close');
-    await clickTrigger(page, 'f09-menu');
+    await expect(overlay(page, 'global-preferences')).toBeVisible();
+    await expect(overlay(page, 'account-drawer')).toHaveCount(0);
+    await clickTrigger(page, 'global-preferences-close');
+    await expect(overlay(page, 'global-menu')).toBeVisible();
     await clickTrigger(page, 'menu-privacy');
     const c = overlay(page, 'settings-consents-sheet');
     await expect(c).toBeVisible();
-    for (const s of ['REMEMBER SETUP', 'LINKED ACCOUNTS OPTIONAL', 'NOTHING SOLD']) await expect(c).toContainText(s);
+    for (const s of ['REMEMBER SETUP', 'LINKED ACCOUNTS OPTIONAL', 'NOTHING SOLD', 'ASK JURNL CONTEXT']) await expect(c).toContainText(s);
     await clickTrigger(page, 'settings-consents-sheet-close');
     await expect(overlay(page, 'global-menu')).toBeVisible();
     await clickTrigger(page, 'menu-account');
+    await expect(overlay(page, 'account-drawer')).toBeVisible();
+    await clickTrigger(page, 'drawer-account');
     await expect(page).toHaveURL(/\/account$/);
+    await expect(page.locator('[data-jrn-overlay]')).toHaveCount(0);
   });
 
   test('G3 · MY MEMBERSHIP → EXPLORE ADD-ONS → UNLOCK: live plan, honest COMING SOON, no price, no checkout', async ({ page }) => {
