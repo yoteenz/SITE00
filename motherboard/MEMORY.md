@@ -16889,3 +16889,13 @@ Summary of the whole conversation in this chat.
 - **Root cause:** Board scales at `u ≈ viewportW / 881`; 3 source px ≈ 1–1.5 screen px on phone — below visible threshold.
 - **Changes:** `F05_ACCOUNTS_CHROME_NUDGE_SCREEN = 3` in `f05MotionLayout.ts` — adds `3/u` source px to VIEW ALL and dots **after** seam mapping (panels above unchanged). Commit `9ae4a8bce` on `cursor/jurnl-tunnel-opus-v3-overlays-4e5a`; preview pinned to that SHA.
 - **Conventions:** Founder layout tweaks on motion pilot should specify **screen px** when they mean on-device pixels; use layout-level `n/u` conversion, not raw composition y bumps.
+
+---
+
+## 2026-11-06 — Overlay micro-asset register (GROK1, not merged)
+
+- **Context:** Founder sprint to audit a provisional 70 overlay micro-asset slots, recover exact art, generate only real gaps, and package a review set. Same chat earlier nudged motion VIEW ALL by 3 screen pixels on the tunnel branch and published the GROK4 four-screen artwork release. This entry is the micro-asset sprint.
+- **Decisions:** Privacy and the global menu use thin cream line icons. Pocket, search, and archive use thin dark ink on parchment. DOT 01 bronze icons are a different family and were not reused. Debit and credit stay two cards. The wax seal already contains the transfer arrows. Large medallions and the ledger stay baked in the shells. Toggle track and thumb are separate; olive is ON, charcoal is OFF. OpenArt was not called. Resolve, Record Transfer, and Cancel papers did not separate cleanly and were not invented.
+- **Changes:** New unimported register `overlayMicroAssets.ts` and PNG masters under `MICRO_ASSETS/OVERLAY_GROK1/` on `cursor/jurnl-overlay-micro-assets-grok1-4e5a`. No screen, route, database, or deploy change. Founder approval is still required before Opus mounts anything. OV06 stays the F09 account drawer. FD-12 stays open.
+- **Conventions:** Do not treat a bronze DOT 01 file as the menu or privacy glyph because the name matches. Do not mount FG03, FG05, FG07, or FG09 a second time.
+
