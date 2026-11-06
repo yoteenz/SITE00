@@ -43,6 +43,7 @@ import cardPayout from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD
 import cardCash from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_CASH.webp';
 import cardCredit from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_CREDIT.webp';
 import { useLongPress, usePocketManager } from './dot01/PocketManager';
+import { useAmbientChannels } from '../../motion/useMotion';
 import './jurnl-f05-motion.css';
 import './jurnl-f05-carousel.css';
 
@@ -53,6 +54,10 @@ const box = (r: { box: number[] }): Rect => ({ x: r.box[0]!, y: r.box[1]!, w: r.
 const at = (r: Rect): CSSProperties => ({ left: r.x, top: r.y, width: r.w, height: r.h });
 const TITLE = box(geometry.title_paper);
 const SEAL = box(geometry.wax_seal);
+/** Ambient light sits over the baked scenery (arch and coast, top right of the SIDEKICK); the art itself never moves. */
+const LIGHT: Rect = { x: SRC_W * 0.6, y: 0, w: SRC_W * 0.4, h: SRC_H * 0.36 };
+/** The parent offers soft light (D) over the scenery and material presence (C) on the wax seal: the only independent art. */
+const PARENT_AMBIENT = ['D', 'C'] as const;
 /** Approved chip squares (source px). The global menu takes the far-right square; search and add move one left. */
 const CHIP = C.chips.size;
 const CHIP_GAP = C.chips.gap;
@@ -149,6 +154,7 @@ export function MoneyMotionParent() {
   useCurrency();
   useRepoTick();
   const reduced = useReducedMotion();
+  useAmbientChannels('f05-parent', PARENT_AMBIENT, !reduced);
   const carousel = computeMoneyCarousel(undefined, formatMoney);
   const reading = carousel.reading;
   const stageRef = useRef<HTMLDivElement>(null);
@@ -157,6 +163,8 @@ export function MoneyMotionParent() {
   const [pressed, setPressed] = useState<string | null>(null);
   const [returned] = useState(readReturn);
   const [fresh, setFresh] = useState<string | null>(null);
+  /** the just-added pocket settles once (data-settle); `fresh` stays as its identity for the session */
+  const [settleOnce, setSettleOnce] = useState<string | null>(null);
   const [detail, setDetail] = useState<string | null>(null);
   const [ghosts, setGhosts] = useState<(Thread & { outcome: 'resolved' | 'closed' })[]>([]);
   const prevThreads = useRef<Thread[]>([]);
@@ -217,6 +225,13 @@ export function MoneyMotionParent() {
       setRailScroll(saved);
     }
   }, [L, reading.accounts.length]);
+
+  // A just-added pocket settles once; the settle mark is then cleared so a later collection change never replays it.
+  useEffect(() => {
+    if (!settleOnce) return;
+    const id = window.setTimeout(() => setSettleOnce(null), 700);
+    return () => window.clearTimeout(id);
+  }, [settleOnce]);
 
   // Threads for unfinished transfers whose two places both have a paper (canonical state only).
   const slotOf = new Map<string, Rect>();
@@ -393,8 +408,9 @@ export function MoneyMotionParent() {
         data-pressed={pressed === a.account_id ? 'true' : undefined}
         data-return={returned === a.account_id ? 'true' : undefined}
         data-fresh={fresh === a.account_id ? 'true' : undefined}
+        data-settle={settleOnce === a.account_id ? 'true' : undefined}
         aria-label={`${a.name}. ${a.nature === 'LIABILITY' ? `${formatMoney(a.amount)} OWED` : `${formatMoney(a.amount)} HELD`}${transit ? `. ${transit}` : ''}. OPEN.`}
-        style={{ ...(inRail ? undefined : at(L.slots[staggerIndex]!)), backgroundImage: inRail ? `url("${paperTile}")` : undefined, ['--i' as string]: staggerIndex } as CSSProperties}
+        style={{ ...(inRail ? undefined : at(L.slots[staggerIndex]!)), backgroundImage: inRail ? `url("${paperTile}")` : undefined, ['--i' as string]: inRail ? staggerIndex % 2 : staggerIndex } as CSSProperties}
         aria-keyshortcuts="Shift+F10"
         aria-description="PRESS AND HOLD, OR SHIFT F10, TO MANAGE THIS POCKET."
         onPointerDown={(e) => {
@@ -574,9 +590,16 @@ export function MoneyMotionParent() {
               </div>}
           </div>
 
+          {/* ambient D — a faint warm light over the scenery, only while the director grants it */}
+          <span className="jma-light" aria-hidden data-jrn-ambient-channel="D" style={at(LIGHT)} />
+
           {/* L1 — collage objects with real alpha */}
           <img className="jrn-f05m__obj jrn-f05m__title-paper" data-layer="L1" src={titlePaper} alt="" draggable={false} style={at(TITLE)} />
           <img className="jrn-f05m__obj jrn-f05m__seal" data-layer="L1" src={waxSeal} alt="" draggable={false} style={at(SEAL)} />
+          {/* ambient C — light crossing the seal, masked to the seal's own alpha (the seal does not move) */}
+          <span className="jma-sheen" aria-hidden data-jrn-ambient-channel="C" style={{ ...at(SEAL), ['--jma-mask' as string]: `url("${waxSeal}")` } as CSSProperties}>
+            <i />
+          </span>
 
           {/* L2 — live type */}
           <p className="jrn-f05m__mark" aria-label="JURNL" style={{ left: C.mark.left, top: C.mark.top, fontSize: f05BoardType(C.mark.size), letterSpacing: `${C.mark.ls}em`, transform: `rotate(${C.mark.rot}deg)` }}>JURNL</p>
@@ -636,7 +659,7 @@ export function MoneyMotionParent() {
                 data-collection={g.id}
                 data-phase={g.phase}
                 data-dir={transition?.dir}
-                style={g.phase === 'exit' ? ({ ['--f05m-drag' as string]: `${transition?.drag ?? 0}px` } as CSSProperties) : undefined}
+                style={g.phase === 'exit' ? ({ ['--f05m-drag' as string]: `${transition?.drag ?? 0}px`, ['--f05m-exit-ms' as string]: `${transition?.exitMs ?? 300}ms` } as CSSProperties) : undefined}
               >
                 {renderCollection(g.id)}
               </div>
@@ -688,6 +711,7 @@ export function MoneyMotionParent() {
               patchF05Nav({ railScroll: 0 });
             }
             setFresh(id);
+            setSettleOnce(id);
             const needsSwipe = reading.accounts.length + 1 > 2;
             showToast({
               tone: 'success',

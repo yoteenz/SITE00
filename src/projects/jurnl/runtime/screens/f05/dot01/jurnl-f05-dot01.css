@@ -28,6 +28,10 @@
   background: #241a13;
   animation: none;
 }
+/* the account pages have their own entrance (and the shared paper from the parent): never the family fade as well */
+.jrn[data-jrn-f05-dot01] .jrn-screen[data-transition] {
+  animation: none;
+}
 .jrn[data-jrn-f05-dot01] .jrn-screen .jrn-env {
   left: 0 !important;
   right: 0 !important;

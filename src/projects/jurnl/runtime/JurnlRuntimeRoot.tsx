@@ -59,6 +59,9 @@ import './jurnl-f10-checked.css';
 import './jurnl-reference.css';
 import './jurnl-overlays.css';
 import './jurnl-entry-v2.css';
+import './motion/jurnl-motion.css';
+import { useMotionRuntime } from './motion/useMotion';
+import type { MotionMode } from './motion/director';
 
 /** Screen id → runtime component. Every F01 screen in the contract must appear here (tests enforce it). */
 export const JURNL_F01_SCREEN_COMPONENTS = {
@@ -174,14 +177,28 @@ function JurnlRoutes() {
   );
 }
 
+/**
+ * OPUS4 motion: connects the JurnlMotionDirector to this runtime (root attributes, overlay host, route changes). In design
+ * preview only, `?motion=full|subtle|off` sets the intensity (tests, evidence); production follows the defaults.
+ */
+function JurnlMotionRuntime({ root, overlayHost, mode }: { root: HTMLElement | null; overlayHost: HTMLElement | null; mode: ProjectRuntimeProps['mode'] }) {
+  const { pathname, search } = useLocation();
+  const asked = mode === 'design-preview' ? new URLSearchParams(search).get('motion') : null;
+  const override: MotionMode | null = asked === 'full' ? 'FULL' : asked === 'subtle' ? 'SUBTLE' : asked === 'off' ? 'OFF' : null;
+  useMotionRuntime(root, overlayHost, pathname, override);
+  return null;
+}
+
 export default function JurnlRuntimeRoot({ basePath, mode }: ProjectRuntimeProps) {
   const [overlayHost, setOverlayHost] = useState<HTMLElement | null>(null);
   const [navHost, setNavHost] = useState<HTMLElement | null>(null);
+  const [root, setRoot] = useState<HTMLElement | null>(null);
   if (mode === 'production' && jurnlProductionFailClosed(mode)) {
     return <JurnlProductionServiceScreen />;
   }
   return (
-    <div className="jrn" data-project-runtime="jurnl" data-runtime-mode={mode} data-jrn-app-stage="canvas" lang="en">
+    <div ref={setRoot} className="jrn" data-project-runtime="jurnl" data-runtime-mode={mode} data-jrn-app-stage="canvas" lang="en">
+      <JurnlMotionRuntime root={root} overlayHost={overlayHost} mode={mode} />
       <JurnlNavHostContext.Provider value={navHost}>
       <JurnlOverlayHostContext.Provider value={overlayHost}>
         {/* Entitlements context only (no DOM): future families query capabilities; F01 never renders monetization UI. */}

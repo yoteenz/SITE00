@@ -367,6 +367,16 @@
 /* a consent row is not itself a control: its switch carries a 44 px hit area (below), so the row may be shorter */
 .jrn .jce-row--consent {
   min-height: 40px;
+  position: relative;
+}
+/* the consent acknowledgement wash (motion/materials.ts consentAck animates its opacity once) */
+.jrn .jce-ack {
+  position: absolute;
+  inset: 0 -1.4cqw;
+  border-radius: 6px;
+  background: rgba(220, 171, 79, 0.18);
+  opacity: 0;
+  pointer-events: none;
 }
 .jrn .jce-row--action {
   cursor: pointer;

@@ -20,10 +20,13 @@ async function open(page: Page, kind: F05WorldKind = 'carousel', c?: Coll) {
   await settle(page);
 }
 
-/** Waits until no collection change is in progress and every animation has finished. */
+/**
+ * Waits until no collection change is in progress and every one-shot animation has finished. The OPUS4 ambient loops
+ * (`jm-amb-*`, infinite by design, only while the motion director grants them) never finish, so they are not awaited.
+ */
 async function settle(page: Page) {
   await expect(page.locator('.jrn-f05m__carousel')).toHaveAttribute('data-moving', 'false');
-  await page.evaluate(() => Promise.all(document.getAnimations().map((a) => a.finished.catch(() => undefined))));
+  await page.evaluate(() => Promise.all(document.getAnimations().filter((a) => !String((a as CSSAnimation).animationName ?? '').startsWith('jm-amb-')).map((a) => a.finished.catch(() => undefined))));
   await expect(page.locator('.jrn-f05m__collection[data-phase="exit"]')).toHaveCount(0);
 }
 
@@ -414,11 +417,13 @@ test.describe('F05 MONEY carousel', () => {
         titles: document.querySelectorAll('.jrn-f05m__title-paper').length,
         h1: document.querySelectorAll('h1.jrn-f05m__money').length,
         docks: document.querySelectorAll('.jrn-nav').length,
-        running: document.getAnimations().filter((a) => a.playState === 'running').length,
+        // one-shot motion has ended; an ambient loop (OPUS4) may run only on an ambient layer, at most two channels
+        running: document.getAnimations().filter((a) => a.playState === 'running' && !String((a as CSSAnimation).animationName ?? '').startsWith('jm-amb-')).length,
+        ambientOnLayersOnly: document.getAnimations().filter((a) => !(!String((a as CSSAnimation).animationName ?? '').startsWith('jm-amb-'))).every((a) => ((a.effect as KeyframeEffect).target as Element).matches('.jma-light, .jma-sheen > i')) && document.getAnimations().filter((a) => !(!String((a as CSSAnimation).animationName ?? '').startsWith('jm-amb-'))).length <= 2,
         translucentPapers: [...document.querySelectorAll('.jrn-f05m__paper')].filter((e) => Number(getComputedStyle(e).opacity) < 0.99).length,
         heldTransforms: [...document.querySelectorAll('.jrn-f05m__collection, .jrn-f05m__paper')].filter((e) => !e.matches(':hover') && getComputedStyle(e).transform !== 'none').length,
       }));
-      expect(layers).toEqual({ collections: 1, papers: 4, arts: id === 'accounts' ? 4 : 4, envImgs: layers.envImgs, seals: 1, titles: 1, h1: 1, docks: 1, running: 0, translucentPapers: 0, heldTransforms: 0 });
+      expect(layers).toEqual({ collections: 1, papers: 4, arts: id === 'accounts' ? 4 : 4, envImgs: layers.envImgs, seals: 1, titles: 1, h1: 1, docks: 1, running: 0, ambientOnLayersOnly: true, translucentPapers: 0, heldTransforms: 0 });
       expect([1, 2]).toContain(layers.envImgs);
     }
   });
@@ -500,7 +505,7 @@ test.describe('F05 MONEY carousel', () => {
     await page.clock.install();
     await gotoJurnl(page, 'money?parent=motion');
     await page.locator('[data-jrn-f05-stage]').waitFor({ state: 'attached' });
-    await page.evaluate(() => Promise.all(document.getAnimations().map((a) => a.finished.catch(() => undefined))));
+    await page.evaluate(() => Promise.all(document.getAnimations().filter((a) => !String((a as CSSAnimation).animationName ?? '').startsWith('jm-amb-')).map((a) => a.finished.catch(() => undefined))));
     // hold the controller's timer still so every frame of the change can be seeked exactly
     await page.clock.pauseAt(new Date(Date.now() + 60_000));
     const dir = `${SHOTS}/${test.info().project.name}/frames`;
@@ -527,7 +532,8 @@ test.describe('F05 MONEY carousel', () => {
       await page.evaluate((ms) => document.getAnimations().forEach((a) => (a.currentTime = ms)), t);
       await page.screenshot({ path: `${dir}/change-accounts-to-transfers-${String(t).padStart(3, '0')}ms.png` });
     }
-    await page.evaluate(() => document.getAnimations().forEach((a) => a.finish()));
+    // (a collection change pauses the ambience, so nothing infinite is running here; finishing one would throw)
+    await page.evaluate(() => document.getAnimations().filter((a) => a.effect?.getComputedTiming().endTime !== Infinity).forEach((a) => a.finish()));
     await page.clock.runFor(600);
     await expect(page.locator('.jrn-f05m__collection')).toHaveCount(1);
     await expect(page.locator('.jrn-f05m__collection')).toHaveAttribute('data-phase', 'idle');

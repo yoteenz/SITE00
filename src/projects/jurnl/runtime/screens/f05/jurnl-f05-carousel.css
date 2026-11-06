@@ -85,7 +85,7 @@
 }
 /* settle back when a drag does not reach the threshold */
 .jrn .jrn-f05m__collection[data-settling='true'] {
-  transition: transform 160ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition: transform var(--f05m-settle-ms, 160ms) cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 /* panel papers (collections 02–04) share the account paper styles; these add press feedback, empty and link states */
@@ -199,10 +199,10 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .jrn .jrn-f05m__collection[data-phase='exit'][data-dir='next'] .jrn-f05m__paper {
-    animation: f05m-out-next 300ms cubic-bezier(0.4, 0, 0.6, 1) calc(var(--i, 0) * 35ms) both;
+    animation: f05m-out-next var(--f05m-exit-ms, 300ms) cubic-bezier(0.4, 0, 0.6, 1) calc(var(--i, 0) * 35ms) both;
   }
   .jrn .jrn-f05m__collection[data-phase='exit'][data-dir='prev'] .jrn-f05m__paper {
-    animation: f05m-out-prev 300ms cubic-bezier(0.4, 0, 0.6, 1) calc(var(--i, 0) * 35ms) both;
+    animation: f05m-out-prev var(--f05m-exit-ms, 300ms) cubic-bezier(0.4, 0, 0.6, 1) calc(var(--i, 0) * 35ms) both;
   }
   .jrn .jrn-f05m__collection[data-phase='enter'][data-dir='next'] .jrn-f05m__paper {
     animation: f05m-in-next 360ms cubic-bezier(0.2, 0.7, 0.2, 1) calc(60ms + var(--i, 0) * 30ms) backwards;

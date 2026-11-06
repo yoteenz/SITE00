@@ -4,7 +4,7 @@
  * Every write goes through the canonical ledger operations; every figure is derived from repository records.
  */
 
-import { useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import type { JurnlAccountRecord } from '../../data/foundation/accounts';
 import { addDays, formatCalendarDate, formatRelativeDate, getTodayKey, isCalendarDate, type CalendarDate, type RecurrenceType } from '../../data/foundation/dates';
 import type { EarningsSourceKind, JurnlDailyEarnings, TipsMode } from '../../data/foundation/dailyEarnings';
@@ -35,6 +35,8 @@ import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/
 import { useJurnl } from '../state/store';
 import { EdAction, EdChoices, EditorialOverlay, type EdPlate } from '../surfaces/editorial/Editorial';
 import { PocketPick } from '../surfaces/editorial/MoneyOverlays';
+import { respond, type ResponseName } from '../motion/materials';
+import { useStateResponse } from '../motion/useMotion';
 
 // ─── Small shared pieces ─────────────────────────────────────────────────────
 
@@ -97,7 +99,24 @@ function Facts({ rows, testId }: { rows: [string, ReactNode][]; testId?: string 
 }
 
 function ErrorLine({ error }: { error: string | null }) {
-  return error ? <p className="jrn-field__error" role="alert">{error}</p> : null;
+  // a refusal appears: one brief, local nudge of the line itself (never a figure)
+  const ref = useRef<HTMLParagraphElement>(null);
+  useEffect(() => {
+    if (error) respond(ref.current, 'errorNudge');
+  }, [error]);
+  return error ? <p ref={ref} className="jrn-field__error" role="alert">{error}</p> : null;
+}
+
+/**
+ * The transfer's recorded state, answered once when it changes (never on open): ARRIVED settles the status line; a
+ * failure, a return, a reversal or a record that needs reconciling settles it calmly once. Recorded, scheduled, pending
+ * and in transit get no motion: nothing has finished, and JURNL invents no progress.
+ */
+export function transferStateResponse(prev: TransferState, next: TransferState): ResponseName | null {
+  if (prev === next) return null;
+  if (next === 'COMPLETED') return 'paperSettle';
+  if (next === 'FAILED' || next === 'RETURNING' || next === 'REVERSED' || next === 'NEEDS_RECONCILIATION') return 'warningSettle';
+  return null;
 }
 
 function useResult() {
@@ -398,6 +417,8 @@ export function TransferDetailSheet({ linkId, onClose }: { linkId: string; onClo
   const [askReturned, setAskReturned] = useState(false);
   const { error, run } = useResult();
   const v = transferViews(getRepository().listTransactions(), today).find((x) => x.linkId === linkId);
+  const statusRow = useRef<HTMLLIElement>(null);
+  useStateResponse<TransferState | null>(v?.state ?? null, statusRow, (p, n) => (p && n ? transferStateResponse(p, n) : null));
   if (!v) return null;
   const name = (id: string | null) => getRepository().listAccounts().find((a) => a.account_id === id)?.display_name ?? '—';
   const labels = v.kind === 'CARD_PAYMENT' ? CARD_PAYMENT_STATE_LABEL : TRANSFER_STATE_LABEL;
@@ -447,7 +468,7 @@ export function TransferDetailSheet({ linkId, onClose }: { linkId: string; onClo
       }
     >
       <ul className="jrn-why" data-testid="transfer-detail-facts" data-state={v.state}>
-        <li><span>STATUS</span><b>{labels[v.state]}</b></li>
+        <li ref={statusRow} data-testid="transfer-detail-status"><span>STATUS</span><b>{labels[v.state]}</b></li>
         <li><span>AMOUNT</span><b>{money(v.amount)}</b></li>
         <li><span>FROM</span><b>{name(v.fromId)}</b></li>
         <li><span>TO</span><b>{name(v.toId)}</b></li>

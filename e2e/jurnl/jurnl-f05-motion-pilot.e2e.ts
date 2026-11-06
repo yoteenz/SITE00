@@ -18,9 +18,9 @@ async function open(page: Page, kind: F05WorldKind = 'approved') {
   await settle(page);
 }
 
-/** Waits for the entrance to finish (no-op under reduced motion). */
+/** Waits for the entrance to finish (no-op under reduced motion). OPUS4 ambient loops (`jm-amb-*`) never finish: not awaited. */
 async function settle(page: Page) {
-  await page.evaluate(() => Promise.all(document.getAnimations().map((a) => a.finished.catch(() => undefined))));
+  await page.evaluate(() => Promise.all(document.getAnimations().filter((a) => !String((a as CSSAnimation).animationName ?? '').startsWith('jm-amb-')).map((a) => a.finished.catch(() => undefined))));
 }
 
 async function shot(page: Page, name: string) {
@@ -139,9 +139,11 @@ test.describe('F05 MONEY parent motion pilot', () => {
       transforms: [...document.querySelectorAll('[data-account-id]')].map((e) => getComputedStyle(e).transform).filter((t) => t !== 'none'),
       // the shared-element name lives only for the duration of a transition (:root keeps the UA default name)
       named: [...document.querySelectorAll('body *')].filter((e) => getComputedStyle(e).viewTransitionName === 'jrn-place').length,
-      running: document.getAnimations().filter((a) => a.playState === 'running').length,
+      running: document.getAnimations().filter((a) => a.playState === 'running' && !String((a as CSSAnimation).animationName ?? '').startsWith('jm-amb-')).length,
+      // an ambient loop (OPUS4) may run only on an ambient layer, never on a paper
+      ambientOnLayersOnly: document.getAnimations().filter((a) => !(!String((a as CSSAnimation).animationName ?? '').startsWith('jm-amb-'))).every((a) => ((a.effect as KeyframeEffect).target as Element).matches('.jma-light, .jma-sheen > i')),
     }));
-    expect(residue).toEqual({ transforms: [], named: 0, running: 0 });
+    expect(residue).toEqual({ transforms: [], named: 0, running: 0, ambientOnLayersOnly: true });
     expect(JSON.stringify(await storedSnapshot(page))).toBe(before);
   });
 
@@ -334,17 +336,20 @@ test.describe('F05 MONEY parent motion pilot', () => {
     await page.locator('[data-jrn-f05-stage]').waitFor({ state: 'attached' });
     const dir = `${SHOTS}/${test.info().project.name}/frames`;
     mkdirSync(dir, { recursive: true });
+    // the ambience is never granted during the entrance (the director's entrance quiet period)
+    expect(await page.evaluate(() => (document.querySelector('.jrn') as HTMLElement).dataset.jrnAmbient)).toBe('off');
     const count = await page.evaluate(() => document.getAnimations().filter((a) => ((a.effect as KeyframeEffect | null)?.target as Element | null)?.closest('[data-jrn-f05-stage]')).length);
     expect(count).toBeGreaterThan(8);
     for (const t of [0, 80, 160, 240, 320, 400, 480, 560, 650]) {
       await page.evaluate((ms) => document.getAnimations().forEach((a) => (a.currentTime = ms)), t);
       await page.screenshot({ path: `${dir}/entrance-${String(t).padStart(3, '0')}ms.png` });
     }
-    // Every pilot animation ends within the 650 ms entrance budget.
-    const ends = await page.evaluate(() => document.getAnimations().filter((a) => ((a.effect as KeyframeEffect | null)?.target as Element | null)?.closest('[data-jrn-f05-stage]')).map((a) => Number(a.effect?.getComputedTiming().endTime ?? 0)));
+    // Every pilot entrance animation ends within the 650 ms entrance budget. (The ambient loops, granted only after the
+    // entrance quiet period, may have started while the frames were captured: they are not part of the entrance.)
+    const ends = await page.evaluate(() => document.getAnimations().filter((a) => !String((a as CSSAnimation).animationName ?? '').startsWith('jm-amb-') && ((a.effect as KeyframeEffect | null)?.target as Element | null)?.closest('[data-jrn-f05-stage]')).map((a) => Number(a.effect?.getComputedTiming().endTime ?? 0)));
     expect(Math.max(...ends)).toBeLessThanOrEqual(650);
     await page.evaluate(() => document.querySelector('style[data-e2e-freeze]')?.remove());
-    await page.evaluate(() => document.getAnimations().forEach((a) => a.finish()));
+    await page.evaluate(() => document.getAnimations().filter((a) => a.effect?.getComputedTiming().endTime !== Infinity).forEach((a) => a.finish()));
     await page.screenshot({ path: `${dir}/entrance-final.png` });
   });
 
@@ -362,7 +367,7 @@ test.describe('F05 MONEY parent motion pilot', () => {
       await page.evaluate((ms) => document.getAnimations().forEach((a) => (a.currentTime = ms)), t);
       await page.screenshot({ path: `${dir}/route-${String(t).padStart(3, '0')}ms.png` });
     }
-    await page.evaluate(() => document.getAnimations().forEach((a) => a.finish()));
+    await page.evaluate(() => document.getAnimations().filter((a) => a.effect?.getComputedTiming().endTime !== Infinity).forEach((a) => a.finish()));
     await page.waitForURL(/\/money\/places\/cash$/);
     await expect(page.locator('[data-jrn-screen="F05.ACCOUNT"] h1')).toHaveText('CASH ON HAND');
   });

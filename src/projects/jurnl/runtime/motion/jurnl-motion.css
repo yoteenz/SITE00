@@ -1,0 +1,241 @@
+/*
+ * JURNL motion language (OPUS4) — material tokens, the ambient channels and the shared overlay / material affordances.
+ * The JurnlMotionDirector (motion/director.ts) writes on the `.jrn` root:
+ *   data-jrn-motion-mode  FULL | SUBTLE | OFF
+ *   data-jrn-motion-phase IDLE | AMBIENT | INTERACTING | NAVIGATING | VALIDATING | PROCESSING | CONFIRMED | WARNING | ERROR | SETTLING | SUSPENDED
+ *   data-jrn-ambient      the granted channels ("D C", "D" …) or "off"
+ * Ambient loops run only on independently mounted art, only while granted, and only as transform / opacity. Each cycle is
+ * mostly stillness. Nothing here animates a figure, a field or a large paper with live content. The ambient layers take no
+ * z-index: they paint in document order, so live type placed after them always stays on top.
+ */
+.jrn {
+  --jm-ease-paper: cubic-bezier(0.22, 0.75, 0.28, 1);
+  --jm-ease-bronze: cubic-bezier(0.3, 0, 0.12, 1);
+  --jm-ease-wax: cubic-bezier(0.34, 0.06, 0.2, 1);
+  --jm-ease-textile: cubic-bezier(0.45, 0.05, 0.25, 1);
+  --jm-ease-nav: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --jm-micro: 140ms;
+  --jm-paper-feedback: 240ms;
+  --jm-overlay-in: 420ms;
+  --jm-note-in: 380ms;
+}
+
+/* ── ambient D: soft atmospheric light — a faint warm light over the scenery that comes and goes; the art never moves ── */
+.jrn .jma-light {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(58% 52% at 62% 38%, rgba(255, 236, 196, 0.62), rgba(255, 236, 196, 0) 72%);
+}
+/* ── ambient C: material presence — light crossing the wax seal, masked to the seal's own alpha ── */
+.jrn .jma-sheen {
+  position: absolute;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask: var(--jma-mask) center / contain no-repeat;
+  mask: var(--jma-mask) center / contain no-repeat;
+}
+.jrn .jma-sheen > i {
+  position: absolute;
+  top: -10%;
+  bottom: -10%;
+  left: 0;
+  width: 38%;
+  opacity: 0;
+  transform: translateX(-140%) skewX(-12deg);
+  background: linear-gradient(100deg, rgba(255, 240, 205, 0) 0%, rgba(255, 240, 205, 0.42) 50%, rgba(255, 240, 205, 0) 100%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .jrn[data-jrn-ambient~='D'] .jma-light {
+    animation: jm-amb-light 18s var(--jm-ease-textile) 0.6s infinite;
+  }
+  .jrn[data-jrn-ambient~='C'] .jma-sheen > i {
+    animation: jm-amb-sheen 14s var(--jm-ease-bronze) 2.2s infinite;
+  }
+
+  /* overlays enter as illustrated objects: a short paper settle into the existing world (the page stays still) */
+  .jrn .jsh-host .jsh-plate,
+  .jrn .jgm-host .jgm-plate,
+  .jrn .jed-host .jed-folio {
+    animation: jm-ovl-in var(--jm-overlay-in) var(--jm-ease-paper) both;
+  }
+  /* MANAGE POCKET: the note is presented — a small lift and turn from the pocket it belongs to */
+  .jrn .jrn-pop.jsp-note-pop {
+    transform-origin: 30% 0;
+    animation: jm-note-in var(--jm-note-in) var(--jm-ease-paper) both;
+  }
+  .jrn .jrn-pop.jsp-note-pop[data-side='above'] {
+    transform-origin: 30% 100%;
+    animation-name: jm-note-in-up;
+  }
+
+  /* material press affordances (immediate, interruptible: transitions on transform only) */
+  .jrn .jrn-pop.jsp-note-pop .jsp-menu-paper,
+  .jrn .jce-paper-control,
+  .jrn .jgm-row .jv3-chev,
+  .jrn .jgm-row > svg:first-child {
+    transition: transform var(--jm-micro) var(--jm-ease-paper);
+  }
+  .jrn .jrn-pop.jsp-note-pop .jsp-menu-paper:active,
+  .jrn .jce-paper-control:active:not(:disabled) {
+    transform: translateY(1px) scale(0.992);
+  }
+  /* DELETE responds deliberately: slower, lower, never springy */
+  .jrn .jrn-pop.jsp-note-pop .jsp-menu-paper[data-paper='delete'] {
+    transition-duration: 200ms;
+    transition-timing-function: var(--jm-ease-textile);
+  }
+  .jrn .jrn-pop.jsp-note-pop .jsp-menu-paper[data-paper='delete']:active {
+    transform: translateY(1.5px);
+  }
+  .jrn .jgm-row:hover .jv3-chev,
+  .jrn .jgm-row:focus-visible .jv3-chev {
+    transform: translateX(2px);
+  }
+  .jrn .jgm-row:active > svg:first-child {
+    transform: translateX(1px);
+  }
+  /* the BUFFER amount paper rises a hair while it is being edited */
+  .jrn .jce-amount {
+    transition: transform var(--jm-paper-feedback) var(--jm-ease-paper);
+  }
+  .jrn .jce-amount:focus-within {
+    transform: translateY(-1px);
+  }
+}
+
+@keyframes jm-amb-light {
+  0%,
+  32% {
+    opacity: 0;
+  }
+  56% {
+    opacity: 0.16;
+  }
+  72% {
+    opacity: 0.12;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes jm-amb-sheen {
+  0%,
+  76% {
+    opacity: 0;
+    transform: translateX(-140%) skewX(-12deg);
+  }
+  80% {
+    opacity: 1;
+  }
+  94% {
+    opacity: 0.9;
+    transform: translateX(330%) skewX(-12deg);
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: translateX(330%) skewX(-12deg);
+  }
+}
+@keyframes jm-ovl-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) rotate(-0.35deg) scale(0.992);
+  }
+  55% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes jm-note-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) rotate(-1.4deg) scale(0.985);
+  }
+  60% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes jm-note-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px) rotate(1.2deg) scale(0.985);
+  }
+  60% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* a closing overlay's inert copy (overlayMotion.ts): never interactive, and it never replays an entrance or a transition
+   of the overlay it copies — only its own short fade runs */
+.jrn .jm-ghost {
+  pointer-events: none !important;
+}
+.jrn .jm-ghost,
+.jrn .jm-ghost * {
+  animation: none !important;
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jrn .jma-light,
+  .jrn .jma-sheen > i {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+  .jrn .jrn-pop.jsp-note-pop,
+  .jrn .jrn-pop-backdrop {
+    animation: none !important;
+  }
+  .jrn .jm-ghost {
+    display: none !important;
+  }
+  /* press feedback changes state at once (no travel) — every control still works */
+  .jrn .jrn-d01__strip,
+  .jrn .d01-strip,
+  .jrn .d01-card,
+  .jrn .d01-reorder,
+  .jrn .d01-dir__action-art,
+  .jrn .jrn-f05m__viewall,
+  .jrn .jrn-f05m__collection[data-settling='true'] {
+    transition: none !important;
+  }
+  .jrn .jrn-f05m__collection[data-dragging='true'] {
+    transform: none !important;
+  }
+}
+
+/* a blocked action (ARCHIVE / DELETE BLOCKED and every caution surface): the bronze warning seal settles once, weighted and
+   slow — no shake, no loop, the caution text never moves. Fill backwards: nothing is held after it ends. */
+@media (prefers-reduced-motion: no-preference) {
+  .jrn .jv3-caution .jv3-caution__head > .jv3-seal {
+    animation: jm-warn-seal 620ms var(--jm-ease-bronze) 320ms backwards;
+  }
+}
+@keyframes jm-warn-seal {
+  0% {
+    transform: rotate(0deg);
+  }
+  30% {
+    transform: rotate(-5deg);
+  }
+  66% {
+    transform: rotate(1.6deg);
+  }
+  100% {
+    transform: none;
+  }
+}

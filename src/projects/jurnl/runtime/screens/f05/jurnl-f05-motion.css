@@ -647,8 +647,10 @@
     animation: f05m-arrive 480ms var(--f05m-ease) both;
   }
   .jrn .jrn-f05m__collection[data-phase='load'] .jrn-f05m__paper[data-return='true'],
-  .jrn .jrn-f05m__collection[data-phase='load'] .jrn-f05m__paper[data-fresh='true'],
-  .jrn .jrn-f05m__collection[data-phase='idle'] .jrn-f05m__paper[data-fresh='true'] {
+  .jrn .jrn-f05m__collection[data-phase='load'] .jrn-f05m__paper[data-settle='true'],
+  .jrn .jrn-f05m__collection[data-phase='idle'] .jrn-f05m__paper[data-settle='true'] {
+    /* data-settle is cleared 700 ms after the pocket is saved (data-fresh stays as its identity), so a later idle
+       collection never replays this settle */
     animation: f05m-return 420ms var(--f05m-ease) backwards;
   }
 }

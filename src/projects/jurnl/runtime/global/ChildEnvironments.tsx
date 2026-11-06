@@ -14,7 +14,7 @@
  * Only the privacy list scrolls; the buffer column scrolls only when a long warning needs the room. The page never scrolls.
  * The behaviour, accounting and consent rules are the folios' (data/f09/safetyBuffer.ts, useAskContextConsent).
  */
-import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from 'react';
 import { BUFFER_COPY, useSafetyBuffer } from '../../data/f09/safetyBuffer';
 import { formatAmountInput, formatMoney } from '../../data/home/money';
 import { F01_COPY as C } from '../../data/f01/copy';
@@ -23,6 +23,7 @@ import { JurnlToggle } from '../components/primitives';
 import { ShellOverlay, ShellSlot, slot, type ShellBox } from '../surfaces/editorial/Shell';
 import { V3Icon, V3Pill } from '../surfaces/v3/V3Surfaces';
 import { cleanArt, type CleanArtId } from './overlays/clean/registry';
+import { useStateResponse } from '../motion/useMotion';
 import type { MenuDestination, MenuPanel, SettingsToolId } from './menuPanels';
 import './jurnl-child-environments.css';
 
@@ -71,10 +72,10 @@ function PaperControl({ art, trigger, onClick, children, tone = 'ink', disabled,
 }
 
 /** A non-interactive paper surface for live content (native aspect ratio). */
-function PaperSurface({ art, children, testId, className = '' }: { art: CleanArtId; children: ReactNode; testId?: string; className?: string }) {
+function PaperSurface({ art, children, testId, className = '', surfaceRef }: { art: CleanArtId; children: ReactNode; testId?: string; className?: string; surfaceRef?: RefObject<HTMLDivElement> }) {
   const a = cleanArt(art);
   return (
-    <div className={`jsp-paper jce-paper-surface ${className}`} data-paper={art} data-testid={testId} style={aspect(art)}>
+    <div ref={surfaceRef} className={`jsp-paper jce-paper-surface ${className}`} data-paper={art} data-testid={testId} style={aspect(art)}>
       <img className="jsp-paper__art" src={a.src} alt="" aria-hidden draggable={false} data-asset-id={art} />
       {children}
     </div>
@@ -90,6 +91,9 @@ export function BufferEnvironment({ onBack, onCurrency }: { onBack: () => void; 
   const [info, setInfo] = useState(false);
   const infoId = useId();
   const column = useRef<HTMLDivElement>(null);
+  const amountPaper = useRef<HTMLDivElement>(null);
+  const effectPaper = useRef<HTMLDivElement>(null);
+  const [refused, setRefused] = useState(0);
   const code = b.currency.code;
   const blocked = b.rateState === 'UNAVAILABLE';
   const save = () => {
@@ -100,8 +104,13 @@ export function BufferEnvironment({ onBack, onCurrency }: { onBack: () => void; 
     } else {
       setStatus(null);
       setError(r.reason === 'RATE_UNAVAILABLE' ? BUFFER_COPY.rateUnavailable : BUFFER_COPY.invalid);
+      setRefused((n) => n + 1);
     }
   };
+  // motion follows the stored state: the effect paper settles only when the saved USD amount has changed; a refused save
+  // nudges the amount paper (every refusal, the figure itself never moves)
+  useStateResponse(b.storedUsd, effectPaper, () => 'paperSettle');
+  useStateResponse(refused, amountPaper, () => 'errorNudge');
   // a warning that does not fit is brought into view inside the column (never the page)
   useEffect(() => {
     const el = column.current?.querySelector<HTMLElement>('[data-jce-message]');
@@ -123,7 +132,7 @@ export function BufferEnvironment({ onBack, onCurrency }: { onBack: () => void; 
             </span>
           ) : null}
         </div>
-        <PaperSurface art="CH01_AMOUNT_PAPER" className="jce-amount" testId="buffer-amount-paper">
+        <PaperSurface art="CH01_AMOUNT_PAPER" className="jce-amount" testId="buffer-amount-paper" surfaceRef={amountPaper}>
           <span className="jce-amount__well">
             {b.currency.symbolPosition === 'prefix' ? <span className="jce-amount__mark" aria-hidden>{b.currency.symbol}</span> : null}
             <input id={id} inputMode="decimal" autoComplete="off" placeholder="0.00" value={formatAmountInput(b.value)} data-jrn-trigger="buffer-input" disabled={blocked} aria-invalid={error ? true : undefined} onChange={(e) => b.setValue(e.target.value)} />
@@ -157,7 +166,7 @@ export function BufferEnvironment({ onBack, onCurrency }: { onBack: () => void; 
             <span>{`${b.exchange.disclosure}. A CACHED RATE IS USED FOR THE CONVERSION.`}</span>
           </p>
         ) : null}
-        <PaperSurface art="CH01_EFFECT_PAPER" className="jce-effect" testId="buffer-effect-paper">
+        <PaperSurface art="CH01_EFFECT_PAPER" className="jce-effect" testId="buffer-effect-paper" surfaceRef={effectPaper}>
           <span className="jce-effect__kicker">
             EFFECT ON <span className="jce-line">SAFE TO SPEND</span>
           </span>
@@ -207,8 +216,13 @@ function RowText({ label, sub }: { label: string; sub: string }) {
   );
 }
 function ConsentRow({ icon, label, note, on, trigger, onChange }: { icon: string; label: string; note: string; on: boolean; trigger: string; onChange: (v: boolean) => void }) {
+  // restrained acknowledgement of a STORED consent change (never on open, never a re-render): the switch itself shows the
+  // value; OFF stays OFF
+  const ack = useRef<HTMLSpanElement>(null);
+  useStateResponse(on, ack, () => 'consentAck');
   return (
     <div className="jce-row jce-row--consent">
+      <span ref={ack} className="jce-ack" aria-hidden />
       <V3Icon name={icon} />
       <RowText label={label} sub={note} />
       <JurnlToggle checked={on} label={label} trigger={trigger} onChange={onChange} />

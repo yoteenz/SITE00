@@ -13,6 +13,8 @@ import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type Mous
 import { accountView, kindOf, type Dot01Kind } from '../../../../data/f05/dot01/accountView';
 import { getTodayKey } from '../../../../data/foundation/dates';
 import { renameAccount } from '../../../../data/ledger/ledgerOps';
+import { respond } from '../../../motion/materials';
+import { GHOST_MS } from '../../../motion/overlayMotion';
 import { checkPocketName, POCKET_NAME_MAX } from '../../../../data/f05/dot01/pocketName';
 import { useJurnl } from '../../../state/store';
 import { JurnlPopover } from '../surfaces/JurnlSurfaces';
@@ -159,7 +161,7 @@ function PocketMenu({ anchor, name, onRename, onDelete, onClose }: { anchor: HTM
   return (
     // the live page behind softens (a backdrop blur of the actual view, never a screenshot, in the popover's own layer);
     // it takes no taps, so the popover's outside-tap dismissal is unchanged
-    <JurnlPopover anchor={ref} onDismiss={() => onClose(false)} minWidth={300} want={372} className="jrn-pop--menu jv3-fragment jsp-note-pop" testId="d01-pocket-menu" backdrop>
+    <JurnlPopover anchor={ref} onDismiss={() => onClose(false)} minWidth={300} want={372} className="jrn-pop--menu jv3-fragment jsp-note-pop" testId="d01-pocket-menu" backdrop exit>
       {/* the founder's regenerated OV04 note (named correct 2026-11-06): note, paperclip, coastline tear and oxblood are one
           piece of art, clipped to its own measured outline (the file has no alpha); nothing of it is drawn twice */}
       <div ref={attach} role="menu" aria-label={`MANAGE POCKET: ${name}`} onKeyDown={onKey} className="jsp-note">
@@ -282,6 +284,9 @@ export function usePocketManager(where: 'detail' | 'directory' | 'parent') {
           onClose={() => close(true)}
           onSaved={(name) => {
             close(true);
+            // the renamed pocket's paper settles once, after the overlay's closing copy has gone (the rename is stored)
+            const paper = anchorRef.current?.closest('.jrn-f05m__paper, .d01-pocket, [data-account-id]') ?? anchorRef.current;
+            respond(paper, 'paperSettle', { delay: GHOST_MS });
             showToast({ tone: 'success', title: 'POCKET RENAMED', body: `NOW CALLED ${name}. BALANCES AND HISTORY ARE UNCHANGED.`, testId: 'd01-pocket-renamed' });
           }}
         />

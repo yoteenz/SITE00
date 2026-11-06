@@ -17,7 +17,7 @@
  */
 
 import type React from 'react';
-import { Fragment, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type ReactNode } from 'react';
+import { Fragment, useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type ReactNode } from 'react';
 import { OverlayLayer } from '../../../components/primitives';
 import { JurnlProductNav } from '../../../components/ProductNav';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../../../global/GlobalSheets';
@@ -35,6 +35,7 @@ import sk01Seal from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_WAX
 import motionGeometry from '../../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_GEOMETRY.json';
 import { f05BoardType } from '../CarouselPanelPaper';
 import { CROP as F05_CROP, SEAM_A as SK01_SEAM_A, SEAM_C as SK01_SEAM_C, computeF05BoardScale } from '../f05MotionLayout';
+import { useAmbientChannels } from '../../../motion/useMotion';
 import './jurnl-f05-dot01.css';
 
 export const SRC_W = 941;
@@ -85,6 +86,15 @@ export const OVERLAY_HEADINGS = {
 /** The SK03 SIDEKICK's own laurel seal, lifted with a disc alpha (lift_dot01_sk03_parts.py): the wide title paper covers
  * the SIDEKICK's heading, so the frame draws this seal over it unless the screen mounts its own seal layer. */
 const SK03_SEAL_BOX: BoardRect = { x: 25, y: 324, w: 154, h: 154 };
+/** Ambient C (OPUS4): light crossing a wax seal, masked to that seal's own alpha. The seal never moves; only while granted. */
+function SealSheen({ src, style }: { src: string; style: CSSProperties }) {
+  return (
+    <span className="jma-sheen" aria-hidden data-jrn-ambient-channel="C" style={{ ...style, ['--jma-mask' as string]: `url("${src}")` } as CSSProperties}>
+      <i />
+    </span>
+  );
+}
+const DOT01_AMBIENT = ['C'] as const;
 export type Dot01Heading = keyof typeof OVERLAY_HEADINGS;
 /** Mean advance of an uppercase letter of the title face at the overlay tracking (em), measured on the runtime. */
 const TITLE_ADVANCE = 0.66;
@@ -313,6 +323,11 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
   const clamped = !!mapped && mapped.y + mapped.h > L.h - 4;
   const cr = mapped && clamped ? { ...mapped, h: Math.max(0, L.h - 4 - mapped.y) } : mapped;
   const boardStyle: CSSProperties = { width: SRC_W, height: L.boardH, transform: `translate(${L.ox}px, 0) scale(${S})`, ['--f05m-u' as string]: String(S) } as CSSProperties;
+  // a page (never an overlay: a task surface stays still) offers the seal sheen when it draws an independent seal
+  const sealLayers = layers.filter((l) => l.id.startsWith('seal'));
+  const hasSeal = env === 'SK01_FIELD' || head === 'wide' || sealLayers.length > 0;
+  const ambientOwner = useId();
+  useAmbientChannels(`f05-dot01-${ambientOwner}`, DOT01_AMBIENT, page && hasSeal);
   return (
     <div ref={ref} className="jrn-d01" data-jrn-f05-dot01-stage data-env={env} data-heading={overlayHead ? head : undefined} data-testid={testId} data-wide={L.ox > 0.5 ? 'true' : 'false'} style={STAGE_VARS}>
       <div className="jrn-d01__board" style={boardStyle} data-jrn-zone="board">
@@ -344,13 +359,17 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
           <>
             <img className="jrn-d01__layer" data-layer="L1" data-layer-id="sk01_title_paper" src={sk01TitlePaper} alt="" aria-hidden draggable={false} style={{ left: SK01_TITLE_BOX.x, top: SK01_TITLE_BOX.y, width: SK01_TITLE_BOX.w, height: SK01_TITLE_BOX.h, ['--i' as string]: 0 } as CSSProperties} />
             <img className="jrn-d01__layer" data-layer="L1" data-layer-id="sk01_seal" src={sk01Seal} alt="" aria-hidden draggable={false} style={{ left: SK01_SEAL_BOX.x, top: SK01_SEAL_BOX.y, width: SK01_SEAL_BOX.w, height: SK01_SEAL_BOX.h, ['--i' as string]: 1 } as CSSProperties} />
+            {page ? <SealSheen src={sk01Seal} style={{ left: SK01_SEAL_BOX.x, top: SK01_SEAL_BOX.y, width: SK01_SEAL_BOX.w, height: SK01_SEAL_BOX.h }} /> : null}
           </>
         : null}
         {head === 'wide' ? (
           <>
             <img className="jrn-d01__layer jrn-d01__headpaper" data-layer="L1" data-layer-id="heading_paper_wide" src={DOT01['12_WIDE_TORN_BANNER']} alt="" aria-hidden draggable={false} style={{ left: OVERLAY_HEADINGS.wide.paper.x, top: OVERLAY_HEADINGS.wide.paper.y, width: OVERLAY_HEADINGS.wide.paper.w, height: OVERLAY_HEADINGS.wide.paper.h }} />
             {layers.some((l) => l.id.startsWith('seal')) ? null : (
-              <img className="jrn-d01__layer" data-layer="L1" data-layer-id="seal_sk03" src={sk03Seal} alt="" aria-hidden draggable={false} style={{ left: SK03_SEAL_BOX.x, top: SK03_SEAL_BOX.y, width: SK03_SEAL_BOX.w, height: SK03_SEAL_BOX.h }} />
+              <>
+                <img className="jrn-d01__layer" data-layer="L1" data-layer-id="seal_sk03" src={sk03Seal} alt="" aria-hidden draggable={false} style={{ left: SK03_SEAL_BOX.x, top: SK03_SEAL_BOX.y, width: SK03_SEAL_BOX.w, height: SK03_SEAL_BOX.h }} />
+                {page ? <SealSheen src={sk03Seal} style={{ left: SK03_SEAL_BOX.x, top: SK03_SEAL_BOX.y, width: SK03_SEAL_BOX.w, height: SK03_SEAL_BOX.h }} /> : null}
+              </>
             )}
           </>
         ) : null}
@@ -367,6 +386,7 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
             style={{ left: l.box.x, top: by(L, l.box.y), width: l.box.w, height: l.box.h, ['--i' as string]: l.order ?? i, viewTransitionName: l.vt } as CSSProperties}
           />
         ))}
+        {page ? sealLayers.map((l) => <SealSheen key={`sheen-${l.id}`} src={l.src} style={{ left: l.box.x, top: by(L, l.box.y), width: l.box.w, height: l.box.h }} />) : null}
         <p className="jrn-d01__mark" aria-label="JURNL">JURNL</p>
         <header className="jrn-d01__heading" data-jrn-zone="intro">
           <h1 ref={titleRef} id={titleId} className="jrn-d01__title" style={{ fontSize: titleFit < 1 ? `calc(${f05BoardType(tSize)} * ${titleFit})` : f05BoardType(tSize) }} data-lines={title.length} data-fit={titleFit < 1 ? titleFit : undefined} tabIndex={-1}>

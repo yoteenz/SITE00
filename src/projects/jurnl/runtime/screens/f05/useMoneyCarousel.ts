@@ -9,14 +9,18 @@
  * - A touch that starts within 20 px of the screen edge is left to the system (back / forward gestures).
  * - Keyboard: ← / → inside the carousel; dots and previous / next buttons select directly.
  * - No auto-rotation. Changing collection never writes data.
+ * - Motion (OPUS4): a committed swipe leaves at the finger's own speed (exit 180–300 ms from where the drag left the
+ *   papers); a cancelled drag settles back in a time that follows its distance (140–280 ms). A change tells the motion
+ *   director it is navigating, so ambience waits until the new collection has landed.
  */
 
 import { useCallback, useEffect, useRef, useState, type PointerEvent as ReactPointerEvent, type WheelEvent as ReactWheelEvent } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { COLLECTIONS, type CollectionId } from '../../../data/f05/moneyCarousel';
 import { patchF05Nav, readF05Nav } from './f05NavPersistence';
+import { motionDirector } from '../../motion/director';
 
-export type CarouselTransition = { from: CollectionId; to: CollectionId; dir: 'next' | 'prev'; drag: number } | null;
+export type CarouselTransition = { from: CollectionId; to: CollectionId; dir: 'next' | 'prev'; drag: number; exitMs: number } | null;
 
 const IDS = COLLECTIONS.map((c) => c.id);
 const THRESHOLD = 56;
@@ -25,6 +29,20 @@ const EXIT_MS = 520;
 const EDGE = 20; // px: system back / forward gesture zone
 const WHEEL_STEP = 60; // accumulated horizontal px for one trackpad step
 const WHEEL_REST = 600; // ms
+/** The exit keyframes travel to ±170 board px; a committed swipe continues at its release speed, inside these bounds. */
+const EXIT_TRAVEL = 170;
+export const EXIT_RANGE = [180, 300] as const;
+export const SETTLE_RANGE = [140, 280] as const;
+const clamp = (v: number, [lo, hi]: readonly [number, number]) => Math.min(hi, Math.max(lo, v));
+/** Exit duration for a change: a tap / key / dot uses the full 300 ms; a swipe keeps the speed of the finger. */
+export function exitMsFor(fromDrag: number, releaseV: number): number {
+  if (!fromDrag || !(releaseV > 0)) return EXIT_RANGE[1];
+  return Math.round(clamp((EXIT_TRAVEL - Math.min(EXIT_TRAVEL, Math.abs(fromDrag))) / releaseV, EXIT_RANGE));
+}
+/** Settle-back duration for a cancelled drag: longer for a longer pull, never springy. */
+export function settleMsFor(px: number): number {
+  return Math.round(clamp(SETTLE_RANGE[0] + Math.abs(px) * 1.4, SETTLE_RANGE));
+}
 
 export function useMoneyCarousel(reduced: boolean) {
   const [params, setParams] = useSearchParams();
@@ -36,7 +54,7 @@ export function useMoneyCarousel(reduced: boolean) {
     : 'accounts';
   const [transition, setTransition] = useState<CarouselTransition>(null);
   const timer = useRef<number | null>(null);
-  const drag = useRef<{ x: number; y: number; t: number; dx: number; on: boolean; moved: boolean; id: number } | null>(null);
+  const drag = useRef<{ x: number; y: number; t: number; dx: number; on: boolean; moved: boolean; id: number; lx: number; lt: number; vx: number } | null>(null);
   const suppressClick = useRef(false);
   /** The active collection element: drag writes straight to its style (no React render per pointer move). */
   const surface = useRef<HTMLElement | null>(null);
@@ -50,11 +68,15 @@ export function useMoneyCarousel(reduced: boolean) {
     el.dataset.dragging = dragging ? 'true' : 'false';
     el.dataset.settling = settling ? 'true' : 'false';
   };
-  const setDragPx = (px: number) => paint(px, px !== 0, px === 0);
+  const setDragPx = (px: number) => {
+    if (px === 0 && surface.current) surface.current.style.setProperty('--f05m-settle-ms', `${settleMsFor(dragPxRef.current)}ms`);
+    paint(px, px !== 0, px === 0);
+  };
 
   const go = useCallback(
-    (to: CollectionId, dir: 'next' | 'prev', fromDrag = 0) => {
+    (to: CollectionId, dir: 'next' | 'prev', fromDrag = 0, releaseV = 0) => {
       if (to === active) return;
+      motionDirector.navigate(EXIT_MS);
       patchF05Nav({ c: to });
       const next = new URLSearchParams(params);
       next.set('c', to);
@@ -63,7 +85,7 @@ export function useMoneyCarousel(reduced: boolean) {
       if (reduced) {
         setTransition(null);
       } else {
-        setTransition({ from: active, to, dir, drag: fromDrag });
+        setTransition({ from: active, to, dir, drag: fromDrag, exitMs: exitMsFor(fromDrag, releaseV) });
         timer.current = window.setTimeout(() => setTransition(null), EXIT_MS);
       }
       paint(0, false);
@@ -110,7 +132,8 @@ export function useMoneyCarousel(reduced: boolean) {
     if (e.button !== 0) return;
     if ((e.target as HTMLElement).closest('.jrn-f05m__accounts-rail')) return;
     if (e.pointerType !== 'mouse' && (e.clientX < EDGE || e.clientX > window.innerWidth - EDGE)) return;
-    drag.current = { x: e.clientX, y: e.clientY, t: performance.now(), dx: 0, on: false, moved: false, id: e.pointerId };
+    const now = performance.now();
+    drag.current = { x: e.clientX, y: e.clientY, t: now, dx: 0, on: false, moved: false, id: e.pointerId, lx: e.clientX, lt: now, vx: 0 };
   };
   const onPointerMove = (e: ReactPointerEvent) => {
     const d = drag.current;
@@ -124,6 +147,15 @@ export function useMoneyCarousel(reduced: boolean) {
       (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
     }
     d.dx = dx;
+    // release speed: a short running average of the last moves (px / ms), for the exit only
+    const now = performance.now();
+    const dt = now - d.lt;
+    if (dt > 0) {
+      const inst = Math.abs(e.clientX - d.lx) / dt;
+      d.vx = d.vx ? d.vx * 0.6 + inst * 0.4 : inst;
+      d.lx = e.clientX;
+      d.lt = now;
+    }
     // resistance at the ends
     const i = IDS.indexOf(active);
     const atEnd = (dx > 0 && i === 0) || (dx < 0 && i === IDS.length - 1);
@@ -142,8 +174,9 @@ export function useMoneyCarousel(reduced: boolean) {
     const i = IDS.indexOf(active);
     const commit = Math.abs(d.dx) > THRESHOLD || v > FLICK;
     const from = dragPxRef.current;
-    if (commit && d.dx < 0 && i < IDS.length - 1) go(IDS[i + 1]!, 'next', from);
-    else if (commit && d.dx > 0 && i > 0) go(IDS[i - 1]!, 'prev', from);
+    const releaseV = Math.max(d.vx, v);
+    if (commit && d.dx < 0 && i < IDS.length - 1) go(IDS[i + 1]!, 'next', from, releaseV);
+    else if (commit && d.dx > 0 && i > 0) go(IDS[i - 1]!, 'prev', from, releaseV);
     else setDragPx(0);
   };
   const onPointerCancel = () => {

@@ -18,6 +18,8 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type ReactNode, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
 import sheetPaper from '../../../../families/F05_MONEY/DOT01/F05_DOT01_14_LARGE_PARCHMENT_SHEET.webp';
+import { motionDirector } from '../../../motion/director';
+import { ghostAfterClose } from '../../../motion/overlayMotion';
 import './jurnl-f05-surfaces.css';
 
 type Place = { left: number; width: number; top?: number; bottom?: number; maxH: number };
@@ -27,10 +29,20 @@ function hostOf(el: HTMLElement | null): HTMLElement {
 }
 
 /** JURNL_POPOVER: a parchment surface anchored to a field, in the stage's layer. */
-export function JurnlPopover({ anchor, onDismiss, children, minWidth = 220, want = 320, className = '', testId, backdrop = false }: { anchor: RefObject<HTMLElement | null>; onDismiss: () => void; children: ReactNode; minWidth?: number; want?: number; className?: string; testId?: string; /** soften the live stage behind the surface (a backdrop blur in the popover's own layer; takes no taps) */ backdrop?: boolean }) {
+export function JurnlPopover({ anchor, onDismiss, children, minWidth = 220, want = 320, className = '', testId, backdrop = false, exit = false }: { anchor: RefObject<HTMLElement | null>; onDismiss: () => void; children: ReactNode; minWidth?: number; want?: number; className?: string; testId?: string; /** soften the live stage behind the surface (a backdrop blur in the popover's own layer; takes no taps) */ backdrop?: boolean; /** close with the short inert exit copy (motion/overlayMotion.ts) unless an overlay replaces it */ exit?: boolean }) {
   const [host, setHost] = useState<HTMLElement | null>(null);
   const [place, setPlace] = useState<Place | null>(null);
-  const box = useRef<HTMLDivElement>(null);
+  // an open surface pauses the ambience (motion director); released on close
+  useEffect(() => motionDirector.holdOverlay(), []);
+  const box = useRef<HTMLDivElement | null>(null);
+  // the node is still attached when its ref detaches: take the exit copy then (an `exit` surface only)
+  const boxRef = useCallback(
+    (el: HTMLDivElement | null) => {
+      if (!el && exit) ghostAfterClose(box.current);
+      box.current = el;
+    },
+    [exit],
+  );
   const measure = useCallback(() => {
     const a = anchor.current;
     if (!a) return;
@@ -82,7 +94,7 @@ export function JurnlPopover({ anchor, onDismiss, children, minWidth = 220, want
   return createPortal(
     <>
       {backdrop ? <div className="jrn-pop-backdrop" aria-hidden data-testid={testId ? `${testId}-backdrop` : undefined} /> : null}
-      <div ref={box} className={`jrn-pop ${className}`} style={style} data-side={place.top != null ? 'below' : 'above'} data-testid={testId}>
+      <div ref={boxRef} className={`jrn-pop ${className}`} style={style} data-side={place.top != null ? 'below' : 'above'} data-testid={testId}>
         {children}
       </div>
     </>,
