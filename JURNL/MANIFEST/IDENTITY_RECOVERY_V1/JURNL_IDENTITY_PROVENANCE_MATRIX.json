@@ -1,0 +1,115 @@
+{
+  "assets": [
+    {
+      "asset_id": "ID-001",
+      "exact_path": "public/site00/projects/jurnl/brand/jurnl-logo-official.png",
+      "file_type": "png",
+      "content_hash_sha256": "d0f706ebcd132562f233ed955e5670c0ff9309d9db6ef85c9d2650b72a16e188",
+      "candidate_classification": "SUPERSEDED_IDENTITY_REFERENCE",
+      "notes": "Vertical rose botanical mark",
+      "current_runtime_usage": "JurnlLogo img",
+      "source_commit": "720200dba09f4dfcda40883cb37d5c8940eb40c8",
+      "source_commit_date": "2026-10-05 01:40:35 +0000"
+    },
+    {
+      "asset_id": "ID-002",
+      "exact_path": "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png",
+      "file_type": "png",
+      "content_hash_sha256": "de0b877a2b5477f27753dd5fe2bef49ca94904e9e8789bc2b1710dffced404e2",
+      "candidate_classification": "RECOVERED_CANONICAL_CANDIDATE",
+      "notes": "Primary horizontal sprig-over-word source",
+      "current_runtime_usage": "ReferenceLockup",
+      "source_commit": "f297747195d2a5e5cded7039cbd48c360eebbc04",
+      "source_commit_date": "2026-10-07 00:49:01 +0000"
+    },
+    {
+      "asset_id": "ID-003",
+      "exact_path": "src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_SPRIG.png",
+      "file_type": "png",
+      "content_hash_sha256": "5765fc55186fd1cdee779c98c2a3d13628b6b808a226f474576b883b72ad7e34",
+      "candidate_classification": "APPROVED_DERIVATIVE",
+      "notes": "Botanical component",
+      "current_runtime_usage": "ReferenceLockup",
+      "source_commit": "435abbeb8bfa41d315680016d40e1a94babdd10d",
+      "source_commit_date": "2026-10-07 15:40:12 +0000"
+    },
+    {
+      "asset_id": "ID-004",
+      "exact_path": "src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_WORD.png",
+      "file_type": "png",
+      "content_hash_sha256": "d68f1a04f0feabf8c68644f37fa91d9d098f431ea22396b8716db9e37c551e88",
+      "candidate_classification": "APPROVED_DERIVATIVE",
+      "notes": "Wordmark component",
+      "current_runtime_usage": "ReferenceLockup",
+      "source_commit": "435abbeb8bfa41d315680016d40e1a94babdd10d",
+      "source_commit_date": "2026-10-07 15:40:12 +0000"
+    },
+    {
+      "asset_id": "ID-005",
+      "exact_path": "JURNL/F09_SAFE/REFERENCE_REPLICA1/REFERENCES/01_SAFE_TO_SPEND.png",
+      "file_type": "png",
+      "content_hash_sha256": "3d597fba02d16d4f761a1e23ebdc89d8698254a07b30265862501cb066343e51",
+      "candidate_classification": "CANONICAL",
+      "notes": "Approved Safe to Spend parent reference",
+      "current_runtime_usage": "authority_only",
+      "source_commit": "435abbeb8bfa41d315680016d40e1a94babdd10d",
+      "source_commit_date": "2026-10-07 15:40:12 +0000"
+    },
+    {
+      "asset_id": "ID-006",
+      "exact_path": "ENTRY v2/01_WELCOME/authority/entry-v2-welcome-authority.png",
+      "file_type": "png",
+      "content_hash_sha256": "ab039a826c7a5b7df5030051594468efc6b036c2587ac94833145179b87f0770",
+      "candidate_classification": "CANONICAL",
+      "notes": "Approved ENTRY welcome authority",
+      "current_runtime_usage": "authority_only",
+      "source_commit": "f6750f9f18dfd6936e6d6242ab4d5cd479010dad",
+      "source_commit_date": "2026-10-08 01:49:18 +0000"
+    },
+    {
+      "asset_id": "ID-007",
+      "exact_path": "JURNL/F02_SETUP/ASSETS/LOCKUPS/F02.BRANDLOCKUP.JURNL.001.png",
+      "file_type": "png",
+      "content_hash_sha256": "3e4f64dd28a413d85b8e7bc7be23dbde35439adb8b0ca05db14655bb6c52d9b7",
+      "candidate_classification": "SUPERSEDED_IDENTITY_REFERENCE",
+      "notes": "Horizontal rearrangement of vertical mark",
+      "current_runtime_usage": "ReferenceLockup",
+      "source_commit": "b339e4c8e37b2c4b5bd4122a1e8c7f416575d42e",
+      "source_commit_date": "2026-10-05 13:18:32 +0000"
+    },
+    {
+      "asset_id": "ID-008",
+      "exact_path": "JURNL/F02_SETUP/ASSETS/LOCKUPS/F02.BRANDLOCKUP.JURNL_SETUP.001.png",
+      "file_type": "png",
+      "content_hash_sha256": "8fbd11ef9934b8d02624bcd55305ac1f7a3b5d9d4f773c8afcf598d6bae126c3",
+      "candidate_classification": "DO_NOT_USE",
+      "notes": "Invented rose plus SETUP label",
+      "current_runtime_usage": "ReferenceLockup",
+      "source_commit": "b339e4c8e37b2c4b5bd4122a1e8c7f416575d42e",
+      "source_commit_date": "2026-10-05 13:18:32 +0000"
+    },
+    {
+      "asset_id": "ID-009",
+      "exact_path": "public/site00/projects/jurnl/brand/jurnl-cover.png",
+      "file_type": "png",
+      "content_hash_sha256": "2e69df9f5a78d8a86969e4d1e144c44fbd31c0f1c4bf4d20b543308f4a4b5c13",
+      "candidate_classification": "SUPERSEDED_IDENTITY_REFERENCE",
+      "notes": "Vertical mark on cream",
+      "current_runtime_usage": "authority_only",
+      "source_commit": "720200dba09f4dfcda40883cb37d5c8940eb40c8",
+      "source_commit_date": "2026-10-05 01:40:35 +0000"
+    },
+    {
+      "asset_id": "ID-010",
+      "exact_path": "src/projects/jurnl/runtime/components/ReferenceLockup.tsx",
+      "file_type": "tsx",
+      "content_hash_sha256": "7673cc8bf726e10cdba23f33dad9d5a4c39694253752e5c605b513725b1cc59b",
+      "candidate_classification": "RUNTIME_COMPOSITION",
+      "notes": "Live sprig+word+descriptor layout",
+      "current_runtime_usage": "ReferenceLockup",
+      "source_commit": "435abbeb8bfa41d315680016d40e1a94babdd10d",
+      "source_commit_date": "2026-10-07 15:40:12 +0000"
+    }
+  ],
+  "relationship": "One canonical horizontal treatment (ID-002) with two committed derivatives (ID-003, ID-004). ID-001 is filename-only legacy."
+}

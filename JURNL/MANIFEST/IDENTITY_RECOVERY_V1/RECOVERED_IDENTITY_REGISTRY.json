@@ -1,0 +1,51 @@
+{
+  "id": "JURNL_RECOVERED_IDENTITY_REGISTRY_V1",
+  "sprint": "P0.JURNL.REFERENCE-HYGIENE.CANONICAL-LOGO-FORENSIC-RECOVERY-AND-AUTHORITY-REGISTRATION1",
+  "registration_status": "RECOVERED_CANDIDATE_FOUNDER_CONFIRMATION_PENDING",
+  "final_canonical_approved": false,
+  "primary_approved_editorial_lockup": {
+    "asset_id": "JURNL.IDENTITY.F09_LOCKUP",
+    "display_name": "Horizontal olive sprig over JURNL wordmark",
+    "role": "APPROVED_EDITORIAL_LOCKUP_SOURCE",
+    "path": "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png",
+    "source_commit": "f297747195d2a5e5cded7039cbd48c360eebbc04",
+    "source_checksum_sha256": "de0b877a2b5477f27753dd5fe2bef49ca94904e9e8789bc2b1710dffced404e2",
+    "dimensions": { "w": 282, "h": 118 },
+    "parent_authorities": [
+      "JURNL/F09_SAFE/REFERENCE_REPLICA1/REFERENCES/01_SAFE_TO_SPEND.png",
+      "ENTRY v2/01_WELCOME/authority/entry-v2-welcome-authority.png"
+    ],
+    "permitted_uses": [
+      "Deterministic layer extraction",
+      "Runtime ReferenceLockup composition",
+      "Identity reference pack (layers only for image-to-image)"
+    ],
+    "restricted_uses": [
+      "Do not attach the full frame as a Mediterranean world reference",
+      "Do not treat as a substitute for page-family authority"
+    ]
+  },
+  "components": [
+    {
+      "asset_id": "JURNL.IDENTITY.SPRIG",
+      "role": "APPROVED_BOTANICAL_COMPONENT",
+      "path": "src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_SPRIG.png",
+      "extracted_from": "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png",
+      "extraction_script": "scripts/jurnl/reference-replica/export_assets.py",
+      "checksum_sha256": "5765fc55186fd1cdee779c98c2a3d13628b6b808a226f474576b883b72ad7e34"
+    },
+    {
+      "asset_id": "JURNL.IDENTITY.WORD",
+      "role": "APPROVED_WORDMARK_COMPONENT",
+      "path": "src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_WORD.png",
+      "extracted_from": "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png",
+      "extraction_script": "scripts/jurnl/reference-replica/export_assets.py",
+      "checksum_sha256": "d68f1a04f0feabf8c68644f37fa91d9d098f431ea22396b8716db9e37c551e88"
+    }
+  ],
+  "superseded_predecessor": "public/site00/projects/jurnl/brand/jurnl-logo-official.png",
+  "clean_isolated_lockup_without_plaster": null,
+  "official_tagline": "PLAN TODAY. GROW FREELY.",
+  "page_descriptor_on_lockup": "FINANCIAL LIFE. BEAUTIFULLY ORGANIZED.",
+  "descriptor_classification": "PAGE_SPECIFIC_COMPOSITION_NOT_SUBSTITUTED_FOR_TAGLINE"
+}
