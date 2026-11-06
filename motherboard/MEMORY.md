@@ -16682,3 +16682,13 @@ Summary of the whole conversation in this chat.
 - **Decisions / outcomes:** Strip `-webkit-autofill` yellow via inset box-shadow on `.jrn-e2__input` and `.jrn-field__input`; non-password typed values uppercased in `E2Field` and `JurnlInput` `onChange`; e2 CSS `text-transform: uppercase` with password exception; Supabase auth adapter still lowercases email on sign-in.
 - **Changes:** `jurnl-entry-v2.css`, `jurnl-runtime.css`, `EntryV2Parts.tsx`, `primitives.tsx`, `jurnlEntryV2FirstSeven1.test.tsx`.
 - **Conventions:** Keep Authority Serif on e2 autofill pseudo-states; do not revert e2 inputs to `text-transform: none`.
+
+---
+
+## 2026-11-05 — Founder download links must be GitHub Releases (GROK2 artwork + tunnel Opus)
+
+- **Context:** Sprint **P0.JURNL.GLOBAL-OVERLAYS…GROK2** delivered text-free overlay artwork (PARTIAL). Founder could not use compact/full ZIP links that pointed at agent VM paths (`/opt/cursor/artifacts/…`). Same session: merged **Opus** `claude/jurnl-global-eight-overlays-menu-recovery-um0u93` + pocket persist into **`cursor/jurnl-tunnel-opus-v3-overlays-4e5a`** @ **`1b265c65e`**; pinned tunnel preview to that SHA on `site00.fsbw-dev.com`.
+- **Topics covered:** GROK2 inner-shell recovery (Search open folio, Manage cream/blush strips, 17 PNG masters); inactive artifact URLs in chat; tunnel branch integration for menu recovery + OV01–OV05/OV07/OV08 shell mounts (OV06 stays F09).
+- **Decisions / outcomes:** **Never** give the founder review or artwork ZIPs as bare VM paths, `/opt/cursor/artifacts/` markdown links, or other non-clickable agent-only URLs. **Always** publish deliverable ZIPs (and README when useful) with **`gh release create`** on **yoteenz/SITE00**, then paste **clickable** `https://github.com/yoteenz/SITE00/releases/download/…` links (one per line on mobile). Session-close Part 3 applies to **review/artwork packages**, not only GoDaddy production ZIPs.
+- **Changes:** GitHub Release **`jurnl-global-overlays-textfree-correction-grok2-2026-11-05`** (compact 8.2M + full 93M + README). Tunnel push **`1b265c65efccd70530a0ea8d596c198db19dc484`**. This MEMORY entry.
+- **Conventions:** Artifact-only sprints still require a **GitHub Release** for founder handoff. Production site bundle ZIP remains separate (GoDaddy) when `src/` ships to `main`.
