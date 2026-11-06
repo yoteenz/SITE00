@@ -1,20 +1,20 @@
 /**
- * Overlay micro-asset register for founder review.
- *
- * Nothing in the app imports this module. Opus mounts a file only after the founder approves it.
- * Status READY_FOR_FOUNDER_REVIEW is not approval.
- * Screens, MicroIcon, and the DOT 01 registry are unchanged.
+ * Overlay micro-asset register. Nothing in the app imports this module.
+ * READY_FOR_FOUNDER_REVIEW is not approval. Screens are unchanged.
  */
+
 export type OverlayAssetStatus =
   | 'READY_FOR_FOUNDER_REVIEW'
   | 'PARTIAL'
   | 'UNRESOLVED'
   | 'NOT_REQUIRED'
-  | 'BAKED_DO_NOT_REMOUNT';
+  | 'BAKED_DO_NOT_REMOUNT'
+  | 'HELD_FOR_FOUNDER'
+  | 'EXTERNAL_NOT_IN_ENVIRONMENT';
 
 export type OverlayMicroAsset = {
   id: string;
-  packageId: 'B01' | 'B02' | 'B03' | 'B04' | 'B05' | 'B06';
+  packageId: string;
   role: string;
   file: string | null;
   classification: string;
@@ -24,7 +24,7 @@ export type OverlayMicroAsset = {
   notes: string;
 };
 
-const DIR = 'src/projects/jurnl/families/F05_MONEY/MICRO_ASSETS/OVERLAY_GROK1';
+export const OVERLAY_ASSET_DIR = 'src/projects/jurnl/families/F05_MONEY/MICRO_ASSETS/OVERLAY_GROK1';
 
 export const OVERLAY_MICRO_ASSETS: readonly OverlayMicroAsset[] = [
 
@@ -42,7 +42,7 @@ export const OVERLAY_MICRO_ASSETS: readonly OverlayMicroAsset[] = [
   { id: 'B01-12', packageId: 'B01', role: 'Close disc', file: 'B06-CLOSE-DISC.png', classification: 'EXACT_EXTRACT', status: 'READY_FOR_FOUNDER_REVIEW', authority: 'OV08', motion: 'CONTROL-ATTACHED', notes: 'Shared with every overlay that uses the parchment X disc.' },
   { id: 'B02-01', packageId: 'B02', role: 'Connected accounts', file: 'B01-BANK-LINKED-ACCOUNTS.png', classification: 'VISUAL_MATCH_REUSE', status: 'READY_FOR_FOUNDER_REVIEW', authority: 'CH02', motion: 'CONTROL-ATTACHED', notes: 'FD-01 menu row. Not painted on the OV08 jpg. Same cream bank as privacy.' },
   { id: 'B02-02', packageId: 'B02', role: 'Currency coins', file: 'B02-COINS-CREAM.png', classification: 'RECONSTRUCTED', status: 'READY_FOR_FOUNDER_REVIEW', authority: 'OV02', motion: 'CONTROL-ATTACHED', notes: 'Cream ink of the approved coin stack, for the olive menu field.' },
-  { id: 'B02-03', packageId: 'B02', role: 'Safe to spend shield', file: 'B01-SHIELD-NOTHING-SOLD.png', classification: 'VISUAL_MATCH_REUSE', status: 'PARTIAL', authority: 'CH02', motion: 'CONTROL-ATTACHED', notes: 'Only approved shield includes the check. A plain reserve shield was not on the authorities.' },
+  { id: 'B02-03', packageId: 'B02', role: 'Safe to spend shield', file: null, classification: 'HELD_FOR_FOUNDER', status: 'HELD_FOR_FOUNDER', authority: 'CH02', motion: 'CONTROL-ATTACHED', notes: 'The only approved shield includes the check (privacy). No plain buffer shield exists on an authority. The check shield is not mounted for this row. Not invented.' },
   { id: 'B02-04', packageId: 'B02', role: 'Ask Jurnl sparkle', file: 'B01-SPARKLE-ASK-CONTEXT.png', classification: 'VISUAL_MATCH_REUSE', status: 'READY_FOR_FOUNDER_REVIEW', authority: 'CH02', motion: 'CONTROL-ATTACHED', notes: 'Same sparkle cluster.' },
   { id: 'B02-05', packageId: 'B02', role: 'Classification tag', file: 'B02-TAG-CREAM.png', classification: 'RECONSTRUCTED', status: 'READY_FOR_FOUNDER_REVIEW', authority: 'OV05', motion: 'CONTROL-ATTACHED', notes: 'Cream ink of the search category tag.' },
   { id: 'B02-06', packageId: 'B02', role: 'Account profile', file: 'B02-PROFILE.png', classification: 'EXACT_EXTRACT', status: 'READY_FOR_FOUNDER_REVIEW', authority: 'OV08', motion: 'CONTROL-ATTACHED', notes: 'Cut from the menu authority.' },
@@ -90,19 +90,23 @@ export const OVERLAY_MICRO_ASSETS: readonly OverlayMicroAsset[] = [
   { id: 'B05-08', packageId: 'B05', role: 'Buffer effect paper', file: 'B05-BUFFER-EFFECT.png', classification: 'EXACT_APPROVED_REUSE', status: 'READY_FOR_FOUNDER_REVIEW', authority: 'CH01', motion: 'CONTROL-ATTACHED', notes: 'GROK4 torn effect sheet.' },
   { id: 'B05-09', packageId: 'B05', role: 'Search field paper', file: 'B05-SEARCH-FIELD.png', classification: 'EXACT_EXTRACT', status: 'READY_FOR_FOUNDER_REVIEW', authority: 'OV05', motion: 'CONTROL-ATTACHED', notes: 'The authority has one search field, not a separate All Activity button.' },
   { id: 'B05-10', packageId: 'B05', role: 'Advanced search paper', file: null, classification: 'NOT_REQUIRED_AFTER_DEDUPLICATION', status: 'NOT_REQUIRED', authority: 'OV05', motion: '', notes: 'No advanced-search button on OV05.' },
-  { id: 'B05-11', packageId: 'B05', role: 'Archive resolve paper', file: null, classification: 'RECOVERY_REQUIRED', status: 'UNRESOLVED', authority: 'OV07', motion: 'CONTROL-ATTACHED', notes: 'Torn olive button. Extraction leaked. Not invented.' },
-  { id: 'B05-12', packageId: 'B05', role: 'Archive close paper', file: 'B05-ARCHIVE-CLOSE.png', classification: 'EXACT_EXTRACT', status: 'PARTIAL', authority: 'OV07', motion: 'CONTROL-ATTACHED', notes: 'Torn cream. Edge is rough. Founder should confirm.' },
-  { id: 'B05-13', packageId: 'B05', role: 'Create pocket paper', file: 'B05-CREATE-POCKET.png', classification: 'EXACT_EXTRACT', status: 'READY_FOR_FOUNDER_REVIEW', authority: 'OV02', motion: 'CONTROL-ATTACHED', notes: 'Torn olive primary. Cancel paper did not separate cleanly and was not invented.' },
-  { id: 'B05-14', packageId: 'B05', role: 'Record transfer paper', file: null, classification: 'RECOVERY_REQUIRED', status: 'UNRESOLVED', authority: 'OV03', motion: 'CONTROL-ATTACHED', notes: 'Torn olive primary. Extraction leaked into the coast. Not invented.' },
+  { id: 'B05-11', packageId: 'B05', role: 'Archive resolve paper', file: 'B05-RESOLVE.png', classification: 'EXACT_EXTRACT', status: 'READY_FOR_FOUNDER_REVIEW', authority: 'OV07', motion: 'CONTROL-ATTACHED', notes: 'Cut from the 2016 Move-free archive master. Text was already absent. Torn olive pill.' },
+  { id: 'B05-12', packageId: 'B05', role: 'Archive close paper', file: 'B05-ARCHIVE-CLOSE.png', classification: 'EXACT_EXTRACT', status: 'READY_FOR_FOUNDER_REVIEW', authority: 'OV07', motion: 'CONTROL-ATTACHED', notes: 'Replaced the partial crop with a cut from the 2016 archive master. Torn cream pill. Text-free.' },
+  { id: 'B05-13', packageId: 'B05', role: 'Create pocket paper', file: 'B05-CREATE-POCKET.png', classification: 'EXACT_EXTRACT', status: 'READY_FOR_FOUNDER_REVIEW', authority: 'OV02', motion: 'CONTROL-ATTACHED', notes: 'Replaced with a cut from the 2016 Add a Pocket master. Torn olive. Text-free.' },
+  { id: 'B05-14', packageId: 'B05', role: 'Record transfer paper', file: 'B05-RECORD-TRANSFER.png', classification: 'EXACT_EXTRACT', status: 'READY_FOR_FOUNDER_REVIEW', authority: 'OV03', motion: 'CONTROL-ATTACHED', notes: 'Cut from the 2016 Move Money master. Olive pill. Text was already absent.' },
   { id: 'B06-01', packageId: 'B06', role: 'Close disc', file: 'B06-CLOSE-DISC.png', classification: 'EXACT_EXTRACT', status: 'READY_FOR_FOUNDER_REVIEW', authority: 'OV08', motion: 'CONTROL-ATTACHED', notes: 'Same file as B01-12.' },
   { id: 'B06-02', packageId: 'B06', role: 'Return arrow', file: null, classification: 'REJECTED_GENERIC', status: 'NOT_REQUIRED', authority: '', motion: '', notes: 'No back-arrow glyph on these authorities. DOT 01 bronze arrow is the wrong family.' },
   { id: 'B06-03', packageId: 'B06', role: 'Navigation chevron', file: 'B03-CHEVRON.png', classification: 'EXACT_EXTRACT', status: 'READY_FOR_FOUNDER_REVIEW', authority: 'OV03', motion: 'CONTROL-ATTACHED', notes: 'Dark variant. Cream variant is B01-CHEVRON. Do not collapse them.' },
   { id: 'B06-04', packageId: 'B06', role: 'Information mark', file: 'B06-INFO.png', classification: 'EXACT_EXTRACT', status: 'READY_FOR_FOUNDER_REVIEW', authority: 'CH01', motion: 'CONTROL-ATTACHED', notes: 'The i inside the circle is the icon, not a label.' },
   { id: 'B03-02S', packageId: 'B03', role: 'Selected bank (light)', file: 'B03-BANK-SELECTED.png', classification: 'EXACT_EXTRACT', status: 'READY_FOR_FOUNDER_REVIEW', authority: 'OV02', motion: 'STATE-REACTIVE', notes: 'Added. The selected account type uses a light bank, not the dark one.' },
+  { id: 'B05-15', packageId: 'B05', role: 'Cancel pocket paper', file: 'B05-ADD-CANCEL.png', classification: 'EXACT_EXTRACT', status: 'READY_FOR_FOUNDER_REVIEW', authority: 'OV02', motion: 'CONTROL-ATTACHED', notes: 'Added. Torn cream cancel cut from the 2016 Add a Pocket master. Text-free.' },
+  { id: 'B05-16', packageId: 'B05', role: 'Move money cancel paper', file: 'B05-MOVE-CANCEL.png', classification: 'EXACT_EXTRACT', status: 'READY_FOR_FOUNDER_REVIEW', authority: 'OV03', motion: 'CONTROL-ATTACHED', notes: 'Added. Torn cream cancel cut from the 2016 Move Money master. Text-free.' },
+  { id: 'U01', packageId: 'UTILITY', role: 'Founder CLOSE', file: null, classification: 'EXTERNAL_FOUNDER_SUPPLIED', status: 'EXTERNAL_NOT_IN_ENVIRONMENT', authority: 'FOUNDER', motion: 'CONTROL-ATTACHED', notes: 'Supersedes older generic controls where the founder approved them. Not in this environment. Do not invent. Do not mount B06-CLOSE-DISC in place of U01.' },
+  { id: 'U02', packageId: 'UTILITY', role: 'Founder HAMBURGER', file: null, classification: 'EXTERNAL_FOUNDER_SUPPLIED', status: 'EXTERNAL_NOT_IN_ENVIRONMENT', authority: 'FOUNDER', motion: 'CONTROL-ATTACHED', notes: 'Supersedes older generic controls where the founder approved them. Not in this environment. Do not invent. Do not mount B06-CLOSE-DISC in place of U01.' },
+  { id: 'U03', packageId: 'UTILITY', role: 'Founder SEARCH', file: null, classification: 'EXTERNAL_FOUNDER_SUPPLIED', status: 'EXTERNAL_NOT_IN_ENVIRONMENT', authority: 'FOUNDER', motion: 'CONTROL-ATTACHED', notes: 'Supersedes older generic controls where the founder approved them. Not in this environment. Do not invent. Do not mount B06-CLOSE-DISC in place of U01.' },
+  { id: 'U04', packageId: 'UTILITY', role: 'Founder PLUS', file: null, classification: 'EXTERNAL_FOUNDER_SUPPLIED', status: 'EXTERNAL_NOT_IN_ENVIRONMENT', authority: 'FOUNDER', motion: 'CONTROL-ATTACHED', notes: 'Supersedes older generic controls where the founder approved them. Not in this environment. Do not invent. Do not mount B06-CLOSE-DISC in place of U01.' },
 ];
 
-
-export const OVERLAY_ASSET_DIR = DIR;
-
-/** Roles that share one file. Opus must not mount a second copy. */
 export const OVERLAY_BAKED_DO_NOT_REMOUNT = ['FG03', 'FG05', 'FG07', 'FG09'] as const;
+
+export const OVERLAY_UTILITY_PRECEDENCE = ['U01', 'U02', 'U03', 'U04'] as const;

@@ -16899,3 +16899,13 @@ Summary of the whole conversation in this chat.
 - **Changes:** New unimported register `overlayMicroAssets.ts` and PNG masters under `MICRO_ASSETS/OVERLAY_GROK1/` on `cursor/jurnl-overlay-micro-assets-grok1-4e5a`. No screen, route, database, or deploy change. Founder approval is still required before Opus mounts anything. OV06 stays the F09 account drawer. FD-12 stays open.
 - **Conventions:** Do not treat a bronze DOT 01 file as the menu or privacy glyph because the name matches. Do not mount FG03, FG05, FG07, or FG09 a second time.
 
+
+---
+
+## 2026-11-06 — Overlay micro-asset correction (GROK2, not merged)
+
+- **Context:** Corrective sprint on the GROK1 overlay register. Finish the missing button papers, repair pixelated icon edges, reconcile the 71 / 55 / 49 / 53 counts, and build ten full-screen recompositions. Do not restart the audit. Do not mount, merge, or deploy.
+- **Decisions:** Resolve, Record Transfer, both Cancels, Archive Close, and Create Pocket were cut from the 2016 masters, which already had empty buttons. OpenArt was not used. The check shield stays a privacy emblem. The Safe to Spend menu row is held because no plain shield is on an authority. Founder CLOSE, HAMBURGER, SEARCH, and PLUS are not in this environment and were not invented. B06 close disc does not stand in for that CLOSE.
+- **Changes:** Updated `overlayMicroAssets.ts` and the PNGs under `MICRO_ASSETS/OVERLAY_GROK1/` on `cursor/jurnl-overlay-micro-assets-grok1-4e5a`. No screen imports the register.
+- **Conventions:** Role count, unique-file count, and a duplicate ZIP folder are different numbers. Comparison extracts are not extra roles. FG03, FG05, FG07, and FG09 stay baked.
+
