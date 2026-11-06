@@ -16692,3 +16692,11 @@ Summary of the whole conversation in this chat.
 - **Decisions / outcomes:** **Never** give the founder review or artwork ZIPs as bare VM paths, `/opt/cursor/artifacts/` markdown links, or other non-clickable agent-only URLs. **Always** publish deliverable ZIPs (and README when useful) with **`gh release create`** on **yoteenz/SITE00**, then paste **clickable** `https://github.com/yoteenz/SITE00/releases/download/…` links (one per line on mobile). Session-close Part 3 applies to **review/artwork packages**, not only GoDaddy production ZIPs.
 - **Changes:** GitHub Release **`jurnl-global-overlays-textfree-correction-grok2-2026-11-05`** (compact 8.2M + full 93M + README). Tunnel push **`1b265c65efccd70530a0ea8d596c198db19dc484`**. This MEMORY entry.
 - **Conventions:** Artifact-only sprints still require a **GitHub Release** for founder handoff. Production site bundle ZIP remains separate (GoDaddy) when `src/` ships to `main`.
+
+---
+
+## 2026-11-05 — GROK2 overlay plates, second pass
+
+- **Context:** Founder said continue the PARTIAL text-free overlay recovery. v1 release left hard field strokes on Add Pocket and Move Money, and the Account sign-out pill.
+- **Decisions / outcomes:** Account sign-out pill removed; the two founder hairline rules stay. Add Pocket and Move Money no longer have hard wells, baked labels, or dark action pills. Soft shading remains, so those two stay PARTIAL. Coast, coins, medallion, and the Move Money wax seal were kept. No application code.
+- **Changes:** GitHub Release **`jurnl-global-overlays-textfree-correction-grok2-2026-11-05-v2`**. Supersedes the v1 artwork ZIPs for Opus. Download links are `releases/download/…` only.
