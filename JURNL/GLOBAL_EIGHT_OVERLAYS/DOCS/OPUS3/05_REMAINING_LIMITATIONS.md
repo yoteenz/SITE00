@@ -1,24 +1,19 @@
 # 05 · Remaining artwork limitations (return to the ChatGPT authority pipeline)
 
-1. **SAVE BUFFER paper** — CH01-SAVE-OLIVE has no thin gold rim and reads as a flat dark blob; withheld. SAVE BUFFER is the live V3 olive
-   control with a gold hairline. A rimmed, text-free olive backing (≈ 798 × 373, same torn language as BACK) would close it.
-2. **Coin still life** — CH01-COIN-RESERVE is a plate-scale reconstruction from the 864 px authority (not a native capture) and carries a
-   stray torn-paper sliver along its top (rows 0–57 right of x 135), clipped at runtime. A clean master without the sliver is wanted.
-3. **Effect (i)** — drawn and live: it discloses what the buffer does (one sentence, true to `safeToSpend.ts`). The founder may want
-   different wording.
-4. **Privacy policy statements** — the authority draws switches on LINKED ACCOUNTS OPTIONAL and NOTHING SOLD; the sprint makes them
-   statements. The rows have no right-hand mark; the founder may want a non-interactive sign there.
-5. **DATA EXPORT line** — the authority reads *request a copy of your data.*; export does not exist yet, so the line reads
-   *not available yet.*
-6. **Lower-left olive sprig on PRIVACY** — the authority shows a small olive sprig over the oxblood at the lower left; the OV08 plate has
-   none and no separate asset exists. Not drawn.
-7. **REMOVE ACCESS paper** — a clean enamel redraw (Grok4 gap 4): no rim, slightly flatter than the authority row.
-8. **Tag wordmark on the MENU** — the JURNL wordmark is added to the menu's blank tag for consistency with BUFFER / PRIVACY on the same
-   environment; the menu authority itself is text-free. Founder to confirm.
-9. **Close control and switches** — circular close and round olive switches in the authorities; the approved square-rounded close
-   and JURNL switch stay (sprint: no circular tappable buttons, honour approved controls).
-10. **Amount / effect paper edges** — the Grok4 papers have a soft, feathered rim; the authority's papers are crisper. Art, not layout.
-11. **Coin cloth** — the authority's red cloth under the coins runs to x 0.72; the coin master's cloth stops near x 0.46.
-12. **Papers' resolution** — the CH01 / CH02 papers are 864-grid reconstructions upscaled to plate scale (Grok4 gap 3): sharp at phone
-   density (≥ 3.9× the drawn width) but not native 4K.
-13. **iOS Safari** — not tested on a device (Chromium only); the field uses 16 px+ type so iOS does not zoom.
+1. **Regenerated shells are visual candidates** (their own `REVIEW_STATUS.json`): crops of generated boards, not layer-separated,
+   not production masters. CH01 (560 × 887) and OV05 (581 × 887) are soft at DSF 2–3; plate-resolution masters (≥ 1179 px wide) are wanted.
+2. **MANAGE POCKET note has no alpha** — mounted inside a measured outline clip (`ov04NoteOutline.ts`); a true-alpha export would
+   remove the clip and its sub-pixel fringe.
+3. **SEARCH shell crop line** — 7 px left / 1 px right white border from the board crop, clipped at runtime; a clean export is wanted.
+4. **CH01 shell has no title paper or tag** — the BUFFER authority shows both; the headline is live cream type on the olive field and
+   no wordmark is drawn. A CH01 shell with its title paper (or a clean, fragment-free header paper) would restore the authority look.
+5. **ADD A POCKET / MOVE MONEY diverge from the original approved compositions** (REVIEW_STATUS). On MOVE MONEY the seal sits above
+   the form, so FROM / TO are below it rather than either side.
+6. **SAVE BUFFER paper** — CH01-SAVE-OLIVE has no gold rim; withheld. SAVE BUFFER is the live V3 olive control with a gold rim.
+7. **Effect (i)** — live: it discloses what the buffer does (true to `safeToSpend.ts`); the founder may want other wording.
+8. **Privacy policy statements** — switches in the authority, statements by the sprint; no right-hand mark.
+9. **DATA EXPORT line** — *not available yet.* instead of the authority's *request a copy of your data.*
+10. **Close control and switches** — circular close and round switches in the authorities; the approved JURNL controls stay.
+11. **Runtime weight** — the six shells are lossless (0.6–2.2 MB each, 9.2 MB together; loaded only when their overlay opens).
+12. **Tag wordmark on the MENU** — added for consistency with PRIVACY; the menu shell itself is text-free. Founder to confirm.
+13. **iOS Safari** — not tested on a device (Chromium only); fields use 16 px+ type so iOS does not zoom.

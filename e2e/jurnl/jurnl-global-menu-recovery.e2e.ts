@@ -277,9 +277,9 @@ test.describe('OPUS2 · short phones: the olive field scrolls, the page never do
 
 /**
  * OPUS3 · the curated clean artwork in the browser (P0.JURNL.GLOBAL-OVERLAYS.CLEAN-ARTWORK-CURATED-MOUNT-AND-CHILD-
- * ENVIRONMENT-CONVERGENCE): SEARCH on the OV05 open composition with 0 / 4 / 20 live rows and a long merchant; MANAGE POCKET
- * with the independent RENAME / DELETE papers; SAFE TO SPEND BUFFER and PRIVACY & CONSENTS on the shared OV08 menu
- * environment (the founder authorities), with the keyboard open and on short phones. The OV01–OV03 / OV07 shells of OPUS1
+ * ENVIRONMENT-CONVERGENCE): SEARCH on the regenerated OV05 shell with 0 / 4 / 20 live rows and a long merchant; MANAGE POCKET
+ * on the regenerated note with the independent RENAME / DELETE papers; SAFE TO SPEND BUFFER and PRIVACY & CONSENTS on the
+ * founder's regenerated shells (named correct 2026-11-06), with the keyboard open and on short phones. The OV01–OV03 / OV07 shells of OPUS1
  * are retired (their live compositions are covered by jurnl-editorial-overlays.e2e.ts).
  */
 const plateOf = (page: Page, id: string) => overlay(page, id).locator('.jsh-plate');
@@ -316,7 +316,7 @@ function searchWorld(n: number) {
   return { ...w, snapshot: { ...w.snapshot, transactions: [...w.snapshot.transactions, ...rows] } };
 }
 
-test.describe('OPUS3 · SEARCH on the OV05 open composition', () => {
+test.describe('OPUS3 · SEARCH on the regenerated OV05 shell', () => {
   for (const n of [0, 4, 20]) {
     test(`C${n} · ${n} matching results: live rows of their own height, only the results scroll, no page scroll`, async ({ page }) => {
       await page.addInitScript(() => sessionStorage.setItem('jurnl.f05.parent', 'motion'));
@@ -324,7 +324,7 @@ test.describe('OPUS3 · SEARCH on the OV05 open composition', () => {
       await gotoJurnl(page, 'money?parent=motion');
       await clickTrigger(page, 'f05m-search');
       const host = overlay(page, 'global-search');
-      await expect(host).toHaveAttribute('data-overlay-asset', 'OV05_OPEN_COMPOSITION');
+      await expect(host).toHaveAttribute('data-overlay-asset', 'OV05_SEARCH_SHELL');
       await expect(host.locator('img')).toHaveCount(1); // one art layer: no painted wells, no foreground duplicates
       const pb = await insidePlate(page, 'global-search', ['search-input', 'search-filter-all', 'search-filter-pockets', 'search-filter-transactions', 'search-all-activity', 'search-advanced']);
       expect(pb.width / pb.height).toBeCloseTo(2016 / 3584, 2);
@@ -396,31 +396,27 @@ test.describe('OPUS3 · MANAGE POCKET with the independent papers', () => {
   });
 });
 
-test.describe('OPUS3 · SAFE TO SPEND BUFFER and PRIVACY & CONSENTS on the shared OV08 environment', () => {
+test.describe('OPUS3 · SAFE TO SPEND BUFFER and PRIVACY & CONSENTS on the regenerated shells', () => {
   test.beforeEach(async ({ page }) => {
     await rates(page);
     await bootstrapJurnl(page);
     await gotoJurnl(page, 'today');
   });
 
-  test('C6 · BUFFER: OV08 once, the authority papers and coin once each, no second header; keyboard open keeps the field and the actions on screen; saves USD', async ({ page }) => {
+  test('C6 · BUFFER on its regenerated shell: the shell once, the papers once each, no second header or coin; keyboard open keeps the field and the actions on screen; saves USD', async ({ page }) => {
     await openMenu(page);
     await clickTrigger(page, 'menu-buffer');
     const host = overlay(page, 'global-buffer');
-    await expect(host).toHaveAttribute('data-overlay-asset', 'OV08_MENU_ENVIRONMENT');
+    await expect(host).toHaveAttribute('data-overlay-asset', 'CH01_BUFFER_SHELL');
     const ids = await host.locator('img').evaluateAll((els) => els.map((e) => e.getAttribute('data-asset-id')).sort());
-    expect(ids).toEqual(['CH01_AMOUNT_PAPER', 'CH01_BACK_PAPER', 'CH01_COIN_RESERVE', 'CH01_EFFECT_PAPER', 'OV08_MENU_ENVIRONMENT']);
-    await expect(host.locator('.jsh-tag')).toHaveText('JURNL');
-    // the coin is 1:1 with its master at the authority origin, on the plate (both rects read in one frame)
+    expect(ids).toEqual(['CH01_AMOUNT_PAPER', 'CH01_BACK_PAPER', 'CH01_BUFFER_SHELL', 'CH01_EFFECT_PAPER']);
+    // the shell has no tag or title paper: the headline is live cream type on its olive field, no wordmark is invented
+    await expect(host.locator('.jsh-tag')).toHaveCount(0);
+    await expect(host.locator('.jsh-head')).toHaveAttribute('data-tone', 'cream');
+    // one uniform scale: the plate keeps the shell's own ratio (560 x 887)
     await settle(page, 'global-buffer');
-    const { pb, cb } = await host.evaluate((h) => {
-      const r = (e: Element) => { const b = e.getBoundingClientRect(); return { x: b.x, y: b.y, width: b.width, height: b.height }; };
-      return { pb: r(h.querySelector('.jsh-plate')!), cb: r(h.querySelector('img.jce-coin')!) };
-    });
-    expect((cb.x - pb.x) / pb.width).toBeCloseTo(35 / 2016, 3);
-    expect((cb.y - pb.y) / pb.height).toBeCloseTo(2427 / 3584, 3);
-    expect(cb.width / pb.width).toBeCloseTo(1048 / 2016, 3);
-    expect(cb.height / cb.width).toBeCloseTo(581 / 1048, 2);
+    const pb = (await plateOf(page, 'global-buffer').boundingBox())!;
+    expect(pb.width / pb.height).toBeCloseTo(560 / 887, 2);
     await insidePlate(page, 'global-buffer', ['buffer-input', 'buffer-currency', 'buffer-back', 'buffer-save']);
     // the keyboard: focus the field, then the visual viewport loses ~40 % of its height
     await trigger(page, 'buffer-input').focus();
@@ -429,7 +425,7 @@ test.describe('OPUS3 · SAFE TO SPEND BUFFER and PRIVACY & CONSENTS on the share
     await expect(trigger(page, 'buffer-input')).toBeFocused();
     await insidePlate(page, 'global-buffer', ['buffer-input', 'buffer-back', 'buffer-save']);
     const kb = (await plateOf(page, 'global-buffer').boundingBox())!;
-    expect(kb.width / kb.height).toBeCloseTo(2016 / 3584, 2); // one uniform scale, never squashed
+    expect(kb.width / kb.height).toBeCloseTo(560 / 887, 2); // one uniform scale, never squashed
     expect(await pageScroll(page)).toEqual({ y: false, x: false });
     await trigger(page, 'buffer-input').fill('250');
     await clickTrigger(page, 'buffer-save');
@@ -451,15 +447,16 @@ test.describe('OPUS3 · SAFE TO SPEND BUFFER and PRIVACY & CONSENTS on the share
   });
 
   for (const vp of [{ width: 360, height: 640 }, { width: 393, height: 660 }]) {
-    test(`C7 · PRIVACY at ${vp.width}×${vp.height}: OV08 once, only the list scrolls, every row reachable, statements carry no switch`, async ({ page }) => {
+    test(`C7 · PRIVACY at ${vp.width}×${vp.height}: its regenerated shell once, only the list scrolls, every row reachable, statements carry no switch`, async ({ page }) => {
       await page.setViewportSize(vp);
       await openMenu(page);
       await trigger(page, 'menu-privacy').scrollIntoViewIfNeeded();
       await clickTrigger(page, 'menu-privacy');
       const host = overlay(page, 'settings-consents-sheet');
-      await expect(host).toHaveAttribute('data-overlay-asset', 'OV08_MENU_ENVIRONMENT');
+      await expect(host).toHaveAttribute('data-overlay-asset', 'CH02_PRIVACY_SHELL');
       const ids = await host.locator('img').evaluateAll((els) => els.map((e) => e.getAttribute('data-asset-id')).sort());
-      expect(ids).toEqual(['CH02_BACK_PAPER', 'CH02_REMOVE_ACCESS_PAPER', 'OV08_MENU_ENVIRONMENT']);
+      expect(ids).toEqual(['CH02_BACK_PAPER', 'CH02_PRIVACY_SHELL', 'CH02_REMOVE_ACCESS_PAPER']);
+      await expect(host.locator('.jsh-tag')).toHaveText('JURNL');
       await settle(page, 'settings-consents-sheet');
       const list = host.locator('.jce-list');
       const l = await list.evaluate((e) => ({ h: e.clientHeight, sh: e.scrollHeight, oy: getComputedStyle(e).overflowY }));

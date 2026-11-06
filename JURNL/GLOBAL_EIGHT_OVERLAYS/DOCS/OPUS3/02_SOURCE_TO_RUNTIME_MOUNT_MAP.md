@@ -1,54 +1,29 @@
-# 02 · Source-to-runtime mount map (OPUS3)
+# 02 · Source-to-runtime mount map (OPUS3, regenerated shells)
 
-Layers: **L0** environment · **L1** compositional / backing art · **L2** live UI · **L3** independent foreground (none mounted).
-Regions are fractions of the art `[x0, y0, x1, y1]`. The plate is always drawn at one uniform contain scale with the art's own
-aspect ratio (`Shell.tsx useShellPlate`, `GlobalMenu.tsx`): nothing is stretched, cropped or recentred. Papers are `<img>` with
-`object-fit: contain` inside an element whose `aspect-ratio` is the art's native ratio. Type sizes are container units of the plate,
-clamped.
+The founder named `JURNL_REGENERATED_SCREEN_CANDIDATES.zip` the correct clean sidekicks / shells (2026-11-06). Six overlays are
+drawn on them; the menu stays on the OV08 sectioned environment.
 
-## OV08 · the shared menu environment: GlobalMenu, SAFE TO SPEND BUFFER, PRIVACY & CONSENTS
+Layers: **L0+L1** the shell (environment and its compositional art, opaque) · **L1** independent paper backings · **L2** live UI.
+Regions are fractions of the art `[x0, y0, x1, y1]`. Every shell is drawn at one uniform contain scale with its own aspect ratio
+(`Shell.tsx useShellPlate`, `Editorial.tsx PlateOverlay`): nothing is stretched, cropped (except a measured crop line) or recentred.
+Papers are `<img>` with `object-fit: contain` inside an element whose `aspect-ratio` is the art's own. Type is in container units of
+the plate, clamped. Only the named list / body regions scroll; the page never scrolls.
 
-`OV08-SECTIONED-MENU-ENVIRONMENT.png` → `OV08_MENU_ENVIRONMENT.webp` (L0+L1). Founder authorities: BUFFER- / PRIVACY-AUTHORITY-VS-ARTWORK
-(Grok4 `10_FOUNDER_AUTHORITY_COMPARISONS`), Grok2 `OPUS_MOUNT_MAP.md` ("L0 for the global menu, Safe to Spend Buffer, and Privacy"),
-Grok4 `13_REVISED_OPUS_MOUNT_MAP.md` ("Reuse OV08-MENU-ENVIRONMENT.png for Buffer and Privacy").
+| Overlay | Shell (runtime id, size) | Component | Live regions | Art not drawn twice |
+|---|---|---|---|---|
+| SAFE TO SPEND BUFFER | `CH01_BUFFER_SHELL` 560×887 | `ChildEnvironments.tsx` `CH01_BOX` | head `[0.3, 0.235, 0.96, 0.368]` cream headline, script, gold ornament · intro `[0.3, 0.378, 0.95, 0.46]` help · column `[0.14, 0.466, 0.95, 0.785]` rule, BUFFER AMOUNT, **amount paper**, warnings, **effect paper** + (i) · actions `[0.38, 0.8, 0.95, 0.872]` **BACK paper** + SAVE BUFFER | the shell's coins and sprig (no coin still life), no header paper, no wordmark (the shell has no tag paper) |
+| PRIVACY & CONSENTS | `CH02_PRIVACY_SHELL` 1024×1536 | `PrivacyEnvironment` `CH02_BOX` | tag `[0.3, 0.04, 0.63, 0.118]` JURNL · head `[0.2, 0.135, 0.8, 0.262]` · list `[0.105, 0.292, 0.765, 0.772]` (only scroll) · remove `[0.15, 0.782, 0.775, 0.852]` **REMOVE ACCESS paper** · back `[0.22, 0.858, 0.72, 0.928]` **BACK paper** | the shell's title and tag papers, sprig and arch |
+| ADD A POCKET | `OV02_ADD_POCKET_SHELL` 1024×1536 | `MoneyScreens.tsx` `OV02_PLATE` (plate mode) | head `[0.14, 0.255, 0.86, 0.352]` · body `[0.1, 0.36, 0.88, 0.748]` (scrolls) name, type grid, balance, extras, note · foot `[0.17, 0.756, 0.88, 0.83]` CANCEL / SAVE POCKET papers | the statue, purse medallion, drape, plants and coins (no EdArt decor, no CSS ground, no headline paper) |
+| MOVE MONEY / PAY A CARD | `OV03_MOVE_MONEY_SHELL` 941×1672 | `FinanceSheets.tsx` `OV03_PLATE` (plate mode) | head `[0.12, 0.232, 0.9, 0.366]` headline + honesty note, above the seal · body `[0.1, 0.56, 0.9, 0.795]` (scrolls) FROM, TO, amount, date, status, effect, note · foot `[0.08, 0.8, 0.92, 0.866]` CANCEL / RECORD papers, above the coins | the twine and direction seal (no EdSeal), the olive branch, lemons, arch, coins |
+| MANAGE POCKET | `OV04_MANAGE_NOTE` 642×741 | `PocketManager.tsx` `OV04_NOTE_BOX` | head `[0.16, 0.375, 0.86, 0.485]` MANAGE POCKET + name · items `[0.14, 0.5, 0.88, 0.85]` **RENAME / DELETE papers** | the note's own paperclip and coastline tear (the old separate clip and pocket art are removed); clipped to its measured outline (`ov04NoteOutline.ts`) |
+| SEARCH | `OV05_SEARCH_SHELL` 581×887 | `SearchDrawer.tsx` `OV05_OPEN` | head `[0.4, 0.14, 0.95, 0.245]` · column `[0.36, 0.25, 0.95, 0.83]` field, filters, count, results (only scroll), ALL ACTIVITY / ADVANCED SEARCH | the bust, lemon, arch, ledgers; its 7 px / 1 px crop line clipped (`inset(0% 0.344% 0% 1.377%)`) |
+| GLOBAL MENU | `OV08_MENU_ENVIRONMENT` 2016×3584 | `GlobalMenu.tsx` `OV08_REGION` | tag JURNL · head MENU · port `[0.075, 0.306, 0.745, 0.885]` (only scroll) 3 sections, 12 / 12 rows | unchanged |
 
-| Surface | Component | Live region | Contents (all L2 unless noted) |
-|---|---|---|---|
-| all three | `GlobalMenu.tsx` / `ChildEnvironments.tsx` | tag `[0.352, 0.042, 0.575, 0.102]` | the JURNL wordmark on the blank tag paper, tilted −9° with it (aria-hidden) |
-| MENU | `GlobalMenu.tsx` `OV08_REGION` | head `[0.29, 0.125, 0.79, 0.265]` | MENU · *tools, settings & support* (italic serif) |
-| MENU | | port `[0.075, 0.306, 0.745, 0.885]` (only scroll) | YOUR FINANCES · YOUR INTELLIGENCE · YOUR ACCOUNT, 12 / 12 rows, icons, states, dividers |
-| BUFFER | `BufferEnvironment` `CH01_BOX` | head `[0.275, 0.128, 0.8, 0.278]` | SAFE TO SPEND / BUFFER · *a cushion you keep aside* (italic serif) · laurel ornament |
-| BUFFER | | column `[0.0895, 0.326, 0.745, 0.694]` (scrolls only for a long warning) | help line · gold rule · BUFFER AMOUNT (+ SAVED / CLEARED status) · **amount paper** (L1) with the amount field, its symbol, a divider and the currency selector · warnings · **effect paper** (L1) with EFFECT ON SAFE TO SPEND, the kept-aside figure and the (i) disclosure |
-| BUFFER | | coin `px(35, 2427, 1048, 581)` | **CH01_COIN_RESERVE** (L1, fixed art, 1:1 master pixels at the authority origin; top sliver clipped) |
-| BUFFER | | actions `[0.095, 0.851, 0.745, 0.909]` | **BACK paper** (L1, 42 % of the row as in the authority) · SAVE BUFFER (V3 olive control, warm olive, gold rim) |
-| PRIVACY | `PrivacyEnvironment` `CH02_BOX` | head `[0.255, 0.122, 0.765, 0.266]` | PRIVACY & / CONSENTS · *what jurnl may keep and use* (italic serif) · laurel ornament |
-| PRIVACY | | list `[0.095, 0.306, 0.765, 0.776]` (only scroll) | YOUR CONSENTS: REMEMBER SETUP (switch), LINKED ACCOUNTS OPTIONAL (statement), NOTHING SOLD (statement), ASK JURNL CONTEXT (switch) · YOUR DATA: AI ACCESS, YOUR DATA, DATA EXPORT (*not available yet.*) |
-| PRIVACY | | remove `[0.0809, 0.7813, 0.772, 0.858]` | **REMOVE ACCESS paper** (L1) with trash icon, label, *delete account · revoke access · turn ai off.*, chevron |
-| PRIVACY | | back `px(315, 3108, 1206, 247)` | **BACK paper** (L1) |
+The MANAGE POCKET note is placed by the popover (anchored to the pocket) and scales uniformly to the room it has
+(`--jrn-pop-maxh`), with its live page blurred behind it.
 
-BUFFER is fitted to the founder's full-resolution authority (941 × 1672, see 04). Privacy placements come from Grok4 `docs/ALPHA_STATS.json` `place` (plate pixels, the 864 authority grid × 7/3): amount (203, 1689),
-effect (161, 2081), back_b (177, 3040), save (770, 3010), coins (35, 2427), remove (163, 2800), back_p (315, 3108). The amount and effect
-papers flow inside the column at the authority's widths (1297 and 1367 of 2016 px); the coin and the two privacy papers are absolute.
-
-The sprig's lowest leaf reaches x 0.142 at y 0.305, so both scroll regions start at y 0.306.
-
-## OV05 · SEARCH
-
-`OV05-SEARCH-OPEN-COMPOSITION.png` → `OV05_OPEN_COMPOSITION.webp` (L0+L1). `SearchDrawer.tsx` `OV05_OPEN`:
-head `[0.335, 0.145, 0.905, 0.248]`, column `[0.335, 0.258, 0.905, 0.772]` (the authority's open paper, x 0.32–0.90, clear of the
-notches on the paper's right edge). One column: field · ALL / POCKETS / ACTIVITY · count · results (`search-results`, the only scroll,
-rows of their own height) · ALL ACTIVITY / ADVANCED SEARCH.
-
-## OV04 · MANAGE POCKET
-
-`OV04-RENAME-CREAM-TEXTFREE.png` → `OV04_RENAME_PAPER.webp`, `OV04-DELETE-BLUSH-TEXTFREE.png` → `OV04_DELETE_PAPER.webp` (L1).
-`PocketManager.tsx`: the compact `JurnlPopover` keeps its paperclip (`.jed-pop-clip`) and the pocket's landscape (`.jed-pop-art`); its two
-menu items wear the papers at their native ratio (1645 / 319, 1645 / 346) with live RENAME POCKET / DELETE POCKET labels. The popover's
-own backdrop blurs the live page (`.jrn-pop-backdrop`, z 79, under the popover at z 80). OV04-MANAGE-NOTE is not mounted.
-
-## Not mounted
-
-CH01 / CH02 clean environments (founder correction), both header parchments (duplicate of the OV08 title paper), the SAVE BUFFER olive
-paper (gold rim missing). Grok2 OV07 / OV01 (pending), unapproved OV06, the OV02 / OV03 shells and the OV04 full compositions remain
-excluded (`07_EXCLUDED_AND_GATES/DO_NOT_USE.txt`); `overlays/eight/registry.ts` records OV01–05 / 07 / 08 as RETIRED and OV06 as
-INSTALLED_NOT_MOUNTED, all with `runtime: null`. FD-12 / the approved F09 drawer is untouched.
+Not mounted: the CH01 / CH02 clean plates, the OV05 open composition, the coin still life (the CH01 shell has its own), both header
+parchments, the SAVE BUFFER olive paper. Excluded as before (`07_EXCLUDED_AND_GATES/DO_NOT_USE.txt`): Grok2 OV07 / OV01 (pending),
+unapproved OV06, the OV02 / OV03 Grok shells, the OV04 full compositions; `overlays/eight/registry.ts` keeps OV01–05 / 07 / 08 RETIRED
+and OV06 INSTALLED_NOT_MOUNTED. FD-12 / the approved F09 drawer is untouched; OV01 MONEY action sheet and OV07 ARCHIVE BLOCKED keep their
+live editorial compositions.

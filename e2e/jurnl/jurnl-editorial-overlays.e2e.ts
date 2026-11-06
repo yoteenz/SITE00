@@ -74,21 +74,24 @@ test.describe('PILOT A · the three founder-rejected financial overlays', () => 
     expect(acc.balance).toBeCloseTo(125.4, 2);
   });
 
-  test('A3 · MOVE MONEY: FROM → seal → TO between real pockets; the settlement state is chosen; recording writes the two legs once', async ({ page }) => {
+  test('A3 · MOVE MONEY on its regenerated shell: the shell seal above FROM → TO between real pockets; the settlement state is chosen; recording writes the two legs once', async ({ page }) => {
     await open(page, 'money?parent=motion');
     await clickTrigger(page, 'f05m-actions');
     await clickTrigger(page, 'f05m-actions-move');
     const s = overlay(page, 'transfer-sheet');
     await expect(s).toHaveAttribute('data-jed', 'transfer');
-    await expect(s.locator('.jed-direction')).toBeVisible();
+    await expect(s).toHaveAttribute('data-overlay-asset', 'OV03_MOVE_MONEY_SHELL');
+    await expect(s.locator('img.jed-plate')).toHaveCount(1);
+    await expect(s.locator('.jed-direction')).toHaveCount(0); // the direction seal is the shell's own
     await clickTrigger(page, 'transfer-from-bank');
     await clickTrigger(page, 'transfer-to-cash');
     await expect(page.getByTestId('transfer-from-selected')).toContainText('BANK ACCOUNT');
     await expect(page.getByTestId('transfer-to-selected')).toContainText('CASH ON HAND');
-    // the FROM fragment sits above the TO fragment, the seal between them
-    const [f, seal, t] = await Promise.all([page.getByTestId('transfer-from-selected').boundingBox(), s.locator('.jed-direction').boundingBox(), page.getByTestId('transfer-to-selected').boundingBox()]);
-    expect(f!.y).toBeLessThan(seal!.y);
-    expect(seal!.y).toBeLessThan(t!.y);
+    // the shell's seal (y 0.37–0.55 of the plate) sits above the form: FROM, then TO, below it
+    const plate = (await s.locator('.jed-folio--plate').boundingBox())!;
+    const [f, t] = await Promise.all([page.getByTestId('transfer-from-selected').boundingBox(), page.getByTestId('transfer-to-selected').boundingBox()]);
+    expect(f!.y).toBeGreaterThanOrEqual(plate.y + plate.height * 0.55 - 1);
+    expect(f!.y).toBeLessThan(t!.y);
     await trigger(page, 'transfer-amount').first().fill('25');
     for (const st of ['completed', 'in-transit', 'pending', 'scheduled']) await expect(trigger(page, `transfer-status-${st}`)).toBeVisible();
     await clickTrigger(page, 'transfer-status-in-transit');
@@ -131,14 +134,17 @@ test.describe('PILOT B · the five illustrated compositions', () => {
     await expect(overlay(page, 'global-search')).toHaveCount(0);
   });
 
-  test('B2 · MANAGE POCKET stays an anchored fragment (clip + the pocket\'s art), opened by right-click; Escape returns focus', async ({ page }) => {
+  test('B2 · MANAGE POCKET stays an anchored fragment on the regenerated note (its own clip and coastline, clipped to its outline), opened by right-click; Escape returns focus', async ({ page }) => {
     await open(page, 'money/places');
     const card = page.locator('[data-testid="d01-directory"] [data-account-id="bank"]');
     await card.click({ button: 'right' });
     const m = page.getByTestId('d01-pocket-menu');
     await expect(m).toBeVisible();
-    await expect(m.locator('.jed-pop-clip')).toHaveCount(1);
-    await expect(m.locator('.jed-pop-art')).toHaveCount(1);
+    const note = m.locator('img[data-asset-id="OV04_MANAGE_NOTE"]');
+    await expect(note).toHaveCount(1);
+    expect(await note.evaluate((e) => getComputedStyle(e).clipPath)).toMatch(/^polygon\(/);
+    // the note carries its own paperclip and coastline: nothing of it is drawn twice
+    await expect(m.locator('.jed-pop-clip, .jed-pop-art')).toHaveCount(0);
     const box = (await m.boundingBox())!;
     expect(box.width).toBeLessThan(page.viewportSize()!.width * 0.9);
     await page.keyboard.press('Escape');
