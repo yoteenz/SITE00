@@ -116,7 +116,7 @@ function renderPanel(
     case 'currency':
       return <CurrencySheet onClose={back} />;
     case 'buffer':
-      return <BufferFolio onBack={back} />;
+      return <BufferFolio onBack={back} onCurrency={() => open('currency')} />;
     case 'ask':
       return <AskJurnlSheet familyId="GS" nodeId="GS.MENU" onClose={back} onOpenPrivacy={() => open('privacy')} />;
     case 'rules':

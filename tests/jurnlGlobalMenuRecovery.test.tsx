@@ -25,7 +25,8 @@ import { F01_CLAIMS, F01_COPY } from '../src/projects/jurnl/data/f01/copy';
 import { DEFAULT_DEVICE } from '../src/projects/jurnl/runtime/state/store';
 import { GLOBAL_MENU_SECTIONS, GlobalMenu, UnlockFolio, MembershipFolio } from '../src/projects/jurnl/runtime/global/GlobalMenu';
 import { BufferFolio, ConnectionsFolio, HelpFolio, PreferencesFolio, PrivacyConsentsFolio, RulesFolio } from '../src/projects/jurnl/runtime/global/MenuDestinations';
-import { OVERLAY_ASSETS, overlayShell } from '../src/projects/jurnl/runtime/global/overlays/eight/registry';
+import { OVERLAY_ASSETS } from '../src/projects/jurnl/runtime/global/overlays/eight/registry';
+import { CLEAN_ART, cleanArt } from '../src/projects/jurnl/runtime/global/overlays/clean/registry';
 import { JurnlEntitlementsProvider } from '../src/projects/jurnl/runtime/monetization/JurnlEntitlements';
 import { JurnlStoreProvider } from '../src/projects/jurnl/runtime/state/store';
 import JurnlRuntimeRoot from '../src/projects/jurnl/runtime/JurnlRuntimeRoot';
@@ -131,8 +132,10 @@ describe('SAFE TO SPEND BUFFER — typed in the display currency, kept in canoni
     installRateBook({ rates: { EUR } });
     expect(await setCurrency('EUR')).toBe(true);
     const html = render(createElement(BufferFolio, { onBack: noop }));
-    expect(visible(html)).toContain('BUFFER · EUR');
-    expect(visible(html)).toContain('JURNL KEEPS IT IN USD');
+    // the unit is stated twice: on the amount paper (the authority's currency mark) and in the help line
+    expect(html).toMatch(/data-testid="buffer-currency"[^>]*>EUR</);
+    expect(visible(html)).toContain('BUFFER AMOUNT');
+    expect(visible(html)).toContain('TYPE IT IN EUR; JURNL KEEPS IT IN USD');
     installRateBook(null);
     const blocked = render(createElement(BufferFolio, { onBack: noop }));
     expect(blocked).toContain('data-testid="buffer-rate-unavailable"');
@@ -179,7 +182,10 @@ describe('ASK JURNL CONTEXT — its own consent', () => {
     getRepository().patchConsent('ASK_JURNL_CONTEXT', true, 'GS.SETTINGS');
     const on = render(createElement(PrivacyConsentsFolio, nav));
     expect(on).toMatch(/data-jrn-trigger="privacy-ask-context"[^>]*aria-checked="true"|aria-checked="true"[^>]*data-jrn-trigger="privacy-ask-context"/);
-    for (const t of ['settings-consent-remember', 'settings-consent-links', 'settings-consent-sale', 'privacy-tool-ai-access', 'privacy-tool-your-data', 'privacy-tool-data-export', 'privacy-tool-remove-access']) expect(on, t).toContain(`data-jrn-trigger="${t}"`);
+    for (const t of ['settings-consent-remember', 'privacy-tool-ai-access', 'privacy-tool-your-data', 'privacy-tool-data-export', 'privacy-tool-remove-access']) expect(on, t).toContain(`data-jrn-trigger="${t}"`);
+    // OPUS3: NOTHING SOLD and LINKED ACCOUNTS OPTIONAL are statements of what JURNL is, never editable consents
+    for (const t of ['settings-consent-links', 'settings-consent-sale']) expect(on, t).not.toContain(`data-jrn-trigger="${t}"`);
+    for (const t of ['privacy-statement-links', 'privacy-statement-sale']) expect(on, t).toContain(`data-testid="${t}"`);
   });
 });
 
@@ -223,8 +229,8 @@ describe('GLOBAL MENU — three sections over the OV08 shell', () => {
     for (const word of ['CURRENCY', 'BUFFER', 'CONNECTION']) expect(visible(prefs), word).not.toContain(word);
   });
 
-  it('N3 the OV08 production shell is the menu, at one uniform scale; rows live in the olive scrollport; no duplicate art', () => {
-    const shell = overlayShell('OV08');
+  it('N3 the curated OV08 sectioned-menu environment is the menu, at one uniform scale; rows live in the olive scrollport; no duplicate art', () => {
+    const shell = cleanArt('OV08_MENU_ENVIRONMENT');
     expect(html).toContain(`src="${shell.src}"`);
     expect(html).toContain('data-overlay-asset="OV08"');
     expect(html).toContain('data-jrn-menu-scrollport');
@@ -306,19 +312,11 @@ describe('the eight overlays\' assets — installed as supplied, registered with
     }
   });
 
-  it('A3 shells have a 9:16 runtime derivative (one uniform scale); foregrounds and SK04 are not mounted', () => {
-    for (const a of OVERLAY_ASSETS) {
-      if (a.id.startsWith('OV')) {
-        expect(a.runtime, a.id).not.toBeNull();
-        expect(a.runtime!.width / a.runtime!.height).toBeCloseTo(a.width / a.height, 6);
-        expect(existsSync(`src/projects/jurnl/runtime/global/overlays/eight/${a.id}_SHELL.webp`), a.id).toBe(true);
-      } else {
-        expect(a.runtime, a.id).toBeNull();
-        expect(a.mount).toMatch(a.id === 'SK04' ? /^CANDIDATE_NOT_MOUNTED$/ : /^NOT_MOUNTED_PRESENT_IN_SHELL$/);
-      }
-    }
-    // seven shells are mounted on their live overlays; OV06 waits for the founder (the approved F09 drawer controls)
-    for (const id of ['OV01', 'OV02', 'OV03', 'OV04', 'OV05', 'OV07', 'OV08']) expect(OVERLAY_ASSETS.find((a) => a.id === id)!.mount, id).toBe('MOUNTED');
+  it('A3 OPUS3 retired every shell with painted UI geometry; none has a runtime copy; OV06 still waits for FD-12', () => {
+    for (const a of OVERLAY_ASSETS) expect(a.runtime, a.id).toBeNull();
+    for (const id of ['OV01', 'OV02', 'OV03', 'OV04', 'OV05', 'OV07', 'OV08']) expect(OVERLAY_ASSETS.find((a) => a.id === id)!.mount, id).toBe('RETIRED');
     expect(OVERLAY_ASSETS.find((a) => a.id === 'OV06')!.mount).toBe('INSTALLED_NOT_MOUNTED');
+    for (const a of OVERLAY_ASSETS.filter((x) => x.id.startsWith('FG'))) expect(a.mount).toBe('NOT_MOUNTED_PRESENT_IN_SHELL');
+    expect(existsSync('src/projects/jurnl/runtime/global/overlays/eight/OV04_SHELL.webp')).toBe(false);
   });
 });

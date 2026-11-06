@@ -6,7 +6,7 @@
  */
 import { expect, test, type Page } from '@playwright/test';
 import { bootstrapJurnl, clickTrigger, gotoJurnl, storedSnapshot, trigger } from './helpers/jurnl-page';
-import { dot01World } from './helpers/jurnl-dot01-world';
+import { dot01World, purchase } from './helpers/jurnl-dot01-world';
 import { f05World } from './helpers/jurnl-f05-world';
 
 const overlay = (page: Page, id: string) => page.locator(`[data-jrn-overlay="${id}"]`);
@@ -52,7 +52,8 @@ test.describe('OPUS2 · sectioned global menu', () => {
     await openMenu(page);
     const m = overlay(page, 'global-menu');
     await expect(m).toHaveAttribute('data-overlay-asset', 'OV08');
-    await expect(m.locator('img[data-asset-id="OV08-IS-GLOBAL-MENU-DRAWER"]')).toBeVisible();
+    await expect(m.locator('img[data-asset-id="OV08_MENU_ENVIRONMENT"]')).toBeVisible();
+    await expect(m.locator('.jgm-tag')).toHaveText('JURNL');
     for (const s of ['YOUR FINANCES', 'YOUR INTELLIGENCE', 'YOUR ACCOUNT']) await expect(m.locator('.jv3-nav-section', { hasText: s })).toHaveCount(1);
     for (const [row, dest, back] of ROWS) {
       await trigger(page, row).scrollIntoViewIfNeeded();
@@ -110,7 +111,8 @@ test.describe('OPUS2 · sectioned global menu', () => {
     await clickTrigger(page, 'menu-currency');
     await clickTrigger(page, 'settings-currency-eur');
     await clickTrigger(page, 'menu-buffer');
-    await expect(overlay(page, 'global-buffer')).toContainText('BUFFER · EUR');
+    await expect(overlay(page, 'global-buffer')).toContainText('BUFFER AMOUNT');
+    await expect(trigger(page, 'buffer-currency')).toContainText('EUR');
     await trigger(page, 'buffer-input').fill('92');
     await clickTrigger(page, 'buffer-save');
     await expect(page.getByTestId('buffer-status')).toContainText('SAVED');
@@ -273,77 +275,210 @@ test.describe('OPUS2 · short phones: the olive field scrolls, the page never do
   }
 });
 
-/** The founder production shells mounted on the live overlays (P0.JURNL.GLOBAL-EIGHT-OVERLAYS, OPUS1 parent contract). */
-type ShellCase = { id: string; asset: string; route: string; world: () => unknown; open: string[]; controls: string[]; contextmenu?: string };
-const SHELLS: ShellCase[] = [
-  { id: 'f05m-actions-sheet', asset: 'OV01', route: 'money?parent=motion', world: () => f05World('approved'), open: ['f05m-actions'], controls: ['f05m-actions-add', 'f05m-actions-move', 'f05m-actions-sheet-close'] },
-  { id: 'money-add-place', asset: 'OV02', route: 'money?parent=motion', world: () => f05World('approved'), open: ['f05m-actions', 'f05m-actions-add'], controls: ['money-add-name', 'money-add-kind-checking', 'money-add-kind-cash', 'money-add-balance', 'money-add-cancel', 'money-add-save'] },
-  { id: 'transfer-sheet', asset: 'OV03', route: 'money?parent=motion', world: () => f05World('approved'), open: ['f05m-actions', 'f05m-actions-move'], controls: ['transfer-amount', 'transfer-date', 'transfer-memo', 'transfer-status-in-transit', 'transfer-cancel', 'transfer-save'] },
-  { id: 'd01-pocket-menu', asset: 'OV04', route: 'money/places', world: () => f05World('approved'), open: [], contextmenu: '[data-testid="d01-directory"] [data-account-id="bank"]', controls: ['d01-pocket-rename', 'd01-pocket-delete'] },
-  { id: 'global-search', asset: 'OV05', route: 'money?parent=motion', world: () => dot01World(), open: ['f05m-search'], controls: ['search-input', 'search-filter-all', 'search-filter-pockets', 'search-filter-transactions', 'search-all-activity', 'search-advanced'] },
-  { id: 'd01-archive-blocked', asset: 'OV07', route: 'money/places/bank/settings', world: () => dot01World(), open: ['d01-archive'], controls: ['d01-blocker-details', 'd01-keep-active', 'd01-archive-blocked-close'] },
-];
+/**
+ * OPUS3 · the curated clean artwork in the browser (P0.JURNL.GLOBAL-OVERLAYS.CLEAN-ARTWORK-CURATED-MOUNT-AND-CHILD-
+ * ENVIRONMENT-CONVERGENCE): SEARCH on the OV05 open composition with 0 / 4 / 20 live rows and a long merchant; MANAGE POCKET
+ * with the independent RENAME / DELETE papers; SAFE TO SPEND BUFFER and PRIVACY & CONSENTS on the shared OV08 menu
+ * environment (the founder authorities), with the keyboard open and on short phones. The OV01–OV03 / OV07 shells of OPUS1
+ * are retired (their live compositions are covered by jurnl-editorial-overlays.e2e.ts).
+ */
+const plateOf = (page: Page, id: string) => overlay(page, id).locator('.jsh-plate');
+/** Wait until the plate's entrance motion has finished (rects read mid-animation disagree by a few px). */
+const settle = (page: Page, id: string) => page.waitForFunction((sel) => { const el = document.querySelector(sel); return !!el && el.getAnimations({ subtree: true }).every((a) => a.playState !== 'running'); }, `[data-jrn-overlay="${id}"] .jsh-plate`);
+async function insidePlate(page: Page, id: string, triggers: string[]) {
+  await settle(page, id);
+  const pb = (await plateOf(page, id).boundingBox())!;
+  const vp = page.viewportSize()!;
+  for (const t of triggers) {
+    const b = (await trigger(page, t).first().boundingBox())!;
+    expect(b, t).toBeTruthy();
+    expect(b.x, t).toBeGreaterThanOrEqual(pb.x - 1);
+    expect(b.x + b.width, t).toBeLessThanOrEqual(pb.x + pb.width + 1);
+    expect(b.y, t).toBeGreaterThanOrEqual(Math.max(0, pb.y) - 1);
+    expect(b.y + b.height, t).toBeLessThanOrEqual(Math.min(vp.height, pb.y + pb.height) + 1);
+  }
+  return pb;
+}
+/** The pockets spec's deletable world: LONG has a small balance and two spends, nothing that blocks a delete. */
+function deletableWorld() {
+  const w = f05World('many');
+  const now = new Date().toISOString();
+  const accounts = w.snapshot.accounts.map((a) => (a.account_id === 'long' ? { ...a, balance: 18.5, available_balance: 18.5 } : a));
+  const long = accounts.find((a) => a.account_id === 'long')!;
+  return { ...w, snapshot: { ...w.snapshot, accounts, transactions: [purchase('tx-long-books', long, 'BOOKSHOP', 12.5, 'SHOPPING', 2, now), purchase('tx-long-cafe', long, 'CORNER CAFE', 6, 'DINING', 1, now)] } };
+}
+/** The DOT 01 world plus `n` matching spends (OPUS3 ROW i), the first with a merchant long enough to wrap. */
+function searchWorld(n: number) {
+  const w = dot01World();
+  const bank = w.snapshot.accounts.find((a) => a.account_id === 'bank')!;
+  const now = new Date().toISOString();
+  const rows = Array.from({ length: n }, (_, i) => purchase(`tx-opus3-${i}`, bank, i === 0 ? 'OPUS3 THE EXTREMELY LONG MERCHANT NAME THAT KEEPS GOING SO IT MUST WRAP' : `OPUS3 ROW ${String(i).padStart(2, '0')}`, 10 + i, 'SHOPPING', 1 + (i % 9), now));
+  return { ...w, snapshot: { ...w.snapshot, transactions: [...w.snapshot.transactions, ...rows] } };
+}
 
-test.describe('OPUS1 · the founder production shells on the live overlays', () => {
-  for (const c of SHELLS) {
-    test(`O${c.asset.slice(3)} · ${c.asset} ${c.id}: the shell at one uniform scale, every control on it and reachable, no page scroll`, async ({ page }) => {
+test.describe('OPUS3 · SEARCH on the OV05 open composition', () => {
+  for (const n of [0, 4, 20]) {
+    test(`C${n} · ${n} matching results: live rows of their own height, only the results scroll, no page scroll`, async ({ page }) => {
       await page.addInitScript(() => sessionStorage.setItem('jurnl.f05.parent', 'motion'));
-      await bootstrapJurnl(page, c.world() as Parameters<typeof bootstrapJurnl>[1]);
-      await gotoJurnl(page, c.route);
-      if (c.contextmenu) await page.locator(c.contextmenu).click({ button: 'right' });
-      for (const t of c.open) await clickTrigger(page, t);
-      const host = overlay(page, c.id);
-      await expect(host).toHaveAttribute('data-overlay-asset', c.asset);
-      const img = host.locator('img.jsh-shell');
-      await expect(img).toBeVisible();
-      // one uniform scale: the drawn plate keeps the shell's 9:16 exactly (never stretched, never cropped)
-      const pb = (await host.locator('.jsh-plate').boundingBox())!;
+      await bootstrapJurnl(page, searchWorld(n) as Parameters<typeof bootstrapJurnl>[1]);
+      await gotoJurnl(page, 'money?parent=motion');
+      await clickTrigger(page, 'f05m-search');
+      const host = overlay(page, 'global-search');
+      await expect(host).toHaveAttribute('data-overlay-asset', 'OV05_OPEN_COMPOSITION');
+      await expect(host.locator('img')).toHaveCount(1); // one art layer: no painted wells, no foreground duplicates
+      const pb = await insidePlate(page, 'global-search', ['search-input', 'search-filter-all', 'search-filter-pockets', 'search-filter-transactions', 'search-all-activity', 'search-advanced']);
       expect(pb.width / pb.height).toBeCloseTo(2016 / 3584, 2);
-      const vp = page.viewportSize()!;
-      expect(pb.width).toBeLessThanOrEqual(vp.width + 1);
-      expect(pb.height).toBeLessThanOrEqual(vp.height + 1);
-      // the shell takes no tap; every live control is inside the plate and on screen
-      expect(await img.evaluate((e) => getComputedStyle(e).pointerEvents)).toBe('none');
-      for (const t of c.controls) {
-        const b = (await trigger(page, t).first().boundingBox())!;
-        expect(b, t).toBeTruthy();
-        expect(b.x, t).toBeGreaterThanOrEqual(pb.x - 1);
-        expect(b.x + b.width, t).toBeLessThanOrEqual(pb.x + pb.width + 1);
-        expect(b.y, t).toBeGreaterThanOrEqual(Math.max(0, pb.y) - 1);
-        expect(b.y + b.height, t).toBeLessThanOrEqual(Math.min(vp.height, pb.y + pb.height) + 1);
-      }
-      // no second sculpture / foliage / medal layer over the shell
-      await expect(host.locator('.jed-art')).toHaveCount(0);
-      expect(await pageScroll(page)).toEqual({ y: false, x: false });
-      if (c.asset === 'OV04') {
-        // full-frame at 90 % of the host width: the card is about 85 % wide when the width limits the plate (phones);
-        // when the height limits it (tablet, desktop column) it is narrower, never wider than 90 %
-        const card = (await page.getByTestId('d01-pocket-menu').boundingBox())!;
-        const hb = (await host.boundingBox())!;
-        expect(card.width / hb.width).toBeLessThan(0.9);
-        if (pb.width >= hb.width * 0.89) expect(card.width / hb.width).toBeGreaterThan(0.8);
-        await page.mouse.click(4, vp.height - 4); // outside the card: closes
-        await expect(host).toHaveCount(0);
+      await trigger(page, 'search-input').fill('OPUS3');
+      const results = page.getByTestId('search-results');
+      const hits = results.locator('[data-jrn-trigger^="search-hit-"]');
+      if (n === 0) {
+        await expect(page.getByTestId('search-empty')).toBeVisible();
+        await expect(hits).toHaveCount(0);
       } else {
-        await page.keyboard.press('Escape');
-        await expect(host).toHaveCount(0);
+        await expect(hits).toHaveCount(n);
+        const heights = await hits.evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().height)));
+        // the long merchant wraps: its row is taller than a one-line row (no fixed row height, no truncation slot)
+        expect(Math.max(...heights)).toBeGreaterThan(Math.min(...heights));
+        await expect(hits.filter({ hasText: 'KEEPS GOING SO IT MUST WRAP' })).toHaveCount(1);
+        const r = await results.evaluate((e) => ({ h: e.clientHeight, sh: e.scrollHeight, oy: getComputedStyle(e).overflowY }));
+        expect(r.oy).toBe('auto');
+        if (n === 20) {
+          expect(r.sh).toBeGreaterThan(r.h); // the list scrolls inside the paper
+          const last = hits.last();
+          await last.scrollIntoViewIfNeeded();
+          const rb = (await results.boundingBox())!;
+          const lb = (await last.boundingBox())!;
+          expect(lb.y).toBeGreaterThanOrEqual(rb.y - 1);
+          expect(lb.y + lb.height).toBeLessThanOrEqual(rb.y + rb.height + 1);
+        }
       }
+      // the actions stay on the paper whatever the count
+      await insidePlate(page, 'global-search', ['search-all-activity', 'search-advanced']);
+      expect(await pageScroll(page)).toEqual({ y: false, x: false });
+      await page.keyboard.press('Escape');
+      await expect(host).toHaveCount(0);
     });
   }
+});
 
-  test('O7b · ARCHIVE BLOCKED on OV07: the real blockers sit on the shell rows; RESOLVE ISSUES on the dark strip leaves for the resolution', async ({ page }) => {
-    await bootstrapJurnl(page, dot01World() as Parameters<typeof bootstrapJurnl>[1]);
-    await gotoJurnl(page, 'money/places/bank/settings');
-    await clickTrigger(page, 'd01-archive');
-    const why = page.getByTestId('d01-blocked-why');
-    await expect(why).toContainText('THIS ACCOUNT CANNOT BE ARCHIVED YET');
-    const rows = why.locator('[data-testid^="d01-blocker-"]');
-    expect(await rows.count()).toBeGreaterThan(0);
-    const plate = (await overlay(page, 'd01-archive-blocked').locator('.jsh-plate').boundingBox())!;
-    const first = (await rows.first().boundingBox())!;
-    // the first blocker lands on the shell's first blank row (44.6 %–54.2 % of the shell height)
-    expect(Math.abs(first.y - (plate.y + plate.height * 0.4456))).toBeLessThan(plate.height * 0.012);
-    await clickTrigger(page, 'd01-blocker-details');
-    await expect(overlay(page, 'd01-archive-blocked')).toHaveCount(0);
+test.describe('OPUS3 · MANAGE POCKET with the independent papers', () => {
+  test('C5 · RENAME / DELETE each wear their own text-free paper once; the keyboard reaches both; rename and delete open their confirmations', async ({ page }) => {
+    await page.addInitScript(() => sessionStorage.setItem('jurnl.f05.parent', 'motion'));
+    await bootstrapJurnl(page, deletableWorld() as Parameters<typeof bootstrapJurnl>[1]);
+    await gotoJurnl(page, 'money/places/long');
+    await page.locator('[data-jrn-f05-dot01-stage], [data-jrn-f05-stage]').first().waitFor({ state: 'attached', timeout: 30_000 });
+    await clickTrigger(page, 'd01-manage');
+    const menu = page.getByTestId('d01-pocket-menu');
+    await expect(menu).toBeVisible();
+    await expect(page.getByTestId('d01-pocket-menu-backdrop')).toHaveCount(1); // the live page behind is blurred
+    await expect(menu.locator('img[data-asset-id="OV04_RENAME_PAPER"]')).toHaveCount(1);
+    await expect(menu.locator('img[data-asset-id="OV04_DELETE_PAPER"]')).toHaveCount(1);
+    for (const t of ['d01-pocket-rename', 'd01-pocket-delete']) {
+      const b = (await trigger(page, t).boundingBox())!;
+      expect(b.height, `${t} tap target`).toBeGreaterThanOrEqual(44);
+      const ratio = await trigger(page, t).evaluate((e) => getComputedStyle(e).aspectRatio);
+      expect(ratio, `${t} keeps its paper ratio`).toMatch(/^1645 \/ (319|346)$/);
+      expect(await trigger(page, t).locator('img').evaluate((e) => getComputedStyle(e).objectFit)).toBe('contain');
+    }
+    await trigger(page, 'd01-pocket-rename').focus();
+    await page.keyboard.press('Enter');
+    await expect(overlay(page, 'd01-rename-pocket')).toBeVisible();
+    expect(await pageScroll(page)).toEqual({ y: false, x: false });
+    await page.keyboard.press('Escape');
+    await expect(overlay(page, 'd01-rename-pocket')).toHaveCount(0);
+    await clickTrigger(page, 'd01-manage');
+    await trigger(page, 'd01-pocket-delete').focus();
+    await page.keyboard.press('Enter');
+    await expect(overlay(page, 'd01-delete-pocket')).toBeVisible();
+    await expect(trigger(page, 'd01-keep-pocket')).toBeFocused();
+    await clickTrigger(page, 'd01-keep-pocket');
+    await expect(overlay(page, 'd01-delete-pocket')).toHaveCount(0);
   });
+});
+
+test.describe('OPUS3 · SAFE TO SPEND BUFFER and PRIVACY & CONSENTS on the shared OV08 environment', () => {
+  test.beforeEach(async ({ page }) => {
+    await rates(page);
+    await bootstrapJurnl(page);
+    await gotoJurnl(page, 'today');
+  });
+
+  test('C6 · BUFFER: OV08 once, the authority papers and coin once each, no second header; keyboard open keeps the field and the actions on screen; saves USD', async ({ page }) => {
+    await openMenu(page);
+    await clickTrigger(page, 'menu-buffer');
+    const host = overlay(page, 'global-buffer');
+    await expect(host).toHaveAttribute('data-overlay-asset', 'OV08_MENU_ENVIRONMENT');
+    const ids = await host.locator('img').evaluateAll((els) => els.map((e) => e.getAttribute('data-asset-id')).sort());
+    expect(ids).toEqual(['CH01_AMOUNT_PAPER', 'CH01_BACK_PAPER', 'CH01_COIN_RESERVE', 'CH01_EFFECT_PAPER', 'OV08_MENU_ENVIRONMENT']);
+    await expect(host.locator('.jsh-tag')).toHaveText('JURNL');
+    // the coin is 1:1 with its master at the authority origin, on the plate (both rects read in one frame)
+    await settle(page, 'global-buffer');
+    const { pb, cb } = await host.evaluate((h) => {
+      const r = (e: Element) => { const b = e.getBoundingClientRect(); return { x: b.x, y: b.y, width: b.width, height: b.height }; };
+      return { pb: r(h.querySelector('.jsh-plate')!), cb: r(h.querySelector('img.jce-coin')!) };
+    });
+    expect((cb.x - pb.x) / pb.width).toBeCloseTo(35 / 2016, 3);
+    expect((cb.y - pb.y) / pb.height).toBeCloseTo(2427 / 3584, 3);
+    expect(cb.width / pb.width).toBeCloseTo(1048 / 2016, 3);
+    expect(cb.height / cb.width).toBeCloseTo(581 / 1048, 2);
+    await insidePlate(page, 'global-buffer', ['buffer-input', 'buffer-currency', 'buffer-back', 'buffer-save']);
+    // the keyboard: focus the field, then the visual viewport loses ~40 % of its height
+    await trigger(page, 'buffer-input').focus();
+    const vp = page.viewportSize()!;
+    await page.setViewportSize({ width: vp.width, height: Math.round(vp.height * 0.6) });
+    await expect(trigger(page, 'buffer-input')).toBeFocused();
+    await insidePlate(page, 'global-buffer', ['buffer-input', 'buffer-back', 'buffer-save']);
+    const kb = (await plateOf(page, 'global-buffer').boundingBox())!;
+    expect(kb.width / kb.height).toBeCloseTo(2016 / 3584, 2); // one uniform scale, never squashed
+    expect(await pageScroll(page)).toEqual({ y: false, x: false });
+    await trigger(page, 'buffer-input').fill('250');
+    await clickTrigger(page, 'buffer-save');
+    await expect(page.getByTestId('buffer-status')).toHaveText('SAVED');
+    await expect(page.getByTestId('buffer-usd')).toHaveAttribute('data-usd', '250');
+    await expect(page.getByTestId('buffer-usd')).toContainText('KEPT ASIDE');
+    await page.setViewportSize(vp);
+    // the currency mark on the amount paper opens DISPLAY CURRENCY; BACK returns to the buffer
+    await clickTrigger(page, 'buffer-currency');
+    await expect(overlay(page, 'settings-currency-sheet')).toBeVisible();
+    await clickTrigger(page, 'settings-currency-sheet-close');
+    await expect(host).toBeVisible();
+  });
+
+  for (const vp of [{ width: 360, height: 640 }, { width: 393, height: 660 }]) {
+    test(`C7 · PRIVACY at ${vp.width}×${vp.height}: OV08 once, only the list scrolls, every row reachable, statements carry no switch`, async ({ page }) => {
+      await page.setViewportSize(vp);
+      await openMenu(page);
+      await trigger(page, 'menu-privacy').scrollIntoViewIfNeeded();
+      await clickTrigger(page, 'menu-privacy');
+      const host = overlay(page, 'settings-consents-sheet');
+      await expect(host).toHaveAttribute('data-overlay-asset', 'OV08_MENU_ENVIRONMENT');
+      const ids = await host.locator('img').evaluateAll((els) => els.map((e) => e.getAttribute('data-asset-id')).sort());
+      expect(ids).toEqual(['CH02_BACK_PAPER', 'CH02_REMOVE_ACCESS_PAPER', 'OV08_MENU_ENVIRONMENT']);
+      await settle(page, 'settings-consents-sheet');
+      const list = host.locator('.jce-list');
+      const l = await list.evaluate((e) => ({ h: e.clientHeight, sh: e.scrollHeight, oy: getComputedStyle(e).overflowY }));
+      expect(l.oy).toBe('auto');
+      const lb = (await list.boundingBox())!;
+      for (const t of ['settings-consent-remember', 'privacy-ask-context', 'privacy-tool-ai-access', 'privacy-tool-your-data', 'privacy-tool-data-export']) {
+        const el = trigger(page, t);
+        await el.evaluate((e) => e.scrollIntoView({ block: 'center' }));
+        const b = (await el.boundingBox())!;
+        expect(b.y, t).toBeGreaterThanOrEqual(lb.y - 1);
+        expect(b.y + b.height, t).toBeLessThanOrEqual(lb.y + lb.height + 1);
+        // the tap target is at least 44 px tall: probe 21 px above and below the centre (a switch's hit area is larger than its track)
+        const hit = await el.evaluate((e, t) => {
+          const r = e.getBoundingClientRect(); const cx = r.x + r.width / 2; const cy = r.y + r.height / 2;
+          return [cy - 21, cy + 21].every((y) => document.elementFromPoint(cx, y)?.closest('[data-jrn-trigger]')?.getAttribute('data-jrn-trigger') === t);
+        }, t);
+        expect(hit, `${t} tap target ≥ 44 px`).toBe(true);
+      }
+      for (const t of ['privacy-statement-links', 'privacy-statement-sale']) await expect(page.getByTestId(t).locator('[role="switch"]'), t).toHaveCount(0);
+      // REMOVE ACCESS and BACK sit on their papers below the list, always on screen
+      await insidePlate(page, 'settings-consents-sheet', ['privacy-tool-remove-access', 'privacy-back']);
+      expect(await pageScroll(page)).toEqual({ y: false, x: false });
+      await clickTrigger(page, 'privacy-back');
+      await expect(host).toHaveCount(0);
+      await expect(overlay(page, 'global-menu')).toBeVisible();
+    });
+  }
 });

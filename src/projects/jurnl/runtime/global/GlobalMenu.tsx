@@ -1,8 +1,8 @@
 /**
  * JURNL global menu (the hamburger) and the MEMBERSHIP & ACCESS surfaces.
  *
- * The menu is SECONDARY navigation drawn on the founder's OV08 menu shell (the production asset, uniform scale, never
- * stretched; the bust, lemons, arch, coast and oxblood are in the shell, so nothing is layered on it twice). Its rows are
+ * The menu is SECONDARY navigation drawn on the curated OV08 sectioned-menu environment (OPUS3; uniform scale, never
+ * stretched; the bust, lemons, arch, coast and oxblood are in the art, so nothing is layered on it twice). Its rows are
  * live code inside the olive field, which is the only thing that scrolls. The dock already owns HOME · MONEY · ADD ·
  * PLAN · CREDIT, so none of them appears here. Three sections (the founder's FD-01):
  *
@@ -33,7 +33,7 @@ import { useJurnlEntitlements } from '../monetization/JurnlEntitlements';
 import { OverlayLayer } from '../components/primitives';
 import { useOverlayHost } from '../components/OverlayAuthority';
 import { V3Card, V3Chevron, V3Folio, V3Icon, V3NavSection, V3Notice, V3Pill, V3Row, V3RuleLabel, V3Seal, V3Status, useStableFocus, type V3AccessState } from '../surfaces/v3/V3Surfaces';
-import { overlayShell } from './overlays/eight/registry';
+import { cleanArt } from './overlays/clean/registry';
 import type { MenuDestination, MenuPanel } from './menuPanels';
 import laurelSeal from '../../families/F05_MONEY/DOT01/F05_DOT01_02_LAUREL_WAX_SEAL.webp';
 import artTravel from '../../families/F05_MONEY/DOT01/F05_DOT01_08_PARCHMENT_COASTAL_PANEL.webp';
@@ -76,11 +76,17 @@ export const GLOBAL_MENU_SECTIONS = [
   },
 ] as const satisfies readonly { title: string; rows: readonly { trigger: string; to: MenuDestination; label: string; icon: string }[] }[];
 
-/** OV08 native frame and its live regions, as fractions of the shell (measured on the installed PNG, see registry). */
+/**
+ * OV08-SECTIONED-MENU-ENVIRONMENT (the curated OPUS3 composition, 2016 × 3584) and its live regions, as fractions of the
+ * art (measured on the installed PNG): the headline on the parchment, the olive field as the only scroll container.
+ */
 const OV08 = { w: 2016, h: 3584 } as const;
 const OV08_REGION = {
-  head: [0.235, 0.112, 0.765, 0.252],
-  port: [0.075, 0.298, 0.742, 0.905],
+  /** the blank tag paper: the live JURNL wordmark (as on the BUFFER / PRIVACY authorities, same environment) */
+  tag: [0.352, 0.038, 0.575, 0.098],
+  head: [0.29, 0.125, 0.79, 0.265],
+  /** below the baked olive sprig (its lowest leaf reaches x 0.142 at y 0.305) and above the torn foot on the right */
+  port: [0.075, 0.306, 0.745, 0.885],
 } as const;
 const region = ([x0, y0, x1, y1]: readonly number[]): CSSProperties => ({ left: `${x0! * 100}%`, top: `${y0! * 100}%`, width: `${(x1! - x0!) * 100}%`, height: `${(y1! - y0!) * 100}%` });
 
@@ -133,7 +139,7 @@ function useRowAsides(): Partial<Record<string, string>> {
 export function GlobalMenu({ onClose, onOpen }: { onClose: () => void; onOpen: (d: MenuDestination) => void; onDestination?: (d: MenuDestination) => void }) {
   const { ref } = useStableFocus(onClose);
   const { host, ref: hostRef } = useOverlayHost();
-  const shell = overlayShell('OV08');
+  const shell = cleanArt('OV08_MENU_ENVIRONMENT');
   const k = Math.min(host.W / OV08.w, host.H / OV08.h);
   const asides = useRowAsides();
   return (
@@ -141,7 +147,10 @@ export function GlobalMenu({ onClose, onOpen }: { onClose: () => void; onOpen: (
       <div ref={hostRef} className="jgm-host" data-jrn-overlay="global-menu" data-jv3-family="A_NAVIGATION_DRAWER" data-overlay-asset="OV08">
         <div className="jgm-scrim" onClick={onClose} aria-hidden />
         <div ref={ref} role="dialog" aria-modal="true" aria-label="MENU" className="jgm-plate" style={{ width: Math.round(OV08.w * k), height: Math.round(OV08.h * k) }}>
-          <img className="jgm-shell" src={shell.src} width={shell.width} height={shell.height} alt="" aria-hidden draggable={false} data-asset-id="OV08-IS-GLOBAL-MENU-DRAWER" />
+          <img className="jgm-shell" src={shell.src} width={shell.width} height={shell.height} alt="" aria-hidden draggable={false} data-asset-id="OV08_MENU_ENVIRONMENT" />
+          <span className="jgm-tag" aria-hidden style={region(OV08_REGION.tag)}>
+            JURNL
+          </span>
           <div className="jgm-head" style={region(OV08_REGION.head)}>
             <h2 className="jgm-title">MENU</h2>
             <p className="jv3-t-script">tools, settings & support</p>

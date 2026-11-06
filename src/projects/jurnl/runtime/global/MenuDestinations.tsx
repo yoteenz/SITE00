@@ -26,6 +26,7 @@ import { JurnlModal, JurnlToggle } from '../components/primitives';
 import { useJurnl } from '../state/store';
 import { V3Field, V3Folio, V3Notice, V3Pill, V3Row, V3RuleLabel, V3Status } from '../surfaces/v3/V3Surfaces';
 import type { MenuDestination, MenuPanel, SettingsToolId } from './menuPanels';
+import { BufferEnvironment, PrivacyEnvironment } from './ChildEnvironments';
 
 type Nav = { onBack: () => void; onOpen: (p: MenuDestination | MenuPanel) => void };
 const tool = (id: SettingsToolId): MenuPanel => ({ tool: id });
@@ -87,7 +88,24 @@ export function ConnectionsFolio({ onBack, onManual }: { onBack: () => void; onM
 }
 
 /* ── YOUR FINANCES · SAFE TO SPEND BUFFER ── */
-export function BufferFolio({ onBack }: { onBack: () => void }) {
+/**
+ * The child environments (OPUS3): SAFE TO SPEND BUFFER and PRIVACY & CONSENTS are drawn on the shared OV08 menu environment
+ * (the founder authorities; ChildEnvironments.tsx). The previous V3 folio stays reachable for side-by-side founder
+ * comparison in design preview only (`?childenv=folio`); production never honours the switch.
+ */
+function useChildEnv(): 'environment' | 'folio' {
+  const { mode } = useJurnl();
+  if (mode !== 'design-preview' || typeof window === 'undefined') return 'environment';
+  return new URLSearchParams(window.location.search).get('childenv') === 'folio' ? 'folio' : 'environment';
+}
+
+/** `onCurrency` opens the DISPLAY CURRENCY destination from the amount paper's currency selector. */
+export function BufferFolio({ onBack, onCurrency }: { onBack: () => void; onCurrency?: () => void }) {
+  return useChildEnv() === 'folio' ? <BufferFolioV3 onBack={onBack} /> : <BufferEnvironment onBack={onBack} onCurrency={onCurrency} />;
+}
+
+/** The V3 parchment folio (before OPUS3), kept for comparison. */
+export function BufferFolioV3({ onBack }: { onBack: () => void }) {
   const b = useSafetyBuffer();
   const id = useId();
   const [status, setStatus] = useState<string | null>(null);
@@ -186,8 +204,14 @@ export function PreferencesFolio({ onBack, onOpen }: Nav) {
 
 /* ── YOUR ACCOUNT · PRIVACY & CONSENTS (one owner: the menu, the ACCOUNT page and the drawer all open this) ── */
 export function PrivacyConsentsFolio({ onBack, onOpen }: Nav) {
-  const draft = useSetup();
+  const env = useChildEnv();
   const [ask, setAsk] = useAskContextConsent();
+  return env === 'folio' ? <PrivacyConsentsFolioV3 onBack={onBack} onOpen={onOpen} ask={ask} setAsk={setAsk} /> : <PrivacyEnvironment onBack={onBack} onOpen={onOpen} askOn={ask} setAsk={setAsk} />;
+}
+
+/** The V3 parchment folio (before OPUS3), kept for comparison. */
+export function PrivacyConsentsFolioV3({ onBack, onOpen, ask, setAsk }: Nav & { ask: boolean; setAsk: (v: boolean) => void }) {
+  const draft = useSetup();
   const rows: { on: boolean; label: string; note: string; trigger: string; set: (v: boolean) => void }[] = [
     { on: draft.consentRemember, label: 'REMEMBER SETUP', note: 'KEEP YOUR SETUP ANSWERS ON THIS DEVICE.', trigger: 'settings-consent-remember', set: (v) => patchSetup({ consentRemember: v }) },
     { on: draft.consentLinks, label: 'LINKED ACCOUNTS OPTIONAL', note: 'JURNL WORKS WITHOUT CONNECTING A BANK.', trigger: 'settings-consent-links', set: (v) => patchSetup({ consentLinks: v }) },

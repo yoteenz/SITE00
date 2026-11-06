@@ -11,13 +11,14 @@
  */
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactNode } from 'react';
 import { accountView, kindOf, type Dot01Kind } from '../../../../data/f05/dot01/accountView';
+import { ART, EdArt, KIND_ART, REGION } from '../../../surfaces/editorial/Editorial';
 import { getTodayKey } from '../../../../data/foundation/dates';
 import { renameAccount } from '../../../../data/ledger/ledgerOps';
 import { checkPocketName, POCKET_NAME_MAX } from '../../../../data/f05/dot01/pocketName';
 import { useJurnl } from '../../../state/store';
-import { OverlayLayer } from '../../../components/primitives';
-import { overlayShell } from '../../../global/overlays/eight/registry';
-import { slot, useShellPlate } from '../../../surfaces/editorial/Shell';
+import { JurnlPopover } from '../surfaces/JurnlSurfaces';
+import { cleanArt } from '../../../global/overlays/clean/registry';
+import '../../../surfaces/editorial/jurnl-shell-overlays.css';
 import { Dot01Overlay, OVERLAY_CONTENT } from './Dot01Frame';
 import { Alert, Button, Paper, Row, TextInput } from './kit';
 import { ArchiveOverlay } from './sheets/AccountSheets';
@@ -123,18 +124,6 @@ function PocketMenu({ anchor, name, kind, onRename, onDelete, onClose }: { ancho
   const ref = useRef<HTMLElement | null>(anchor);
   ref.current = anchor;
   const box = useRef<HTMLDivElement | null>(null);
-  const plate = useShellPlate(0.9);
-  const pressedOutside = useRef(false);
-  // The card is centred, so the release of the long press that opened it can land on a strip: an item acts only on a
-  // press that started on it, or on the keyboard (Enter / Space dispatch a click with detail 0).
-  const armed = useRef<string | null>(null);
-  const press = (id: string, act: () => void) => ({
-    onPointerDown: () => (armed.current = id),
-    onClick: (e: MouseEvent<HTMLButtonElement>) => {
-      if (e.detail === 0 || armed.current === id) act();
-      armed.current = null;
-    },
-  });
   // the popover mounts a frame after the menu (it measures its anchor first): focus the first item when it arrives
   const attach = useCallback((el: HTMLDivElement | null) => {
     box.current = el;
@@ -167,54 +156,36 @@ function PocketMenu({ anchor, name, kind, onRename, onDelete, onClose }: { ancho
     } else if (e.key === 'Tab') onClose(false);
   };
   return (
-    // founder OV04 shell, placed full-frame (never cropped to its card and recentred) at 90 % of the screen width, over a
-    // blur of the live page; the paperclip, coast and the salmon delete strip are the shell's. Tap outside the card closes.
-    <OverlayLayer>
-      <div ref={plate.ref} className="jsh-host" data-jrn-overlay="d01-pocket-menu" data-shell="OV04" data-overlay-asset="OV04">
-        {/* outside-tap dismiss: only a press that STARTS on the scrim closes it — the release of the long press that
-            opened the menu lands here too, and must not close it (the old popover ignored that release the same way) */}
-        <div
-          className="jsh-scrim"
-          data-blur="true"
-          onPointerDown={() => (pressedOutside.current = true)}
-          onClick={() => {
-            if (pressedOutside.current) onClose(false);
-            pressedOutside.current = false;
-          }}
-          aria-hidden
-        />
-        <div className="jsh-plate" style={{ width: plate.w, height: plate.h }}>
-          <img className="jsh-shell" src={OV04.src} width={OV04.width} height={OV04.height} alt="" aria-hidden draggable={false} data-asset-id="OV04" />
-          <div className="jsh-card" data-testid="d01-pocket-menu" style={slot(OV04_BOX.card)}>
-            <div ref={attach} role="menu" aria-label={`MANAGE POCKET: ${name}`} onKeyDown={onKey} className="jsh-card__menu">
-              <div className="jsh-card__head" aria-hidden style={slot(OV04_BOX.head)}>
-                <p className="jsh-card__title">MANAGE POCKET</p>
-                <p className="jsh-card__sub">{name}</p>
-                {KIND_LABEL[kind] !== name.toUpperCase() ? <p className="jsh-text">{KIND_LABEL[kind]}</p> : null}
-              </div>
-              <button type="button" role="menuitem" className="jsh-action" data-tone="paper" data-jrn-trigger="d01-pocket-rename" {...press('rename', onRename)} style={slot(OV04_BOX.rename)}>
-                <span className="jsh-action__title">RENAME POCKET</span>
-              </button>
-              <button type="button" role="menuitem" className="jsh-action" data-tone="salmon" data-jrn-trigger="d01-pocket-delete" {...press('delete', onDelete)} style={slot(OV04_BOX.delete)}>
-                <span className="jsh-action__title">DELETE POCKET</span>
-              </button>
-            </div>
-          </div>
-        </div>
+    // the live page behind softens (a backdrop blur of the actual view, never a screenshot, in the popover's own layer);
+    // it takes no taps, so the popover's outside-tap dismissal is unchanged
+    <JurnlPopover anchor={ref} onDismiss={() => onClose(false)} minWidth={292} want={252} className="jrn-pop--menu jv3-fragment" testId="d01-pocket-menu" backdrop>
+      <div ref={attach} role="menu" aria-label={`MANAGE POCKET: ${name}`} onKeyDown={onKey}>
+        {/* founder board 04: the fragment is clipped on (the binder clip of the V9 receipt stack) and carries this
+            pocket's own 06 illustration; decorative only */}
+        <EdArt art={ART.paperStack} region={REGION.clip} className="jed-pop-clip" />
+        <span className="jed-pop-art" aria-hidden><EdArt art={KIND_ART[kind].art} region={KIND_ART[kind].region} className="jed-art--kind" /></span>
+        <p className="jrn-menu__title" aria-hidden>MANAGE POCKET</p>
+        <p className="jrn-menu__sub" aria-hidden>{name}</p>
+        {/* OPUS3: each action wears its own independent text-free paper (L1 backing, native aspect, moves with the
+            control); the label, icon, focus and hit target are live */}
+        <button type="button" role="menuitem" className="jrn-menu__item jsp-paper jsp-menu-paper" data-paper="rename" data-jrn-trigger="d01-pocket-rename" onClick={onRename} style={{ aspectRatio: `${RENAME.width} / ${RENAME.height}` }}>
+          <img className="jsp-paper__art" src={RENAME.src} alt="" aria-hidden draggable={false} data-asset-id="OV04_RENAME_PAPER" />
+          <svg viewBox="0 0 24 24" aria-hidden><path d="M4 20h4l11-11-4-4L4 16z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" /><path d="m13.5 6.5 4 4" fill="none" stroke="currentColor" strokeWidth="1.8" /></svg>
+          <span>RENAME POCKET</span>
+          <svg className="jv3-chev" viewBox="0 0 10 16" aria-hidden><path d="M2 2l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        </button>
+        <button type="button" role="menuitem" className="jrn-menu__item jrn-menu__item--danger jsp-paper jsp-menu-paper" data-paper="delete" data-jrn-trigger="d01-pocket-delete" onClick={onDelete} style={{ aspectRatio: `${DELETE.width} / ${DELETE.height}` }}>
+          <img className="jsp-paper__art" src={DELETE.src} alt="" aria-hidden draggable={false} data-asset-id="OV04_DELETE_PAPER" />
+          <svg viewBox="0 0 24 24" aria-hidden><path d="M4 6.5h16M9 6.5V4h6v2.5M6.5 6.5 7.5 20h9l1-13.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" /></svg>
+          <span>DELETE POCKET</span>
+          <svg className="jv3-chev" viewBox="0 0 10 16" aria-hidden><path d="M2 2l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        </button>
       </div>
-    </OverlayLayer>
+    </JurnlPopover>
   );
 }
-
-/** OV04 regions: the card (the shell's visible alpha bounds) and, relative to it, the head and the two strips. */
-const OV04_BOX = {
-  card: [0.018, 0.243, 0.963, 0.722],
-  head: [0.1, 0.2, 0.56, 0.44],
-  rename: [0.109, 0.507, 0.955, 0.67],
-  delete: [0.109, 0.711, 0.955, 0.875],
-} as const;
-const KIND_LABEL: Record<Dot01Kind, string> = { bank: 'BANK ACCOUNT', payout: 'PAYOUT CARD', cash: 'CASH', credit: 'CREDIT CARD' };
-const OV04 = overlayShell('OV04');
+const RENAME = cleanArt('OV04_RENAME_PAPER');
+const DELETE = cleanArt('OV04_DELETE_PAPER');
 
 /** RENAME POCKET: current name, the editable name, CANCEL and SAVE NAME. Rename by id; balances and history untouched. */
 export function RenamePocketOverlay({ accountId, onClose, onSaved }: { accountId: string; onClose: () => void; onSaved: (name: string) => void }) {

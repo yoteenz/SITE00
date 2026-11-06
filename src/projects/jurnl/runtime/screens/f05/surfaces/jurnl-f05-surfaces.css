@@ -241,6 +241,16 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.jrn .jrn-pop-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 79; /* just under the surface (80), in the same layer */
+  pointer-events: none;
+  background: rgba(24, 18, 10, 0.16);
+  backdrop-filter: blur(6px) saturate(0.94);
+  -webkit-backdrop-filter: blur(6px) saturate(0.94);
+  animation: jv3-fade 180ms ease-out both;
+}
 .jrn .jrn-menu__item {
   display: grid;
   grid-template-columns: 22px 1fr;

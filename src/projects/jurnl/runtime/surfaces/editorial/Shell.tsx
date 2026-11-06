@@ -1,12 +1,13 @@
 /**
- * Founder production shells (P0.JURNL.GLOBAL-EIGHT-OVERLAYS) — the behaviour host for an overlay drawn on one of the
- * eight installed inner shells (OV01–OV08, runtime/global/overlays/eight/registry.ts).
+ * Curated clean artwork hosts (P0.JURNL.GLOBAL-OVERLAYS.CLEAN-ARTWORK-CURATED-MOUNT-AND-CHILD-ENVIRONMENT-CONVERGENCE) — the
+ * behaviour host for an overlay drawn on one curated art piece (runtime/global/overlays/clean/registry.ts): the OV05 open
+ * search composition, and the shared OV08 menu environment under SAFE TO SPEND BUFFER and PRIVACY & CONSENTS.
  *
- * The shell is one integrated composition plate (paper, sculpture, foliage, seals, coast). It is drawn at ONE uniform
- * contain scale inside the runtime's overlay host — the plate has the shell's exact 9:16 ratio, so nothing is cropped,
- * recentred or stretched — and every live label, value and control is placed on the shell's own blank wells and folios
- * by fractions of the shell (`ShellBox`), so it stays on them at every size. Decorative pixels are the shell's; no second
- * sculpture, foliage, medal or scene is layered over it. Type scales with the plate (container units) within bounds.
+ * The art (L0 environment / L1 composition) is drawn at ONE uniform contain scale inside the runtime's overlay host — the
+ * plate has the art's exact aspect ratio, so nothing is cropped, recentred or stretched. The art carries no UI: every
+ * label, value, field, row, separator and control (L2) is live and lays itself out inside the art's open regions
+ * (`ShellBox`, fractions of the art), growing with its content and scrolling only inside its own region. Independent
+ * papers (L1 backings) travel with their own controls. Type scales with the plate (container units) within bounds.
  *
  * Behaviour is the editorial host's: portal into the overlay layer, one scrim (optionally a blur of the live page),
  * dialog semantics, focus trap / Escape / focus return (useStableFocus), live square-rounded close at the top end.
@@ -14,7 +15,7 @@
 import { useId, type CSSProperties, type ReactNode } from 'react';
 import { OverlayLayer } from '../../components/primitives';
 import { useOverlayHost } from '../../components/OverlayAuthority';
-import { overlayShell, type OverlayAssetId } from '../../global/overlays/eight/registry';
+import { cleanArt, type CleanArtId } from '../../global/overlays/clean/registry';
 import { useStableFocus } from '../v3/V3Surfaces';
 import './jurnl-shell-overlays.css';
 
@@ -28,10 +29,10 @@ export function slot(b: ShellBox, extra?: CSSProperties): CSSProperties {
 }
 
 /** The plate: the shell at one uniform contain scale in the host (optionally limited to a share of the host width). */
-export function useShellPlate(widthShare = 1) {
+export function useShellPlate(widthShare = 1, artW = SHELL_W, artH = SHELL_H) {
   const { host, ref } = useOverlayHost();
-  const k = Math.min((host.W * widthShare) / SHELL_W, host.H / SHELL_H);
-  return { ref, k, w: Math.round(SHELL_W * k), h: Math.round(SHELL_H * k) };
+  const k = Math.min((host.W * widthShare) / artW, host.H / artH);
+  return { ref, k, w: Math.round(artW * k), h: Math.round(artH * k) };
 }
 
 export function ShellOverlay({
@@ -53,9 +54,12 @@ export function ShellOverlay({
   close = true,
   titleSize,
   headNote,
+  tag,
+  ornament = false,
 }: {
   testId: string;
-  shell: OverlayAssetId;
+  /** the curated clean art the overlay is drawn on (clean/registry.ts) */
+  shell: CleanArtId;
   /** the editorial composition this overlay belongs to (kept on the host as `data-jed`) */
   composition?: string;
   title: ReactNode;
@@ -76,11 +80,15 @@ export function ShellOverlay({
   titleSize?: number;
   /** one short uppercase line under the script on the headline paper */
   headNote?: string;
+  /** the art's blank tag paper: the live JURNL wordmark sits on it */
+  tag?: ShellBox;
+  /** the small live laurel ornament between two rules under the script (the founder authority's) */
+  ornament?: boolean;
 }) {
   const { ref: focusRef } = useStableFocus(onClose);
-  const { ref: hostRef, w, h } = useShellPlate(widthShare);
+  const art = cleanArt(shell);
+  const { ref: hostRef, w, h } = useShellPlate(widthShare, art.width, art.height);
   const id = useId();
-  const art = overlayShell(shell);
   return (
     <OverlayLayer>
       <div ref={hostRef} className="jsh-host" data-jrn-overlay={testId} data-jed={composition} data-shell={shell} data-overlay-asset={shell}>
@@ -102,7 +110,13 @@ export function ShellOverlay({
             </h2>
             {script ? <p className="jed-script jsh-head__script">{script.toLowerCase()}</p> : null}
             {headNote ? <p className="jsh-text jsh-head__note">{headNote}</p> : null}
+            {ornament ? <ShellOrnament /> : null}
           </div>
+          {tag ? (
+            <span className="jsh-tag" aria-hidden style={slot(tag)}>
+              JURNL
+            </span>
+          ) : null}
           {children}
           {close ? (
             <button type="button" className="jsh-close" data-jrn-trigger={`${testId}-close`} aria-label={closeLabel} onClick={onClose}>
@@ -117,100 +131,24 @@ export function ShellOverlay({
   );
 }
 
+/** The live laurel ornament: two hairline rules and a small sprig (drawn, not an image; it scales with the type). */
+export function ShellOrnament() {
+  return (
+    <span className="jsh-ornament" aria-hidden>
+      <svg viewBox="13.4 2.4 13.2 12.8" aria-hidden>
+        <path d="M20 14.5V4.5" fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
+        <path d="M20 13c-2.6-.2-4.8-1.6-5.6-4 2.6.1 4.6 1.5 5.6 4zM20 9.6c-2.2-.3-4-1.6-4.6-3.6 2.2.2 3.9 1.4 4.6 3.6zM20 6.4c-1.7-.4-3-1.6-3.3-3.2 1.7.3 2.9 1.4 3.3 3.2z" fill="currentColor" />
+        <path d="M20 13c2.6-.2 4.8-1.6 5.6-4-2.6.1-4.6 1.5-5.6 4zM20 9.6c2.2-.3 4-1.6 4.6-3.6-2.2.2-3.9 1.4-4.6 3.6zM20 6.4c1.7-.4 3-1.6 3.3-3.2-1.7.3-2.9 1.4-3.3 3.2z" fill="currentColor" />
+      </svg>
+    </span>
+  );
+}
+
 /** A live region on the shell. */
 export function ShellSlot({ box, className = '', children, testId, scroll = false, style, role, ariaLabel }: { box: ShellBox; className?: string; children: ReactNode; testId?: string; scroll?: boolean; style?: CSSProperties; role?: string; ariaLabel?: string }) {
   return (
     <div className={`jsh-slot ${className}`} data-scroll={scroll ? 'true' : undefined} data-testid={testId} role={role} aria-label={ariaLabel} style={slot(box, style)}>
       {children}
     </div>
-  );
-}
-
-/**
- * A live control on one of the shell's blank folios / strips: the shell draws the surface, this draws the words. `tone`
- * is the surface the shell has there (parchment → ink, dark olive → cream, salmon → oxblood).
- */
-export function ShellAction({ box, trigger, title, note, onClick, disabled, tone = 'paper', ariaLabel, className = '', role, children, align = 'start' }: {
-  box: ShellBox;
-  trigger: string;
-  title: ReactNode;
-  note?: string;
-  onClick: () => void;
-  disabled?: boolean;
-  tone?: 'paper' | 'dark' | 'salmon';
-  ariaLabel?: string;
-  className?: string;
-  role?: string;
-  children?: ReactNode;
-  align?: 'start' | 'center';
-}) {
-  return (
-    <button type="button" role={role} className={`jsh-action ${className}`} data-tone={tone} data-align={align} data-jrn-trigger={trigger} disabled={disabled} aria-label={ariaLabel} onClick={onClick} style={slot(box)}>
-      <span className="jsh-action__title">{title}</span>
-      {note ? <span className="jed-script jsh-action__note">{note.toLowerCase()}</span> : null}
-      {children}
-    </button>
-  );
-}
-
-/** A live text field on one of the shell's blank wells: the label inside the well, the value typed after it. */
-export function ShellField({ box, label, value, onValue, trigger, inputMode, placeholder, invalid, prefix, suffix, own }: {
-  box: ShellBox;
-  label: string;
-  value: string;
-  onValue: (v: string) => void;
-  trigger: string;
-  inputMode?: 'text' | 'decimal' | 'numeric';
-  placeholder?: string;
-  invalid?: boolean;
-  prefix?: string;
-  suffix?: string;
-  /** the shell has no well here: draw the field's own well */
-  own?: boolean;
-}) {
-  const id = useId();
-  return (
-    <div className="jsh-field" data-own={own ? 'true' : undefined} data-invalid={invalid ? 'true' : undefined} style={slot(box)}>
-      <label className="jsh-field__label" htmlFor={id}>
-        {label}
-      </label>
-      {prefix ? <span className="jsh-field__mark" aria-hidden>{prefix}</span> : null}
-      <input id={id} className="jsh-field__input" value={value} onChange={(e) => onValue(e.target.value)} data-jrn-trigger={trigger} inputMode={inputMode} autoComplete="off" placeholder={placeholder} aria-invalid={invalid ? true : undefined} />
-      {suffix ? <span className="jsh-field__mark" aria-hidden>{suffix}</span> : null}
-    </div>
-  );
-}
-
-/**
- * A pocket on one of the shell's FROM / TO wells: the direction, the chosen pocket and its figure on the well's paper
- * (right of the shell's illustrated inset), and the pocket choices under it. Triggers follow AccountChips
- * (`${trigger}-${account_id}`), so every journey still selects by id.
- */
-export function ShellPocketWell({ box, dir, accountId, options, figure, onChange, trigger }: {
-  box: ShellBox;
-  dir: 'FROM' | 'TO';
-  accountId: string | null;
-  options: { account_id: string; display_name: string }[];
-  figure: (a: never) => string;
-  onChange: (id: string) => void;
-  trigger: string;
-}) {
-  const sel = options.find((a) => a.account_id === accountId) ?? null;
-  const fig = figure as unknown as (a: { account_id: string; display_name: string }) => string;
-  return (
-    <section className="jsh-well" aria-label={dir} style={slot(box)}>
-      <div className="jsh-well__sel" data-testid={`${trigger}-selected`}>
-        <span className="jsh-well__dir">{dir}</span>
-        <span className="jsh-well__name">{sel ? sel.display_name : options.length ? 'CHOOSE A POCKET' : 'NO MATCHING POCKET YET'}</span>
-        {sel ? <span className="jsh-well__fig">{fig(sel)}</span> : null}
-      </div>
-      <div className="jsh-well__strip" role="group" aria-label={`${dir} POCKET`}>
-        {options.map((a) => (
-          <button key={a.account_id} type="button" className="jsh-chip" aria-pressed={a.account_id === accountId} data-jrn-trigger={`${trigger}-${a.account_id.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} onClick={() => onChange(a.account_id)}>
-            {a.display_name}
-          </button>
-        ))}
-      </div>
-    </section>
   );
 }

@@ -1,14 +1,14 @@
 /**
- * Founder board 05 — the global quick SEARCH drawer (an editorial ledger folio). Real records only: pockets by name,
+ * The global quick SEARCH drawer, on the curated OV05 open search composition (OPUS3). Real records only: pockets by name,
  * transactions by merchant / category / note, from the canonical repository. It is not the advanced V9 31 search page,
  * which it links to (ADVANCED SEARCH); both read the same records. Opening, typing and dismissing never write anything.
  */
-import { useMemo, useState } from 'react';
+import { useId, useMemo, useState } from 'react';
 import { getRepository } from '../../../data/repository/deviceRepository';
 import { formatMoney, useRepoTick } from '../../../data/home/money';
 import { useJurnl } from '../../state/store';
 import { EdGlyph } from './Editorial';
-import { ShellField, ShellOverlay, ShellSlot, slot } from './Shell';
+import { ShellOverlay, ShellSlot } from './Shell';
 
 type Filter = 'ALL' | 'POCKETS' | 'TRANSACTIONS';
 type Hit = { key: string; kind: 'pocket' | 'entry'; title: string; sub: string; value: string; route: string; when?: string };
@@ -29,15 +29,15 @@ export function searchRecords(query: string, filter: Filter): { hits: Hit[]; rec
   return { hits: hits.slice(0, 30), recent: false };
 }
 
-/** OV05 regions (fractions of the shell, measured on the installed PNG): the well, three chips, four result rows. */
-export const OV05_BOX = {
-  head: [0.33, 0.155, 0.93, 0.262],
-  input: [0.325, 0.287, 0.935, 0.353],
-  chips: [[0.308, 0.378, 0.503, 0.429], [0.515, 0.378, 0.726, 0.429], [0.738, 0.378, 0.953, 0.429]],
-  count: [0.335, 0.431, 0.94, 0.457],
-  results: [0.332, 0.4585, 0.942, 0.738],
-  all: [0.34, 0.748, 0.632, 0.794],
-  advanced: [0.645, 0.748, 0.94, 0.794],
+/**
+ * OV05-SEARCH-OPEN-COMPOSITION regions (the curated OPUS3 composition, 2016 × 3584; fractions of the art): the headline
+ * and one open column on the parchment. The art has no painted wells or rows: the field, the filters, the result rows
+ * (any height, any count) and the actions are live and flow in the column; only the result list scrolls.
+ */
+export const OV05_OPEN = {
+  head: [0.335, 0.145, 0.905, 0.248],
+  /** the authority's open paper (Grok2 mount map: x 0.32-0.90, y 0.27-0.76), clear of the notches on its right edge */
+  column: [0.335, 0.258, 0.905, 0.772],
 } as const;
 const FILTERS: { id: Filter; label: string; icon?: 'pocket' | 'tag' }[] = [
   { id: 'ALL', label: 'ALL' },
@@ -46,9 +46,8 @@ const FILTERS: { id: Filter; label: string; icon?: 'pocket' | 'tag' }[] = [
 ];
 
 /**
- * 05 SEARCH on the founder's OV05 shell: the search well, the three filter chips and the result rows are the shell's own
- * blank wells (the rows snap onto them while the list scrolls — only the list scrolls); the arch, sea, velvet and the
- * blank ledgers are the shell's. ALL ACTIVITY / ADVANCED SEARCH sit on the paper below the rows.
+ * 05 SEARCH on the curated open search composition: the arch, sea, velvet and blank ledgers are the art's; everything
+ * on the parchment is live. Real records only (searchRecords); opening, typing and dismissing never write anything.
  */
 export function GlobalSearchDrawer({ onClose }: { onClose: () => void }) {
   useRepoTick();
@@ -56,50 +55,58 @@ export function GlobalSearchDrawer({ onClose }: { onClose: () => void }) {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<Filter>('ALL');
   const { hits, recent } = useMemo(() => searchRecords(query, filter), [query, filter]);
+  const inputId = useId();
   const open = (route: string) => {
     onClose();
     go(route);
   };
   return (
-    <ShellOverlay testId="global-search" composition="search" shell="OV05" title="SEARCH" script="pockets and activity" head={OV05_BOX.head} onClose={onClose}>
-      <ShellField box={OV05_BOX.input} label="SEARCH" placeholder="POCKETS, MERCHANTS, CATEGORIES" value={query} onValue={setQuery} trigger="search-input" />
-      <div role="group" aria-label="FILTER BY">
-        {FILTERS.map((f, i) => (
-          <button key={f.id} type="button" className="jsh-chip" aria-pressed={filter === f.id} data-jrn-trigger={`search-filter-${f.id.toLowerCase()}`} onClick={() => setFilter(f.id)} style={slot(OV05_BOX.chips[i]!)}>
-            {f.icon ? <EdGlyph name={f.icon} /> : null}
-            <span>{f.label}</span>
+    <ShellOverlay testId="global-search" composition="search" shell="OV05_OPEN_COMPOSITION" title="SEARCH" script="pockets and activity" head={OV05_OPEN.head} onClose={onClose}>
+      <ShellSlot box={OV05_OPEN.column} className="jsx-column">
+        <div className="jsx-field">
+          <label className="jsx-field__label" htmlFor={inputId}>
+            SEARCH
+          </label>
+          <input id={inputId} className="jsx-field__input" value={query} onChange={(e) => setQuery(e.target.value)} data-jrn-trigger="search-input" autoComplete="off" placeholder="POCKETS, MERCHANTS, CATEGORIES" />
+        </div>
+        <div className="jsx-filters" role="group" aria-label="FILTER BY">
+          {FILTERS.map((f) => (
+            <button key={f.id} type="button" className="jsx-chip" aria-pressed={filter === f.id} data-jrn-trigger={`search-filter-${f.id.toLowerCase()}`} onClick={() => setFilter(f.id)}>
+              {f.icon ? <EdGlyph name={f.icon} /> : null}
+              <span>{f.label}</span>
+            </button>
+          ))}
+        </div>
+        <p className="jsx-count" aria-live="polite">{recent ? 'RECENT ACTIVITY' : `${hits.length} ${hits.length === 1 ? 'RESULT' : 'RESULTS'}`}</p>
+        <div className="jsx-results" data-testid="search-results" role="region" aria-label="SEARCH RESULTS" tabIndex={hits.length ? undefined : -1}>
+          {hits.length ? (
+            <ul aria-label="SEARCH RESULTS">
+              {hits.map((h) => (
+                <li key={h.key}>
+                  <button type="button" className="jsx-row" data-jrn-trigger={`search-hit-${h.key.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} onClick={() => open(h.route)}>
+                    <EdGlyph name={h.kind === 'pocket' ? 'pocket' : 'search'} />
+                    <span className="jsx-row__text">
+                      <span className="jsx-row__title">{h.title}</span>
+                      <small>{h.sub}</small>
+                    </span>
+                    <b>{h.value}</b>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="jsx-empty" data-testid="search-empty">{query.trim() ? 'NOTHING MATCHES. TRY A POCKET NAME, A MERCHANT OR A CATEGORY.' : 'NO ACTIVITY RECORDED YET.'}</p>
+          )}
+        </div>
+        <div className="jsx-actions">
+          <button type="button" className="jsh-pill" data-tone="cream" data-jrn-trigger="search-all-activity" onClick={() => open('activity')}>
+            ALL ACTIVITY
           </button>
-        ))}
-      </div>
-      <ShellSlot box={OV05_BOX.count}>
-        <p className="jsh-text" aria-live="polite">{recent ? 'RECENT ACTIVITY' : `${hits.length} ${hits.length === 1 ? 'RESULT' : 'RESULTS'}`}</p>
+          <button type="button" className="jsh-pill" data-tone="olive" data-jrn-trigger="search-advanced" onClick={() => open('money/transactions')}>
+            ADVANCED SEARCH
+          </button>
+        </div>
       </ShellSlot>
-      <ShellSlot box={OV05_BOX.results} scroll className="jsh-results">
-        {hits.length ? (
-          <ul aria-label="SEARCH RESULTS">
-            {hits.map((h) => (
-              <li key={h.key}>
-                <button type="button" className="jsh-row" data-jrn-trigger={`search-hit-${h.key.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} onClick={() => open(h.route)}>
-                  <EdGlyph name={h.kind === 'pocket' ? 'pocket' : 'search'} />
-                  <span>
-                    {h.title}
-                    <small>{h.sub}</small>
-                  </span>
-                  <b>{h.value}</b>
-                </button>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="jsh-text jsh-results__empty" data-testid="search-empty">{query.trim() ? 'NOTHING MATCHES. TRY A POCKET NAME, A MERCHANT OR A CATEGORY.' : 'NO ACTIVITY RECORDED YET.'}</p>
-        )}
-      </ShellSlot>
-      <button type="button" className="jsh-pill" data-tone="cream" data-jrn-trigger="search-all-activity" onClick={() => open('activity')} style={slot(OV05_BOX.all)}>
-        ALL ACTIVITY
-      </button>
-      <button type="button" className="jsh-pill" data-tone="olive" data-jrn-trigger="search-advanced" onClick={() => open('money/transactions')} style={slot(OV05_BOX.advanced)}>
-        ADVANCED SEARCH
-      </button>
     </ShellOverlay>
   );
 }

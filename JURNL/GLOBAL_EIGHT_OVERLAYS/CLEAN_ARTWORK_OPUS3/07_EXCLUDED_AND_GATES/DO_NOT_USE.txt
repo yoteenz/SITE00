@@ -1,0 +1,10 @@
+EXCLUDED HARD-CODED/INCOMPLETE ARTWORK:
+- Grok2 OV02-ADD-POCKET-FOLIO.png and Grok4 OV02-IS-ADD-POCKET-CLEAN.png (residual form geometry).
+- Grok2 OV03-MOVE-MONEY-FOLIO.png and Grok4 OV03-IS-MOVE-MONEY-CLEAN.png (residual source/destination/amount/date slots).
+- Grok2 OV04-MANAGE-NOTE.png (Rename/Delete action strips baked into shell; use separate text-free PNGs instead).
+- Any four-up board as a runtime screen; any image with baked dynamic rows and buttons.
+- Grok2 OV07-ARCHIVE-CAUTION.png pending separate dynamic row evaluation; ruled blocker areas appear painted.
+- Grok2 OV01-MONEY-ACTION.png pending extraction of independently actionable papers; do not mount as an immutable interactive screen.
+- OV06 new drawer remains gated by approved F09 / FD-12.
+
+These original files are not deleted from source repositories; they are intentionally absent from this implementation package.

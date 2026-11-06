@@ -1,8 +1,8 @@
 /** F05 MONEY — structural completion (Wave 2). */
 
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react';
+import { ART, EdAction, EdArt, EdChoices, EditorialOverlay } from '../surfaces/editorial/Editorial';
 import { TYPE_GLYPH } from '../surfaces/editorial/MoneyOverlays';
-import { ShellAction, ShellField, ShellOverlay, ShellSlot, slot } from '../surfaces/editorial/Shell';
 import { getRepository } from '../../data/repository/deviceRepository';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useLedgerPositions, usualPurposesFor } from '../../data/ledger/moneyPositions';
@@ -434,70 +434,54 @@ export function AddPlaceSheet({ onClose, onSaved }: { onClose: () => void; onSav
     const a = createManualAccount(name, kind, amount ?? 0, getTodayKey(), { creditLimit: card ? limitValue : undefined, isPayoutCard: payout });
     onSaved(a.account_id);
   };
-  // founder OV02 shell: the name well, the five type panels (BANK · SAVINGS / DEBIT · CREDIT / CASH), the balance well,
-  // CANCEL paper + SAVE POCKET dark strip are the shell's own; the medallion and coin stacks are the shell's art. The live
-  // extras (rideshare pay, or a card's limit) sit on the paper between the types and the balance.
-  const B = OV02_BOX;
+  // founder board 02: a registration folio — bronze temple seal on the headline, oxblood behind, one sheet with a compact
+  // type grid (every supported type, none as a full-width row) and the balance; CANCEL paper + SAVE POCKET dark strip
   return (
-    <ShellOverlay testId="money-add-place" composition="register" shell="OV02" titleSize={5.8} title="ADD A POCKET" script="create a new pocket for your money" head={B.head} onClose={onClose}>
-      <ShellField box={B.name} label="NAME" value={name} onValue={setName} trigger="money-add-name" />
-      <ShellSlot box={B.kindLabel}>
-        <span className="jsh-text" id="money-add-kind-label">ACCOUNT TYPE</span>
-      </ShellSlot>
-      <div role="group" aria-labelledby="money-add-kind-label">
-        {PLACE_KINDS.map((k, i) => (
-          <button
-            key={k.id}
-            type="button"
-            className="jsh-chip"
-            aria-pressed={kind === k.id}
-            data-cover={i === 0 ? 'true' : undefined}
-            data-jrn-trigger={`money-add-kind-${k.id.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
-            onClick={() => {
-              setKind(k.id);
-              if (k.id === 'CREDIT_CARD' || k.id === 'CASH') setPayout(false);
-            }}
-            style={slot(B.kinds[i]!)}
-          >
-            {TYPE_GLYPH[k.id]}
-            <span>{k.label}</span>
-          </button>
-        ))}
-      </div>
-      {card ? (
-        <ShellField box={B.extra} label="CREDIT LIMIT (OPTIONAL)" value={limit} onValue={setLimit} trigger="money-add-limit" inputMode="decimal" own />
-      ) : kind === 'DEBIT_CARD' || kind === 'CHECKING' ? (
-        <div role="group" aria-label="RIDESHARE PAY">
-          {(['NO', 'YES'] as const).map((v, i) => (
-            <button key={v} type="button" className="jsh-chip" data-own="true" aria-pressed={(payout ? 'YES' : 'NO') === v} data-jrn-trigger={`money-add-payout-${v.toLowerCase()}`} onClick={() => setPayout(v === 'YES')} style={slot(B.payout[i]!)}>
-              <span>{v === 'NO' ? 'NOT A PAYOUT CARD' : 'RECEIVES RIDESHARE PAY'}</span>
-            </button>
-          ))}
+    <EditorialOverlay
+      testId="money-add-place"
+      composition="register"
+      title={['ADD A POCKET']}
+      script="create a new pocket for your money"
+      onClose={onClose}
+      decor={
+        <>
+          <EdArt art={ART.templeSeal} className="jed-art--seal" />
+          <EdArt art={ART.oxbloodBranch} className="jed-art--oxblood" />
+          <EdArt art={ART.foliage} className="jed-art--foliage" />
+        </>
+      }
+      footer={
+        <>
+          <EdAction trigger="money-add-cancel" material="cream" title="CANCEL" onClick={onClose} />
+          <EdAction trigger="money-add-save" material="olive" title="SAVE POCKET" disabled={!valid} onClick={save} />
+        </>
+      }
+    >
+      <div className="jed-sheet">
+        <div className="jed-field">
+          <JurnlInput label="NAME" value={name} onValue={setName} trigger="money-add-name" />
         </div>
-      ) : null}
-      <ShellField box={B.balance} label={card ? 'BALANCE OWED NOW' : 'BALANCE NOW'} value={balance} onValue={setBalance} trigger="money-add-balance" inputMode="decimal" />
-      <ShellSlot box={B.note}>
-        <p className="jsh-text">{card ? 'A CREDIT CARD IS MONEY OWED. ITS AVAILABLE CREDIT IS NEVER COUNTED AS MONEY YOU HAVE.' : 'YOU ENTER THE BALANCE; NO BANK CONNECTION.'}</p>
-      </ShellSlot>
-      <ShellAction box={B.cancel} trigger="money-add-cancel" title="CANCEL" onClick={onClose} align="center" />
-      <ShellAction box={B.save} trigger="money-add-save" tone="dark" title="SAVE POCKET" disabled={!valid} onClick={save} align="center" />
-    </ShellOverlay>
+        <span className="jed-label" id="money-add-kind-label">ACCOUNT TYPE</span>
+        <EdChoices label="ACCOUNT TYPE" value={kind} options={PLACE_KINDS.map((k) => ({ ...k, icon: TYPE_GLYPH[k.id], wide: k.id === 'CASH' }))} onChange={(k) => { setKind(k); if (k === 'CREDIT_CARD' || k === 'CASH') setPayout(false); }} trigger="money-add-kind" />
+        <div className="jed-field jed-balance" style={{ marginTop: 10 }}>
+          <JurnlInput label={card ? 'BALANCE OWED NOW' : 'BALANCE NOW'} value={balance} onValue={setBalance} trigger="money-add-balance" inputMode="decimal" />
+        </div>
+        {card ? (
+          <div className="jed-field" style={{ marginTop: 8 }}>
+            <JurnlInput label="CREDIT LIMIT (OPTIONAL)" value={limit} onValue={setLimit} trigger="money-add-limit" inputMode="decimal" />
+          </div>
+        ) : null}
+        {kind === 'DEBIT_CARD' || kind === 'CHECKING' ? (
+          <>
+            <span className="jed-label">RIDESHARE PAY</span>
+            <EdChoices label="RIDESHARE PAY" value={payout ? 'YES' : 'NO'} options={[{ id: 'NO', label: 'NOT A PAYOUT CARD' }, { id: 'YES', label: 'RECEIVES RIDESHARE PAY' }]} onChange={(v) => setPayout(v === 'YES')} trigger="money-add-payout" />
+          </>
+        ) : null}
+        {card ? <p className="jed-note">A CREDIT CARD IS MONEY OWED. ITS AVAILABLE CREDIT IS NEVER COUNTED AS MONEY YOU HAVE.</p> : <p className="jed-note">YOU ENTER THE BALANCE; NO BANK CONNECTION.</p>}
+      </div>
+    </EditorialOverlay>
   );
 }
-
-/** OV02 regions (fractions of the shell, measured on the installed PNG). */
-export const OV02_BOX = {
-  head: [0.39, 0.09, 0.93, 0.215],
-  name: [0.127, 0.287, 0.884, 0.333],
-  kindLabel: [0.12, 0.35, 0.9, 0.386],
-  kinds: [[0.108, 0.391, 0.508, 0.461], [0.528, 0.391, 0.905, 0.461], [0.108, 0.472, 0.524, 0.541], [0.543, 0.472, 0.905, 0.541], [0.108, 0.552, 0.905, 0.609]],
-  extra: [0.11, 0.616, 0.9, 0.659],
-  payout: [[0.11, 0.616, 0.497, 0.659], [0.513, 0.616, 0.9, 0.659]],
-  balance: [0.118, 0.666, 0.733, 0.714],
-  note: [0.1, 0.72, 0.5, 0.767],
-  cancel: [0.09, 0.775, 0.403, 0.846],
-  save: [0.422, 0.771, 0.909, 0.846],
-} as const;
 
 function EditPlaceSheet({ account, current, liability, onClose }: { account: NonNullable<ReturnType<typeof accountById>>; current: number; liability: boolean; onClose: () => void }) {
   const [name, setName] = useState(account.display_name);

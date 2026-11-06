@@ -6,33 +6,46 @@ import type { ReactNode } from 'react';
 import type { JurnlAccountRecord } from '../../../data/foundation/accounts';
 import { kindOf } from '../../../data/f05/dot01/accountView';
 import { formatMoney } from '../../../data/home/money';
-import { EdArt, EdGlyph, KIND_ART } from './Editorial';
-import { ShellAction, ShellOverlay, type ShellBox } from './Shell';
+import { ART, EdAction, EdArt, EdGlyph, EditorialOverlay, KIND_ART, REGION } from './Editorial';
 
-/**
- * 01 MONEY ACTION SHEET on the founder's OV01 shell: the headline on its parchment, the two blank action folios are the
- * hit targets (ADD A POCKET beside the shell's amphora, MOVE YOUR MONEY beside its coin). The bust, arch, coast, drapery,
- * amphora and coin are the shell's own; nothing is layered on them twice.
- */
-export const OV01_BOX = {
-  head: [0.24, 0.19, 0.9, 0.315],
-  add: [0.075, 0.395, 0.62, 0.585],
-  move: [0.07, 0.625, 0.6, 0.815],
-} as const satisfies Record<string, ShellBox>;
+/** 01 MONEY ACTION SHEET: two distinct editorial choices over the classical scene (not two stacked buttons). */
 export function MoneyActionSheet({ canMove, onAdd, onMove, onClose }: { canMove: boolean; onAdd: () => void; onMove: () => void; onClose: () => void }) {
   return (
-    <ShellOverlay testId="f05m-actions-sheet" composition="action" shell="OV01" title="MONEY" script="manage pockets and movement" head={OV01_BOX.head} onClose={onClose}>
-      <ShellAction box={OV01_BOX.add} trigger="f05m-actions-add" title={<><span>ADD A</span> <span>POCKET</span></>} note="create a place for your money" onClick={onAdd} />
-      <ShellAction
-        box={OV01_BOX.move}
+    <EditorialOverlay
+      testId="f05m-actions-sheet"
+      composition="action"
+      title={['MONEY']}
+      script="manage pockets and movement"
+      onClose={onClose}
+      decor={
+        <>
+          <EdArt art={ART.sk01} region={REGION.bust} className="jed-art--bust" torn={11} />
+          <EdArt art={ART.oxbloodBranch} className="jed-art--oxblood" />
+          <EdArt art={ART.lemonBranch} className="jed-art--lemon" />
+          <EdArt art={ART.coast} className="jed-art--coast" />
+        </>
+      }
+    >
+      <EdAction
+        trigger="f05m-actions-add"
+        className="jed-action--add"
+        title={<><span>ADD A</span> <span>POCKET</span></>}
+        note="create a place for your money"
+        art={<EdArt art={ART.scene04} region={REGION.amphora} className="jed-art--amphora" />}
+        onClick={onAdd}
+      />
+      <EdAction
         trigger="f05m-actions-move"
+        className="jed-action--move"
+        material="cream"
         title={<><span>MOVE YOUR</span> <span>MONEY</span></>}
         note={canMove ? 'transfer between your pockets' : 'add two pockets first'}
         ariaLabel={canMove ? 'MOVE YOUR MONEY' : 'MOVE YOUR MONEY · ADD TWO POCKETS FIRST'}
         disabled={!canMove}
+        art={<EdArt art={ART.scene05} region={REGION.coinOxblood} className="jed-art--coin" torn={33} />}
         onClick={onMove}
       />
-    </ShellOverlay>
+    </EditorialOverlay>
   );
 }
 
