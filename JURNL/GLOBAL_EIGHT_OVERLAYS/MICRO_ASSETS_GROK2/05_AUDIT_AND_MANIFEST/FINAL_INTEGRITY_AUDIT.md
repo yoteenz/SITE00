@@ -1,0 +1,14 @@
+# Final integrity results
+
+- **groK2_master_count**: 59
+- **previous_correction_rows**: 39
+- **correction_reuse_byte_verified**: 36
+- **additional_unapproved_candidates**: 3
+- **founder_utility_files**: 4
+- **conditional_scene_references**: 4
+- **individual_art_count_excluding_scene_references**: 66
+- **all_file_integrity**: PASSED
+- **zip_crc**: {'grok2': None, 'corrections': None, 'clean_env': None}
+- **visual_authority_fidelity**: NOT FULLY VERIFIED; FOUNDER REVIEW REQUIRED
+- **actual_runtime_mount_validation**: NOT PERFORMED; OPUS REQUIRED
+- **known_caution**: ['OV01/OV02/OV03/OV04/OV07 historic baked geometry', 'CH01/CH02 baked title parchment in environmental candidates', 'OV05/OV08 composite may conflict with individual artwork', '3 new artwork candidates not founder-approved', 'four new utility images may show colored outer fringe']

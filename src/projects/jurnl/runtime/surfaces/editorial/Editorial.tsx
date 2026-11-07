@@ -18,6 +18,8 @@ import { tornClip, useStableFocus } from '../v3/V3Surfaces';
 import { cleanArt, type CleanArtId } from '../../global/overlays/clean/registry';
 import { slot, useShellPlate, type ShellBox } from './Shell';
 import { JurnlUtilityArtButton } from '../../components/JurnlUtilityArtButton';
+import { JurnlMicroArt } from '../../components/JurnlMicroArt';
+import type { OverlayArtStem } from '../../global/overlayArt/registry';
 import sk01 from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_SIDEKICK.webp';
 import heading from '../../../families/F05_MONEY/DOT01/F05_DOT01_01_HEADING_PARCHMENT.webp';
 import laurelSeal from '../../../families/F05_MONEY/DOT01/F05_DOT01_02_LAUREL_WAX_SEAL.webp';
@@ -227,7 +229,7 @@ function FolioOverlay({ testId, composition, title, script, onClose, decor, head
 }
 
 /** An action fragment: a paper (or dark strip / terracotta) with a live label, an optional note and an illustration. */
-export function EdAction({ trigger, material = 'paper', title, note, art, onClick, disabled, children, className = '', ariaLabel }: {
+export function EdAction({ trigger, material = 'paper', title, note, art, onClick, disabled, children, className = '', ariaLabel, paper, chevron }: {
   trigger: string;
   material?: 'paper' | 'olive' | 'terracotta' | 'cream';
   title: ReactNode;
@@ -238,16 +240,21 @@ export function EdAction({ trigger, material = 'paper', title, note, art, onClic
   children?: ReactNode;
   className?: string;
   ariaLabel?: string;
+  /** OPUS5: the authority's own text-free paper for this control (replaces the generic panel / strip backing; never both) */
+  paper?: OverlayArtStem;
+  /** OPUS5: the GROK2 chevron in place of the line chevron */
+  chevron?: OverlayArtStem;
 }) {
   return (
     <button type="button" className={`jed-action ${className}`} data-material={material} data-jrn-trigger={trigger} disabled={disabled} aria-label={ariaLabel} onClick={onClick}>
-      {material === 'paper' || material === 'cream' ? <span className="jed-action__paper" aria-hidden style={{ backgroundImage: `url("${ART.panel.src}")` }} /> : null}
-      {material === 'olive' ? <span className="jed-action__strip" aria-hidden style={{ backgroundImage: `url("${ART.darkStrip.src}")` }} /> : null}
+      {paper ? <JurnlMicroArt stem={paper} slot={`${trigger}-paper`} className="jed-action__paperart" /> : null}
+      {!paper && (material === 'paper' || material === 'cream') ? <span className="jed-action__paper" aria-hidden style={{ backgroundImage: `url("${ART.panel.src}")` }} /> : null}
+      {!paper && material === 'olive' ? <span className="jed-action__strip" aria-hidden style={{ backgroundImage: `url("${ART.darkStrip.src}")` }} /> : null}
       {art ? <span className="jed-action__art" aria-hidden>{art}</span> : null}
       <span className="jed-action__text">
         <span className="jed-action__heading">
           <span className="jed-action__title">{title}</span>
-          <svg className="jed-chev" viewBox="0 0 10 16" aria-hidden><path d="M2 2l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          {chevron ? <JurnlMicroArt stem={chevron} slot={`${trigger}-chevron`} className="jed-chev" /> : <svg className="jed-chev" viewBox="0 0 10 16" aria-hidden><path d="M2 2l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" /></svg>}
         </span>
         {note ? <span className="jed-script jed-action__note">{note.toLowerCase()}</span> : null}
       </span>
@@ -257,16 +264,17 @@ export function EdAction({ trigger, material = 'paper', title, note, art, onClic
 }
 
 /** A compact choice grid (replaces stacked full-width buttons). Triggers follow `Chips`: `${trigger}-${slug(id)}`. */
-export function EdChoices<T extends string>({ label, value, options, onChange, trigger, columns = 2 }: { label: string; value: T | null; options: { id: T; label: string; icon?: ReactNode; wide?: boolean; note?: string }[]; onChange: (v: T) => void; trigger: string; columns?: number }) {
+export function EdChoices<T extends string>({ label, value, options, onChange, trigger, columns = 2, checkArt }: { label: string; value: T | null; options: { id: T; label: string; icon?: ReactNode | ((on: boolean) => ReactNode); wide?: boolean; note?: string }[]; onChange: (v: T) => void; trigger: string; columns?: number; /** OPUS5: the GROK2 check disc marks the selected choice */ checkArt?: boolean }) {
   return (
     <div className="jed-choices" role="group" aria-label={label} style={{ ['--jed-cols' as string]: columns } as CSSProperties}>
       {options.map((o) => {
         const on = value === o.id;
         return (
           <button key={o.id} type="button" className="jed-choice" aria-pressed={on} data-active={on ? 'true' : 'false'} data-wide={o.wide ? 'true' : undefined} data-jrn-trigger={`${trigger}-${o.id.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} onClick={() => onChange(o.id)}>
-            {o.icon ? <span className="jed-choice__icon" aria-hidden>{o.icon}</span> : null}
+            {o.icon ? <span className="jed-choice__icon" aria-hidden>{typeof o.icon === 'function' ? o.icon(on) : o.icon}</span> : null}
             <span className="jed-choice__label">{o.label}</span>
-            {on ? <svg className="jed-choice__check" viewBox="0 0 24 24" aria-hidden><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg> : null}
+            {on && checkArt ? <JurnlMicroArt stem="B03-CHECK-SELECTED" slot={`${trigger}-check`} className="jed-choice__check" /> : null}
+            {on && !checkArt ? <svg className="jed-choice__check" viewBox="0 0 24 24" aria-hidden><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg> : null}
           </button>
         );
       })}

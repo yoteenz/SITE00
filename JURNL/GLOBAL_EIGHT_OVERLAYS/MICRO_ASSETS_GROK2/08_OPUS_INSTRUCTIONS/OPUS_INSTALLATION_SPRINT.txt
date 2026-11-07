@@ -1,0 +1,119 @@
+SPRINT ID:
+P0.JURNL.GLOBAL-OVERLAYS.CANONICAL-MICRO-ASSETS-AND-UTILITY-BUTTONS.CLEAN-MOUNT-CONVERGENCE.OPUS5
+
+EXECUTION AGENT: COMPOSER OPUS HIGH
+REPOSITORY: yoteenz/SITE00
+SCOPE: F05 MONEY parent; OV01–OV08 global overlays; CH01 Buffer; CH02 Privacy
+INPUT: This full handoff ZIP, optional compact review ZIP, all founder-approved existing authorities
+STATUS: DRAFT IMPLEMENTATION AUTHORIZED; NO PRODUCTION RELEASE
+MERGE: NONE | DEPLOYMENT: NONE | DB MUTATIONS: NONE | PAID SPEND: NONE
+
+================================================================
+00. FOUNDER INTENT AND NON-NEGOTIABLES
+================================================================
+Mount the actual JURNL art—not generic substitute icons—and preserve existing full-screen approved screen authorities, typography, financial behavior, no-page-scroll, responsive geometry, and the established layer system.
+
+NEVER treat these as approval of every image: the package includes 59 GROK2 source masters, 3 new visual candidates, 4 founder-supplied utility button images, and 4 CONDITIONAL environment references. All source images are present, intact, and hash-indexed; fidelity and proper composition still require live, exact-authority evidence. DO NOT CALL THIS AN ALL-PASS ART APPROVAL.
+
+Do not regenerate any full-screen scene, repaint design, invent generic buttons, change the state model, or use generated authority examples as functional UI.
+
+================================================================
+01. BASELINE AND EVIDENCE
+================================================================
+Verify current latest branch and HEAD before editing; previously relevant branches include claude/jurnl-global-eight-overlays-menu-recovery-um0u93 (PR #1718) and cursor/jurnl-overlay-micro-assets-grok1-4e5a. Do not assume history SHAs are current; branch safely without overwriting concurrent work. Inspect GlobalMenu.tsx, V3Surfaces.tsx, MicroIcon.tsx, microAssets.ts, cleanArt registry, overlay JSX/CSS, actual SIDEKICK references, F09 account authority, and F05 DOT01 parent.
+
+Read 00_START_HERE and 05_AUDIT_AND_MANIFEST before any mount. Verify PNG SHA-256 against CONVERGED_FILE_MANIFEST.csv. Verify the four utility buttons have no embedded background in their alpha channel and no red/yellow rim fringe at mobile scale; correct only verified fringe, retain originals and hashes. Verify stage/asset authority match before replacing any component.
+
+================================================================
+02. ARTWORK CLASSIFICATION AND MOUNT SAFETY
+================================================================
+01_INSTALLABLE_SOURCE_MASTERS contains GROK2 extracted artwork: SOURCE CANDIDATES, NOT FOUNDER-APPROVED. Classify each used item as EXACT_MATCH, MATCH_WITH_GAPS, UNFIT, or NO_SOURCE. No fake all-pass reporting.
+02_FOUNDER_REVIEW_CANDIDATES contains three NEW candidates: MANAGE_POCKET_CLEAN_BASE_NOTE_CANDIDATE; SEARCH_CLEAN_OPEN_FOLIO_CANDIDATE; MENU_BUFFER_PLAIN_SHIELD_NO_CHECK_CANDIDATE. Do not mount these by default; render separate, opt-in preview only pending founder approval. They are NOT authority-exact verified.
+03_FOUNDER_UTILITY_BUTTONS contains 4 new actual founder-supplied close/menu/search/add visual files; use these in draft in the exact applicable slots, with independent accessible React button hitboxes. They are complete illustrated button compositions—DO NOT place them inside a second CSS circle, square, or shadow. Confirm color/fringe and optical scale, no stretching.
+04_ENVIRONMENT_REFERENCES_CONDITIONAL contains two clean child backplates and Search/Menu compositions, with known fixed-header and/or flattened-content limitations; do not treat as verified 100% separable SIDEKICK masters. Verify absence of baked moving/action pieces before enabling a mount.
+07_SOURCE_ARCHIVES holds original ZIPs for traceability ONLY: not production asset directories. Never mount archived historical artwork directly.
+
+CRITICAL: If an action backing, icon, title parchment, or toggle is visibly baked into the currently mounted shell, DO NOT mount a second copy. Either use an actually clean environmental shell / isolate the asset, or leave that new mount gated and list the exact blocker. Never overlay a transparent paper to cover up a baked one or blur it away. Do not use full-screen authority screenshots as interactive backgrounds.
+
+================================================================
+03. PRESERVE EXISTING PRODUCT BEHAVIOR
+================================================================
+Maintain 12/12 Global Menu destinations, YOUR FINANCES / YOUR INTELLIGENCE / YOUR ACCOUNT sections, current navigation stack, close/back focus restoration, menu-contained scrolling, Ask JURNL consent revocation, status semantics, transfer vs settlement accuracy, subscription/buffer currency logic, and actual data export availability. No fictional money movement or disconnected bank success. F09 Account/Settings (OV06) authority remains protected under FD-12; do not replace F09 with a generic drawer.
+
+================================================================
+04. IMPLEMENTATION ORDER
+================================================================
+PHASE A — AUDIT AND COMPARE: For each of OV01–OV08, CH01, CH02, compare intended icons/actions with exact authoritative image and active code. Create per-element mapping: asset filename/hash, screen, component, anchor, board-px dimensions, z-layer, interactive state ownership, and whether the background already paints that element. Reject duplicates. Highlight any absent clean SIDEKICK.
+
+PHASE B — UTILITY FAMILY: Integrate all four new Close/Menu/Search/Add images into reusable accessible utility-art buttons. On the MONEY parent, replace generic outlined top-right controls in the original Search/Add/Menu order, preserving actions and trigger IDs. On overlays use the new X only if matching reference; remove old B06-CLOSE-DISC from those slots. Preserve system top safe areas; avoid duplicated containers. Tap targets at least 44 CSS px without changing visible diameter. No extra circular CSS shell. Buttons have alt='' decorative image and meaningful aria-label.
+
+PHASE C — PRIVACY (CH02): Match 8 icon roles (setup gear, linked bank, nothing-sold shield, Ask sparkle, AI access star, data cylinder, export arrow, remove-access trash), distinct child chevron, and true ON/OFF toggle track and separate thumb. Actual consent state lives in React. NOTHING SOLD and LINKED ACCOUNTS OPTIONAL are policy statements, not falsely editable consents; preserve correct semantics. Remove baked double rows/switches/papers; mount Privacy Back and Remove Access papers only if the underlying material is clean. No double-render.
+
+PHASE D — GLOBAL MENU (OV08): Use relevant founder-matched profile, bank, currency, shield, Ask sparkle, classification tag, gear, privacy shield, crown, four-grid, lifebuoy, sign-out and navigation chevron; registry reuse encouraged where file truly matches. Maintain all 12 actual menu destinations. Plain Buffer Shield is unapproved candidate; hold it and retain truthful current state unless authorized. No side-by-side duplicated glyphs or rectangular Close backing.
+
+PHASE E — BUFFER (CH01): Use separate Buffer Amount/Effect paper and Buffer Back/Save material only when L0 lacks duplicates. Saving must not mask or obscure text. Currency and amount remain live, contextual, reactive; static papers never contain values. Keep existing coin-reserve art if already baked, else mount once.
+
+PHASE F — MANAGE POCKET (OV04): Do not use previous shell with baked Rename/Delete action strips PLUS separate strips. Preserve paperclip and town/collage. Two separated blank strips, pencil and trash glyphs, live text, touch targets, confirm flows. Clean Note candidate is founder-review only; if no clean approved base exists, mark screen BLOCKED_ARTWORK and do not fake with blur/overlays.
+
+PHASE G — SEARCH (OV05): Only add Search/calendar/tag/account-result icons, functional filter chips, and live list. No painted row wells, no baked dated transactions, no fake list data. The isolated blank folio is a candidate, not confirmed as a pixel-faithful active environment. If approved existing Search environment is still flattened or patched, stop that specific mount and report.
+
+PHASE H — OTHER OVERLAYS: Money Action (OV01), Add Pocket (OV02), Move Money (OV03), Settings/F09 (OV06), Archive Blocked (OV07) must preserve approved existing visuals and current functionality. Incorporate qualified extracted assets only where clean stage ownership verified. Repaired GROK2 Cancel/Resolve/Record/etc papers available in master directory; verify exact role before use, not merely filename. Do not invent missing form wells or redesign cards.
+
+================================================================
+05. ANIMATION, ACCESSIBILITY, RESPONSIVENESS
+================================================================
+Integrate with current motion director as appropriate. Icon and paper motion tied to real interaction, not background entrances alone; no constant shaking or exaggerated bounces; obey prefers-reduced-motion. Decorative <img alt='' aria-hidden>; button focus, keyboard Escape, enter/space, focus return and real state must work. Images cannot intercept pointer events. Keep tappable controls consistently accessible regardless of visual shape.
+
+Viewports: 360x640; 393x660; 393x852; 430x932; tablet; desktop. NO page-level vertical scroll or horizontal overflow. Internal menu/list scrolling only. Test short keyboard-open states, safe areas, icon spacing, stretch, clipping, floating/doubled panels, and text wrapping. Do not preserve baked dividers that conflict with dynamic content.
+
+================================================================
+06. REQUIRED TESTS AND EVIDENCE
+================================================================
+Typecheck; build; relevant unit and E2E tests; privacy true/false toggles; 12-menu destination navigation; Search opening/results/filter; Money Add; archive blocked; record vs transferred; overlay return focus; responsive and reduced motion; no double-mounted icons/actions/papers. Do not weaken tests. Existing baseline failures separate from new regressions.
+
+PROVIDE 10 full, REAL browser screen captures (OV01–OV08, CH01–CH02), ideally before/after, and actual display-size close-ups of all newly mounted icons/toggles/action materials. Screenshot labels must distinguish ACTUAL RUNTIME vs AUTHORITY vs MOCKUP. Provide 4 top utility close-ups (plus actual parent screenshot), four viewport proofs, and a clear unresolved-asset report. Do not claim static contact sheets prove working UI or production fidelity.
+
+================================================================
+07. DELIVERABLES
+================================================================
+DRAFT PR and exact branch/SHA, no merge/deploy. Deliver 01_MOUNTED_ASSET_REGISTRY.csv (hash, screen, source, mount location, status), 02_SCREEN_OWNERSHIP_MATRIX.csv, 03_FOUNDER_APPROVAL_AND_BLOCKERS.md, 04_BEFORE_AFTER_RUNTIME/, 05_RESPONSIVE_AND_FOCUS_QA/, 06_TEST_RESULTS.md, 07_SOURCE_IMAGE_HASHES.csv, 08_COMPACT_EVIDENCE.zip, 09_FULL_EVIDENCE.zip. Include all installed assets by provenance, maintain original source masters untouched.
+
+Success means: 4 real utility buttons correctly mounted; each newly mounted glyph/action verified visually at mobile scale; no duplicate shell, icon, toggle, button, field or panel; correct live React state; 10 screen proofs or exact per-screen BLOCKED statement; no broken functionality; no new overflow; nonapproved candidates held pending founder review; 0 DB changes, 0 deployments, 0 merges.
+
+================================================================
+08. FINAL REPORT CONTRACT
+================================================================
+SPRINT: P0.JURNL.GLOBAL-OVERLAYS.CANONICAL-MICRO-ASSETS-AND-UTILITY-BUTTONS.CLEAN-MOUNT-CONVERGENCE.OPUS5
+STATUS: [READY_FOR_FOUNDER_REVIEW / PARTIAL / BLOCKED]
+REPO: yoteenz/SITE00
+BASE_BRANCH: [exact]
+BASE_SHA: [exact]
+WORK_BRANCH: [exact]
+WORK_SHA: [exact]
+DRAFT_PR: [exact/none]
+SOURCE_MASTERS_VERIFIED: [x/59]
+CORRECTIONS_SOURCE_MATCHED: [x/36]
+NEW_VISUAL_CANDIDATES_APPROVED: [x/3; no implicit approvals]
+FOUNDER_UTILITY_FILES_VERIFIED: [x/4]
+UTILITY_BUTTONS_IN_RUNTIME: [x/4]
+GLOBAL_OVERLAYS_CONVERGED: [x/8]
+MENU_CHILDREN_CONVERGED: [x/2]
+SCREEN_PROOFS: [x/10]
+DUPLICATE_ASSET_INSTANCES: [count]
+BLOCKED_CLEAN_SHELLS: [exact list]
+F09_AUTHORITY_PROTECTED: [PASS/FAIL]
+FINANCIAL_AND_PRIVACY_REGRESSION: [count]
+TYPECHECK: [result]
+BUILD: [result]
+UNIT: [result]
+E2E: [result]
+REDUCED_MOTION: [result]
+IOS_SAFARI: [VERIFIED/UNVERIFIED]
+COMPACT_EVIDENCE: [verified path]
+FULL_EVIDENCE: [verified path]
+MERGE: NONE
+DEPLOYMENT: NONE
+DB_MUTATIONS: NONE
+FOUNDER_APPROVAL: PENDING
+NEXT: RETURN DRAFT PR AND EVIDENCE TO CHATGPT FOR FOUNDER REVIEW.
+STOP.

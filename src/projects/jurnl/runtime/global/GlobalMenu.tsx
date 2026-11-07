@@ -32,9 +32,11 @@ import { JURNL_MONETIZATION_COPY as M } from '../../data/monetization/copy';
 import { useJurnlEntitlements } from '../monetization/JurnlEntitlements';
 import { OverlayLayer } from '../components/primitives';
 import { useOverlayHost } from '../components/OverlayAuthority';
-import { V3Card, V3Chevron, V3Folio, V3Icon, V3NavSection, V3Notice, V3Pill, V3Row, V3RuleLabel, V3Seal, V3Status, useStableFocus, type V3AccessState } from '../surfaces/v3/V3Surfaces';
+import { V3Card, V3Folio, V3Icon, V3NavSection, V3Notice, V3Pill, V3Row, V3RuleLabel, V3Seal, V3Status, useStableFocus, type V3AccessState } from '../surfaces/v3/V3Surfaces';
 import { cleanArt } from './overlays/clean/registry';
 import { JurnlUtilityArtButton } from '../components/JurnlUtilityArtButton';
+import { JurnlMicroArt } from '../components/JurnlMicroArt';
+import type { OverlayArtStem } from './overlayArt/registry';
 import type { MenuDestination, MenuPanel } from './menuPanels';
 import laurelSeal from '../../families/F05_MONEY/DOT01/F05_DOT01_02_LAUREL_WAX_SEAL.webp';
 import artTravel from '../../families/F05_MONEY/DOT01/F05_DOT01_08_PARCHMENT_COASTAL_PANEL.webp';
@@ -76,6 +78,25 @@ export const GLOBAL_MENU_SECTIONS = [
     ],
   },
 ] as const satisfies readonly { title: string; rows: readonly { trigger: string; to: MenuDestination; label: string; icon: string }[] }[];
+
+/**
+ * OPUS5: the GROK2 menu art for each row (cut from the OV08 / CH02 authorities). SAFE TO SPEND BUFFER has none: the only
+ * authority shield carries the privacy check, the plain shield is an unapproved candidate, so that row keeps its glyph
+ * (HELD_FOR_FOUNDER). One icon per row; the chevron is the cream B01 chevron.
+ */
+export const MENU_ROW_ART: Partial<Record<(typeof GLOBAL_MENU_SECTIONS)[number]['rows'][number]['trigger'], OverlayArtStem>> = {
+  'menu-connections': 'B01-BANK-LINKED-ACCOUNTS',
+  'menu-currency': 'B02-COINS-CREAM',
+  'menu-ask': 'B01-SPARKLE-ASK-CONTEXT',
+  'menu-rules': 'B02-TAG-CREAM',
+  'menu-account': 'B02-PROFILE',
+  'menu-preferences': 'B02-GEAR-PREFERENCES',
+  'menu-privacy': 'B02-SHIELD-PRIVACY',
+  'menu-membership': 'B02-CROWN-MEMBERSHIP',
+  'menu-add-ons': 'B02-FOUR-SQUARE',
+  'menu-help': 'B02-LIFEBUOY',
+  'menu-sign-out': 'B02-SIGN-OUT',
+};
 
 /**
  * OV08-SECTIONED-MENU-ENVIRONMENT (the curated OPUS3 composition, 2016 × 3584) and its live regions, as fractions of the
@@ -162,12 +183,12 @@ export function GlobalMenu({ onClose, onOpen }: { onClose: () => void; onOpen: (
               <V3NavSection key={sec.title} title={sec.title}>
                 {sec.rows.map((r) => (
                   <button key={r.trigger} type="button" className="jv3-nav-item jv3-t-action jgm-row" data-jrn-trigger={r.trigger} data-variant={r.to === 'sign-out' ? 'quiet' : undefined} onClick={() => onOpen(r.to)}>
-                    <V3Icon name={r.icon} />
+                    {MENU_ROW_ART[r.trigger] ? <JurnlMicroArt stem={MENU_ROW_ART[r.trigger]!} slot={`${r.trigger}-icon`} className="jma-icon" /> : <V3Icon name={r.icon} />}
                     <span className="jgm-row__text">
                       <span>{r.label}</span>
                       {asides[r.trigger] ? <small className="jgm-row__state" data-testid={`${r.trigger}-state`}>{asides[r.trigger]}</small> : null}
                     </span>
-                    <V3Chevron />
+                    <JurnlMicroArt stem="B01-CHEVRON" slot={`${r.trigger}-chevron`} className="jv3-chev" />
                   </button>
                 ))}
               </V3NavSection>

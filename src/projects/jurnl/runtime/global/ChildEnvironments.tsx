@@ -15,11 +15,12 @@
  * The behaviour, accounting and consent rules are the folios' (data/f09/safetyBuffer.ts, useAskContextConsent).
  */
 import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from 'react';
+import { JurnlArtToggle, JurnlMicroArt } from '../components/JurnlMicroArt';
+import type { OverlayArtStem } from './overlayArt/registry';
 import { BUFFER_COPY, useSafetyBuffer } from '../../data/f09/safetyBuffer';
 import { formatAmountInput, formatMoney } from '../../data/home/money';
 import { F01_COPY as C } from '../../data/f01/copy';
 import { patchSetup, useSetup } from '../../data/f02/setupDraft';
-import { JurnlToggle } from '../components/primitives';
 import { ShellOverlay, ShellSlot, slot, type ShellBox } from '../surfaces/editorial/Shell';
 import { V3Icon, V3Pill } from '../surfaces/v3/V3Surfaces';
 import { cleanArt, type CleanArtId } from './overlays/clean/registry';
@@ -176,11 +177,7 @@ export function BufferEnvironment({ onBack, onCurrency }: { onBack: () => void; 
             {b.storedUsd > 0 && code !== 'USD' ? <small>{`KEPT AS USD ${b.storedUsd.toFixed(2)}`}</small> : null}
           </span>
           <button type="button" className="jce-info" data-jrn-trigger="buffer-effect-info" aria-expanded={info} aria-controls={infoId} aria-label="WHAT THE BUFFER DOES" onClick={() => setInfo((v) => !v)}>
-            <svg viewBox="0 0 24 24" aria-hidden>
-              <circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" strokeWidth="1.5" />
-              <path d="M12 10.6v6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-              <circle cx="12" cy="7.4" r="1.1" fill="currentColor" />
-            </svg>
+            <JurnlMicroArt stem="B06-INFO" slot="buffer-effect-info-mark" />
           </button>
         </PaperSurface>
         {info ? (
@@ -215,7 +212,7 @@ function RowText({ label, sub }: { label: string; sub: string }) {
     </span>
   );
 }
-function ConsentRow({ icon, label, note, on, trigger, onChange }: { icon: string; label: string; note: string; on: boolean; trigger: string; onChange: (v: boolean) => void }) {
+function ConsentRow({ icon, label, note, on, trigger, onChange }: { icon: OverlayArtStem; label: string; note: string; on: boolean; trigger: string; onChange: (v: boolean) => void }) {
   // restrained acknowledgement of a STORED consent change (never on open, never a re-render): the switch itself shows the
   // value; OFF stays OFF
   const ack = useRef<HTMLSpanElement>(null);
@@ -223,27 +220,27 @@ function ConsentRow({ icon, label, note, on, trigger, onChange }: { icon: string
   return (
     <div className="jce-row jce-row--consent">
       <span ref={ack} className="jce-ack" aria-hidden />
-      <V3Icon name={icon} />
+      <JurnlMicroArt stem={icon} slot={`${trigger}-icon`} className="jma-icon" />
       <RowText label={label} sub={note} />
-      <JurnlToggle checked={on} label={label} trigger={trigger} onChange={onChange} />
+      <JurnlArtToggle checked={on} label={label} trigger={trigger} slot={`${trigger}-switch`} onChange={onChange} />
     </div>
   );
 }
 /** What JURNL is and does, not a choice: no switch (NOTHING SOLD, LINKED ACCOUNTS OPTIONAL). */
-function StatementRow({ icon, label, note, testId }: { icon: string; label: string; note: string; testId: string }) {
+function StatementRow({ icon, label, note, testId }: { icon: OverlayArtStem; label: string; note: string; testId: string }) {
   return (
     <div className="jce-row jce-row--statement" data-testid={testId}>
-      <V3Icon name={icon} />
+      <JurnlMicroArt stem={icon} slot={`${testId}-icon`} className="jma-icon" />
       <RowText label={label} sub={note} />
     </div>
   );
 }
-function ToolRow({ icon, label, sub, trigger, onClick }: { icon: string; label: string; sub: string; trigger: string; onClick: () => void }) {
+function ToolRow({ icon, label, sub, trigger, onClick }: { icon: OverlayArtStem; label: string; sub: string; trigger: string; onClick: () => void }) {
   return (
     <button type="button" className="jce-row jce-row--action" data-jrn-trigger={trigger} onClick={onClick}>
-      <V3Icon name={icon} />
+      <JurnlMicroArt stem={icon} slot={`${trigger}-icon`} className="jma-icon" />
       <RowText label={label} sub={sub} />
-      <span className="jce-chev" aria-hidden>›</span>
+      <JurnlMicroArt stem="B01-CHEVRON" slot={`${trigger}-chevron`} className="jce-chev" />
     </button>
   );
 }
@@ -254,20 +251,20 @@ export function PrivacyEnvironment({ onBack, onOpen, askOn, setAsk }: Nav & { as
     <ShellOverlay testId="settings-consents-sheet" composition="child" shell="CH02_PRIVACY_SHELL" tag={CH02_TAG} ornament title={<>PRIVACY & <span className="jce-title-line">CONSENTS</span></>} script="what jurnl may keep and use" head={CH02_BOX.head} onClose={onBack} closeLabel="CLOSE PRIVACY & CONSENTS">
       <ShellSlot box={CH02_BOX.list} className="jce-content jce-list" scroll role="region" ariaLabel="PRIVACY & CONSENTS">
         <h3 className="jce-section">YOUR CONSENTS</h3>
-        <ConsentRow icon="gear" label="REMEMBER SETUP" note="keep your setup answers on this device." on={draft.consentRemember} trigger="settings-consent-remember" onChange={(v) => patchSetup({ consentRemember: v })} />
-        <StatementRow icon="bank" label="LINKED ACCOUNTS OPTIONAL" note="jurnl works without connecting a bank." testId="privacy-statement-links" />
-        <StatementRow icon="shield" label="NOTHING SOLD" note="your data is never sold." testId="privacy-statement-sale" />
-        <ConsentRow icon="sparkle" label="ASK JURNL CONTEXT" note="let ask jurnl read the screen you are on to explain it. off stays off." on={askOn} trigger="privacy-ask-context" onChange={setAsk} />
+        <ConsentRow icon="B01-GEAR-REMEMBER-SETUP" label="REMEMBER SETUP" note="keep your setup answers on this device." on={draft.consentRemember} trigger="settings-consent-remember" onChange={(v) => patchSetup({ consentRemember: v })} />
+        <StatementRow icon="B01-BANK-LINKED-ACCOUNTS" label="LINKED ACCOUNTS OPTIONAL" note="jurnl works without connecting a bank." testId="privacy-statement-links" />
+        <StatementRow icon="B01-SHIELD-NOTHING-SOLD" label="NOTHING SOLD" note="your data is never sold." testId="privacy-statement-sale" />
+        <ConsentRow icon="B01-SPARKLE-ASK-CONTEXT" label="ASK JURNL CONTEXT" note="let ask jurnl read the screen you are on to explain it. off stays off." on={askOn} trigger="privacy-ask-context" onChange={setAsk} />
         <h3 className="jce-section">YOUR DATA</h3>
-        <ToolRow icon="sparkle" label={C.privacy.rows['ai-access']} sub="choose what ai features may use." trigger="privacy-tool-ai-access" onClick={() => onOpen(tool('privacy-ai-access'))} />
-        <ToolRow icon="database" label={C.privacy.rows['your-data']} sub="what jurnl keeps on this device." trigger="privacy-tool-your-data" onClick={() => onOpen(tool('privacy-your-data'))} />
-        <ToolRow icon="download" label={C.privacy.rows['data-export']} sub="not available yet." trigger="privacy-tool-data-export" onClick={() => onOpen(tool('privacy-data-export'))} />
+        <ToolRow icon="B01-AI-STAR" label={C.privacy.rows['ai-access']} sub="choose what ai features may use." trigger="privacy-tool-ai-access" onClick={() => onOpen(tool('privacy-ai-access'))} />
+        <ToolRow icon="B01-DATABASE-YOUR-DATA" label={C.privacy.rows['your-data']} sub="what jurnl keeps on this device." trigger="privacy-tool-your-data" onClick={() => onOpen(tool('privacy-your-data'))} />
+        <ToolRow icon="B01-EXPORT-DOWN" label={C.privacy.rows['data-export']} sub="not available yet." trigger="privacy-tool-data-export" onClick={() => onOpen(tool('privacy-data-export'))} />
       </ShellSlot>
       <ShellSlot box={CH02_BOX.remove} className="jce-actions">
         <PaperControl art="CH02_REMOVE_ACCESS_PAPER" tone="cream" trigger="privacy-tool-remove-access" onClick={() => onOpen(tool('privacy-remove-access'))} className="jce-remove" ariaLabel={`${C.privacy.rows['remove-access']}: DELETE ACCOUNT · REVOKE ACCESS · TURN AI OFF`}>
-          <V3Icon name="trash" />
+          <JurnlMicroArt stem="B01-TRASH-REMOVE" slot="privacy-tool-remove-access-icon" className="jma-icon" />
           <RowText label={C.privacy.rows['remove-access']} sub="delete account · revoke access · turn ai off." />
-          <span className="jce-chev" aria-hidden>›</span>
+          <JurnlMicroArt stem="B01-CHEVRON" slot="privacy-tool-remove-access-chevron" className="jce-chev" />
         </PaperControl>
       </ShellSlot>
       <ShellSlot box={CH02_BOX.back} className="jce-actions">

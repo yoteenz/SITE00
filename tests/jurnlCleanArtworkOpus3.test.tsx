@@ -120,8 +120,12 @@ describe('no duplicate artwork, no prepainted UI geometry', () => {
       expect(html).not.toMatch(/HEADER|CH0[12]_ENVIRONMENT|CLEAN-ENVIRONMENT|OV08_MENU_ENVIRONMENT|COIN_RESERVE/);
       expect(html).not.toContain('SAVE_OLIVE');
       // each independent paper is mounted once, as the surface of one live control or one live summary
-      const ids = assetIds(html);
+      const ids = assetIds(html).filter((i) => !i.startsWith('GROK2.'));
       expect(new Set(ids).size).toBe(ids.length);
+      // OPUS5 row micro-art (GROK2): exactly one asset per named slot (a chevron or switch part repeats once per row)
+      const slots = [...html.matchAll(/data-micro-slot="([^"]+)"/g)].map((m) => m[1]);
+      expect(new Set(slots).size).toBe(slots.length);
+      expect(slots.length).toBe(assetIds(html).filter((i) => i.startsWith('GROK2.')).length);
       // the ornament is drawn live under the script
       expect(html).toContain('class="jsh-ornament"');
     }
@@ -130,8 +134,16 @@ describe('no duplicate artwork, no prepainted UI geometry', () => {
     expect(buffer).not.toContain('class="jsh-tag"');
     expect(buffer).toMatch(/class="jsh-head" data-tone="cream"/);
     // + the founder-supplied CLOSE artwork, once, on the live close control (utility icon family, OPUS1)
-    expect(assetIds(buffer).sort()).toEqual(['CH01_AMOUNT_PAPER', 'CH01_BACK_PAPER', 'CH01_BUFFER_SHELL', 'CH01_EFFECT_PAPER', 'F05.UTILITY.CLOSE.GOLD']);
-    expect(assetIds(privacy).sort()).toEqual(['CH02_BACK_PAPER', 'CH02_PRIVACY_SHELL', 'CH02_REMOVE_ACCESS_PAPER', 'F05.UTILITY.CLOSE.GOLD']);
+    const art = (html: string) => assetIds(html).filter((i) => !i.startsWith('GROK2.')).sort();
+    const micro = (html: string) => assetIds(html).filter((i) => i.startsWith('GROK2.')).sort();
+    expect(art(buffer)).toEqual(['CH01_AMOUNT_PAPER', 'CH01_BACK_PAPER', 'CH01_BUFFER_SHELL', 'CH01_EFFECT_PAPER', 'F05.UTILITY.CLOSE.GOLD']);
+    expect(art(privacy)).toEqual(['CH02_BACK_PAPER', 'CH02_PRIVACY_SHELL', 'CH02_REMOVE_ACCESS_PAPER', 'F05.UTILITY.CLOSE.GOLD']);
+    // + OPUS5: the GROK2 (i) on the effect paper; the privacy icons, the cream chevrons and the two consent switches (REMEMBER
+    // SETUP is ON by default: olive track; ASK JURNL CONTEXT is OFF: charcoal track)
+    expect(micro(buffer)).toEqual(['GROK2.B06-INFO']);
+    expect(micro(privacy)).toEqual(
+      ['B01-AI-STAR', 'B01-BANK-LINKED-ACCOUNTS', 'B01-CHEVRON', 'B01-CHEVRON', 'B01-CHEVRON', 'B01-CHEVRON', 'B01-DATABASE-YOUR-DATA', 'B01-EXPORT-DOWN', 'B01-GEAR-REMEMBER-SETUP', 'B01-SHIELD-NOTHING-SOLD', 'B01-SPARKLE-ASK-CONTEXT', 'B01-TOGGLE-THUMB', 'B01-TOGGLE-THUMB', 'B01-TOGGLE-TRACK-CHARCOAL', 'B01-TOGGLE-TRACK-OLIVE', 'B01-TRASH-REMOVE'].map((x) => `GROK2.${x}`),
+    );
   });
 
   it('D1b the live regions stay inside the shells and clear of their baked art (sprigs, coins, seal)', () => {
@@ -193,8 +205,17 @@ describe('no duplicate artwork, no prepainted UI geometry', () => {
     const search = render(createElement(GlobalSearchDrawer, { onClose: noop }));
     const menu = render(createElement(GlobalMenu, { onClose: noop, onOpen: noop }));
     // one environment layer each, plus the founder CLOSE artwork once on the live close control (utility icon family, OPUS1)
-    expect(assetIds(search)).toEqual(['OV05_SEARCH_SHELL', 'F05.UTILITY.CLOSE.GOLD']);
-    expect(assetIds(menu)).toEqual(['OV08_MENU_ENVIRONMENT', 'F05.UTILITY.CLOSE.GOLD']);
+    const art = (html: string) => assetIds(html).filter((i) => !i.startsWith('GROK2.'));
+    expect(art(search)).toEqual(['OV05_SEARCH_SHELL', 'F05.UTILITY.CLOSE.GOLD']);
+    expect(art(menu)).toEqual(['OV08_MENU_ENVIRONMENT', 'F05.UTILITY.CLOSE.GOLD']);
+    // + OPUS5 GROK2 micro-art: the field magnifier and the POCKETS bank once each; eleven row icons (SAFE TO SPEND BUFFER is
+    // held) and twelve cream chevrons on the menu
+    expect(search.match(/data-micro-slot="search-input-mark"/g)).toHaveLength(1);
+    expect(search.match(/data-micro-slot="search-filter-pockets-mark"/g)).toHaveLength(1);
+    const menuMicro = assetIds(menu).filter((i) => i.startsWith('GROK2.'));
+    expect(menuMicro.filter((i) => i === 'GROK2.B01-CHEVRON')).toHaveLength(12);
+    expect(menuMicro.filter((i) => i !== 'GROK2.B01-CHEVRON')).toHaveLength(11);
+    expect(new Set(menuMicro.filter((i) => i !== 'GROK2.B01-CHEVRON')).size).toBe(11);
     expect(menu).toMatch(/class="jgm-tag"[^>]*>JURNL</);
     for (const html of [search, menu]) expect(html).not.toMatch(/OV0\d_SHELL\.webp|OV0\d-IS-/);
   });

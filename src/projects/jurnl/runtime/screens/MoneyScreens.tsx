@@ -2,7 +2,7 @@
 
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react';
 import { EdAction, EdChoices, EditorialOverlay, type EdPlate } from '../surfaces/editorial/Editorial';
-import { TYPE_GLYPH } from '../surfaces/editorial/MoneyOverlays';
+import { TYPE_GLYPH, typeArt } from '../surfaces/editorial/MoneyOverlays';
 import { getRepository } from '../../data/repository/deviceRepository';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useLedgerPositions, usualPurposesFor } from '../../data/ledger/moneyPositions';
@@ -454,8 +454,8 @@ export function AddPlaceSheet({ onClose, onSaved }: { onClose: () => void; onSav
       plate={OV02_PLATE}
       footer={
         <>
-          <EdAction trigger="money-add-cancel" material="cream" title="CANCEL" onClick={onClose} />
-          <EdAction trigger="money-add-save" material="olive" title="SAVE POCKET" disabled={!valid} onClick={save} />
+          <EdAction trigger="money-add-cancel" material="cream" paper="B05-ADD-CANCEL" title="CANCEL" onClick={onClose} />
+          <EdAction trigger="money-add-save" material="olive" paper="B05-CREATE-POCKET" title="SAVE POCKET" disabled={!valid} onClick={save} />
         </>
       }
     >
@@ -464,7 +464,7 @@ export function AddPlaceSheet({ onClose, onSaved }: { onClose: () => void; onSav
           <JurnlInput label="NAME" value={name} onValue={setName} trigger="money-add-name" />
         </div>
         <span className="jed-label" id="money-add-kind-label">ACCOUNT TYPE</span>
-        <EdChoices label="ACCOUNT TYPE" value={kind} options={PLACE_KINDS.map((k) => ({ ...k, icon: TYPE_GLYPH[k.id], wide: k.id === 'CASH' }))} onChange={(k) => { setKind(k); if (k === 'CREDIT_CARD' || k === 'CASH') setPayout(false); }} trigger="money-add-kind" />
+        <EdChoices label="ACCOUNT TYPE" value={kind} options={PLACE_KINDS.map((k) => ({ ...k, icon: typeArt(k.id) ?? TYPE_GLYPH[k.id], wide: k.id === 'CASH' }))} onChange={(k) => { setKind(k); if (k === 'CREDIT_CARD' || k === 'CASH') setPayout(false); }} trigger="money-add-kind" checkArt />
         <div className="jed-field jed-balance" style={{ marginTop: 10 }}>
           <JurnlInput label={card ? 'BALANCE OWED NOW' : 'BALANCE NOW'} value={balance} onValue={setBalance} trigger="money-add-balance" inputMode="decimal" />
         </div>
@@ -476,7 +476,7 @@ export function AddPlaceSheet({ onClose, onSaved }: { onClose: () => void; onSav
         {kind === 'DEBIT_CARD' || kind === 'CHECKING' ? (
           <>
             <span className="jed-label">RIDESHARE PAY</span>
-            <EdChoices label="RIDESHARE PAY" value={payout ? 'YES' : 'NO'} options={[{ id: 'NO', label: 'NOT A PAYOUT CARD' }, { id: 'YES', label: 'RECEIVES RIDESHARE PAY' }]} onChange={(v) => setPayout(v === 'YES')} trigger="money-add-payout" />
+            <EdChoices label="RIDESHARE PAY" value={payout ? 'YES' : 'NO'} options={[{ id: 'NO', label: 'NOT A PAYOUT CARD' }, { id: 'YES', label: 'RECEIVES RIDESHARE PAY' }]} onChange={(v) => setPayout(v === 'YES')} trigger="money-add-payout" checkArt />
           </>
         ) : null}
         {card ? <p className="jed-note">A CREDIT CARD IS MONEY OWED. ITS AVAILABLE CREDIT IS NEVER COUNTED AS MONEY YOU HAVE.</p> : <p className="jed-note">YOU ENTER THE BALANCE; NO BANK CONNECTION.</p>}

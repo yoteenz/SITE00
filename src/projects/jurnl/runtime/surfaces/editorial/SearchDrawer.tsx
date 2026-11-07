@@ -8,6 +8,8 @@ import { getRepository } from '../../../data/repository/deviceRepository';
 import { formatMoney, useRepoTick } from '../../../data/home/money';
 import { useJurnl } from '../../state/store';
 import { EdGlyph } from './Editorial';
+import { JurnlMicroArt } from '../../components/JurnlMicroArt';
+import type { OverlayArtStem } from '../../global/overlayArt/registry';
 import { ShellOverlay, ShellSlot } from './Shell';
 
 type Filter = 'ALL' | 'POCKETS' | 'TRANSACTIONS';
@@ -39,10 +41,12 @@ export const OV05_OPEN = {
   head: [0.4, 0.14, 0.95, 0.245],
   column: [0.36, 0.25, 0.95, 0.83],
 } as const;
-const FILTERS: { id: Filter; label: string; icon?: 'pocket' | 'tag' }[] = [
+/* OPUS5: the OV05 authority's account bank (GROK2) marks POCKETS. ACTIVITY keeps its line tag: the GROK2 category tag
+   (B04-TAG) carries a stray fragment of the neighbouring chip at its right edge, so it is held (03_FOUNDER_APPROVAL_AND_BLOCKERS.md) */
+const FILTERS: { id: Filter; label: string; art?: OverlayArtStem; glyph?: 'tag' }[] = [
   { id: 'ALL', label: 'ALL' },
-  { id: 'POCKETS', label: 'POCKETS', icon: 'pocket' },
-  { id: 'TRANSACTIONS', label: 'ACTIVITY', icon: 'tag' },
+  { id: 'POCKETS', label: 'POCKETS', art: 'B03-BANK-SOURCE' },
+  { id: 'TRANSACTIONS', label: 'ACTIVITY', glyph: 'tag' },
 ];
 
 /**
@@ -67,12 +71,15 @@ export function GlobalSearchDrawer({ onClose }: { onClose: () => void }) {
           <label className="jsx-field__label" htmlFor={inputId}>
             SEARCH
           </label>
-          <input id={inputId} className="jsx-field__input" value={query} onChange={(e) => setQuery(e.target.value)} data-jrn-trigger="search-input" autoComplete="off" placeholder="POCKETS, MERCHANTS, CATEGORIES" />
+          <span className="jsx-field__box">
+            <JurnlMicroArt stem="B04-SEARCH" slot="search-input-mark" />
+            <input id={inputId} className="jsx-field__input" value={query} onChange={(e) => setQuery(e.target.value)} data-jrn-trigger="search-input" autoComplete="off" placeholder="POCKETS, MERCHANTS, CATEGORIES" />
+          </span>
         </div>
         <div className="jsx-filters" role="group" aria-label="FILTER BY">
           {FILTERS.map((f) => (
             <button key={f.id} type="button" className="jsx-chip" aria-pressed={filter === f.id} data-jrn-trigger={`search-filter-${f.id.toLowerCase()}`} onClick={() => setFilter(f.id)}>
-              {f.icon ? <EdGlyph name={f.icon} /> : null}
+              {f.art ? <JurnlMicroArt stem={f.art} slot={`search-filter-${f.id.toLowerCase()}-mark`} /> : f.glyph ? <EdGlyph name={f.glyph} /> : null}
               <span>{f.label}</span>
             </button>
           ))}
@@ -84,7 +91,8 @@ export function GlobalSearchDrawer({ onClose }: { onClose: () => void }) {
               {hits.map((h) => (
                 <li key={h.key}>
                   <button type="button" className="jsx-row" data-jrn-trigger={`search-hit-${h.key.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} onClick={() => open(h.route)}>
-                    <EdGlyph name={h.kind === 'pocket' ? 'pocket' : 'search'} />
+                    {/* the account bank for a pocket, the authority's magnifier for activity */}
+                    <JurnlMicroArt stem={h.kind === 'pocket' ? 'B03-BANK-SOURCE' : 'B04-SEARCH'} slot={`search-hit-${h.key.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-mark`} />
                     <span className="jsx-row__text">
                       <span className="jsx-row__title">{h.title}</span>
                       <small>{h.sub}</small>
