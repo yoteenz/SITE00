@@ -1,5 +1,6 @@
 /** F05 MONEY — structural completion (Wave 2). */
 
+import { formatAsOf } from '../../data/banking/health';
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react';
 import { EdAction, EdChoices, EditorialOverlay, type EdPlate } from '../surfaces/editorial/Editorial';
 import { TYPE_GLYPH, typeArt } from '../surfaces/editorial/MoneyOverlays';
@@ -101,7 +102,14 @@ export function MoneyHubScreen() {
     return p ? (p.nature === 'LIABILITY' ? p.owed : p.held) : 0;
   };
   // No bank aggregation provider exists (JURNL_BANK_CONNECTION_PROVIDER): say so plainly instead of a status code.
-  const source = draft.accounts === 'CONNECTED' ? [honestAccountsConnectionLabel(draft.accounts)] : ['NO BANK CONNECTED.', 'BALANCES ARE WHAT YOU ENTERED.'];
+  // Real connected accounts: the provider's balances, dated. Otherwise say plainly that nothing is connected.
+  const bankAccounts = accounts.filter((a) => a.connection && a.is_connected);
+  const oldestAsOf = bankAccounts.map((a) => a.connection!.balance_as_of).sort()[0] ?? null;
+  const source = bankAccounts.length
+    ? [`${bankAccounts.length} FROM YOUR BANKS, AS OF ${formatAsOf(oldestAsOf)}.`, accounts.some((a) => !a.connection) ? 'OTHERS ARE WHAT YOU ENTERED.' : 'BALANCES MAY HAVE CHANGED SINCE.']
+    : draft.accounts === 'CONNECTED'
+      ? [honestAccountsConnectionLabel(draft.accounts)]
+      : ['NO BANK CONNECTED.', 'BALANCES ARE WHAT YOU ENTERED.'];
   const count = accounts.length;
   const T = ML.text;
   const B = ML.box;
@@ -164,7 +172,7 @@ export function MoneyHubScreen() {
                       <button type="button" className="jrn-ra__hit" data-jrn-trigger={`money-open-${lead.account_id}`} onClick={() => go(`money/places/${lead.account_id}`)} style={at(insertBox)}>
                         <RefText t={spreadT(d.cap, d.insert)} origin={insertBox} as="span" className="jrn-ra__soft">{shelf.places.length > 1 ? `${shelf.caption} · ${shelf.places.length}` : shelf.caption}</RefText>
                         <RefText t={spreadT(d.name, d.insert)} origin={insertBox} as="span">{lead.display_name}</RefText>
-                        <RefText t={spreadT(d.sub, d.insert)} origin={insertBox} as="span" className="jrn-ra__soft">{`${KIND_LABEL[lead.account_type]} · ${lead.is_manual ? 'BY HAND' : lead.is_connected ? 'PREVIEW LINK' : 'REGISTRY'}`}</RefText>
+                        <RefText t={spreadT(d.sub, d.insert)} origin={insertBox} as="span" className="jrn-ra__soft">{`${KIND_LABEL[lead.account_type]} · ${lead.connection ? (lead.is_connected ? 'FROM YOUR BANK' : 'DISCONNECTED') : lead.is_manual ? 'BY HAND' : lead.is_connected ? 'PREVIEW LINK' : 'REGISTRY'}`}</RefText>
                         <span className="jrn-ra__rule jrn-ra__rule--soft" aria-hidden style={{ ...at(spreadB(d.div, d.insert), insertBox), width: 2 }} />
                         <RefText t={spreadT(d.amt, d.insert)} origin={insertBox} as="b">{formatMoney(amountOf(lead.account_id))}</RefText>
                         <img className="jrn-ra__img jrn-ra__leaf" src={sprig} alt="" draggable={false} style={at(spreadB(d.leaf, d.insert), insertBox)} />

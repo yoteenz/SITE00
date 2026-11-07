@@ -28,10 +28,25 @@ const STATUS_TONE: Record<ConnectionHealth['state'], 'ACTIVE' | 'AVAILABLE' | 'U
   DISCONNECTED: 'UNAVAILABLE',
 };
 
+/** Short chip words (the row's own sentence carries the detail), so the chip never squeezes the text column. */
+const CHIP: Record<ConnectionHealth['state'], string> = {
+  NOT_CONNECTED: 'NONE',
+  CONNECTING: 'CONNECTING',
+  CONNECTED: 'CONNECTED',
+  SYNCING: 'UPDATING',
+  UP_TO_DATE: 'UP TO DATE',
+  DELAYED: 'DELAYED',
+  NEEDS_RECONNECTION: 'RECONNECT',
+  PERMISSION_REVOKED: 'NO ACCESS',
+  INSTITUTION_UNAVAILABLE: 'BANK DOWN',
+  ERROR: 'PROBLEM',
+  DISCONNECTED: 'OFF',
+};
+
 function HealthChip({ h, testId }: { h: ConnectionHealth; testId?: string }) {
   return (
-    <span className="jv3-status" data-state={STATUS_TONE[h.state]} data-health={h.state} data-testid={testId}>
-      {h.state === 'UP_TO_DATE' ? 'UP TO DATE' : h.label}
+    <span className="jv3-status" data-state={STATUS_TONE[h.state]} data-health={h.state} data-testid={testId} aria-label={h.label}>
+      {CHIP[h.state]}
     </span>
   );
 }

@@ -104,7 +104,8 @@ function findReusableAccount(accounts: JurnlAccountRecord[], a: BankAccountView,
 function accountRecord(a: BankAccountView, item: BankItemView | undefined, existing: JurnlAccountRecord | null, userId: string, id: string, now: string): JurnlAccountRecord {
   const type = jurnlAccountType(a.type, a.subtype);
   const liability = type === 'CREDIT_CARD' || type === 'LOAN';
-  const providerName = (a.official_name || a.name || 'CONNECTED ACCOUNT').trim().toUpperCase();
+  // The account's own short name (what the bank shows the user) before the long official product name.
+  const providerName = (a.name || a.official_name || 'CONNECTED ACCOUNT').trim().toUpperCase();
   const disconnected = a.status === 'DISCONNECTED' || item?.status === 'DISCONNECTED';
   // Assets: the provider's available balance (already net of pending debits) when given, else current.
   const assetBalance = a.available_balance ?? a.current_balance;
