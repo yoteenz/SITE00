@@ -421,9 +421,9 @@ export const OV02_PLATE = {
 } as const satisfies EdPlate;
 
 const PLACE_KINDS: { id: AccountType; label: string }[] = [
-  { id: 'CHECKING', label: 'BANK ACCOUNT' },
+  { id: 'CHECKING', label: 'CHECKING' },
   { id: 'SAVINGS', label: 'SAVINGS' },
-  { id: 'DEBIT_CARD', label: 'DEBIT / PAYOUT CARD' },
+  { id: 'DEBIT_CARD', label: 'DEBIT CARD' },
   { id: 'CREDIT_CARD', label: 'CREDIT CARD' },
   { id: 'CASH', label: 'CASH' },
 ];
