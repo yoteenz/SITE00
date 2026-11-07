@@ -7,7 +7,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { AccountDrawer } from '../screens/AccountScreens';
 import { CurrencySheet } from '../screens/SettingsScreens';
 import { DeleteAccountModal, PrivacyDrawer, RevokeSessionModal, SecurityDrawer, type ToolNav } from '../screens/SecurityScreens';
@@ -25,8 +25,9 @@ const activeTrigger = () => (typeof document === 'undefined' ? null : (document.
 const outsideApp = (rel: string) => rel === '' || rel.startsWith('entry') || rel.startsWith('setup');
 
 export function JurnlCornerChromeProvider({ children }: { children: ReactNode }) {
-  const { go } = useJurnl();
+  const { go, mode } = useJurnl();
   const { pathname } = useLocation();
+  const [searchParams] = useSearchParams();
   const [stack, setStack] = useState<Entry[]>([]);
   /** pending focus return: the trigger to focus once the stack has rendered (null = the hamburger / nothing) */
   const focusAfter = useRef<{ want: string | null } | null>(null);
@@ -69,6 +70,14 @@ export function JurnlCornerChromeProvider({ children }: { children: ReactNode })
       setStack([]);
     }
   }, [rel, stack.length]);
+
+  // Design-preview only: `?menu=account` opens the ACCOUNT drawer; `?menu=menu` opens the global menu (founder tunnel review).
+  const menuDeep = mode === 'design-preview' ? searchParams.get('menu') : null;
+  useEffect(() => {
+    if (!menuDeep) return;
+    if (menuDeep === 'account') open('account');
+    else if (menuDeep === 'menu') open('menu');
+  }, [menuDeep, open]);
 
   // Focus return: after a step closes, the control that opened it (in the step now on top, or on the page), else the
   // hamburger (the corner chrome steps aside while a destination is open, so the element the trap remembered is gone).
