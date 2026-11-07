@@ -21,6 +21,7 @@
  * FOUNDER_FULL grant (server-resolved, #1708) is shown as FOUNDER ACCESS and suppresses every upgrade prompt; it never
  * changes what is authorized (the trusted backend decides). Unknown entitlement state withholds (fail closed).
  */
+import { getRepositoryDataMode, isRealDataMode } from '../../data/repository/dataMode';
 import type { CSSProperties } from 'react';
 import { consentGranted } from '../../data/foundation/consent';
 import { getRepository } from '../../data/repository/deviceRepository';
@@ -148,8 +149,19 @@ function useRowAsides(): Partial<Record<string, string>> {
   const currency = useCurrency();
   const buffer = storedBufferUsd();
   const ask = consentGranted(getRepository().getConsent(), 'ASK_JURNL_CONTEXT');
+  const bank = getRepository().getSnapshot().bank?.connections ?? [];
+  const live = bank.filter((c) => c.status !== 'DISCONNECTED');
+  const attention = live.filter((c) => c.status === 'NEEDS_REAUTH' || c.status === 'PERMISSION_REVOKED' || c.status === 'SYNC_ERROR' || c.status === 'INSTITUTION_UNAVAILABLE');
+  // Real accounts read the server's connection states; the design preview never has a bank link.
+  const connections = !isRealDataMode(getRepositoryDataMode())
+    ? 'MANUAL POCKETS ONLY'
+    : attention.length
+      ? `${attention.length} NEED${attention.length === 1 ? 'S' : ''} ATTENTION`
+      : live.length
+        ? `${live.length} CONNECTED`
+        : 'NO BANK CONNECTED';
   return {
-    'menu-connections': 'MANUAL POCKETS ONLY',
+    'menu-connections': connections,
     'menu-currency': `${currency.code} · ${currency.name}`.toUpperCase(),
     'menu-buffer': buffer > 0 ? `${formatMoney(buffer)} KEPT ASIDE` : 'NONE SET',
     'menu-ask': `CONTEXT ${ask ? 'ON' : 'OFF'}`,

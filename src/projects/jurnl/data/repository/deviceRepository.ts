@@ -35,6 +35,7 @@ import {
   type RepositorySnapshot,
 } from './types';
 import { notifyRepositoryPersisted } from './serverSyncCoordinator';
+import { allowsSampleData, getRepositoryDataMode, onRepositoryDataModeChange, type JurnlDataMode } from './dataMode';
 
 const memoryByUser = new Map<string, RepositorySnapshot>();
 const listeners = new Set<RepositoryListener>();
@@ -46,9 +47,16 @@ let activeUserId = 'preview-guest';
 
 type KV = { get(k: string): string | null; set(k: string, v: string): void };
 
-function storageKey(userId: string) {
-  return `jurnl.repository.v${REPOSITORY_SCHEMA_VERSION}.${userId}`;
+/**
+ * Device cache key. The design preview keeps its historical key; sandbox and production caches are separate keys,
+ * so a preview snapshot on this device can never be read as a real account's data.
+ */
+function storageKey(userId: string, mode: JurnlDataMode = getRepositoryDataMode()) {
+  if (mode === 'DESIGN_PREVIEW') return `jurnl.repository.v${REPOSITORY_SCHEMA_VERSION}.${userId}`;
+  return `jurnl.repository.v${REPOSITORY_SCHEMA_VERSION}.${mode.toLowerCase()}.${userId}`;
 }
+
+const memKey = (userId: string, mode: JurnlDataMode = getRepositoryDataMode()) => `${mode}:${userId}`;
 
 function legacyStorageKey(userId: string) {
   return `jurnl.repository.v1.${userId}`;
@@ -74,15 +82,18 @@ function browserLocal(): KV | null {
   };
 }
 
-function emptySnapshot(userId: string): RepositorySnapshot {
+function emptySnapshot(userId: string, mode: JurnlDataMode = getRepositoryDataMode()): RepositorySnapshot {
   const now = new Date().toISOString();
   const setup = { ...EMPTY_SETUP };
+  const preview = mode === 'DESIGN_PREVIEW';
   return {
     schemaVersion: REPOSITORY_SCHEMA_VERSION,
     userId,
+    dataMode: mode,
     setup,
-    accounts: seedAccountsFromSetup(setup, userId),
-    transactions: [...MOCK_ENTRIES],
+    // Real accounts start empty: no sample accounts, no sample transactions, no invented balances.
+    accounts: preview ? seedAccountsFromSetup(setup, userId) : [],
+    transactions: preview ? [...MOCK_ENTRIES] : [],
     settings: { ...DEFAULT_JURNL_SETTINGS },
     consent: defaultConsentRecords(),
     incomeSources: [],
@@ -132,7 +143,7 @@ function finalizeSnapshot(parsed: RepositorySnapshot): RepositorySnapshot {
   return {
     ...base,
     incomeSources: seedIncomeFromSetup(base.setup, base.incomeSources),
-    obligations: seedObligationsFromSetup(base.setup, base.obligations),
+    obligations: seedObligationsFromSetup(base.setup, base.obligations, { allowSampleAmounts: allowsSampleData(base.dataMode) }),
     planIntentions: seedPlansFromSetup(base.setup, base.planIntentions),
     goals: seedGoalsFromSetup(base.setup, base.goals),
   };
@@ -143,7 +154,7 @@ function migrateStored(parsed: RepositorySnapshot): RepositorySnapshot {
 }
 
 function readSnapshot(userId: string): RepositorySnapshot {
-  const cached = memoryByUser.get(userId);
+  const cached = memoryByUser.get(memKey(userId));
   if (cached) return cached;
   const kv = browserLocal();
   if (kv) {
@@ -151,20 +162,21 @@ function readSnapshot(userId: string): RepositorySnapshot {
       const raw = kv.get(storageKey(userId));
       if (raw) {
         const parsed = JSON.parse(raw) as RepositorySnapshot;
-        if (parsed.userId === userId) {
+        if (parsed.userId === userId && snapshotModeMatches(parsed)) {
           const finalized = parsed.schemaVersion === REPOSITORY_SCHEMA_VERSION ? finalizeSnapshot(parsed) : migrateStored(parsed);
-          memoryByUser.set(userId, finalized);
+          memoryByUser.set(memKey(userId), finalized);
           if (parsed.schemaVersion !== REPOSITORY_SCHEMA_VERSION) persist(finalized);
           return finalized;
         }
       }
-      for (const keyFn of [legacyStorageKeyV4, legacyStorageKeyV3, legacyStorageKeyV2, legacyStorageKey]) {
+      // Legacy keys only ever held design-preview data: they are never read in a real mode.
+      for (const keyFn of getRepositoryDataMode() === 'DESIGN_PREVIEW' ? [legacyStorageKeyV4, legacyStorageKeyV3, legacyStorageKeyV2, legacyStorageKey] : []) {
         const legacyRaw = kv.get(keyFn(userId));
         if (!legacyRaw) continue;
         const legacy = JSON.parse(legacyRaw) as RepositorySnapshot;
         if (legacy.userId === userId) {
           const migrated = migrateStored(legacy);
-          memoryByUser.set(userId, migrated);
+          memoryByUser.set(memKey(userId), migrated);
           persist(migrated);
           return migrated;
         }
@@ -174,18 +186,57 @@ function readSnapshot(userId: string): RepositorySnapshot {
     }
   }
   const snap = finalizeSnapshot(emptySnapshot(userId));
-  memoryByUser.set(userId, snap);
-  persist(snap);
+  memoryByUser.set(memKey(userId), snap);
+  persist(snap, { local: true });
   return snap;
 }
 
-function persist(snap: RepositorySnapshot) {
+/** A stored snapshot belongs to the active mode (legacy snapshots without a mode are design-preview data). */
+function snapshotModeMatches(snap: Pick<RepositorySnapshot, 'dataMode'>): boolean {
+  return (snap.dataMode ?? 'DESIGN_PREVIEW') === getRepositoryDataMode();
+}
+
+/**
+ * Persists to the device cache and tells the sync coordinator. In real modes a user change marks the copy dirty
+ * (not yet accepted by the server); `local: true` is bookkeeping that needs no upload (an empty first snapshot).
+ */
+function persist(snap: RepositorySnapshot, opts: { local?: boolean } = {}) {
   persistRevision += 1;
-  memoryByUser.set(snap.userId, snap);
+  const real = getRepositoryDataMode() !== 'DESIGN_PREVIEW';
+  const next: RepositorySnapshot =
+    real && !opts.local ? { ...snap, syncBase: { revision: snap.syncBase?.revision ?? 0, dirty: true, reconciledAt: snap.syncBase?.reconciledAt ?? null } } : snap;
+  memoryByUser.set(memKey(next.userId), next);
   const kv = browserLocal();
-  if (kv) kv.set(storageKey(snap.userId), JSON.stringify(snap));
+  if (kv) kv.set(storageKey(next.userId), JSON.stringify(next));
   listeners.forEach((l) => l());
-  notifyRepositoryPersisted(snap);
+  if (!opts.local) notifyRepositoryPersisted(next);
+}
+
+/** After the server accepted (or supplied) this state: record its revision without triggering another upload. */
+export function markSnapshotSynced(userId: string, revision: number, opts: { stillDirty?: boolean; reconciledAt?: string } = {}): void {
+  const snap = memoryByUser.get(memKey(userId)) ?? peekDeviceSnapshot(userId);
+  if (!snap) return;
+  const next = { ...snap, syncBase: { revision, dirty: Boolean(opts.stillDirty), reconciledAt: opts.reconciledAt ?? new Date().toISOString() } };
+  memoryByUser.set(memKey(userId), next);
+  const kv = browserLocal();
+  if (kv) kv.set(storageKey(userId), JSON.stringify(next));
+  if (opts.stillDirty) notifyRepositoryPersisted(next);
+}
+
+/** Keeps a device copy the server refused (conflict) so nothing the user typed is silently lost. */
+export function saveConflictCopy(snap: RepositorySnapshot): void {
+  const kv = browserLocal();
+  if (kv) kv.set(`${storageKey(snap.userId)}.conflict`, JSON.stringify({ savedAt: new Date().toISOString(), snapshot: snap }));
+}
+
+/** Sign-out on a shared device: drop this user's cached financial data unless it holds unsynced changes. */
+export function purgeDeviceCacheForUser(userId: string, opts: { force?: boolean } = {}): { purged: boolean; keptUnsynced: boolean } {
+  const snap = memoryByUser.get(memKey(userId)) ?? peekDeviceSnapshot(userId);
+  if (snap?.syncBase?.dirty && !opts.force) return { purged: false, keptUnsynced: true };
+  memoryByUser.delete(memKey(userId));
+  const kv = browserLocal();
+  if (kv) kv.set(storageKey(userId), '');
+  return { purged: true, keptUnsynced: false };
 }
 
 export function getRepositoryPersistRevision(): number {
@@ -621,6 +672,7 @@ class DeviceJurnlRepository implements JurnlRepository {
       obligations: upsertById(snap.obligations, change.obligations?.upsert, (o) => o.obligation_id),
       creditAttributes: upsertById(snap.creditAttributes, change.creditAttributes?.upsert, (c) => c.account_id),
       accounts: upsertById(snap.accounts, change.accounts?.upsert, (a) => a.account_id),
+      ...(change.bank ? { bank: change.bank } : {}),
       updatedAt: new Date().toISOString(),
     };
     persist(next);
@@ -666,7 +718,8 @@ function mergePreviewGuestPocketsInto(targetUserId: string) {
 export function setRepositoryUserId(userId: string) {
   if (repo?.userId === userId) return;
   const prev = repo?.userId ?? activeUserId;
-  if (prev === 'preview-guest' && userId !== 'preview-guest') mergePreviewGuestPocketsInto(userId);
+  // Design preview only: a guest's pockets follow the remembered viewer. Never in a real account.
+  if (getRepositoryDataMode() === 'DESIGN_PREVIEW' && prev === 'preview-guest' && userId !== 'preview-guest') mergePreviewGuestPocketsInto(userId);
   activeUserId = userId;
   repo = new DeviceJurnlRepository(userId);
 }
@@ -679,7 +732,7 @@ export function getRepository(): JurnlRepository {
 /** Dev-only: drop cached snapshot for the active user. */
 /** Read persisted snapshot without creating an empty default (browser only). */
 export function peekDeviceSnapshot(userId: string): RepositorySnapshot | null {
-  const cached = memoryByUser.get(userId);
+  const cached = memoryByUser.get(memKey(userId));
   if (cached) return cached;
   const kv = browserLocal();
   if (!kv) return null;
@@ -687,28 +740,46 @@ export function peekDeviceSnapshot(userId: string): RepositorySnapshot | null {
     const raw = kv.get(storageKey(userId));
     if (!raw) return null;
     const parsed = JSON.parse(raw) as RepositorySnapshot;
-    if (parsed.userId !== userId) return null;
+    if (parsed.userId !== userId || !snapshotModeMatches(parsed)) return null;
     return parsed.schemaVersion === REPOSITORY_SCHEMA_VERSION ? finalizeSnapshot(parsed) : migrateStored(parsed);
   } catch {
     return null;
   }
 }
 
-/** Replace local snapshot (server hydrate / first-login merge). */
-export function importSnapshotForUser(userId: string, snapshot: RepositorySnapshot) {
-  const snap = finalizeSnapshot({ ...snapshot, userId, updatedAt: snapshot.updatedAt || new Date().toISOString() });
-  memoryByUser.set(userId, snap);
+/**
+ * Replace local snapshot (server hydrate / first-login merge). Returns false (and changes nothing) when the snapshot
+ * belongs to another data mode — e.g. design-preview data offered to a real account.
+ */
+export function importSnapshotForUser(userId: string, snapshot: RepositorySnapshot): boolean {
+  const mode = getRepositoryDataMode();
+  if ((snapshot.dataMode ?? 'DESIGN_PREVIEW') !== mode) return false;
+  const snap = finalizeSnapshot({ ...snapshot, userId, dataMode: mode, updatedAt: snapshot.updatedAt || new Date().toISOString() });
+  memoryByUser.set(memKey(userId), snap);
   const kv = browserLocal();
   if (kv) kv.set(storageKey(userId), JSON.stringify(snap));
   if (activeUserId === userId) {
     persistRevision += 1;
     listeners.forEach((l) => l());
   }
+  return true;
 }
+
+/** A fresh, empty snapshot for a real account (no device data, no server data yet). */
+export function emptySnapshotForUser(userId: string): RepositorySnapshot {
+  return finalizeSnapshot(emptySnapshot(userId));
+}
+
+onRepositoryDataModeChange(() => {
+  // Different mode → different cache key and a different empty-state policy. Rebuild the active repository.
+  persistRevision += 1;
+  repo = new DeviceJurnlRepository(activeUserId);
+  listeners.forEach((l) => l());
+});
 
 export function resetRepositoryForDev() {
   persistRevision = 0;
-  memoryByUser.delete(activeUserId);
+  memoryByUser.delete(memKey(activeUserId));
   const kv = browserLocal();
   if (kv) {
     kv.set(storageKey(activeUserId), '');

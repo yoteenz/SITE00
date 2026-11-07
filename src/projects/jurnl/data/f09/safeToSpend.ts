@@ -19,6 +19,7 @@
 import type { SetupDraft } from '../f02/setupDraft';
 import { getSetupDraft } from '../f02/setupDraft';
 import { MOCK_CASH, MOCK_UPCOMING } from '../home/mockScenario';
+import { allowsSampleData } from '../repository/dataMode';
 import type { LedgerEntry, UpcomingItem } from '../home/moneyTypes';
 import { addDays, compareCalendarDates, getTodayKey, type CalendarDate } from '../foundation/dates';
 import { getRepository } from '../repository/deviceRepository';
@@ -131,7 +132,33 @@ export type SafeToSpendBreakdown = {
   linkedCardBills: { obligation_id: string; name: string; card_account_id: string }[];
   /** Unlinked bills that look like a card's payment (possibly counted twice until linked). */
   possibleDuplicates: { obligation_id: string; name: string; card_account_id: string; card_name: string }[];
+  /** When this reading was calculated (ISO). */
+  calculatedAt: string;
+  /** Connected-bank facts behind the number (empty when nothing is connected). */
+  bank: SafeToSpendBankFacts;
 };
+
+/**
+ * What the connected banks contribute, and what JURNL cannot vouch for. A connected balance is the institution's
+ * balance AS OF its timestamp — never presented as guaranteed current.
+ */
+export type SafeToSpendBankFacts = {
+  connectedAccounts: number;
+  /** Most recent successful bank sync across the accounts counted here (ISO), or null. */
+  lastBankSync: string | null;
+  /** Oldest balance timestamp among the connected accounts counted here (ISO), or null. */
+  oldestBalanceAt: string | null;
+  staleAccounts: { account_id: string; name: string; balance_as_of: string; status: string }[];
+  /** Connected deposit accounts whose institution gave no available balance: pending purchases may not be included. */
+  pendingNotReflected: string[];
+  /** Imported transactions still pending at the bank (already inside the available balance when it was given). */
+  pendingCount: number;
+  /** Plain-language limitations shown with the number. */
+  limitations: string[];
+};
+
+/** A connected balance older than this, or a connection that needs attention, is stale. */
+export const BANK_BALANCE_STALE_HOURS = 24;
 
 export function protectedAmountFromSetup(draft: SetupDraft): number {
   const raw = draft.protectedAmount.trim();
@@ -168,8 +195,12 @@ export function cashForSafeToSpend(entries: LedgerEntry[], today: CalendarDate =
   const owed = sumCents(positions.map((p) => p.owed));
   if (eligible.length) {
     // Only seeded sample accounts → this is the preview, and the number says so (SAMPLE), with sample bills.
-    const source: SafeToSpendBreakdown['cashSource'] = eligible.some((p) => p.basis !== 'SAMPLE') ? 'ACCOUNTS' : 'MOCK';
+    const source: SafeToSpendBreakdown['cashSource'] = eligible.some((p) => p.basis !== 'SAMPLE') || !allowsSampleData(snap.dataMode) ? 'ACCOUNTS' : 'MOCK';
     return { cash: toCents(sumCents(eligible.map((p) => p.held)) + unassigned.delta), source, unassigned: unassigned.count, totalAssets, owed };
+  }
+  if (!allowsSampleData(snap.dataMode)) {
+    // A real account never borrows the sample cash figure: with no counted account there is nothing to spend yet.
+    return { cash: toCents(unassigned.delta), source: 'ACCOUNTS', unassigned: unassigned.count, totalAssets, owed };
   }
   // Preview: no eligible account → the sample cash figure plus everything the user recorded on asset accounts.
   const recorded = sumCents(assets.map((p) => p.recordedDelta));
@@ -246,7 +277,7 @@ export function computeSafeToSpendThrough(
       if (item.amount > 0) upcoming += item.amount;
       else unknownUpcoming = true;
     }
-  } else if (cashSource === 'MOCK') {
+  } else if (cashSource === 'MOCK' && allowsSampleData(snap.dataMode)) {
     // Full preview (sample cash): the sample bills go with it.
     upcomingSource = 'MOCK';
     upcoming = MOCK_UPCOMING.reduce((sum, item) => sum + item.amount, 0);
@@ -319,11 +350,16 @@ export function computeSafeToSpendThrough(
     .filter((h) => h.overBy > 0)
     .map((h) => ({ account_id: h.account_id, name: h.name, overBy: h.overBy }));
 
+  const bank = bankFactsFor(positions.filter((p) => p.nature === 'ASSET' && p.account.include_in_safe_to_spend).map((p) => p.account), entries, new Date());
+  const realNoAccount = !allowsSampleData(snap.dataMode) && !positions.some((p) => p.nature === 'ASSET' && p.account.include_in_safe_to_spend);
   let completeness: SafeToSpendCompleteness = 'COMPLETE';
-  if (!draft.started) completeness = 'NEEDS_SETUP';
+  if (realNoAccount) completeness = 'NEEDS_ACCOUNT';
+  else if (!draft.started && !bank.connectedAccounts) completeness = 'NEEDS_SETUP';
   else if (draft.accounts === 'SKIPPED' && cashSource === 'MOCK') completeness = 'NEEDS_ACCOUNT';
   else if (draft.accounts === 'SKIPPED' || (!draft.cadence && !draft.amount && draft.started)) completeness = 'UNSTATED';
   else if (unknownUpcoming || repoObligations.some((i) => i.amount <= 0)) completeness = 'PARTIAL';
+  // A stale or unhealthy connection means the balance may have changed: the number is not complete.
+  if (completeness === 'COMPLETE' && (bank.staleAccounts.length || bank.pendingNotReflected.length)) completeness = 'PARTIAL';
 
   const others = held + safetyBuffer + assigned + goalReserved + purchaseReserved + tripReserved;
   const value = toCents(completeness === 'UNSTATED' ? cash - committedTransfers - others : cash - upcoming - cardPayments - committedTransfers - others);
@@ -368,6 +404,8 @@ export function computeSafeToSpendThrough(
     transfersToConfirm: picture.transferTotals.needsConfirmation,
     linkedCardBills,
     possibleDuplicates,
+    calculatedAt: new Date().toISOString(),
+    bank,
   };
 }
 
@@ -430,4 +468,37 @@ export type SafeToSpend = SafeToSpendBreakdown;
 
 export function safeToSpend(draft?: SetupDraft, entries?: LedgerEntry[]): SafeToSpendBreakdown {
   return computeSafeToSpend(draft ?? getSetupDraft(), entries ?? getRepository().listTransactions());
+}
+
+/** Connected-bank facts for the accounts Safe to Spend counts (pure; `now` injectable for tests). */
+export function bankFactsFor(accounts: import('../foundation/accounts').JurnlAccountRecord[], entries: LedgerEntry[], now: Date): SafeToSpendBankFacts {
+  const connected = accounts.filter((a) => a.connection);
+  const staleMs = BANK_BALANCE_STALE_HOURS * 3600 * 1000;
+  const staleAccounts: SafeToSpendBankFacts['staleAccounts'] = [];
+  const pendingNotReflected: string[] = [];
+  let lastBankSync: string | null = null;
+  let oldestBalanceAt: string | null = null;
+  for (const a of connected) {
+    const c = a.connection!;
+    if (c.last_successful_sync_at && (!lastBankSync || c.last_successful_sync_at > lastBankSync)) lastBankSync = c.last_successful_sync_at;
+    if (!oldestBalanceAt || c.balance_as_of < oldestBalanceAt) oldestBalanceAt = c.balance_as_of;
+    const age = now.getTime() - Date.parse(c.balance_as_of);
+    const unhealthy = c.status !== 'ACTIVE' && c.status !== 'SYNCING';
+    if (!Number.isFinite(age) || age > staleMs || unhealthy) staleAccounts.push({ account_id: a.account_id, name: a.display_name, balance_as_of: c.balance_as_of, status: c.status });
+    if (c.pending_reflected === null && c.provider_type === 'depository') pendingNotReflected.push(a.display_name);
+  }
+  const ids = new Set(connected.map((a) => a.account_id));
+  const pendingCount = entries.filter((e) => e.source === 'IMPORTED' && e.import?.provider_state === 'ACTIVE' && e.import.pending && e.account_id && ids.has(e.account_id)).length;
+  const limitations: string[] = [];
+  for (const s of staleAccounts) {
+    limitations.push(
+      s.status === 'NEEDS_REAUTH' || s.status === 'PERMISSION_REVOKED'
+        ? `${s.name} NEEDS RECONNECTING. ITS BALANCE IS FROM ${s.balance_as_of.slice(0, 10)} AND MAY HAVE CHANGED.`
+        : s.status === 'DISCONNECTED'
+          ? `${s.name} IS DISCONNECTED. ITS LAST BANK BALANCE IS FROM ${s.balance_as_of.slice(0, 10)}.`
+          : `${s.name}: BANK BALANCE IS FROM ${s.balance_as_of.slice(0, 10)}. IT MAY HAVE CHANGED SINCE.`,
+    );
+  }
+  for (const n of pendingNotReflected) limitations.push(`${n}: YOUR BANK DID NOT SAY WHETHER PENDING PURCHASES ARE INCLUDED.`);
+  return { connectedAccounts: connected.length, lastBankSync, oldestBalanceAt, staleAccounts, pendingNotReflected, pendingCount, limitations };
 }

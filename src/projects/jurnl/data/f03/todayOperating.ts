@@ -3,6 +3,7 @@
  * account, a bill, a card term or a set-aside. Counts are computed, never written as fixed text.
  */
 
+import { isActivityEntry } from '../banking/activity';
 import { addDays, compareCalendarDates, formatRelativeDate, getTodayKey, type CalendarDate } from '../foundation/dates';
 import { computeSafeToSpend, type SafeToSpendBreakdown } from '../f09/safeToSpend';
 import { getSetupDraft } from '../f02/setupDraft';
@@ -64,7 +65,7 @@ export function computeTodayOperating(today: CalendarDate = getTodayKey()): Toda
   const records = getRepository().listDailyEarnings();
   const periods = earningsPeriods(records, today);
   const recentIncome = snap.transactions
-    .filter((t) => t.source === 'ADDED' && t.txn_class === 'INCOME')
+    .filter((t) => isActivityEntry(t) && t.txn_class === 'INCOME')
     .slice(0, 3)
     .map((t) => ({ id: t.id, label: t.merchant, date: t.occurred_on ?? null, amount: t.amount }));
 

@@ -1,0 +1,17 @@
+{
+  "status": "FAIL",
+  "environment": "sandbox",
+  "ran_at": "2026-11-07T07:03:25.142Z",
+  "steps": [
+    {
+      "step": "unexpected",
+      "result": "FAIL",
+      "detail": {
+        "kind": "INVALID_CREDENTIALS_CONFIG",
+        "code": "INVALID_FIELD",
+        "message": "INVALID_CREDENTIALS_CONFIG"
+      }
+    }
+  ],
+  "note": "Sandbox data only. Not a real institution. Access tokens are never written."
+}

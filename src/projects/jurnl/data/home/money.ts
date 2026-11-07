@@ -4,6 +4,8 @@
  */
 
 import { useSyncExternalStore } from 'react';
+import { isActivityEntry } from '../banking/activity';
+import { allowsSampleData } from '../repository/dataMode';
 import { getSetupDraft, type SetupDraft } from '../f02/setupDraft';
 import { cashForSafeToSpend, computeSafeToSpend, setupObligationsAsUpcoming } from '../f09/safeToSpend';
 import { projectUpcoming } from '../foundation/upcomingProjection';
@@ -46,7 +48,8 @@ export function addedEntries(): LedgerEntry[] {
   return cachedRepoView('money.addedEntries', () =>
     getRepository()
       .listTransactions()
-      .filter((e) => e.source === 'ADDED'),
+      // The user's entries and live bank-imported entries (each event once; sample entries never).
+      .filter(isActivityEntry),
   );
 }
 
@@ -106,7 +109,7 @@ export function upcomingFor(draft: SetupDraft = getSetupDraft()): UpcomingItem[]
   if (draft.obligations.length) return setupObligationsAsUpcoming(draft);
   // Sample bills only go with sample cash (the preview). Real balances never sit next to fictional bills — Safe to
   // Spend makes the same choice and deducts nothing for bills that were never entered.
-  return cashForSafeToSpend(getRepository().listTransactions()).source === 'MOCK' ? MOCK_UPCOMING : [];
+  return allowsSampleData(getRepository().getSnapshot().dataMode) && cashForSafeToSpend(getRepository().listTransactions()).source === 'MOCK' ? MOCK_UPCOMING : [];
 }
 
 export function ledgerEntries(): LedgerEntry[] {

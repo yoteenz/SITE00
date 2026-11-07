@@ -70,6 +70,8 @@ export const SITE00_ROUTES = {
   loaderPreview: '/loader-preview',
   /** P0.SITE00.FAMILY1.PARENT-ASSET-FIRST.PAGE-ASSEMBLY.TEST1 */
   jurnlF01ParentAssembly: '/jurnl/f01/parent-assembly',
+  /** JURNL for real users (production data mode, Supabase auth, server persistence). Fails closed when unconfigured. */
+  jurnlApp: '/jurnl/app/*',
   accessDebug: '/access/debug',
   access: '/access',
   accessCredential: (code: string) => `/access/${code}`,

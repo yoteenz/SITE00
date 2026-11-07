@@ -25,7 +25,7 @@ const activeTrigger = () => (typeof document === 'undefined' ? null : (document.
 const outsideApp = (rel: string) => rel === '' || rel.startsWith('entry') || rel.startsWith('setup');
 
 export function JurnlCornerChromeProvider({ children }: { children: ReactNode }) {
-  const { go } = useJurnl();
+  const { go, basePath } = useJurnl();
   const { pathname } = useLocation();
   const [stack, setStack] = useState<Entry[]>([]);
   /** pending focus return: the trigger to focus once the stack has rendered (null = the hamburger / nothing) */
@@ -62,7 +62,7 @@ export function JurnlCornerChromeProvider({ children }: { children: ReactNode })
   );
 
   // Signing out (or deleting the account) lands on entry: clear every step, nothing is left over sign-in.
-  const rel = appRoute(pathname);
+  const rel = appRoute(pathname, basePath);
   useEffect(() => {
     if (outsideApp(rel) && stack.length) {
       focusAfter.current = null;
@@ -147,7 +147,9 @@ function renderPanel(
 
 const ROOT_HUBS = new Set(['today', 'money', 'plan', 'credit']);
 
-function appRoute(pathname: string): string {
+/** The route inside the runtime, relative to its base path (`/production/jurnl/runtime` or the real app `/jurnl/app`). */
+function appRoute(pathname: string, basePath: string): string {
+  if (basePath && pathname.startsWith(basePath)) return pathname.slice(basePath.length).replace(/^\/+/, '');
   const mark = '/runtime/';
   const i = pathname.indexOf(mark);
   return i === -1 ? '' : pathname.slice(i + mark.length);
@@ -183,11 +185,11 @@ function useYieldToMenuClose(active: boolean): boolean {
 }
 
 function JurnlCornerChrome({ hidden, menuExpanded, onMenu }: { hidden: boolean; menuExpanded?: boolean; onMenu: () => void }) {
-  const { go } = useJurnl();
+  const { go, basePath } = useJurnl();
   const { pathname } = useLocation();
   const menuArt = useMenuArt();
   const yieldToClose = useYieldToMenuClose(menuArt && !!menuExpanded);
-  const rel = appRoute(pathname);
+  const rel = appRoute(pathname, basePath);
   if (outsideApp(rel) || hidden) return null;
   // The four root hubs are siblings in the dock, so they keep the menu (account drawer) but no back chip:
   // their founder references draw the JURNL lockup in that corner.

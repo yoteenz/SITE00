@@ -12,6 +12,7 @@
  * No credit score is shown, predicted or promised, and no payment is ever made automatically.
  */
 
+import { isActivityEntry } from '../banking/activity';
 import type { JurnlAccountRecord } from '../foundation/accounts';
 import type { JurnlCreditAttributes } from '../foundation/creditAttributes';
 import { addMonthsClamped, compareCalendarDates, daysUntil, formatRelativeDate, isCalendarDate, type CalendarDate } from '../foundation/dates';
@@ -112,7 +113,7 @@ export function cardFacts(
   const inCycle = (d: CalendarDate | null) => d != null && statementClosingDate != null && compareCalendarDates(d, statementClosingDate) > 0;
   const confirmedIns = entries.filter(
     (e) =>
-      e.source === 'ADDED'
+      isActivityEntry(e)
       && e.account_id === account.account_id
       && (e.txn_class === 'CREDIT_PAYMENT' || e.txn_class === 'DEBT_PAYMENT')
       && e.direction === 'INCOME'

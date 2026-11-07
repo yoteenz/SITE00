@@ -42,6 +42,36 @@ export type JurnlAccountRecord = {
   is_payout_card?: boolean;
   /** Set once the user enters or corrects this account's balance (turns a seeded sample account into a real one). */
   balance_entered_by_user?: boolean;
+  /** The user renamed this account; provider names no longer overwrite `display_name`. */
+  display_name_set_by_user?: boolean;
+  /**
+   * Connected institution facts, written only from provider data (read-only aggregation). When present, the balance
+   * above is the provider's balance as of `balance_as_of`, not a number the user typed.
+   */
+  connection?: AccountConnection;
+};
+
+export type AccountConnection = {
+  provider: 'PLAID';
+  item_id: string;
+  provider_account_id: string;
+  persistent_account_id: string | null;
+  institution_name: string | null;
+  provider_type: string;
+  provider_subtype: string | null;
+  /** When the provider says this balance was current (ISO). */
+  balance_as_of: string;
+  current_balance: number | null;
+  available_balance: number | null;
+  credit_limit: number | null;
+  /**
+   * Whether the balance JURNL uses already reflects pending activity: true when the provider supplied an available
+   * balance for a deposit account, null when it did not say (JURNL then does not subtract pending items on a guess).
+   */
+  pending_reflected: boolean | null;
+  /** Last known connection status of the institution. */
+  status: import('../banking/types').BankConnectionStatus;
+  last_successful_sync_at: string | null;
 };
 
 export function accountTypeFromSetupKind(kind: SetupDraft['accountKind']): AccountType {

@@ -241,6 +241,7 @@ const ProductionWorkspaceHubPage = lazy(() =>
     default: m.ProductionWorkspaceHubPage,
   })),
 );
+const JurnlAppRoute = lazy(() => import('../site00/projectRuntime/JurnlAppRoute').then((m) => ({ default: m.JurnlAppRoute })));
 const ProjectRuntimeRoute = lazy(() =>
   import('../site00/projectRuntime/ProjectRuntimeRoute').then((m) => ({ default: m.ProjectRuntimeRoute })),
 );
@@ -589,6 +590,15 @@ export function Site00Routes() {
               <LoaderPreviewPage />
             </Site00Suspense>
           </Site00LoaderPreviewLayout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.jurnlApp}
+        element={
+          // The real JURNL app: no SITE 00 chrome, no design-workspace switches, production data mode.
+          <Suspense fallback={null}>
+            <JurnlAppRoute />
+          </Suspense>
         }
       />
       <Route

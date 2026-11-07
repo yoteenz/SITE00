@@ -8,7 +8,40 @@ export type JurnlSnapshotRow = {
   schema_version: number;
   snapshot: Record<string, unknown>;
   updated_at: string;
+  /** Monotonic write counter (compare-and-swap); added by 20261107120000_jurnl_connected_banking. */
+  revision?: number;
+  data_mode?: 'PRODUCTION' | 'PROVIDER_SANDBOX';
 };
+
+export type SnapshotDataMode = 'PRODUCTION' | 'PROVIDER_SANDBOX';
+
+/**
+ * Atomic compare-and-swap write (jurnl_put_snapshot). The caller passes the revision it last read (0 = no row yet).
+ * A stale revision is refused (SNAPSHOT_CONFLICT), so an older device cannot overwrite a newer server record.
+ */
+export async function putUserSnapshotRevisioned(
+  supabase: SupabaseClient,
+  snapshot: Record<string, unknown>,
+  schemaVersion: number,
+  dataMode: SnapshotDataMode,
+  expectedRevision: number,
+  source = 'CLIENT',
+): Promise<{ revision: number; updated_at: string; schema_version: number; data_mode: SnapshotDataMode }> {
+  const { data, error } = await supabase.rpc('jurnl_put_snapshot', {
+    p_snapshot: snapshot,
+    p_schema_version: schemaVersion,
+    p_data_mode: dataMode,
+    p_expected_revision: expectedRevision,
+    p_source: source,
+  });
+  if (error) {
+    const err = new Error(error.message) as Error & { code?: string };
+    err.code = error.code === 'JR409' ? 'SNAPSHOT_CONFLICT' : error.code === 'JR422' ? 'DATA_MODE_MISMATCH' : error.code;
+    throw err;
+  }
+  const row = (Array.isArray(data) ? data[0] : data) as { revision: number; updated_at: string; schema_version: number; data_mode: SnapshotDataMode };
+  return { ...row, revision: Number(row.revision) };
+}
 
 export async function fetchUserSnapshot(supabase: SupabaseClient, userId: string): Promise<JurnlSnapshotRow | null> {
   const { data, error } = await supabase.from('jurnl_user_snapshots').select('*').eq('user_id', userId).maybeSingle();

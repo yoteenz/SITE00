@@ -16889,3 +16889,36 @@ Summary of the whole conversation in this chat.
 - **Root cause:** Board scales at `u ≈ viewportW / 881`; 3 source px ≈ 1–1.5 screen px on phone — below visible threshold.
 - **Changes:** `F05_ACCOUNTS_CHROME_NUDGE_SCREEN = 3` in `f05MotionLayout.ts` — adds `3/u` source px to VIEW ALL and dots **after** seam mapping (panels above unchanged). Commit `9ae4a8bce` on `cursor/jurnl-tunnel-opus-v3-overlays-4e5a`; preview pinned to that SHA.
 - **Conventions:** Founder layout tweaks on motion pilot should specify **screen px** when they mean on-device pixels; use layout-level `n/u` conversion, not raw composition y bumps.
+## 2026-11-03 — JURNL FOUNDER_FULL server-verified entitlements (isolated)
+
+- **Context:** Sprint `P0.JURNL.FOUNDER-ENTITLEMENTS.SERVER-VERIFIED-ISOLATED-IMPLEMENTATION.V1` after business/tax forensic audit; Opus owns F05 DOT 01 — no F05/ledger/STS edits.
+- **Decisions / outcomes:** **Do not** represent founder access as synthetic `JURNL_BUSINESS` subscription. Introduce internal grant **`FOUNDER_FULL`** with registry-derived `founderFullCapabilityUnion` in `shared/site00-monetization`. In-process grant store (empty by default); admin-only GRANT/REVOKE API; no production grant activation. Plan preview is presentation-only (`presentationEntitlements.ts`).
+- **Changes:** `internalGrants.ts`, extended `entitlements.ts`, `api/_lib/jurnlEntitlements/*`, `/api/jurnl/entitlements*`, `/api/admin/jurnl-internal-grants`, `JurnlEntitlements.tsx` auth vs UI split, `tests/jurnlFounderEntitlementsSecurity.test.ts` (20 tests). Draft PR branch `cursor/jurnl-founder-entitlements-isolated-v1-4e5a`.
+- **Conventions:** Authorize paid compute only with `SERVER_VERIFIED`; wire RuntimeRoot fetch separately; persist grants to Supabase before relying on grants across deploys.
+
+---
+
+## 2026-11-03 — JURNL FOUNDER_FULL persistent grants + runtime integration (draft)
+
+- **Context:** Sprint `P0.JURNL.FOUNDER-ENTITLEMENTS.PERSISTENT-GRANTS-AND-RUNTIME-INTEGRATION.V1` extending draft PR #1708; no merge/deploy/production migration/grant activation; Opus F05 boundary unchanged.
+- **Topics covered:** Supabase migration prepared (`jurnl_internal_grants` + audit); grant store facade (memory under Vitest, Supabase service role when configured, fail-closed unconfigured); admin CORS hardening; runtime bridge wired in `JurnlRuntimeRoot`; `SessionState.authPrincipalId` for Supabase `user.id`; expanded security tests (36+3); staging E2E blocked pending isolated DB.
+- **Decisions / outcomes:** Process-memory Map is not authoritative outside tests; production paths require durable store or empty grants + explicit 503 on admin writes; founder preview remains presentation-only; monetization foundation still 33/34 (F01 production fail-closed when API base missing — pre-existing).
+- **Changes:** `supabase/migrations/20261104183000_jurnl_internal_grants.sql`, `supabaseGrantStore.ts`, `internalGrantStore.ts`, `jurnlApiCors.ts`, API handlers async grants, `JurnlServerEntitlementsBridge.tsx`, `JurnlRuntimeRoot.tsx`, `store.tsx`, tests.
+- **Conventions:** Activate founder grant only via documented admin procedure after staging proof; do not use email as principal id.
+
+---
+
+## 2026-11-03 — JURNL production-workspace integration branch + tunnel pin
+
+- **Context:** Sprint `P0.JURNL.PRODUCTION-WORKSPACE.INTEGRATION-BRANCH-AND-TUNNEL-ALIGNMENT.V1`; Opus branch `claude/jurnl-f05-money-motion-pilot-um0u93` / PR #1707; do not merge financial PRs or modify Opus worktree.
+- **Findings:** PR #1707 head **396bd0b3** (user reference SHA **151e0a30** is ancestor — DOT 01 + motion pilot committed on #1707, not a separate branch). Prior tunnel served **preview/tunnel @ e413590** (no motion route). Created **`integration/jurnl-production-workspace`** at 396bd0b3; isolated worktree `/tmp/site00-jurnl-integration-wt`; pinned canonical `:5174` dev server via `serve-site00-preview-from-pin-ref.sh`. Browser PASS on `money?parent=motion` (4 carousel dots, HELD/OWED/COMMITTED/AVAILABLE, nav). Revert preview: `serve-site00-preview-from-main.sh`.
+- **Changes:** Remote branch only (no Opus branch edits). Evidence release `jurnl-production-workspace-integration-2026-11-03`.
+
+---
+
+## 2026-11-03 — JURNL founder grant integrity + Opus compatibility (draft #1708)
+
+- **Context:** Sprint grant-integrity; fix non-atomic grant+audit, CASCADE audit deletion risk, reconcile with PR #1707 shared files.
+- **Changes:** Migration RPC functions + audit `ON DELETE RESTRICT`; `supabaseGrantStore` uses RPC; memory store atomic audit tests; bridge sign-out seq invalidation; merge rehearsal #1708+#1707 (runtime files clean).
+- **Tests:** 43 founder/atomic/bridge; monetization 33/34 unchanged failure.
+- **SHA:** `d736952ba` on `cursor/jurnl-founder-entitlements-isolated-v1-4e5a`. Release `jurnl-founder-grant-integrity-2026-11-03`.

@@ -1,31 +1,59 @@
 /**
  * JURNL runtime entitlements — the UI's only monetization question is "does this account have CAPABILITY X?".
  *
- * Today: no billing exists, so every account resolves to the default (free) plan. In the design workspace the source
- * is DESIGN_PREVIEW; otherwise NONE. Client resolutions are presentation-only (never authoritative): paid data and
- * compute are authorized by a trusted backend (shared/site00-monetization/serverAuthorization.ts).
- * Invisible to F01 — no DOM, no copy.
+ * Client resolutions are presentation-only (never authoritative): paid data and compute are authorized by a trusted
+ * backend (shared/site00-monetization/serverAuthorization.ts). Optional `authorization` carries SERVER_VERIFIED rows
+ * from GET /api/jurnl/entitlements. Optional `planPreview` simulates public plan UI without changing authorization.
  */
 
 import { createContext, useContext, useMemo, type ReactNode } from 'react';
 import { clientGate, hasCapability, resolveEntitlements, usageLimitFor, type ResolvedEntitlements } from '../../../../../shared/site00-monetization/entitlements.js';
 import { JURNL_MONETIZATION_CONTRACT } from '../../data/monetization/contract';
+import { mergePresentationEntitlements, type PlanPreviewState } from './presentationEntitlements';
 
-const Ctx = createContext<ResolvedEntitlements | null>(null);
+const UiCtx = createContext<ResolvedEntitlements | null>(null);
+const AuthCtx = createContext<ResolvedEntitlements | null>(null);
+const PreviewCtx = createContext<PlanPreviewState | null>(null);
 
-export function JurnlEntitlementsProvider({ mode, value, children }: { mode: 'design-preview' | 'production'; value?: ResolvedEntitlements; children: ReactNode }) {
-  const resolved = useMemo(
-    () => value ?? resolveEntitlements(JURNL_MONETIZATION_CONTRACT, { source: mode === 'design-preview' ? 'DESIGN_PREVIEW' : 'NONE', subscription: null }),
-    [mode, value],
+export function JurnlEntitlementsProvider({
+  mode,
+  value,
+  authorization,
+  planPreview,
+  children,
+}: {
+  mode: 'design-preview' | 'production';
+  /** @deprecated prefer `authorization` for server-verified rows */
+  value?: ResolvedEntitlements;
+  authorization?: ResolvedEntitlements;
+  planPreview?: PlanPreviewState | null;
+  children: ReactNode;
+}) {
+  const auth = useMemo(
+    () =>
+      authorization ??
+      value ??
+      resolveEntitlements(JURNL_MONETIZATION_CONTRACT, { source: mode === 'design-preview' ? 'DESIGN_PREVIEW' : 'NONE', subscription: null }),
+    [authorization, value, mode],
   );
-  return <Ctx.Provider value={resolved}>{children}</Ctx.Provider>;
+  const ui = useMemo(() => mergePresentationEntitlements(auth, planPreview ?? null), [auth, planPreview]);
+  return (
+    <AuthCtx.Provider value={auth}>
+      <PreviewCtx.Provider value={planPreview ?? null}>
+        <UiCtx.Provider value={ui}>{children}</UiCtx.Provider>
+      </PreviewCtx.Provider>
+    </AuthCtx.Provider>
+  );
 }
 
-/** Resolved entitlements, or null outside a provider (callers must treat null as "withhold"). */
-export const useJurnlEntitlements = () => useContext(Ctx);
-export const useCapability = (capability: string) => hasCapability(useContext(Ctx), capability);
-export const useCapabilityGate = (capability: string) => clientGate(useContext(Ctx), capability);
+/** Presentation entitlements (respects plan preview simulation). */
+export const useJurnlEntitlements = () => useContext(UiCtx);
+/** Trusted authorization entitlements — use before calling paid APIs; server re-validates. */
+export const useJurnlAuthorizationEntitlements = () => useContext(AuthCtx);
+export const useJurnlPlanPreview = () => useContext(PreviewCtx);
+export const useCapability = (capability: string) => hasCapability(useContext(UiCtx), capability);
+export const useCapabilityGate = (capability: string) => clientGate(useContext(UiCtx), capability);
 export function useUsageLimit(capability: string) {
-  const e = useContext(Ctx);
+  const e = useContext(UiCtx);
   return e ? usageLimitFor(e, capability) : null;
 }

@@ -27,6 +27,8 @@ import { useJurnl } from '../state/store';
 import { V3Field, V3Folio, V3Notice, V3Pill, V3Row, V3RuleLabel, V3Status } from '../surfaces/v3/V3Surfaces';
 import type { MenuDestination, MenuPanel, SettingsToolId } from './menuPanels';
 import { BufferEnvironment, PrivacyEnvironment } from './ChildEnvironments';
+import { ConnectedAccountsPanel } from './ConnectedAccountsPanel';
+import { getRepositoryDataMode, isRealDataMode } from '../../data/repository/dataMode';
 
 type Nav = { onBack: () => void; onOpen: (p: MenuDestination | MenuPanel) => void };
 const tool = (id: SettingsToolId): MenuPanel => ({ tool: id });
@@ -49,7 +51,16 @@ export function useAskContextConsent(): [boolean, (granted: boolean) => void] {
 }
 
 /* ── YOUR FINANCES · CONNECTED ACCOUNTS & SYNC ── */
+/**
+ * A real account (production / provider sandbox) gets the live connection panel. The design preview keeps its honest
+ * "no bank link in the preview" folio: preview data is never connected to a bank.
+ */
 export function ConnectionsFolio({ onBack, onManual }: { onBack: () => void; onManual: () => void }) {
+  if (isRealDataMode(getRepositoryDataMode())) return <ConnectedAccountsPanel onBack={onBack} onManual={onManual} />;
+  return <PreviewConnectionsFolio onBack={onBack} onManual={onManual} />;
+}
+
+function PreviewConnectionsFolio({ onBack, onManual }: { onBack: () => void; onManual: () => void }) {
   const draft = useSetup();
   const pockets = listActiveAccounts();
   const unavailable = JURNL_BANK_CONNECTION_PROVIDER.availability === 'PROVIDER_UNAVAILABLE';
