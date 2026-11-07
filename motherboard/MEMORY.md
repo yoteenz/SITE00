@@ -16889,3 +16889,11 @@ Summary of the whole conversation in this chat.
 - **Root cause:** Board scales at `u ≈ viewportW / 881`; 3 source px ≈ 1–1.5 screen px on phone — below visible threshold.
 - **Changes:** `F05_ACCOUNTS_CHROME_NUDGE_SCREEN = 3` in `f05MotionLayout.ts` — adds `3/u` source px to VIEW ALL and dots **after** seam mapping (panels above unchanged). Commit `9ae4a8bce` on `cursor/jurnl-tunnel-opus-v3-overlays-4e5a`; preview pinned to that SHA.
 - **Conventions:** Founder layout tweaks on motion pilot should specify **screen px** when they mean on-device pixels; use layout-level `n/u` conversion, not raw composition y bumps.
+
+---
+
+## 2026-11-06 — FD-12 account drawer close + DOT01 utility search/add on tunnel
+
+- **Context:** Founder tunnel review: account drawer still had line close; TRANSACTIONS/DOT01 child pages still had line search/add despite OPUS1–OPUS5 on tunnel branch.
+- **Decisions / outcomes:** Partial FD-12 reconcile — `AccountDrawer` close → `F05.UTILITY.CLOSE.GOLD`; DOT01 `useSearchAddChips` routes through `JurnlUtilityArtButton` (search/add). F09 shell unchanged; OV06 inner PNG still not mounted. Registry `mountedIn` documents close reconcile.
+- **Changes:** `AccountScreens.tsx`, `Dot01Frame.tsx`, `jurnl-utility-art.css`, tests, commit `e7a778eca` on `cursor/jurnl-account-dot01-utility-convergence-4e5a`; tunnel `cursor/jurnl-tunnel-opus-v3-overlays-4e5a` fast-forwarded; preview pinned worktree restarted.
