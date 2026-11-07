@@ -1,18 +1,17 @@
 {
-  "status": "BLOCKED",
+  "status": "FAIL",
   "environment": "sandbox",
-  "ran_at": "2026-11-07T06:31:39.068Z",
+  "ran_at": "2026-11-07T07:03:25.142Z",
   "steps": [
     {
-      "step": "credentials",
+      "step": "unexpected",
       "result": "FAIL",
       "detail": {
-        "missing": [
-          "PLAID_CLIENT_ID"
-        ]
+        "kind": "INVALID_CREDENTIALS_CONFIG",
+        "code": "INVALID_FIELD",
+        "message": "INVALID_CREDENTIALS_CONFIG"
       }
     }
   ],
-  "blocker": "Plaid sandbox credentials are not available to this run (PLAID_CLIENT_ID and a sandbox secret are required).",
   "note": "Sandbox data only. Not a real institution. Access tokens are never written."
 }

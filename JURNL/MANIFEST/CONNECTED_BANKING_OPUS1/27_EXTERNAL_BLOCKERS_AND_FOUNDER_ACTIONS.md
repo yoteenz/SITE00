@@ -4,7 +4,7 @@
 
 | # | Blocker | What it blocks | Evidence |
 |---|---|---|---|
-| B-1 | `PLAID_CLIENT_ID` is not available to this session. The sandbox secret is saved as a proxy-injected header, but the client id never arrived in the environment. | All live Plaid sandbox runs: Link, sync, webhooks, reset login, remove, catalog | `sandbox/plaid-sandbox-report.json` (status BLOCKED) |
+| B-1 | The founder supplied the client id in chat (used for the run only). Plaid rejects the sandbox secret injected by the proxy as malformed (`INVALID_FIELD: secret must be a properly formatted, non-empty string`), including after a re-save. | All live Plaid sandbox runs: Link, sync, webhooks, reset login, remove, catalog | `sandbox/plaid-sandbox-report.json` (status BLOCKED) |
 | B-2 | There is no JURNL Supabase project approved for auth or migrations. Registering on the production project would be a production mutation, which is not authorized. | Real registration, email delivery, sign-in, reset, RLS on a hosted database, founder grant creation | read-only checks found no JURNL tables in any project |
 | B-3 | plaid.com is outside this environment's allowed hosts (only sandbox.plaid.com and cdn.plaid.com are allowed). | Reading Plaid's pricing and docs pages directly. Pricing facts came from search results instead. | `24_PROVIDER_COST_ANALYSIS.md` |
 | B-4 | Running downloaded GoTrue / PostgREST binaries was refused by this session's safety policy. | A full local Supabase stack. PGlite (the Postgres engine) was used for the database and RLS instead. | — |
@@ -13,8 +13,8 @@
 
 ## Founder actions, shortest path (in order)
 
-1. **F-1 · Plaid sandbox.** Add `PLAID_CLIENT_ID` (sandbox) to this cloud environment's variables and start a new session. Then run:
-   `JURNL_PLAID_SECRET_VIA_PROXY=1 npx tsx scripts/jurnl/banking/plaid-sandbox-validation.ts`
+1. **F-1 · Plaid sandbox.** Re-save the **Sandbox** secret for `sandbox.plaid.com` (Plaid Dashboard → Developers → Keys → Sandbox column: the 30-character secret, no prefix or spaces). Then run:
+   `PLAID_CLIENT_ID=<sandbox client id> JURNL_PLAID_SECRET_VIA_PROXY=1 npx tsx scripts/jurnl/banking/plaid-sandbox-validation.ts`
 2. **F-2 · Staging Supabase.** Approve a staging Supabase project for JURNL (separate from production). There:
    - apply the 3 JURNL migrations;
    - turn on email confirmation;

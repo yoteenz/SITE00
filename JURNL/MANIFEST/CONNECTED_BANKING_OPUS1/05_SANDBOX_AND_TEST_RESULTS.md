@@ -7,11 +7,11 @@ Branch `claude/jurnl-connected-banking-activation-um0u93`. Source is the OPUS5 h
 | Typecheck (`tsc --noEmit`, src + shared) | **clean** |
 | Typecheck, new API code (temporary config including `api/_lib/jurnlBanking`, `api/jurnl/bank*`, `repository`, `server/vercelAdapter`) | **clean** apart from 2 pre-existing errors in untouched files (`internalGrantStore.ts`, `vercelAdapter.ts:9`) |
 | Production build (`npm run build`) | **pass**: `verify-production-dist: OK (472 JS assets checked)` |
-| Unit, JURNL scope (`vitest run tests/jurnl tests/jurnl*`) | __UNIT__ |
-| — of which connected banking (`tests/jurnl/banking/*`, 7 files) | **121 / 121** |
-| Plaid **sandbox** (live): `scripts/jurnl/banking/plaid-sandbox-validation.ts` | **BLOCKED**: `PLAID_CLIENT_ID` is not available (`sandbox/plaid-sandbox-report.json`) |
+| Unit, JURNL scope (`vitest run tests/jurnl tests/jurnl*`) | **1133 / 1133** in 67 files (1009 before this sprint, including the merged founder-entitlement suites) |
+| — of which connected banking (`tests/jurnl/banking/*`, 7 files) | **124 / 124** |
+| Plaid **sandbox** (live): `scripts/jurnl/banking/plaid-sandbox-validation.ts` | **BLOCKED**. The founder supplied the client id in chat and it was used for the run only (never written to the repo). Plaid answered every call with `INVALID_FIELD: secret must be a properly formatted, non-empty string`: the sandbox secret injected by the proxy for `sandbox.plaid.com` is not a valid sandbox secret. A re-save did not change it. See `sandbox/plaid-sandbox-report.json`. |
 | Browser E2E, connected banking (`jurnl-connected-banking.e2e.ts`) | **9 / 9** (mobile, tablet and desktop × 3) |
-| Browser E2E regression (mobile) | __E2E__ |
+| Browser E2E regression (mobile): menu recovery, OPUS5 micro-assets, global systems, persistence, production hardening, OPUS1 utility icons, entry + setup, core mutations, connected banking | **76 passed, 1 failed, 2 skipped** (79). The failure (core-mutations F11) is a 90 s runtime-load timeout; it **passes 2/2** when re-run alone, the same load-timeout class recorded on both heads in OPUS4/OPUS5. The skips are the production-mode tests, which need the second server and pass 9/9 there. |
 
 ## Connected-banking suites
 
@@ -23,7 +23,7 @@ Branch `claude/jurnl-connected-banking-activation-um0u93`. Source is the OPUS5 h
 | `bankApiHttp.test.ts` | 5 | `config` gives names only; 401 / 503 / 403 (no founder grant); HTTP founder flow; no access token or cursor in any response |
 | `ledgerInvariants.test.ts` | 22 | Requirements **A–L**, plus cash withdrawal, balance anchoring and purity |
 | `founderAcceptance.test.ts` | 33 | The 33-step founder scenario (`20_FOUNDER_E2E_33_STEPS.md`) |
-| `dataModes.test.ts` | 6 groups | Mode mapping; preview unchanged; a real account starts empty (no sample cash or bills); a real bill never takes a sample amount; hydrate decisions (server wins, CAS upload, conflict copy, preview and other-user copies ignored, offline) |
+| `dataModes.test.ts` | 9 | Mode mapping; preview unchanged; a real account starts empty (no sample cash or bills); a real bill never takes a sample amount; hydrate decisions (server wins, CAS upload, conflict copy, preview and other-user copies ignored, offline) |
 
 ## Defects the tests found (all fixed)
 

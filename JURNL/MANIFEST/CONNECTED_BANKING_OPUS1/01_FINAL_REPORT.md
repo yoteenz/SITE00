@@ -23,7 +23,7 @@ IMPLEMENTATION_BRANCH:
 claude/jurnl-connected-banking-activation-um0u93
 
 FINAL_SHA:
-__FINAL_SHA__
+HEAD of claude/jurnl-connected-banking-activation-um0u93 (exact SHA in the delivery message; last code commit c5d93e384)
 
 DRAFT_PR:
 https://github.com/yoteenz/SITE00/pull/1727 (draft, base = #1725 branch)
@@ -40,7 +40,8 @@ PRODUCTION_DATA_PERSISTENCE: PASS (revision CAS + audit + RLS on disposable Post
 REAL_ACCOUNT_CLEAN_SEED:  PASS
 
 PROVIDER_ADAPTER:         IMPLEMENTED
-PLAID_SANDBOX_LINK:       FAIL — BLOCKED: PLAID_CLIENT_ID not available to this session
+PLAID_SANDBOX_LINK:       FAIL — BLOCKED: client id now supplied; Plaid rejects the proxy-injected
+                          sandbox secret as malformed (INVALID_FIELD). Re-save the 30-char sandbox secret.
 PLAID_TRANSACTIONS_SYNC:  FAIL — BLOCKED (sandbox); sync engine PASS on disposable DB
 PLAID_WEBHOOKS:           FAIL — BLOCKED (sandbox); verification PASS with real ES256 signatures
 CONNECTED_CHECKING:       LIVE_NOT_TESTED
@@ -69,9 +70,11 @@ FOUNDER_E2E:              33 / 33 (synthetic; not live banking)
 
 TYPECHECK:                clean
 BUILD:                    pass (verify-production-dist OK, 472 JS assets)
-UNIT_TESTS:               __UNIT__
-INTEGRATION_TESTS:        __INTEG__
-E2E_TESTS:                __E2E__
+UNIT_TESTS:               1133 / 1133 (67 files; connected banking 124 / 124)
+INTEGRATION_TESTS:        disposable Postgres (all JURNL migrations, RLS) 17 / 17 · banking service 21 / 21 ·
+                          HTTP 5 / 5 · 33-step acceptance 33 / 33 · Plaid sandbox BLOCKED (secret rejected)
+E2E_TESTS:                connected banking 9 / 9 (mobile, tablet, desktop) · regression (mobile) 76 passed,
+                          1 load-timeout flake (passes 2/2 alone), 2 skipped (prod-mode, run separately)
 RESPONSIVE_VALIDATION:    6 viewports (360x640, 393x660, 393x852, 430x932, 834x1194,
                           1440x900): no horizontal overflow; panel contained
 IOS_SAFARI:               UNVERIFIED
@@ -91,7 +94,8 @@ COMPACT_EVIDENCE_ZIP:     JURNL_CONNECTED_BANKING_OPUS1_COMPACT.zip (sent in cha
 FULL_EVIDENCE_ZIP:        JURNL_CONNECTED_BANKING_OPUS1_FULL.zip (sent in chat)
 
 EXTERNAL_BLOCKERS:
-B-1 PLAID_CLIENT_ID not available to this session (sandbox runs blocked)
+B-1 sandbox secret injected for sandbox.plaid.com is rejected by Plaid as malformed
+    (client id supplied in chat; sandbox runs blocked until the secret is re-saved)
 B-2 no approved JURNL Supabase project (real auth/email/RLS-hosted/grant)
 B-3 plaid.com not reachable from this environment (pricing from search results)
 B-4 local GoTrue/PostgREST binaries refused by session policy (PGlite used)
@@ -99,7 +103,8 @@ B-5 no live-institution approval / no Plaid Production access
 B-6 no deployment authorization
 
 FOUNDER_APPROVALS_REQUIRED:
-F-1 add PLAID_CLIENT_ID (sandbox) to the environment → run the sandbox script
+F-1 re-save the Plaid SANDBOX secret (Dashboard → Developers → Keys → Sandbox, 30 hex chars,
+    no prefix/spaces) for sandbox.plaid.com → re-run the sandbox script
 F-2 approve a staging Supabase project: apply 3 migrations, email confirm + SMTP
 F-3 create your FOUNDER_FULL grant on staging
 F-4 Plaid Production request: read per-Item price, choose plan, keep Auth off

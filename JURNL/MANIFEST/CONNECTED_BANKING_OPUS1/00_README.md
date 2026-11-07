@@ -25,7 +25,7 @@ They are tested against:
 
 ## What is NOT proven yet (external blockers)
 
-- **The Plaid sandbox has not run.** `PLAID_CLIENT_ID` was not available to this session. The script is ready: `scripts/jurnl/banking/plaid-sandbox-validation.ts`. Its report is in `sandbox/`.
+- **The Plaid sandbox has not run successfully.** The client id was supplied, but Plaid rejects the sandbox secret injected by the proxy as malformed. The script is ready: `scripts/jurnl/banking/plaid-sandbox-validation.ts`. Its report is in `sandbox/`.
 - **No real Supabase Auth server and no real email delivery were exercised.** There is no approved JURNL Supabase project, so registering a user would be a production auth mutation.
 - **No real institution was connected.** This includes Uber Pro Card and Lyft Direct.
 - **No migration was applied** to any hosted database.
