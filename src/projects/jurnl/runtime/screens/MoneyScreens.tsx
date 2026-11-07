@@ -425,7 +425,7 @@ const PLACE_KINDS: { id: AccountType; label: string }[] = [
   { id: 'SAVINGS', label: 'SAVINGS' },
   { id: 'DEBIT_CARD', label: 'DEBIT CARD' },
   { id: 'CREDIT_CARD', label: 'CREDIT CARD' },
-  { id: 'CASH', label: 'CASH' },
+  { id: 'CASH', label: 'CASH ON HAND' },
 ];
 
 export function AddPlaceSheet({ onClose, onSaved }: { onClose: () => void; onSaved: (id: string) => void }) {
