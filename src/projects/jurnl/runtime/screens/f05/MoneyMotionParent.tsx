@@ -26,7 +26,7 @@ import { AskJurnlSheet, QuickAddV2Sheet } from '../../global/GlobalSheets';
 import { useJurnl } from '../../state/store';
 import { JurnlScreen, type FamilyPlate } from '../JurnlScreen';
 import { AddPlaceSheet } from '../MoneyScreens';
-import { accountPaperRect, accountRailGap, accountRailViewport, bottomRowItems, computeF05MotionLayout, motionBoardToScreen, PAPERS_PER_COLLECTION, SEAM_A, SEAM_C, SRC_H, SRC_W, toScreen, type Rect } from './f05MotionLayout';
+import { accountPaperRect, accountRailGap, accountRailViewport, bottomRowItems, computeF05MotionLayout, F05_MOTION_NAV_NUDGE_SCREEN, motionBoardToScreen, PAPERS_PER_COLLECTION, SEAM_A, SEAM_C, SRC_H, SRC_W, toScreen, type Rect } from './f05MotionLayout';
 import { F05_COMPOSITION as C } from './f05Composition';
 import { ACCOUNT_PAPER_TITLE_LINES, amountSize, CarouselPanelPaper, f05BoardType, F05_PAPER_VALUE_ROW_SUB_PX, nameFont } from './CarouselPanelPaper';
 import { useMoneyCarousel } from './useMoneyCarousel';
@@ -312,7 +312,7 @@ export function MoneyMotionParent() {
       '--f05m-nav-x': `${nav.x}px`,
       '--f05m-nav-w': `${nav.w}px`,
       '--f05m-nav-h': `${nav.h}px`,
-      '--f05m-nav-b': `${vp.h - (nav.y + nav.h)}px`,
+      '--f05m-nav-b': `${vp.h - (nav.y + nav.h) - F05_MOTION_NAV_NUDGE_SCREEN}px`,
       '--f05m-menu-x': `${menu.x}px`,
       '--f05m-menu-y': `${menu.y}px`,
       '--f05m-chip': `${menu.w}px`,

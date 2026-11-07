@@ -16892,6 +16892,14 @@ Summary of the whole conversation in this chat.
 
 ---
 
+## 2026-11-07 — F05 motion parent dock +4px screen nudge
+
+- **Context:** Founder comp on main MONEY page (`?parent=motion`): bottom five-item dock (HOME/MONEY/ADD/PLAN/CREDIT) sat slightly high on the torn nav paper.
+- **Decision:** `F05_MOTION_NAV_NUDGE_SCREEN = 4` subtracted from `--f05m-nav-b` in `MoneyMotionParent` only; DOT 01 `Dot01Frame` nav placement unchanged.
+- **Files:** `f05MotionLayout.ts`, `MoneyMotionParent.tsx`.
+
+---
+
 ## 2026-11-07 — OV06 account drawer Option B (full folio mount)
 
 - **Context:** Founder chose Option B: full account drawer convergence on OV06 inner shell, not only utility CLOSE on the F09 torn replica.
