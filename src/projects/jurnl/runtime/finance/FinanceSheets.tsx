@@ -328,7 +328,7 @@ export function startOptions(fromName: string, toCard: boolean): { id: TransferS
 /** OV03 regions on the regenerated shell (941 × 1672): headline above the seal, FROM / TO / ledger below it, actions left of the coins. */
 export const OV03_PLATE = {
   art: 'OV03_MOVE_MONEY_SHELL',
-  head: [0.12, 0.232, 0.9, 0.366],
+  head: [0.06, 0.232, 0.94, 0.366],
   body: [0.1, 0.56, 0.9, 0.795],
   /** the full width of the paper, above the coins (x > 0.65 from y 0.87) */
   foot: [0.08, 0.8, 0.92, 0.866],
