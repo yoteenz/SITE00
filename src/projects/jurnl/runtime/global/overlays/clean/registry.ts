@@ -23,6 +23,7 @@ import ov03_move_money_shell from './OV03_MOVE_MONEY_SHELL.webp';
 import ov04_manage_note from './OV04_MANAGE_NOTE.webp';
 import ov05_search_shell from './OV05_SEARCH_SHELL.webp';
 import ch01_buffer_shell from './CH01_BUFFER_SHELL.webp';
+import ov06_account_shell from './OV06_ACCOUNT_SHELL.webp';
 
 export type CleanArtMount = 'MOUNTED' | 'MOUNTED_CONDITIONAL' | 'NOT_MOUNTED' | 'WITHHELD';
 export type CleanArt = {
@@ -38,7 +39,7 @@ export type CleanArt = {
   disposition: string;
   runtime: { id: CleanArtId; src: string; sha256: string; bytes: number; encoding: string; psnrVisible: number | null } | null;
 };
-export type CleanArtId = 'OV08_MENU_ENVIRONMENT' | 'OV04_RENAME_PAPER' | 'OV04_DELETE_PAPER' | 'CH01_AMOUNT_PAPER' | 'CH01_EFFECT_PAPER' | 'CH01_BACK_PAPER' | 'CH02_REMOVE_ACCESS_PAPER' | 'CH02_BACK_PAPER' | 'CH02_PRIVACY_SHELL' | 'OV02_ADD_POCKET_SHELL' | 'OV03_MOVE_MONEY_SHELL' | 'OV04_MANAGE_NOTE' | 'OV05_SEARCH_SHELL' | 'CH01_BUFFER_SHELL';
+export type CleanArtId = 'OV08_MENU_ENVIRONMENT' | 'OV04_RENAME_PAPER' | 'OV04_DELETE_PAPER' | 'CH01_AMOUNT_PAPER' | 'CH01_EFFECT_PAPER' | 'CH01_BACK_PAPER' | 'CH02_REMOVE_ACCESS_PAPER' | 'CH02_BACK_PAPER' | 'CH02_PRIVACY_SHELL' | 'OV02_ADD_POCKET_SHELL' | 'OV03_MOVE_MONEY_SHELL' | 'OV04_MANAGE_NOTE' | 'OV05_SEARCH_SHELL' | 'CH01_BUFFER_SHELL' | 'OV06_ACCOUNT_SHELL';
 
 export const CLEAN_ART: readonly CleanArt[] = [
   { file: "01_CLEAN_ENVIRONMENTS/CH01-BUFFER-CLEAN-ENVIRONMENT.png", sourceSha256: '0a0cd02f27ae067138d4db409094ee8cb62ae97a7555b0ffb743cfbfc410b66e', width: 941, height: 1672, layer: 'L0', manifestStatus: 'CLEAN_CANDIDATE', mount: 'NOT_MOUNTED', disposition: "Not mounted (founder correction 2026-11-06): a different sidekick from the BUFFER authority; superseded by the regenerated CH01 shell. Kept installed for the record.", runtime: null },
@@ -62,6 +63,7 @@ export const CLEAN_ART: readonly CleanArt[] = [
   { file: "REGENERATED_SCREEN_CANDIDATES/OV04_MANAGE_POCKET.png", sourceSha256: 'c5eab73b0e291f0224627d54de23ff74696d771917ef61576f582f2060781f81', width: 642, height: 741, layer: 'L0+L1', manifestStatus: 'VISUAL_CANDIDATE', mount: 'MOUNTED', disposition: "MANAGE POCKET: the popover surface (note, paperclip, coastline tear, oxblood) inside a measured outline clip (the file has no alpha); heading and the two paper-backed actions live", runtime: { id: 'OV04_MANAGE_NOTE', src: ov04_manage_note, sha256: '9ae2346c6e6adfb8d89f905257080e48676dcad466b23c347322f98af1b0c35f', bytes: 614128, encoding: 'lossless', psnrVisible: null } },
   { file: "REGENERATED_SCREEN_CANDIDATES/OV05_SEARCH.png", sourceSha256: 'f91d9a24aa4a1558b931217fd0b84cbce528b7bc395ae728705d1a5fa1a8646d', width: 581, height: 887, layer: 'L0+L1', manifestStatus: 'VISUAL_CANDIDATE', mount: 'MOUNTED', disposition: "GlobalSearchDrawer: the shell (bust, lemon, arch, paper, ledgers); field, filters, rows, separators and actions live on the paper (only the results scroll)", runtime: { id: 'OV05_SEARCH_SHELL', src: ov05_search_shell, sha256: '0bd069adec39e33e5819ebd88cd8b8b38b358e0887dd73bf52cee39be7d8f27e', bytes: 775750, encoding: 'lossless', psnrVisible: null } },
   { file: "REGENERATED_SCREEN_CANDIDATES/CH01_SAFE_TO_SPEND.png", sourceSha256: '53bff1ee9542979dc5e73229a559a3a941d7ad449daa8a089f86832d33b6b496', width: 560, height: 887, layer: 'L0+L1', manifestStatus: 'VISUAL_CANDIDATE', mount: 'MOUNTED', disposition: "SAFE TO SPEND BUFFER: the shell (L0+L1: bust, lemons, coast, olive field, drape, coins); headline, help, papers, warnings and actions live on the olive field", runtime: { id: 'CH01_BUFFER_SHELL', src: ch01_buffer_shell, sha256: '2af951778b01e080c3c331fca755911e2c3166c5f4ec937f37b6addf3e681bc9', bytes: 695176, encoding: 'lossless', psnrVisible: null } },
+  { file: "ASSETS/OV06-IS-ACCOUNT-SETTINGS-DRAWER.png", sourceSha256: '93aca6bfcbe65fd14910e04dc1da55f7e00355e53b7778f031f8276746c532c5', width: 2016, height: 3584, layer: 'L0+L1', manifestStatus: 'INNER_SHELL', mount: 'MOUNTED', disposition: "AccountDrawer (menu): OV06 parchment folio; profile, currency, connection, ask, buffer, privacy rows scroll on the parchment; sign-out on the shell's dark strip; close wears F05.UTILITY.CLOSE.GOLD", runtime: { id: 'OV06_ACCOUNT_SHELL', src: ov06_account_shell, sha256: '8714dcae6faf266b1401e0cf4f3c4ce1867cedc016c0e63eafaf88c146e1ee1d', bytes: 3344936, encoding: 'lossless', psnrVisible: null } },
 ];
 
 /** A mounted clean art piece (throws for an unknown id, so a mount can never silently miss its art). */

@@ -65,6 +65,9 @@ export function ShellOverlay({
   headNote,
   tag,
   ornament = false,
+  overlayAuthority,
+  hostClassName = '',
+  closeTrigger,
 }: {
   testId: string;
   /** the curated clean art the overlay is drawn on (clean/registry.ts) */
@@ -93,6 +96,11 @@ export function ShellOverlay({
   tag?: ShellBox;
   /** the small live laurel ornament between two rules under the script (the founder authority's) */
   ornament?: boolean;
+  /** founder overlay authority id (e.g. OV06 inner shell) */
+  overlayAuthority?: string;
+  hostClassName?: string;
+  /** override close trigger id (defaults to `${testId}-close`) */
+  closeTrigger?: string;
 }) {
   const { ref: focusRef } = useStableFocus(onClose);
   const art = cleanArt(shell);
@@ -100,7 +108,16 @@ export function ShellOverlay({
   const id = useId();
   return (
     <OverlayLayer>
-      <div ref={hostRef} className="jsh-host" data-jrn-overlay={testId} data-jed={composition} data-shell={shell} data-overlay-asset={shell}>
+      <div
+        ref={hostRef}
+        className={`jsh-host ${hostClassName}`.trim()}
+        data-jrn-overlay={testId}
+        data-jed={composition}
+        data-shell={shell}
+        data-overlay-asset={shell}
+        data-jrn-overlay-authority={overlayAuthority}
+        data-jrn-sheet={testId}
+      >
         <div className="jsh-scrim" data-blur={blur ? 'true' : undefined} onClick={onClose} aria-hidden />
         <div
           ref={focusRef}
@@ -129,7 +146,7 @@ export function ShellOverlay({
           {children}
           {/* the founder-supplied CLOSE artwork (F05.UTILITY.CLOSE.GOLD): the authorities draw this cream / gold disc */}
           {close ? (
-            <JurnlUtilityArtButton kind="close" className="jsh-close" trigger={`${testId}-close`} label={closeLabel} onClick={onClose} />
+            <JurnlUtilityArtButton kind="close" className="jsh-close" trigger={closeTrigger ?? `${testId}-close`} label={closeLabel} onClick={onClose} />
           ) : null}
         </div>
       </div>

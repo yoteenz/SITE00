@@ -134,10 +134,11 @@ describe('OPUS1 · MOUNTS', () => {
     expect(d01).toContain('kind={util}');
     expect(d01).toContain("const util = c.icon === 'search' ? 'search' : c.icon === 'plus' ? 'add' : null;");
     expect(d01).toContain('jrn-d01__chip--utility');
-    const acct = read(`${RT}/screens/AccountScreens.tsx`);
-    expect(acct).toContain('kind="close"');
-    expect(acct).toContain('className="jrn-dr__close"');
-    expect(acct).toContain('trigger="account-drawer-close"');
+    const acct = read(`${RT}/surfaces/editorial/AccountSettingsDrawer.tsx`);
+    const shell = read(`${RT}/surfaces/editorial/Shell.tsx`);
+    expect(acct).toContain('closeTrigger="account-drawer-close"');
+    expect(shell).toContain('JurnlUtilityArtButton');
+    expect(shell).toContain('className="jsh-close"');
   });
 });
 

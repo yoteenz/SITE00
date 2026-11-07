@@ -1,0 +1,187 @@
+/* OV06 account drawer live rows (AccountSettingsDrawer.tsx) */
+.jrn .jsh-host--drawer-end {
+  justify-content: flex-end;
+  align-items: stretch;
+}
+.jrn .jsh-host--drawer-end .jsh-plate {
+  align-self: stretch;
+  height: 100%;
+  max-height: 100%;
+}
+.jrn .ja6-taglines {
+  display: grid;
+  justify-items: center;
+  gap: 0.15rem;
+  text-align: center;
+  font: 400 clamp(8px, 2.4cqw, 11px) / 1.2 var(--v3-sans, sans-serif);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--jsh-ink-soft, #5a4734);
+  pointer-events: none;
+}
+.jrn .ja6-taglines p {
+  margin: 0;
+}
+.jrn .ja6-scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1cqh;
+  padding: 0.4cqh 0.2cqw;
+}
+.jrn .ja6-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.55rem;
+  width: 100%;
+  min-height: 0;
+  padding: 0.75rem 0.85rem;
+  border: 0;
+  border-radius: 14px;
+  background: rgba(244, 234, 212, 0.92);
+  color: var(--jsh-ink, #2a2117);
+  text-align: left;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.55) inset;
+  cursor: pointer;
+}
+.jrn .ja6-row--ask,
+.jrn .ja6-row--buffer {
+  grid-template-columns: 1fr auto;
+  cursor: default;
+}
+.jrn .ja6-row--buffer {
+  grid-template-columns: 1fr;
+  gap: 0.65rem;
+}
+.jrn .ja6-row--photo {
+  position: relative;
+  overflow: hidden;
+  min-height: 5.5rem;
+  padding: 0;
+  background: transparent;
+}
+.jrn .ja6-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+.jrn .ja6-row__body--on-photo {
+  position: relative;
+  z-index: 1;
+  padding: 0.85rem 0.9rem;
+  color: #f4ead4;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+}
+.jrn .ja6-thumb {
+  width: clamp(44px, 14cqw, 72px);
+  height: clamp(44px, 14cqw, 72px);
+  border-radius: 50%;
+  object-fit: cover;
+}
+.jrn .ja6-row__body {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+.jrn .ja6-row__action {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.jrn .ja6-kicker {
+  font: 500 clamp(9px, 2.8cqw, 13px) / 1.2 var(--v3-sans, sans-serif);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--jsh-ink-soft, #5a4734);
+}
+.jrn .ja6-title {
+  font: 600 clamp(14px, 4.5cqw, 22px) / 1.15 var(--v3-serif, serif);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.jrn .ja6-sub {
+  font: 400 clamp(10px, 3cqw, 14px) / 1.35 var(--v3-sans, sans-serif);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--jsh-ink-soft, #5a4734);
+}
+.jrn .ja6-chev {
+  width: clamp(14px, 4cqw, 20px);
+  height: clamp(14px, 4cqw, 20px);
+  opacity: 0.72;
+}
+.jrn .ja6-buffer {
+  display: grid;
+  gap: 0.55rem;
+}
+.jrn .ja6-buffer__field {
+  display: block;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  background: rgba(255, 250, 240, 0.94);
+  border: 1px solid rgba(120, 90, 50, 0.22);
+}
+.jrn .ja6-money {
+  display: flex;
+  align-items: baseline;
+  gap: 0.15rem;
+  font: 600 clamp(16px, 5.2cqw, 26px) / 1.1 var(--v3-serif, serif);
+}
+.jrn .ja6-money input {
+  width: 5ch;
+  min-width: 3ch;
+  flex: 1 1 auto;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  padding: 0;
+}
+.jrn .ja6-save {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.65rem 0.85rem;
+  border: 0;
+  border-radius: 999px;
+  background: #3d4a28;
+  color: #f2e8d2;
+  font: 500 clamp(11px, 3.4cqw, 15px) / 1.2 var(--v3-sans, sans-serif);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.jrn .ja6-signout-slot {
+  display: grid;
+  align-items: center;
+}
+.jrn .ja6-signout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 0;
+  background: transparent;
+  color: #f2e8d2;
+  font: 500 clamp(12px, 3.8cqw, 16px) / 1.2 var(--v3-sans, sans-serif);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.jrn .ja6-signout__icon {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+.jrn .ja6-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
