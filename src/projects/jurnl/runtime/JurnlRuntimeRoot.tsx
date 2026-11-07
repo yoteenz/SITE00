@@ -10,7 +10,7 @@ import type { ProjectRuntimeProps } from '../../../site00/projectRuntime/project
 import { F01_ENTRY_V2_SCREENS, F01_SCREENS } from '../data/f01/screens';
 import { F02_SCREENS } from '../data/f02/screens';
 import { JurnlOverlayHostContext, JurnlSuccessBanner } from './components/primitives';
-import { JurnlEntitlementsProvider } from './monetization/JurnlEntitlements';
+import { JurnlServerEntitlementsBridge } from './monetization/JurnlServerEntitlementsBridge';
 import { JurnlNavHostContext } from './components/ProductNav';
 import { JurnlProductionServiceScreen } from './components/JurnlProductionServiceScreen';
 import { JurnlRuntimeChrome } from './components/JurnlRuntimeChrome';
@@ -201,16 +201,15 @@ export default function JurnlRuntimeRoot({ basePath, mode }: ProjectRuntimeProps
       <JurnlMotionRuntime root={root} overlayHost={overlayHost} mode={mode} />
       <JurnlNavHostContext.Provider value={navHost}>
       <JurnlOverlayHostContext.Provider value={overlayHost}>
-        {/* Entitlements context only (no DOM): future families query capabilities; F01 never renders monetization UI. */}
-        <JurnlEntitlementsProvider mode={mode}>
-          <JurnlStoreProvider basePath={basePath} mode={mode}>
+        <JurnlStoreProvider basePath={basePath} mode={mode}>
+          <JurnlServerEntitlementsBridge mode={mode}>
             <JurnlCornerChromeProvider>
-            <JurnlRuntimeChrome />
-            <JurnlRoutes />
-            <Toast />
+              <JurnlRuntimeChrome />
+              <JurnlRoutes />
+              <Toast />
             </JurnlCornerChromeProvider>
-          </JurnlStoreProvider>
-        </JurnlEntitlementsProvider>
+          </JurnlServerEntitlementsBridge>
+        </JurnlStoreProvider>
       </JurnlOverlayHostContext.Provider>
       </JurnlNavHostContext.Provider>
       {/* Viewport dock: the nav is centered to the viewport, outside every screen, column and animation. */}
