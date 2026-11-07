@@ -50,8 +50,14 @@ create policy jurnl_snapshot_audit_select_own on public.jurnl_snapshot_audit
 
 comment on table public.jurnl_snapshot_audit is 'One row per accepted snapshot write (revision, size, hash). Never the snapshot itself.';
 
+-- Audit rows are written only by jurnl_put_snapshot (no end-user insert / update / delete).
+revoke insert, update, delete on public.jurnl_snapshot_audit from anon, authenticated;
+
 -- Atomic write: the caller states the revision it last read (0 = "I believe there is no row yet").
 -- A stale revision is refused with SQLSTATE JR409, so an older device can never overwrite a newer server record.
+-- SECURITY DEFINER so it can append the audit row; every statement is keyed to auth.uid() (the caller), never to a
+-- parameter, so it cannot touch another user's data. Direct INSERT / UPDATE on the snapshot table is revoked below:
+-- every write goes through this compare-and-swap.
 create or replace function public.jurnl_put_snapshot(
   p_snapshot jsonb,
   p_schema_version integer,
@@ -60,8 +66,8 @@ create or replace function public.jurnl_put_snapshot(
   p_source text default 'CLIENT'
 ) returns table (revision bigint, updated_at timestamptz, schema_version integer, data_mode text)
 language plpgsql
-security invoker
-set search_path = public
+security definer
+set search_path = public, pg_temp
 as $$
 declare
   v_uid uuid := auth.uid();
@@ -115,6 +121,8 @@ $$;
 
 revoke all on function public.jurnl_put_snapshot(jsonb, integer, text, bigint, text) from public, anon;
 grant execute on function public.jurnl_put_snapshot(jsonb, integer, text, bigint, text) to authenticated;
+-- Writes only through the compare-and-swap above (reads and the user's own delete stay as before).
+revoke insert, update on public.jurnl_user_snapshots from anon, authenticated;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- 2. Connected institutions (one row per provider Item).

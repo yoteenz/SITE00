@@ -58,6 +58,9 @@ export function useNetworkToast() {
   return (code: AuthErrorCode) => {
     if (code === 'NETWORK' || code === 'OFFLINE') showToast({ tone: 'error', title: C.network.title, body: C.network.body, testId: 'toast-network' });
     else if (code === 'NOT_CONFIGURED') showToast({ tone: 'error', title: C.unconfigured.title, body: C.unconfigured.body, testId: 'toast-unconfigured' });
+    else if (code === 'RATE_LIMITED') showToast({ tone: 'error', title: 'TOO MANY ATTEMPTS', body: 'WAIT A FEW MINUTES, THEN TRY AGAIN.', testId: 'toast-rate-limited' });
+    else if (code === 'EMAIL_NOT_VERIFIED') showToast({ tone: 'error', title: 'CONFIRM YOUR EMAIL FIRST', body: 'OPEN THE LINK WE SENT YOU, OR SEND A NEW ONE.', testId: 'toast-email-not-verified' });
+    else if (code === 'WEAK_PASSWORD') showToast({ tone: 'error', title: 'CHOOSE A STRONGER PASSWORD', body: 'USE AT LEAST 8 CHARACTERS WITH A NUMBER AND A SYMBOL.', testId: 'toast-weak-password' });
   };
 }
 
@@ -498,7 +501,8 @@ export function VerifyEmailScreen() {
   const { mode, forcedState, overlay, openOverlay, closeOverlay, auth, session, setSession, showToast, go } = useJurnl();
   const [params] = useSearchParams();
   // `?link=valid|expired` simulates the emailed link's outcome in the design workspace only.
-  const link = mode === 'design-preview' ? params.get('link') : null;
+  // Production: a Supabase email template that sends `token_hash` lands here and is verified server-side by Supabase.
+  const link = mode === 'design-preview' ? params.get('link') : params.get('token_hash');
   const [phase, setPhase] = useState<'pending' | 'expired' | 'verified'>(() =>
     forcedState === 'expired_link' ? 'expired' : forcedState === 'verification_success' ? 'verified' : 'pending',
   );
@@ -666,6 +670,12 @@ export function SignInScreen() {
       if (res.code === 'ACCOUNT_NOT_FOUND') return setErr('not_found');
       if (res.code === 'LOCKED') return openOverlay('locked');
       if (res.code === 'OFFLINE') return setErr('offline');
+      if (res.code === 'EMAIL_NOT_VERIFIED') {
+        // The address is not confirmed yet: back to CHECK YOUR EMAIL, where a new link can be sent.
+        setSession({ pendingEmail: email.trim().toUpperCase() });
+        netToast(res.code);
+        return go('F01.02');
+      }
       return netToast(res.code);
     }
     setSession({ account: res.value, status: 'ACTIVE', keepSignedIn: keep, pendingEmail: res.value.emailVerified ? null : res.value.email });

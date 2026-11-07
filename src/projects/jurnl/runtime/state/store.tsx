@@ -32,6 +32,7 @@ import {
   type ServerSyncState,
 } from '../../data/repository/serverSyncCoordinator';
 import { trackJurnlSafeError } from '../../data/telemetry/errorTelemetry';
+import { loadBankConfig, pullBankData } from '../../data/banking/bankLedger';
 import { resolveJurnlProductionConfig, type JurnlProductionConfig } from '../../data/production/productionConfig';
 import { getSupabase } from '../../../../utils/supabase';
 import {
@@ -210,9 +211,10 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
 
   const auth = useMemo(() => {
     if (mode === 'design-preview') return createDesignPreviewAuthAdapter({ kv: local, scenario });
-    if (productionConfig.supabaseConfigured) return createSupabaseJurnlAuthAdapter();
+    if (productionConfig.supabaseConfigured)
+      return createSupabaseJurnlAuthAdapter({ apiBase: productionConfig.apiBase, appBaseUrl: typeof window !== 'undefined' ? `${window.location.origin}${basePath}` : undefined });
     return createUnconfiguredAuthAdapter();
-  }, [mode, local, scenario, productionConfig.supabaseConfigured]);
+  }, [mode, local, scenario, productionConfig.supabaseConfigured, productionConfig.apiBase, basePath]);
   const bridge = useMemo(
     () =>
       mode === 'design-preview' ?
@@ -434,6 +436,12 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
         showToast({ tone: 'error', title: 'CANNOT REACH JURNL', body: 'YOUR SAVED DATA COULD NOT BE LOADED. NOTHING WAS CHANGED. TRY AGAIN SHORTLY.', testId: 'jurnl-hydrate-failed' });
       }
       setSession({ account, status: 'ACTIVE', authPrincipalId: user.id });
+      // Connected banking (when this deployment has it): refresh connection states and imported activity.
+      if (decision.action !== 'USE_DEVICE_OFFLINE' && decision.action !== 'NONE') {
+        void loadBankConfig().then((cfg) => {
+          if (cfg?.configured) void pullBankData();
+        });
+      }
     };
 
     void sb.auth.getSession().then(({ data }) => {

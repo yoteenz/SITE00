@@ -40,6 +40,7 @@ import jurnlAskContextHandler from '../api/jurnl/ask-context.js';
 import jurnlEntitlementsHandler from '../api/jurnl/entitlements.js';
 import jurnlBankHandler from '../api/jurnl/bank.js';
 import jurnlBankWebhookHandler from '../api/jurnl/bank-webhook.js';
+import jurnlAccountDeleteHandler from '../api/jurnl/account-delete.js';
 import jurnlEntitlementsPreviewHandler from '../api/jurnl/entitlements-preview.js';
 import jurnlEntitlementsAuthorizeHandler from '../api/jurnl/entitlements-authorize.js';
 import site00AstralWorldAssetsHandler from '../api/site00/astral-world-assets.js';
@@ -122,6 +123,7 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/jurnl/entitlements', handler: jurnlEntitlementsHandler },
   { path: '/api/jurnl/bank', handler: jurnlBankHandler },
   { path: '/api/jurnl/bank-webhook', handler: jurnlBankWebhookHandler },
+  { path: '/api/jurnl/account-delete', handler: jurnlAccountDeleteHandler },
   { path: '/api/jurnl/entitlements-preview', handler: jurnlEntitlementsPreviewHandler },
   { path: '/api/jurnl/entitlements-authorize', handler: jurnlEntitlementsAuthorizeHandler },
   { path: '/api/site00/astral-world-assets', handler: site00AstralWorldAssetsHandler },

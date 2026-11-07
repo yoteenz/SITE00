@@ -18,7 +18,13 @@ export type AuthErrorCode =
   | 'OFFLINE'
   | 'INVALID_LINK'
   | 'NOT_CONFIGURED'
-  | 'PROVIDER_NOT_CONFIGURED';
+  | 'PROVIDER_NOT_CONFIGURED'
+  /** Sign-in refused until the address is confirmed (production). */
+  | 'EMAIL_NOT_VERIFIED'
+  /** The auth provider is throttling requests (too many attempts / emails). */
+  | 'RATE_LIMITED'
+  /** The auth provider refused the password as too weak. */
+  | 'WEAK_PASSWORD';
 
 export type AuthResult<T = true> = { ok: true; value: T } | { ok: false; code: AuthErrorCode };
 
@@ -38,6 +44,8 @@ export type JurnlAuthAdapter = {
   resetPassword(token: string | null, password: string): Promise<AuthResult>;
   social(provider: SocialProvider): Promise<AuthResult<JurnlAccount>>;
   deleteAccount(email: string): Promise<AuthResult>;
+  /** Signed-in password change: the current password is checked first (never stored by JURNL). */
+  changePassword?(email: string, currentPassword: string, nextPassword: string): Promise<AuthResult>;
   listSessions(): Promise<JurnlSession[]>;
   revokeSession(id: string): Promise<AuthResult>;
 };

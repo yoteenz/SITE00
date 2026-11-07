@@ -28,3 +28,5 @@ grant execute on function auth.uid() to anon, authenticated, service_role;
 grant usage on schema public to anon, authenticated, service_role;
 alter default privileges in schema public grant select, insert, update, delete on tables to anon, authenticated, service_role;
 alter default privileges in schema public grant usage, select on sequences to anon, authenticated, service_role;
+-- Supabase grants function execution to its API roles by default; migrations revoke where needed.
+alter default privileges in schema public grant execute on functions to anon, authenticated, service_role;
