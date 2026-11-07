@@ -16,6 +16,7 @@ import { AddOnCollection, GlobalMenu, MembershipFolio, UnlockFolio } from '../gl
 import { BufferFolio, ConnectionsFolio, HelpFolio, LegalFolio, PreferencesFolio, PrivacyConsentsFolio, ProfileFolio, RulesFolio, SignOutConfirm } from '../global/MenuDestinations';
 import { MenuPanelsContext, type MenuDestination, type MenuPanel, type MenuPanelsApi } from '../global/menuPanels';
 import { useJurnl } from '../state/store';
+import { JurnlUtilityArtButton, useMenuArt } from './JurnlUtilityArtButton';
 
 type Entry = { panel: MenuPanel; opener: string | null };
 const HAMBURGER = '[data-jrn-trigger="f09-menu"]';
@@ -152,9 +153,40 @@ function appRoute(pathname: string): string {
   return i === -1 ? '' : pathname.slice(i + mark.length);
 }
 
+/**
+ * While the global menu is open, the MONEY hamburger (founder MENU artwork) steps aside when it would sit on the menu's own
+ * CLOSE artwork (tablet widths place the two in the same corner): one control per spot, and both do the same thing. On
+ * phones the two do not meet and the hamburger stays as the menu's toggle.
+ */
+function useYieldToMenuClose(active: boolean): boolean {
+  const [overlap, setOverlap] = useState(false);
+  useEffect(() => {
+    if (!active) {
+      setOverlap(false);
+      return;
+    }
+    let raf = 0;
+    const check = () => {
+      const a = document.querySelector('.jrn-corner [data-jrn-trigger="f09-menu"]')?.getBoundingClientRect();
+      const b = document.querySelector('[data-jrn-overlay="global-menu"] [data-jrn-trigger="global-menu-close"]')?.getBoundingClientRect();
+      setOverlap(!!a && !!b && a.width > 0 && b.width > 0 && a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom);
+    };
+    raf = requestAnimationFrame(check);
+    window.addEventListener('resize', check);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', check);
+    };
+  }, [active]);
+  // synchronous on close: the hamburger is visible again in the same render the menu closes in, so focus can return to it
+  return active && overlap;
+}
+
 function JurnlCornerChrome({ hidden, menuExpanded, onMenu }: { hidden: boolean; menuExpanded?: boolean; onMenu: () => void }) {
   const { go } = useJurnl();
   const { pathname } = useLocation();
+  const menuArt = useMenuArt();
+  const yieldToClose = useYieldToMenuClose(menuArt && !!menuExpanded);
   const rel = appRoute(pathname);
   if (outsideApp(rel) || hidden) return null;
   // The four root hubs are siblings in the dock, so they keep the menu (account drawer) but no back chip:
@@ -162,11 +194,16 @@ function JurnlCornerChrome({ hidden, menuExpanded, onMenu }: { hidden: boolean; 
   const rootHub = ROOT_HUBS.has(rel);
   return (
     <div className="jrn-corner" data-jrn-corner="app" data-menu-open={menuExpanded ? 'true' : undefined}>
-      <button type="button" className="jrn-f09a__menu" aria-label="MENU" data-jrn-trigger="f09-menu" aria-expanded={menuExpanded ? true : undefined} onClick={onMenu}>
-        <svg viewBox="0 0 40 26" aria-hidden>
-          <path d="M0 1.5h40M0 13h40M0 24.5h40" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
-        </svg>
-      </button>
+      {/* MONEY parent: the founder-supplied MENU artwork (F05.UTILITY.MENU.GOLD), same name, trigger, state and handler */}
+      {menuArt ? (
+        <JurnlUtilityArtButton kind="menu" className="jrn-f09a__menu" trigger="f09-menu" label="MENU" aria-expanded={menuExpanded ? true : undefined} data-yield={yieldToClose ? 'true' : undefined} onClick={onMenu} />
+      ) : (
+        <button type="button" className="jrn-f09a__menu" aria-label="MENU" data-jrn-trigger="f09-menu" aria-expanded={menuExpanded ? true : undefined} onClick={onMenu}>
+          <svg viewBox="0 0 40 26" aria-hidden>
+            <path d="M0 1.5h40M0 13h40M0 24.5h40" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
+          </svg>
+        </button>
+      )}
       {/* while the menu is open the hamburger stays above it as its toggle; BACK steps aside (one action at a time) */}
       {rootHub || menuExpanded ? null : (
         <button type="button" className="jrn-f09a__back" aria-label="BACK TO TODAY" data-jrn-trigger="f09-back" onClick={() => go('today')}>

@@ -1,0 +1,105 @@
+/*
+ * JurnlUtilityArtButton: the founder-supplied utility artwork (CLOSE, MENU, SEARCH, ADD) on a live button.
+ * The artwork carries its own disc, bevel and shadow: the button adds no border, background, circle or second shadow.
+ * `--uab-disc` is the visible disc diameter; the runtime images are cropped so the disc is 0.8065 of the image side
+ * (global/utilityArt/registry.ts UTILITY_DISC_FRACTION), centred, so every kind shares one optical centre.
+ */
+.jrn .jrn-uab {
+  --uab-disc: 40px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: none;
+  box-shadow: none;
+  color: inherit;
+  cursor: pointer;
+  overflow: visible;
+  -webkit-tap-highlight-color: transparent;
+}
+.jrn .jrn-uab__art {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--uab-disc) / 0.8065);
+  height: calc(var(--uab-disc) / 0.8065);
+  max-width: none;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.jrn .jrn-uab:focus-visible {
+  outline: 2px solid #dcab4f;
+  outline-offset: 2px;
+}
+.jrn .jrn-uab:disabled {
+  cursor: default;
+}
+.jrn .jrn-uab:disabled .jrn-uab__art {
+  opacity: 0.45;
+  filter: saturate(0.6);
+}
+/* tactile: a small controlled compression on press, a weighted settle on release; nothing while idle */
+@media (prefers-reduced-motion: no-preference) {
+  .jrn .jrn-uab__art {
+    transition: transform 160ms var(--jm-ease-bronze, cubic-bezier(0.3, 0, 0.12, 1));
+  }
+  .jrn .jrn-uab:active:not(:disabled) .jrn-uab__art {
+    transform: translate(-50%, -50%) translateY(1px) scale(0.955);
+    transition-duration: 90ms;
+    transition-timing-function: var(--jm-ease-paper, cubic-bezier(0.22, 0.75, 0.28, 1));
+  }
+}
+
+/* ── MONEY parent: SEARCH and ADD on the approved chip squares (64 board px, scaled with the board) ── */
+.jrn .jrn-f05m__chip.jrn-uab {
+  --uab-disc: 64px;
+  border: 0;
+  border-radius: 12px;
+  background: none;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+/* touch target: 44 screen px tall; as wide as the approved 20 board px gaps allow without overlapping a neighbour */
+.jrn .jrn-f05m__chip.jrn-uab::before {
+  inset: min(0px, calc((64px - 44px / var(--f05m-u, 1)) / 2)) -10px;
+}
+/* ── MONEY parent: the corner hamburger, seated on the far-right approved square ── */
+.jrn[data-jrn-f05-motion] .jrn-corner .jrn-f09a__menu.jrn-uab {
+  --uab-disc: var(--f05m-chip, 27px);
+  border: 0;
+  border-radius: 12px;
+  background: none;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.jrn[data-jrn-f05-motion] .jrn-corner .jrn-f09a__menu.jrn-uab::before {
+  top: min(0px, calc((var(--f05m-chip, 27px) - 44px) / 2));
+  bottom: min(0px, calc((var(--f05m-chip, 27px) - 44px) / 2));
+  left: calc(var(--f05m-chip, 27px) * -0.15625);
+  right: min(0px, calc(var(--f05m-chip, 27px) * 1.15625 - 44px));
+}
+
+/* ── overlay closes (authority: a cream / gold disc about 9 % of the plate wide, top end) ── */
+.jrn .jsh-close.jrn-uab,
+.jrn .jed-close.jrn-uab,
+.jrn .jgm-close.jrn-uab {
+  --uab-disc: clamp(34px, 9cqw, 46px);
+  width: max(44px, var(--uab-disc));
+  height: max(44px, var(--uab-disc));
+  border: 0;
+  border-radius: 12px;
+  background: none;
+  box-shadow: none;
+}
+
+/* the menu is open and its own CLOSE sits where the hamburger is (tablet): the hamburger steps aside (JurnlCornerChrome) */
+.jrn .jrn-corner .jrn-f09a__menu.jrn-uab[data-yield='true'] {
+  visibility: hidden;
+  pointer-events: none;
+}

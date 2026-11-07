@@ -34,6 +34,7 @@ import { OverlayLayer } from '../components/primitives';
 import { useOverlayHost } from '../components/OverlayAuthority';
 import { V3Card, V3Chevron, V3Folio, V3Icon, V3NavSection, V3Notice, V3Pill, V3Row, V3RuleLabel, V3Seal, V3Status, useStableFocus, type V3AccessState } from '../surfaces/v3/V3Surfaces';
 import { cleanArt } from './overlays/clean/registry';
+import { JurnlUtilityArtButton } from '../components/JurnlUtilityArtButton';
 import type { MenuDestination, MenuPanel } from './menuPanels';
 import laurelSeal from '../../families/F05_MONEY/DOT01/F05_DOT01_02_LAUREL_WAX_SEAL.webp';
 import artTravel from '../../families/F05_MONEY/DOT01/F05_DOT01_08_PARCHMENT_COASTAL_PANEL.webp';
@@ -155,9 +156,7 @@ export function GlobalMenu({ onClose, onOpen }: { onClose: () => void; onOpen: (
             <h2 className="jgm-title">MENU</h2>
             <p className="jv3-t-script">tools, settings & support</p>
           </div>
-          <button type="button" className="jgm-close" aria-label="CLOSE MENU" data-jrn-trigger="global-menu-close" onClick={onClose}>
-            <V3Icon name="close" />
-          </button>
+          <JurnlUtilityArtButton kind="close" className="jgm-close" trigger="global-menu-close" label="CLOSE MENU" onClick={onClose} />
           <nav className="jgm-port" aria-label="MENU SECTIONS" data-jrn-menu-scrollport style={region(OV08_REGION.port)}>
             {GLOBAL_MENU_SECTIONS.map((sec) => (
               <V3NavSection key={sec.title} title={sec.title}>
