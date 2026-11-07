@@ -389,10 +389,14 @@
 .jrn .jrn-dr .jrn-dr__light {
   color: #fff;
 }
-.jrn .jrn-dr__close {
+.jrn .jrn-dr__close:not(.jrn-uab) {
   position: absolute;
   border-radius: 12px;
   background: rgba(239, 226, 213, 0.94);
   box-shadow: 0 2px 8px rgba(60, 45, 30, 0.12);
   color: #010000;
+}
+.jrn .jrn-dr__close.jrn-uab {
+  position: absolute;
+  color: inherit;
 }

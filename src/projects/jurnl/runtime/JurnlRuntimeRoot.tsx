@@ -58,6 +58,7 @@ import './jurnl-root-authority.css';
 import './jurnl-f10-checked.css';
 import './jurnl-reference.css';
 import './jurnl-overlays.css';
+import './components/jurnl-utility-art.css';
 import './jurnl-entry-v2.css';
 import './motion/jurnl-motion.css';
 import { useMotionRuntime } from './motion/useMotion';

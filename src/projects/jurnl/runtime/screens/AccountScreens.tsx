@@ -434,7 +434,7 @@ export function AccountDrawer({ onClose }: { onClose: () => void }) {
             trigger="account-drawer-close"
             label="CLOSE ACCOUNT"
             onClick={onClose}
-            style={{ ...at(D.box.close), ['--uab-disc' as string]: 'clamp(34px, 9cqw, 46px)' } as CSSProperties}
+            style={{ ...at(D.box.close), ['--uab-disc' as string]: '73px' } as CSSProperties}
           />
         </div>
       </div>
