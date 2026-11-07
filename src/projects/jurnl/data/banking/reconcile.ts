@@ -22,7 +22,7 @@ import type { JurnlReservation } from '../foundation/reservations';
 import type { BankMatchKind, BankMatchStatus, LedgerEntry } from '../home/moneyTypes';
 import { accountNature, toCents } from '../ledger/accounting';
 import { settleReservationsForPayment } from '../f07/reservations';
-import { hasCardPaymentWords, hasTransferWords, isRidesharePayerText } from './classify';
+import { hasCardPaymentWords, hasCardSidePaymentWords, hasTransferWords, isRidesharePayerText } from './classify';
 import { stableId } from './ingest';
 import type { MatchDecision } from './types';
 
@@ -125,7 +125,7 @@ export function reconcileLedger(input: ReconcileInput): ReconcileOutput {
         if (cents(o.amount) !== cents(i.amount)) continue;
         const d = days(o.occurred_on, i.occurred_on);
         if (d == null || d < -1 || d > 7) continue;
-        const iSays = i.txn_class === 'CREDIT_PAYMENT' || hasCardPaymentWords(txt(i));
+        const iSays = i.txn_class === 'CREDIT_PAYMENT' || hasCardSidePaymentWords(txt(i));
         if (!oSays && !iSays) continue;
         const signals = ['EQUAL_AMOUNT', `WITHIN_${Math.abs(d)}_DAYS`, ...(oSays ? ['BANK_SIDE_SAYS_CARD_PAYMENT'] : []), ...(iSays ? ['CARD_SIDE_SAYS_PAYMENT'] : [])];
         cands.push({ kind: 'CARD_PAYMENT', ids: [o.id, i.id], signals, strong: true, countedBy: o.id });

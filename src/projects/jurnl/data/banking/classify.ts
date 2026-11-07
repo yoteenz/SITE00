@@ -26,7 +26,10 @@ export type Classification = {
 
 export const RIDESHARE_PAYERS = ['UBER', 'LYFT', 'BRANCH MESSENGER', 'PAYFARE', 'DOORDASH', 'INSTACART'] as const;
 const TRANSFER_WORDS = ['TRANSFER', 'XFER', 'TRNSFR', 'TO SAVINGS', 'FROM SAVINGS', 'TO CHECKING', 'FROM CHECKING', 'INSTANT PAY', 'INSTANT TRANSFER', 'ONLINE BANKING TRANSFER', 'INTERNAL TRANSFER'];
-const CARD_PAYMENT_WORDS = ['PAYMENT THANK YOU', 'AUTOPAY', 'AUTO PAY', 'CREDIT CARD PAYMENT', 'CARD PAYMENT', 'CRD PMT', 'EPAYMENT', 'ONLINE PAYMENT', 'PAYMENT RECEIVED'];
+/** Words that name a CARD payment on the paying (bank) side. "AUTOPAY" alone is not one: utilities use it too. */
+const CARD_PAYMENT_WORDS = ['CREDIT CARD PAYMENT', 'CARD PAYMENT', 'CRD PMT', 'CREDIT CRD', 'CARDMEMBER SERV', 'PAYMENT TO CREDIT CARD'];
+/** Words a card issuer uses for a payment received on the card itself (only read on a card account). */
+const CARD_SIDE_PAYMENT_WORDS = ['PAYMENT THANK YOU', 'PAYMENT - THANK YOU', 'AUTOPAY', 'AUTO PAY', 'PAYMENT RECEIVED', 'ONLINE PAYMENT', 'EPAYMENT', 'MOBILE PAYMENT'];
 
 export function textOf(t: Pick<BankTransactionView, 'name' | 'merchant_name' | 'counterparty_names'>): string {
   return [t.merchant_name, t.name, ...(t.counterparty_names ?? [])].filter(Boolean).join(' ').toUpperCase();
@@ -42,6 +45,10 @@ export function hasTransferWords(text: string): boolean {
 
 export function hasCardPaymentWords(text: string): boolean {
   return CARD_PAYMENT_WORDS.some((w) => text.includes(w));
+}
+
+export function hasCardSidePaymentWords(text: string): boolean {
+  return CARD_SIDE_PAYMENT_WORDS.some((w) => text.includes(w)) || hasCardPaymentWords(text);
 }
 
 /** Plaid PFC detailed → JURNL category + finer label. Unknown values fall through to the primary mapping. */
@@ -149,7 +156,7 @@ export function classifyImported(
       // A provider "transfer" is not proof it was between the user's own accounts; reconciliation decides that.
       flags.internal_transfer = t.pfc_detailed === 'TRANSFER_IN_ACCOUNT_TRANSFER' || t.pfc_detailed === 'TRANSFER_OUT_ACCOUNT_TRANSFER' || t.pfc_detailed?.endsWith('_SAVINGS') === true;
     }
-  } else if (ctx.accountType === 'CREDIT_CARD' && direction === 'IN' && hasCardPaymentWords(text)) {
+  } else if (ctx.accountType === 'CREDIT_CARD' && direction === 'IN' && hasCardSidePaymentWords(text)) {
     // 5. account type: money into a card described as a payment is a payment, not income.
     flags.card_payment = true;
     category = 'DEBT_PAYMENT';

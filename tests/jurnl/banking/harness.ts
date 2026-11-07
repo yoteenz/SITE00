@@ -10,13 +10,15 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { fileURLToPath } from 'node:url';
 import { PGlite } from '@electric-sql/pglite';
 import { ProviderError, type BankingProvider, type LinkSessionInput, type ProviderAccount, type ProviderInstitution, type ProviderItemInfo, type ProviderSyncPage, type ProviderTransaction, type WebhookVerification } from '../../../api/_lib/jurnlBanking/provider';
 import { SqlBankStore, type SqlExecutor } from '../../../api/_lib/jurnlBanking/store';
 import { TokenVault } from '../../../api/_lib/jurnlBanking/tokenVault';
 import type { BankingDeps } from '../../../api/_lib/jurnlBanking/bankingService';
 
-const ROOT = path.resolve(__dirname, '../../..');
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(HERE, '../../..');
 
 export function jurnlMigrationFiles(): string[] {
   return fs
@@ -27,7 +29,7 @@ export function jurnlMigrationFiles(): string[] {
 
 export async function freshDb(): Promise<PGlite> {
   const db = new PGlite();
-  await db.exec(fs.readFileSync(path.join(__dirname, 'supabaseShim.sql'), 'utf8'));
+  await db.exec(fs.readFileSync(path.join(HERE, 'supabaseShim.sql'), 'utf8'));
   for (const f of jurnlMigrationFiles()) await db.exec(fs.readFileSync(path.join(ROOT, 'supabase/migrations', f), 'utf8'));
   return db;
 }

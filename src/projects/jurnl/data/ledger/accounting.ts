@@ -244,6 +244,11 @@ export type LedgerPositions = {
   unassigned: { count: number; delta: number; ids: string[] };
 };
 
+function isBankConfirmed(entry: LedgerEntry): boolean {
+  const m = entry.bank_match;
+  return Boolean(m && (m.status === 'AUTO_MATCHED' || m.status === 'CONFIRMED') && m.other_ids.length > 0);
+}
+
 function recordedAfter(entry: LedgerEntry, iso: string): boolean {
   if (!entry.recorded_at) return false;
   const a = Date.parse(entry.recorded_at);
@@ -277,6 +282,8 @@ export function computeLedgerPositions(
     // Connected account: the provider balance is the anchor. A user entry changes it only when it was recorded after
     // that balance was taken (until the next sync brings the institution's own record of it).
     if (account?.connection && !recordedAfter(entry, account.connection.balance_as_of)) continue;
+    // ...and never when the institution already reported the same movement (it is inside the provider balance).
+    if (account?.connection && isBankConfirmed(entry)) continue;
     if (!account) {
       unassigned.count += 1;
       unassigned.ids.push(entry.id);

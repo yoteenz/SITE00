@@ -220,7 +220,15 @@ export function applyBankPull(snap: RepositorySnapshot, pull: BankPull): { accou
   const report: IngestReport = { accountsCreated: 0, accountsUpdated: 0, added: 0, modified: 0, posted: 0, removed: 0, unchanged: 0, skippedUnknownAccount: 0 };
   const itemsById = new Map(pull.items.map((i) => [i.item_id, i]));
   const accountsById = new Map(snap.accounts.map((a) => [a.account_id, a]));
-  const linkedIds = new Set(Object.values(bank.accountLinks));
+  // An account is taken only while a LIVE connection (an active Item in this pull, still returning it) links it.
+  // Accounts of a disconnected or vanished Item can be picked up again by a re-link, keeping their history.
+  const liveItems = new Set(pull.items.filter((i) => i.status !== 'DISCONNECTED').map((i) => i.item_id));
+  const pulledKeys = new Set(pull.accounts.map((a) => accountKey(a.item_id, a.provider_account_id)));
+  const linkedIds = new Set(
+    Object.entries(bank.accountLinks)
+      .filter(([k]) => pulledKeys.has(k) && liveItems.has(k.split(':')[0]))
+      .map(([, id]) => id),
+  );
   const touchedAccounts = new Map<string, JurnlAccountRecord>();
 
   for (const a of [...pull.accounts].sort((x, y) => `${x.item_id}${x.provider_account_id}`.localeCompare(`${y.item_id}${y.provider_account_id}`))) {
@@ -229,8 +237,9 @@ export function applyBankPull(snap: RepositorySnapshot, pull: BankPull): { accou
     let id = bank.accountLinks[key];
     let existing = id ? (accountsById.get(id) ?? null) : null;
     if (!existing) {
-      existing = findReusableAccount(snap.accounts, a, item, linkedIds);
+      existing = findReusableAccount([...accountsById.values()], a, item, linkedIds);
       id = existing?.account_id ?? stableId('bank-acct', key);
+      if (existing) for (const [k, v] of Object.entries(bank.accountLinks)) if (v === id && k !== key) delete bank.accountLinks[k];
     }
     bank.accountLinks[key] = id;
     linkedIds.add(id);
