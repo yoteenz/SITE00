@@ -416,7 +416,7 @@ export function MoneyPlaceDetailScreen() {
 export const OV02_PLATE = {
   art: 'OV02_ADD_POCKET_SHELL',
   head: [0.14, 0.255, 0.86, 0.352],
-  body: [0.1, 0.36, 0.88, 0.748],
+  body: [0.1, 0.36, 0.88, 0.754],
   foot: [0.17, 0.756, 0.88, 0.83],
 } as const satisfies EdPlate;
 
@@ -465,7 +465,7 @@ export function AddPlaceSheet({ onClose, onSaved }: { onClose: () => void; onSav
         </div>
         <span className="jed-label" id="money-add-kind-label">ACCOUNT TYPE</span>
         <EdChoices label="ACCOUNT TYPE" value={kind} options={PLACE_KINDS.map((k) => ({ ...k, icon: typeArt(k.id) ?? TYPE_GLYPH[k.id], wide: k.id === 'CASH' }))} onChange={(k) => { setKind(k); if (k === 'CREDIT_CARD' || k === 'CASH') setPayout(false); }} trigger="money-add-kind" checkArt />
-        <div className="jed-field jed-balance" style={{ marginTop: 10 }}>
+        <div className="jed-field jed-balance">
           <JurnlInput label={card ? 'BALANCE OWED NOW' : 'BALANCE NOW'} value={balance} onValue={setBalance} trigger="money-add-balance" inputMode="decimal" />
         </div>
         {card ? (

@@ -912,9 +912,29 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
-/* ADD A POCKET plate: do not clip the form at the balance row (a clipped input top border read as a gray rule) */
+/* ADD A POCKET plate: visible+hidden on the generic body becomes auto (clips the balance row as a gray rule) */
+.jrn .jed-host[data-plate='true'][data-jed='register'] .jed-folio--plate {
+  overflow: visible;
+}
 .jrn .jed-host[data-plate='true'][data-jed='register'] .jed-body {
-  overflow-y: visible;
+  overflow: visible;
+}
+.jrn .jed-host[data-plate='true'][data-jed='register'] .jed-label {
+  margin: 6px 0 4px;
+}
+.jrn .jed-host[data-plate='true'][data-jed='register'] .jed-choices {
+  gap: 5px;
+}
+.jrn .jed-host[data-plate='true'][data-jed='register'] .jed-choice {
+  min-height: 40px;
+  padding: 5px 8px;
+  font-size: clamp(10px, 2.8cqw, 12.5px);
+}
+.jrn .jed-host[data-plate='true'][data-jed='register'] .jed-field .jrn-field__box {
+  min-height: 42px;
+}
+.jrn .jed-host[data-plate='true'][data-jed='register'] .jed-field.jed-balance {
+  margin-top: 6px;
 }
 .jrn .jed-host[data-plate='true'] .jed-foot {
   position: absolute;
