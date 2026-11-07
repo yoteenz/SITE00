@@ -416,8 +416,8 @@ export function MoneyPlaceDetailScreen() {
 export const OV02_PLATE = {
   art: 'OV02_ADD_POCKET_SHELL',
   head: [0.14, 0.255, 0.86, 0.352],
-  body: [0.1, 0.36, 0.88, 0.754],
-  foot: [0.17, 0.755, 0.88, 0.83],
+  body: [0.1, 0.36, 0.88, 0.748],
+  foot: [0.17, 0.756, 0.88, 0.83],
 } as const satisfies EdPlate;
 
 const PLACE_KINDS: { id: AccountType; label: string }[] = [
@@ -449,7 +449,7 @@ export function AddPlaceSheet({ onClose, onSaved }: { onClose: () => void; onSav
       testId="money-add-place"
       composition="register"
       title={['ADD A POCKET']}
-      script="create a new pocket for your money"
+      script="create a new stash for your money"
       onClose={onClose}
       plate={OV02_PLATE}
       footer={

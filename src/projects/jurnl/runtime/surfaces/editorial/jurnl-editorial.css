@@ -905,25 +905,16 @@
 .jrn .jed-host[data-plate='true'][data-jed='register'] .jed-head .jed-script {
   color: var(--jed-oxblood);
 }
-/* ADD A POCKET plate: no extra rule between the form scrollport and the torn-paper actions */
-.jrn .jed-host[data-plate='true'][data-jed='register'] .jed-body {
-  border: 0;
-  box-shadow: none;
-  scrollbar-width: none;
-}
-.jrn .jed-host[data-plate='true'][data-jed='register'] .jed-body::-webkit-scrollbar {
-  display: none;
-}
-.jrn .jed-host[data-plate='true'][data-jed='register'] .jed-foot {
-  border-top: 0;
-  box-shadow: none;
-}
 .jrn .jed-host[data-plate='true'] .jed-body {
   position: absolute;
   z-index: 1;
   padding: 0 1.5cqw;
   overflow-y: auto;
   overflow-x: hidden;
+}
+/* ADD A POCKET plate: do not clip the form at the balance row (a clipped input top border read as a gray rule) */
+.jrn .jed-host[data-plate='true'][data-jed='register'] .jed-body {
+  overflow-y: visible;
 }
 .jrn .jed-host[data-plate='true'] .jed-foot {
   position: absolute;
