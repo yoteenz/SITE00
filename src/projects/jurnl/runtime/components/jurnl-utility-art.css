@@ -88,7 +88,8 @@
 /* ── overlay closes (authority: a cream / gold disc about 9 % of the plate wide, top end) ── */
 .jrn .jsh-close.jrn-uab,
 .jrn .jed-close.jrn-uab,
-.jrn .jgm-close.jrn-uab {
+.jrn .jgm-close.jrn-uab,
+.jrn .jrn-dr__close.jrn-uab {
   --uab-disc: clamp(34px, 9cqw, 46px);
   width: max(44px, var(--uab-disc));
   height: max(44px, var(--uab-disc));
@@ -96,6 +97,20 @@
   border-radius: 12px;
   background: none;
   box-shadow: none;
+}
+
+/* ── DOT 01 header: founder SEARCH / ADD on authority chip squares (56 / 72 board px) ── */
+.jrn .jrn-d01__chip.jrn-uab {
+  border: 0;
+  border-radius: 12px;
+  background: none;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  height: max(64px, var(--uab-disc));
+}
+.jrn .jrn-d01__chip.jrn-uab::before {
+  inset: min(-16px, calc((var(--uab-disc) - 44px / var(--f05m-u, 1)) / 2));
 }
 
 /* the menu is open and its own CLOSE sits where the hamburger is (tablet): the hamburger steps aside (JurnlCornerChrome) */

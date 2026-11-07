@@ -312,10 +312,11 @@ describe('the eight overlays\' assets — installed as supplied, registered with
     }
   });
 
-  it('A3 OPUS3 retired every shell with painted UI geometry; none has a runtime copy; OV06 still waits for FD-12', () => {
+  it('A3 OPUS3 retired every shell with painted UI geometry; none has a runtime copy; OV06 inner shell is partial (FD-12 close reconcile)', () => {
     for (const a of OVERLAY_ASSETS) expect(a.runtime, a.id).toBeNull();
     for (const id of ['OV01', 'OV02', 'OV03', 'OV04', 'OV05', 'OV07', 'OV08']) expect(OVERLAY_ASSETS.find((a) => a.id === id)!.mount, id).toBe('RETIRED');
     expect(OVERLAY_ASSETS.find((a) => a.id === 'OV06')!.mount).toBe('INSTALLED_NOT_MOUNTED');
+    expect(OVERLAY_ASSETS.find((a) => a.id === 'OV06')!.mountedIn).toContain('F05.UTILITY.CLOSE.GOLD');
     for (const a of OVERLAY_ASSETS.filter((x) => x.id.startsWith('FG'))) expect(a.mount).toBe('NOT_MOUNTED_PRESENT_IN_SHELL');
     expect(existsSync('src/projects/jurnl/runtime/global/overlays/eight/OV04_SHELL.webp')).toBe(false);
   });

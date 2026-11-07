@@ -22,6 +22,7 @@ import { OverlayLayer } from '../../../components/primitives';
 import { JurnlProductNav } from '../../../components/ProductNav';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../../../global/GlobalSheets';
 import { useJurnl } from '../../../state/store';
+import { JurnlUtilityArtButton } from '../../../components/JurnlUtilityArtButton';
 import { JurnlScreen } from '../../JurnlScreen';
 import { DOT01, DOT01_GEOMETRY } from './dot01Assets';
 import sk03Seal from '../../../../families/F05_MONEY/DOT01/SCENES/F05_DOT01_SEAL_SK03.webp';
@@ -417,11 +418,29 @@ function Dot01Board({ env, title, subtitle, layers = [], chips = [], board, cont
               lefts[i] = right - CHIP_W[tones[i]!];
               right = lefts[i]! - CHIP_GAP;
             }
-            return chips.map((c, i) => (
-              <button key={c.id} type="button" className={`jrn-d01__chip jrn-d01__chip--${tones[i]}`} data-tone={tones[i]} data-jrn-trigger={c.id} aria-label={c.label} aria-haspopup={c.menu ? 'menu' : undefined} aria-expanded={c.menu ? c.menu.open : undefined} style={{ left: lefts[i] }} onClick={(e) => c.onClick(e)}>
-                <ChipIcon icon={c.icon} tone={tones[i]!} />
-              </button>
-            ));
+            return chips.map((c, i) => {
+              const util = c.icon === 'search' ? 'search' : c.icon === 'plus' ? 'add' : null;
+              if (util) {
+                return (
+                  <JurnlUtilityArtButton
+                    key={c.id}
+                    kind={util}
+                    className={`jrn-d01__chip jrn-d01__chip--${tones[i]} jrn-d01__chip--utility`}
+                    trigger={c.id}
+                    label={c.label}
+                    aria-haspopup={c.menu ? 'menu' : undefined}
+                    aria-expanded={c.menu ? c.menu.open : undefined}
+                    style={{ left: lefts[i], width: CHIP_W[tones[i]!], ['--uab-disc' as string]: `${CHIP_W[tones[i]!]}px` } as CSSProperties}
+                    onClick={(e) => c.onClick(e)}
+                  />
+                );
+              }
+              return (
+                <button key={c.id} type="button" className={`jrn-d01__chip jrn-d01__chip--${tones[i]}`} data-tone={tones[i]} data-jrn-trigger={c.id} aria-label={c.label} aria-haspopup={c.menu ? 'menu' : undefined} aria-expanded={c.menu ? c.menu.open : undefined} style={{ left: lefts[i], width: CHIP_W[tones[i]!] }} onClick={(e) => c.onClick(e)}>
+                  <ChipIcon icon={c.icon} tone={tones[i]!} />
+                </button>
+              );
+            });
           })()}
         </div>
       </div>

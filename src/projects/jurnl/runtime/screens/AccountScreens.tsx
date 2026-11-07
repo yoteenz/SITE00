@@ -23,6 +23,7 @@ import { REF_ACCT1, REF_ACCT2, REF_ACCT3, type RefBox, type RefType } from '../l
 import { JurnlProductNav } from '../components/ProductNav';
 import { ReferenceStage, RefIcon, RefText, at, type RefIconName } from '../components/ReferenceStage';
 import { ReferenceLockup } from '../components/ReferenceLockup';
+import { JurnlUtilityArtButton } from '../components/JurnlUtilityArtButton';
 import { OverlayLayer, useOverlayFocus } from '../components/primitives';
 import { REPLICA_H, REPLICA_W, drawerScale, fitSize, useKeyboardViewport, useOverlayHost } from '../components/OverlayAuthority';
 import { OVR_DRAWER } from '../layout/overlayReferenceLayout';
@@ -427,9 +428,14 @@ export function AccountDrawer({ onClose }: { onClose: () => void }) {
             <RefIcon name="arrow" box={D.box.signoutArrow} origin={D.box.signout} stroke={2.2} />
           </button>
 
-          <button type="button" className="jrn-dr__close" aria-label="CLOSE ACCOUNT" data-jrn-trigger="account-drawer-close" onClick={onClose} style={at(D.box.close)}>
-            <RefIcon name="close" box={D.box.closeX} origin={D.box.close} stroke={2.4} />
-          </button>
+          <JurnlUtilityArtButton
+            kind="close"
+            className="jrn-dr__close"
+            trigger="account-drawer-close"
+            label="CLOSE ACCOUNT"
+            onClick={onClose}
+            style={{ ...at(D.box.close), ['--uab-disc' as string]: 'clamp(34px, 9cqw, 46px)' } as CSSProperties}
+          />
         </div>
       </div>
       {sheet === 'currency' ? <CurrencySheet onClose={() => setSheet(null)} /> : null}

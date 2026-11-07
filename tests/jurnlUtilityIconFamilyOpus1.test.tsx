@@ -129,9 +129,15 @@ describe('OPUS1 · MOUNTS', () => {
     }
   });
 
-  it('M3 · DOT 01 chips and the F09 account drawer keep their own authorities (parchment chips, square outline close)', () => {
-    expect(read(`${RT}/screens/f05/dot01/Dot01Frame.tsx`)).not.toContain('JurnlUtilityArtButton');
-    expect(read(`${RT}/screens/AccountScreens.tsx`)).not.toContain('JurnlUtilityArtButton');
+  it('M3 · DOT 01 search/add chips and the account drawer close wear the founder utility artwork', () => {
+    const d01 = read(`${RT}/screens/f05/dot01/Dot01Frame.tsx`);
+    expect(d01).toContain('kind={util}');
+    expect(d01).toContain("const util = c.icon === 'search' ? 'search' : c.icon === 'plus' ? 'add' : null;");
+    expect(d01).toContain('jrn-d01__chip--utility');
+    const acct = read(`${RT}/screens/AccountScreens.tsx`);
+    expect(acct).toContain('kind="close"');
+    expect(acct).toContain('className="jrn-dr__close"');
+    expect(acct).toContain('trigger="account-drawer-close"');
   });
 });
 
