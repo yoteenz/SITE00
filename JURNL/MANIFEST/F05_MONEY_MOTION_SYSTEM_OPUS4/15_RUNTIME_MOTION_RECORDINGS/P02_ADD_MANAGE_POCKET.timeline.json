@@ -1,0 +1,681 @@
+{
+ "id": "P02_ADD_MANAGE_POCKET",
+ "title": "ADD A POCKET (saved pocket settles once) and MANAGE POCKET from the directory (note lifts, closes with its copy, RENAME settles the paper, DELETE presses deliberately)",
+ "viewport": {
+  "width": 393,
+  "height": 852
+ },
+ "reducedMotion": false,
+ "wallMs": 30624,
+ "steps": [
+  {
+   "n": 1,
+   "label": "arrived",
+   "still": "P02_ADD_MANAGE_POCKET-01.png"
+  },
+  {
+   "n": 2,
+   "label": "ADD A POCKET opens as a paper over the page",
+   "still": "P02_ADD_MANAGE_POCKET-02.png"
+  },
+  {
+   "n": 3,
+   "label": "saved: the sheet closes (shorter exit) and the new pocket settles once",
+   "still": "P02_ADD_MANAGE_POCKET-03.png"
+  },
+  {
+   "n": 4,
+   "label": "the pocket directory: press and hold a pocket — MANAGE POCKET presents the note from it",
+   "still": "P02_ADD_MANAGE_POCKET-04.png"
+  },
+  {
+   "n": 5,
+   "label": "Escape: the note closes with its short copy; focus returns",
+   "still": "P02_ADD_MANAGE_POCKET-05.png"
+  },
+  {
+   "n": 6,
+   "label": "RENAME: the cream paper presses; the rename overlay replaces the note (no copy)",
+   "still": "P02_ADD_MANAGE_POCKET-06.png"
+  },
+  {
+   "n": 7,
+   "label": "saved: the renamed pocket paper settles once after the overlay copy has gone",
+   "still": "P02_ADD_MANAGE_POCKET-07.png"
+  },
+  {
+   "n": 8,
+   "label": "DELETE: the blush paper presses deliberately; the confirmation opens; KEEP POCKET",
+   "still": "P02_ADD_MANAGE_POCKET-08.png"
+  }
+ ],
+ "timeline": [
+  {
+   "segmentStart": 0
+  },
+  {
+   "t": 1750,
+   "mode": "FULL",
+   "phase": "NAVIGATING",
+   "ambient": "off"
+  },
+  {
+   "t": 1842,
+   "css": "f05m-env",
+   "on": "jrn-f05m__env"
+  },
+  {
+   "t": 1915,
+   "css": "f05m-title",
+   "on": "jrn-f05m__obj"
+  },
+  {
+   "t": 1982,
+   "css": "f05m-seal",
+   "on": "jrn-f05m__obj"
+  },
+  {
+   "t": 1998,
+   "css": "f05m-reveal",
+   "on": "jrn-f05m__money"
+  },
+  {
+   "t": 2007,
+   "step": "arrived"
+  },
+  {
+   "t": 2184,
+   "css": "f05m-reveal",
+   "on": "jrn-f05m__script"
+  },
+  {
+   "t": 2184,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__divider"
+  },
+  {
+   "t": 2184,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__divider"
+  },
+  {
+   "t": 2184,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__divider"
+  },
+  {
+   "t": 2184,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__metric"
+  },
+  {
+   "t": 2184,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__metric"
+  },
+  {
+   "t": 2184,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__metric"
+  },
+  {
+   "t": 2184,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__metric"
+  },
+  {
+   "t": 2184,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 2184,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 2184,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 2184,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 2184,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 2184,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 2184,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 2223,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 2223,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 2261,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__viewall"
+  },
+  {
+   "t": 2387,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 3373,
+   "mode": "FULL",
+   "phase": "AMBIENT",
+   "ambient": "D C"
+  },
+  {
+   "t": 3998,
+   "css": "jm-amb-light",
+   "on": "jma-light"
+  },
+  {
+   "t": 5167,
+   "step": "ADD A POCKET opens as a paper over the page"
+  },
+  {
+   "t": 5598,
+   "css": "jm-amb-sheen",
+   "on": ""
+  },
+  {
+   "t": 5904,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 5904,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 5979,
+   "css": "jm-ovl-in",
+   "on": "jed-folio"
+  },
+  {
+   "t": 6717,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 6717,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 6767,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 6803,
+   "css": "jm-ovl-in",
+   "on": "jed-folio"
+  },
+  {
+   "t": 7805,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 7825,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 8433,
+   "step": "saved: the sheet closes (shorter exit) and the new pocket settles once"
+  },
+  {
+   "t": 9354,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 9392,
+   "waapi": "none -> translateY(10px) scale(0.994)",
+   "ms": 220,
+   "on": "jed-host"
+  },
+  {
+   "t": 9454,
+   "css": "f05m-return",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 9454,
+   "css": "jrn-toast-in",
+   "on": "jrn-toast"
+  },
+  {
+   "t": 10293,
+   "mode": "FULL",
+   "phase": "AMBIENT",
+   "ambient": "D C"
+  },
+  {
+   "t": 10498,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 10898,
+   "css": "jm-amb-light",
+   "on": "jma-light"
+  },
+  {
+   "t": 12006,
+   "step": "the pocket directory: press and hold a pocket — MANAGE POCKET presents the note from it"
+  },
+  {
+   "t": 12498,
+   "css": "jm-amb-sheen",
+   "on": ""
+  },
+  {
+   "segmentStart": 1
+  },
+  {
+   "t": 1655,
+   "mode": "FULL",
+   "phase": "NAVIGATING",
+   "ambient": "off"
+  },
+  {
+   "t": 1759,
+   "css": "d01-env",
+   "on": "jrn-d01__env"
+  },
+  {
+   "t": 1834,
+   "css": "d01-settle",
+   "on": "jrn-d01__layer"
+  },
+  {
+   "t": 1835,
+   "css": "d01-settle",
+   "on": "jrn-d01__layer"
+  },
+  {
+   "t": 1862,
+   "css": "d01-settle",
+   "on": "jrn-d01__layer"
+  },
+  {
+   "t": 1862,
+   "css": "d01-settle",
+   "on": "d01-dir__cell"
+  },
+  {
+   "t": 1880,
+   "css": "d01-reveal",
+   "on": "jrn-d01__title"
+  },
+  {
+   "t": 1896,
+   "css": "d01-settle",
+   "on": "d01-dir__cell"
+  },
+  {
+   "t": 1946,
+   "css": "d01-settle",
+   "on": "d01-dir__cell"
+  },
+  {
+   "t": 1979,
+   "css": "d01-settle",
+   "on": "d01-dir__cell"
+  },
+  {
+   "t": 1996,
+   "css": "d01-settle",
+   "on": "d01-dir__action"
+  },
+  {
+   "t": 1996,
+   "css": "d01-settle",
+   "on": "d01-dir__action"
+  },
+  {
+   "t": 2013,
+   "css": "d01-settle",
+   "on": "d01-dir__cell"
+  },
+  {
+   "t": 2063,
+   "css": "d01-settle",
+   "on": "d01-dir__cell"
+  },
+  {
+   "t": 2096,
+   "css": "d01-settle",
+   "on": "d01-dir__cell"
+  },
+  {
+   "t": 2146,
+   "css": "d01-settle",
+   "on": "d01-dir__cell"
+  },
+  {
+   "t": 2282,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 3282,
+   "mode": "FULL",
+   "phase": "AMBIENT",
+   "ambient": "C"
+  },
+  {
+   "t": 4620,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 4644,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 4666,
+   "css": "jv3-fade",
+   "on": "jrn-pop-backdrop"
+  },
+  {
+   "t": 4666,
+   "css": "jm-note-in-up",
+   "on": "jrn-pop"
+  },
+  {
+   "t": 5545,
+   "mode": "FULL",
+   "phase": "IDLE",
+   "ambient": "off"
+  },
+  {
+   "t": 5760,
+   "step": "Escape: the note closes with its short copy; focus returns"
+  },
+  {
+   "t": 6553,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 6557,
+   "waapi": "none -> translateY(10px) scale(0.994)",
+   "ms": 220,
+   "on": "jrn-pop"
+  },
+  {
+   "t": 7454,
+   "mode": "FULL",
+   "phase": "AMBIENT",
+   "ambient": "C"
+  },
+  {
+   "t": 7759,
+   "step": "RENAME: the cream paper presses; the rename overlay replaces the note (no copy)"
+  },
+  {
+   "t": 8402,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 8423,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 8449,
+   "css": "jv3-fade",
+   "on": "jrn-pop-backdrop"
+  },
+  {
+   "t": 8449,
+   "css": "jm-note-in-up",
+   "on": "jrn-pop"
+  },
+  {
+   "t": 9324,
+   "mode": "FULL",
+   "phase": "IDLE",
+   "ambient": "off"
+  },
+  {
+   "t": 9397,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 9398,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 9429,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 9451,
+   "css": "d01-env",
+   "on": "jrn-d01__env"
+  },
+  {
+   "t": 9451,
+   "css": "d01-overlay",
+   "on": "jrn-d01-overlay"
+  },
+  {
+   "t": 9583,
+   "css": "d01-reveal",
+   "on": "jrn-d01__title"
+  },
+  {
+   "t": 9629,
+   "css": "d01-strip",
+   "on": "d01-paper"
+  },
+  {
+   "t": 9663,
+   "css": "d01-reveal",
+   "on": "jrn-d01__script"
+  },
+  {
+   "t": 10968,
+   "step": "saved: the renamed pocket paper settles once after the overlay copy has gone"
+  },
+  {
+   "t": 11716,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 11717,
+   "waapi": "translateY(0) -> translateY(-3px) -> translateY(0)",
+   "ms": 340,
+   "on": "d01-dir__paper"
+  },
+  {
+   "t": 11735,
+   "waapi": "none -> translateY(10px) scale(0.994)",
+   "ms": 220,
+   "on": "jrn-d01-overlay"
+  },
+  {
+   "t": 11735,
+   "mode": "FULL",
+   "phase": "CONFIRMED",
+   "ambient": "off"
+  },
+  {
+   "t": 11762,
+   "css": "jrn-toast-in",
+   "on": "jrn-toast"
+  },
+  {
+   "t": 12278,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 12978,
+   "mode": "FULL",
+   "phase": "AMBIENT",
+   "ambient": "C"
+  },
+  {
+   "t": 14146,
+   "step": "DELETE: the blush paper presses deliberately; the confirmation opens; KEEP POCKET"
+  },
+  {
+   "t": 14766,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 14788,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 14817,
+   "css": "jv3-fade",
+   "on": "jrn-pop-backdrop"
+  },
+  {
+   "t": 14817,
+   "css": "jm-note-in-up",
+   "on": "jrn-pop"
+  },
+  {
+   "t": 15689,
+   "mode": "FULL",
+   "phase": "IDLE",
+   "ambient": "off"
+  },
+  {
+   "t": 15763,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 15764,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 15829,
+   "css": "d01-env",
+   "on": "jrn-d01__env"
+  },
+  {
+   "t": 15829,
+   "css": "d01-overlay",
+   "on": "jrn-d01-overlay"
+  },
+  {
+   "t": 15968,
+   "css": "d01-reveal",
+   "on": "jrn-d01__title"
+  },
+  {
+   "t": 16012,
+   "css": "d01-strip",
+   "on": "d01-paper"
+  },
+  {
+   "t": 16012,
+   "css": "d01-strip",
+   "on": "jv3-caution"
+  },
+  {
+   "t": 16049,
+   "css": "d01-reveal",
+   "on": "jrn-d01__script"
+  },
+  {
+   "t": 16145,
+   "css": "jm-warn-seal",
+   "on": "jv3-seal"
+  },
+  {
+   "t": 16696,
+   "mode": "FULL",
+   "phase": "IDLE",
+   "ambient": "off"
+  },
+  {
+   "t": 17280,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 17281,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 17305,
+   "waapi": "none -> translateY(10px) scale(0.994)",
+   "ms": 220,
+   "on": "jrn-d01-overlay"
+  },
+  {
+   "t": 18206,
+   "mode": "FULL",
+   "phase": "AMBIENT",
+   "ambient": "C"
+  }
+ ]
+}

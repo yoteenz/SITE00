@@ -2,6 +2,10 @@
  * F05 DOT 01 — archiving a place (authorities 25, 36). Archiving is not deletion: the place leaves active tracking,
  * its history stays, and it can no longer be chosen for new entries (ledgerOps.activeAccount requires ACTIVE). It is
  * refused while anything still depends on the place.
+ *
+ * ZERO BALANCE BEFORE ARCHIVE (founder-approved policy): a Pocket is archived only at a zero balance — no money held
+ * (HELD_BALANCE, which also covers a card's credit balance and an overdrawn Pocket) and nothing owed (OPEN_BALANCE).
+ * Archiving never moves money and never cancels an obligation: the person resolves each blocker first.
  */
 import { archiveAccount } from '../../foundation/accountMutations';
 import { getTodayKey, type CalendarDate } from '../../foundation/dates';
@@ -11,7 +15,7 @@ import { getRepository } from '../../repository/deviceRepository';
 import { accountView } from './accountView';
 import type { Done } from './result';
 
-export type ArchiveBlockerKind = 'ACTIVE_TRANSFER' | 'RESERVED_FUNDS' | 'DEFAULT_ACCOUNT' | 'RECURRING_PAYMENT' | 'EXPECTED_INCOME' | 'OPEN_BALANCE';
+export type ArchiveBlockerKind = 'ACTIVE_TRANSFER' | 'RESERVED_FUNDS' | 'DEFAULT_ACCOUNT' | 'RECURRING_PAYMENT' | 'EXPECTED_INCOME' | 'OPEN_BALANCE' | 'HELD_BALANCE';
 export type ArchiveBlocker = { kind: ArchiveBlockerKind; label: string; detail: string; route?: string };
 
 const OPEN = new Set(['SCHEDULED', 'PENDING', 'IN_TRANSIT', 'RETURNING', 'NEEDS_RECONCILIATION']);
@@ -30,7 +34,17 @@ export function archiveBlockers(accountId: string, today: CalendarDate = getToda
   const income = snap.incomeSources.filter((i) => i.account_id === accountId && (i.status === 'EXPECTED' || i.status === 'LATE'));
   if (income.length) out.push({ kind: 'EXPECTED_INCOME', label: 'EXPECTED INCOME', detail: `${income.map((i) => i.source_name).slice(0, 3).join(', ')} ${income.length === 1 ? 'IS' : 'ARE'} EXPECTED INTO THIS POCKET.`, route: 'income' });
   const v = accountView(accountId, today);
-  if (v?.liability && v.owed > 0) out.push({ kind: 'OPEN_BALANCE', label: 'OPEN BALANCE', detail: 'THIS CARD STILL SHOWS MONEY OWED. ARCHIVING WOULD HIDE A DEBT.' });
+  if (v?.liability && v.owed > 0) out.push({ kind: 'OPEN_BALANCE', label: 'OPEN BALANCE', detail: 'THIS CARD STILL SHOWS MONEY OWED. ARCHIVING WOULD HIDE A DEBT.', route: `money/places/${accountId}` });
+  // a cent or more either way is a balance (amounts are stored to the cent; anything smaller is rounding)
+  const remaining = v ? (v.liability ? -v.owed : v.held) : 0;
+  if (v && Math.abs(remaining) >= 0.005 && !(v.liability && v.owed > 0)) {
+    out.push({
+      kind: 'HELD_BALANCE',
+      label: 'BALANCE REMAINING',
+      detail: v.liability ? 'THIS CARD HOLDS A CREDIT BALANCE. USE IT OR HAVE IT REFUNDED FIRST.' : remaining < 0 ? 'THIS POCKET IS BELOW ZERO. BRING IT BACK TO ZERO FIRST.' : 'THIS POCKET STILL HOLDS MONEY. MOVE OR SPEND IT FIRST, OR CORRECT THE BALANCE.',
+      route: `money/places/${accountId}`,
+    });
+  }
   return out;
 }
 

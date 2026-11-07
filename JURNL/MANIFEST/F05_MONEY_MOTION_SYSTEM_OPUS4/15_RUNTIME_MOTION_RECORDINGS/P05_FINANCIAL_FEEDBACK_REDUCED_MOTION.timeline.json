@@ -1,0 +1,308 @@
+{
+ "id": "P05_FINANCIAL_FEEDBACK_REDUCED_MOTION",
+ "title": "REDUCED MOTION: no ambience, no entrance, no exit copy, no response — every action still works",
+ "viewport": {
+  "width": 393,
+  "height": 852
+ },
+ "reducedMotion": true,
+ "wallMs": 25346,
+ "steps": [
+  {
+   "n": 1,
+   "label": "arrived (reduced motion): the scene is still",
+   "still": "P05_FINANCIAL_FEEDBACK_REDUCED_MOTION-01.png"
+  },
+  {
+   "n": 2,
+   "label": "swipe: the collection changes at once",
+   "still": "P05_FINANCIAL_FEEDBACK_REDUCED_MOTION-02.png"
+  },
+  {
+   "n": 3,
+   "label": "MOVE MONEY recorded in transit: the figures change, nothing animates",
+   "still": "P05_FINANCIAL_FEEDBACK_REDUCED_MOTION-03.png"
+  },
+  {
+   "n": 4,
+   "label": "menu, BUFFER save and a refused save: state changes, no motion",
+   "still": "P05_FINANCIAL_FEEDBACK_REDUCED_MOTION-04.png"
+  }
+ ],
+ "timeline": [
+  {
+   "t": 1653,
+   "mode": "OFF",
+   "phase": "NAVIGATING",
+   "ambient": "off"
+  },
+  {
+   "t": 2004,
+   "step": "arrived (reduced motion): the scene is still"
+  },
+  {
+   "t": 2299,
+   "mode": "OFF",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 3300,
+   "mode": "OFF",
+   "phase": "IDLE",
+   "ambient": "off"
+  },
+  {
+   "t": 8651,
+   "step": "swipe: the collection changes at once"
+  },
+  {
+   "t": 9356,
+   "mode": "OFF",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 9796,
+   "mode": "OFF",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 9797,
+   "mode": "OFF",
+   "phase": "NAVIGATING",
+   "ambient": "off"
+  },
+  {
+   "t": 10318,
+   "mode": "OFF",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 11317,
+   "mode": "OFF",
+   "phase": "IDLE",
+   "ambient": "off"
+  },
+  {
+   "t": 11497,
+   "mode": "OFF",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 11498,
+   "mode": "OFF",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 11500,
+   "mode": "OFF",
+   "phase": "NAVIGATING",
+   "ambient": "off"
+  },
+  {
+   "t": 12021,
+   "mode": "OFF",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 12760,
+   "step": "MOVE MONEY recorded in transit: the figures change, nothing animates"
+  },
+  {
+   "t": 13020,
+   "mode": "OFF",
+   "phase": "IDLE",
+   "ambient": "off"
+  },
+  {
+   "t": 13480,
+   "mode": "OFF",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 13481,
+   "mode": "OFF",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 14081,
+   "mode": "OFF",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 14081,
+   "mode": "OFF",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 14797,
+   "mode": "OFF",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 14797,
+   "mode": "OFF",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 14880,
+   "mode": "OFF",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 14881,
+   "mode": "OFF",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 14890,
+   "mode": "OFF",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 15010,
+   "mode": "OFF",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 15150,
+   "mode": "OFF",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 15150,
+   "mode": "OFF",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 15183,
+   "mode": "OFF",
+   "phase": "CONFIRMED",
+   "ambient": "off"
+  },
+  {
+   "t": 15884,
+   "mode": "OFF",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 16584,
+   "mode": "OFF",
+   "phase": "IDLE",
+   "ambient": "off"
+  },
+  {
+   "t": 16992,
+   "step": "menu, BUFFER save and a refused save: state changes, no motion"
+  },
+  {
+   "t": 19514,
+   "mode": "OFF",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 19514,
+   "mode": "OFF",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 20414,
+   "mode": "OFF",
+   "phase": "IDLE",
+   "ambient": "off"
+  },
+  {
+   "t": 20430,
+   "mode": "OFF",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 20431,
+   "mode": "OFF",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 20456,
+   "mode": "OFF",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 21451,
+   "mode": "OFF",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 21485,
+   "mode": "OFF",
+   "phase": "CONFIRMED",
+   "ambient": "off"
+  },
+  {
+   "t": 21826,
+   "mode": "OFF",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 22525,
+   "mode": "OFF",
+   "phase": "IDLE",
+   "ambient": "off"
+  },
+  {
+   "t": 22706,
+   "mode": "OFF",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 22817,
+   "mode": "OFF",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 22826,
+   "mode": "OFF",
+   "phase": "ERROR",
+   "ambient": "off"
+  },
+  {
+   "t": 23144,
+   "mode": "OFF",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 23843,
+   "mode": "OFF",
+   "phase": "IDLE",
+   "ambient": "off"
+  }
+ ]
+}

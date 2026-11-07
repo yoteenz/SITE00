@@ -19,6 +19,7 @@
   overflow: hidden;
   touch-action: manipulation;
   --f05m-ink: #1c1610;
+  --f05m-burgundy: #70200d; /* V3 oxblood — panel subtitles and ADD / MOVE hints */
   --f05m-cream: #f3ead8;
   --f05m-gold: #e2ae4e;
   --f05m-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -140,20 +141,6 @@
   color: #2a2016;
   white-space: nowrap;
 }
-.jrn .jrn-f05m__basis {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  top: var(--f05m-caption-top, 664px);
-  text-align: center;
-  margin: 0;
-  padding: 0 10px;
-  box-sizing: border-box;
-  font: 500 calc(16px - var(--f05-type-nudge, 0px))/1.35 'JURNL Sans', sans-serif;
-  letter-spacing: 0.14em;
-  white-space: normal;
-  color: rgba(243, 234, 216, 0.82);
-}
 .jrn .jrn-f05m__band {
   position: absolute;
   left: 0;
@@ -268,8 +255,13 @@
   position: absolute;
   left: calc(var(--f05m-name-left, 38px) + 2px);
   top: var(--f05m-note-top, calc(50% + 62px));
-  font: italic 500 calc(max(18px, calc(7.5px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px))/ 1 'JURNL Authority Serif', 'JURNL Display', serif;
+  font-family: 'JURNL Authority Serif', 'JURNL Display', serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: calc(max(18px, calc(7.5px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px) - 2px);
+  line-height: 1;
   letter-spacing: 0.24em;
+  color: var(--f05m-burgundy);
   white-space: nowrap;
 }
 /* The transfer slip: a small paper pinned under the card's bottom edge (legible over any art). */
@@ -314,9 +306,16 @@
   position: absolute;
   left: 40px;
   bottom: 30px;
-  font: 500 calc(max(17px, calc(7.5px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px))/ 1 'JURNL Sans', sans-serif;
+  font-family: 'JURNL Authority Serif', 'JURNL Display', serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: calc(max(17px, calc(7.5px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px) - 2px);
+  line-height: 1;
   letter-spacing: 0.18em;
-  color: #6a5640;
+  color: var(--f05m-burgundy);
+}
+.jrn .jrn-f05m__paper--add:not(.jrn-f05m__paper--wide) .jrn-f05m__add-sub {
+  font-size: calc(max(17px, calc(7.5px / var(--f05m-u, 1))) - var(--f05-type-nudge, 0px) - 2px + calc(2px / var(--f05m-u, 1)));
 }
 .jrn .jrn-f05m__move {
   position: absolute;
@@ -603,6 +602,16 @@
   pointer-events: none;
 }
 
+/* a stored balance change: one warm wash on the paper (motion/materials.ts balanceAck animates its opacity) */
+.jrn .jrn-f05m__paper-ack {
+  position: absolute;
+  inset: 4%;
+  border-radius: 12px;
+  background: radial-gradient(80% 70% at 30% 60%, rgba(255, 228, 170, 0.55), rgba(255, 228, 170, 0) 75%);
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* ─────────── Motion (entrance ≤ 650 ms; selection; return). Fill is backwards: once an animation ends it leaves no
    style behind (no held transforms). ─────────── */
 @media (prefers-reduced-motion: no-preference) {
@@ -648,8 +657,10 @@
     animation: f05m-arrive 480ms var(--f05m-ease) both;
   }
   .jrn .jrn-f05m__collection[data-phase='load'] .jrn-f05m__paper[data-return='true'],
-  .jrn .jrn-f05m__collection[data-phase='load'] .jrn-f05m__paper[data-fresh='true'],
-  .jrn .jrn-f05m__collection[data-phase='idle'] .jrn-f05m__paper[data-fresh='true'] {
+  .jrn .jrn-f05m__collection[data-phase='load'] .jrn-f05m__paper[data-settle='true'],
+  .jrn .jrn-f05m__collection[data-phase='idle'] .jrn-f05m__paper[data-settle='true'] {
+    /* data-settle is cleared 700 ms after the pocket is saved (data-fresh stays as its identity), so a later idle
+       collection never replays this settle */
     animation: f05m-return 420ms var(--f05m-ease) backwards;
   }
 }

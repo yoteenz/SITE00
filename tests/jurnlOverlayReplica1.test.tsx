@@ -89,13 +89,14 @@ describe('QUICK ADD: founder reference replica', () => {
   });
 });
 
-describe('ACCOUNT drawer: founder reference replica', () => {
-  it('is the reference panel on the founder shell, in the reference order', () => {
+describe('ACCOUNT drawer: OV06 folio (founder Option B)', () => {
+  it('is the OV06 shell with live rows, in the reference order', () => {
     const html = renderDrawer();
     expect(html).toContain('data-jrn-overlay="account-drawer"');
-    expect(html).toContain('data-jrn-overlay-authority="F09_ACCOUNT_DRAWER_OVERLAY_SOURCE"');
-    expect(html).toContain('data-asset-id="F09_ACCOUNT_DRAWER_OVERLAY_SHELL"');
-    for (const f of ['F09_ACCOUNT_DRAWER_SHELL.webp', 'F09_DRAWER_PROFILE_THUMB.jpg', 'F09_DRAWER_PRIVACY_PHOTO.jpg']) expect(html, f).toMatch(new RegExp(`src="[^"]*${f.replace('.', '\\.')}"`));
+    expect(html).toContain('data-jrn-overlay-authority="OV06-IS-ACCOUNT-SETTINGS-DRAWER"');
+    expect(html).toContain('data-asset-id="OV06_ACCOUNT_SHELL"');
+    expect(html).toContain('data-shell="OV06_ACCOUNT_SHELL"');
+    for (const f of ['OV06_ACCOUNT_SHELL.webp', 'F09_DRAWER_PROFILE_THUMB.jpg', 'F09_DRAWER_PRIVACY_PHOTO.jpg']) expect(html, f).toMatch(new RegExp(`src="[^"]*${f.replace('.', '\\.')}"`));
     const text = visible(html);
     for (const line of [
       'FINANCIAL LIFE.',
@@ -109,12 +110,12 @@ describe('ACCOUNT drawer: founder reference replica', () => {
       'CONNECTION',
       'SET UP',
       'ASK JURNL CONTEXT',
-      'HELP JURNL GIVE YOU',
+      'HELP JURNL GIVE YOU PERSONALIZED INSIGHTS BASED ON YOUR SPENDING, PLANS AND GOALS.',
       'SAFE TO SPEND BUFFER',
-      'AMOUNT TO KEEP AS A BUFFER',
+      'AMOUNT TO KEEP AS A BUFFER IN YOUR SAFE TO SPEND CALCULATION.',
       'SAVE BUFFER',
       'PRIVACY & CONSENTS',
-      'MANAGE YOUR PRIVACY',
+      'MANAGE YOUR PRIVACY SETTINGS AND DATA CONSENTS.',
       'SIGN OUT',
     ]) {
       expect(text, line).toContain(line);
@@ -126,9 +127,8 @@ describe('ACCOUNT drawer: founder reference replica', () => {
     expect(at('SAFE TO SPEND BUFFER')).toBeLessThan(at('PRIVACY & CONSENTS'));
     expect(at('PRIVACY & CONSENTS')).toBeLessThan(at('SIGN OUT'));
     expect(text.match(/[a-z]/g)).toBeNull();
-    // Cards sit on the reference's boxes (source px).
-    expect(html).toContain('left:340px;top:393px;width:577px;height:164px');
-    expect(html).toContain('left:403px;top:1003px;width:514px;height:264px');
+    expect(html).toContain('class="ja6-row"');
+    expect(html).toContain('data-scroll="true"');
   });
 
   it('keeps every control of the old drawer', () => {

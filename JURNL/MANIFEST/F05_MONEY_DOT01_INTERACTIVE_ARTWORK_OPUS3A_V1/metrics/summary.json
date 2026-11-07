@@ -1,0 +1,3858 @@
+{
+ "screens": {
+  "01": {
+   "name": "MONEY DOT 01 VIEW ALL ACCOUNTS",
+   "overlay": false,
+   "controls_after": {
+    "GENERIC": 5,
+    "ON_PAPER": 8,
+    "ILLUSTRATED": 7,
+    "FIELD": 1,
+    "DOCK": 4
+   },
+   "controls_before": {
+    "GENERIC": 5,
+    "ON_PAPER": 8,
+    "ILLUSTRATED": 7,
+    "FIELD": 1,
+    "DOCK": 4
+   },
+   "provenance_after": {
+    "CSS_RECONSTRUCTION": 6,
+    "EXACT_APPROVED_SOURCE": 19
+   },
+   "provenance_before": {
+    "CSS_RECONSTRUCTION": 6,
+    "EXACT_APPROVED_SOURCE": 19
+   },
+   "title_after": {
+    "title_inside": null,
+    "title_font": null
+   },
+   "title_before": {
+    "title_inside": null,
+    "title_font": null
+   },
+   "leaks_after": 8,
+   "leaks_before": 8,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [
+    {
+     "text": "BANK",
+     "in": "f05m-place-bank",
+     "by": [
+      2
+     ]
+    },
+    {
+     "text": "ACCOUNT",
+     "in": "f05m-place-bank",
+     "by": [
+      2
+     ]
+    },
+    {
+     "text": "RIDESHARE",
+     "in": "f05m-place-ride",
+     "by": [
+      2
+     ]
+    },
+    {
+     "text": "CARD",
+     "in": "f05m-place-ride",
+     "by": [
+      2
+     ]
+    },
+    {
+     "text": "CASH",
+     "in": "f05m-place-cash",
+     "by": [
+      2
+     ]
+    },
+    {
+     "text": "ON HAND",
+     "in": "f05m-place-cash",
+     "by": [
+      2
+     ]
+    },
+    {
+     "text": "CREDIT",
+     "in": "f05m-place-visa",
+     "by": [
+      2
+     ]
+    },
+    {
+     "text": "CARD",
+     "in": "f05m-place-visa",
+     "by": [
+      2
+     ]
+    }
+   ],
+   "leaks_before_list": [
+    {
+     "text": "BANK",
+     "in": "f05m-place-bank",
+     "by": [
+      2
+     ]
+    },
+    {
+     "text": "ACCOUNT",
+     "in": "f05m-place-bank",
+     "by": [
+      2
+     ]
+    },
+    {
+     "text": "RIDESHARE",
+     "in": "f05m-place-ride",
+     "by": [
+      2
+     ]
+    },
+    {
+     "text": "CARD",
+     "in": "f05m-place-ride",
+     "by": [
+      2
+     ]
+    },
+    {
+     "text": "CASH",
+     "in": "f05m-place-cash",
+     "by": [
+      2
+     ]
+    },
+    {
+     "text": "ON HAND",
+     "in": "f05m-place-cash",
+     "by": [
+      2
+     ]
+    },
+    {
+     "text": "CREDIT",
+     "in": "f05m-place-visa",
+     "by": [
+      2
+     ]
+    },
+    {
+     "text": "CARD",
+     "in": "f05m-place-visa",
+     "by": [
+      2
+     ]
+    }
+   ],
+   "title_paper_after": null,
+   "title_paper_before": null,
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 2,
+    "471x836": 2,
+    "393x660": 2
+   }
+  },
+  "02": {
+   "name": "BANK ACCOUNT",
+   "overlay": false,
+   "controls_after": {
+    "ON_PAPER": 3,
+    "ILLUSTRATED": 2
+   },
+   "controls_before": {
+    "ON_PAPER": 3,
+    "ILLUSTRATED": 2
+   },
+   "provenance_after": {
+    "EXACT_APPROVED_SOURCE": 4,
+    "PARTIAL_SOURCE_CANDIDATE": 1
+   },
+   "provenance_before": {
+    "EXACT_APPROVED_SOURCE": 4,
+    "PARTIAL_SOURCE_CANDIDATE": 1
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 72
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 72
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": null,
+   "title_paper_before": null,
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "03": {
+   "name": "RIDESHARE CARD",
+   "overlay": false,
+   "controls_after": {
+    "ON_PAPER": 3,
+    "ILLUSTRATED": 2
+   },
+   "controls_before": {
+    "ON_PAPER": 3,
+    "ILLUSTRATED": 2
+   },
+   "provenance_after": {
+    "EXACT_APPROVED_SOURCE": 4,
+    "PARTIAL_SOURCE_CANDIDATE": 1
+   },
+   "provenance_before": {
+    "EXACT_APPROVED_SOURCE": 4,
+    "PARTIAL_SOURCE_CANDIDATE": 1
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 67.2
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 67.2
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": null,
+   "title_paper_before": null,
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "04": {
+   "name": "CASH ON HAND",
+   "overlay": false,
+   "controls_after": {
+    "ON_PAPER": 4,
+    "ILLUSTRATED": 2
+   },
+   "controls_before": {
+    "ON_PAPER": 4,
+    "ILLUSTRATED": 2
+   },
+   "provenance_after": {
+    "EXACT_APPROVED_SOURCE": 5,
+    "PARTIAL_SOURCE_CANDIDATE": 1
+   },
+   "provenance_before": {
+    "EXACT_APPROVED_SOURCE": 5,
+    "PARTIAL_SOURCE_CANDIDATE": 1
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 72
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 72
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": null,
+   "title_paper_before": null,
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "05": {
+   "name": "CREDIT CARD",
+   "overlay": false,
+   "controls_after": {
+    "ON_PAPER": 4,
+    "ILLUSTRATED": 2
+   },
+   "controls_before": {
+    "ON_PAPER": 4,
+    "ILLUSTRATED": 2
+   },
+   "provenance_after": {
+    "EXACT_APPROVED_SOURCE": 5,
+    "PARTIAL_SOURCE_CANDIDATE": 1
+   },
+   "provenance_before": {
+    "EXACT_APPROVED_SOURCE": 5,
+    "PARTIAL_SOURCE_CANDIDATE": 1
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 72
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 72
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": null,
+   "title_paper_before": null,
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "06": {
+   "name": "ALL ACCOUNTS",
+   "overlay": false,
+   "controls_after": {
+    "ILLUSTRATED": 6,
+    "CHIP": 1,
+    "DOCK": 4,
+    "GENERIC": 1
+   },
+   "controls_before": {
+    "ILLUSTRATED": 6,
+    "CHIP": 1,
+    "DOCK": 4,
+    "GENERIC": 1
+   },
+   "provenance_after": {
+    "EXACT_APPROVED_SOURCE": 10,
+    "CSS_RECONSTRUCTION": 2
+   },
+   "provenance_before": {
+    "EXACT_APPROVED_SOURCE": 10,
+    "CSS_RECONSTRUCTION": 2
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 70
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 70
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": null,
+   "title_paper_before": null,
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "07": {
+   "name": "BANK TRANSACTION HISTORY",
+   "overlay": false,
+   "controls_after": {
+    "CHIP": 2,
+    "FIELD": 1,
+    "ON_PAPER": 7
+   },
+   "controls_before": {
+    "CHIP": 2,
+    "FIELD": 1,
+    "ON_PAPER": 7
+   },
+   "provenance_after": {
+    "CSS_RECONSTRUCTION": 3,
+    "EXACT_APPROVED_SOURCE": 7
+   },
+   "provenance_before": {
+    "CSS_RECONSTRUCTION": 3,
+    "EXACT_APPROVED_SOURCE": 7
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 54
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 54
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 3,
+   "collide_before": 3,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": null,
+   "title_paper_before": null,
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "08": {
+   "name": "RIDESHARE ACTIVITY",
+   "overlay": false,
+   "controls_after": {
+    "CHIP": 2,
+    "FIELD": 1,
+    "ON_PAPER": 3,
+    "ILLUSTRATED": 2
+   },
+   "controls_before": {
+    "CHIP": 2,
+    "FIELD": 1,
+    "ON_PAPER": 3,
+    "GENERIC": 2
+   },
+   "provenance_after": {
+    "CSS_RECONSTRUCTION": 3,
+    "EXACT_APPROVED_SOURCE": 5
+   },
+   "provenance_before": {
+    "CSS_RECONSTRUCTION": 5,
+    "EXACT_APPROVED_SOURCE": 3
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 67.2
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 67.2
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 1,
+   "collide_before": 1,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": null,
+   "title_paper_before": null,
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "09": {
+   "name": "CASH USAGE HISTORY",
+   "overlay": false,
+   "controls_after": {
+    "CHIP": 2,
+    "FIELD": 1,
+    "ON_PAPER": 3,
+    "ILLUSTRATED": 2
+   },
+   "controls_before": {
+    "CHIP": 2,
+    "FIELD": 1,
+    "ON_PAPER": 3,
+    "GENERIC": 2
+   },
+   "provenance_after": {
+    "CSS_RECONSTRUCTION": 3,
+    "EXACT_APPROVED_SOURCE": 5
+   },
+   "provenance_before": {
+    "CSS_RECONSTRUCTION": 5,
+    "EXACT_APPROVED_SOURCE": 3
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 60.3
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 60.3
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 1,
+   "collide_before": 1,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": null,
+   "title_paper_before": null,
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "10": {
+   "name": "CREDIT CARD ACTIVITY",
+   "overlay": false,
+   "controls_after": {
+    "CHIP": 2,
+    "FIELD": 1,
+    "ON_PAPER": 2,
+    "ILLUSTRATED": 2
+   },
+   "controls_before": {
+    "CHIP": 2,
+    "FIELD": 1,
+    "ON_PAPER": 2,
+    "GENERIC": 2
+   },
+   "provenance_after": {
+    "CSS_RECONSTRUCTION": 3,
+    "EXACT_APPROVED_SOURCE": 4
+   },
+   "provenance_before": {
+    "CSS_RECONSTRUCTION": 5,
+    "EXACT_APPROVED_SOURCE": 2
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 54.7
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 54.7
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": null,
+   "title_paper_before": null,
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "11": {
+   "name": "TRANSACTION DETAIL",
+   "overlay": false,
+   "controls_after": {
+    "ILLUSTRATED": 4
+   },
+   "controls_before": {
+    "ILLUSTRATED": 4
+   },
+   "provenance_after": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "EXACT_APPROVED_SOURCE": 3
+   },
+   "provenance_before": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "EXACT_APPROVED_SOURCE": 3
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 54.7
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 54.7
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": null,
+   "title_paper_before": null,
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "12": {
+   "name": "ACCOUNT DETAILS AND SETTINGS",
+   "overlay": false,
+   "controls_after": {
+    "ILLUSTRATED": 4
+   },
+   "controls_before": {
+    "ILLUSTRATED": 4
+   },
+   "provenance_after": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "EXACT_APPROVED_SOURCE": 3
+   },
+   "provenance_before": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "EXACT_APPROVED_SOURCE": 3
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 72
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 72
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": null,
+   "title_paper_before": null,
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "13": {
+   "name": "ACCOUNT BALANCE REVIEW",
+   "overlay": false,
+   "controls_after": {
+    "ILLUSTRATED": 4,
+    "ON_PAPER": 1
+   },
+   "controls_before": {
+    "ILLUSTRATED": 3,
+    "ON_PAPER": 1,
+    "GENERIC": 1
+   },
+   "provenance_after": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "EXACT_APPROVED_SOURCE": 4
+   },
+   "provenance_before": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "EXACT_APPROVED_SOURCE": 3,
+    "CSS_RECONSTRUCTION": 1
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 72
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 72
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": null,
+   "title_paper_before": null,
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "14": {
+   "name": "ADD ACCOUNT",
+   "overlay": true,
+   "controls_after": {
+    "ILLUSTRATED": 7
+   },
+   "controls_before": {
+    "ILLUSTRATED": 5,
+    "GENERIC": 2
+   },
+   "provenance_after": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "EXACT_APPROVED_SOURCE": 6
+   },
+   "provenance_before": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "EXACT_APPROVED_SOURCE": 4,
+    "CSS_RECONSTRUCTION": 2
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 64
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 66
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": [
+    {
+     "text": "ADD",
+     "right": 337,
+     "paper_edge": 621,
+     "overrun": -284
+    },
+    {
+     "text": "ACCOUNT",
+     "right": 516,
+     "paper_edge": 565,
+     "overrun": -48
+    }
+   ],
+   "title_paper_before": [
+    {
+     "text": "ADD",
+     "right": 342,
+     "paper_edge": 639,
+     "overrun": -297
+    },
+    {
+     "text": "ACCOUNT",
+     "right": 528,
+     "paper_edge": 605,
+     "overrun": -77
+    }
+   ],
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "15": {
+   "name": "EDIT ACCOUNT",
+   "overlay": true,
+   "controls_after": {
+    "ILLUSTRATED": 3,
+    "FIELD": 1,
+    "CHIP": 13,
+    "ON_PAPER": 1
+   },
+   "controls_before": {
+    "ILLUSTRATED": 1,
+    "FIELD": 1,
+    "CHIP": 13,
+    "ON_PAPER": 1,
+    "GENERIC": 2
+   },
+   "provenance_after": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 14,
+    "EXACT_APPROVED_SOURCE": 3
+   },
+   "provenance_before": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 16,
+    "EXACT_APPROVED_SOURCE": 1
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 66
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 68
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": [
+    {
+     "text": "EDIT",
+     "right": 359,
+     "paper_edge": 621,
+     "overrun": -262
+    },
+    {
+     "text": "ACCOUNT",
+     "right": 528,
+     "paper_edge": 557,
+     "overrun": -30
+    }
+   ],
+   "title_paper_before": [
+    {
+     "text": "EDIT",
+     "right": 365,
+     "paper_edge": 639,
+     "overrun": -275
+    },
+    {
+     "text": "ACCOUNT",
+     "right": 537,
+     "paper_edge": 603,
+     "overrun": -66
+    }
+   ],
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "16": {
+   "name": "RECORD BANK TRANSACTION",
+   "overlay": true,
+   "controls_after": {
+    "ILLUSTRATED": 4,
+    "FIELD": 7
+   },
+   "controls_before": {
+    "ILLUSTRATED": 1,
+    "GENERIC": 3,
+    "FIELD": 7
+   },
+   "provenance_after": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "EXACT_APPROVED_SOURCE": 3,
+    "CSS_RECONSTRUCTION": 7
+   },
+   "provenance_before": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 10
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 64.1
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 66.9
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": [
+    {
+     "text": "RECORD",
+     "right": 470,
+     "paper_edge": 699,
+     "overrun": -229
+    },
+    {
+     "text": "TRANSACTION",
+     "right": 660,
+     "paper_edge": 699,
+     "overrun": -39
+    }
+   ],
+   "title_paper_before": [
+    {
+     "text": "RECORD",
+     "right": 486,
+     "paper_edge": 640,
+     "overrun": -154
+    },
+    {
+     "text": "TRANSACTION",
+     "right": 685,
+     "paper_edge": 605,
+     "overrun": 80
+    }
+   ],
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "17": {
+   "name": "ADD CASH",
+   "overlay": true,
+   "controls_after": {
+    "ILLUSTRATED": 2,
+    "FIELD": 3
+   },
+   "controls_before": {
+    "ILLUSTRATED": 1,
+    "FIELD": 3,
+    "GENERIC": 1
+   },
+   "provenance_after": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 3,
+    "EXACT_APPROVED_SOURCE": 1
+   },
+   "provenance_before": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 4
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 75.7
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 86
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": [
+    {
+     "text": "ADD CASH",
+     "right": 593,
+     "paper_edge": 597,
+     "overrun": -4
+    }
+   ],
+   "title_paper_before": [
+    {
+     "text": "ADD CASH",
+     "right": 647,
+     "paper_edge": 615,
+     "overrun": 32
+    }
+   ],
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "18": {
+   "name": "RECORD CASH SPENDING",
+   "overlay": true,
+   "controls_after": {
+    "ILLUSTRATED": 4,
+    "FIELD": 6
+   },
+   "controls_before": {
+    "ILLUSTRATED": 1,
+    "GENERIC": 3,
+    "FIELD": 6
+   },
+   "provenance_after": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "EXACT_APPROVED_SOURCE": 3,
+    "CSS_RECONSTRUCTION": 6
+   },
+   "provenance_before": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 9
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 54.5
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 66.9
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": [
+    {
+     "text": "RECORD CASH",
+     "right": 599,
+     "paper_edge": 622,
+     "overrun": -23
+    },
+    {
+     "text": "SPENDING",
+     "right": 481,
+     "paper_edge": 584,
+     "overrun": -103
+    }
+   ],
+   "title_paper_before": [
+    {
+     "text": "RECORD CASH",
+     "right": 690,
+     "paper_edge": 640,
+     "overrun": 50
+    },
+    {
+     "text": "SPENDING",
+     "right": 546,
+     "paper_edge": 605,
+     "overrun": -58
+    }
+   ],
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "19": {
+   "name": "RECORD CREDIT CARD PURCHASE",
+   "overlay": true,
+   "controls_after": {
+    "ILLUSTRATED": 4,
+    "FIELD": 6
+   },
+   "controls_before": {
+    "ILLUSTRATED": 1,
+    "GENERIC": 3,
+    "FIELD": 6
+   },
+   "provenance_after": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "EXACT_APPROVED_SOURCE": 3,
+    "CSS_RECONSTRUCTION": 6
+   },
+   "provenance_before": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 9
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 54.5
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 66.9
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": [
+    {
+     "text": "RECORD CARD",
+     "right": 601,
+     "paper_edge": 622,
+     "overrun": -22
+    },
+    {
+     "text": "PURCHASE",
+     "right": 494,
+     "paper_edge": 584,
+     "overrun": -90
+    }
+   ],
+   "title_paper_before": [
+    {
+     "text": "RECORD CARD",
+     "right": 694,
+     "paper_edge": 640,
+     "overrun": 54
+    },
+    {
+     "text": "PURCHASE",
+     "right": 563,
+     "paper_edge": 605,
+     "overrun": -42
+    }
+   ],
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "20": {
+   "name": "RECORD CREDIT CARD PAYMENT",
+   "overlay": true,
+   "controls_after": {
+    "ILLUSTRATED": 2,
+    "FIELD": 6
+   },
+   "controls_before": {
+    "ILLUSTRATED": 1,
+    "FIELD": 6,
+    "GENERIC": 1
+   },
+   "provenance_after": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 6,
+    "EXACT_APPROVED_SOURCE": 1
+   },
+   "provenance_before": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 7
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 65.8
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 66.9
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": [
+    {
+     "text": "RECORD CARD",
+     "right": 681,
+     "paper_edge": 698,
+     "overrun": -17
+    },
+    {
+     "text": "PAYMENT",
+     "right": 511,
+     "paper_edge": 699,
+     "overrun": -188
+    }
+   ],
+   "title_paper_before": [
+    {
+     "text": "RECORD CARD",
+     "right": 694,
+     "paper_edge": 640,
+     "overrun": 54
+    },
+    {
+     "text": "PAYMENT",
+     "right": 520,
+     "paper_edge": 605,
+     "overrun": -85
+    }
+   ],
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "21": {
+   "name": "ACCOUNT PURPOSE PREFERENCES",
+   "overlay": true,
+   "controls_after": {
+    "ILLUSTRATED": 3,
+    "CHIP": 13
+   },
+   "controls_before": {
+    "ILLUSTRATED": 1,
+    "CHIP": 13,
+    "GENERIC": 2
+   },
+   "provenance_after": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 13,
+    "EXACT_APPROVED_SOURCE": 2
+   },
+   "provenance_before": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 15
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 66
+   },
+   "title_before": {
+    "title_inside": false,
+    "title_font": 68
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": [
+    {
+     "text": "ACCOUNT",
+     "right": 528,
+     "paper_edge": 634,
+     "overrun": -106
+    },
+    {
+     "text": "PURPOSES",
+     "right": 546,
+     "paper_edge": 597,
+     "overrun": -51
+    }
+   ],
+   "title_paper_before": [
+    {
+     "text": "ACCOUNT",
+     "right": 537,
+     "paper_edge": 615,
+     "overrun": -78
+    },
+    {
+     "text": "PURPOSES",
+     "right": 557,
+     "paper_edge": 617,
+     "overrun": -59
+    }
+   ],
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "22": {
+   "name": "EMPTY ACCOUNTS",
+   "overlay": false,
+   "controls_after": {
+    "ON_PAPER": 6,
+    "CHIP": 1
+   },
+   "controls_before": {
+    "ON_PAPER": 6,
+    "CHIP": 1
+   },
+   "provenance_after": {
+    "EXACT_APPROVED_SOURCE": 6,
+    "CSS_RECONSTRUCTION": 1
+   },
+   "provenance_before": {
+    "EXACT_APPROVED_SOURCE": 6,
+    "CSS_RECONSTRUCTION": 1
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 49.9
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 49.9
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": null,
+   "title_paper_before": null,
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "23": {
+   "name": "BALANCE ADJUSTMENT REVIEW",
+   "overlay": true,
+   "controls_after": {
+    "ILLUSTRATED": 2,
+    "FIELD": 2
+   },
+   "controls_before": {
+    "ILLUSTRATED": 1,
+    "FIELD": 2,
+    "GENERIC": 1
+   },
+   "provenance_after": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 2,
+    "EXACT_APPROVED_SOURCE": 1
+   },
+   "provenance_before": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 3
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 55.6
+   },
+   "title_before": {
+    "title_inside": false,
+    "title_font": 68
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": [
+    {
+     "text": "BALANCE",
+     "right": 456,
+     "paper_edge": 635,
+     "overrun": -178
+    },
+    {
+     "text": "ADJUSTMENT",
+     "right": 571,
+     "paper_edge": 608,
+     "overrun": -37
+    }
+   ],
+   "title_paper_before": [
+    {
+     "text": "BALANCE",
+     "right": 514,
+     "paper_edge": 615,
+     "overrun": -100
+    },
+    {
+     "text": "ADJUSTMENT",
+     "right": 655,
+     "paper_edge": 617,
+     "overrun": 38
+    }
+   ],
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "24": {
+   "name": "TRANSACTION CORRECTION / REVERSAL",
+   "overlay": true,
+   "controls_after": {
+    "ILLUSTRATED": 5
+   },
+   "controls_before": {
+    "ILLUSTRATED": 5
+   },
+   "provenance_after": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "EXACT_APPROVED_SOURCE": 4
+   },
+   "provenance_before": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "EXACT_APPROVED_SOURCE": 4
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 50.3
+   },
+   "title_before": {
+    "title_inside": false,
+    "title_font": 66.9
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": [
+    {
+     "text": "CORRECT",
+     "right": 445,
+     "paper_edge": 636,
+     "overrun": -191
+    },
+    {
+     "text": "TRANSACTION",
+     "right": 563,
+     "paper_edge": 610,
+     "overrun": -47
+    }
+   ],
+   "title_paper_before": [
+    {
+     "text": "CORRECT",
+     "right": 528,
+     "paper_edge": 615,
+     "overrun": -87
+    },
+    {
+     "text": "TRANSACTION",
+     "right": 685,
+     "paper_edge": 618,
+     "overrun": 67
+    }
+   ],
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "25": {
+   "name": "ACCOUNT ARCHIVE CONFIRMATION",
+   "overlay": true,
+   "controls_after": {
+    "ILLUSTRATED": 3
+   },
+   "controls_before": {
+    "ILLUSTRATED": 1,
+    "GENERIC": 2
+   },
+   "provenance_after": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "EXACT_APPROVED_SOURCE": 2
+   },
+   "provenance_before": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 2
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 66
+   },
+   "title_before": {
+    "title_inside": false,
+    "title_font": 68
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": [
+    {
+     "text": "ARCHIVE",
+     "right": 498,
+     "paper_edge": 634,
+     "overrun": -136
+    },
+    {
+     "text": "ACCOUNT",
+     "right": 528,
+     "paper_edge": 597,
+     "overrun": -69
+    }
+   ],
+   "title_paper_before": [
+    {
+     "text": "ARCHIVE",
+     "right": 509,
+     "paper_edge": 615,
+     "overrun": -106
+    },
+    {
+     "text": "ACCOUNT",
+     "right": 537,
+     "paper_edge": 617,
+     "overrun": -80
+    }
+   ],
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "26": {
+   "name": "CAPTURE RECEIPT",
+   "overlay": true,
+   "controls_after": {
+    "ON_PAPER": 3,
+    "ILLUSTRATED": 1
+   },
+   "controls_before": {
+    "ON_PAPER": 3,
+    "ILLUSTRATED": 1
+   },
+   "provenance_after": {
+    "EXACT_APPROVED_SOURCE": 3,
+    "PARTIAL_SOURCE_CANDIDATE": 1
+   },
+   "provenance_before": {
+    "EXACT_APPROVED_SOURCE": 3,
+    "PARTIAL_SOURCE_CANDIDATE": 1
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 66
+   },
+   "title_before": {
+    "title_inside": false,
+    "title_font": 68
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": [
+    {
+     "text": "CAPTURE",
+     "right": 509,
+     "paper_edge": 634,
+     "overrun": -125
+    },
+    {
+     "text": "RECEIPT",
+     "right": 486,
+     "paper_edge": 597,
+     "overrun": -110
+    }
+   ],
+   "title_paper_before": [
+    {
+     "text": "CAPTURE",
+     "right": 518,
+     "paper_edge": 615,
+     "overrun": -97
+    },
+    {
+     "text": "RECEIPT",
+     "right": 496,
+     "paper_edge": 617,
+     "overrun": -121
+    }
+   ],
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 1
+   }
+  },
+  "27": {
+   "name": "SCANNING RECEIPT",
+   "overlay": true,
+   "controls_after": {
+    "ILLUSTRATED": 3,
+    "FIELD": 6
+   },
+   "controls_before": {
+    "ILLUSTRATED": 1,
+    "FIELD": 6,
+    "GENERIC": 2
+   },
+   "provenance_after": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 6,
+    "EXACT_APPROVED_SOURCE": 2
+   },
+   "provenance_before": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 8
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 66
+   },
+   "title_before": {
+    "title_inside": false,
+    "title_font": 68
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": [
+    {
+     "text": "REVIEW",
+     "right": 460,
+     "paper_edge": 634,
+     "overrun": -174
+    },
+    {
+     "text": "PURCHASE",
+     "right": 557,
+     "paper_edge": 597,
+     "overrun": -39
+    }
+   ],
+   "title_paper_before": [
+    {
+     "text": "REVIEW",
+     "right": 468,
+     "paper_edge": 615,
+     "overrun": -147
+    },
+    {
+     "text": "PURCHASE",
+     "right": 569,
+     "paper_edge": 617,
+     "overrun": -48
+    }
+   ],
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "28": {
+   "name": "REVIEW EXTRACTED PURCHASE",
+   "overlay": true,
+   "controls_after": {
+    "ILLUSTRATED": 3,
+    "FIELD": 6
+   },
+   "controls_before": {
+    "ILLUSTRATED": 1,
+    "FIELD": 6,
+    "GENERIC": 2
+   },
+   "provenance_after": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 6,
+    "EXACT_APPROVED_SOURCE": 2
+   },
+   "provenance_before": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 8
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 66
+   },
+   "title_before": {
+    "title_inside": false,
+    "title_font": 68
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": [
+    {
+     "text": "REVIEW",
+     "right": 460,
+     "paper_edge": 634,
+     "overrun": -174
+    },
+    {
+     "text": "PURCHASE",
+     "right": 557,
+     "paper_edge": 597,
+     "overrun": -39
+    }
+   ],
+   "title_paper_before": [
+    {
+     "text": "REVIEW",
+     "right": 468,
+     "paper_edge": 615,
+     "overrun": -147
+    },
+    {
+     "text": "PURCHASE",
+     "right": 569,
+     "paper_edge": 617,
+     "overrun": -48
+    }
+   ],
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "29": {
+   "name": "RECEIPT EXCEPTION / DUPLICATE",
+   "overlay": true,
+   "controls_after": {
+    "ILLUSTRATED": 5
+   },
+   "controls_before": {
+    "ILLUSTRATED": 1,
+    "GENERIC": 4
+   },
+   "provenance_after": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "EXACT_APPROVED_SOURCE": 4
+   },
+   "provenance_before": {
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 4
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 51.2
+   },
+   "title_before": {
+    "title_inside": false,
+    "title_font": 68
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": [
+    {
+     "text": "REVIEW RECEIPT",
+     "right": 636,
+     "paper_edge": 706,
+     "overrun": -70
+    }
+   ],
+   "title_paper_before": [
+    {
+     "text": "REVIEW",
+     "right": 468,
+     "paper_edge": 615,
+     "overrun": -147
+    },
+    {
+     "text": "RECEIPT",
+     "right": 496,
+     "paper_edge": 617,
+     "overrun": -121
+    }
+   ],
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "30": {
+   "name": "ACCOUNT SETUP DETAILS",
+   "overlay": true,
+   "controls_after": {
+    "ON_PAPER": 1,
+    "ILLUSTRATED": 5,
+    "FIELD": 3,
+    "CHIP": 8
+   },
+   "controls_before": {
+    "ON_PAPER": 1,
+    "ILLUSTRATED": 5,
+    "FIELD": 3,
+    "CHIP": 8
+   },
+   "provenance_after": {
+    "EXACT_APPROVED_SOURCE": 5,
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 11
+   },
+   "provenance_before": {
+    "EXACT_APPROVED_SOURCE": 5,
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 11
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 53.3
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 66
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": [
+    {
+     "text": "ACCOUNT SETUP",
+     "right": 645,
+     "paper_edge": 706,
+     "overrun": -61
+    }
+   ],
+   "title_paper_before": [
+    {
+     "text": "ACCOUNT",
+     "right": 528,
+     "paper_edge": 620,
+     "overrun": -92
+    },
+    {
+     "text": "SETUP",
+     "right": 412,
+     "paper_edge": 618,
+     "overrun": -206
+    }
+   ],
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "31": {
+   "name": "TRANSACTION SEARCH AND FILTER",
+   "overlay": false,
+   "controls_after": {
+    "ON_PAPER": 6,
+    "ILLUSTRATED": 2,
+    "FIELD": 8,
+    "CHIP": 1,
+    "DOCK": 4,
+    "GENERIC": 1
+   },
+   "controls_before": {
+    "ON_PAPER": 6,
+    "ILLUSTRATED": 1,
+    "FIELD": 8,
+    "CHIP": 1,
+    "GENERIC": 2,
+    "DOCK": 4
+   },
+   "provenance_after": {
+    "EXACT_APPROVED_SOURCE": 11,
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 10
+   },
+   "provenance_before": {
+    "EXACT_APPROVED_SOURCE": 10,
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 11
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 48.2
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 48.2
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 5,
+   "collide_before": 5,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": null,
+   "title_paper_before": null,
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "32": {
+   "name": "REORDER ACCOUNTS",
+   "overlay": false,
+   "controls_after": {
+    "ON_PAPER": 1,
+    "ILLUSTRATED": 3,
+    "GENERIC": 8
+   },
+   "controls_before": {
+    "ON_PAPER": 1,
+    "ILLUSTRATED": 1,
+    "GENERIC": 10
+   },
+   "provenance_after": {
+    "EXACT_APPROVED_SOURCE": 3,
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 8
+   },
+   "provenance_before": {
+    "EXACT_APPROVED_SOURCE": 1,
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 10
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 75.0
+   },
+   "title_before": {
+    "title_inside": false,
+    "title_font": 75.9
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": null,
+   "title_paper_before": null,
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "33": {
+   "name": "TRANSACTION REVIEW",
+   "overlay": true,
+   "controls_after": {
+    "ON_PAPER": 1,
+    "ILLUSTRATED": 3
+   },
+   "controls_before": {
+    "ON_PAPER": 1,
+    "ILLUSTRATED": 1,
+    "GENERIC": 2
+   },
+   "provenance_after": {
+    "EXACT_APPROVED_SOURCE": 3,
+    "PARTIAL_SOURCE_CANDIDATE": 1
+   },
+   "provenance_before": {
+    "EXACT_APPROVED_SOURCE": 1,
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 2
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 54.5
+   },
+   "title_before": {
+    "title_inside": false,
+    "title_font": 66.9
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": [
+    {
+     "text": "TRANSACTION",
+     "right": 593,
+     "paper_edge": 635,
+     "overrun": -42
+    },
+    {
+     "text": "REVIEW",
+     "right": 413,
+     "paper_edge": 608,
+     "overrun": -194
+    }
+   ],
+   "title_paper_before": [
+    {
+     "text": "TRANSACTION",
+     "right": 685,
+     "paper_edge": 615,
+     "overrun": 70
+    },
+    {
+     "text": "REVIEW",
+     "right": 464,
+     "paper_edge": 618,
+     "overrun": -154
+    }
+   ],
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "34": {
+   "name": "RECEIPT CAPTURE FAILURE",
+   "overlay": true,
+   "controls_after": {
+    "ON_PAPER": 1,
+    "ILLUSTRATED": 4
+   },
+   "controls_before": {
+    "ON_PAPER": 1,
+    "ILLUSTRATED": 1,
+    "GENERIC": 3
+   },
+   "provenance_after": {
+    "EXACT_APPROVED_SOURCE": 4,
+    "PARTIAL_SOURCE_CANDIDATE": 1
+   },
+   "provenance_before": {
+    "EXACT_APPROVED_SOURCE": 1,
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 3
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 66
+   },
+   "title_before": {
+    "title_inside": false,
+    "title_font": 68
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": [
+    {
+     "text": "RECEIPT",
+     "right": 486,
+     "paper_edge": 634,
+     "overrun": -147
+    },
+    {
+     "text": "CAPTURE",
+     "right": 509,
+     "paper_edge": 597,
+     "overrun": -88
+    }
+   ],
+   "title_paper_before": [
+    {
+     "text": "RECEIPT",
+     "right": 496,
+     "paper_edge": 615,
+     "overrun": -119
+    },
+    {
+     "text": "CAPTURE",
+     "right": 518,
+     "paper_edge": 617,
+     "overrun": -99
+    }
+   ],
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "35": {
+   "name": "ACCOUNT NEEDS REVIEW",
+   "overlay": false,
+   "controls_after": {
+    "ON_PAPER": 1,
+    "ILLUSTRATED": 4
+   },
+   "controls_before": {
+    "ON_PAPER": 1,
+    "ILLUSTRATED": 1,
+    "GENERIC": 3
+   },
+   "provenance_after": {
+    "EXACT_APPROVED_SOURCE": 4,
+    "PARTIAL_SOURCE_CANDIDATE": 1
+   },
+   "provenance_before": {
+    "EXACT_APPROVED_SOURCE": 1,
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 3
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 72
+   },
+   "title_before": {
+    "title_inside": true,
+    "title_font": 72
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": null,
+   "title_paper_before": null,
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "36": {
+   "name": "ARCHIVE BLOCKED",
+   "overlay": true,
+   "controls_after": {
+    "ON_PAPER": 1,
+    "ILLUSTRATED": 1,
+    "V3": 1
+   },
+   "controls_before": {
+    "ON_PAPER": 1,
+    "ILLUSTRATED": 1,
+    "V3": 1
+   },
+   "provenance_after": {
+    "EXACT_APPROVED_SOURCE": 1,
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 1
+   },
+   "provenance_before": {
+    "EXACT_APPROVED_SOURCE": 1,
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 1
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 66
+   },
+   "title_before": {
+    "title_inside": false,
+    "title_font": 68
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": [
+    {
+     "text": "ARCHIVE",
+     "right": 498,
+     "paper_edge": 634,
+     "overrun": -136
+    },
+    {
+     "text": "ACCOUNT",
+     "right": 528,
+     "paper_edge": 597,
+     "overrun": -69
+    }
+   ],
+   "title_paper_before": [
+    {
+     "text": "ARCHIVE",
+     "right": 509,
+     "paper_edge": 615,
+     "overrun": -106
+    },
+    {
+     "text": "ACCOUNT",
+     "right": 537,
+     "paper_edge": 617,
+     "overrun": -80
+    }
+   ],
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  },
+  "37": {
+   "name": "CORRECTION / REVERSAL CONFIRMATION",
+   "overlay": true,
+   "controls_after": {
+    "ON_PAPER": 1,
+    "ILLUSTRATED": 4,
+    "FIELD": 1
+   },
+   "controls_before": {
+    "ON_PAPER": 1,
+    "ILLUSTRATED": 1,
+    "FIELD": 1,
+    "GENERIC": 3
+   },
+   "provenance_after": {
+    "EXACT_APPROVED_SOURCE": 4,
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 1
+   },
+   "provenance_before": {
+    "EXACT_APPROVED_SOURCE": 1,
+    "PARTIAL_SOURCE_CANDIDATE": 1,
+    "CSS_RECONSTRUCTION": 4
+   },
+   "title_after": {
+    "title_inside": true,
+    "title_font": 55.6
+   },
+   "title_before": {
+    "title_inside": false,
+    "title_font": 68
+   },
+   "leaks_after": 0,
+   "leaks_before": 0,
+   "collide_after": 0,
+   "collide_before": 0,
+   "leaks_after_list": [],
+   "leaks_before_list": [],
+   "title_paper_after": [
+    {
+     "text": "CONFIRM",
+     "right": 466,
+     "paper_edge": 635,
+     "overrun": -169
+    },
+    {
+     "text": "CORRECTION",
+     "right": 576,
+     "paper_edge": 608,
+     "overrun": -31
+    }
+   ],
+   "title_paper_before": [
+    {
+     "text": "CONFIRM",
+     "right": 528,
+     "paper_edge": 615,
+     "overrun": -87
+    },
+    {
+     "text": "CORRECTION",
+     "right": 662,
+     "paper_edge": 617,
+     "overrun": 45
+    }
+   ],
+   "page_scroll": {
+    "393x852": false,
+    "471x836": false,
+    "393x660": false
+   },
+   "offscreen": {
+    "393x852": 0,
+    "471x836": 0,
+    "393x660": 0
+   }
+  }
+ },
+ "inventory_counts": {
+  "controls": 310,
+  "by_kind": {
+   "GENERIC": 15,
+   "ON_PAPER": 61,
+   "ILLUSTRATED": 116,
+   "FIELD": 60,
+   "DOCK": 12,
+   "CHIP": 45,
+   "V3": 1
+  },
+  "by_provenance": {
+   "CSS_RECONSTRUCTION": 121,
+   "EXACT_APPROVED_SOURCE": 159,
+   "PARTIAL_SOURCE_CANDIDATE": 30
+  },
+  "by_method": {
+   "C": 121,
+   "A": 183,
+   "B": 6
+  }
+ },
+ "inventory_counts_before": {
+  "controls": 310,
+  "by_kind": {
+   "GENERIC": 64,
+   "ON_PAPER": 61,
+   "ILLUSTRATED": 67,
+   "FIELD": 60,
+   "DOCK": 12,
+   "CHIP": 45,
+   "V3": 1
+  },
+  "by_provenance": {
+   "CSS_RECONSTRUCTION": 170,
+   "EXACT_APPROVED_SOURCE": 110,
+   "PARTIAL_SOURCE_CANDIDATE": 30
+  }
+ },
+ "d01_btn_css_before": 49,
+ "d01_btn_css_after": 0,
+ "d01_btn_css_after_list": [],
+ "d01_btn_total_after": 49,
+ "icons_after": {
+  "INLINE_SVG": 251,
+  "DOCK_COMPONENT": 15,
+  "MICRO": 47,
+  "AUTHORITY_LIFT": 2
+ },
+ "icons_before": {
+  "INLINE_SVG": 250,
+  "DOCK_COMPONENT": 15,
+  "MICRO": 48,
+  "AUTHORITY_LIFT": 2
+ },
+ "responsive": {
+  "393x852": {
+   "01": {
+    "scroll": false,
+    "off": 2,
+    "title_inside": null,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "02": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "03": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "04": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "05": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "06": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "07": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 3,
+    "status": "RENDERED"
+   },
+   "08": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 2,
+    "status": "RENDERED"
+   },
+   "09": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 1,
+    "status": "RENDERED"
+   },
+   "10": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "11": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "12": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "13": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "14": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "15": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "16": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "17": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "18": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "19": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "20": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "21": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "22": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "23": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "24": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "25": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "26": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "27": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "28": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 1,
+    "collide": 1,
+    "status": "RENDERED"
+   },
+   "29": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "30": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "31": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 7,
+    "status": "RENDERED"
+   },
+   "32": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "33": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "34": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "35": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "36": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "37": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   }
+  },
+  "471x836": {
+   "01": {
+    "scroll": false,
+    "off": 2,
+    "title_inside": null,
+    "leaks": 8,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "02": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "03": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "04": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "05": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "06": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "07": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 3,
+    "status": "RENDERED"
+   },
+   "08": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 1,
+    "status": "RENDERED"
+   },
+   "09": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 1,
+    "status": "RENDERED"
+   },
+   "10": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "11": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "12": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "13": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "14": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "15": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "16": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "17": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "18": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "19": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "20": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "21": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "22": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "23": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "24": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "25": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "26": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "27": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "28": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "29": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "30": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "31": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 5,
+    "status": "RENDERED"
+   },
+   "32": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "33": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "34": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "35": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "36": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "37": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   }
+  },
+  "393x660": {
+   "01": {
+    "scroll": false,
+    "off": 2,
+    "title_inside": null,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "02": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "03": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "04": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "05": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "06": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "07": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 3,
+    "status": "RENDERED"
+   },
+   "08": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 2,
+    "status": "RENDERED"
+   },
+   "09": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 1,
+    "status": "RENDERED"
+   },
+   "10": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "11": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "12": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "13": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "14": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "15": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "16": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "17": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "18": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "19": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "20": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "21": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "22": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "23": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "24": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "25": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "26": {
+    "scroll": false,
+    "off": 1,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "27": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 1,
+    "collide": 1,
+    "status": "RENDERED"
+   },
+   "28": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 1,
+    "collide": 1,
+    "status": "RENDERED"
+   },
+   "29": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "30": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "31": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 3,
+    "status": "RENDERED"
+   },
+   "32": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "33": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "34": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "35": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "36": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "37": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   }
+  },
+  "360x780": {
+   "06": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "14": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "16": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 1,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "20": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "25": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "36": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "37": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   }
+  },
+  "375x667": {
+   "06": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "14": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "16": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "20": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "25": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "36": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "37": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   }
+  },
+  "430x932": {
+   "06": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "14": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "16": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "20": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "25": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "36": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "37": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   }
+  },
+  "768x1024": {
+   "06": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "14": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 8,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "16": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "20": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "25": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "36": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "37": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   }
+  },
+  "834x1194": {
+   "06": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "14": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 8,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "16": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 4,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "20": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 4,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "25": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "36": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "37": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   }
+  },
+  "1024x768": {
+   "06": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "14": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "16": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "20": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "25": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "36": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "37": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   }
+  },
+  "1440x900": {
+   "06": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "14": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "16": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "20": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "25": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "36": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   },
+   "37": {
+    "scroll": false,
+    "off": 0,
+    "title_inside": true,
+    "leaks": 0,
+    "collide": 0,
+    "status": "RENDERED"
+   }
+  }
+ },
+ "illustrated_found": 189,
+ "illustrated_converged": 159,
+ "resp_rows": [
+  [
+   "360x780",
+   7,
+   0,
+   0,
+   0,
+   1,
+   0,
+   0
+  ],
+  [
+   "375x667",
+   7,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  [
+   "393x660",
+   37,
+   0,
+   3,
+   0,
+   2,
+   11,
+   0
+  ],
+  [
+   "393x852",
+   37,
+   0,
+   2,
+   0,
+   1,
+   14,
+   0
+  ],
+  [
+   "430x932",
+   7,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  [
+   "471x836",
+   37,
+   0,
+   2,
+   0,
+   8,
+   10,
+   0
+  ],
+  [
+   "768x1024",
+   7,
+   0,
+   0,
+   0,
+   8,
+   0,
+   0
+  ],
+  [
+   "834x1194",
+   7,
+   0,
+   0,
+   0,
+   16,
+   0,
+   0
+  ],
+  [
+   "1024x768",
+   7,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  [
+   "1440x900",
+   7,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ]
+ ],
+ "title_overruns_before": 9,
+ "title_overruns_after": 0,
+ "parchment_mismatches": 1
+}

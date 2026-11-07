@@ -1,0 +1,541 @@
+{
+ "pairs": 14,
+ "ambientDiff": {
+  "maxDiff": 264.0,
+  "pixelsChanged": 53625,
+  "pixelsTotal": 1339344,
+  "bbox": [
+   18,
+   785,
+   24,
+   393
+  ]
+ },
+ "before": {
+  "P01-parent-resting": {
+   "motion": {
+    "mode": null,
+    "phase": null,
+    "ambient": null
+   },
+   "animations": [],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    393,
+    852
+   ]
+  },
+  "P01-parent-ambient-peak": {
+   "motion": {
+    "mode": null,
+    "phase": null,
+    "ambient": null
+   },
+   "animations": [],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    393,
+    852
+   ]
+  },
+  "P01-parent-swipe-exit-midway": {
+   "motion": {
+    "mode": null,
+    "phase": null,
+    "ambient": null
+   },
+   "animations": [
+    "transition:background-color@jrn-f05m__dot",
+    "transition:background-color@jrn-f05m__dot"
+   ],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    393,
+    852
+   ]
+  },
+  "P04-menu-closing-110ms": {
+   "motion": {
+    "mode": null,
+    "phase": null,
+    "ambient": null
+   },
+   "animations": [],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    393,
+    852
+   ]
+  },
+  "P02-manage-note-entering-190ms": {
+   "motion": {
+    "mode": null,
+    "phase": null,
+    "ambient": null
+   },
+   "animations": [
+    "jrn-family@jrn-screen",
+    "jv3-fade@jrn-pop-backdrop"
+   ],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    393,
+    852
+   ]
+  },
+  "P04-buffer-saved-settle-crest": {
+   "motion": {
+    "mode": null,
+    "phase": null,
+    "ambient": null
+   },
+   "animations": [
+    "jv3-fade@jsh-scrim",
+    "jsh-in@jsh-plate"
+   ],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    393,
+    852
+   ]
+  },
+  "P05-reduced-resting": {
+   "motion": {
+    "mode": null,
+    "phase": null,
+    "ambient": null
+   },
+   "animations": [],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    393,
+    852
+   ]
+  },
+  "P05-reduced-menu-open": {
+   "motion": {
+    "mode": null,
+    "phase": null,
+    "ambient": null
+   },
+   "animations": [],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    393,
+    852
+   ]
+  },
+  "R-parent-resting-360x640": {
+   "motion": {
+    "mode": null,
+    "phase": null,
+    "ambient": null
+   },
+   "animations": [],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    360,
+    640
+   ]
+  },
+  "R-parent-resting-393x660": {
+   "motion": {
+    "mode": null,
+    "phase": null,
+    "ambient": null
+   },
+   "animations": [],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    393,
+    660
+   ]
+  },
+  "R-parent-resting-393x852": {
+   "motion": {
+    "mode": null,
+    "phase": null,
+    "ambient": null
+   },
+   "animations": [],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    393,
+    852
+   ]
+  },
+  "R-parent-resting-430x932": {
+   "motion": {
+    "mode": null,
+    "phase": null,
+    "ambient": null
+   },
+   "animations": [],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    430,
+    932
+   ]
+  },
+  "R-parent-resting-820x1180": {
+   "motion": {
+    "mode": null,
+    "phase": null,
+    "ambient": null
+   },
+   "animations": [],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    820,
+    1180
+   ]
+  },
+  "R-parent-resting-1440x900": {
+   "motion": {
+    "mode": null,
+    "phase": null,
+    "ambient": null
+   },
+   "animations": [],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    1440,
+    900
+   ]
+  }
+ },
+ "after": {
+  "P01-parent-resting": {
+   "motion": {
+    "mode": "FULL",
+    "phase": "AMBIENT",
+    "ambient": "D C"
+   },
+   "animations": [
+    "jm-amb-light@jma-light",
+    "jm-amb-sheen@"
+   ],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    393,
+    852
+   ]
+  },
+  "P01-parent-ambient-peak": {
+   "motion": {
+    "mode": "FULL",
+    "phase": "AMBIENT",
+    "ambient": "D C"
+   },
+   "animations": [
+    "jm-amb-light@jma-light",
+    "jm-amb-sheen@"
+   ],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    393,
+    852
+   ]
+  },
+  "P01-parent-swipe-exit-midway": {
+   "motion": {
+    "mode": "FULL",
+    "phase": "SETTLING",
+    "ambient": "off"
+   },
+   "animations": [
+    "transition:background-color@jrn-f05m__dot",
+    "transition:background-color@jrn-f05m__dot"
+   ],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    393,
+    852
+   ]
+  },
+  "P04-menu-closing-110ms": {
+   "motion": {
+    "mode": "FULL",
+    "phase": "AMBIENT",
+    "ambient": "D C"
+   },
+   "animations": [
+    "jm-amb-light@jma-light",
+    "jm-amb-sheen@"
+   ],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    393,
+    852
+   ]
+  },
+  "P02-manage-note-entering-190ms": {
+   "motion": {
+    "mode": "FULL",
+    "phase": "SETTLING",
+    "ambient": "off"
+   },
+   "animations": [
+    "jv3-fade@jrn-pop-backdrop",
+    "jm-note-in@jrn-pop"
+   ],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    393,
+    852
+   ]
+  },
+  "P04-buffer-saved-settle-crest": {
+   "motion": {
+    "mode": "FULL",
+    "phase": "SETTLING",
+    "ambient": "off"
+   },
+   "animations": [
+    "transition:transform@jsp-paper",
+    "jv3-fade@jsh-scrim",
+    "jm-ovl-in@jsh-plate",
+    "waapi@jsp-paper"
+   ],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    393,
+    852
+   ]
+  },
+  "P05-reduced-resting": {
+   "motion": {
+    "mode": "OFF",
+    "phase": "IDLE",
+    "ambient": "off"
+   },
+   "animations": [],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    393,
+    852
+   ]
+  },
+  "P05-reduced-menu-open": {
+   "motion": {
+    "mode": "OFF",
+    "phase": "IDLE",
+    "ambient": "off"
+   },
+   "animations": [],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    393,
+    852
+   ]
+  },
+  "R-parent-resting-360x640": {
+   "motion": {
+    "mode": "FULL",
+    "phase": "AMBIENT",
+    "ambient": "D C"
+   },
+   "animations": [
+    "jm-amb-light@jma-light",
+    "jm-amb-sheen@"
+   ],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    360,
+    640
+   ]
+  },
+  "R-parent-resting-393x660": {
+   "motion": {
+    "mode": "FULL",
+    "phase": "AMBIENT",
+    "ambient": "D C"
+   },
+   "animations": [
+    "jm-amb-light@jma-light",
+    "jm-amb-sheen@"
+   ],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    393,
+    660
+   ]
+  },
+  "R-parent-resting-393x852": {
+   "motion": {
+    "mode": "FULL",
+    "phase": "AMBIENT",
+    "ambient": "D C"
+   },
+   "animations": [
+    "jm-amb-light@jma-light",
+    "jm-amb-sheen@"
+   ],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    393,
+    852
+   ]
+  },
+  "R-parent-resting-430x932": {
+   "motion": {
+    "mode": "FULL",
+    "phase": "AMBIENT",
+    "ambient": "D C"
+   },
+   "animations": [
+    "jm-amb-light@jma-light",
+    "jm-amb-sheen@"
+   ],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    430,
+    932
+   ]
+  },
+  "R-parent-resting-820x1180": {
+   "motion": {
+    "mode": "FULL",
+    "phase": "AMBIENT",
+    "ambient": "D C"
+   },
+   "animations": [
+    "jm-amb-light@jma-light",
+    "jm-amb-sheen@"
+   ],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    820,
+    1180
+   ]
+  },
+  "R-parent-resting-1440x900": {
+   "motion": {
+    "mode": "FULL",
+    "phase": "AMBIENT",
+    "ambient": "D C"
+   },
+   "animations": [
+    "jm-amb-light@jma-light",
+    "jm-amb-sheen@"
+   ],
+   "closingCopies": 0,
+   "pageScroll": {
+    "y": false,
+    "x": false
+   },
+   "viewport": [
+    1440,
+    900
+   ]
+  }
+ }
+}

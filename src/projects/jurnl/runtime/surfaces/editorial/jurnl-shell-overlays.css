@@ -1,0 +1,506 @@
+/*
+ * Overlays drawn on curated clean artwork (Shell.tsx): the OV05 open search composition, and the shared OV08 menu
+ * environment under SAFE TO SPEND BUFFER and PRIVACY & CONSENTS. The plate is the art at one uniform scale; live regions are fractions of it, type is sized in container
+ * units of the plate (clamped). Live content flows and grows inside its region; only designated lists scroll.
+ */
+.jrn .jsh-host {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+.jrn .jsh-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(14, 12, 6, 0.46);
+  backdrop-filter: blur(3px);
+  animation: jv3-fade 200ms ease-out both;
+}
+.jrn .jsh-scrim[data-blur='true'] {
+  background: rgba(24, 18, 10, 0.24);
+  backdrop-filter: blur(9px) saturate(0.92);
+  -webkit-backdrop-filter: blur(9px) saturate(0.92);
+}
+.jrn .jsh-plate {
+  position: relative;
+  flex: 0 0 auto;
+  container-type: size;
+  animation: jsh-in 240ms var(--v3-ease, ease-out) both;
+  --jsh-ink: #2a2117;
+  --jsh-ink-soft: #5a4734;
+  --jsh-cream: #f2e8d2;
+  --jsh-oxblood: #6e1f19;
+}
+.jrn .jsh-plate > .jsh-shell,
+.jrn .jsh-plate > .jsh-head,
+.jrn .jsh-plate > .jsh-tag {
+  pointer-events: none;
+}
+@keyframes jsh-in {
+  from {
+    transform: translateY(10px) scale(0.99);
+    opacity: 0;
+  }
+}
+.jrn .jsh-shell {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%; /* same 9:16 as the plate: one uniform scale */
+  user-select: none;
+  filter: drop-shadow(0 16px 24px rgba(8, 6, 2, 0.45));
+}
+
+/* headline on the shell's parchment */
+.jrn .jsh-head {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0.4cqh;
+  text-align: center;
+  color: var(--jsh-ink);
+}
+.jrn .jsh-head[data-tone='cream'] {
+  color: var(--jsh-cream);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+}
+.jrn .jsh-head__title {
+  margin: 0;
+  font: 500 clamp(17px, var(--jsh-title-size, 7.2cqw), 40px) / 1.02 var(--v3-serif, serif);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.jrn .jsh-head__script {
+  margin: 0;
+  color: inherit;
+  opacity: 0.86;
+  font-size: clamp(13px, 4.2cqw, 22px);
+}
+
+/* the live JURNL wordmark on the art's blank tag paper (OV08) */
+.jrn .jsh-tag {
+  display: grid;
+  place-items: center;
+  padding-left: 0.3em; /* optical: the tracking trails the last letter */
+  color: var(--jsh-ink);
+  font: 600 clamp(11px, 4.5cqw, 25px) / 1 var(--v3-serif, serif);
+  letter-spacing: 0.24em;
+  transform: rotate(-9deg); /* the tag paper is tilted; the wordmark follows it (founder authority) */
+  user-select: none;
+}
+/* the live laurel ornament under the script: rule · sprig · rule */
+.jrn .jsh-ornament {
+  display: flex;
+  align-items: center;
+  gap: 1.8cqw;
+  width: min(70%, 34cqw);
+  margin-top: 0.3cqh;
+  color: var(--jsh-ink-soft);
+}
+.jrn .jsh-ornament::before,
+.jrn .jsh-ornament::after {
+  content: '';
+  flex: 1 1 auto;
+  height: 0;
+  border-top: 1px solid currentColor;
+  opacity: 0.7;
+}
+.jrn .jsh-ornament svg {
+  flex: 0 0 auto;
+  width: clamp(13px, 4.4cqw, 24px);
+  height: clamp(13px, 4.4cqw, 24px);
+}
+
+/* close: live, square-rounded, top end of the shell */
+.jrn .jsh-close {
+  position: absolute;
+  top: 1.3%;
+  right: 2.4%;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(160, 120, 70, 0.6);
+  border-radius: 12px;
+  background: rgba(244, 234, 212, 0.94);
+  color: var(--jsh-ink);
+  box-shadow: 0 6px 14px rgba(8, 6, 2, 0.3);
+  cursor: pointer;
+}
+.jrn .jsh-close svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* regions and controls */
+.jrn .jsh-slot {
+  display: grid;
+  align-content: start;
+  min-width: 0;
+  color: var(--jsh-ink);
+}
+.jrn .jsh-slot[data-scroll='true'] {
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.jrn .jsh-close:focus-visible {
+  outline: 2px solid var(--v3-olive, #2b2810);
+  outline-offset: 2px;
+}
+
+.jrn .jsh-action__title {
+  font: 600 clamp(13px, 4.6cqw, 24px) / 1.08 var(--v3-serif, serif);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.jrn .jsh-action__note {
+  margin: 0;
+  color: var(--jsh-ink-soft);
+  font-size: clamp(13px, 4cqw, 21px);
+}
+
+.jrn .jsh-field__label {
+  flex: 0 0 auto;
+  color: var(--jsh-ink-soft);
+  font: 600 clamp(9.5px, 2.7cqw, 14px) / 1 var(--v3-serif, serif);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.jrn .jsh-field__mark {
+  color: var(--jsh-ink-soft);
+  font: 500 16px / 1 var(--v3-serif, serif);
+}
+
+.jrn .jsh-field__input::placeholder {
+  color: rgba(70, 54, 36, 0.5);
+  font-size: clamp(10px, 2.7cqw, 14px);
+  letter-spacing: 0.08em;
+}
+.jrn .jsh-field__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--jsh-ink);
+  font: 500 16px / 1 var(--v3-serif, serif); /* 16 px: iOS never zooms */
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  outline: none;
+}
+
+.jrn .jsh-text {
+  margin: 0;
+  color: var(--jsh-ink-soft);
+  font: 600 clamp(8.5px, 2.4cqw, 13px) / 1.3 var(--v3-serif, serif);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.jrn .jsh-text[data-tone='alert'] {
+  color: #8f2a1b;
+}
+.jrn .jsh-text[data-tone='cream'] {
+  color: var(--jsh-cream);
+}
+
+.jrn .jsh-pill {
+  display: grid;
+  place-items: center;
+  min-height: 44px;
+  border: 1px solid rgba(120, 90, 50, 0.4);
+  border-radius: 999px;
+  background: rgba(250, 242, 224, 0.92);
+  color: var(--jsh-ink);
+  font: 600 clamp(9.5px, 2.6cqw, 14px) / 1.1 var(--v3-serif, serif);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(60, 40, 14, 0.18);
+}
+.jrn .jsh-pill[data-tone='olive'] {
+  border-color: rgba(220, 171, 79, 0.45);
+  background: rgba(43, 40, 16, 0.94);
+  color: var(--jsh-cream);
+}
+.jrn .jsh-head__note {
+  max-width: 92%;
+  font-size: clamp(7.5px, 2.05cqw, 11px);
+}
+/* ── OV05 SEARCH: one open live column on the parchment (no painted wells; rows any height, the list alone scrolls) ── */
+.jrn .jsx-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1cqh;
+  min-height: 0;
+}
+.jrn .jsx-field {
+  display: grid;
+  gap: 0.5cqh;
+}
+.jrn .jsx-field__label,
+.jrn .jsx-count {
+  margin: 0;
+  color: var(--jsh-ink-soft);
+  font: 600 clamp(9px, 2.5cqw, 13px) / 1.2 var(--v3-serif, serif);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.jrn .jsx-field__input {
+  height: 44px;
+  padding: 0 3cqw;
+  border: 1px solid rgba(120, 88, 48, 0.55);
+  border-radius: 2.4cqw;
+  background: rgba(255, 250, 238, 0.55);
+  color: var(--jsh-ink);
+  font: 500 16px / 1 var(--v3-serif, serif); /* 16 px: iOS never zooms */
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  outline: none;
+}
+.jrn .jsx-field__input::placeholder {
+  color: rgba(70, 54, 36, 0.5);
+  font-size: clamp(10px, 2.6cqw, 14px);
+}
+.jrn .jsx-field__input:focus-visible {
+  border-color: var(--v3-olive, #2b2810);
+  box-shadow: 0 0 0 2px rgba(220, 171, 79, 0.45);
+}
+.jrn .jsx-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.6cqw;
+}
+.jrn .jsx-chip {
+  display: inline-flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 1.4cqw;
+  min-height: 44px;
+  padding: 0 2.6cqw;
+  border: 1px solid rgba(120, 88, 48, 0.45);
+  border-radius: 999px;
+  background: rgba(255, 250, 238, 0.4);
+  color: var(--jsh-ink);
+  font: 600 clamp(9.5px, 2.6cqw, 14px) / 1 var(--v3-serif, serif);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.jrn .jsx-chip[aria-pressed='true'] {
+  border-color: transparent;
+  background: rgba(43, 40, 16, 0.92);
+  color: var(--jsh-cream);
+}
+.jrn .jsx-chip .jed-glyph {
+  width: 18px;
+  height: 18px;
+}
+/* on a phone-sized plate the three filters stay on one line: icons step aside, labels stay */
+@container (max-width: 470px) {
+  .jrn .jsx-chip {
+    flex: 1 1 0;
+    padding: 0 1cqw;
+    letter-spacing: 0.06em;
+  }
+  .jrn .jsx-chip .jed-glyph {
+    display: none;
+  }
+}
+.jrn .jsx-results {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+.jrn .jsx-results ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.jrn .jsx-row {
+  display: grid;
+  grid-template-columns: 18px 1fr auto;
+  align-items: start;
+  gap: 2.4cqw;
+  width: 100%;
+  min-height: 44px;
+  padding: 1cqh 1cqw;
+  border: 0;
+  border-bottom: 1px solid rgba(120, 88, 48, 0.28); /* live row separator */
+  background: transparent;
+  color: var(--jsh-ink);
+  text-align: left;
+  cursor: pointer;
+  font: 600 clamp(11px, 3cqw, 15px) / 1.2 var(--v3-serif, serif);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.jrn .jsx-row:focus-visible,
+.jrn .jsx-chip:focus-visible {
+  outline: 2px solid var(--v3-olive, #2b2810);
+  outline-offset: 1px;
+}
+.jrn .jsx-row .jed-glyph {
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+}
+.jrn .jsx-row__text {
+  display: grid;
+  gap: 0.3cqh;
+  min-width: 0;
+  overflow-wrap: anywhere; /* long merchant names wrap: the row grows */
+}
+.jrn .jsx-row small {
+  color: var(--jsh-ink-soft);
+  font-size: clamp(9px, 2.3cqw, 12px);
+  letter-spacing: 0.05em;
+}
+.jrn .jsx-row b {
+  font-weight: 600;
+  white-space: nowrap;
+}
+.jrn .jsx-empty {
+  margin: 1cqh 0;
+  color: var(--jsh-ink-soft);
+  font: 600 clamp(10px, 2.6cqw, 13px) / 1.35 var(--v3-serif, serif);
+  letter-spacing: 0.06em;
+}
+.jrn .jsx-actions {
+  display: flex;
+  gap: 2cqw;
+}
+.jrn .jsx-actions > .jsh-pill {
+  flex: 1 1 0;
+  padding: 0 2cqw;
+}
+
+/* ── independent paper backings (L1): the paper is the control's own surface and moves with it; aspect is native ── */
+.jrn .jsp-paper {
+  position: relative;
+  display: grid;
+  border: 0;
+  background: transparent;
+  color: var(--jsh-ink);
+  isolation: isolate;
+}
+.jrn .jsp-paper > .jsp-paper__art {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* uniform: the element keeps the art's aspect ratio, so contain never letterboxes or stretches */
+  pointer-events: none;
+  user-select: none;
+}
+
+/* OV04 MANAGE POCKET: the compact parchment fragment keeps its clip and pocket art; its two actions wear the independent
+   papers; the live page behind is blurred by the popover's own backdrop (jurnl-f05-surfaces.css .jrn-pop-backdrop) */
+.jrn .jv3-fragment .jsp-menu-paper {
+  min-height: 46px;
+  height: auto;
+  margin: 6px 0 0;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+}
+.jrn .jv3-fragment .jsp-menu-paper[data-paper='delete'] {
+  color: #6c1d12;
+}
+.jrn .jv3-fragment .jsp-menu-paper:hover,
+.jrn .jv3-fragment .jsp-menu-paper:focus-visible {
+  background: transparent;
+  filter: brightness(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jrn .jsh-plate,
+  .jrn .jsh-scrim {
+    animation: none;
+  }
+}
+
+/* OV04 MANAGE POCKET on the regenerated note: the popover itself draws nothing — the note (clipped to its own measured
+   outline) is the surface; it scales uniformly to the popover's width and to the room it has, never cropped */
+.jrn .jrn-pop.jsp-note-pop {
+  border: 0;
+  border-image: none;
+  padding: 0;
+  background: transparent;
+  overflow: visible;
+  filter: drop-shadow(0 10px 14px rgba(14, 9, 4, 0.5)) drop-shadow(0 2px 3px rgba(14, 9, 4, 0.35));
+}
+.jrn .jsp-note {
+  position: relative;
+  width: min(100%, calc(var(--jrn-pop-maxh, 9999px) * 642 / 741));
+  aspect-ratio: 642 / 741;
+  margin: 0 auto;
+  container-type: size;
+}
+.jrn .jsp-note__art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  user-select: none;
+}
+.jrn .jsp-note__head {
+  position: absolute;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+}
+.jrn .jrn-pop.jv3-fragment.jsp-note-pop .jrn-menu__title,
+.jrn .jrn-pop.jv3-fragment.jsp-note-pop .jrn-menu__sub {
+  margin: 0;
+  padding: 0;
+}
+.jrn .jrn-pop.jv3-fragment.jsp-note-pop .jrn-menu__title {
+  font-size: clamp(12px, 5cqw, 20px);
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+.jrn .jrn-pop.jv3-fragment.jsp-note-pop .jrn-menu__sub {
+  font-size: clamp(10px, 3.6cqw, 14px);
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.jrn .jsp-note__items {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3cqh;
+}
+.jrn .jrn-pop.jv3-fragment.jsp-note-pop .jsp-menu-paper {
+  margin: 0;
+  width: 100%;
+}
+/* the actions' type and glyphs scale with the note (it shrinks to the room it has) */
+.jrn .jrn-pop.jv3-fragment.jsp-note-pop .jsp-menu-paper {
+  min-height: 44px;
+  padding: 0 5cqw;
+  gap: 3cqw;
+  font-size: clamp(10px, 4.3cqw, 15px);
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+.jrn .jrn-pop.jv3-fragment.jsp-note-pop .jsp-menu-paper > svg:not(.jv3-chev) {
+  width: clamp(13px, 5cqw, 20px);
+  height: clamp(13px, 5cqw, 20px);
+}

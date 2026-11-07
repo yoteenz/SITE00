@@ -5,6 +5,7 @@
  * a card's limit is only what the user enters (never invented). Archiving re-checks every dependency first.
  */
 import { useState } from 'react';
+import { screenSeal } from '../screenSeals';
 import { archiveAccountSafely, archiveBlockers } from '../../../../../data/f05/dot01/archive';
 import { accountView, type Dot01Kind } from '../../../../../data/f05/dot01/accountView';
 import { accountById } from '../../../../../data/foundation/accounts';
@@ -17,9 +18,23 @@ import { purposeAccounts, setPurposeAccount, usualPurposesFor } from '../../../.
 import { PURPOSE_LABEL, type MoneyPurpose } from '../../../../../data/ledger/purposes';
 import { getRepository } from '../../../../../data/repository/deviceRepository';
 import { useJurnl } from '../../../../state/store';
-import { Dot01Overlay } from '../Dot01Frame';
+import { Dot01Overlay, useSearchAddChips, OVERLAY_CONTENT } from '../Dot01Frame';
 import { Icon } from '../icons';
 import { Alert, Button, CARD_SRC, ChipChoice, Paper, Row, TextInput } from '../kit';
+import { V3Caution, V3Pill, V3Row, V3RuleLabel } from '../../../../surfaces/v3/V3Surfaces';
+import type { ArchiveBlockerKind } from '../../../../../data/f05/dot01/archive';
+import { ART, EdArt, REGION } from '../../../../surfaces/editorial/Editorial';
+
+/** Each blocker's line icon on the caution surface. */
+const BLOCKER_ICON: Record<ArchiveBlockerKind, string> = {
+  ACTIVE_TRANSFER: 'clock',
+  RESERVED_FUNDS: 'lock',
+  DEFAULT_ACCOUNT: 'bank',
+  RECURRING_PAYMENT: 'calendar',
+  EXPECTED_INCOME: 'wallet',
+  OPEN_BALANCE: 'card',
+  HELD_BALANCE: 'coins',
+};
 
 const KINDS: { id: Dot01Kind; label: string; type: AccountType; payout?: boolean }[] = [
   { id: 'bank', label: 'BANK ACCOUNT', type: 'CHECKING' },
@@ -28,10 +43,11 @@ const KINDS: { id: Dot01Kind; label: string; type: AccountType; payout?: boolean
   { id: 'credit', label: 'CREDIT CARD', type: 'CREDIT_CARD' },
 ];
 const ALL_PURPOSES = Object.keys(PURPOSE_LABEL) as MoneyPurpose[];
-const CONTENT = { x: 30, y: 590, w: 881, h: 1076 };
+const CONTENT = OVERLAY_CONTENT;
 
 export function AddAccountOverlay({ preset, onClose, onSaved }: { preset?: Dot01Kind; onClose: () => void; onSaved: (id: string) => void }) {
   const [kind, setKind] = useState<Dot01Kind | null>(preset ?? null);
+  const searchAdd = useSearchAddChips();
   const [name, setName] = useState('');
   const [balance, setBalance] = useState('');
   const [limit, setLimit] = useState('');
@@ -63,7 +79,9 @@ export function AddAccountOverlay({ preset, onClose, onSaved }: { preset?: Dot01
     <Dot01Overlay
       testId="d01-add-account"
       env="SK03_FIELD"
-      title={kind ? ['ACCOUNT', 'SETUP'] : ['ADD', 'ACCOUNT']}
+      title={kind ? ['ACCOUNT SETUP'] : ['ADD', 'ACCOUNT']}
+      heading={kind ? 'wide' : undefined}
+      chips={kind ? searchAdd : undefined}
       subtitle={kind ? 'create a new account' : undefined}
       onClose={onClose}
       contentRect={CONTENT}
@@ -185,6 +203,7 @@ export function PurposesOverlay({ accountId, onClose }: { accountId: string; onC
     <Dot01Overlay
       testId="d01-purposes"
       env="SK03_FIELD"
+      layers={screenSeal('21', 'env')}
       title={['ACCOUNT', 'PURPOSES']}
       subtitle="how this account is used"
       onClose={onClose}
@@ -224,8 +243,14 @@ export function PurposesOverlay({ accountId, onClose }: { accountId: string; onC
   );
 }
 
-export function ArchiveOverlay({ accountId, onClose }: { accountId: string; onClose: () => void }) {
+/**
+ * ARCHIVE ACCOUNT (25) / ARCHIVE BLOCKED (36), and DELETE POCKET from the MANAGE POCKET menu. Deleting a Pocket is the
+ * same canonical archive: it leaves the active Pockets, its history and receipts stay, and it is refused while anything
+ * depends on it (the same `archiveBlockers`). JURNL has no hard delete of a Pocket; nothing is erased.
+ */
+export function ArchiveOverlay({ accountId, onClose, mode = 'archive', onDone }: { accountId: string; onClose: () => void; mode?: 'archive' | 'delete'; onDone?: () => void }) {
   const { go } = useJurnl();
+  const searchAdd = useSearchAddChips();
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
   const today = getTodayKey();
@@ -233,16 +258,20 @@ export function ArchiveOverlay({ accountId, onClose }: { accountId: string; onCl
   if (!v) return null;
   const blockers = archiveBlockers(accountId, today);
   const blocked = blockers.length > 0;
+  const del = mode === 'delete';
+  const W = del ? 'POCKET' : 'ACCOUNT';
   return (
     <Dot01Overlay
-      testId={blocked ? 'd01-archive-blocked' : 'd01-archive'}
+      testId={del ? (blocked ? 'd01-delete-blocked' : 'd01-delete-pocket') : blocked ? 'd01-archive-blocked' : 'd01-archive'}
+      chips={blocked ? searchAdd : undefined}
       env="SK03_FIELD"
-      title={['ARCHIVE', 'ACCOUNT']}
+      title={del ? (blocked ? ['DELETE', 'POCKET'] : ['DELETE THIS', 'POCKET?']) : ['ARCHIVE', 'ACCOUNT']}
+      layers={!del && !blocked ? screenSeal('25', 'env') : undefined}
       subtitle={blocked ? 'action blocked' : done ? undefined : 'before you continue'}
       onClose={onClose}
       contentRect={CONTENT}
       contentScroll
-      label="ARCHIVE ACCOUNT"
+      label={del ? 'DELETE POCKET' : 'ARCHIVE ACCOUNT'}
       content={
         <>
           <Paper kind="panel">
@@ -260,48 +289,70 @@ export function ArchiveOverlay({ accountId, onClose }: { accountId: string; onCl
               </div>
             </Paper>
           ) : blocked ? (
-            <Paper kind="sheet">
-              <Alert testId="d01-blocked-why">THIS ACCOUNT CANNOT BE ARCHIVED YET. THESE MUST BE RESOLVED FIRST.</Alert>
-              <p className="d01-h" style={{ marginTop: 8 }}>BLOCKERS</p>
-              <div className="d01-rows">
+            /* V3 · F: the terracotta / oxblood caution surface (bronze warning seal, BLOCKERS between rules, the
+               resolution first, then the safe way out) inside the V9 overlay frame */
+            <V3Caution testId="d01-blocked-why" role={del ? 'alert' : 'status'} title={`THIS ${W} CANNOT BE ${del ? 'DELETED' : 'ARCHIVED'} YET`} body={`IT HAS OUTSTANDING ITEMS. THESE MUST BE RESOLVED BEFORE IT CAN BE ${del ? 'DELETED' : 'ARCHIVED'}.`}>
+              {/* founder board 07: the classical stone beside the oxblood caution (V9 temple composition, decorative) */}
+              <EdArt art={ART.templeCoast} region={REGION.templeColumns} className="jed-caution-stone" torn={17} />
+              <V3RuleLabel>BLOCKERS</V3RuleLabel>
+              <div className="jv3-caution__rows">
                 {blockers.map((b) => (
-                  <Row key={b.kind} icon="lock" label={b.label} sub={b.detail} testId={`d01-blocker-${b.kind}`} />
+                  <V3Row key={b.kind} icon={BLOCKER_ICON[b.kind]} label={b.label} sub={b.detail} testId={`d01-blocker-${b.kind}`} />
                 ))}
               </div>
-              <div className="d01-actions d01-actions--2" style={{ marginTop: 8 }}>
-                <Button trigger="d01-keep-active" onClick={onClose}>
-                  KEEP ACCOUNT ACTIVE
-                </Button>
-                <Button trigger="d01-blocker-details" quiet onClick={() => go(blockers.find((b) => b.route)?.route ?? `money/places/${accountId}/settings`)}>
+              <div className="jv3-caution__actions">
+                <V3Pill
+                  tone="olive"
+                  trigger="d01-blocker-details"
+                  onClick={() => {
+                    // close first: the resolution can be the page this surface was opened on (a card's PAY)
+                    onClose();
+                    go(blockers.find((b) => b.route)?.route ?? `money/places/${accountId}/settings`);
+                  }}
+                >
                   RESOLVE ISSUES
-                </Button>
+                </V3Pill>
+                <V3Pill tone="cream" trigger={del ? 'd01-keep-pocket' : 'd01-keep-active'} onClick={onClose}>
+                  {del ? 'KEEP POCKET' : 'KEEP ACCOUNT ACTIVE'}
+                </V3Pill>
               </div>
-            </Paper>
+            </V3Caution>
           ) : (
             <Paper kind="sheet">
-              <Alert>ARCHIVING REMOVES THIS ACCOUNT FROM ACTIVE TRACKING BUT KEEPS ITS HISTORY.</Alert>
+              <Alert>{del ? 'DELETING ARCHIVES THIS POCKET: IT LEAVES YOUR ACTIVE POCKETS, AND ITS HISTORY STAYS AVAILABLE IN ACTIVITY.' : 'ARCHIVING REMOVES THIS ACCOUNT FROM ACTIVE TRACKING BUT KEEPS ITS HISTORY.'}</Alert>
               <div className="d01-rows" style={{ marginTop: 6 }}>
                 <Row icon="check" label="NO NEW TRANSACTIONS" />
-                <Row icon="check" label="HISTORY STAYS SAVED" />
+                <Row icon="check" label={del ? 'HISTORY AND RECEIPTS STAY SAVED' : 'HISTORY STAYS SAVED'} />
                 <Row icon="check" label="TOTAL MONEY MAY CHANGE" sub={!v.liability && v.held !== 0 ? `${formatMoney(v.held)} LEAVES YOUR HELD TOTAL` : undefined} />
               </div>
               {error ? <Alert role="alert">{error}</Alert> : null}
-              <div className="d01-actions" style={{ marginTop: 8 }}>
+              {/* DELETE: KEEP POCKET comes first (the brief's order), so it is the overlay's first focus and an Enter
+                  carried over from the menu can never delete. ARCHIVE keeps authority 25's confirm-then-keep stack. */}
+              <div className={del ? 'd01-actions d01-actions--2' : 'd01-actions'} style={{ marginTop: 8 }}>
+                {del ? (
+                  <Button trigger="d01-keep-pocket" quiet onClick={onClose}>
+                    KEEP POCKET
+                  </Button>
+                ) : null}
                 <Button
-                  trigger="d01-archive-confirm"
+                  trigger={del ? 'd01-delete-confirm' : 'd01-archive-confirm'}
                   danger
-                  icon="archive"
+                  icon={del ? 'trash' : 'archive'}
                   onClick={() => {
+                    // the same canonical, re-checked archive for both words
                     const r = archiveAccountSafely(accountId, today);
-                    if (!r.ok) return setError(r.error);
+                    if (!r.ok) return setError(del ? r.error.replace('CANNOT ARCHIVE YET', 'CANNOT DELETE YET') : r.error);
+                    if (del && onDone) return onDone();
                     setDone(true);
                   }}
                 >
-                  ARCHIVE ACCOUNT
+                  {del ? 'CONFIRM DELETE' : 'ARCHIVE ACCOUNT'}
                 </Button>
-                <Button trigger="d01-keep-active" quiet onClick={onClose}>
-                  KEEP ACCOUNT ACTIVE
-                </Button>
+                {del ? null : (
+                  <Button trigger="d01-keep-active" quiet icon="cancel" onClick={onClose}>
+                    KEEP ACCOUNT ACTIVE
+                  </Button>
+                )}
               </div>
             </Paper>
           )}

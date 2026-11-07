@@ -36,10 +36,17 @@ export const PANEL_ART: Record<string, string> = {
   outlook_insights: outlookInsights,
 };
 
-/** Vertical rhythm of a paper (source px from its top), by the number of title lines. */
-export function paperRhythm(lines: number, height: number) {
-  const amountTop = C.card.nameTop + lines * C.card.namePitch + C.card.amountGap;
-  return { amountTop, captionTop: amountTop + C.card.captionGap, linkCaptionTop: height - C.card.linkFromBottom };
+/** Carousel panel titles may be one or two lines; the 2×2 grid always reserves two so values and captions line up. */
+export const PANEL_TITLE_LINES = 2;
+
+/** Account pocket papers in the rail use the same reserve so amounts and OWED line up across a row. */
+export const ACCOUNT_PAPER_TITLE_LINES = 2;
+
+/** Vertical rhythm of a carousel panel paper (source px from its top). */
+export function paperRhythm(_lines: number, height: number) {
+  const amountTop = C.panel.nameTop + PANEL_TITLE_LINES * C.card.namePitch + C.panel.amountGap;
+  // a caption never runs past the paper's bottom edge (one caption line ≈ 23 board px, plus a margin)
+  return { amountTop, captionTop: Math.min(amountTop + C.card.captionGap, height - 30) };
 }
 
 /** Long amounts shrink to stay inside their paper; the value itself is never abbreviated. */
@@ -54,13 +61,18 @@ export function nameScale(lines: readonly string[]): number {
   return longest <= 11 ? 1 : longest <= 14 ? 0.78 : longest <= 18 ? 0.66 : 0.58;
 }
 
+/** Extra screen px subtracted from paper value row (2nd line) and caption row (bottom) on the MONEY parent board. */
+export const F05_PAPER_VALUE_ROW_SUB_PX = 1;
+export const F05_PAPER_CAPTION_ROW_SUB_PX = 2;
+
 /**
  * Board font size, 2 screen px smaller. The board is `scale(--f05m-u)`, so the source-px
  * subtraction lives in `--f05-type-nudge` and every face moves by the same screen amount.
  */
-export function f05BoardType(size: number | string): string {
+export function f05BoardType(size: number | string, extraScreenSubPx = 0): string {
   const expr = typeof size === 'number' ? `${size}px` : size;
-  return `calc(${expr} - var(--f05-type-nudge, 0px))`;
+  const extra = extraScreenSubPx > 0 ? ` - ${extraScreenSubPx}px` : '';
+  return `calc(${expr} - var(--f05-type-nudge, 0px)${extra})`;
 }
 
 /** Name size in board px, never below 11 screen px before the shared 2px nudge. */
@@ -68,6 +80,14 @@ export const nameFont = (lines: readonly string[]) => {
   const k = nameScale(lines);
   return f05BoardType(`max(${(C.card.nameSize * k).toFixed(2)}px, calc(${(11 * k).toFixed(2)}px / var(--f05m-u, 1)))`);
 };
+
+/** COMMITMENTS · BILLS + SUBSCRIPTIONS title runs long; founder +4px on header only. */
+export const PANEL_BILLS_TITLE_ADD_PX = 4;
+
+export function panelNameFont(panel: CarouselPanel): string {
+  const base = nameFont(panel.title);
+  return panel.id === 'bills' ? `calc(${base} + ${PANEL_BILLS_TITLE_ADD_PX}px)` : base;
+}
 
 export function CarouselPanelPaper({
   panel,
@@ -84,8 +104,7 @@ export function CarouselPanelPaper({
   collection: string;
   onOpen: (panel: CarouselPanel) => void;
 }) {
-  const lines = panel.title.length;
-  const r = paperRhythm(lines, slot.h);
+  const r = paperRhythm(panel.title.length, slot.h);
   const v = panel.value;
   const amountText = v.kind === 'amount' ? fmt(v.amount) : v.kind === 'none' ? v.text : '';
   return (
@@ -97,11 +116,11 @@ export function CarouselPanelPaper({
       data-collection={collection}
       data-value-kind={v.kind}
       aria-label={`${panel.aria} OPEN.`}
-      style={{ left: slot.x, top: slot.y, width: slot.w, height: slot.h, ['--i' as string]: index } as CSSProperties}
+      style={{ left: slot.x, top: slot.y, width: slot.w, height: slot.h, ['--i' as string]: index, ['--f05m-name-top' as string]: `${C.panel.nameTop}px` } as CSSProperties}
       onClick={() => onOpen(panel)}
     >
       <img className="jrn-f05m__paper-art" src={PANEL_ART[panel.art]} alt="" draggable={false} />
-      <span className="jrn-f05m__paper-name" style={{ fontSize: nameFont(panel.title) }}>
+      <span className="jrn-f05m__paper-name" style={{ fontSize: panelNameFont(panel) }}>
         {panel.title.map((l) => (
           <span key={l}>{l}</span>
         ))}
@@ -111,12 +130,18 @@ export function CarouselPanelPaper({
           className="jrn-f05m__paper-amount"
           data-empty={v.kind === 'none' ? 'true' : undefined}
           data-jrn-amount-cents={v.kind === 'amount' ? Math.round(v.amount * 100) : undefined}
-          style={{ top: r.amountTop, fontSize: v.kind === 'amount' ? f05BoardType(amountSize(amountText, C.card.amountSize)) : undefined }}
+          style={{
+            top: r.amountTop,
+            fontSize:
+              v.kind === 'amount' ?
+                f05BoardType(amountSize(amountText, C.card.amountSize), F05_PAPER_VALUE_ROW_SUB_PX)
+              : f05BoardType(C.card.amountSize, F05_PAPER_VALUE_ROW_SUB_PX),
+          }}
         >
           {amountText}
         </b>
       : null}
-      <i className="jrn-f05m__paper-caption" style={{ top: v.kind === 'link' ? r.linkCaptionTop : r.captionTop }}>
+      <i className="jrn-f05m__paper-caption" style={{ top: r.captionTop }}>
         {v.caption}
       </i>
       <svg className="jrn-f05m__chev" viewBox="0 0 14 24" aria-hidden>

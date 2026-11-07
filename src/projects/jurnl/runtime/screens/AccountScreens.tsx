@@ -9,13 +9,13 @@
  * Rows whose feature does not exist yet say so instead of pretending.
  */
 
-import { useId, useMemo, useState, type CSSProperties } from 'react';
-import { consentGranted } from '../../data/foundation/consent';
+import { useState } from 'react';
 import { honestAccountsConnectionLabel } from '../../data/foundation/connectionProvider';
-import { getRepository } from '../../data/repository/deviceRepository';
-import { syncDeviceAiToRepository } from '../../data/repository/consentSync';
-import { patchSetup, useSetup } from '../../data/f02/setupDraft';
-import { formatAmountInput, useCurrency } from '../../data/home/money';
+import { useSetup } from '../../data/f02/setupDraft';
+import { BUFFER_COPY, useSafetyBuffer } from '../../data/f09/safetyBuffer';
+import { formatAmountInput, useCurrency, type CurrencyPreference } from '../../data/home/money';
+import { PrivacyConsentsFolio, SignOutConfirm, useAskContextConsent } from '../global/MenuDestinations';
+import { useMenuPanels, type MenuDestination, type MenuPanel } from '../global/menuPanels';
 import accountPlate from '../../families/F09_SAFE/REFERENCE_REPLICA/plates/F09_ACCOUNT_PLATE.jpg';
 import leafRight from '../../families/F09_SAFE/REFERENCE_REPLICA/assets/PILL_BOTANICAL_RIGHT.png';
 import leafLeft from '../../families/F09_SAFE/REFERENCE_REPLICA/assets/PILL_BOTANICAL_LEFT.png';
@@ -23,12 +23,6 @@ import { REF_ACCT1, REF_ACCT2, REF_ACCT3, type RefBox, type RefType } from '../l
 import { JurnlProductNav } from '../components/ProductNav';
 import { ReferenceStage, RefIcon, RefText, at, type RefIconName } from '../components/ReferenceStage';
 import { ReferenceLockup } from '../components/ReferenceLockup';
-import { JurnlDrawer, JurnlToggle, OverlayLayer, useOverlayFocus } from '../components/primitives';
-import { REPLICA_H, REPLICA_W, drawerScale, fitSize, useKeyboardViewport, useOverlayHost } from '../components/OverlayAuthority';
-import { OVR_DRAWER } from '../layout/overlayReferenceLayout';
-import drawerShell from '../global/overlays/F09_ACCOUNT_DRAWER_SHELL.webp';
-import profileThumb from '../global/overlays/F09_DRAWER_PROFILE_THUMB.jpg';
-import privacyCard from '../global/overlays/F09_DRAWER_PRIVACY_PHOTO.jpg';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
 import { CurrencySheet } from './SettingsScreens';
 import { useJurnl } from '../state/store';
@@ -36,48 +30,51 @@ import { useJurnl } from '../state/store';
 const ACCOUNT_PLATE = { src: accountPlate, assetId: 'SAFE.REFERENCE_REPLICA.ACCOUNT_PLATE.INTERIM' };
 const NOT_YET = 'NOT IN THIS PREVIEW YET.';
 
-/** Shared account state: currency, connection, Ask context consent, buffer. */
+/**
+ * Shared account state: currency, connection, Ask context consent, buffer. The buffer is the shared field
+ * (data/f09/safetyBuffer.ts: typed in the display currency, kept in USD); ASK JURNL CONTEXT is its own consent.
+ */
 function useAccountState() {
-  const { session, device, setDevice, showToast } = useJurnl();
+  const { session, showToast } = useJurnl();
   const draft = useSetup();
   const currency = useCurrency();
-  const settings = useMemo(() => getRepository().getSettings(), []);
-  const [consent, setConsent] = useState(() => getRepository().getConsent());
-  const [buffer, setBuffer] = useState(String(settings.safeToSpendBuffer ?? ''));
-  const askOn = consentGranted(consent, 'ASK_JURNL_CONTEXT');
+  const [askOn, setAsk] = useAskContextConsent();
+  const buffer = useSafetyBuffer();
   return {
     name: session.account ? `${session.account.firstName} ${session.account.lastName}`.toUpperCase() : 'PREVIEW GUEST',
     email: session.account?.email?.toUpperCase() ?? null,
     currency: `${currency.code} · ${currency.name}`.toUpperCase(),
     connection: honestAccountsConnectionLabel(draft.accounts),
     askOn,
-    setAsk: (granted: boolean) => {
-      getRepository().patchConsent('ASK_JURNL_CONTEXT', granted, 'GS.SETTINGS');
-      setConsent(getRepository().getConsent());
-      const ai = { ...device.ai, naturalLanguage: granted || device.ai.naturalLanguage };
-      setDevice({ ai });
-      syncDeviceAiToRepository({ ...device, ai });
-    },
-    buffer,
-    setBuffer: (v: string) => setBuffer(v.replace(/[^0-9.]/g, '').slice(0, 9)),
+    setAsk,
+    buffer: buffer.value,
+    bufferBlocked: buffer.rateState === 'UNAVAILABLE',
+    setBuffer: buffer.setValue,
     saveBuffer: () => {
-      getRepository().patchSettings({ safeToSpendBuffer: buffer });
-      showToast({ tone: 'success', title: 'BUFFER SAVED', body: 'SAFE TO SPEND NOW KEEPS THIS AMOUNT ASIDE.', testId: 'toast-buffer' });
+      const r = buffer.save();
+      if (r.ok) showToast({ tone: 'success', title: r.canonicalUsd > 0 ? 'BUFFER SAVED' : 'BUFFER CLEARED', body: r.canonicalUsd > 0 ? BUFFER_COPY.saved : BUFFER_COPY.cleared, testId: 'toast-buffer' });
+      else showToast({ tone: 'error', title: 'BUFFER NOT SAVED', body: r.reason === 'RATE_UNAVAILABLE' ? BUFFER_COPY.rateUnavailable : BUFFER_COPY.invalid, testId: 'toast-buffer-error' });
     },
     notYet: (what: string) => showToast({ tone: 'error', title: what, body: NOT_YET, testId: 'toast-not-yet' }),
   };
 }
 
-/** Setup consents, opened from PRIVACY & CONSENTS. */
-function ConsentsSheet({ onClose }: { onClose: () => void }) {
-  const draft = useSetup();
-  return (
-    <JurnlDrawer expression="form" size="long" testId="settings-consents-sheet" title="PRIVACY & CONSENTS" lead="WHAT JURNL MAY KEEP AND USE." onClose={onClose}>
-      <JurnlToggle checked={draft.consentRemember} label="REMEMBER SETUP" trigger="settings-consent-remember" onChange={(v) => patchSetup({ consentRemember: v })} />
-      <JurnlToggle checked={draft.consentLinks} label="LINKED ACCOUNTS OPTIONAL" trigger="settings-consent-links" onChange={(v) => patchSetup({ consentLinks: v })} />
-      <JurnlToggle checked={draft.consentSale} label="NOTHING SOLD" trigger="settings-consent-sale" onChange={(v) => patchSetup({ consentSale: v })} />
-    </JurnlDrawer>
-  );
+/**
+ * PRIVACY & CONSENTS. One owner (MenuDestinations.PrivacyConsentsFolio): the menu, the ACCOUNT page and the drawer all
+ * open the same destination. Kept under this name for the screens that render it on their own.
+ */
+export function ConsentsSheet({ onClose }: { onClose: () => void }) {
+  const panels = useMenuPanels();
+  return <PrivacyConsentsFolio onBack={onClose} onOpen={(d) => panels?.open(d)} />;
+}
+
+/** Open a menu destination over this screen (the shared stack), or the screen's own sheet where there is no menu host. */
+function useOpenDestination(fallback: (d: 'currency' | 'consents' | 'sign-out') => void) {
+  const panels = useMenuPanels();
+  return (d: MenuDestination | MenuPanel, local?: 'currency' | 'consents' | 'sign-out') => {
+    if (panels) panels.open(d);
+    else if (local) fallback(local);
+  };
 }
 
 function Toggle({ on, box, origin, onChange, trigger }: { on: boolean; box: RefBox; origin: RefBox; onChange: (v: boolean) => void; trigger: string }) {
@@ -90,11 +87,12 @@ function Toggle({ on, box, origin, onChange, trigger }: { on: boolean; box: RefB
 }
 
 /** Amount field: the fitted figure is drawn; a transparent input takes the typing. */
-function MoneyField({ t, origin, value, onValue, trigger, label }: { t: RefType; origin: RefBox; value: string; onValue: (v: string) => void; trigger: string; label: string }) {
+function MoneyField({ t, origin, value, onValue, trigger, label, currency, disabled }: { t: RefType; origin: RefBox; value: string; onValue: (v: string) => void; trigger: string; label: string; currency: CurrencyPreference; disabled?: boolean }) {
+  const figure = formatAmountInput(value) || '0';
   return (
     <>
-      <RefText t={t} origin={origin} as="span" aria-hidden>{`$${formatAmountInput(value) || '0'}`}</RefText>
-      <input className="jrn-ref__money-input" inputMode="decimal" autoComplete="off" aria-label={label} value={formatAmountInput(value)} data-jrn-trigger={trigger} onChange={(e) => onValue(e.target.value)} style={{ left: 0, top: 0, width: origin[2] - origin[0], height: origin[3] - origin[1] }} />
+      <RefText t={t} origin={origin} as="span" aria-hidden>{currency.symbolPosition === 'prefix' ? `${currency.symbol}${figure}` : `${figure} ${currency.symbol}`}</RefText>
+      <input className="jrn-ref__money-input" inputMode="decimal" autoComplete="off" aria-label={`${label} (${currency.code})`} value={formatAmountInput(value)} data-jrn-trigger={trigger} disabled={disabled} onChange={(e) => onValue(e.target.value)} style={{ left: 0, top: 0, width: origin[2] - origin[0], height: origin[3] - origin[1] }} />
     </>
   );
 }
@@ -147,10 +145,12 @@ function RowCards({ L, rows }: { L: typeof REF_ACCT2 | typeof REF_ACCT3; rows: R
 
 /** GS.SETTINGS — ACCOUNT, full page (three continuation screens). */
 export function AccountScreen() {
-  const { go, overlay, openOverlay, closeOverlay, signOut } = useJurnl();
+  const { go, overlay, openOverlay, closeOverlay } = useJurnl();
   const s = useAccountState();
+  const currency = useCurrency();
   const [page, setPage] = useState(0);
-  const [sheet, setSheet] = useState<'currency' | 'consents' | null>(null);
+  const [sheet, setSheet] = useState<'currency' | 'consents' | 'sign-out' | null>(null);
+  const openDest = useOpenDestination(setSheet);
   const A = REF_ACCT1;
   const card = (k: 'profile' | 'currency' | 'connection' | 'ask' | 'buffer') => A.box[k] as RefBox;
   return (
@@ -164,6 +164,7 @@ export function AccountScreen() {
           <JurnlProductNav marks="authority" current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
           {sheet === 'currency' ? <CurrencySheet onClose={() => setSheet(null)} /> : null}
           {sheet === 'consents' ? <ConsentsSheet onClose={() => setSheet(null)} /> : null}
+          {sheet === 'sign-out' ? <SignOutConfirm onCancel={() => setSheet(null)} onSignedOut={() => setSheet(null)} /> : null}
           {overlay === 'quick-add' ? <QuickAddV2Sheet familyId={null} onClose={closeOverlay} /> : null}
           {overlay === 'ask' ? <AskJurnlSheet familyId="GS" nodeId="GS.SETTINGS" onClose={closeOverlay} /> : null}
         </>
@@ -176,7 +177,7 @@ export function AccountScreen() {
       <div className="jrn-ref__page" data-jrn-page={page + 1} key={page}>
         {page === 0 ? (
           <>
-            <button type="button" className="jrn-ref__card" data-jrn-trigger="account-profile" onClick={() => s.notYet('PROFILE')} style={at(card('profile'))}>
+            <button type="button" className="jrn-ref__card" data-jrn-trigger="account-profile" onClick={() => openDest('profile')} style={at(card('profile'))}>
               <span className="jrn-ref__well" style={at(A.box.well1, card('profile'))} />
               <RefIcon name="person" box={A.box.icon1} origin={card('profile')} stroke={2.6} />
               <RefText t={A.text.profileKicker} origin={card('profile')} as="span">PROFILE</RefText>
@@ -189,7 +190,7 @@ export function AccountScreen() {
               <RefIcon name="dollar" box={A.box.icon2} origin={card('currency')} stroke={2.6} />
               <RefText t={A.text.currencyKicker} origin={card('currency')} as="span">DISPLAY CURRENCY</RefText>
               <RefText t={A.text.currencyTitle} origin={card('currency')} as="span" className="jrn-ref__card-title">{s.currency}</RefText>
-              <button type="button" className="jrn-ref__inline" data-jrn-trigger="settings-currency" onClick={() => setSheet('currency')} style={at([570, 800, 735, 856], card('currency'))}>
+              <button type="button" className="jrn-ref__inline" data-jrn-trigger="settings-currency" onClick={() => openDest('currency', 'currency')} style={at([570, 800, 735, 856], card('currency'))}>
                 <RefText t={A.text.currencyChange} origin={[570, 800, 735, 856]} as="span">CHANGE</RefText>
                 <RefIcon name="arrow" box={A.box.arrow2} origin={[570, 800, 735, 856]} stroke={2.2} />
               </button>
@@ -216,7 +217,7 @@ export function AccountScreen() {
               <RefText t={A.text.bufferKicker} origin={card('buffer')} as="span">SAFE TO SPEND BUFFER</RefText>
               <div className="jrn-ref__field jrn-ref__abs" style={at(A.box.bufferField, card('buffer'))}>
                 <RefText t={A.text.bufferLabel} origin={A.box.bufferField} as="span">BUFFER</RefText>
-                <MoneyField t={A.text.bufferValue} origin={A.box.bufferField} value={s.buffer} onValue={s.setBuffer} trigger="settings-buffer" label="BUFFER" />
+                <MoneyField t={A.text.bufferValue} origin={A.box.bufferField} value={s.buffer} onValue={s.setBuffer} trigger="settings-buffer" label="BUFFER" currency={currency} disabled={s.bufferBlocked} />
                 <span className="jrn-ref__vrule" style={at(A.box.bufferDivider, A.box.bufferField)} />
                 <button type="button" className="jrn-ref__cta jrn-ref__cta--pill" data-jrn-trigger="settings-buffer-save" onClick={s.saveBuffer} style={at(A.box.save, A.box.bufferField)}>
                   <RefText t={A.text.save} origin={A.box.save} as="span">SAVE BUFFER</RefText>
@@ -233,10 +234,10 @@ export function AccountScreen() {
             <RowCards
               L={REF_ACCT2}
               rows={[
-                { card: 'c1', icon: 'bell', kicker: 'NOTIFICATIONS', title: 'REMINDERS & UPDATES', gray: ['MANAGE YOUR NOTIFICATIONS', 'AND PREFERENCES.'], onClick: () => s.notYet('NOTIFICATIONS'), trigger: 'account-notifications' },
-                { card: 'c2', icon: 'lock', kicker: 'PRIVACY & CONSENTS', title: 'MANAGE DATA', gray: ['REVIEW YOUR PRIVACY SETTINGS', 'AND DATA CONSENTS.'], onClick: () => setSheet('consents'), trigger: 'account-privacy' },
-                { card: 'c3', icon: 'shield', kicker: 'SECURITY', title: 'FACE ID / PASSCODE', gray: ['MANAGE YOUR SIGN-IN', 'PREFERENCES.'], onClick: () => s.notYet('SECURITY'), trigger: 'account-security' },
-                { card: 'c4', icon: 'calendar', kicker: 'WEEK START & DATE FORMAT', title: 'CALENDAR PREFERENCES', gray: ['CHOOSE YOUR WEEK START', 'AND DATE FORMAT.'], onClick: () => s.notYet('CALENDAR PREFERENCES'), trigger: 'account-calendar' },
+                { card: 'c1', icon: 'bell', kicker: 'NOTIFICATIONS', title: 'REMINDERS & UPDATES', gray: ['MANAGE YOUR NOTIFICATIONS', 'AND PREFERENCES.'], onClick: () => openDest('preferences'), trigger: 'account-notifications' },
+                { card: 'c2', icon: 'lock', kicker: 'PRIVACY & CONSENTS', title: 'MANAGE DATA', gray: ['REVIEW YOUR PRIVACY SETTINGS', 'AND DATA CONSENTS.'], onClick: () => openDest('privacy', 'consents'), trigger: 'account-privacy' },
+                { card: 'c3', icon: 'shield', kicker: 'SECURITY', title: 'FACE ID / PASSCODE', gray: ['MANAGE YOUR SIGN-IN', 'PREFERENCES.'], onClick: () => openDest({ tool: 'security-biometric' }), trigger: 'account-security' },
+                { card: 'c4', icon: 'calendar', kicker: 'WEEK START & DATE FORMAT', title: 'CALENDAR PREFERENCES', gray: ['CHOOSE YOUR WEEK START', 'AND DATE FORMAT.'], onClick: () => openDest('preferences'), trigger: 'account-calendar' },
               ]}
             />
             <Pill kind="back" box={REF_ACCT2.box.back} arrow={REF_ACCT2.box.backArrow} leaf={REF_ACCT2.box.backLeaf} label="BACK" t={REF_ACCT2.text.back} onClick={() => setPage(0)} trigger="account-back" />
@@ -249,10 +250,10 @@ export function AccountScreen() {
             <RowCards
               L={REF_ACCT3}
               rows={[
-                { card: 'c1', icon: 'file', kicker: 'DATA EXPORT', title: 'DOWNLOAD YOUR DATA', gray: ['EXPORT A COPY OF YOUR DATA', 'ANYTIME.'], onClick: () => s.notYet('DATA EXPORT'), trigger: 'account-export' },
-                { card: 'c2', icon: 'help', kicker: 'HELP & SUPPORT', title: 'GET SUPPORT', gray: ['FIND ANSWERS, CONTACT OUR', 'TEAM, OR BROWSE GUIDES.'], onClick: () => s.notYet('HELP & SUPPORT'), trigger: 'account-help' },
-                { card: 'c3', icon: 'document', kicker: 'LEGAL', title: 'TERMS & POLICIES', gray: ['REVIEW OUR TERMS OF SERVICE', 'AND PRIVACY POLICY.'], onClick: () => s.notYet('LEGAL'), trigger: 'account-legal' },
-                { card: 'c4', icon: 'sign-out', kicker: 'ACCOUNT', title: 'SIGN OUT', gray: ['SIGN OUT OF YOUR JURNL', 'ACCOUNT ON THIS DEVICE.'], onClick: () => signOut(), trigger: 'settings-sign-out' },
+                { card: 'c1', icon: 'file', kicker: 'DATA EXPORT', title: 'DOWNLOAD YOUR DATA', gray: ['EXPORT A COPY OF YOUR DATA', 'ANYTIME.'], onClick: () => openDest({ tool: 'privacy-data-export' }), trigger: 'account-export' },
+                { card: 'c2', icon: 'help', kicker: 'HELP & SUPPORT', title: 'GET SUPPORT', gray: ['FIND ANSWERS, CONTACT OUR', 'TEAM, OR BROWSE GUIDES.'], onClick: () => openDest('help'), trigger: 'account-help' },
+                { card: 'c3', icon: 'document', kicker: 'LEGAL', title: 'TERMS & POLICIES', gray: ['REVIEW OUR TERMS OF SERVICE', 'AND PRIVACY POLICY.'], onClick: () => openDest('legal'), trigger: 'account-legal' },
+                { card: 'c4', icon: 'sign-out', kicker: 'ACCOUNT', title: 'SIGN OUT', gray: ['SIGN OUT OF YOUR JURNL', 'ACCOUNT ON THIS DEVICE.'], onClick: () => openDest('sign-out', 'sign-out'), trigger: 'settings-sign-out' },
               ]}
             />
             <Pill kind="back" box={REF_ACCT3.box.back} arrow={REF_ACCT3.box.backArrow} leaf={REF_ACCT3.box.backLeaf} label="BACK" t={REF_ACCT3.text.back} onClick={() => setPage(1)} trigger="account-back" />
@@ -265,158 +266,5 @@ export function AccountScreen() {
   );
 }
 
-/** Drawer shell in the reference frame: the registered handoff shell, stretched 0.6% to meet the screen's right edge. */
-const DRAWER_SHELL: RefBox = [228.5, 3, REPLICA_W, 1671];
-/**
- * The reference's panel: a clean rounded sheet from x 295, y 70 to 1608, running off the right edge (corner radii 30 top,
- * 40 bottom). The shell is clipped to it; only the olive branch overhangs the top (x ≥ 540). Taps on the panel never fall
- * through to the scrim.
- */
-const DRAWER_PANEL: RefBox = [295, 70, REPLICA_W, 1608];
-const DRAWER_CLIP = `path('M540 0H${REPLICA_W}V1608H335A40 40 0 0 1 295 1568V100A30 30 0 0 1 325 70H540Z')`;
-/** The ACCOUNT title's tap area (it opens the full ACCOUNT page). */
-const DRAWER_TITLE: RefBox = [330, 284, 700, 372];
-/** Measured advance per character of each live line at its reference size, and the room it has. */
-const FIT = { name: [14.2, 296], email: [11.9, 296], currency: [17, 311], connection: [19, 309] } as const;
 
-const sizedType = (t: RefType, text: string, [perChar, room]: readonly [number, number], min: number): RefType => {
-  const size = fitSize(text, t.size, perChar, room, min);
-  return size === t.size ? t : { ...t, size, ls: (t.ls * size) / t.size, top: t.top + (t.size - size) * 0.7 };
-};
-
-/**
- * ACCOUNT, drawer expression, replicated from the founder reference
- * (JURNL/F09_SAFE/AUTHORITIES/F09_ACCOUNT_DRAWER_OVERLAY_SOURCE.jpg). The torn collage panel (the founder's handoff
- * shell) slides in from the right over the live screen, which softens behind it; every card, line and control sits where
- * the reference has it. Tapping outside the panel, the close mark or Escape closes it.
- */
-export function AccountDrawer({ onClose }: { onClose: () => void }) {
-  const { go, signOut } = useJurnl();
-  const s = useAccountState();
-  const currency = useCurrency();
-  const [sheet, setSheet] = useState<'currency' | 'consents' | null>(null);
-  const [typing, setTyping] = useState(false);
-  const { host, ref: rootRef } = useOverlayHost();
-  const vv = useKeyboardViewport(typing);
-  const { ref } = useOverlayFocus(onClose);
-  const bufferId = useId();
-  const D = OVR_DRAWER;
-  const k = drawerScale(host.W, host.H);
-  const top = Math.max(0, (host.H - REPLICA_H * k) / 2);
-  // While the buffer is typed into, lift the panel so the field and SAVE BUFFER stay above the keyboard.
-  const lift = vv ? Math.max(0, top + (D.box.save[3] + 16) * k - (vv.top + vv.height)) : 0;
-  const email = s.email ?? 'NO EMAIL ON DEVICE';
-  const card = (b: RefBox) => at(b);
-  return (
-    <OverlayLayer>
-      <div ref={rootRef} className="jrn-ovl jrn-ovl--drawer" data-jrn-overlay="account-drawer" data-jrn-sheet="account-drawer">
-        <div className="jrn-ovl__scrim" onClick={onClose} aria-hidden />
-        <div
-          ref={ref}
-          role="dialog"
-          aria-modal="true"
-          aria-label="ACCOUNT"
-          className="jrn-dr"
-          data-jrn-overlay-authority="F09_ACCOUNT_DRAWER_OVERLAY_SOURCE"
-          style={{ '--k': k, top: top - lift } as CSSProperties}
-        >
-          <span className="jrn-dr__panel" style={at(DRAWER_PANEL)} aria-hidden />
-          <span className="jrn-dr__paper" style={{ clipPath: DRAWER_CLIP }} aria-hidden>
-            <img className="jrn-dr__shell" src={drawerShell} alt="" draggable={false} data-asset-id="F09_ACCOUNT_DRAWER_OVERLAY_SHELL" style={at(DRAWER_SHELL)} />
-          </span>
-          <span className="jrn-dr__rim" style={at(DRAWER_PANEL)} aria-hidden />
-
-          <ReferenceLockup L={{ box: { sprig: D.box.sprig, word: D.box.word }, text: { desc1: D.text.desc1, desc2: D.text.desc2 } }} />
-          <button type="button" className="jrn-dr__title" data-jrn-trigger="drawer-account" aria-label="ACCOUNT" onClick={() => { onClose(); go('account'); }} style={at(DRAWER_TITLE)}>
-            <RefText t={D.text.title} origin={DRAWER_TITLE} as="span">ACCOUNT</RefText>
-          </button>
-          <span className="jrn-dr__rule" style={at(D.box.rule)} />
-
-          <button type="button" className="jrn-dr__card" data-jrn-trigger="drawer-profile" onClick={() => { onClose(); go('account'); }} style={card(D.box.profile)}>
-            <img className="jrn-dr__thumb" src={profileThumb} alt="" draggable={false} style={at(D.box.thumb, D.box.profile)} />
-            <span className="jrn-dr__vr" style={at(D.box.divProfile, D.box.profile)} />
-            <RefText t={D.text.profileKicker} origin={D.box.profile} as="span" className="jrn-dr__k">PROFILE</RefText>
-            <RefText t={sizedType(D.text.profileTitle, s.name, FIT.name, 13)} origin={D.box.profile} as="span">{s.name}</RefText>
-            <RefText t={sizedType(D.text.profileGray, email, FIT.email, 9)} origin={D.box.profile} as="span" className="jrn-dr__gray">{email}</RefText>
-            <RefIcon name="arrow" box={D.box.arrowProfile} origin={D.box.profile} stroke={2.2} />
-          </button>
-
-          <button type="button" className="jrn-dr__card" data-jrn-trigger="drawer-currency" aria-label={`DISPLAY CURRENCY ${s.currency}. CHANGE`} onClick={() => setSheet('currency')} style={card(D.box.currency)}>
-            <RefText t={D.text.currencyKicker} origin={D.box.currency} as="span" className="jrn-dr__k">DISPLAY CURRENCY</RefText>
-            <RefText t={sizedType(D.text.currencyTitle, s.currency, FIT.currency, 16)} origin={D.box.currency} as="span">{s.currency}</RefText>
-            <span className="jrn-dr__vr" style={at(D.box.divCurrency, D.box.currency)} />
-            <RefText t={D.text.currencyChange} origin={D.box.currency} as="span" className="jrn-dr__k">CHANGE</RefText>
-            <RefIcon name="arrow" box={D.box.arrowCurrency} origin={D.box.currency} stroke={2.2} />
-          </button>
-
-          <button type="button" className="jrn-dr__card" data-jrn-trigger="drawer-connection" aria-label={`CONNECTION ${s.connection}. SET UP`} onClick={() => { onClose(); go('money/places'); }} style={card(D.box.connection)}>
-            <RefText t={D.text.connectionKicker} origin={D.box.connection} as="span" className="jrn-dr__k">CONNECTION</RefText>
-            <RefText t={sizedType(D.text.connectionTitle, s.connection, FIT.connection, 15)} origin={D.box.connection} as="span">{s.connection}</RefText>
-            <span className="jrn-dr__vr" style={at(D.box.divConnection, D.box.connection)} />
-            <RefText t={D.text.connectionSetup} origin={D.box.connection} as="span" className="jrn-dr__k">SET UP</RefText>
-            <RefIcon name="arrow" box={D.box.arrowConnection} origin={D.box.connection} stroke={2.2} />
-          </button>
-
-          <section className="jrn-dr__card" aria-label="ASK JURNL CONTEXT" style={card(D.box.ask)}>
-            <RefText t={D.text.askKicker} origin={D.box.ask} as="span" className="jrn-dr__k">ASK JURNL CONTEXT</RefText>
-            <RefText t={D.text.ask1} origin={D.box.ask} as="span" className="jrn-dr__gray">HELP JURNL GIVE YOU</RefText>
-            <RefText t={D.text.ask2} origin={D.box.ask} as="span" className="jrn-dr__gray">PERSONALIZED INSIGHTS</RefText>
-            <RefText t={D.text.ask3} origin={D.box.ask} as="span" className="jrn-dr__gray">BASED ON YOUR SPENDING,</RefText>
-            <RefText t={D.text.ask4} origin={D.box.ask} as="span" className="jrn-dr__gray">PLANS AND GOALS.</RefText>
-            <button type="button" role="switch" aria-checked={s.askOn} aria-label="ASK JURNL CONTEXT" className="jrn-dr__toggle" data-on={s.askOn ? 'true' : 'false'} data-jrn-trigger="drawer-ask-context" onClick={() => s.setAsk(!s.askOn)} style={at(D.box.toggle, D.box.ask)}>
-              <span className="jrn-dr__knob" />
-            </button>
-          </section>
-
-          <section className="jrn-dr__card" aria-label="SAFE TO SPEND BUFFER" style={card(D.box.buffer)}>
-            <RefText t={D.text.bufferKicker} origin={D.box.buffer} as="label" htmlFor={bufferId} className="jrn-dr__k">SAFE TO SPEND BUFFER</RefText>
-            <RefText t={D.text.buffer1} origin={D.box.buffer} as="span" className="jrn-dr__gray">AMOUNT TO KEEP AS A BUFFER</RefText>
-            <RefText t={D.text.buffer2} origin={D.box.buffer} as="span" className="jrn-dr__gray">IN YOUR SAFE TO SPEND CALCULATION.</RefText>
-            <span className="jrn-dr__field" style={at(D.box.bufferField, D.box.buffer)}>
-              <span className="jrn-dr__money" style={{ paddingLeft: (D.text.bufferValue.left ?? 0) - D.box.bufferField[0], fontSize: D.text.bufferValue.size, letterSpacing: D.text.bufferValue.ls }}>
-                {currency.symbolPosition === 'prefix' ? <span aria-hidden>{currency.symbol}</span> : null}
-                <input
-                  id={bufferId}
-                  inputMode="decimal"
-                  autoComplete="off"
-                  placeholder="0"
-                  value={formatAmountInput(s.buffer)}
-                  data-jrn-trigger="drawer-buffer"
-                  size={Math.max(1, formatAmountInput(s.buffer).length || 1)}
-                  onChange={(e) => s.setBuffer(e.target.value)}
-                  onFocus={() => setTyping(true)}
-                  onBlur={() => setTyping(false)}
-                />
-                {currency.symbolPosition === 'suffix' ? <span aria-hidden>{currency.symbol}</span> : null}
-              </span>
-            </span>
-            <button type="button" className="jrn-dr__save" data-jrn-trigger="drawer-buffer-save" onClick={s.saveBuffer} style={at(D.box.save, D.box.buffer)}>
-              <RefText t={D.text.save} origin={D.box.save} as="span">SAVE BUFFER</RefText>
-              <RefIcon name="arrow" box={D.box.saveArrow} origin={D.box.save} stroke={2} />
-            </button>
-          </section>
-
-          <button type="button" className="jrn-dr__card jrn-dr__card--image" data-jrn-trigger="drawer-privacy" onClick={() => setSheet('consents')} style={card(D.box.privacy)}>
-            <img className="jrn-dr__photo" src={privacyCard} alt="" draggable={false} />
-            <RefText t={D.text.privacyKicker} origin={D.box.privacy} as="span" className="jrn-dr__k">PRIVACY & CONSENTS</RefText>
-            <RefText t={D.text.privacy1} origin={D.box.privacy} as="span" className="jrn-dr__photo-gray">MANAGE YOUR PRIVACY</RefText>
-            <RefText t={D.text.privacy2} origin={D.box.privacy} as="span" className="jrn-dr__photo-gray">SETTINGS AND DATA CONSENTS.</RefText>
-            <RefIcon name="arrow" box={D.box.privacyArrow} origin={D.box.privacy} stroke={2.2} className="jrn-dr__light" />
-          </button>
-
-          <button type="button" className="jrn-dr__card" data-jrn-trigger="drawer-sign-out" onClick={() => signOut()} style={card(D.box.signout)}>
-            <RefIcon name="sign-out" box={D.box.signoutIcon} origin={D.box.signout} stroke={2.6} />
-            <RefText t={D.text.signout} origin={D.box.signout} as="span" className="jrn-dr__k">SIGN OUT</RefText>
-            <RefIcon name="arrow" box={D.box.signoutArrow} origin={D.box.signout} stroke={2.2} />
-          </button>
-
-          <button type="button" className="jrn-dr__close" aria-label="CLOSE ACCOUNT" data-jrn-trigger="account-drawer-close" onClick={onClose} style={at(D.box.close)}>
-            <RefIcon name="close" box={D.box.closeX} origin={D.box.close} stroke={2.4} />
-          </button>
-        </div>
-      </div>
-      {sheet === 'currency' ? <CurrencySheet onClose={() => setSheet(null)} /> : null}
-      {sheet === 'consents' ? <ConsentsSheet onClose={() => setSheet(null)} /> : null}
-    </OverlayLayer>
-  );
-}
+export { AccountDrawer } from '../surfaces/editorial/AccountSettingsDrawer';

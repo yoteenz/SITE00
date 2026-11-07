@@ -1,0 +1,524 @@
+{
+ "sprint": "P0.JURNL.F05-MONEY.CANONICAL-UTILITY-ICON-FAMILY-INTEGRATION.OPUS1",
+ "disc_fraction": 0.8065,
+ "assets": [
+  {
+   "id": "F05.UTILITY.CLOSE.GOLD",
+   "runtime_id": "UTILITY_CLOSE_GOLD",
+   "kind": "close",
+   "name": "01 CLOSE / X",
+   "provenance": "FOUNDER-SUPPLIED ARTWORK",
+   "new_artwork_generated": false,
+   "source": {
+    "upload_filename": "9d97de54-image.png",
+    "master_file": "JURNL/F05_MONEY/UTILITY_ICONS/ORIGINAL_PNG_MASTERS/01_F05_UTILITY_CLOSE_GOLD.png",
+    "kept": "byte-for-byte",
+    "sha256": "78672c080d139df16b6c27bdb4f2b7949f65215201f8d855abd30b3457498f95",
+    "bytes": 1579570,
+    "px": [
+     1254,
+     1254
+    ],
+    "mode": "RGBA"
+   },
+   "transparency": {
+    "true_alpha": true,
+    "checkerboard_baked_in": false,
+    "opaque_background": false,
+    "alpha_min": 0,
+    "alpha_max": 255,
+    "transparent_pct": 43.7,
+    "partial_alpha_pct": 56.3,
+    "disc_alpha_median": 252,
+    "edge_dust_px_cleared_alpha_le_2": 288392,
+    "of_which_saturated_red_or_yellow": 13320,
+    "verdict": "TRUE ALPHA (no checkerboard, no opaque background); disc alpha 251-254 (about 1 % translucent, kept); edge dust alpha <= 2 cleared"
+   },
+   "source_geometry": {
+    "disc_bbox_xxyy": [
+     238,
+     993,
+     227,
+     996
+    ],
+    "disc_diameter_px": 756,
+    "disc_height_px": 770,
+    "disc_centre": [
+     615.5,
+     611.5
+    ],
+    "disc_to_canvas": 0.603,
+    "glyph_px": [
+     288,
+     290
+    ],
+    "glyph_to_disc": [
+     0.381,
+     0.384
+    ],
+    "glyph_offset_from_disc_centre_px": [
+     9.0,
+     9.0
+    ]
+   },
+   "derivation": {
+    "script": "scripts/jurnl/utility-icons/derive_utility_icons.py",
+    "steps": [
+     "clear alpha <= 2 dust",
+     "measure disc (alpha >= 240, luminance > 120)",
+     "crop square 1.24 x disc, centred on the disc",
+     "premultiplied Lanczos resample to 256 px",
+     "WebP (lossy q95 only if >= 42 dB on parchment / olive / oxblood, else lossless)"
+    ],
+    "crop": {
+     "side_px": 937,
+     "left": 147,
+     "top": 143,
+     "source_alpha_left_outside_crop_max": 3
+    }
+   },
+   "production": {
+    "file": "src/projects/jurnl/runtime/global/utilityArt/UTILITY_CLOSE_GOLD.webp",
+    "px": [
+     256,
+     256
+    ],
+    "sha256": "872efa5e1f4d3bc4cd401a52feaa082b00e6994aa34a647f62f0e606118a19a0",
+    "bytes": 63956,
+    "encoding": "lossless",
+    "lossy_q95_psnr_db_rejected": {
+     "parchment": 40.46,
+     "olive": 40.46,
+     "oxblood": 40.47
+    },
+    "disc_diameter_px": 206,
+    "disc_centre": [
+     127.5,
+     127.5
+    ],
+    "disc_to_image": 0.805,
+    "registry": "src/projects/jurnl/runtime/global/utilityArt/registry.ts (UTILITY_ART, UTILITY_DISC_FRACTION = 0.8065)"
+   },
+   "visual_reference": {
+    "supplied_png": "ORIGINAL_PNG_MASTERS/01_F05_UTILITY_CLOSE_GOLD.png",
+    "supplied_vs_rendered": "CLOSE_UPS/CLOSE_*.png",
+    "all_targets": "CLOSE_UPS/00_ALL_SUPPLIED_VS_RENDERED.png"
+   },
+   "target_locations": [
+    {
+     "surface": "OV08 GLOBAL MENU",
+     "trigger": "global-menu-close",
+     "label": "CLOSE MENU",
+     "file": "src/projects/jurnl/runtime/global/GlobalMenu.tsx",
+     "host_class": "jgm-close"
+    },
+    {
+     "surface": "OV05 SEARCH",
+     "trigger": "global-search-close",
+     "label": "CLOSE",
+     "file": "src/projects/jurnl/runtime/surfaces/editorial/Shell.tsx (ShellOverlay)",
+     "host_class": "jsh-close"
+    },
+    {
+     "surface": "CH01 SAFE TO SPEND BUFFER",
+     "trigger": "global-buffer-close",
+     "label": "CLOSE SAFE TO SPEND BUFFER",
+     "file": "src/projects/jurnl/runtime/surfaces/editorial/Shell.tsx (ShellOverlay)",
+     "host_class": "jsh-close"
+    },
+    {
+     "surface": "CH02 PRIVACY & CONSENTS",
+     "trigger": "settings-consents-sheet-close",
+     "label": "CLOSE PRIVACY & CONSENTS",
+     "file": "src/projects/jurnl/runtime/surfaces/editorial/Shell.tsx (ShellOverlay)",
+     "host_class": "jsh-close"
+    },
+    {
+     "surface": "OV02 ADD A POCKET",
+     "trigger": "money-add-place-close",
+     "label": "CLOSE",
+     "file": "src/projects/jurnl/runtime/surfaces/editorial/Editorial.tsx (PlateOverlay)",
+     "host_class": "jed-close"
+    },
+    {
+     "surface": "OV03 MOVE MONEY / PAY A CARD",
+     "trigger": "transfer-sheet-close",
+     "label": "CLOSE",
+     "file": "src/projects/jurnl/runtime/surfaces/editorial/Editorial.tsx (PlateOverlay)",
+     "host_class": "jed-close"
+    },
+    {
+     "surface": "OV01 MONEY ACTION SHEET",
+     "trigger": "f05m-actions-sheet-close",
+     "label": "CLOSE",
+     "file": "src/projects/jurnl/runtime/surfaces/editorial/Editorial.tsx (FolioOverlay)",
+     "host_class": "jed-close"
+    }
+   ],
+   "accessibility": {
+    "image": "decorative: alt=\"\" aria-hidden=\"true\" draggable=\"false\", pointer-events none",
+    "name": "on the enclosing <button> (aria-label kept from the control it replaces)",
+    "focus": "button focus ring (gold); keyboard Enter / Space; disabled state on the button",
+    "touch_target": "44 CSS px tall; overlay closes >= 44 x 44; header chips as wide as the approved pitch allows"
+   },
+   "status": "MOUNTED · FOUNDER APPROVAL PENDING"
+  },
+  {
+   "id": "F05.UTILITY.MENU.GOLD",
+   "runtime_id": "UTILITY_MENU_GOLD",
+   "kind": "menu",
+   "name": "02 HAMBURGER / MENU",
+   "provenance": "FOUNDER-SUPPLIED ARTWORK",
+   "new_artwork_generated": false,
+   "source": {
+    "upload_filename": "e8e81e14-image.png",
+    "master_file": "JURNL/F05_MONEY/UTILITY_ICONS/ORIGINAL_PNG_MASTERS/02_F05_UTILITY_MENU_GOLD.png",
+    "kept": "byte-for-byte",
+    "sha256": "eb793847b75bf01835b420875411ce1f6699a50a8d02b8181e9ed3b2a5f87c82",
+    "bytes": 1922226,
+    "px": [
+     1254,
+     1254
+    ],
+    "mode": "RGBA"
+   },
+   "transparency": {
+    "true_alpha": true,
+    "checkerboard_baked_in": false,
+    "opaque_background": false,
+    "alpha_min": 0,
+    "alpha_max": 255,
+    "transparent_pct": 46.6,
+    "partial_alpha_pct": 53.3,
+    "disc_alpha_median": 253,
+    "edge_dust_px_cleared_alpha_le_2": 116238,
+    "of_which_saturated_red_or_yellow": 10651,
+    "verdict": "TRUE ALPHA (no checkerboard, no opaque background); disc alpha 251-254 (about 1 % translucent, kept); edge dust alpha <= 2 cleared"
+   },
+   "source_geometry": {
+    "disc_bbox_xxyy": [
+     170,
+     1054,
+     151,
+     1062
+    ],
+    "disc_diameter_px": 885,
+    "disc_height_px": 912,
+    "disc_centre": [
+     612.0,
+     606.5
+    ],
+    "disc_to_canvas": 0.706,
+    "glyph_px": [
+     393,
+     292
+    ],
+    "glyph_to_disc": [
+     0.444,
+     0.33
+    ],
+    "glyph_offset_from_disc_centre_px": [
+     11.0,
+     5.0
+    ]
+   },
+   "derivation": {
+    "script": "scripts/jurnl/utility-icons/derive_utility_icons.py",
+    "steps": [
+     "clear alpha <= 2 dust",
+     "measure disc (alpha >= 240, luminance > 120)",
+     "crop square 1.24 x disc, centred on the disc",
+     "premultiplied Lanczos resample to 256 px",
+     "WebP (lossy q95 only if >= 42 dB on parchment / olive / oxblood, else lossless)"
+    ],
+    "crop": {
+     "side_px": 1097,
+     "left": 64,
+     "top": 58,
+     "source_alpha_left_outside_crop_max": 0
+    }
+   },
+   "production": {
+    "file": "src/projects/jurnl/runtime/global/utilityArt/UTILITY_MENU_GOLD.webp",
+    "px": [
+     256,
+     256
+    ],
+    "sha256": "ada2e3763fd816f5030c5ff0cdfb1cb867546ef7c3be4fbe7b14f5b729b30e15",
+    "bytes": 57998,
+    "encoding": "lossless",
+    "lossy_q95_psnr_db_rejected": {
+     "parchment": 40.99,
+     "olive": 40.99,
+     "oxblood": 41.0
+    },
+    "disc_diameter_px": 206,
+    "disc_centre": [
+     127.5,
+     127.5
+    ],
+    "disc_to_image": 0.805,
+    "registry": "src/projects/jurnl/runtime/global/utilityArt/registry.ts (UTILITY_ART, UTILITY_DISC_FRACTION = 0.8065)"
+   },
+   "visual_reference": {
+    "supplied_png": "ORIGINAL_PNG_MASTERS/02_F05_UTILITY_MENU_GOLD.png",
+    "supplied_vs_rendered": "CLOSE_UPS/MENU_*.png",
+    "all_targets": "CLOSE_UPS/00_ALL_SUPPLIED_VS_RENDERED.png"
+   },
+   "target_locations": [
+    {
+     "surface": "F05 MONEY PARENT (corner chrome, while the parent is mounted)",
+     "trigger": "f09-menu",
+     "label": "MENU",
+     "file": "src/projects/jurnl/runtime/components/JurnlCornerChrome.tsx",
+     "host_class": "jrn-f09a__menu"
+    }
+   ],
+   "accessibility": {
+    "image": "decorative: alt=\"\" aria-hidden=\"true\" draggable=\"false\", pointer-events none",
+    "name": "on the enclosing <button> (aria-label kept from the control it replaces)",
+    "focus": "button focus ring (gold); keyboard Enter / Space; disabled state on the button",
+    "touch_target": "44 CSS px tall; overlay closes >= 44 x 44; header chips as wide as the approved pitch allows"
+   },
+   "status": "MOUNTED · FOUNDER APPROVAL PENDING"
+  },
+  {
+   "id": "F05.UTILITY.SEARCH.GOLD",
+   "runtime_id": "UTILITY_SEARCH_GOLD",
+   "kind": "search",
+   "name": "03 SEARCH / MAGNIFIER",
+   "provenance": "FOUNDER-SUPPLIED ARTWORK",
+   "new_artwork_generated": false,
+   "source": {
+    "upload_filename": "85eec5a0-image.png",
+    "master_file": "JURNL/F05_MONEY/UTILITY_ICONS/ORIGINAL_PNG_MASTERS/03_F05_UTILITY_SEARCH_GOLD.png",
+    "kept": "byte-for-byte",
+    "sha256": "f87f643c0b371e413b523169584d70ae668707d57349708bd8047faea4f99441",
+    "bytes": 1291748,
+    "px": [
+     1254,
+     1254
+    ],
+    "mode": "RGBA"
+   },
+   "transparency": {
+    "true_alpha": true,
+    "checkerboard_baked_in": false,
+    "opaque_background": false,
+    "alpha_min": 0,
+    "alpha_max": 255,
+    "transparent_pct": 52.0,
+    "partial_alpha_pct": 48.0,
+    "disc_alpha_median": 252,
+    "edge_dust_px_cleared_alpha_le_2": 162665,
+    "of_which_saturated_red_or_yellow": 4961,
+    "verdict": "TRUE ALPHA (no checkerboard, no opaque background); disc alpha 251-254 (about 1 % translucent, kept); edge dust alpha <= 2 cleared"
+   },
+   "source_geometry": {
+    "disc_bbox_xxyy": [
+     201,
+     1021,
+     184,
+     1018
+    ],
+    "disc_diameter_px": 821,
+    "disc_height_px": 835,
+    "disc_centre": [
+     611.0,
+     601.0
+    ],
+    "disc_to_canvas": 0.655,
+    "glyph_px": [
+     361,
+     371
+    ],
+    "glyph_to_disc": [
+     0.44,
+     0.452
+    ],
+    "glyph_offset_from_disc_centre_px": [
+     -5.0,
+     0.0
+    ]
+   },
+   "derivation": {
+    "script": "scripts/jurnl/utility-icons/derive_utility_icons.py",
+    "steps": [
+     "clear alpha <= 2 dust",
+     "measure disc (alpha >= 240, luminance > 120)",
+     "crop square 1.24 x disc, centred on the disc",
+     "premultiplied Lanczos resample to 256 px",
+     "WebP (lossy q95 only if >= 42 dB on parchment / olive / oxblood, else lossless)"
+    ],
+    "crop": {
+     "side_px": 1018,
+     "left": 102,
+     "top": 92,
+     "source_alpha_left_outside_crop_max": 0
+    }
+   },
+   "production": {
+    "file": "src/projects/jurnl/runtime/global/utilityArt/UTILITY_SEARCH_GOLD.webp",
+    "px": [
+     256,
+     256
+    ],
+    "sha256": "3792edaa4dd80a3480379120b3f47cf69930e06d3f267fd125a301c02437c921",
+    "bytes": 57180,
+    "encoding": "lossless",
+    "lossy_q95_psnr_db_rejected": {
+     "parchment": 40.98,
+     "olive": 40.99,
+     "oxblood": 41.01
+    },
+    "disc_diameter_px": 206,
+    "disc_centre": [
+     127.5,
+     128.0
+    ],
+    "disc_to_image": 0.805,
+    "registry": "src/projects/jurnl/runtime/global/utilityArt/registry.ts (UTILITY_ART, UTILITY_DISC_FRACTION = 0.8065)"
+   },
+   "visual_reference": {
+    "supplied_png": "ORIGINAL_PNG_MASTERS/03_F05_UTILITY_SEARCH_GOLD.png",
+    "supplied_vs_rendered": "CLOSE_UPS/SEARCH_*.png",
+    "all_targets": "CLOSE_UPS/00_ALL_SUPPLIED_VS_RENDERED.png"
+   },
+   "target_locations": [
+    {
+     "surface": "F05 MONEY PARENT header",
+     "trigger": "f05m-search",
+     "label": "SEARCH POCKETS AND ACTIVITY",
+     "file": "src/projects/jurnl/runtime/screens/f05/MoneyMotionParent.tsx",
+     "host_class": "jrn-f05m__chip"
+    }
+   ],
+   "accessibility": {
+    "image": "decorative: alt=\"\" aria-hidden=\"true\" draggable=\"false\", pointer-events none",
+    "name": "on the enclosing <button> (aria-label kept from the control it replaces)",
+    "focus": "button focus ring (gold); keyboard Enter / Space; disabled state on the button",
+    "touch_target": "44 CSS px tall; overlay closes >= 44 x 44; header chips as wide as the approved pitch allows"
+   },
+   "status": "MOUNTED · FOUNDER APPROVAL PENDING"
+  },
+  {
+   "id": "F05.UTILITY.ADD.GOLD",
+   "runtime_id": "UTILITY_ADD_GOLD",
+   "kind": "add",
+   "name": "04 PLUS / ADD",
+   "provenance": "FOUNDER-SUPPLIED ARTWORK",
+   "new_artwork_generated": false,
+   "source": {
+    "upload_filename": "8c6e740e-image.png",
+    "master_file": "JURNL/F05_MONEY/UTILITY_ICONS/ORIGINAL_PNG_MASTERS/04_F05_UTILITY_ADD_GOLD.png",
+    "kept": "byte-for-byte",
+    "sha256": "ea3595d40ca6be24232a56284c9014d1b9d9a1c1644b7631a54c568cba94a3a8",
+    "bytes": 1209198,
+    "px": [
+     1254,
+     1254
+    ],
+    "mode": "RGBA"
+   },
+   "transparency": {
+    "true_alpha": true,
+    "checkerboard_baked_in": false,
+    "opaque_background": false,
+    "alpha_min": 0,
+    "alpha_max": 255,
+    "transparent_pct": 69.7,
+    "partial_alpha_pct": 30.3,
+    "disc_alpha_median": 253,
+    "edge_dust_px_cleared_alpha_le_2": 16123,
+    "of_which_saturated_red_or_yellow": 3744,
+    "verdict": "TRUE ALPHA (no checkerboard, no opaque background); disc alpha 251-254 (about 1 % translucent, kept); edge dust alpha <= 2 cleared"
+   },
+   "source_geometry": {
+    "disc_bbox_xxyy": [
+     261,
+     975,
+     263,
+     989
+    ],
+    "disc_diameter_px": 715,
+    "disc_height_px": 727,
+    "disc_centre": [
+     618.0,
+     626.0
+    ],
+    "disc_to_canvas": 0.57,
+    "glyph_px": [
+     284,
+     280
+    ],
+    "glyph_to_disc": [
+     0.397,
+     0.392
+    ],
+    "glyph_offset_from_disc_centre_px": [
+     3.5,
+     -5.5
+    ]
+   },
+   "derivation": {
+    "script": "scripts/jurnl/utility-icons/derive_utility_icons.py",
+    "steps": [
+     "clear alpha <= 2 dust",
+     "measure disc (alpha >= 240, luminance > 120)",
+     "crop square 1.24 x disc, centred on the disc",
+     "premultiplied Lanczos resample to 256 px",
+     "WebP (lossy q95 only if >= 42 dB on parchment / olive / oxblood, else lossless)"
+    ],
+    "crop": {
+     "side_px": 887,
+     "left": 174,
+     "top": 182,
+     "source_alpha_left_outside_crop_max": 0
+    }
+   },
+   "production": {
+    "file": "src/projects/jurnl/runtime/global/utilityArt/UTILITY_ADD_GOLD.webp",
+    "px": [
+     256,
+     256
+    ],
+    "sha256": "c74b6eedb1971951292d3dfba01d9754433521169d5bcbde3bbd200b60b1b7e7",
+    "bytes": 57454,
+    "encoding": "lossless",
+    "lossy_q95_psnr_db_rejected": {
+     "parchment": 41.52,
+     "olive": 41.54,
+     "oxblood": 41.55
+    },
+    "disc_diameter_px": 205,
+    "disc_centre": [
+     128.0,
+     128.0
+    ],
+    "disc_to_image": 0.801,
+    "registry": "src/projects/jurnl/runtime/global/utilityArt/registry.ts (UTILITY_ART, UTILITY_DISC_FRACTION = 0.8065)"
+   },
+   "visual_reference": {
+    "supplied_png": "ORIGINAL_PNG_MASTERS/04_F05_UTILITY_ADD_GOLD.png",
+    "supplied_vs_rendered": "CLOSE_UPS/ADD_*.png",
+    "all_targets": "CLOSE_UPS/00_ALL_SUPPLIED_VS_RENDERED.png"
+   },
+   "target_locations": [
+    {
+     "surface": "F05 MONEY PARENT header",
+     "trigger": "f05m-actions",
+     "label": "ADD A POCKET OR MOVE YOUR MONEY",
+     "file": "src/projects/jurnl/runtime/screens/f05/MoneyMotionParent.tsx",
+     "host_class": "jrn-f05m__chip"
+    }
+   ],
+   "accessibility": {
+    "image": "decorative: alt=\"\" aria-hidden=\"true\" draggable=\"false\", pointer-events none",
+    "name": "on the enclosing <button> (aria-label kept from the control it replaces)",
+    "focus": "button focus ring (gold); keyboard Enter / Space; disabled state on the button",
+    "touch_target": "44 CSS px tall; overlay closes >= 44 x 44; header chips as wide as the approved pitch allows"
+   },
+   "status": "MOUNTED · FOUNDER APPROVAL PENDING"
+  }
+ ]
+}

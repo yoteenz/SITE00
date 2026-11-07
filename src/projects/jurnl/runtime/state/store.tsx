@@ -14,6 +14,7 @@ import { jurnlFamilyScreenForPath } from '../../data/familyRouteTree';
 import { resolveFamilyRoute } from '../../data/foundation/familyRegistry';
 import { decideDeviceServerMerge } from '../../data/repository/deviceServerMerge';
 import { importSnapshotForUser, peekDeviceSnapshot, setRepositoryUserId } from '../../data/repository/deviceRepository';
+import { resolveRepositoryUserId } from '../../data/repository/repositoryUserId';
 import {
   configureServerSync,
   pullServerSnapshotForHydrate,
@@ -37,6 +38,8 @@ import {
   type JurnlScenario,
 } from './adapters';
 import { createSupabaseJurnlAuthAdapter } from './supabaseAuthAdapter';
+import { mergeMoneySearchParams } from '../screens/f05/f05NavPersistence';
+import { writeLastJurnlRoute } from './jurnlRoutePersistence';
 
 export type AiKey = 'personalizedInsights' | 'smartCategorization' | 'budgetRecommendations' | 'naturalLanguage' | 'marketTrends';
 
@@ -152,10 +155,17 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const [device, setDeviceState] = useState<DeviceState>(() => readJson(local.get(DEVICE_KEY), DEFAULT_DEVICE));
+  const initialDevice = useMemo(() => readJson(local.get(DEVICE_KEY), DEFAULT_DEVICE), []); // eslint-disable-line react-hooks/exhaustive-deps
+  const [device, setDeviceState] = useState<DeviceState>(() => initialDevice);
   const [session, setSessionState] = useState<SessionState>(() => {
     const initial = readJson(tab.get(SESSION_KEY) ?? local.get(SESSION_KEY), DEFAULT_SESSION);
-    setRepositoryUserId(initial.account?.email?.trim().toUpperCase() || 'preview-guest');
+    setRepositoryUserId(
+      resolveRepositoryUserId({
+        mode,
+        sessionEmail: initial.account?.email,
+        rememberedEmail: initialDevice.remembered[0]?.email,
+      }),
+    );
     return initial;
   });
   const relPath = location.pathname.slice(basePath.length).replace(/^\/+/, '');
@@ -221,14 +231,18 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
   const go = useCallback(
     (target: string, query?: Record<string, string>) => {
       setOverlay(null);
-      const qs = new URLSearchParams(query ?? {});
+      const rel = resolveJurnlRoute(target);
+      let qs = new URLSearchParams(query ?? {});
+      if (rel === 'money' || rel.startsWith('money/')) {
+        qs = mergeMoneySearchParams(qs, params);
+      }
       // Scenario switches are host-owned; keep them across in-app navigation.
       for (const k of ['scenario', 'os']) {
         const v = inspect ? params.get(k) : null;
         if (v && !qs.has(k)) qs.set(k, v);
       }
       const s = qs.toString();
-      navigate(`${basePath}/${resolveJurnlRoute(target)}${s ? `?${s}` : ''}`);
+      navigate(`${basePath}/${rel}${s ? `?${s}` : ''}`);
     },
     [basePath, navigate, params, inspect],
   );
@@ -239,6 +253,13 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
   const suppressTrail = useRef(false);
   const [hasPrevious, setHasPrevious] = useState(false);
   const locationKey = location.pathname + location.search;
+  useEffect(() => {
+    const rel = location.pathname.slice(basePath.length).replace(/^\/+/, '');
+    if (rel && rel !== 'entry' && !rel.startsWith('entry/')) {
+      writeLastJurnlRoute(`${rel}${location.search}`);
+    }
+  }, [locationKey, location.pathname, location.search, basePath]);
+
   useEffect(() => {
     if (suppressTrail.current) {
       suppressTrail.current = false;
@@ -324,9 +345,14 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
 
   useEffect(() => {
     if (mode === 'production' && auth.kind === 'SUPABASE') return;
-    const uid = session.account?.email?.trim().toUpperCase() || 'preview-guest';
-    setRepositoryUserId(uid);
-  }, [session.account?.email, mode, auth.kind]);
+    setRepositoryUserId(
+      resolveRepositoryUserId({
+        mode,
+        sessionEmail: session.account?.email,
+        rememberedEmail: device.remembered[0]?.email,
+      }),
+    );
+  }, [session.account?.email, device.remembered, mode, auth.kind]);
 
   useEffect(() => {
     if (mode !== 'production' || auth.kind !== 'SUPABASE') return;

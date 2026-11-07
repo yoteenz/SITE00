@@ -1,0 +1,1127 @@
+{
+ "id": "P01_MONEY_PARENT",
+ "title": "MONEY parent: idle ambience after the entrance, touch interruption and recovery, swipes, a cancelled drag, opening a pocket",
+ "viewport": {
+  "width": 393,
+  "height": 852
+ },
+ "reducedMotion": false,
+ "wallMs": 66523,
+ "steps": [
+  {
+   "n": 1,
+   "label": "arrived: the entrance plays, ambience stays off",
+   "still": "P01_MONEY_PARENT-01.png"
+  },
+  {
+   "n": 2,
+   "label": "IDLE AMBIENT SEQUENCE: light over the scenery and the seal sheen (granted after the entrance)",
+   "still": "P01_MONEY_PARENT-02.png"
+  },
+  {
+   "n": 3,
+   "label": "touch held on the papers: ambience pauses at once",
+   "still": "P01_MONEY_PARENT-03.png"
+  },
+  {
+   "n": 4,
+   "label": "released: a quiet period, then the ambience resumes",
+   "still": "P01_MONEY_PARENT-04.png"
+  },
+  {
+   "n": 5,
+   "label": "swipe left: the papers follow the finger and the change completes at its speed",
+   "still": "P01_MONEY_PARENT-05.png"
+  },
+  {
+   "n": 6,
+   "label": "short drag released before the threshold: the papers settle back, nothing commits",
+   "still": "P01_MONEY_PARENT-06.png"
+  },
+  {
+   "n": 7,
+   "label": "swipe left again, then a dot: COMMITMENTS → OUTLOOK",
+   "still": "P01_MONEY_PARENT-07.png"
+  },
+  {
+   "n": 8,
+   "label": "swipe right twice: the direction follows the finger",
+   "still": "P01_MONEY_PARENT-08.png"
+  },
+  {
+   "n": 9,
+   "label": "open a pocket: its paper carries into the account page (no family fade on top)",
+   "still": "P01_MONEY_PARENT-09.png"
+  },
+  {
+   "n": 10,
+   "label": "back to MONEY: the pocket returns to its place",
+   "still": "P01_MONEY_PARENT-10.png"
+  },
+  {
+   "n": 11,
+   "label": "at rest again: ambience returns after the quiet period",
+   "still": "P01_MONEY_PARENT-11.png"
+  }
+ ],
+ "timeline": [
+  {
+   "t": 1868,
+   "mode": "FULL",
+   "phase": "NAVIGATING",
+   "ambient": "off"
+  },
+  {
+   "t": 1990,
+   "css": "f05m-env",
+   "on": "jrn-f05m__env"
+  },
+  {
+   "t": 2053,
+   "css": "f05m-title",
+   "on": "jrn-f05m__obj"
+  },
+  {
+   "t": 2080,
+   "step": "arrived: the entrance plays, ambience stays off"
+  },
+  {
+   "t": 2271,
+   "css": "f05m-seal",
+   "on": "jrn-f05m__obj"
+  },
+  {
+   "t": 2271,
+   "css": "f05m-reveal",
+   "on": "jrn-f05m__money"
+  },
+  {
+   "t": 2271,
+   "css": "f05m-reveal",
+   "on": "jrn-f05m__script"
+  },
+  {
+   "t": 2271,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__divider"
+  },
+  {
+   "t": 2271,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__divider"
+  },
+  {
+   "t": 2271,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__divider"
+  },
+  {
+   "t": 2271,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__metric"
+  },
+  {
+   "t": 2271,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__metric"
+  },
+  {
+   "t": 2271,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__metric"
+  },
+  {
+   "t": 2271,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__metric"
+  },
+  {
+   "t": 2314,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 2314,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 2346,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 2346,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 2381,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 2381,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 2403,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__viewall"
+  },
+  {
+   "t": 2436,
+   "css": "f05m-fade",
+   "on": "jrn-f05m__thread"
+  },
+  {
+   "t": 2436,
+   "css": "f05m-fade",
+   "on": "jrn-f05m__thread"
+  },
+  {
+   "t": 2436,
+   "css": "f05m-fade",
+   "on": "jrn-f05m__thread"
+  },
+  {
+   "t": 2436,
+   "css": "f05m-token",
+   "on": "jrn-f05m__token"
+  },
+  {
+   "t": 2436,
+   "css": "f05m-token",
+   "on": "jrn-f05m__token"
+  },
+  {
+   "t": 2436,
+   "css": "f05m-token",
+   "on": "jrn-f05m__token"
+  },
+  {
+   "t": 2475,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 3475,
+   "mode": "FULL",
+   "phase": "AMBIENT",
+   "ambient": "D C"
+  },
+  {
+   "t": 4103,
+   "css": "jm-amb-light",
+   "on": "jma-light"
+  },
+  {
+   "t": 5502,
+   "step": "IDLE AMBIENT SEQUENCE: light over the scenery and the seal sheen (granted after the entrance)"
+  },
+  {
+   "t": 5703,
+   "css": "jm-amb-sheen",
+   "on": ""
+  },
+  {
+   "t": 26232,
+   "step": "touch held on the papers: ambience pauses at once"
+  },
+  {
+   "t": 26971,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 28377,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 28398,
+   "step": "released: a quiet period, then the ambience resumes"
+  },
+  {
+   "t": 29278,
+   "mode": "FULL",
+   "phase": "AMBIENT",
+   "ambient": "D C"
+  },
+  {
+   "t": 29886,
+   "css": "jm-amb-light",
+   "on": "jma-light"
+  },
+  {
+   "t": 31502,
+   "css": "jm-amb-sheen",
+   "on": ""
+  },
+  {
+   "t": 32284,
+   "step": "swipe left: the papers follow the finger and the change completes at its speed"
+  },
+  {
+   "t": 32987,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 33508,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 33509,
+   "mode": "FULL",
+   "phase": "NAVIGATING",
+   "ambient": "off"
+  },
+  {
+   "t": 33632,
+   "css": "f05m-out-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 33632,
+   "css": "f05m-out-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 33632,
+   "css": "f05m-ghost",
+   "on": "jrn-f05m__threads"
+  },
+  {
+   "t": 33632,
+   "css": "f05m-ghost",
+   "on": "jrn-f05m__token"
+  },
+  {
+   "t": 33632,
+   "css": "f05m-ghost",
+   "on": "jrn-f05m__token"
+  },
+  {
+   "t": 33632,
+   "css": "f05m-ghost",
+   "on": "jrn-f05m__token"
+  },
+  {
+   "t": 33637,
+   "css": "f05m-out-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 33637,
+   "css": "f05m-out-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 33656,
+   "css": "f05m-in-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 33693,
+   "css": "f05m-out-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 33693,
+   "css": "f05m-in-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 33723,
+   "css": "f05m-out-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 33723,
+   "css": "f05m-in-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 33750,
+   "css": "f05m-out-next",
+   "on": "jrn-f05m__viewall"
+  },
+  {
+   "t": 33750,
+   "css": "f05m-in-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 34047,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 35029,
+   "mode": "FULL",
+   "phase": "AMBIENT",
+   "ambient": "D C"
+  },
+  {
+   "t": 35635,
+   "css": "jm-amb-light",
+   "on": "jma-light"
+  },
+  {
+   "t": 35801,
+   "step": "short drag released before the threshold: the papers settle back, nothing commits"
+  },
+  {
+   "t": 36537,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 37334,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 38236,
+   "mode": "FULL",
+   "phase": "AMBIENT",
+   "ambient": "D C"
+  },
+  {
+   "t": 38835,
+   "css": "jm-amb-light",
+   "on": "jma-light"
+  },
+  {
+   "t": 39143,
+   "step": "swipe left again, then a dot: COMMITMENTS → OUTLOOK"
+  },
+  {
+   "t": 39870,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 40420,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 40421,
+   "mode": "FULL",
+   "phase": "NAVIGATING",
+   "ambient": "off"
+  },
+  {
+   "t": 40491,
+   "css": "f05m-out-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 40513,
+   "css": "f05m-out-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 40532,
+   "css": "f05m-in-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 40557,
+   "css": "f05m-out-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 40557,
+   "css": "f05m-in-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 40582,
+   "css": "f05m-out-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 40608,
+   "css": "f05m-in-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 40608,
+   "css": "f05m-in-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 40943,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 41937,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 41938,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 41940,
+   "mode": "FULL",
+   "phase": "NAVIGATING",
+   "ambient": "off"
+  },
+  {
+   "t": 42019,
+   "css": "f05m-out-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 42035,
+   "css": "f05m-out-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 42052,
+   "css": "f05m-in-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 42069,
+   "css": "f05m-out-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 42086,
+   "css": "f05m-in-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 42103,
+   "css": "f05m-out-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 42118,
+   "css": "f05m-in-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 42135,
+   "css": "f05m-in-next",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 42487,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 43460,
+   "mode": "FULL",
+   "phase": "AMBIENT",
+   "ambient": "D C"
+  },
+  {
+   "t": 43611,
+   "step": "swipe right twice: the direction follows the finger"
+  },
+  {
+   "t": 44068,
+   "css": "jm-amb-light",
+   "on": "jma-light"
+  },
+  {
+   "t": 44336,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 44820,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 44821,
+   "mode": "FULL",
+   "phase": "NAVIGATING",
+   "ambient": "off"
+  },
+  {
+   "t": 44880,
+   "css": "f05m-out-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 44914,
+   "css": "f05m-out-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 44941,
+   "css": "f05m-out-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 44941,
+   "css": "f05m-in-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 44967,
+   "css": "f05m-in-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 44988,
+   "css": "f05m-out-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 44988,
+   "css": "f05m-in-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 45014,
+   "css": "f05m-in-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 45360,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 46071,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 46536,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 46537,
+   "mode": "FULL",
+   "phase": "NAVIGATING",
+   "ambient": "off"
+  },
+  {
+   "t": 46602,
+   "css": "f05m-out-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 46619,
+   "css": "f05m-out-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 46640,
+   "css": "f05m-in-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 46658,
+   "css": "f05m-out-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 46681,
+   "css": "f05m-in-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 46702,
+   "css": "f05m-out-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 46702,
+   "css": "f05m-in-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 46726,
+   "css": "f05m-in-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 47057,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 47870,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 47870,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 47872,
+   "mode": "FULL",
+   "phase": "NAVIGATING",
+   "ambient": "off"
+  },
+  {
+   "t": 47952,
+   "css": "f05m-out-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 47968,
+   "css": "f05m-out-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 47985,
+   "css": "f05m-in-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 47985,
+   "css": "f05m-in-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 48002,
+   "css": "f05m-out-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 48036,
+   "css": "f05m-in-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 48036,
+   "css": "f05m-in-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 48037,
+   "css": "f05m-out-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 48061,
+   "css": "f05m-in-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 48072,
+   "css": "f05m-in-prev",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 48072,
+   "css": "f05m-in-prev",
+   "on": "jrn-f05m__viewall"
+  },
+  {
+   "t": 48269,
+   "css": "f05m-fade",
+   "on": "jrn-f05m__thread"
+  },
+  {
+   "t": 48270,
+   "css": "f05m-fade",
+   "on": "jrn-f05m__thread"
+  },
+  {
+   "t": 48270,
+   "css": "f05m-fade",
+   "on": "jrn-f05m__thread"
+  },
+  {
+   "t": 48270,
+   "css": "f05m-token",
+   "on": "jrn-f05m__token"
+  },
+  {
+   "t": 48270,
+   "css": "f05m-token",
+   "on": "jrn-f05m__token"
+  },
+  {
+   "t": 48270,
+   "css": "f05m-token",
+   "on": "jrn-f05m__token"
+  },
+  {
+   "t": 48419,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 49393,
+   "mode": "FULL",
+   "phase": "AMBIENT",
+   "ambient": "D C"
+  },
+  {
+   "t": 49755,
+   "step": "open a pocket: its paper carries into the account page (no family fade on top)"
+  },
+  {
+   "t": 50002,
+   "css": "jm-amb-light",
+   "on": "jma-light"
+  },
+  {
+   "t": 50525,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 50547,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 50645,
+   "mode": "FULL",
+   "phase": "NAVIGATING",
+   "ambient": "off"
+  },
+  {
+   "t": 50702,
+   "css": "-ua-view-transition-group-anim-root",
+   "on": ""
+  },
+  {
+   "t": 50702,
+   "css": "-ua-mix-blend-mode-plus-lighter",
+   "on": ""
+  },
+  {
+   "t": 50702,
+   "css": "-ua-mix-blend-mode-plus-lighter",
+   "on": ""
+  },
+  {
+   "t": 50702,
+   "css": "-ua-mix-blend-mode-plus-lighter",
+   "on": ""
+  },
+  {
+   "t": 50702,
+   "css": "-ua-mix-blend-mode-plus-lighter",
+   "on": ""
+  },
+  {
+   "t": 50852,
+   "css": "-ua-view-transition-group-anim-jrn-place",
+   "on": ""
+  },
+  {
+   "t": 50852,
+   "css": "-ua-view-transition-fade-in",
+   "on": ""
+  },
+  {
+   "t": 50852,
+   "css": "-ua-view-transition-fade-out",
+   "on": ""
+  },
+  {
+   "t": 50852,
+   "css": "-ua-view-transition-fade-in",
+   "on": ""
+  },
+  {
+   "t": 50852,
+   "css": "-ua-view-transition-fade-out",
+   "on": ""
+  },
+  {
+   "t": 50852,
+   "css": "d01-env",
+   "on": "jrn-d01__env"
+  },
+  {
+   "t": 50852,
+   "css": "d01-settle",
+   "on": "jrn-d01__layer"
+  },
+  {
+   "t": 50871,
+   "css": "d01-reveal",
+   "on": "jrn-d01__title"
+  },
+  {
+   "t": 50966,
+   "css": "d01-settle",
+   "on": "jrn-d01__layer"
+  },
+  {
+   "t": 50999,
+   "css": "d01-fade",
+   "on": "jrn-d01__on"
+  },
+  {
+   "t": 50999,
+   "css": "d01-fade",
+   "on": "jrn-d01__on"
+  },
+  {
+   "t": 50999,
+   "css": "d01-fade",
+   "on": "jrn-d01__stat"
+  },
+  {
+   "t": 50999,
+   "css": "d01-fade",
+   "on": "jrn-d01__stat"
+  },
+  {
+   "t": 50999,
+   "css": "d01-fade",
+   "on": "jrn-d01__stat"
+  },
+  {
+   "t": 50999,
+   "css": "d01-settle",
+   "on": "jrn-d01__layer"
+  },
+  {
+   "t": 51021,
+   "css": "d01-settle",
+   "on": "jrn-d01__layer"
+  },
+  {
+   "t": 51021,
+   "css": "d01-strip",
+   "on": "jrn-d01__strip"
+  },
+  {
+   "t": 51043,
+   "css": "d01-settle",
+   "on": "jrn-d01__layer"
+  },
+  {
+   "t": 51043,
+   "css": "d01-strip",
+   "on": "jrn-d01__strip"
+  },
+  {
+   "t": 51083,
+   "css": "d01-strip",
+   "on": "jrn-d01__strip"
+  },
+  {
+   "t": 51112,
+   "css": "d01-strip",
+   "on": "jrn-d01__strip"
+  },
+  {
+   "t": 51338,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 52338,
+   "mode": "FULL",
+   "phase": "IDLE",
+   "ambient": "off"
+  },
+  {
+   "t": 53858,
+   "step": "back to MONEY: the pocket returns to its place"
+  },
+  {
+   "t": 54557,
+   "mode": "FULL",
+   "phase": "NAVIGATING",
+   "ambient": "off"
+  },
+  {
+   "t": 54639,
+   "css": "f05m-env",
+   "on": "jrn-f05m__env"
+  },
+  {
+   "t": 54639,
+   "css": "f05m-return",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 54706,
+   "css": "f05m-title",
+   "on": "jrn-f05m__obj"
+  },
+  {
+   "t": 54793,
+   "css": "f05m-seal",
+   "on": "jrn-f05m__obj"
+  },
+  {
+   "t": 54808,
+   "css": "f05m-reveal",
+   "on": "jrn-f05m__money"
+  },
+  {
+   "t": 54886,
+   "css": "f05m-reveal",
+   "on": "jrn-f05m__script"
+  },
+  {
+   "t": 54886,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__divider"
+  },
+  {
+   "t": 54886,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__divider"
+  },
+  {
+   "t": 54886,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__divider"
+  },
+  {
+   "t": 54886,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__metric"
+  },
+  {
+   "t": 54886,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__metric"
+  },
+  {
+   "t": 54886,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__metric"
+  },
+  {
+   "t": 54887,
+   "css": "f05m-rise",
+   "on": "jrn-f05m__metric"
+  },
+  {
+   "t": 54951,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 54968,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 54968,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 55001,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 55018,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__paper"
+  },
+  {
+   "t": 55036,
+   "css": "f05m-paper",
+   "on": "jrn-f05m__viewall"
+  },
+  {
+   "t": 55054,
+   "css": "f05m-fade",
+   "on": "jrn-f05m__thread"
+  },
+  {
+   "t": 55054,
+   "css": "f05m-fade",
+   "on": "jrn-f05m__thread"
+  },
+  {
+   "t": 55054,
+   "css": "f05m-fade",
+   "on": "jrn-f05m__thread"
+  },
+  {
+   "t": 55054,
+   "css": "f05m-token",
+   "on": "jrn-f05m__token"
+  },
+  {
+   "t": 55054,
+   "css": "f05m-token",
+   "on": "jrn-f05m__token"
+  },
+  {
+   "t": 55054,
+   "css": "f05m-token",
+   "on": "jrn-f05m__token"
+  },
+  {
+   "t": 55236,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 56236,
+   "mode": "FULL",
+   "phase": "AMBIENT",
+   "ambient": "D C"
+  },
+  {
+   "t": 56835,
+   "css": "jm-amb-light",
+   "on": "jma-light"
+  },
+  {
+   "t": 58097,
+   "step": "at rest again: ambience returns after the quiet period"
+  },
+  {
+   "t": 58434,
+   "css": "jm-amb-sheen",
+   "on": ""
+  }
+ ]
+}

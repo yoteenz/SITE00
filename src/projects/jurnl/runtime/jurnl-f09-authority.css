@@ -242,8 +242,7 @@ body:has([data-jrn-screen='F09.00']),
   letter-spacing: 0.14em;
   color: #2c2824;
 }
-/* Back takes the left slot the menu used. The chip matches WHY THIS NUMBER
-   (cream square, white edge, left chevron). The menu returns to the right. */
+/* Back on the left; menu on the right (same cream chip geometry as WHY THIS NUMBER). */
 .jrn .jrn-f09a__back,
 .jrn .jrn-f09a__menu {
   pointer-events: auto;

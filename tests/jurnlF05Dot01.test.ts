@@ -432,9 +432,21 @@ describe('Archiving (25, 36) — dependencies first', () => {
     expect(set.ok).toBe(true);
     expect(archiveBlockers('ride', TODAY).map((b) => b.kind)).toContain('RESERVED_FUNDS');
   });
+  it('D53b ZERO BALANCE BEFORE ARCHIVE: money still held, or a Pocket below zero, blocks the archive (D53 is the zero case)', () => {
+    expect(archiveBlockers('cash', TODAY).map((b) => b.kind)).toEqual(['HELD_BALANCE']);
+    expect(archiveAccountSafely('cash', TODAY).ok).toBe(false);
+    expect(listActiveAccounts().map((a) => a.account_id)).toContain('cash');
+    // spent below zero: still a balance
+    spend('MORE THAN THERE WAS', accountView('cash', TODAY)!.held + 3, 'cash');
+    expect(accountView('cash', TODAY)!.held).toBeLessThan(0);
+    expect(archiveBlockers('cash', TODAY).map((b) => b.kind)).toContain('HELD_BALANCE');
+    expect(archiveAccountSafely('cash', TODAY).ok).toBe(false);
+  });
   it('D53 a place with nothing depending on it is archived; its history stays and it leaves the order', () => {
     const e = spend('OLD', 5, 'cash');
     setAccountOrder(['cash', 'bank', 'ride', 'visa']);
+    // ZERO BALANCE BEFORE ARCHIVE: what is left is spent first (a recorded entry, never a silent move)
+    spend('LAST OF THE CASH', accountView('cash', TODAY)!.held, 'cash');
     expect(archiveBlockers('cash', TODAY)).toEqual([]);
     expect(archiveAccountSafely('cash', TODAY).ok).toBe(true);
     expect(listActiveAccounts().map((a) => a.account_id)).not.toContain('cash');
@@ -491,6 +503,9 @@ describe('Card payments and transfers (17, 20) — recorded, scheduled, in trans
     const over = previewTransfer({ from_account_id: 'bank', to_account_id: 'visa', amount: 450, occurred_on: TODAY, start: 'COMPLETED' }, TODAY);
     expect(over.ok).toBe(false);
     expect(over.ok ? '' : over.error).toMatch(/MORE THAN VISA OWES/);
+    const direct = recordTransfer({ from_account_id: 'bank', to_account_id: 'visa', amount: 450, occurred_on: TODAY, start: 'COMPLETED' });
+    expect(direct.ok).toBe(false);
+    expect(direct.ok ? '' : direct.error).toMatch(/MORE THAN VISA OWES/);
     const pending = previewTransfer({ from_account_id: 'bank', to_account_id: 'visa', amount: 300, occurred_on: TODAY, start: 'PENDING' }, TODAY);
     if (!pending.ok) throw new Error(pending.error);
     saveTransfer(pending.value);

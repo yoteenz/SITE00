@@ -69,10 +69,10 @@ export function transfersCollection(r: MoneyParentReading, today: CalendarDate, 
     {
       id: 'in_transit',
       title: ['IN TRANSIT'],
-      value: inTransit.length ? { kind: 'amount', amount: inTransitAmount, caption: returning ? 'FAILED · COMING BACK' : inTransit.length === 1 ? 'LEFT, NOT ARRIVED' : `${plural(inTransit.length, 'TRANSFER', 'TRANSFERS')} · NOT ARRIVED` } : { kind: 'none', text: 'NONE', caption: 'NOTHING IN TRANSIT' },
+      value: inTransit.length ? { kind: 'amount', amount: inTransitAmount, caption: returning ? 'FAILED · COMING BACK' : inTransit.length === 1 ? 'LEFT, NOT ARRIVED' : `${plural(inTransit.length, 'TRANSFER', 'TRANSFERS')} · NOT ARRIVED` } : { kind: 'none', text: 'NONE', caption: 'NOTHING MOVING' },
       art: 'transfers_in_transit',
       dest: transferDest(inTransit),
-      aria: inTransit.length ? `IN TRANSIT: ${fmt(inTransitAmount)} LEFT AN ACCOUNT AND HAS NOT ARRIVED. NOT AVAILABLE ANYWHERE YET.` : 'IN TRANSIT: NOTHING IN TRANSIT.',
+      aria: inTransit.length ? `IN TRANSIT: ${fmt(inTransitAmount)} LEFT AN ACCOUNT AND HAS NOT ARRIVED. NOT AVAILABLE ANYWHERE YET.` : 'IN TRANSIT: NOTHING MOVING.',
     },
     {
       id: 'pending',
@@ -147,7 +147,7 @@ export function commitmentsCollection(r: MoneyParentReading, fmt = money): Carou
     {
       id: 'reserved',
       title: ['RESERVED'],
-      value: r.cashSource === 'MOCK' ? { kind: 'none', text: '—', caption: 'ADD A POCKET FIRST' } : { kind: 'amount', amount: r.committed, caption: 'TOTAL COMMITTED' },
+      value: r.cashSource === 'MOCK' ? { kind: 'none', text: '—', caption: 'ADD A POCKET' } : { kind: 'amount', amount: r.committed, caption: 'TOTAL COMMITTED' },
       art: 'commitments_reserved',
       dest: { kind: 'period' },
       aria: r.cashSource === 'MOCK' ? 'RESERVED: NOT KNOWN UNTIL YOU ADD A POCKET.' : `RESERVED: ${fmt(r.committed)} TOTAL COMMITTED: BILLS, CARD MINIMUMS, UNSENT TRANSFERS AND MONEY HELD BACK. THE SAME AS COMMITTED ABOVE.`,
@@ -166,7 +166,7 @@ export function outlookCollection(r: MoneyParentReading, today: CalendarDate, fm
     {
       id: 'safe_to_spend',
       title: ['SAFE TO', 'SPEND'],
-      value: r.cashSource === 'MOCK' ? { kind: 'none', text: '—', caption: 'ADD A POCKET FIRST' } : { kind: 'amount', amount: r.available, caption: 'NEXT 30 DAYS' },
+      value: r.cashSource === 'MOCK' ? { kind: 'none', text: '—', caption: 'ADD A POCKET' } : { kind: 'amount', amount: r.available, caption: 'NEXT 30 DAYS' },
       art: 'outlook_safe_to_spend',
       dest: { kind: 'route', route: 'safe' },
       aria: r.cashSource === 'MOCK' ? 'SAFE TO SPEND: NOT KNOWN UNTIL YOU ADD A POCKET.' : `SAFE TO SPEND: ${fmt(r.available)} FOR THE NEXT 30 DAYS.`,
@@ -191,10 +191,10 @@ export function outlookCollection(r: MoneyParentReading, today: CalendarDate, fm
     {
       id: 'insights',
       title: ['SPENDING', 'INSIGHTS'],
-      value: anySpending ? { kind: 'amount', amount: spent, caption: 'LAST 30 DAYS' } : { kind: 'none', text: 'NONE', caption: 'NOTHING RECORDED' },
+      value: anySpending ? { kind: 'amount', amount: spent, caption: 'LAST 30 DAYS' } : { kind: 'none', text: 'NONE', caption: 'NO RECORDS' },
       art: 'outlook_insights',
       dest: { kind: 'route', route: 'activity' },
-      aria: anySpending ? `SPENDING: ${fmt(spent)} RECORDED IN THE LAST 30 DAYS. OPENS ACTIVITY.` : 'SPENDING: NOTHING RECORDED IN THE LAST 30 DAYS. OPENS ACTIVITY.',
+      aria: anySpending ? `SPENDING: ${fmt(spent)} RECORDED IN THE LAST 30 DAYS. OPENS ACTIVITY.` : 'SPENDING: NO RECORDS IN THE LAST 30 DAYS. OPENS ACTIVITY.',
     },
   ];
 }

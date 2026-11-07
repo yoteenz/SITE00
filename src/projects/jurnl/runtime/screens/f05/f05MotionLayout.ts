@@ -14,6 +14,7 @@
  */
 
 import geometry from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_GEOMETRY.json';
+import { DIRECTORY_MAX_CROP } from './dot01/directoryScene';
 import { F05_COMPOSITION as C } from './f05Composition';
 
 export const SRC_W = geometry.source.w;
@@ -92,7 +93,7 @@ export function f05WidthFirstScale(viewportW: number, viewportH: number): boolea
 /**
  * Board scale for F05 motion and DOT 01. `contentH` is the vertical space for the board (full viewport, or minus dock).
  */
-export function computeF05BoardScale(viewportW: number, viewportH: number, crop = CROP, contentH = viewportH): { u: number; ox: number } {
+export function computeF05BoardScale(viewportW: number, viewportH: number, crop: number = CROP, contentH = viewportH): { u: number; ox: number } {
   const w = Math.max(1, viewportW);
   const vh = Math.max(1, viewportH);
   const ch = Math.max(1, contentH);
@@ -104,12 +105,58 @@ export function computeF05BoardScale(viewportW: number, viewportH: number, crop 
   return { u, ox };
 }
 
+/** SK01 elastic seam (same as DOT 01 SK01_FIELD / ALL ACCOUNTS). */
+export const F05_MOTION_SEAM_Y = SEAM_C;
+
+/** Founder gap below bottom-row papers before VIEW ALL and the collection dots (screen px, not source). */
+export const F05_ACCOUNTS_CHROME_NUDGE_SCREEN = 3;
+
+/** MONEY motion parent only: nudge the five-item dock (labels + icons) toward the home-indicator (screen px). DOT 01 and other screens omit this. */
+export const F05_MOTION_NAV_NUDGE_SCREEN = 8;
+
+/** Map authority y through the seam — matches Dot01 `by()`. */
+export function f05SeamY(L: { extra: number; ey: number; z0: number | null }, y: number): number {
+  if (y >= L.ey) return y + L.extra;
+  if (L.z0 != null && y > L.z0) return y + (L.extra * (y - L.z0)) / (L.ey - L.z0);
+  return y;
+}
+
+/** Board rect → screen px with seam mapping (dock alignment with ALL ACCOUNTS). */
+export function motionBoardToScreen(L: F05MotionLayout, r: Rect): Rect {
+  const seam = { extra: L.extra, ey: F05_MOTION_SEAM_Y, z0: null as number | null };
+  const top = f05SeamY(seam, r.y);
+  const bottom = r.y < seam.ey && r.y + r.h >= seam.ey - 2 ? f05SeamY(seam, seam.ey) + (r.y + r.h - seam.ey) : top + r.h;
+  return { x: L.ox + r.x * L.u, y: top * L.u, w: r.w * L.u, h: (bottom - top) * L.u };
+}
+
+/**
+ * Source px the motion foot may overlap before the whole board height-fits.
+ * The motion page always keeps two rows (rail + ADD/MOVE). Those rows end just above VIEW ALL,
+ * so the one-row slack from `directoryAbsorb(1|2)` would slide VIEW ALL and the dock up into the cards.
+ * Pocket count is ignored for that reason.
+ */
+export const F05_MOTION_FOOT_CLEAR = Math.max(0, C.viewAll.y - (APPROVED_SLOTS[2]!.y + APPROVED_SLOTS[2]!.h) - 8);
+
 /** `items` papers on this page (accounts plus any ADD / MOVE papers). */
-export function computeF05MotionLayout(W: number, H: number, items: number): F05MotionLayout {
+export function computeF05MotionLayout(W: number, H: number, items: number, _pocketCount = 0): F05MotionLayout {
   const w = Math.max(1, W);
   const h = Math.max(1, H);
-  const { u, ox } = computeF05BoardScale(w, h, CROP, h);
-  const extra = Math.max(0, h / u - SRC_H);
+  const avail = h;
+  const maxCrop = DIRECTORY_MAX_CROP;
+  let { u, ox } = computeF05BoardScale(w, h, maxCrop, avail);
+  let extra = Math.max(0, avail / u - SRC_H);
+  const deficit = SRC_H - avail / u;
+  const absorb = F05_MOTION_FOOT_CLEAR;
+  if (deficit > 0) {
+    if (deficit <= absorb) extra = -deficit;
+    else {
+      extra = -absorb;
+      u = avail / (SRC_H - absorb);
+      ox = (w - SRC_W * u) / 2;
+    }
+  }
+  const seam = { extra, ey: F05_MOTION_SEAM_Y, z0: null as number | null };
+  const mapY = (y: number) => f05SeamY(seam, y);
   const sliced = extra >= 1;
   const visibleX: [number, number] = [Math.max(0, -ox / u), Math.min(SRC_W, (w - ox) / u)];
   const capacityRows = 2;
@@ -132,10 +179,15 @@ export function computeF05MotionLayout(W: number, H: number, items: number): F05
   for (let r = 0; r < rows; r += 1) {
     for (let c = 0; c < 2; c += 1) {
       const approved = extra < 1 && r < 2 ? APPROVED_SLOTS[r * 2 + c]! : null;
-      slots.push(approved ? { ...approved, row: r, col: c } : { x: COLS[c]!, y: tops[r]!, w: COL_W[c]!, h: heights[r]!, row: r, col: c });
+      slots.push(
+        approved ?
+          { ...approved, y: mapY(approved.y), row: r, col: c }
+        : { x: COLS[c]!, y: mapY(tops[r]!), w: COL_W[c]!, h: heights[r]!, row: r, col: c },
+      );
     }
   }
-  const wide = { x: COLS[0]!, y: tops[0]!, w: COLS[1]! + COL_W[1]! - COLS[0]!, h: ROW_H[0]! };
+  const wide = { x: COLS[0]!, y: extra < 1 && rows >= 1 ? mapY(APPROVED_SLOTS[0]!.y) : mapY(tops[0]!), w: COLS[1]! + COL_W[1]! - COLS[0]!, h: ROW_H[0]! };
+  const chromeNudgeSrc = F05_ACCOUNTS_CHROME_NUDGE_SCREEN / u;
   return {
     u,
     ox,
@@ -147,9 +199,9 @@ export function computeF05MotionLayout(W: number, H: number, items: number): F05
     rows,
     slots,
     wide,
-    dots: { x: C.dots.x, y: C.dots.y + extra, w: C.dots.w, h: C.dots.h },
-    viewAll: { x: C.viewAll.x, y: C.viewAll.y + extra, w: C.viewAll.w, h: C.viewAll.h },
-    navZone: { x: C.nav.x, y: C.nav.y + extra, w: C.nav.w, h: C.nav.h },
+    dots: { x: C.dots.x, y: mapY(C.dots.y) + chromeNudgeSrc, w: C.dots.w, h: C.dots.h },
+    viewAll: { x: C.viewAll.x, y: mapY(C.viewAll.y) + chromeNudgeSrc, w: C.viewAll.w, h: C.viewAll.h },
+    navZone: { x: C.nav.x, y: mapY(C.nav.y), w: C.nav.w, h: C.nav.h },
   };
 }
 

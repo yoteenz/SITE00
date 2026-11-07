@@ -1,0 +1,185 @@
+{
+ "responsive_before": {
+  "cells": 370,
+  "page_scroll": 0,
+  "offscreen_cells": 10,
+  "failed": 10,
+  "board_clipped": 108,
+  "internal_scroll": 115,
+  "off": [
+   [
+    "01",
+    "471x836",
+    [
+     "f05m-place-cash",
+     "f05m-place-visa"
+    ]
+   ],
+   [
+    "01",
+    "393x852",
+    [
+     "f05m-place-cash",
+     "f05m-place-visa"
+    ]
+   ],
+   [
+    "01",
+    "360x780",
+    [
+     "f05m-place-cash",
+     "f05m-place-visa"
+    ]
+   ],
+   [
+    "01",
+    "375x667",
+    [
+     "f05m-place-cash",
+     "f05m-place-visa"
+    ]
+   ],
+   [
+    "01",
+    "393x660",
+    [
+     "f05m-place-cash",
+     "f05m-place-visa"
+    ]
+   ],
+   [
+    "01",
+    "430x932",
+    [
+     "f05m-place-cash",
+     "f05m-place-visa"
+    ]
+   ],
+   [
+    "01",
+    "768x1024",
+    [
+     "f05m-place-cash",
+     "f05m-place-visa"
+    ]
+   ],
+   [
+    "01",
+    "834x1194",
+    [
+     "f05m-place-cash",
+     "f05m-place-visa"
+    ]
+   ],
+   [
+    "01",
+    "1024x768",
+    [
+     "f05m-place-visa"
+    ]
+   ],
+   [
+    "26",
+    "393x660",
+    [
+     "d01-receipt-manual"
+    ]
+   ]
+  ]
+ },
+ "responsive_after": {
+  "cells": 370,
+  "page_scroll": 0,
+  "offscreen_cells": 10,
+  "failed": 0,
+  "board_clipped": 105,
+  "internal_scroll": 115,
+  "off": [
+   [
+    "01",
+    "1024x768",
+    [
+     "f05m-place-visa"
+    ]
+   ],
+   [
+    "01",
+    "360x780",
+    [
+     "f05m-place-cash",
+     "f05m-place-visa"
+    ]
+   ],
+   [
+    "01",
+    "375x667",
+    [
+     "f05m-place-cash",
+     "f05m-place-visa"
+    ]
+   ],
+   [
+    "01",
+    "393x660",
+    [
+     "f05m-place-cash",
+     "f05m-place-visa"
+    ]
+   ],
+   [
+    "01",
+    "393x852",
+    [
+     "f05m-place-cash",
+     "f05m-place-visa"
+    ]
+   ],
+   [
+    "01",
+    "430x932",
+    [
+     "f05m-place-cash",
+     "f05m-place-visa"
+    ]
+   ],
+   [
+    "01",
+    "471x836",
+    [
+     "f05m-place-cash",
+     "f05m-place-visa"
+    ]
+   ],
+   [
+    "01",
+    "768x1024",
+    [
+     "f05m-place-cash",
+     "f05m-place-visa"
+    ]
+   ],
+   [
+    "01",
+    "834x1194",
+    [
+     "f05m-place-cash",
+     "f05m-place-visa"
+    ]
+   ],
+   [
+    "26",
+    "393x660",
+    [
+     "d01-receipt-manual"
+    ]
+   ]
+  ]
+ },
+ "icons": {
+  "INLINE_SVG": 257,
+  "DOCK_COMPONENT": 15,
+  "MICRO_ASSET": 48,
+  "AUTHORITY_LIFT": 2
+ },
+ "compare_rows": 37
+}

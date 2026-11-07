@@ -1,22 +1,20 @@
 #!/usr/bin/env python3
 """
+
 F05 DOT 01 — runtime vs authority comparisons (37 states).
 
-For each state, the authority (941 x 1672) is mapped onto the runtime capture with the same board model the runtime
-uses (Dot01Frame.tsx):
-    u      = min(W / 881, (H - dockH) / 1672)        (881 = 941 - 60: 30 board px may crop on each side)
-    ox     = (W - 941 u) / 2
-    extra  = max(0, (H - dockH) / u - 1672)          (elastic field tile inserted at board y = 980)
-The authority is scaled by u, placed at ox, split at y = 980 and the lower part shifted down by `extra`; the elastic
-gap and the dock reserve are masked out. The parent (authority 01) uses the authority's own aspect (no dock reserve).
+Captures are taken at 471 x 836, the authorities' own 9:16 aspect. There every DOT 01 page is full-bleed and the board
+maps onto the authority one to one (u = 0.5, no side crop, no elastic insert), so the authority is simply scaled to
+the capture. (On taller phones the runtime shares the extra height between the papers; that is a layout adaptation
+and is not what these numbers measure.)
 
-Metrics (inside the mask only):
+Metrics:
     MAD        mean absolute RGB difference, % of 255
     SSIM       grayscale structural similarity (Gaussian 11 px, sigma 1.5)
     ENV_MAD    MAD inside the environment band (board y < 560: statue, arch, seal, JURNL tag) — tells whether the
                environment behind the page is the authority's own render (SIDEKICK pairs 01, 02, 26) or a separate one
 
-Outputs: <out>/<id>_compare.png (authority mapped | runtime | difference) and <out>/dot01_fidelity.json.
+Outputs: <out>/<id>_compare.png (authority | runtime | difference) and <out>/dot01_fidelity.json.
 Run with the scratch venv: python -I compare_dot01.py --authorities DIR --runtime DIR --out DIR
 """
 import argparse
@@ -26,9 +24,9 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-SRC_W, SRC_H, CROP_W, ELASTIC_Y, DOCK_H, ENV_Y = 941, 1672, 881, 980, 74, 560
+SRC_W, SRC_H, CROP_W, ENV_Y = 941, 1672, 881, 560
 
-# state id → (authority file prefix, runtime capture stem, mode)  mode: parent | page (dock reserve) | overlay (none)
+# state id → (authority file prefix, runtime capture stem, kind)  kind: parent | page | overlay
 STATES = [
     ('01', '01_parent', 'parent'), ('02', '02_bank', 'page'), ('03', '03_ride', 'page'), ('04', '04_cash', 'page'),
     ('05', '05_visa', 'page'), ('06', '06_dir', 'page'), ('07', '07_hist', 'page'), ('08', '08_ride_hist', 'page'),
@@ -55,38 +53,20 @@ def ssim_map(a: np.ndarray, b: np.ndarray) -> np.ndarray:
 
 
 def mapped_authority(auth: np.ndarray, W: int, H: int, mode: str):
-    """The authority placed as the runtime places its board; returns (image, mask, env_mask)."""
-    if mode == 'parent':
-        img = cv2.resize(auth, (W, H), interpolation=cv2.INTER_AREA)
-        mask = np.ones((H, W), bool)
-        env = np.zeros((H, W), bool)
-        env[: int(round(ENV_Y * H / SRC_H)), :] = True
-        return img, mask, env
-    dock = DOCK_H if mode == 'page' else 0
-    avail = H - dock
-    u = min(W / CROP_W, avail / SRC_H)
-    ox = (W - SRC_W * u) / 2
-    extra = max(0.0, avail / u - SRC_H)
+    """The authority as the runtime places its board at this size; returns (image, mask, env_mask)."""
+    u = min(W / CROP_W, H / SRC_H)
+    extra = max(0.0, H / u - SRC_H)
+    if extra > 2:
+        raise SystemExit(f'capture {W}x{H} is taller than 9:16; capture the comparisons at 471x836')
     bw, bh = int(round(SRC_W * u)), int(round(SRC_H * u))
     scaled = cv2.resize(auth, (bw, bh), interpolation=cv2.INTER_AREA)
     canvas = np.zeros((H, W, 3), np.uint8)
     mask = np.zeros((H, W), bool)
-    split = int(round(ELASTIC_Y * u))
-    shift = int(round(extra * u))
-    x0 = int(round(ox))
-
-    def paste(src_y0, src_y1, dst_y0):
-        sx0 = max(0, -x0)
-        dx0 = max(0, x0)
-        w = min(bw - sx0, W - dx0)
-        h = min(src_y1 - src_y0, H - dst_y0)
-        if w <= 0 or h <= 0:
-            return
-        canvas[dst_y0 : dst_y0 + h, dx0 : dx0 + w] = scaled[src_y0 : src_y0 + h, sx0 : sx0 + w]
-        mask[dst_y0 : dst_y0 + h, dx0 : dx0 + w] = True
-
-    paste(0, split, 0)
-    paste(split, bh, split + shift)
+    x0 = int(round((W - bw) / 2))
+    sx0, dx0 = max(0, -x0), max(0, x0)
+    w, h = min(bw - sx0, W - dx0), min(bh, H)
+    canvas[:h, dx0 : dx0 + w] = scaled[:h, sx0 : sx0 + w]
+    mask[:h, dx0 : dx0 + w] = True
     env = np.zeros((H, W), bool)
     env[: int(round(ENV_Y * u)), :] = True
     return canvas, mask, env & mask

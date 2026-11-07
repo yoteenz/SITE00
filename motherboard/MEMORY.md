@@ -16729,3 +16729,187 @@ Summary of the whole conversation in this chat.
 
 - **Context:** Founder asked to scale all text on MONEY family screens down together by 2px.
 - **Change:** `--f05-type-nudge: calc(2px / var(--f05m-u))` on the scaled board (motion parent + DOT01), so every board face loses 2 screen px. Screen-space DOT01 content subtracts 2px from each size. Form inputs stay at least 16px so iOS does not zoom. Nav labels on those screens drop 2px. `f05BoardType()` applies the same nudge to inline sizes.
+
+---
+
+## 2026-11-04 — JURNL F05 MONEY DOT 01 (ACCOUNTS): 37 screens, receipts, corrections
+
+- **Context:** Sprint P0.JURNL.F05-MONEY.DOT01-ACCOUNTS.FULL-VISUAL-MOTION-AND-FINANCIAL-RUNTIME-CONVERGENCE.OPUS1. The founder's V9 package: 37 screen authorities, SK01 / SK02 / SK03 and 22 motion PNGs. Same branch and draft PR #1707, stacked on #1706. No merge, deploy, DB change, generation or paid provider.
+- **Decisions / outcomes:**
+  - **Screens:** the 37 authorities map to 7 routes, their states and one overlay switch (`dot01/sheets/Dot01Sheets.tsx`). Doc 03 has the map.
+  - **SIDEKICKs:** SK01 for the parent, SK02_FIELD for pages, SK03_FIELD for overlays, and the full SK03 for CAPTURE RECEIPT. Only 01 / 02 / 26 are pixel pairs; the other 34 authorities are separate renders.
+  - **Child-page chrome (founder correction):** pages follow their authorities. They are full-bleed, with no bottom panel. The dock appears only on 06 and 31, on SK01's nav paper inside the composition. Chips are per authority (back, or search + add on 30–37), and the shell corner chrome is hidden.
+  - **Tall phones:** the extra height is shared between papers inside the field zone (`by()` / `ZONE_TOP`), with the seam above the bottom landscape.
+  - **Receipts:** read on the device with tesseract.js, self-hosted under `/jurnl/ocr`. There is a live camera preview. Review is always required, and exactly one entry is saved, with `entry.receipt`. Images live in IndexedDB on the device only.
+  - **Corrections:** correct = same id plus `correction_history`; reverse = remove plus `settings.ledgerAudit`, once only.
+  - **Reconciliation:** never marked with a difference; an adjustment is one ADJUSTMENT entry.
+  - **Archiving:** checks dependencies first.
+  - **Card payments:** the DOT 01 preview refuses overpaying a card and taking cash below 0.
+- **Changes:**
+  - Data: `data/f05/dot01/*` (accountOrder, accountView, history, archive, corrections, reconciliation, receipt, entry).
+  - Runtime: `runtime/screens/f05/dot01/*` (Dot01Frame, pages, kit, icons, receipt OCR / store, `sheets/*`).
+  - Assets: `families/F05_MONEY/DOT01/*` from `scripts/jurnl/f05-motion-pilot/extract_dot01.py`, and `public/jurnl/ocr/*`.
+  - Tests: `tests/jurnlF05Dot01.test.ts` (61), `e2e/jurnl/jurnl-f05-dot01{,-camera}.e2e.ts`.
+  - Comparison: `scripts/jurnl/f05-motion-pilot/compare_dot01.py`.
+  - Evidence: `JURNL/MANIFEST/F05_MONEY_DOT01_ACCOUNTS_V1/`.
+- **Conventions:**
+  - Place a board paper by its top (`by(L, top)`) and anything on it relative to that top (`by(L, top) + dy`).
+  - Multi-line headings need real spaces between line spans (a grid ignores whitespace nodes).
+  - Playwright `launchOptions` (fake camera) must be top-level in its own spec file.
+  - Don't edit runtime code while a full E2E regression runs against the dev server: hot reloads fail tests mid-run.
+  - Compare against authorities at 471 × 836, where the board maps one to one.
+
+---
+
+## 2026-11-04 — JURNL F05 financial safety + branch reconciliation (Composer P0)
+
+- **Context:** Sprint P0.JURNL.F05-MONEY.FINANCIAL-SAFETY-BRANCH-RECONCILIATION-AND-PREVIEW-ALIGNMENT.V1 — forensic PR #1705–#1709 audit, integration candidate, card overpay + cabinet archive fixes, preview attestation, no main merge/deploy/DB/provider spend.
+- **Decisions / outcomes:**
+  - **Integration candidate:** `cursor/jurnl-financial-safety-integration-4e5a` from #1707 HEAD (`eaf179bb`), not `integration/jurnl-production-workspace` (7752eae — drops Opus DOT01 surfaces).
+  - **Card overpay:** `transferFinancialLimits.ts` + `buildTransfer` authoritative; DOT01 `previewTransfer` delegates; test D59 covers direct `recordTransfer`.
+  - **Archive bypass:** `MoneyScreens.tsx` cabinet place archive → `archiveAccountSafely` / blockers UX aligned with DOT01.
+  - **PR #1709:** cherry-picked width-first scale + root-authority viewport anchor onto candidate.
+  - **Preview:** tunnel lineage pinned `ad7ac177` — **not** aligned with candidate; dev `data-site00-preview-build` attestation added.
+  - **Tests:** JURNL unit 810/810; build PASS. Draft PR only.
+- **Evidence:** `docs/jurnl/financial-safety-integration/evidence/` + GitHub release `jurnl-financial-safety-integration-2026-11-04`.
+
+---
+
+## 2026-11-04 — Tunnel preview: Opus V3 overlays on the money family
+
+- **Context:** Founder asked to put the Opus global interactive overlays on the tunnel with the rest of the MONEY family changes. Opus branch `claude/jurnl-global-interactive-v3-um0u93` at `3fac5e546` (sprint P0.JURNL.GLOBAL-INTERACTIVE-SURFACES.V3-AUTHORITY-AND-ALL-FAMILY-COMPONENT-CONVERGENCE.OPUS1, partial, not founder-approved). Live tunnel had been pinned at `ad7ac177`, behind `integration/jurnl-production-workspace` `7752eae`.
+- **Topics covered:** GROK3 eight-panel calibration (review only, 174 credits, no code). Tunnel restart. Then this mount.
+- **Decisions / outcomes:** Combined branch `cursor/jurnl-tunnel-opus-v3-overlays-4e5a` merges Opus V3 onto the money-family integration tip. Kept snap-scroll pockets rail, two-line MOVE / MONEY and ADD A POCKET, PENDING / INCOMING, and the 2px type nudge. Kept Opus global menu (no dock duplication), membership / add-ons / unlock, pocket long-press, archive blockers, and DOT 01 authority compositions. Not merged to `main`. `preview/tunnel` stays on `main`; the canonical connector is pinned to this branch.
+- **Changes:** Merge of Opus V3 into the money-family line, conflict resolution in MONEY parent, DOT 01 pages, cabinet archive, and this memory entry. Long-press manage-pocket handlers on the accounts rail.
+- **Conventions:** Unmerged founder preview of this work uses the pin script, not a rewrite of `preview/tunnel`. Phases 4–5 family convergence and founder gates U1–U3 stay open.
+
+---
+
+## 2026-11-04 — F05 carousel panel row alignment (tunnel preview)
+
+- **Context:** Founder reported middle-row values (`NONE`, `$0`, `—`) and bottom captions (`OWED`, `ADD A POCKET FIRST`, `NEXT 30 DAYS`, link copy) misaligned across the 2×2 carousel panels on the pinned Opus V3 + MONEY preview.
+- **Root cause:** `paperRhythm()` positioned amounts/captions from each panel’s actual title line count (1 vs 2); link panels anchored captions to the paper bottom; empty states used a smaller font than live amounts.
+- **Changes:** `CarouselPanelPaper.tsx` — fixed `PANEL_TITLE_LINES = 2`, unified caption row for link panels, empty values at full amount size; `MoneyMotionParent.tsx` — `ACCOUNT_PAPER_TITLE_LINES` for rail amounts/`OWED`; `jurnl-f05-carousel.css` — panel empty states inherit inline size; test in `jurnlF05Carousel.test.ts`. Commit `1ce6e6366` on `cursor/jurnl-tunnel-opus-v3-overlays-4e5a`; PR #1714 updated; preview worktree SHA `1ce6e6366`.
+- **Conventions:** Carousel collection grids always reserve two title lines for shared value/caption rows; do not reintroduce per-panel `linkCaptionTop` for 2×2 alignment.
+
+---
+
+## 2026-11-04 — F05 paper value/caption row type scale (tunnel preview)
+
+- **Context:** After row alignment, founder asked for the middle value row (−1px) and bottom caption row (−2px) on MONEY parent papers only (amounts, panel captions, OWED, ADD/MOVE subtitles).
+- **Changes:** `F05_PAPER_VALUE_ROW_SUB_PX` via `f05BoardType` on panel and pocket amounts; CSS −2px on `.paper-caption`, `.paper-note` (not transit slip), `.add-sub`. Commit `9ed22e1a1` on preview branch.
+
+---
+
+## 2026-11-04 — F05 carousel caption copy tweaks
+
+- **Context:** Founder requested bottom-row caption updates on MONEY carousel panels.
+- **Changes:** `moneyCarousel.ts` — `NOTHING IN TRANSIT` → `NOTHING MOVING`; `ADD A POCKET FIRST` → `ADD A POCKET` (safe-to-spend + reserved mock states); `NOTHING RECORDED` → `NO RECORDS` (spending insights empty). Matching aria + `jurnlF05Carousel.test.ts` / `jurnl-f05-carousel.e2e.ts`.
+
+---
+
+## 2026-11-04 — BILLS + SUBSCRIPTIONS panel title +1.5px
+
+- **Context:** Founder asked to increase only the BILLS + SUBSCRIPTIONS carousel header by 1.5px.
+- **Changes:** `panelNameFont()` in `CarouselPanelPaper.tsx` adds 1.5px when `panel.id === 'bills'`; vitest guard in `jurnlF05Carousel.test.ts`.
+
+---
+
+## 2026-11-04 — Menu trigger toggles closed when expanded
+
+- **Context:** Founder wanted the upper-right three-dot MANAGE POCKET chip (and global menu) to collapse when tapped again while open.
+- **Changes:** `usePocketManager` toggles off when the same pocket menu is open; `JurnlCornerChrome` keeps the hamburger visible while `panel === 'menu'` and toggles closed; e2e T06 + G1. Commit `42c8c27d1` on preview branch.
+
+---
+
+## 2026-11-04 — Opus DOT01 OPUS3A/3B merged onto pinned tunnel overlay
+
+- **Context:** Founder asked to mount Opus DOT01 interactive artwork + typography/parchment work (`claude/jurnl-f05-dot01-artwork-typography-um0u93` @ `550a6f83d`) on the founder-visible tunnel, which stays pinned to `cursor/jurnl-tunnel-opus-v3-overlays-4e5a` (not `preview/tunnel` / main).
+- **Changes:** Merged Opus branch into overlay at `76ded47bf` (281 files: lifted seals, SK03 pills, `screenSeals.ts`, `directoryScene.ts`, editorial overlays, OPUS3 manifests). Pushed `origin/cursor/jurnl-tunnel-opus-v3-overlays-4e5a`. Remounted `/tmp/site00-jurnl-integration-wt` to `76ded47bf`; restarted Vite on `:5174`. Lineage: `/tmp/site00-preview-runtime-lineage.txt` records `OPUS_DOT01_ARTWORK=550a6f83d`.
+- **Conventions:** Tunnel pin updates are merge-to-overlay-branch + worktree checkout + Vite restart; do not assume `preview/tunnel` shows Opus until merged to main.
+
+---
+
+## 2026-11-05 — MONEY action sheet chevron on second title row (tunnel)
+
+- **Context:** Founder screenshot: action row chevrons sat beside cursive subtext; should align with second header line (POCKET / MONEY).
+- **Changes:** `Editorial.tsx` — chevron inside `jed-action__heading` with title; `jurnl-editorial.css` — `[data-jed='action']` grid `align-items: end`, block title spans, removed absolute `bottom: 18px` chev placement. Commit `38557db43` on `cursor/jurnl-tunnel-opus-v3-overlays-4e5a`.
+
+---
+
+## 2026-11-05 — F05 accounts rail stays on first page after add pocket (tunnel)
+
+- **Context:** Founder added a third pocket; UI jumped to that page so only the new CASH card showed full-width — looked like the first two were replaced (HELD still reflected all accounts).
+- **Changes:** `MoneyMotionParent.tsx` — removed auto-scroll to `fresh` pocket page; after save reset rail scroll to 0 and toast hints swipe when `accounts.length + 1 > 2`.
+
+---
+
+## 2026-11-05 — MONEY action chevron horizontal inset (tunnel)
+
+- **Context:** Chevrons sat on amphora/coin art; should stay on torn paper beside the title.
+- **Changes:** `[data-jed='action'] .jed-action__heading` — `width: fit-content` + `grid-template-columns: auto auto` so chev follows title width instead of stretching into the 34% art reserve.
+
+---
+
+## 2026-11-05 — F05 preview `f05seed` for third CASH pocket (tunnel QA)
+
+- **Context:** Tunnel restart cannot restore founder device localStorage; founder lost third CASH pocket and needed scroll-fix QA.
+- **Changes:** `f05PreviewPocketSeed.ts` — `?f05seed=cash-third` (design-preview + motion parent) re-adds CASH $0 when ≥2 pockets and no CASH; `?f05seed=three-pockets` fills to three. Wired in `MoneyParentRoute.tsx`. Commit `a495a3997`.
+
+---
+
+## 2026-11-05 — Motion MONEY scale + dock aligned to ALL ACCOUNTS (tunnel)
+
+- **Context:** Founder: motion MONEY home still too zoomed; VIEW ALL, dots, and bottom nav too high vs **View all accounts** torn paper alignment.
+- **Topics covered:** Prior foot-absorb (`F05_MOTION_FOOT_ABSORB`), rail swipe, chevrons, pocket seed; layout parity with Dot01 SK01_FIELD.
+- **Decisions / outcomes:** Motion parent uses `DIRECTORY_MAX_CROP`, `directoryAbsorb(pocketCount)`, SK01 seam `f05SeamY` for slots/view-all/dots, and `motionBoardToScreen` for ProductNav (same as Dot01 `boardToScreen` + `NAV_RECT`).
+- **Changes:** `f05MotionLayout.ts`, `MoneyMotionParent.tsx` (pass `reading.accounts.length`), test crop + rail scroll fix. Commit `3aac2fa83` on `cursor/jurnl-tunnel-opus-v3-overlays-4e5a`; preview worktree reset + tunnel restart.
+- **Conventions:** Compare motion `?parent=motion` to `money/places` on the **pinned** tunnel before merge to main; 3–4 pockets use absorb 0 (height-fit on short phones, same as directory).
+
+---
+
+## 2026-11-05 — Motion foot no longer uses 1-row directory absorb (tunnel)
+
+- **Context:** Founder screenshot after tunnel restart still showed VIEW ALL overlapping ADD/MOVE. Public tunnel was already serving `f05SeamY` / `directoryAbsorb`. With two pockets, `directoryAbsorb(2)` is the one-row slack, so a short Safari viewport slid VIEW ALL and the dock up into the two-row grid while the scale stayed width-first.
+- **Changes:** `F05_MOTION_FOOT_CLEAR` is only the gap under the second row. A larger deficit height-fits the whole board. Pocket count is ignored. Preview remounted on `cursor/jurnl-tunnel-opus-v3-overlays-4e5a`.
+
+---
+
+## 2026-11-05 — F05 pocket persistence (preview repository scope)
+
+- **Context:** Founder reported new pockets “deleted” after add on motion MONEY tunnel.
+- **Root cause:** Design-preview `setRepositoryUserId` used `preview-guest` until ACTIVE session, while route resume allowed MONEY with only `device.remembered` — pockets saved under guest, then invisible after refresh/unlock on remembered email scope.
+- **Changes:** `resolveRepositoryUserId()` (session email → remembered email → preview-guest); store init/effect use it; `mergePreviewGuestPocketsInto` on guest→viewer switch. Tests `jurnlRepositoryUserScope.test.ts`. Commit `fe788533b` on overlay + `cursor/jurnl-f05-pocket-persist-4e5a`.
+
+---
+
+## 2026-11-05 — F05 VIEW ALL + dots: nudge in screen px (tunnel)
+
+- **Context:** Founder said “nothing changed” after +3 **source** px on VIEW ALL and collection dots on motion MONEY (tunnel preview).
+- **Root cause:** Board scales at `u ≈ viewportW / 881`; 3 source px ≈ 1–1.5 screen px on phone — below visible threshold.
+- **Changes:** `F05_ACCOUNTS_CHROME_NUDGE_SCREEN = 3` in `f05MotionLayout.ts` — adds `3/u` source px to VIEW ALL and dots **after** seam mapping (panels above unchanged). Commit `9ae4a8bce` on `cursor/jurnl-tunnel-opus-v3-overlays-4e5a`; preview pinned to that SHA.
+- **Conventions:** Founder layout tweaks on motion pilot should specify **screen px** when they mean on-device pixels; use layout-level `n/u` conversion, not raw composition y bumps.
+
+---
+
+## 2026-11-07 — F05 motion parent dock +4px screen nudge
+
+- **Context:** Founder comp on main MONEY page (`?parent=motion`): bottom five-item dock (HOME/MONEY/ADD/PLAN/CREDIT) sat slightly high on the torn nav paper.
+- **Decision:** `F05_MOTION_NAV_NUDGE_SCREEN = 4` subtracted from `--f05m-nav-b` in `MoneyMotionParent` only; DOT 01 `Dot01Frame` nav placement unchanged.
+- **Files:** `f05MotionLayout.ts`, `MoneyMotionParent.tsx`.
+
+---
+
+## 2026-11-07 — OV06 account drawer Option B (full folio mount)
+
+- **Context:** Founder chose Option B: full account drawer convergence on OV06 inner shell, not only utility CLOSE on the F09 torn replica.
+- **Decisions / outcomes:** `AccountSettingsDrawer` draws `OV06_ACCOUNT_SHELL` (lossless WebP in clean/registry) via `ShellOverlay`, right-aligned at ~62% host width; live profile/currency/connection/ask/buffer/privacy rows scroll on parchment; sign-out on the shell’s dark strip; close remains `F05.UTILITY.CLOSE.GOLD` (`account-drawer-close`). F09 `F09_ACCOUNT_DRAWER_SHELL` retired from runtime drawer path; full ACCOUNT page unchanged.
+- **Changes:** `AccountSettingsDrawer.tsx`, `jurnl-account-ov06.css`, `clean/registry.ts`, `eight/registry.ts` OV06 `MOUNTED`, tests (`jurnlOverlayReplica1`, global menu recovery, utility family). Commit `856bc9d02` on `cursor/jurnl-account-dot01-utility-convergence-4e5a`.
+
+---
+
+## 2026-11-06 — FD-12 account drawer close + DOT01 utility search/add on tunnel
+
+- **Context:** Founder tunnel review: account drawer still had line close; TRANSACTIONS/DOT01 child pages still had line search/add despite OPUS1–OPUS5 on tunnel branch.
+- **Decisions / outcomes:** Partial FD-12 reconcile — `AccountDrawer` close → `F05.UTILITY.CLOSE.GOLD`; DOT01 `useSearchAddChips` routes through `JurnlUtilityArtButton` (search/add). F09 shell unchanged; OV06 inner PNG still not mounted. Registry `mountedIn` documents close reconcile.
+- **Changes:** `AccountScreens.tsx`, `Dot01Frame.tsx`, `jurnl-utility-art.css`, tests, commit `e7a778eca` on `cursor/jurnl-account-dot01-utility-convergence-4e5a`; tunnel `cursor/jurnl-tunnel-opus-v3-overlays-4e5a` fast-forwarded; preview pinned worktree restarted.

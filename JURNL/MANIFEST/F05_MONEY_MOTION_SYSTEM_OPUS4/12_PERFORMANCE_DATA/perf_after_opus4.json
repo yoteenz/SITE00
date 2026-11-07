@@ -1,0 +1,52 @@
+{
+ "measuredAt": "2026-11-06T23:27:43.183Z",
+ "base": "http://127.0.0.1:5174/production/jurnl/runtime/",
+ "idle": {
+  "ambientOn": {
+   "reducedMotion": false,
+   "ambient": "D C",
+   "windowMs": 12000,
+   "running": [
+    "jm-amb-light",
+    "jm-amb-sheen"
+   ],
+   "layouts": 0,
+   "styleRecalcs": 5,
+   "layoutSeconds": 0,
+   "recalcSeconds": 0,
+   "scriptSeconds": 0.001,
+   "taskSeconds": 0.007,
+   "rafCalls": 0,
+   "intervalsCreated": 0
+  },
+  "stillReducedMotion": {
+   "reducedMotion": true,
+   "ambient": "off",
+   "windowMs": 12000,
+   "running": [],
+   "layouts": 0,
+   "styleRecalcs": 0,
+   "layoutSeconds": 0,
+   "recalcSeconds": 0,
+   "scriptSeconds": 0.001,
+   "taskSeconds": 0.003,
+   "rafCalls": 0,
+   "intervalsCreated": 0
+  }
+ },
+ "leaks": {
+  "cycles": 80,
+  "heapMbBefore": 19.28,
+  "heapMbAfter": 20.22,
+  "heapMbDelta": 0.94,
+  "domNodesBefore": 268,
+  "domNodesAfter": 268,
+  "closingCopiesLeft": 0,
+  "oneShotAnimationsRunning": 0,
+  "hiddenPage": {
+   "phase": "SUSPENDED",
+   "ambient": "off",
+   "running": 0
+  }
+ }
+}

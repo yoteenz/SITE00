@@ -1,0 +1,1956 @@
+{
+ "02-add-pocket__360x640": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV02_ADD_POCKET_SHELL"
+  ],
+  "overlay_asset": "OV02_ADD_POCKET_SHELL",
+  "scrolling_regions": [
+   "jed-body"
+  ],
+  "focus": "money-add-name",
+  "viewport": [
+   360,
+   640
+  ]
+ },
+ "02-add-pocket-keyboard__360x640": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV02_ADD_POCKET_SHELL"
+  ],
+  "overlay_asset": "OV02_ADD_POCKET_SHELL",
+  "scrolling_regions": [
+   "jed-body"
+  ],
+  "focus": "money-add-name",
+  "viewport": [
+   360,
+   384
+  ]
+ },
+ "03-move-money__360x640": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV03_MOVE_MONEY_SHELL"
+  ],
+  "overlay_asset": "OV03_MOVE_MONEY_SHELL",
+  "scrolling_regions": [
+   "jed-body"
+  ],
+  "focus": "transfer-from-bank",
+  "viewport": [
+   360,
+   640
+  ]
+ },
+ "04-manage-pocket__360x640": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV04_MANAGE_NOTE",
+   "OV04_RENAME_PAPER",
+   "OV04_DELETE_PAPER"
+  ],
+  "overlay_asset": null,
+  "scrolling_regions": [],
+  "focus": "d01-pocket-rename",
+  "viewport": [
+   360,
+   640
+  ]
+ },
+ "04-rename__360x640": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [],
+  "overlay_asset": null,
+  "scrolling_regions": [],
+  "focus": "d01-pocket-name",
+  "viewport": [
+   360,
+   640
+  ]
+ },
+ "04-delete-confirm__360x640": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [],
+  "overlay_asset": null,
+  "scrolling_regions": [],
+  "focus": "d01-keep-pocket",
+  "viewport": [
+   360,
+   640
+  ]
+ },
+ "05-search-recent__360x640": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [
+   "search-results"
+  ],
+  "focus": "search-input",
+  "viewport": [
+   360,
+   640
+  ]
+ },
+ "05-search-00-results__360x640": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [],
+  "focus": null,
+  "viewport": [
+   360,
+   640
+  ]
+ },
+ "05-search-04-results__360x640": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [
+   "search-results"
+  ],
+  "focus": null,
+  "viewport": [
+   360,
+   640
+  ]
+ },
+ "05-search-20-results__360x640": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [
+   "search-results"
+  ],
+  "focus": null,
+  "viewport": [
+   360,
+   640
+  ]
+ },
+ "05-search-keyboard__360x640": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [
+   "search-results"
+  ],
+  "focus": "search-input",
+  "viewport": [
+   360,
+   384
+  ]
+ },
+ "08-menu__360x640": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV08_MENU_ENVIRONMENT"
+  ],
+  "overlay_asset": "OV08",
+  "scrolling_regions": [
+   "jgm-port"
+  ],
+  "focus": "global-menu-close",
+  "viewport": [
+   360,
+   640
+  ]
+ },
+ "08-menu-final-item__360x640": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV08_MENU_ENVIRONMENT"
+  ],
+  "overlay_asset": "OV08",
+  "scrolling_regions": [
+   "jgm-port"
+  ],
+  "focus": "menu-sign-out",
+  "viewport": [
+   360,
+   640
+  ]
+ },
+ "CH01-buffer__360x640": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": "buffer-input",
+  "viewport": [
+   360,
+   640
+  ]
+ },
+ "CH01-buffer-keyboard__360x640": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": "buffer-input",
+  "viewport": [
+   360,
+   384
+  ]
+ },
+ "CH01-buffer-saved__360x640": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": "buffer-save",
+  "viewport": [
+   360,
+   640
+  ]
+ },
+ "CH01-buffer-rate-unavailable__360x640": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": null,
+  "viewport": [
+   360,
+   640
+  ]
+ },
+ "CH02-privacy__360x640": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH02_PRIVACY_SHELL",
+   "CH02_REMOVE_ACCESS_PAPER",
+   "CH02_BACK_PAPER"
+  ],
+  "overlay_asset": "CH02_PRIVACY_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-list"
+  ],
+  "focus": "settings-consent-remember",
+  "viewport": [
+   360,
+   640
+  ]
+ },
+ "CH02-privacy-list-end__360x640": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH02_PRIVACY_SHELL",
+   "CH02_REMOVE_ACCESS_PAPER",
+   "CH02_BACK_PAPER"
+  ],
+  "overlay_asset": "CH02_PRIVACY_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-list"
+  ],
+  "focus": "settings-consent-remember",
+  "viewport": [
+   360,
+   640
+  ]
+ },
+ "02-add-pocket__393x660": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV02_ADD_POCKET_SHELL"
+  ],
+  "overlay_asset": "OV02_ADD_POCKET_SHELL",
+  "scrolling_regions": [
+   "jed-body"
+  ],
+  "focus": "money-add-name",
+  "viewport": [
+   393,
+   660
+  ]
+ },
+ "02-add-pocket-keyboard__393x660": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV02_ADD_POCKET_SHELL"
+  ],
+  "overlay_asset": "OV02_ADD_POCKET_SHELL",
+  "scrolling_regions": [
+   "jed-body"
+  ],
+  "focus": "money-add-name",
+  "viewport": [
+   393,
+   396
+  ]
+ },
+ "03-move-money__393x660": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV03_MOVE_MONEY_SHELL"
+  ],
+  "overlay_asset": "OV03_MOVE_MONEY_SHELL",
+  "scrolling_regions": [
+   "jed-body"
+  ],
+  "focus": "transfer-from-bank",
+  "viewport": [
+   393,
+   660
+  ]
+ },
+ "04-manage-pocket__393x660": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV04_MANAGE_NOTE",
+   "OV04_RENAME_PAPER",
+   "OV04_DELETE_PAPER"
+  ],
+  "overlay_asset": null,
+  "scrolling_regions": [],
+  "focus": "d01-pocket-rename",
+  "viewport": [
+   393,
+   660
+  ]
+ },
+ "04-rename__393x660": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [],
+  "overlay_asset": null,
+  "scrolling_regions": [],
+  "focus": "d01-pocket-name",
+  "viewport": [
+   393,
+   660
+  ]
+ },
+ "04-delete-confirm__393x660": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [],
+  "overlay_asset": null,
+  "scrolling_regions": [],
+  "focus": "d01-keep-pocket",
+  "viewport": [
+   393,
+   660
+  ]
+ },
+ "05-search-recent__393x660": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [
+   "search-results"
+  ],
+  "focus": "search-input",
+  "viewport": [
+   393,
+   660
+  ]
+ },
+ "05-search-00-results__393x660": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [],
+  "focus": null,
+  "viewport": [
+   393,
+   660
+  ]
+ },
+ "05-search-04-results__393x660": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [
+   "search-results"
+  ],
+  "focus": null,
+  "viewport": [
+   393,
+   660
+  ]
+ },
+ "05-search-20-results__393x660": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [
+   "search-results"
+  ],
+  "focus": null,
+  "viewport": [
+   393,
+   660
+  ]
+ },
+ "05-search-keyboard__393x660": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [
+   "search-results"
+  ],
+  "focus": "search-input",
+  "viewport": [
+   393,
+   396
+  ]
+ },
+ "08-menu__393x660": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV08_MENU_ENVIRONMENT"
+  ],
+  "overlay_asset": "OV08",
+  "scrolling_regions": [
+   "jgm-port"
+  ],
+  "focus": "global-menu-close",
+  "viewport": [
+   393,
+   660
+  ]
+ },
+ "08-menu-final-item__393x660": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV08_MENU_ENVIRONMENT"
+  ],
+  "overlay_asset": "OV08",
+  "scrolling_regions": [
+   "jgm-port"
+  ],
+  "focus": "menu-sign-out",
+  "viewport": [
+   393,
+   660
+  ]
+ },
+ "CH01-buffer__393x660": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": "buffer-input",
+  "viewport": [
+   393,
+   660
+  ]
+ },
+ "CH01-buffer-keyboard__393x660": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": "buffer-input",
+  "viewport": [
+   393,
+   396
+  ]
+ },
+ "CH01-buffer-saved__393x660": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": "buffer-save",
+  "viewport": [
+   393,
+   660
+  ]
+ },
+ "CH01-buffer-rate-unavailable__393x660": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": null,
+  "viewport": [
+   393,
+   660
+  ]
+ },
+ "CH02-privacy__393x660": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH02_PRIVACY_SHELL",
+   "CH02_REMOVE_ACCESS_PAPER",
+   "CH02_BACK_PAPER"
+  ],
+  "overlay_asset": "CH02_PRIVACY_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-list"
+  ],
+  "focus": "settings-consent-remember",
+  "viewport": [
+   393,
+   660
+  ]
+ },
+ "CH02-privacy-list-end__393x660": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH02_PRIVACY_SHELL",
+   "CH02_REMOVE_ACCESS_PAPER",
+   "CH02_BACK_PAPER"
+  ],
+  "overlay_asset": "CH02_PRIVACY_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-list"
+  ],
+  "focus": "settings-consent-remember",
+  "viewport": [
+   393,
+   660
+  ]
+ },
+ "02-add-pocket__393x852": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV02_ADD_POCKET_SHELL"
+  ],
+  "overlay_asset": "OV02_ADD_POCKET_SHELL",
+  "scrolling_regions": [
+   "jed-body"
+  ],
+  "focus": "money-add-name",
+  "viewport": [
+   393,
+   852
+  ]
+ },
+ "02-add-pocket-keyboard__393x852": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV02_ADD_POCKET_SHELL"
+  ],
+  "overlay_asset": "OV02_ADD_POCKET_SHELL",
+  "scrolling_regions": [
+   "jed-body"
+  ],
+  "focus": "money-add-name",
+  "viewport": [
+   393,
+   511
+  ]
+ },
+ "03-move-money__393x852": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV03_MOVE_MONEY_SHELL"
+  ],
+  "overlay_asset": "OV03_MOVE_MONEY_SHELL",
+  "scrolling_regions": [
+   "jed-body"
+  ],
+  "focus": "transfer-from-bank",
+  "viewport": [
+   393,
+   852
+  ]
+ },
+ "04-manage-pocket__393x852": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV04_MANAGE_NOTE",
+   "OV04_RENAME_PAPER",
+   "OV04_DELETE_PAPER"
+  ],
+  "overlay_asset": null,
+  "scrolling_regions": [],
+  "focus": "d01-pocket-rename",
+  "viewport": [
+   393,
+   852
+  ]
+ },
+ "04-rename__393x852": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [],
+  "overlay_asset": null,
+  "scrolling_regions": [],
+  "focus": "d01-pocket-name",
+  "viewport": [
+   393,
+   852
+  ]
+ },
+ "04-delete-confirm__393x852": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [],
+  "overlay_asset": null,
+  "scrolling_regions": [],
+  "focus": "d01-keep-pocket",
+  "viewport": [
+   393,
+   852
+  ]
+ },
+ "05-search-recent__393x852": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [
+   "search-results"
+  ],
+  "focus": "search-input",
+  "viewport": [
+   393,
+   852
+  ]
+ },
+ "05-search-00-results__393x852": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [],
+  "focus": null,
+  "viewport": [
+   393,
+   852
+  ]
+ },
+ "05-search-04-results__393x852": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [
+   "search-results"
+  ],
+  "focus": null,
+  "viewport": [
+   393,
+   852
+  ]
+ },
+ "05-search-20-results__393x852": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [
+   "search-results"
+  ],
+  "focus": null,
+  "viewport": [
+   393,
+   852
+  ]
+ },
+ "05-search-keyboard__393x852": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [
+   "search-results"
+  ],
+  "focus": "search-input",
+  "viewport": [
+   393,
+   511
+  ]
+ },
+ "08-menu__393x852": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV08_MENU_ENVIRONMENT"
+  ],
+  "overlay_asset": "OV08",
+  "scrolling_regions": [
+   "jgm-port"
+  ],
+  "focus": "global-menu-close",
+  "viewport": [
+   393,
+   852
+  ]
+ },
+ "08-menu-final-item__393x852": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV08_MENU_ENVIRONMENT"
+  ],
+  "overlay_asset": "OV08",
+  "scrolling_regions": [
+   "jgm-port"
+  ],
+  "focus": "menu-sign-out",
+  "viewport": [
+   393,
+   852
+  ]
+ },
+ "CH01-buffer__393x852": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": "buffer-input",
+  "viewport": [
+   393,
+   852
+  ]
+ },
+ "CH01-buffer-keyboard__393x852": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": "buffer-input",
+  "viewport": [
+   393,
+   511
+  ]
+ },
+ "CH01-buffer-saved__393x852": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": "buffer-save",
+  "viewport": [
+   393,
+   852
+  ]
+ },
+ "CH01-buffer-rate-unavailable__393x852": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": null,
+  "viewport": [
+   393,
+   852
+  ]
+ },
+ "CH02-privacy__393x852": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH02_PRIVACY_SHELL",
+   "CH02_REMOVE_ACCESS_PAPER",
+   "CH02_BACK_PAPER"
+  ],
+  "overlay_asset": "CH02_PRIVACY_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-list"
+  ],
+  "focus": "settings-consent-remember",
+  "viewport": [
+   393,
+   852
+  ]
+ },
+ "CH02-privacy-list-end__393x852": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH02_PRIVACY_SHELL",
+   "CH02_REMOVE_ACCESS_PAPER",
+   "CH02_BACK_PAPER"
+  ],
+  "overlay_asset": "CH02_PRIVACY_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-list"
+  ],
+  "focus": "settings-consent-remember",
+  "viewport": [
+   393,
+   852
+  ]
+ },
+ "02-add-pocket__430x932": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV02_ADD_POCKET_SHELL"
+  ],
+  "overlay_asset": "OV02_ADD_POCKET_SHELL",
+  "scrolling_regions": [
+   "jed-body"
+  ],
+  "focus": "money-add-name",
+  "viewport": [
+   430,
+   932
+  ]
+ },
+ "02-add-pocket-keyboard__430x932": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV02_ADD_POCKET_SHELL"
+  ],
+  "overlay_asset": "OV02_ADD_POCKET_SHELL",
+  "scrolling_regions": [
+   "jed-body"
+  ],
+  "focus": "money-add-name",
+  "viewport": [
+   430,
+   559
+  ]
+ },
+ "03-move-money__430x932": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV03_MOVE_MONEY_SHELL"
+  ],
+  "overlay_asset": "OV03_MOVE_MONEY_SHELL",
+  "scrolling_regions": [
+   "jed-body"
+  ],
+  "focus": "transfer-from-bank",
+  "viewport": [
+   430,
+   932
+  ]
+ },
+ "04-manage-pocket__430x932": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV04_MANAGE_NOTE",
+   "OV04_RENAME_PAPER",
+   "OV04_DELETE_PAPER"
+  ],
+  "overlay_asset": null,
+  "scrolling_regions": [],
+  "focus": "d01-pocket-rename",
+  "viewport": [
+   430,
+   932
+  ]
+ },
+ "04-rename__430x932": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [],
+  "overlay_asset": null,
+  "scrolling_regions": [],
+  "focus": "d01-pocket-name",
+  "viewport": [
+   430,
+   932
+  ]
+ },
+ "04-delete-confirm__430x932": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [],
+  "overlay_asset": null,
+  "scrolling_regions": [],
+  "focus": "d01-keep-pocket",
+  "viewport": [
+   430,
+   932
+  ]
+ },
+ "05-search-recent__430x932": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [
+   "search-results"
+  ],
+  "focus": "search-input",
+  "viewport": [
+   430,
+   932
+  ]
+ },
+ "05-search-00-results__430x932": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [],
+  "focus": null,
+  "viewport": [
+   430,
+   932
+  ]
+ },
+ "05-search-04-results__430x932": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [
+   "search-results"
+  ],
+  "focus": null,
+  "viewport": [
+   430,
+   932
+  ]
+ },
+ "05-search-20-results__430x932": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [
+   "search-results"
+  ],
+  "focus": null,
+  "viewport": [
+   430,
+   932
+  ]
+ },
+ "05-search-keyboard__430x932": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [
+   "search-results"
+  ],
+  "focus": "search-input",
+  "viewport": [
+   430,
+   559
+  ]
+ },
+ "08-menu__430x932": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV08_MENU_ENVIRONMENT"
+  ],
+  "overlay_asset": "OV08",
+  "scrolling_regions": [
+   "jgm-port"
+  ],
+  "focus": "global-menu-close",
+  "viewport": [
+   430,
+   932
+  ]
+ },
+ "08-menu-final-item__430x932": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV08_MENU_ENVIRONMENT"
+  ],
+  "overlay_asset": "OV08",
+  "scrolling_regions": [
+   "jgm-port"
+  ],
+  "focus": "menu-sign-out",
+  "viewport": [
+   430,
+   932
+  ]
+ },
+ "CH01-buffer__430x932": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": "buffer-input",
+  "viewport": [
+   430,
+   932
+  ]
+ },
+ "CH01-buffer-keyboard__430x932": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": "buffer-input",
+  "viewport": [
+   430,
+   559
+  ]
+ },
+ "CH01-buffer-saved__430x932": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": "buffer-save",
+  "viewport": [
+   430,
+   932
+  ]
+ },
+ "CH01-buffer-rate-unavailable__430x932": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": null,
+  "viewport": [
+   430,
+   932
+  ]
+ },
+ "CH02-privacy__430x932": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH02_PRIVACY_SHELL",
+   "CH02_REMOVE_ACCESS_PAPER",
+   "CH02_BACK_PAPER"
+  ],
+  "overlay_asset": "CH02_PRIVACY_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-list"
+  ],
+  "focus": "settings-consent-remember",
+  "viewport": [
+   430,
+   932
+  ]
+ },
+ "CH02-privacy-list-end__430x932": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH02_PRIVACY_SHELL",
+   "CH02_REMOVE_ACCESS_PAPER",
+   "CH02_BACK_PAPER"
+  ],
+  "overlay_asset": "CH02_PRIVACY_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-list"
+  ],
+  "focus": "settings-consent-remember",
+  "viewport": [
+   430,
+   932
+  ]
+ },
+ "02-add-pocket__820x1180": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV02_ADD_POCKET_SHELL"
+  ],
+  "overlay_asset": "OV02_ADD_POCKET_SHELL",
+  "scrolling_regions": [],
+  "focus": "money-add-name",
+  "viewport": [
+   820,
+   1180
+  ]
+ },
+ "02-add-pocket-keyboard__820x1180": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV02_ADD_POCKET_SHELL"
+  ],
+  "overlay_asset": "OV02_ADD_POCKET_SHELL",
+  "scrolling_regions": [
+   "jed-body"
+  ],
+  "focus": "money-add-name",
+  "viewport": [
+   820,
+   708
+  ]
+ },
+ "03-move-money__820x1180": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV03_MOVE_MONEY_SHELL"
+  ],
+  "overlay_asset": "OV03_MOVE_MONEY_SHELL",
+  "scrolling_regions": [
+   "jed-body"
+  ],
+  "focus": "transfer-from-bank",
+  "viewport": [
+   820,
+   1180
+  ]
+ },
+ "04-manage-pocket__820x1180": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV04_MANAGE_NOTE",
+   "OV04_RENAME_PAPER",
+   "OV04_DELETE_PAPER"
+  ],
+  "overlay_asset": null,
+  "scrolling_regions": [],
+  "focus": "d01-pocket-rename",
+  "viewport": [
+   820,
+   1180
+  ]
+ },
+ "04-rename__820x1180": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [],
+  "overlay_asset": null,
+  "scrolling_regions": [],
+  "focus": "d01-pocket-name",
+  "viewport": [
+   820,
+   1180
+  ]
+ },
+ "04-delete-confirm__820x1180": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [],
+  "overlay_asset": null,
+  "scrolling_regions": [],
+  "focus": "d01-keep-pocket",
+  "viewport": [
+   820,
+   1180
+  ]
+ },
+ "05-search-recent__820x1180": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [],
+  "focus": "search-input",
+  "viewport": [
+   820,
+   1180
+  ]
+ },
+ "05-search-00-results__820x1180": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [],
+  "focus": null,
+  "viewport": [
+   820,
+   1180
+  ]
+ },
+ "05-search-04-results__820x1180": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [],
+  "focus": null,
+  "viewport": [
+   820,
+   1180
+  ]
+ },
+ "05-search-20-results__820x1180": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [
+   "search-results"
+  ],
+  "focus": null,
+  "viewport": [
+   820,
+   1180
+  ]
+ },
+ "05-search-keyboard__820x1180": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [
+   "search-results"
+  ],
+  "focus": "search-input",
+  "viewport": [
+   820,
+   708
+  ]
+ },
+ "08-menu__820x1180": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV08_MENU_ENVIRONMENT"
+  ],
+  "overlay_asset": "OV08",
+  "scrolling_regions": [],
+  "focus": "global-menu-close",
+  "viewport": [
+   820,
+   1180
+  ]
+ },
+ "08-menu-final-item__820x1180": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV08_MENU_ENVIRONMENT"
+  ],
+  "overlay_asset": "OV08",
+  "scrolling_regions": [],
+  "focus": "menu-sign-out",
+  "viewport": [
+   820,
+   1180
+  ]
+ },
+ "CH01-buffer__820x1180": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": "buffer-input",
+  "viewport": [
+   820,
+   1180
+  ]
+ },
+ "CH01-buffer-keyboard__820x1180": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": "buffer-input",
+  "viewport": [
+   820,
+   708
+  ]
+ },
+ "CH01-buffer-saved__820x1180": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": "buffer-save",
+  "viewport": [
+   820,
+   1180
+  ]
+ },
+ "CH01-buffer-rate-unavailable__820x1180": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": null,
+  "viewport": [
+   820,
+   1180
+  ]
+ },
+ "CH02-privacy__820x1180": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH02_PRIVACY_SHELL",
+   "CH02_REMOVE_ACCESS_PAPER",
+   "CH02_BACK_PAPER"
+  ],
+  "overlay_asset": "CH02_PRIVACY_SHELL",
+  "scrolling_regions": [],
+  "focus": "settings-consent-remember",
+  "viewport": [
+   820,
+   1180
+  ]
+ },
+ "CH02-privacy-list-end__820x1180": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH02_PRIVACY_SHELL",
+   "CH02_REMOVE_ACCESS_PAPER",
+   "CH02_BACK_PAPER"
+  ],
+  "overlay_asset": "CH02_PRIVACY_SHELL",
+  "scrolling_regions": [],
+  "focus": "settings-consent-remember",
+  "viewport": [
+   820,
+   1180
+  ]
+ },
+ "02-add-pocket__1440x900": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV02_ADD_POCKET_SHELL"
+  ],
+  "overlay_asset": "OV02_ADD_POCKET_SHELL",
+  "scrolling_regions": [
+   "jed-body"
+  ],
+  "focus": "money-add-name",
+  "viewport": [
+   1440,
+   900
+  ]
+ },
+ "02-add-pocket-keyboard__1440x900": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV02_ADD_POCKET_SHELL"
+  ],
+  "overlay_asset": "OV02_ADD_POCKET_SHELL",
+  "scrolling_regions": [
+   "jed-body"
+  ],
+  "focus": "money-add-name",
+  "viewport": [
+   1440,
+   540
+  ]
+ },
+ "03-move-money__1440x900": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV03_MOVE_MONEY_SHELL"
+  ],
+  "overlay_asset": "OV03_MOVE_MONEY_SHELL",
+  "scrolling_regions": [
+   "jed-body"
+  ],
+  "focus": "transfer-from-bank",
+  "viewport": [
+   1440,
+   900
+  ]
+ },
+ "04-manage-pocket__1440x900": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV04_MANAGE_NOTE",
+   "OV04_RENAME_PAPER",
+   "OV04_DELETE_PAPER"
+  ],
+  "overlay_asset": null,
+  "scrolling_regions": [],
+  "focus": "d01-pocket-rename",
+  "viewport": [
+   1440,
+   900
+  ]
+ },
+ "04-rename__1440x900": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [],
+  "overlay_asset": null,
+  "scrolling_regions": [],
+  "focus": "d01-pocket-name",
+  "viewport": [
+   1440,
+   900
+  ]
+ },
+ "04-delete-confirm__1440x900": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [],
+  "overlay_asset": null,
+  "scrolling_regions": [],
+  "focus": "d01-keep-pocket",
+  "viewport": [
+   1440,
+   900
+  ]
+ },
+ "05-search-recent__1440x900": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [
+   "search-results"
+  ],
+  "focus": "search-input",
+  "viewport": [
+   1440,
+   900
+  ]
+ },
+ "05-search-00-results__1440x900": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [],
+  "focus": null,
+  "viewport": [
+   1440,
+   900
+  ]
+ },
+ "05-search-04-results__1440x900": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [],
+  "focus": null,
+  "viewport": [
+   1440,
+   900
+  ]
+ },
+ "05-search-20-results__1440x900": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [
+   "search-results"
+  ],
+  "focus": null,
+  "viewport": [
+   1440,
+   900
+  ]
+ },
+ "05-search-keyboard__1440x900": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV05_SEARCH_SHELL"
+  ],
+  "overlay_asset": "OV05_SEARCH_SHELL",
+  "scrolling_regions": [
+   "search-results"
+  ],
+  "focus": "search-input",
+  "viewport": [
+   1440,
+   540
+  ]
+ },
+ "08-menu__1440x900": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV08_MENU_ENVIRONMENT"
+  ],
+  "overlay_asset": "OV08",
+  "scrolling_regions": [
+   "jgm-port"
+  ],
+  "focus": "global-menu-close",
+  "viewport": [
+   1440,
+   900
+  ]
+ },
+ "08-menu-final-item__1440x900": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "OV08_MENU_ENVIRONMENT"
+  ],
+  "overlay_asset": "OV08",
+  "scrolling_regions": [
+   "jgm-port"
+  ],
+  "focus": "menu-sign-out",
+  "viewport": [
+   1440,
+   900
+  ]
+ },
+ "CH01-buffer__1440x900": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": "buffer-input",
+  "viewport": [
+   1440,
+   900
+  ]
+ },
+ "CH01-buffer-keyboard__1440x900": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": "buffer-input",
+  "viewport": [
+   1440,
+   540
+  ]
+ },
+ "CH01-buffer-saved__1440x900": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": "buffer-save",
+  "viewport": [
+   1440,
+   900
+  ]
+ },
+ "CH01-buffer-rate-unavailable__1440x900": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH01_BUFFER_SHELL",
+   "CH01_AMOUNT_PAPER",
+   "CH01_EFFECT_PAPER",
+   "CH01_BACK_PAPER"
+  ],
+  "overlay_asset": "CH01_BUFFER_SHELL",
+  "scrolling_regions": [
+   "jsh-slot jce-content jce-buffer"
+  ],
+  "focus": null,
+  "viewport": [
+   1440,
+   900
+  ]
+ },
+ "CH02-privacy__1440x900": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH02_PRIVACY_SHELL",
+   "CH02_REMOVE_ACCESS_PAPER",
+   "CH02_BACK_PAPER"
+  ],
+  "overlay_asset": "CH02_PRIVACY_SHELL",
+  "scrolling_regions": [],
+  "focus": "settings-consent-remember",
+  "viewport": [
+   1440,
+   900
+  ]
+ },
+ "CH02-privacy-list-end__1440x900": {
+  "open": true,
+  "page_scroll_y": false,
+  "page_scroll_x": false,
+  "art": [
+   "CH02_PRIVACY_SHELL",
+   "CH02_REMOVE_ACCESS_PAPER",
+   "CH02_BACK_PAPER"
+  ],
+  "overlay_asset": "CH02_PRIVACY_SHELL",
+  "scrolling_regions": [],
+  "focus": "settings-consent-remember",
+  "viewport": [
+   1440,
+   900
+  ]
+ }
+}

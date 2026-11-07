@@ -1,0 +1,2341 @@
+[
+ {
+  "SCREEN_ID": "01",
+  "NAME": "MONEY DOT 01 VIEW ALL ACCOUNTS",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/01_MONEY_DOT01_VIEW_ALL_ACCOUNTS.png",
+  "RUNTIME_ROUTE": "money?parent=motion",
+  "SOURCE_ASSET_IDS": "SK01 layers, F05_MOTION_*, papers",
+  "CURRENT_RENDERER": "MoneyMotionParent (SK01 layered parent)",
+  "CLASSIFICATION": [
+   "AUTHORITY_MATCH_CANDIDATE",
+   "ASSET_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "\u2014",
+  "REQUIRED_CHANGE": "\u2014",
+  "IMPLEMENTATION_STATUS": "UNCHANGED (revalidated)",
+  "VISUAL_EVIDENCE": "evidence/before_after/01_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "dock glyphs stay vectors (Batch 06 NAV is exact reuse, not mounted)",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PASS",
+  "PRIOR_VERDICT_REVALIDATED": "HELD",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "ok",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "ok",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.9245,
+   "edge_precision": 0.9682,
+   "mean_abs_diff": 17.32,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.9245,
+   "edge_precision": 0.9682,
+   "mean_abs_diff": 17.32,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "02",
+  "NAME": "BANK ACCOUNT",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/02_BANK_ACCOUNT.png",
+  "RUNTIME_ROUTE": "money/places/bank",
+  "SOURCE_ASSET_IDS": "SK02_FIELD, SK02_BALANCE / STATS / SCENIC / STRIP_1\u20133",
+  "CURRENT_RENDERER": "AccountPage + accountScenes (SK02 composition)",
+  "CLASSIFICATION": [
+   "AUTHORITY_MATCH_CANDIDATE",
+   "ASSET_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "was RESPONSIVE: last action below the fold at 393\u00d7660",
+  "REQUIRED_CHANGE": "rows close up on a short phone (seatActionRows)",
+  "IMPLEMENTATION_STATUS": "FIXED this sprint",
+  "VISUAL_EVIDENCE": "evidence/before_after/02_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "ACCOUNT HISTORY open-book art not supplied (vector)",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PASS",
+  "PRIOR_VERDICT_REVALIDATED": "INVALID: unreachable at 393x660",
+  "UNREACHABLE_BEFORE": [
+   "393x660"
+  ],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "UNREACHABLE:d01-strip-details",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "ok",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.9516,
+   "edge_precision": 0.9398,
+   "mean_abs_diff": 18.23,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.9523,
+   "edge_precision": 0.9409,
+   "mean_abs_diff": 18.15,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "03",
+  "NAME": "RIDESHARE CARD",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/03_RIDESHARE_CARD.png",
+  "RUNTIME_ROUTE": "money/places/ride",
+  "SOURCE_ASSET_IDS": "SCENE_03 (authority-extracted, + SEAL_03), SK02_FIELD, SK02_STRIP_1\u20133",
+  "CURRENT_RENDERER": "AccountPage + accountScenes (authority scene band)",
+  "CLASSIFICATION": [
+   "AUTHORITY_MATCH_CANDIDATE",
+   "ASSET_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "generic SK02 template (A+B+C+D, report 02)",
+  "REQUIRED_CHANGE": "own authority scene band with the keychain; live text and rows at authority coordinates",
+  "IMPLEMENTATION_STATUS": "RECONSTRUCTED this sprint",
+  "VISUAL_EVIDENCE": "evidence/before_after/03_AUTHORITY_BEFORE_AFTER.webp; evidence/priority/03_*.webp",
+  "REMAINING_DIFFERENCE": "action rows use SK02 strip papers and founder icons; object flattened in its band (native layer requested)",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [
+   "393x660"
+  ],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "UNREACHABLE:d01-strip-details",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "ok",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.6555,
+   "edge_precision": 0.6939,
+   "mean_abs_diff": 55.33,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.8843,
+   "edge_precision": 0.8611,
+   "mean_abs_diff": 24.43,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "04",
+  "NAME": "CASH ON HAND",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/04_CASH_ON_HAND.png",
+  "RUNTIME_ROUTE": "money/places/cash",
+  "SOURCE_ASSET_IDS": "SCENE_04 (authority-extracted), SK02_FIELD, SK02_STRIP_1\u20133",
+  "CURRENT_RENDERER": "AccountPage + accountScenes (authority scene band)",
+  "CLASSIFICATION": [
+   "AUTHORITY_MATCH_CANDIDATE",
+   "ASSET_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "generic SK02 template (A+B+C+D, report 02)",
+  "REQUIRED_CHANGE": "own authority scene band with the amphora; live text and rows at authority coordinates",
+  "IMPLEMENTATION_STATUS": "RECONSTRUCTED this sprint",
+  "VISUAL_EVIDENCE": "evidence/before_after/04_AUTHORITY_BEFORE_AFTER.webp; evidence/priority/04_*.webp",
+  "REMAINING_DIFFERENCE": "action rows use SK02 strip papers and founder icons; object flattened in its band (native layer requested)",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [
+   "393x660"
+  ],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "UNREACHABLE:d01-strip-details",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "ok",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.6549,
+   "edge_precision": 0.7134,
+   "mean_abs_diff": 58.68,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.8479,
+   "edge_precision": 0.8701,
+   "mean_abs_diff": 24.95,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "05",
+  "NAME": "CREDIT CARD",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/05_CREDIT_CARD.png",
+  "RUNTIME_ROUTE": "money/places/visa",
+  "SOURCE_ASSET_IDS": "SCENE_05 (authority-extracted), SK02_FIELD, SK02_STRIP_1\u20133",
+  "CURRENT_RENDERER": "AccountPage + accountScenes (authority scene band)",
+  "CLASSIFICATION": [
+   "AUTHORITY_MATCH_CANDIDATE",
+   "ASSET_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "generic SK02 template (A+B+C+D, report 02)",
+  "REQUIRED_CHANGE": "own authority scene band with the bronze coin on red fabric; live text and rows at authority coordinates",
+  "IMPLEMENTATION_STATUS": "RECONSTRUCTED this sprint",
+  "VISUAL_EVIDENCE": "evidence/before_after/05_AUTHORITY_BEFORE_AFTER.webp; evidence/priority/05_*.webp",
+  "REMAINING_DIFFERENCE": "action rows use SK02 strip papers and founder icons; object flattened in its band (native layer requested)",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [
+   "393x660"
+  ],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "UNREACHABLE:d01-strip-details",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "ok",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.6934,
+   "edge_precision": 0.7235,
+   "mean_abs_diff": 52.35,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.907,
+   "edge_precision": 0.9159,
+   "mean_abs_diff": 25.07,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "06",
+  "NAME": "ALL ACCOUNTS",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/06_ALL_ACCOUNTS.png",
+  "RUNTIME_ROUTE": "money/places",
+  "SOURCE_ASSET_IDS": "SK02_FIELD, SK01 nav paper, papers",
+  "CURRENT_RENDERER": "DirectoryPage",
+  "CLASSIFICATION": [
+   "AUTHORITY_MATCH_CANDIDATE",
+   "ASSET_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "\u2014",
+  "REQUIRED_CHANGE": "\u2014",
+  "IMPLEMENTATION_STATUS": "UNCHANGED (revalidated)",
+  "VISUAL_EVIDENCE": "evidence/before_after/06_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "moss / cream button surfaces and card chevron tiles await corrected Batch 05",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PASS",
+  "PRIOR_VERDICT_REVALIDATED": "HELD",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "ok",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "ok",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.7684,
+   "edge_precision": 0.8771,
+   "mean_abs_diff": 43.14,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.7684,
+   "edge_precision": 0.8771,
+   "mean_abs_diff": 43.14,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "07",
+  "NAME": "BANK TRANSACTION HISTORY",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/07_BANK_TRANSACTION_HISTORY.png",
+  "RUNTIME_ROUTE": "money/places/bank/history",
+  "SOURCE_ASSET_IDS": "SK02_FIELD, papers",
+  "CURRENT_RENDERER": "HistoryPage",
+  "CLASSIFICATION": [
+   "STRUCTURAL_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "list structure differs from the authority (functional search / filters kept)",
+  "REQUIRED_CHANGE": "per-screen history composition (next sprint) or founder accepts the functional layout",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED (out of this sprint's priority)",
+  "VISUAL_EVIDENCE": "evidence/before_after/07_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "authority is a plain DATE / TRANSACTION / AMOUNT ledger without search; runtime keeps search + filters",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "inner-scroll",
+   "393x852": "inner-scroll",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "inner-scroll",
+   "430x932": "inner-scroll",
+   "768x1024": "inner-scroll",
+   "834x1194": "inner-scroll",
+   "1440x900": "inner-scroll"
+  },
+  "viewports_after": {
+   "471x836": "inner-scroll",
+   "393x852": "inner-scroll",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "inner-scroll",
+   "430x932": "inner-scroll",
+   "768x1024": "inner-scroll",
+   "834x1194": "ok",
+   "1440x900": "inner-scroll"
+  },
+  "structure_before": {
+   "edge_recall": 0.6816,
+   "edge_precision": 0.7623,
+   "mean_abs_diff": 38.75,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.7043,
+   "edge_precision": 0.7714,
+   "mean_abs_diff": 37.37,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "08",
+  "NAME": "RIDESHARE ACTIVITY",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/08_RIDESHARE_ACTIVITY.png",
+  "RUNTIME_ROUTE": "money/places/ride/history",
+  "SOURCE_ASSET_IDS": "SK02_FIELD, papers",
+  "CURRENT_RENDERER": "HistoryPage",
+  "CLASSIFICATION": [
+   "STRUCTURAL_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "list structure differs from the authority (functional search / filters kept)",
+  "REQUIRED_CHANGE": "per-screen history composition (next sprint) or founder accepts the functional layout",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED (out of this sprint's priority)",
+  "VISUAL_EVIDENCE": "evidence/before_after/08_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "authority rows carry scene thumbnails and a payout summary",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.6453,
+   "edge_precision": 0.8022,
+   "mean_abs_diff": 56.84,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.6333,
+   "edge_precision": 0.8116,
+   "mean_abs_diff": 49.64,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "09",
+  "NAME": "CASH USAGE HISTORY",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/09_CASH_USAGE_HISTORY.png",
+  "RUNTIME_ROUTE": "money/places/cash/history",
+  "SOURCE_ASSET_IDS": "SK02_FIELD, papers",
+  "CURRENT_RENDERER": "HistoryPage",
+  "CLASSIFICATION": [
+   "STRUCTURAL_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "list structure differs from the authority (functional search / filters kept)",
+  "REQUIRED_CHANGE": "per-screen history composition (next sprint) or founder accepts the functional layout",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED (out of this sprint's priority)",
+  "VISUAL_EVIDENCE": "evidence/before_after/09_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "authority rows carry scene thumbnails and a cash summary",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.6618,
+   "edge_precision": 0.8214,
+   "mean_abs_diff": 53.61,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.6397,
+   "edge_precision": 0.8173,
+   "mean_abs_diff": 50.06,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "10",
+  "NAME": "CREDIT CARD ACTIVITY",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/10_CREDIT_CARD_ACTIVITY.png",
+  "RUNTIME_ROUTE": "money/places/visa/history",
+  "SOURCE_ASSET_IDS": "SK02_FIELD, papers",
+  "CURRENT_RENDERER": "HistoryPage",
+  "CLASSIFICATION": [
+   "STRUCTURAL_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "list structure differs from the authority (functional search / filters kept)",
+  "REQUIRED_CHANGE": "per-screen history composition (next sprint) or founder accepts the functional layout",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED (out of this sprint's priority)",
+  "VISUAL_EVIDENCE": "evidence/before_after/10_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "authority header pairs CURRENT BALANCE + AVAILABLE CREDIT; plain table",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.6377,
+   "edge_precision": 0.7945,
+   "mean_abs_diff": 53.02,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.6063,
+   "edge_precision": 0.7777,
+   "mean_abs_diff": 46.7,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "11",
+  "NAME": "TRANSACTION DETAIL",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/11_TRANSACTION_DETAIL.png",
+  "RUNTIME_ROUTE": "money/entries/:id",
+  "SOURCE_ASSET_IDS": "SK02_FIELD, papers",
+  "CURRENT_RENDERER": "DetailPages (transaction detail)",
+  "CLASSIFICATION": [
+   "STRUCTURAL_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "content arrangement differs from the authority",
+  "REQUIRED_CHANGE": "per-screen composition (next sprint)",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED",
+  "VISUAL_EVIDENCE": "evidence/before_after/11_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "receipt preview beside the rows; four action rows",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "inner-scroll",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "inner-scroll"
+  },
+  "viewports_after": {
+   "471x836": "inner-scroll",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "inner-scroll"
+  },
+  "structure_before": {
+   "edge_recall": 0.6396,
+   "edge_precision": 0.783,
+   "mean_abs_diff": 52.23,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.6402,
+   "edge_precision": 0.7846,
+   "mean_abs_diff": 52.18,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "12",
+  "NAME": "ACCOUNT DETAILS AND SETTINGS",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/12_ACCOUNT_DETAILS_AND_SETTINGS.png",
+  "RUNTIME_ROUTE": "money/places/:id/settings",
+  "SOURCE_ASSET_IDS": "SK02_FIELD, papers",
+  "CURRENT_RENDERER": "DetailPages (settings)",
+  "CLASSIFICATION": [
+   "STRUCTURAL_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "content arrangement differs from the authority",
+  "REQUIRED_CHANGE": "per-screen composition (next sprint)",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED",
+  "VISUAL_EVIDENCE": "evidence/before_after/12_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "authority row set and toggles differ",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "inner-scroll",
+   "393x852": "inner-scroll",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "inner-scroll",
+   "430x932": "inner-scroll",
+   "768x1024": "inner-scroll",
+   "834x1194": "ok",
+   "1440x900": "inner-scroll"
+  },
+  "viewports_after": {
+   "471x836": "inner-scroll",
+   "393x852": "inner-scroll",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "inner-scroll",
+   "430x932": "inner-scroll",
+   "768x1024": "inner-scroll",
+   "834x1194": "ok",
+   "1440x900": "inner-scroll"
+  },
+  "structure_before": {
+   "edge_recall": 0.7403,
+   "edge_precision": 0.7433,
+   "mean_abs_diff": 43.63,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.7409,
+   "edge_precision": 0.7447,
+   "mean_abs_diff": 43.59,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "13",
+  "NAME": "ACCOUNT BALANCE REVIEW",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/13_ACCOUNT_BALANCE_REVIEW.png",
+  "RUNTIME_ROUTE": "money/places/:id/review",
+  "SOURCE_ASSET_IDS": "SK02_FIELD, papers",
+  "CURRENT_RENDERER": "DetailPages (review)",
+  "CLASSIFICATION": [
+   "STRUCTURAL_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "content arrangement differs from the authority",
+  "REQUIRED_CHANGE": "per-screen composition (next sprint)",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED",
+  "VISUAL_EVIDENCE": "evidence/before_after/13_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "large TRACKED / ACTUAL figures, DIFFERENCE band, status block",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "inner-scroll",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "inner-scroll"
+  },
+  "viewports_after": {
+   "471x836": "inner-scroll",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "inner-scroll",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "inner-scroll"
+  },
+  "structure_before": {
+   "edge_recall": 0.6447,
+   "edge_precision": 0.7882,
+   "mean_abs_diff": 66.15,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.6278,
+   "edge_precision": 0.8003,
+   "mean_abs_diff": 58.13,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "14",
+  "NAME": "ADD ACCOUNT",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/14_ADD_ACCOUNT.png",
+  "RUNTIME_ROUTE": "overlay d01-add-account",
+  "SOURCE_ASSET_IDS": "SK02_FIELD / SK03_FIELD, papers",
+  "CURRENT_RENDERER": "AccountSheets (add)",
+  "CLASSIFICATION": [
+   "LAYOUT_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "arrangement differs; no missing structure",
+  "REQUIRED_CHANGE": "layout pass (next sprint)",
+  "IMPLEMENTATION_STATUS": "reachability FIXED on short phones (content clamp)",
+  "VISUAL_EVIDENCE": "evidence/before_after/14_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "form fields below the type cards laid out differently",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [
+   "393x660"
+  ],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "UNREACHABLE:d01-cancel",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "ok",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.6065,
+   "edge_precision": 0.7471,
+   "mean_abs_diff": 69.62,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.5959,
+   "edge_precision": 0.7384,
+   "mean_abs_diff": 67.33,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "15",
+  "NAME": "EDIT ACCOUNT",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/15_EDIT_ACCOUNT.png",
+  "RUNTIME_ROUTE": "overlay d01-edit-account",
+  "SOURCE_ASSET_IDS": "SK02_FIELD / SK03_FIELD, papers",
+  "CURRENT_RENDERER": "AccountSheets (edit)",
+  "CLASSIFICATION": [
+   "LAYOUT_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "arrangement differs; no missing structure",
+  "REQUIRED_CHANGE": "layout pass (next sprint)",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED",
+  "VISUAL_EVIDENCE": "evidence/before_after/15_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "purpose tags, balance tracking and status actions arrangement",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "inner-scroll",
+   "393x852": "inner-scroll",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "inner-scroll",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "inner-scroll"
+  },
+  "viewports_after": {
+   "471x836": "inner-scroll",
+   "393x852": "inner-scroll",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "inner-scroll",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "inner-scroll"
+  },
+  "structure_before": {
+   "edge_recall": 0.649,
+   "edge_precision": 0.7473,
+   "mean_abs_diff": 49.2,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.6549,
+   "edge_precision": 0.7479,
+   "mean_abs_diff": 49.02,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "16",
+  "NAME": "RECORD BANK TRANSACTION",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/16_RECORD_BANK_TRANSACTION.png",
+  "RUNTIME_ROUTE": "overlay d01-record",
+  "SOURCE_ASSET_IDS": "SK03_FIELD, papers, founder icons",
+  "CURRENT_RENDERER": "EntrySheets",
+  "CLASSIFICATION": [
+   "ASSET_MISMATCH",
+   "SOURCE_ASSET_BLOCKED",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "per-screen seal / header art not in V9 or any batch",
+  "REQUIRED_CHANGE": "art recovery (report 19)",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED",
+  "VISUAL_EVIDENCE": "evidence/before_after/16_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "bank-column seal not supplied; MERCHANT row added (required)",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.7279,
+   "edge_precision": 0.769,
+   "mean_abs_diff": 58.43,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.7207,
+   "edge_precision": 0.7616,
+   "mean_abs_diff": 59.47,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "17",
+  "NAME": "ADD CASH",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/17_ADD_CASH.png",
+  "RUNTIME_ROUTE": "overlay d01-add-cash",
+  "SOURCE_ASSET_IDS": "SK03_FIELD, papers, founder icons",
+  "CURRENT_RENDERER": "EntrySheets",
+  "CLASSIFICATION": [
+   "ASSET_MISMATCH",
+   "SOURCE_ASSET_BLOCKED",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "per-screen seal / header art not in V9 or any batch",
+  "REQUIRED_CHANGE": "art recovery (report 19)",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED",
+  "VISUAL_EVIDENCE": "evidence/before_after/17_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "amphora-with-coins header art and coin seal not supplied",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "ok",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "ok",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.505,
+   "edge_precision": 0.7331,
+   "mean_abs_diff": 69.44,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.5095,
+   "edge_precision": 0.7357,
+   "mean_abs_diff": 69.68,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "18",
+  "NAME": "RECORD CASH SPENDING",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/18_RECORD_CASH_SPENDING.png",
+  "RUNTIME_ROUTE": "overlay d01-record (cash)",
+  "SOURCE_ASSET_IDS": "SK03_FIELD, papers, founder icons",
+  "CURRENT_RENDERER": "EntrySheets",
+  "CLASSIFICATION": [
+   "ASSET_MISMATCH",
+   "SOURCE_ASSET_BLOCKED",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "per-screen seal / header art not in V9 or any batch",
+  "REQUIRED_CHANGE": "art recovery (report 19)",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED",
+  "VISUAL_EVIDENCE": "evidence/before_after/18_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "amphora seal not supplied; receipt slip under the heading",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.6678,
+   "edge_precision": 0.7489,
+   "mean_abs_diff": 61.02,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.659,
+   "edge_precision": 0.7441,
+   "mean_abs_diff": 61.82,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "19",
+  "NAME": "RECORD CREDIT CARD PURCHASE",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/19_RECORD_CREDIT_CARD_PURCHASE.png",
+  "RUNTIME_ROUTE": "overlay d01-record (card)",
+  "SOURCE_ASSET_IDS": "SK03_FIELD, papers, founder icons",
+  "CURRENT_RENDERER": "EntrySheets",
+  "CLASSIFICATION": [
+   "ASSET_MISMATCH",
+   "SOURCE_ASSET_BLOCKED",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "per-screen seal / header art not in V9 or any batch",
+  "REQUIRED_CHANGE": "art recovery (report 19)",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED",
+  "VISUAL_EVIDENCE": "evidence/before_after/19_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "coin seal not supplied",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.6803,
+   "edge_precision": 0.7341,
+   "mean_abs_diff": 51.49,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.6729,
+   "edge_precision": 0.7274,
+   "mean_abs_diff": 52.05,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "20",
+  "NAME": "RECORD CREDIT CARD PAYMENT",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/20_RECORD_CREDIT_CARD_PAYMENT.png",
+  "RUNTIME_ROUTE": "overlay d01-card-payment",
+  "SOURCE_ASSET_IDS": "SK03_FIELD, papers, founder icons",
+  "CURRENT_RENDERER": "EntrySheets",
+  "CLASSIFICATION": [
+   "ASSET_MISMATCH",
+   "SOURCE_ASSET_BLOCKED",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "per-screen seal / header art not in V9 or any batch",
+  "REQUIRED_CHANGE": "art recovery (report 19)",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED",
+  "VISUAL_EVIDENCE": "evidence/before_after/20_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "card seal not supplied; notice wording block differs slightly",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.7091,
+   "edge_precision": 0.8098,
+   "mean_abs_diff": 51.92,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.721,
+   "edge_precision": 0.8134,
+   "mean_abs_diff": 51.72,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "21",
+  "NAME": "ACCOUNT PURPOSE PREFERENCES",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/21_ACCOUNT_PURPOSE_PREFERENCES.png",
+  "RUNTIME_ROUTE": "overlay d01-purposes",
+  "SOURCE_ASSET_IDS": "SK03 / SK03_FIELD, papers",
+  "CURRENT_RENDERER": "AccountSheets (purposes)",
+  "CLASSIFICATION": [
+   "ASSET_MISMATCH",
+   "SOURCE_ASSET_BLOCKED",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "needed surface / badge art is a Grok correction or rejection",
+  "REQUIRED_CHANGE": "corrected Grok art, founder approval",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED",
+  "VISUAL_EVIDENCE": "evidence/before_after/21_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "chip surfaces await a corrected Batch 05 (CHIP.PARCHMENT rejected)",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.6276,
+   "edge_precision": 0.7281,
+   "mean_abs_diff": 64.86,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.6244,
+   "edge_precision": 0.7274,
+   "mean_abs_diff": 66.08,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "22",
+  "NAME": "EMPTY ACCOUNTS",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/22_EMPTY_ACCOUNTS.png",
+  "RUNTIME_ROUTE": "money/places (no Pockets)",
+  "SOURCE_ASSET_IDS": "SK02_FIELD / SK03_FIELD, papers",
+  "CURRENT_RENDERER": "DirectoryPage (empty)",
+  "CLASSIFICATION": [
+   "LAYOUT_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "arrangement differs; no missing structure",
+  "REQUIRED_CHANGE": "layout pass (next sprint)",
+  "IMPLEMENTATION_STATUS": "reachability FIXED on short phones (content clamp)",
+  "VISUAL_EVIDENCE": "evidence/before_after/22_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "add tiles and empty message arrangement",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [
+   "393x660"
+  ],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "UNREACHABLE:d01-add-first",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "ok",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.6415,
+   "edge_precision": 0.7607,
+   "mean_abs_diff": 64.58,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.642,
+   "edge_precision": 0.7619,
+   "mean_abs_diff": 64.53,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "23",
+  "NAME": "BALANCE ADJUSTMENT REVIEW",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/23_BALANCE_ADJUSTMENT_REVIEW.png",
+  "RUNTIME_ROUTE": "overlay d01-adjust",
+  "SOURCE_ASSET_IDS": "SK03_FIELD, papers",
+  "CURRENT_RENDERER": "CorrectionSheets",
+  "CLASSIFICATION": [
+   "STRUCTURAL_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "content arrangement differs from the authority",
+  "REQUIRED_CHANGE": "per-screen composition (next sprint)",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED",
+  "VISUAL_EVIDENCE": "evidence/before_after/23_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "TRACKED / ACTUAL papers, ADJUSTMENT AMOUNT band",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "inner-scroll",
+   "393x852": "inner-scroll",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "inner-scroll",
+   "430x932": "inner-scroll",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "inner-scroll"
+  },
+  "viewports_after": {
+   "471x836": "inner-scroll",
+   "393x852": "inner-scroll",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "inner-scroll",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "inner-scroll"
+  },
+  "structure_before": {
+   "edge_recall": 0.6236,
+   "edge_precision": 0.774,
+   "mean_abs_diff": 60.72,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.6142,
+   "edge_precision": 0.7723,
+   "mean_abs_diff": 52.92,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "24",
+  "NAME": "TRANSACTION CORRECTION / REVERSAL",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/24_TRANSACTION_CORRECTION_REVERSAL.png",
+  "RUNTIME_ROUTE": "overlay d01-correct",
+  "SOURCE_ASSET_IDS": "SK03_FIELD, papers",
+  "CURRENT_RENDERER": "CorrectionSheets",
+  "CLASSIFICATION": [
+   "STRUCTURAL_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "content arrangement differs from the authority",
+  "REQUIRED_CHANGE": "per-screen composition (next sprint)",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED",
+  "VISUAL_EVIDENCE": "evidence/before_after/24_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "receipt preview beside the rows",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "inner-scroll",
+   "393x852": "inner-scroll",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "inner-scroll",
+   "430x932": "inner-scroll",
+   "768x1024": "inner-scroll",
+   "834x1194": "inner-scroll",
+   "1440x900": "inner-scroll"
+  },
+  "viewports_after": {
+   "471x836": "inner-scroll",
+   "393x852": "inner-scroll",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "inner-scroll",
+   "430x932": "inner-scroll",
+   "768x1024": "inner-scroll",
+   "834x1194": "inner-scroll",
+   "1440x900": "inner-scroll"
+  },
+  "structure_before": {
+   "edge_recall": 0.6123,
+   "edge_precision": 0.769,
+   "mean_abs_diff": 52.56,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.6144,
+   "edge_precision": 0.7704,
+   "mean_abs_diff": 52.52,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "25",
+  "NAME": "ACCOUNT ARCHIVE CONFIRMATION",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/25_ACCOUNT_ARCHIVE_CONFIRMATION.png",
+  "RUNTIME_ROUTE": "overlay d01-archive",
+  "SOURCE_ASSET_IDS": "SK02_FIELD / SK03_FIELD, papers",
+  "CURRENT_RENDERER": "AccountSheets (archive)",
+  "CLASSIFICATION": [
+   "LAYOUT_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "arrangement differs; no missing structure",
+  "REQUIRED_CHANGE": "layout pass (next sprint)",
+  "IMPLEMENTATION_STATUS": "reachability FIXED on short phones (content clamp)",
+  "VISUAL_EVIDENCE": "evidence/before_after/25_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "account summary paper with scene thumbnail",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [
+   "393x660"
+  ],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "UNREACHABLE:d01-keep-active",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.6352,
+   "edge_precision": 0.7463,
+   "mean_abs_diff": 57.76,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.6118,
+   "edge_precision": 0.7352,
+   "mean_abs_diff": 58.97,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "26",
+  "NAME": "CAPTURE RECEIPT",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/26_CAPTURE_RECEIPT.png",
+  "RUNTIME_ROUTE": "overlay d01-receipt-capture",
+  "SOURCE_ASSET_IDS": "SK03 (baked frame, strip, button shapes)",
+  "CURRENT_RENDERER": "ReceiptFlow (capture, full SK03)",
+  "CLASSIFICATION": [
+   "RESPONSIVE_MISMATCH",
+   "ASSET_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "buttons are baked into the SK03 render; at 393\u00d7660 the board foot is below the screen",
+  "REQUIRED_CHANGE": "a short-phone SK03 variant (tighter baked button stack) or a founder-approved exception",
+  "IMPLEMENTATION_STATUS": "PARTIAL (one control half below the fold at 393\u00d7660 only)",
+  "VISUAL_EVIDENCE": "evidence/before_after/26_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "ENTER MANUALLY: top 17 px on screen at 393\u00d7660; the sample receipt in the authority (the runtime shows the camera)",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PASS",
+  "PRIOR_VERDICT_REVALIDATED": "INVALID: unreachable at 393x660",
+  "UNREACHABLE_BEFORE": [
+   "393x660"
+  ],
+  "UNREACHABLE_AFTER": [
+   "393x660"
+  ],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "UNREACHABLE:d01-receipt-manual",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "UNREACHABLE:d01-receipt-manual",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.8877,
+   "edge_precision": 0.9421,
+   "mean_abs_diff": 27.23,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.8885,
+   "edge_precision": 0.9437,
+   "mean_abs_diff": 27.17,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "27",
+  "NAME": "SCANNING RECEIPT",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/27_SCANNING_RECEIPT.png",
+  "RUNTIME_ROUTE": "overlay d01-receipt-scanning",
+  "SOURCE_ASSET_IDS": "SK03 / SK03_FIELD, papers",
+  "CURRENT_RENDERER": "ReceiptFlow (scanning)",
+  "CLASSIFICATION": [
+   "ASSET_MISMATCH",
+   "SOURCE_ASSET_BLOCKED",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "needed surface / badge art is a Grok correction or rejection",
+  "REQUIRED_CHANGE": "corrected Grok art, founder approval",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED",
+  "VISUAL_EVIDENCE": "evidence/before_after/27_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "scan corners / beam await corrected Batch 06 (B06-01 / B06-02 correction required)",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "inner-scroll",
+   "393x852": "inner-scroll",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "inner-scroll",
+   "430x932": "inner-scroll",
+   "768x1024": "inner-scroll",
+   "834x1194": "inner-scroll",
+   "1440x900": "inner-scroll"
+  },
+  "viewports_after": {
+   "471x836": "inner-scroll",
+   "393x852": "inner-scroll",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "inner-scroll",
+   "430x932": "inner-scroll",
+   "768x1024": "inner-scroll",
+   "834x1194": "inner-scroll",
+   "1440x900": "inner-scroll"
+  },
+  "structure_before": {
+   "edge_recall": 0.6068,
+   "edge_precision": 0.7467,
+   "mean_abs_diff": 58.06,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.6004,
+   "edge_precision": 0.7472,
+   "mean_abs_diff": 57.85,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "28",
+  "NAME": "REVIEW EXTRACTED PURCHASE",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/28_REVIEW_EXTRACTED_PURCHASE.png",
+  "RUNTIME_ROUTE": "overlay d01-review-purchase",
+  "SOURCE_ASSET_IDS": "SK03_FIELD, papers",
+  "CURRENT_RENDERER": "EntrySheets (review purchase)",
+  "CLASSIFICATION": [
+   "STRUCTURAL_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "content arrangement differs from the authority",
+  "REQUIRED_CHANGE": "per-screen composition (next sprint)",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED",
+  "VISUAL_EVIDENCE": "evidence/before_after/28_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "receipt preview beside the read values",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "inner-scroll",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "inner-scroll",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.5986,
+   "edge_precision": 0.7568,
+   "mean_abs_diff": 53.49,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.6046,
+   "edge_precision": 0.7527,
+   "mean_abs_diff": 54.88,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "29",
+  "NAME": "RECEIPT EXCEPTION / DUPLICATE",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/29_RECEIPT_EXCEPTION_DUPLICATE.png",
+  "RUNTIME_ROUTE": "overlay d01-receipt-duplicate",
+  "SOURCE_ASSET_IDS": "SK03 / SK03_FIELD, papers",
+  "CURRENT_RENDERER": "EntrySheets (duplicate)",
+  "CLASSIFICATION": [
+   "ASSET_MISMATCH",
+   "SOURCE_ASSET_BLOCKED",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "needed surface / badge art is a Grok correction or rejection",
+  "REQUIRED_CHANGE": "corrected Grok art, founder approval",
+  "IMPLEMENTATION_STATUS": "reachability FIXED on short phones (content clamp)",
+  "VISUAL_EVIDENCE": "evidence/before_after/29_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "duplicate comparison papers + red notice (Batch 06 rejected)",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [
+   "393x660"
+  ],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "UNREACHABLE:d01-enter-manually",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.5756,
+   "edge_precision": 0.7712,
+   "mean_abs_diff": 74.19,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.5848,
+   "edge_precision": 0.7847,
+   "mean_abs_diff": 75.18,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "30",
+  "NAME": "ACCOUNT SETUP DETAILS",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/30_ACCOUNT_SETUP_DETAILS.png",
+  "RUNTIME_ROUTE": "overlay d01-add-account (details)",
+  "SOURCE_ASSET_IDS": "SK02_FIELD / SK03_FIELD, papers",
+  "CURRENT_RENDERER": "AccountSheets (setup details)",
+  "CLASSIFICATION": [
+   "LAYOUT_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "arrangement differs; no missing structure",
+  "REQUIRED_CHANGE": "layout pass (next sprint)",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED",
+  "VISUAL_EVIDENCE": "evidence/before_after/30_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "field list arrangement",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "inner-scroll",
+   "393x852": "inner-scroll",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "inner-scroll",
+   "430x932": "inner-scroll",
+   "768x1024": "inner-scroll",
+   "834x1194": "inner-scroll",
+   "1440x900": "inner-scroll"
+  },
+  "viewports_after": {
+   "471x836": "inner-scroll",
+   "393x852": "inner-scroll",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "inner-scroll",
+   "430x932": "inner-scroll",
+   "768x1024": "inner-scroll",
+   "834x1194": "inner-scroll",
+   "1440x900": "inner-scroll"
+  },
+  "structure_before": {
+   "edge_recall": 0.6826,
+   "edge_precision": 0.7011,
+   "mean_abs_diff": 53.8,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.6844,
+   "edge_precision": 0.7022,
+   "mean_abs_diff": 53.76,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "31",
+  "NAME": "TRANSACTION SEARCH AND FILTER",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/31_TRANSACTION_SEARCH_AND_FILTER.png",
+  "RUNTIME_ROUTE": "money/transactions",
+  "SOURCE_ASSET_IDS": "SK02_FIELD, papers",
+  "CURRENT_RENDERER": "HistoryPage",
+  "CLASSIFICATION": [
+   "STRUCTURAL_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "list structure differs from the authority (functional search / filters kept)",
+  "REQUIRED_CHANGE": "per-screen history composition (next sprint) or founder accepts the functional layout",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED (out of this sprint's priority)",
+  "VISUAL_EVIDENCE": "evidence/before_after/31_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "authority filter chips row + thumbnail list",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "inner-scroll",
+   "393x852": "inner-scroll",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "inner-scroll",
+   "430x932": "inner-scroll",
+   "768x1024": "inner-scroll",
+   "834x1194": "inner-scroll",
+   "1440x900": "inner-scroll"
+  },
+  "viewports_after": {
+   "471x836": "inner-scroll",
+   "393x852": "inner-scroll",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "inner-scroll",
+   "430x932": "inner-scroll",
+   "768x1024": "inner-scroll",
+   "834x1194": "inner-scroll",
+   "1440x900": "inner-scroll"
+  },
+  "structure_before": {
+   "edge_recall": 0.6443,
+   "edge_precision": 0.7729,
+   "mean_abs_diff": 48.29,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.6862,
+   "edge_precision": 0.7731,
+   "mean_abs_diff": 49.92,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "32",
+  "NAME": "REORDER ACCOUNTS",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/32_REORDER_ACCOUNTS.png",
+  "RUNTIME_ROUTE": "money/places (reorder)",
+  "SOURCE_ASSET_IDS": "SK03 / SK03_FIELD, papers",
+  "CURRENT_RENDERER": "DirectoryPage (reorder)",
+  "CLASSIFICATION": [
+   "ASSET_MISMATCH",
+   "SOURCE_ASSET_BLOCKED",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "needed surface / badge art is a Grok correction or rejection",
+  "REQUIRED_CHANGE": "corrected Grok art, founder approval",
+  "IMPLEMENTATION_STATUS": "reachability FIXED on short phones (content clamp)",
+  "VISUAL_EVIDENCE": "evidence/before_after/32_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "six-dot grip art (Batch 04 / 08 is a menu glyph, held)",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [
+   "393x660"
+  ],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "UNREACHABLE:d01-save-order,d01-cancel-order",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "ok",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.6297,
+   "edge_precision": 0.7566,
+   "mean_abs_diff": 56.51,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.6297,
+   "edge_precision": 0.7566,
+   "mean_abs_diff": 56.51,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "33",
+  "NAME": "TRANSACTION REVIEW",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/33_TRANSACTION_REVIEW.png",
+  "RUNTIME_ROUTE": "overlay d01-transaction-review",
+  "SOURCE_ASSET_IDS": "SK03_FIELD, papers",
+  "CURRENT_RENDERER": "EntrySheets (transaction review)",
+  "CLASSIFICATION": [
+   "STRUCTURAL_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "content arrangement differs from the authority",
+  "REQUIRED_CHANGE": "per-screen composition (next sprint)",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED",
+  "VISUAL_EVIDENCE": "evidence/before_after/33_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "receipt preview left, totals paper",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "inner-scroll",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "inner-scroll",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "inner-scroll"
+  },
+  "viewports_after": {
+   "471x836": "inner-scroll",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "inner-scroll",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "inner-scroll"
+  },
+  "structure_before": {
+   "edge_recall": 0.5966,
+   "edge_precision": 0.7281,
+   "mean_abs_diff": 53.36,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.5972,
+   "edge_precision": 0.7261,
+   "mean_abs_diff": 53.21,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "34",
+  "NAME": "RECEIPT CAPTURE FAILURE",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/34_RECEIPT_CAPTURE_FAILURE.png",
+  "RUNTIME_ROUTE": "overlay d01-receipt-failure",
+  "SOURCE_ASSET_IDS": "SK03 / SK03_FIELD, papers",
+  "CURRENT_RENDERER": "ReceiptFlow (failure)",
+  "CLASSIFICATION": [
+   "ASSET_MISMATCH",
+   "SOURCE_ASSET_BLOCKED",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "needed surface / badge art is a Grok correction or rejection",
+  "REQUIRED_CHANGE": "corrected Grok art, founder approval",
+  "IMPLEMENTATION_STATUS": "reachability FIXED on short phones (content clamp)",
+  "VISUAL_EVIDENCE": "evidence/before_after/34_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "caution surface (Batch 06)",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [
+   "393x660"
+  ],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "UNREACHABLE:d01-receipt-manual",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.5672,
+   "edge_precision": 0.6882,
+   "mean_abs_diff": 59.18,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.6323,
+   "edge_precision": 0.7263,
+   "mean_abs_diff": 57.92,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "35",
+  "NAME": "ACCOUNT NEEDS REVIEW",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/35_ACCOUNT_NEEDS_REVIEW.png",
+  "RUNTIME_ROUTE": "money/places/:id/attention",
+  "SOURCE_ASSET_IDS": "SK02_FIELD / SK03_FIELD, papers",
+  "CURRENT_RENDERER": "DetailPages (attention)",
+  "CLASSIFICATION": [
+   "LAYOUT_MISMATCH",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "arrangement differs; no missing structure",
+  "REQUIRED_CHANGE": "layout pass (next sprint)",
+  "IMPLEMENTATION_STATUS": "reachability FIXED on short phones (content clamp)",
+  "VISUAL_EVIDENCE": "evidence/before_after/35_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "account summary card with scene; review-issue rows",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [
+   "393x660"
+  ],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "UNREACHABLE:d01-back-accounts",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "ok",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.5852,
+   "edge_precision": 0.7625,
+   "mean_abs_diff": 61.63,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.5852,
+   "edge_precision": 0.7625,
+   "mean_abs_diff": 61.63,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "36",
+  "NAME": "ARCHIVE BLOCKED",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/36_ARCHIVE_BLOCKED.png",
+  "RUNTIME_ROUTE": "overlay d01-archive-blocked",
+  "SOURCE_ASSET_IDS": "SK03_FIELD, papers, founder icons",
+  "CURRENT_RENDERER": "AccountSheets (archive blocked)",
+  "CLASSIFICATION": [
+   "ASSET_MISMATCH",
+   "SOURCE_ASSET_BLOCKED",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "per-screen seal / header art not in V9 or any batch",
+  "REQUIRED_CHANGE": "art recovery (report 19)",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED",
+  "VISUAL_EVIDENCE": "evidence/before_after/36_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "padlock wax seal (SEAL.LOCK.EMBOSSED) not supplied",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "ok",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "viewports_after": {
+   "471x836": "ok",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "ok",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "ok"
+  },
+  "structure_before": {
+   "edge_recall": 0.6208,
+   "edge_precision": 0.7374,
+   "mean_abs_diff": 77.71,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.6342,
+   "edge_precision": 0.7418,
+   "mean_abs_diff": 76.98,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ },
+ {
+  "SCREEN_ID": "37",
+  "NAME": "CORRECTION / REVERSAL CONFIRMATION",
+  "AUTHORITY_PATH": "01_MOBILE_SCREEN_AUTHORITIES/37_CORRECTION_REVERSAL_CONFIRMATION.png",
+  "RUNTIME_ROUTE": "overlay d01-correct-confirm",
+  "SOURCE_ASSET_IDS": "SK03 / SK03_FIELD, papers",
+  "CURRENT_RENDERER": "CorrectionSheets (confirm)",
+  "CLASSIFICATION": [
+   "ASSET_MISMATCH",
+   "SOURCE_ASSET_BLOCKED",
+   "FOUNDER_APPROVAL_REQUIRED"
+  ],
+  "ROOT_CAUSE": "needed surface / badge art is a Grok correction or rejection",
+  "REQUIRED_CHANGE": "corrected Grok art, founder approval",
+  "IMPLEMENTATION_STATUS": "NOT CHANGED",
+  "VISUAL_EVIDENCE": "evidence/before_after/37_AUTHORITY_BEFORE_AFTER.webp",
+  "REMAINING_DIFFERENCE": "original \u2192 revised comparison badge (Batch 06 rejected)",
+  "FOUNDER_APPROVAL_STATUS": "PENDING",
+  "PRIOR_VERDICT": "PARTIAL",
+  "PRIOR_VERDICT_REVALIDATED": "\u2014",
+  "UNREACHABLE_BEFORE": [],
+  "UNREACHABLE_AFTER": [],
+  "viewports_before": {
+   "471x836": "inner-scroll",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "inner-scroll"
+  },
+  "viewports_after": {
+   "471x836": "inner-scroll",
+   "393x852": "ok",
+   "393x660": "inner-scroll",
+   "375x667": "inner-scroll",
+   "360x780": "ok",
+   "430x932": "ok",
+   "768x1024": "ok",
+   "834x1194": "ok",
+   "1440x900": "inner-scroll"
+  },
+  "structure_before": {
+   "edge_recall": 0.615,
+   "edge_precision": 0.7415,
+   "mean_abs_diff": 50.33,
+   "compared_px": [
+    471,
+    836
+   ]
+  },
+  "structure_after": {
+   "edge_recall": 0.6203,
+   "edge_precision": 0.7388,
+   "mean_abs_diff": 50.09,
+   "compared_px": [
+    471,
+    836
+   ]
+  }
+ }
+]

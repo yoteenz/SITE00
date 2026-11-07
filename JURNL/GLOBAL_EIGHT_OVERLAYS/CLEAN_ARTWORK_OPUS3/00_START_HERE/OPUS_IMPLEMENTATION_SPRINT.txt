@@ -1,0 +1,102 @@
+SPRINT ID:
+P0.JURNL.GLOBAL-OVERLAYS.CLEAN-ARTWORK-CURATED-MOUNT-AND-CHILD-ENVIRONMENT-CONVERGENCE.OPUS3
+
+EXECUTION AGENT: COMPOSER OPUS HIGH
+REPOSITORY: yoteenz/SITE00
+ATTACHMENT: JURNL_CLEAN_ARTWORK_OPUS_HANDOFF_FULL.zip
+EXECUTION: IMPLEMENTATION / DRAFT PR ONLY
+BASELINE: Existing global-eight-overlays menu-recovery draft PR #1718
+KNOWN BRANCH: claude/jurnl-global-eight-overlays-menu-recovery-um0u93
+BASE SHA FROM PRIOR REPORT: a880530d0e443d5efa10a4f12cfe0c411679245a
+VERIFY ACTUAL HEAD FIRST; DO NOT ASSUME IT IS STILL CURRENT.
+MERGE: NONE. DEPLOY: NONE. DB MUTATIONS: NONE. PROVIDER INTEGRATIONS: NONE. PAID IMAGE GENERATION: NONE.
+FOUNDER VISUAL APPROVAL: PENDING.
+
+0. GOAL AND AUTHORITY
+Implement ONLY the qualified clean artwork from the attached curated ZIP, replacing the earlier generic/baked-layout visual mounts. Preserve approved full-screen founder design authorities, existing functional behavior, all 12/12 recovered menu destinations, Safe to Spend calculation correction, and Ask JURNL consent fixes.
+
+The ZIP separates:
+- two newly generated candidate text-free 941x1672 environmental plates for Buffer and Privacy;
+- two Grok PASS text-free artwork compositions (Search and Menu);
+- two isolated text-free Manage Pocket paper action backings;
+- nine CONDITIONAL Grok4 independent Buffer/Privacy art pieces.
+Read 00_START_HERE/README.md, 05_MOUNT_CONTRACT/CURATED_ASSET_MANIFEST.csv, 07_EXCLUDED_AND_GATES/DO_NOT_USE.txt and this entire sprint before editing.
+
+THE FOUR-LAYER CONTRACT:
+L0 environmental SIDEKICK; L1 purpose-designed static or independently mounted material artwork; L2 actual interactive UI (all live labels, inputs, toggles, menus, values, rows, separators, actions); L3 independent objects requiring motion or overlay. An image with artistic torn paper is NOT automatically a form control or a reusable card system.
+
+1. SOURCE INGESTION AND CHANGE SAFETY
+Inspect current branch, PR #1718, and related files; continue the correct branch or create a compatible implementation branch/draft PR if necessary. Do not overwrite unmerged unrelated changes. Copy PNGs into existing JURNL asset directory with predictable names; use runtime bundler imports / asset registry, not /mnt/data or ZIP paths. Preserve source bytes and hash. Do not use low-quality re-exports or CSS approximations for supplied art. Map every mount to manifest entry and screen owner.
+
+2. CORRECTED MOUNT SCOPE — CLEAN ARTWORK
+A. CH01 SAFE TO SPEND BUFFER
+Use 01_CLEAN_ENVIRONMENTS/CH01-BUFFER-CLEAN-ENVIRONMENT.png as an optional new screen environment, replacing the generic orange parchment background in a DRAFT visual comparison. The 941x1672 artwork includes the existing curved top decorative title parchment. It DOES NOT include middle paper panels, bottom buttons, text or values. Do not mount a second copy of the title parchment. Preserve the full classical bust, stone arch, coastline, lemons, olive field, oxblood textile at their intended proportions. Render the title, help text, amount, currency, computed Safe to Spend impact, Back and Save actions as live content. Keep canonical USD accounting and verified conversion behavior. Allow field focus and keyboard without body scroll. Any separate amount/effect/action paper should be mounted independently only if its precise shape, resolution and responsiveness pass review.
+
+B. CH02 PRIVACY & CONSENTS
+Use 01_CLEAN_ENVIRONMENTS/CH02-PRIVACY-CLEAN-ENVIRONMENT.png as the equivalent DRAFT environmental alternative. Includes a static decorative top parchment and lower coins/olive/cloth; does NOT include baked consent rows, toggles, dividers, buttons, or body panels. Render actual consent settings and descriptions, data-rights actions, control states, section separators and navigation entirely live. Important: NOTHING SOLD and LINKED ACCOUNTS OPTIONAL are policy/capability statements; do not blindly implement them as editable consents. Preserve consent-off-stays-off behavior, backend truthfulness for export and access removal. No new AI/provider wiring.
+
+C. OV05 SEARCH
+Replace old prepainted result-well art with 02_GROK_PASS_COMPOSITIONS/OV05-SEARCH-OPEN-COMPOSITION.png. Content list, search field, filters, amounts, dates and result row separators are React-owned. Variable-height rows must work for 0, 1, 4, 20 results and multiline merchant labels. Results scroll within the designated region only. Do not superimpose original cards, paintings, duplicate arch/ledger objects, or ghost source wells.
+
+D. OV08 GLOBAL MENU
+Mount 02_GROK_PASS_COMPOSITIONS/OV08-SECTIONED-MENU-ENVIRONMENT.png without duplicating existing bust, lemon canopy, arch, scenery or textile. Keep all already restored menu functions: YOUR FINANCES, YOUR INTELLIGENCE, YOUR ACCOUNT, 12/12 destinations, accessible privacy/security and truthful placeholders. Section labels, iconography, separators and list scroll must be live. No hardcoded old seven-row layout. The navigation list alone scrolls on short phones; no viewport/body scroll.
+
+E. OV04 MANAGE POCKET
+Use 03_INDEPENDENT_ACTION_ART/OV04-RENAME-CREAM-TEXTFREE.png and OV04-DELETE-BLUSH-TEXTFREE.png as INDEPENDENT textured action backings. Render live button text, focus, hover/pressed state, destructive confirmation and hit targets in code. Do NOT mount old OV04-MANAGE-NOTE.png with the same paper actions already painted in; this would duplicate backings. Recover the existing compact popover's distinct upper parchment/paperclip/landscape or retain current clean nonduplicated elements, but do not fake them with generic rounded form panels. Keep backdrop blur on ACTUAL live account view, not a screenshot.
+
+3. CONDITIONAL ASSETS — EXPLICIT INTEGRATION GATE
+Files in 04_CONDITIONAL_BUFFER_PRIVACY are NOT approved blanket replacements. The separate CH01 amount/effect/Back/Save backings, coin reserve, CH02 Remove Access/Back pieces can be preview-mounted individually ONLY if source size and alpha edges hold at viewport density and they do not duplicate image content. The two CH01/CH02 HEADER PNGs MUST NOT be mounted over the two new clean environments, since their decorative curved heading is already baked there. Known concerns: CH01 Save Buffer missing thin gold rim, CH01 coin still life rebuilt from lower-res source; do not call pixel-perfect. No broad image regeneration; document any remaining artwork deficiencies and return them to ChatGPT authority pipeline.
+
+4. INTENTIONALLY EXCLUDED SOURCES
+Do not install any previous OV02 Add Pocket folio or OV03 Move Money shell carrying ghost FROM/TO/amount/date/selectors. Do not install Grok2 OV07 with prepainted blocker ruling without a dynamic-row separation decision. Do not install full OV01 action image as immutable button UI without independent actionable paper extraction. OV06 F09 remains governed by unresolved FD-12; preserve approved existing F09 drawer. Do not create new art on behalf of the founder.
+
+5. RESPONSIVENESS / ANIMATION CONTRACT
+No anisotropic artwork stretching. Preserve native aspect ratio and torn edges; use layer anchors and properly measured clipping/overflow, not `background-size: 100% 100%`. The two clean environments are FULL OPAQUE images, not magically transparent multi-layer SIDEKICK exports. Their curved top title parchment is static in the supplied file. If the title must independently move/animate, raise a specific asset-extraction requirement and use a real separated art file after approval—never animate the entire scenery to fake it. Separate art-backed controls follow their own layout/motion. No page-level scroll at mobile/tablet/desktop; internal list scroll only. No circular tappable buttons; honor approved JURNL controls.
+
+6. TYPOGRAPHY AND FUNCTION
+Use canonical local font assets. Noncursive system text uppercase, cursive accent lowercase and sparse. Absolutely no baked text, amounts, input outlines, toggles, dividers, rows, icon controls, or button labels on artwork. Preserve all current financial/runtime logic and test selectors. Do not introduce bank sync, real Ask JURNL, external providers, fake support channels, money movement or DB changes.
+
+7. REQUIRED REAL RUNTIME PROOFS
+At 360x640, 393x660, 393x852, 430x932, tablet and desktop: capture ACTUAL browser runtime screenshots for each changed overlay, before/after and at least two density states. Include long amount/currency warning, long privacy descriptions, 0/4/20 Search results, sectioned menu final item reachable, Manage Pocket rename/delete confirming, focus/keyboard states. Verify no duplicated material, clipped actions, or stretched papers. Mark iOS Safari VERIFIED only if actually tested. Typecheck, build, JURNL unit/e2e; compare failures against prior baseline without suppressing tests. Preserve 12/12 menu navigation.
+
+8. DELIVERABLES
+- Code changes and asset registry with SHA256 and provenance.
+- A source-to-runtime mount matrix for all installed/candidate files.
+- Before/after actual viewport screenshots with labels and environment identity.
+- Dedicated tests for no duplicate header/action artwork, no prepainted UI wells, live row reflow, internal scroll, keyboard, consent and Buffer accounting.
+- Report on CH01/CH02 visual comparison against founder authorities and remaining conditional art limitations.
+- Draft PR only; compact and full implementation evidence ZIP.
+- No silent blanket replacement of the eight overlay family.
+
+9. PASS/FAIL REPORT
+SPRINT: P0.JURNL.GLOBAL-OVERLAYS.CLEAN-ARTWORK-CURATED-MOUNT-AND-CHILD-ENVIRONMENT-CONVERGENCE.OPUS3
+STATUS: [FOUNDER_REVIEW / PARTIAL / BLOCKED]
+BASE_BRANCH/SHA: [EXACT]
+WORK_BRANCH/SHA/PR: [EXACT]
+VERIFIED_ASSETS: [COUNT / 15]
+INSTALLED_CLEAN_ENVIRONMENTS: [0-2]
+OV05_SEARCH: [PASS/PARTIAL]
+OV08_SECTIONED_MENU: [PASS/PARTIAL]
+OV04_INDEPENDENT_ACTION_PAPERS: [PASS/PARTIAL]
+CH01_BUFFER: [PASS/PARTIAL]
+CH02_PRIVACY: [PASS/PARTIAL]
+CONDITIONAL_ARTWORK_USED: [FILENAMES OR NONE]
+DUPLICATE_ART: [COUNT]
+BAKED_LIVE_LAYOUT: [COUNT]
+TEXT_BAKED_IN_IMAGES: [COUNT]
+FORM/SEARCH OVERFLOW: [COUNT]
+PAGE_LEVEL_SCROLL: [COUNT]
+UNREACHABLE_ACTIONS: [COUNT]
+MENU_DESTINATIONS: [X / 12]
+SAFE_TO_SPEND_CURRENCY: [RESULT]
+ASK_JURNL_CONSENT: [RESULT]
+FD-12_F09: PRESERVED; NOT SUPERSEDED
+TESTS/BUILD/TYPECHECK: [EXACT]
+IOS_SAFARI: [VERIFIED/UNVERIFIED]
+DB_MUTATIONS: 0
+BANK_AI_PROVIDER_CALLS: 0
+DEPLOY: NONE
+MERGE: NONE
+EVIDENCE_ZIPS: [EXACT]
+FOUNDER_APPROVAL: PENDING
+STOP.

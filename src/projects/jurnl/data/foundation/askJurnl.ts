@@ -36,10 +36,11 @@ export function buildAskJurnlContext(familyId: string, route: string, nodeId: st
 
 export function explainFromContext(ctx: AskJurnlContext): AskJurnlExplanation {
   const records = getRepository().getConsent();
-  if (!consentGranted(records, 'ASK_JURNL_CONTEXT') && !consentGranted(records, 'AI_NATURAL_LANGUAGE')) {
+  // Only the ASK JURNL CONTEXT consent opens the context. An AI consent (natural language, insights) never implies it.
+  if (!consentGranted(records, 'ASK_JURNL_CONTEXT')) {
     return {
       headline: 'ASK JURNL NEEDS CONTEXT PERMISSION',
-      body: 'ENABLE ASK JURNL CONTEXT IN ACCOUNT SETTINGS TO READ THIS FAMILY.',
+      body: 'TURN ON ASK JURNL CONTEXT IN PRIVACY & CONSENTS TO READ THIS FAMILY.',
       state: 'UNAVAILABLE',
     };
   }

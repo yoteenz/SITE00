@@ -1,0 +1,170 @@
+/*
+ * JurnlMicroArt (OPUS5): the GROK2 overlay micro-assets in place of line glyphs. Every rule sizes the art to the box of
+ * the glyph it replaces (same slot, same alignment); no container, border, circle or second shadow is drawn. The images
+ * are decorative and never a target. Scoped to `.jrn`.
+ */
+.jrn .jma {
+  display: block;
+  flex: none;
+  max-width: none;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* ── OV08 GLOBAL MENU rows: icon 21 px in the leading column, chevron 9 × 15 ── */
+.jrn .jgm-port .jv3-nav-item > .jma-icon {
+  width: 21px;
+  height: 21px;
+  justify-self: center;
+}
+.jrn .jv3-nav-item > .jma.jv3-chev,
+.jrn .jv3-fragment .jrn-menu__item > .jma.jv3-chev {
+  width: 9px;
+  height: 15px;
+  opacity: 0.92;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .jrn .jgm-row > .jma-icon {
+    transition: transform var(--jm-micro, 120ms) var(--jm-ease-paper, cubic-bezier(0.22, 0.75, 0.28, 1));
+  }
+  .jrn .jgm-row:active > .jma-icon {
+    transform: translateX(1px);
+  }
+}
+
+/* ── CH02 PRIVACY rows: the glyph column (clamp 16–26 px), the cream chevron ── */
+.jrn .jce-row > .jma-icon,
+.jrn .jce-remove > .jma-icon {
+  width: clamp(16px, 5.4cqw, 26px);
+  height: clamp(16px, 5.4cqw, 26px);
+  justify-self: center;
+}
+.jrn .jce-chev.jma {
+  width: clamp(7px, 2.1cqw, 11px);
+  height: clamp(11px, 3.2cqw, 17px);
+}
+
+/* ── the consent switch: olive (ON) / charcoal (OFF) track, the cream thumb right when ON, left when OFF ── */
+.jrn .jma-switch {
+  position: relative;
+  flex: none;
+  width: 46px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.jrn .jma-switch::before {
+  content: '';
+  position: absolute;
+  inset: -10px -4px; /* 46 px tall touch target, as the switch it replaces */
+}
+.jrn .jma-switch__track {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 280 / 120;
+  transform: translateY(-50%);
+}
+.jrn .jma-switch__thumb {
+  position: absolute;
+  top: 50%;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  transform: translateY(-50%);
+}
+.jrn .jma-switch[data-on='true'] .jma-switch__thumb {
+  left: calc(100% - 20px);
+}
+.jrn .jma-switch:focus-visible {
+  outline: 2px solid var(--v3-gold, #dcab4f);
+  outline-offset: 3px;
+  border-radius: 13px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .jrn .jma-switch__thumb {
+    transition: left 170ms var(--jm-ease-bronze, cubic-bezier(0.3, 0, 0.12, 1));
+  }
+}
+
+/* ── CH01 BUFFER: the (i) mark fills its glyph box ── */
+.jrn .jce-info > .jma {
+  width: 100%;
+  height: 100%;
+}
+
+/* ── OV02 ADD A POCKET: the type icon in its 22 px slot, the check disc on the selected type ── */
+.jrn .jed-choice__icon > .jma {
+  width: 100%;
+  height: 100%;
+}
+.jrn .jed-choice[data-active='true'] .jed-choice__icon > .jma[data-ink='dark'] {
+  /* no light variant was supplied for these types (only the bank): the dark ink is shown light on the olive selected
+     chip, as GROK2 made its cream inks (see 03_FOUNDER_APPROVAL_AND_BLOCKERS.md) */
+  filter: invert(1) sepia(0.28) brightness(0.96);
+}
+.jrn .jed-choice__check.jma {
+  width: 15px;
+  height: 15px;
+}
+
+/* ── OV01 MONEY ACTION / OV04 MANAGE POCKET: the dark chevron in the 9 × 15 chevron box ── */
+.jrn .jed-chev.jma {
+  width: 9px;
+  height: 15px;
+}
+.jrn .jrn-pop.jv3-fragment.jsp-note-pop .jsp-menu-paper > .jma-icon {
+  width: clamp(13px, 5cqw, 20px);
+  height: clamp(13px, 5cqw, 20px);
+}
+
+/* ── OV03 MOVE MONEY: the source bank / destination pocket mark beside the selected pocket ── */
+.jrn .jed-pick__body {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+.jrn .jed-pick__mark {
+  width: 24px;
+  height: 24px;
+}
+/* ── OV05 SEARCH: the magnifier inside the field, the filter and result marks in their 18 px slots ── */
+.jrn .jsx-field__box {
+  position: relative;
+}
+.jrn .jsx-field__box > .jma {
+  position: absolute;
+  left: 3cqw;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translateY(-50%);
+}
+.jrn .jsx-field__box > .jsx-field__input {
+  width: 100%;
+  padding-left: calc(3cqw + 26px);
+}
+.jrn .jsx-chip > .jma,
+.jrn .jsx-row > .jma {
+  width: 18px;
+  height: 18px;
+}
+
+/* ── OV02 / OV03 footers: the authority's own CANCEL / SAVE / RECORD papers, at their native proportion ── */
+.jrn .jed-action__paperart {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 7px rgba(0, 0, 0, 0.45));
+}

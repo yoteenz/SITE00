@@ -15,7 +15,7 @@ import { f05World } from './jurnl-f05-world';
 
 const TODAY = getTodayKey();
 
-function purchase(id: string, account: JurnlAccountRecord, merchant: string, amount: number, category: string, daysAgo: number, at: string): LedgerEntry {
+export function purchase(id: string, account: JurnlAccountRecord, merchant: string, amount: number, category: string, daysAgo: number, at: string): LedgerEntry {
   const occurred_on = addDays(TODAY, -daysAgo);
   const card = account.account_type === 'CREDIT_CARD';
   return {

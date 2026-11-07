@@ -6,6 +6,8 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { commitmentParts, computeMoneyCarousel, COLLECTIONS } from '../src/projects/jurnl/data/f05/moneyCarousel';
+import { f05BoardType, F05_PAPER_VALUE_ROW_SUB_PX, panelNameFont, paperRhythm, PANEL_TITLE_LINES } from '../src/projects/jurnl/runtime/screens/f05/CarouselPanelPaper';
+import { F05_COMPOSITION as C } from '../src/projects/jurnl/runtime/screens/f05/f05Composition';
 import { computeMoneyParentReading } from '../src/projects/jurnl/data/f05/moneyParentReading';
 import { computeSafeToSpend, nextExpectedIncome } from '../src/projects/jurnl/data/f09/safeToSpend';
 import { createBillOrSubscription } from '../src/projects/jurnl/data/f07/obligationLifecycle';
@@ -54,7 +56,7 @@ describe('Collection 02 — transfers follow the #1706 settlement model', () => 
   it('nothing in progress: honest empty panels, no invented amounts', () => {
     const t = read().transfers;
     expect(t.map((p) => [p.id, p.value.kind])).toEqual([['in_transit', 'none'], ['pending', 'none'], ['scheduled', 'none'], ['recent', 'link']]);
-    expect(t[0]!.value).toMatchObject({ text: 'NONE', caption: 'NOTHING IN TRANSIT' });
+    expect(t[0]!.value).toMatchObject({ text: 'NONE', caption: 'NOTHING MOVING' });
   });
 
   it('in transit, pending and scheduled sum their own states; balances follow the ledger', () => {
@@ -130,7 +132,7 @@ describe('Collection 04 — outlook', () => {
   });
 
   it('spending is the recorded spending of the last 30 days; forecast opens F15', () => {
-    expect(panel('outlook', 'insights').value).toMatchObject({ kind: 'none', caption: 'NOTHING RECORDED' });
+    expect(panel('outlook', 'insights').value).toMatchObject({ kind: 'none', caption: 'NO RECORDS' });
     recordExpense({ merchant: 'GROCER', amount: 42.5, account_id: 'bank', category: 'GROCERIES', occurred_on: TODAY });
     expect(panel('outlook', 'insights').value).toMatchObject({ kind: 'amount', amount: 42.5, caption: 'LAST 30 DAYS' });
     expect(panel('outlook', 'insights').aria).toContain('RECORDED IN THE LAST 30 DAYS');
@@ -196,5 +198,27 @@ describe('The E2E carousel world is what the app itself records', () => {
     expect(v('outlook', 'next_income')).toMatchObject({ kind: 'amount', amount: 780 });
     expect(v('outlook', 'insights')).toMatchObject({ kind: 'amount', amount: 80.5 });
     expect(c.reading.held).toBe(1217.5 + 722 + 350);
+  });
+});
+
+describe('Panel paper rhythm', () => {
+  it('adds 4px to the bills + subscriptions panel title only', () => {
+    const bills = read().commitments.find((p) => p.id === 'bills')!;
+    const savings = read().commitments.find((p) => p.id === 'savings')!;
+    expect(panelNameFont(bills)).toMatch(/\+ 4px\)$/);
+    expect(panelNameFont(savings)).not.toContain('+ 4px');
+  });
+
+  it('subtracts one extra screen px from paper value row type', () => {
+    expect(f05BoardType(46, F05_PAPER_VALUE_ROW_SUB_PX)).toBe('calc(46px - var(--f05-type-nudge, 0px) - 1px)');
+  });
+
+  it('reserves two title lines so one-line and two-line panels share amount and caption rows', () => {
+    const h = 292;
+    const one = paperRhythm(1, h);
+    const two = paperRhythm(2, h);
+    expect(one.amountTop).toBe(two.amountTop);
+    expect(one.captionTop).toBe(two.captionTop);
+    expect(one.amountTop).toBe(C.panel.nameTop + PANEL_TITLE_LINES * C.card.namePitch + C.panel.amountGap);
   });
 });

@@ -4,7 +4,7 @@
  * Every write goes through the canonical ledger operations; every figure is derived from repository records.
  */
 
-import { useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import type { JurnlAccountRecord } from '../../data/foundation/accounts';
 import { addDays, formatCalendarDate, formatRelativeDate, getTodayKey, isCalendarDate, type CalendarDate, type RecurrenceType } from '../../data/foundation/dates';
 import type { EarningsSourceKind, JurnlDailyEarnings, TipsMode } from '../../data/foundation/dailyEarnings';
@@ -33,6 +33,10 @@ import { applyOp } from '../../data/ledger/ledgerOps';
 import { getRepository } from '../../data/repository/deviceRepository';
 import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
 import { useJurnl } from '../state/store';
+import { EdAction, EdChoices, EditorialOverlay, type EdPlate } from '../surfaces/editorial/Editorial';
+import { PocketPick } from '../surfaces/editorial/MoneyOverlays';
+import { respond, type ResponseName } from '../motion/materials';
+import { useStateResponse } from '../motion/useMotion';
 
 // ─── Small shared pieces ─────────────────────────────────────────────────────
 
@@ -95,7 +99,24 @@ function Facts({ rows, testId }: { rows: [string, ReactNode][]; testId?: string 
 }
 
 function ErrorLine({ error }: { error: string | null }) {
-  return error ? <p className="jrn-field__error" role="alert">{error}</p> : null;
+  // a refusal appears: one brief, local nudge of the line itself (never a figure)
+  const ref = useRef<HTMLParagraphElement>(null);
+  useEffect(() => {
+    if (error) respond(ref.current, 'errorNudge');
+  }, [error]);
+  return error ? <p ref={ref} className="jrn-field__error" role="alert">{error}</p> : null;
+}
+
+/**
+ * The transfer's recorded state, answered once when it changes (never on open): ARRIVED settles the status line; a
+ * failure, a return, a reversal or a record that needs reconciling settles it calmly once. Recorded, scheduled, pending
+ * and in transit get no motion: nothing has finished, and JURNL invents no progress.
+ */
+export function transferStateResponse(prev: TransferState, next: TransferState): ResponseName | null {
+  if (prev === next) return null;
+  if (next === 'COMPLETED') return 'paperSettle';
+  if (next === 'FAILED' || next === 'RETURNING' || next === 'REVERSED' || next === 'NEEDS_RECONCILIATION') return 'warningSettle';
+  return null;
 }
 
 function useResult() {
@@ -304,6 +325,15 @@ export function startOptions(fromName: string, toCard: boolean): { id: TransferS
       ];
 }
 
+/** OV03 regions on the regenerated shell (941 × 1672): headline above the seal, FROM / TO / ledger below it, actions left of the coins. */
+export const OV03_PLATE = {
+  art: 'OV03_MOVE_MONEY_SHELL',
+  head: [0.06, 0.232, 0.94, 0.366],
+  body: [0.1, 0.56, 0.9, 0.795],
+  /** the full width of the paper, above the coins (x > 0.65 from y 0.87) */
+  foot: [0.08, 0.8, 0.92, 0.866],
+} as const satisfies EdPlate;
+
 export function TransferSheet({ fromId, toId, onClose }: { fromId?: string | null; toId?: string | null; onClose: () => void }) {
   useCurrency();
   useRepoTick();
@@ -328,46 +358,60 @@ export function TransferSheet({ fromId, toId, onClose }: { fromId?: string | nul
     PENDING: 'NO BALANCE CHANGES YET. MARK WHEN THE MONEY LEAVES AND WHEN IT ARRIVES.',
     SCHEDULED: 'NO BALANCE CHANGES. MARK IT WHEN IT HAPPENS.',
   };
+  const accounts = getRepository().listAccounts().filter((a) => a.status === 'ACTIVE');
+  const position = (a: JurnlAccountRecord) => {
+    const p = positionsNow().find((x) => x.account_id === a.account_id);
+    return p ? (p.nature === 'LIABILITY' ? `${money(p.owed)} OWED` : money(p.held)) : '';
+  };
+  const save = () =>
+    run(recordTransfer({ from_account_id: from, to_account_id: to, amount: value ?? 0, occurred_on: date.trim() as CalendarDate, start, memo, allowDuplicate: allowDup }), (v) => {
+      showToast({ tone: 'success', title: v.kind === 'CARD_PAYMENT' ? 'CARD PAYMENT RECORDED' : 'TRANSFER RECORDED', body: `${money(value ?? 0)} · ${(v.kind === 'CARD_PAYMENT' ? CARD_PAYMENT_STATE_LABEL : TRANSFER_STATE_LABEL)[start]} · RECORDED BY YOU, NOT CONFIRMED BY A BANK.`, testId: 'transfer-result' });
+      onClose();
+    });
+  // founder OV03 shell (regenerated, named correct 2026-11-06): the paper with its twine and direction seal is the shell's;
+  // the headline and the honesty note sit above the seal, FROM / TO and the ledger below it. JURNL records it; it moves nothing.
   return (
-    <JurnlDrawer
-      expression="form"
-      size="long"
+    <EditorialOverlay
       testId="transfer-sheet"
-      title={toCard ? 'PAY A CARD' : 'MOVE MONEY'}
-      lead="BETWEEN YOUR OWN ACCOUNTS. THIS IS NOT INCOME OR SPENDING. JURNL RECORDS IT; IT DOES NOT MOVE REAL MONEY."
+      composition="transfer"
+      title={toCard ? ['PAY A CARD'] : ['MOVE MONEY']}
+      script={toCard ? 'record a card payment' : 'transfer between your pockets'}
+      place="bottom"
       onClose={onClose}
+      plate={OV03_PLATE}
+      headNote={
+        <>
+          BETWEEN YOUR OWN ACCOUNTS. NOT INCOME OR SPENDING.
+          <br />
+          JURNL RECORDS IT; IT DOES NOT MOVE REAL MONEY.
+        </>
+      }
       footer={
         <>
           <ErrorLine error={error} />
           {error && /ALREADY RECORDED/.test(error) ? (
-            <JurnlButton variant="secondary" trigger="transfer-allow-duplicate" onClick={() => setAllowDup(true)}>{allowDup ? 'IT HAPPENED TWICE ✓' : 'IT HAPPENED TWICE'}</JurnlButton>
+            <EdAction trigger="transfer-allow-duplicate" material="cream" title={allowDup ? 'IT HAPPENED TWICE ✓' : 'IT HAPPENED TWICE'} onClick={() => setAllowDup(true)} className="jed-action--wide" />
           ) : null}
-          <JurnlButton
-            trigger="transfer-save"
-            disabled={value == null || !isCalendarDate(date.trim())}
-            onClick={() =>
-              run(recordTransfer({ from_account_id: from, to_account_id: to, amount: value ?? 0, occurred_on: date.trim() as CalendarDate, start, memo, allowDuplicate: allowDup }), (v) => {
-                showToast({ tone: 'success', title: v.kind === 'CARD_PAYMENT' ? 'CARD PAYMENT RECORDED' : 'TRANSFER RECORDED', body: `${money(value ?? 0)} · ${(v.kind === 'CARD_PAYMENT' ? CARD_PAYMENT_STATE_LABEL : TRANSFER_STATE_LABEL)[start]} · RECORDED BY YOU, NOT CONFIRMED BY A BANK.`, testId: 'transfer-result' });
-                onClose();
-              })
-            }
-          >
-            {toCard ? 'RECORD CARD PAYMENT' : 'RECORD TRANSFER'}
-          </JurnlButton>
+          <EdAction trigger="transfer-cancel" material="cream" paper="B05-MOVE-CANCEL" title="CANCEL" onClick={onClose} />
+          <EdAction trigger="transfer-save" material="olive" paper="B05-RECORD-TRANSFER" title={toCard ? 'RECORD CARD PAYMENT' : 'RECORD TRANSFER'} disabled={value == null || !isCalendarDate(date.trim())} onClick={save} />
         </>
       }
     >
-      <AccountChips label="FROM" value={from} onChange={setFrom} trigger="transfer-from" filter={assetOnly} />
-      {fromPos ? <p className="jrn-currency__note">{`${fromPos.account.display_name} HAS ${money(fromPos.held)} RECORDED.`}</p> : null}
-      <AccountChips label="TO" value={to} onChange={setTo} trigger="transfer-to" filter={(a) => a.account_id !== from} />
-      <JurnlInput label="AMOUNT" value={amount} onValue={setAmount} trigger="transfer-amount" inputMode="decimal" />
-      <JurnlInput label="DATE (YYYY-MM-DD)" value={date} onValue={setDate} trigger="transfer-date" inputMode="numeric" />
-      <p className="jrn-eyebrow">WHERE IS THE MONEY NOW?</p>
-      <Chips label="WHERE IS THE MONEY NOW" value={start} options={startOptions(fromName, toCard)} onChange={setStart} trigger="transfer-status" />
-      <p className="jrn-currency__note" data-testid="transfer-effect">{effect[start]}</p>
-      <JurnlInput label="NOTE (OPTIONAL)" value={memo} onValue={setMemo} trigger="transfer-memo" />
-      {toCard ? <p className="jrn-currency__note">PAYING A CARD LOWERS WHAT IT OWES. IT IS NOT A SECOND PURCHASE.</p> : null}
-    </JurnlDrawer>
+ {/* the direction seal is the shell's own (between the headline and FROM): no second seal is drawn */}
+      <PocketPick dir="FROM" accountId={from} options={accounts.filter(assetOnly)} figure={position} onChange={setFrom} trigger="transfer-from" />
+      <PocketPick dir="TO" accountId={to} options={accounts.filter((a) => a.account_id !== from)} figure={position} onChange={setTo} trigger="transfer-to" />
+      <div className="jed-sheet" style={{ marginTop: 10 }}>
+        <div className="jed-ledger">
+          <div className="jed-field"><JurnlInput label="AMOUNT" value={amount} onValue={setAmount} trigger="transfer-amount" inputMode="decimal" /></div>
+          <div className="jed-field"><JurnlInput label="DATE (YYYY-MM-DD)" value={date} onValue={setDate} trigger="transfer-date" inputMode="numeric" /></div>
+        </div>
+        <span className="jed-label">WHERE IS THE MONEY NOW?</span>
+        <EdChoices label="WHERE IS THE MONEY NOW" value={start} options={startOptions(fromName, toCard)} onChange={setStart} trigger="transfer-status" />
+        <p className="jed-note" data-testid="transfer-effect">{effect[start]}</p>
+        <div className="jed-field" style={{ marginTop: 8 }}><JurnlInput label="NOTE (OPTIONAL)" value={memo} onValue={setMemo} trigger="transfer-memo" /></div>
+        {toCard ? <p className="jed-note">PAYING A CARD LOWERS WHAT IT OWES. IT IS NOT A SECOND PURCHASE.</p> : null}
+      </div>
+    </EditorialOverlay>
   );
 }
 
@@ -380,6 +424,8 @@ export function TransferDetailSheet({ linkId, onClose }: { linkId: string; onClo
   const [askReturned, setAskReturned] = useState(false);
   const { error, run } = useResult();
   const v = transferViews(getRepository().listTransactions(), today).find((x) => x.linkId === linkId);
+  const statusRow = useRef<HTMLLIElement>(null);
+  useStateResponse<TransferState | null>(v?.state ?? null, statusRow, (p, n) => (p && n ? transferStateResponse(p, n) : null));
   if (!v) return null;
   const name = (id: string | null) => getRepository().listAccounts().find((a) => a.account_id === id)?.display_name ?? '—';
   const labels = v.kind === 'CARD_PAYMENT' ? CARD_PAYMENT_STATE_LABEL : TRANSFER_STATE_LABEL;
@@ -429,7 +475,7 @@ export function TransferDetailSheet({ linkId, onClose }: { linkId: string; onClo
       }
     >
       <ul className="jrn-why" data-testid="transfer-detail-facts" data-state={v.state}>
-        <li><span>STATUS</span><b>{labels[v.state]}</b></li>
+        <li ref={statusRow} data-testid="transfer-detail-status"><span>STATUS</span><b>{labels[v.state]}</b></li>
         <li><span>AMOUNT</span><b>{money(v.amount)}</b></li>
         <li><span>FROM</span><b>{name(v.fromId)}</b></li>
         <li><span>TO</span><b>{name(v.toId)}</b></li>

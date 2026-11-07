@@ -8,6 +8,7 @@
  *   23  tracked vs actual: the difference is recorded as one BALANCE CORRECTION (never income, never spending).
  */
 import { useRef, useState, type CSSProperties } from 'react';
+import { screenSeal } from '../screenSeals';
 import { accountView } from '../../../../../data/f05/dot01/accountView';
 import { applyCorrection, correctionCheck, previewCorrection, reverseEntry, type CorrectionChange, type CorrectionPreview } from '../../../../../data/f05/dot01/corrections';
 import { previewReversal, type Impact } from '../../../../../data/f05/dot01/entry';
@@ -19,12 +20,12 @@ import { toCents } from '../../../../../data/ledger/accounting';
 import { parseMoneyInput } from '../../../../../data/ledger/ledgerOps';
 import { useJurnl } from '../../../../state/store';
 import { DOT01 } from '../dot01Assets';
-import { Dot01Overlay } from '../Dot01Frame';
+import { Dot01Overlay, useSearchAddChips, OVERLAY_CONTENT } from '../Dot01Frame';
 import { shortDate } from '../HistoryPage';
 import { Chevron, Icon } from '../icons';
-import { Alert, Button, Paper, Row, SelectInput, TextInput } from '../kit';
+import { Alert, Button, FigureBand, FigurePair, Paper, PlaceStrip, Row, SelectInput, TextInput } from '../kit';
 
-const CONTENT = { x: 30, y: 590, w: 881, h: 1076 };
+const CONTENT = OVERLAY_CONTENT;
 const CATEGORIES = ['GROCERIES', 'FOOD', 'DINING', 'FOOD & DRINK', 'FUEL', 'TRANSPORT', 'HOUSING', 'UTILITIES', 'HEALTH', 'CLOTHING', 'SHOPPING', 'MEMBERSHIP', 'TRAVEL', 'OTHER'];
 
 export type CorrectionMode = 'options' | 'edit' | 'category' | 'account';
@@ -44,6 +45,7 @@ function balanceChange(impact: { before: number; after: number; liability: boole
 
 export function CorrectionOverlay({ entryId, mode, onClose, onDone }: { entryId: string; mode: CorrectionMode; onClose: () => void; onDone?: (msg: string) => void }) {
   const { go } = useJurnl();
+  const searchAdd = useSearchAddChips();
   const live = correctionCheck(entryId);
   // the entry as it was when the overlay opened: after a reversal it is gone from the ledger, and the confirmation
   // (and DONE) still has to show what was removed
@@ -68,7 +70,7 @@ export function CorrectionOverlay({ entryId, mode, onClose, onDone }: { entryId:
   const entry = live.ok ? live.entry : step === 'done' ? opened.current : null;
   if (step !== 'done' && (!check.ok || !entry)) {
     return (
-      <Dot01Overlay testId="d01-correct" env="SK03_FIELD" title={['CORRECT', 'TRANSACTION']} onClose={onClose} contentRect={CONTENT} label="CORRECT TRANSACTION" content={
+      <Dot01Overlay testId="d01-correct" env="SK03_FIELD" layers={screenSeal('24', 'env')} stripIcons="tiles" title={['CORRECT', 'TRANSACTION']} onClose={onClose} contentRect={CONTENT} label="CORRECT TRANSACTION" content={
         <>
           <Alert role="alert" testId="d01-correct-refused">{check.ok ? '' : check.reason}</Alert>
           {!check.ok && check.owner ? <Button trigger="d01-correct-owner" onClick={() => go(check.owner!.route)}>{check.owner.label}</Button> : null}
@@ -167,7 +169,7 @@ export function CorrectionOverlay({ entryId, mode, onClose, onDone }: { entryId:
     const change = balanceChange(impact);
     const revised = preview?.revised;
     return (
-      <Dot01Overlay testId="d01-correct-confirm" env="SK03_FIELD" title={['CONFIRM', 'CORRECTION']} subtitle="review the changes" onClose={onClose} contentRect={CONTENT} contentScroll label="CONFIRM CORRECTION" content={
+      <Dot01Overlay testId="d01-correct-confirm" chips={searchAdd} env="SK03_FIELD" title={['CONFIRM', 'CORRECTION']} subtitle="review the changes" onClose={onClose} contentRect={CONTENT} contentScroll label="CONFIRM CORRECTION" content={
         <>
           <div className="d01-split">
             <Paper kind="panel" testId="d01-original">
@@ -255,7 +257,7 @@ export function CorrectionOverlay({ entryId, mode, onClose, onDone }: { entryId:
     );
 
   return (
-    <Dot01Overlay testId="d01-correct" env="SK03_FIELD" title={['CORRECT', 'TRANSACTION']} subtitle="fix or reverse this entry" onClose={onClose} contentRect={CONTENT} contentScroll label="CORRECT TRANSACTION" content={
+    <Dot01Overlay testId="d01-correct" env="SK03_FIELD" layers={screenSeal('24', 'env')} stripIcons="tiles" title={['CORRECT', 'TRANSACTION']} subtitle="fix or reverse this entry" onClose={onClose} contentRect={CONTENT} contentScroll label="CORRECT TRANSACTION" content={
       <>
         {summary}
         <p className="d01-note" style={{ textAlign: 'center', color: '#efe3cb' }}>USE THIS IF THE ENTRY IS WRONG OR DUPLICATED</p>
@@ -301,25 +303,18 @@ export function AdjustmentOverlay({ accountId, actual, onClose, onDone }: { acco
     else onClose();
   };
   return (
-    <Dot01Overlay testId="d01-adjust" env="SK03_FIELD" title={['BALANCE', 'ADJUSTMENT']} subtitle="review before saving" onClose={onClose} contentRect={CONTENT} contentScroll label="BALANCE ADJUSTMENT" content={
+    <Dot01Overlay testId="d01-adjust" env="SK03_FIELD" layers={screenSeal('23', 'env')} title={['BALANCE', 'ADJUSTMENT']} subtitle="review before saving" onClose={onClose} contentRect={CONTENT} contentScroll label="BALANCE ADJUSTMENT" content={
       <>
-        <Paper kind="blank">
-          <Row icon={v.liability ? 'card' : 'bank'} label={v.account.display_name} />
-        </Paper>
-        <div className="d01-split">
-          <Paper kind="panel">
-            <p className="d01-note">{v.liability ? 'TRACKED OWED' : 'TRACKED BALANCE'}</p>
-            <b className="d01-big" data-testid="d01-adjust-tracked">{formatMoney(rec.tracked)}</b>
-          </Paper>
-          <Paper kind="panel">
-            <p className="d01-note">{v.liability ? 'ACTUAL OWED' : 'ACTUAL BALANCE'}</p>
-            <b className="d01-big" data-testid="d01-adjust-actual">{formatMoney(actual)}</b>
-          </Paper>
-        </div>
+        <PlaceStrip icon={v.liability ? 'card' : 'bank'} label={v.account.display_name} />
+        {/* authority 23: TRACKED / ACTUAL papers, the ADJUSTMENT AMOUNT on the dark band, then reason, date and notes */}
+        <FigurePair
+          left={{ label: v.liability ? ['TRACKED', 'OWED'] : ['TRACKED', 'BALANCE'], value: formatMoney(rec.tracked), testId: 'd01-adjust-tracked', cents: Math.round(rec.tracked * 100) }}
+          right={{ label: v.liability ? ['ACTUAL', 'OWED'] : ['ACTUAL', 'BALANCE'], value: formatMoney(actual), testId: 'd01-adjust-actual', cents: Math.round(actual * 100) }}
+        />
+        <FigureBand label={['ADJUSTMENT', 'AMOUNT']} value={formatMoney(diff, true)} testId="d01-adjust-amount" />
         <Paper kind="sheet">
-          <Row icon="scale" label="ADJUSTMENT AMOUNT" value={formatMoney(diff, true)} testId="d01-adjust-amount" sub="A BALANCE CORRECTION · NOT INCOME, NOT SPENDING" />
           <SelectInput label="ADJUSTMENT REASON" icon="tag" trigger="d01-adjust-reason" value={reason} onValue={setReason} options={ADJUST_REASONS} placeholder="SELECT REASON" />
-          <Row icon="calendar" label="DATE" value={shortDate(today)} sub="RECORDED AS OF TODAY" />
+          <Row icon="calendar" label="DATE" value={shortDate(today)} />
           <TextInput label="NOTES" icon="note" value={notes} onValue={setNotes} trigger="d01-adjust-notes" placeholder="ADD NOTES" />
         </Paper>
         <Alert testId="d01-adjust-only">THIS WILL CHANGE THE TRACKED BALANCE ONLY</Alert>

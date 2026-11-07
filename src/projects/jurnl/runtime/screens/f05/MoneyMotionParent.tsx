@@ -17,18 +17,20 @@ import { flushSync } from 'react-dom';
 import { COLLECTIONS, computeMoneyCarousel, type CarouselPanel, type CollectionId } from '../../../data/f05/moneyCarousel';
 import { type MoneyParentAccount, type MoneyParentTransfer, type MoneyPaperArt } from '../../../data/f05/moneyParentReading';
 import { formatMoney, useCurrency, useRepoTick } from '../../../data/home/money';
-import { JurnlButton, JurnlDrawer } from '../../components/primitives';
 import { JurnlProductNav } from '../../components/ProductNav';
 import { SafeHorizonSheet } from '../../finance/SafeHorizonSheet';
 import { TransferDetailSheet, TransferSheet } from '../../finance/FinanceSheets';
+import { MoneyActionSheet } from '../../surfaces/editorial/MoneyOverlays';
+import { GlobalSearchDrawer } from '../../surfaces/editorial/SearchDrawer';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../../global/GlobalSheets';
 import { useJurnl } from '../../state/store';
 import { JurnlScreen, type FamilyPlate } from '../JurnlScreen';
 import { AddPlaceSheet } from '../MoneyScreens';
-import { accountPaperRect, accountRailGap, accountRailViewport, bottomRowItems, computeF05MotionLayout, PAPERS_PER_COLLECTION, SEAM_A, SEAM_C, SRC_H, SRC_W, toScreen, type Rect } from './f05MotionLayout';
+import { accountPaperRect, accountRailGap, accountRailViewport, bottomRowItems, computeF05MotionLayout, F05_MOTION_NAV_NUDGE_SCREEN, motionBoardToScreen, PAPERS_PER_COLLECTION, SEAM_A, SEAM_C, SRC_H, SRC_W, toScreen, type Rect } from './f05MotionLayout';
 import { F05_COMPOSITION as C } from './f05Composition';
-import { amountSize, CarouselPanelPaper, f05BoardType, nameFont } from './CarouselPanelPaper';
+import { ACCOUNT_PAPER_TITLE_LINES, amountSize, CarouselPanelPaper, f05BoardType, F05_PAPER_VALUE_ROW_SUB_PX, nameFont } from './CarouselPanelPaper';
 import { useMoneyCarousel } from './useMoneyCarousel';
+import { patchF05Nav, readF05Nav } from './f05NavPersistence';
 import geometry from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_GEOMETRY.json';
 import sidekick from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_SIDEKICK.webp';
 import panelTile from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_PANEL_TILE.webp';
@@ -40,6 +42,10 @@ import cardBank from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_B
 import cardPayout from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_PAYOUT.webp';
 import cardCash from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_CASH.webp';
 import cardCredit from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD_CREDIT.webp';
+import { useLongPress, usePocketManager } from './dot01/PocketManager';
+import { useAmbientChannels } from '../../motion/useMotion';
+import { respond } from '../../motion/materials';
+import { claimMenuArt, JurnlUtilityArtButton } from '../../components/JurnlUtilityArtButton';
 import './jurnl-f05-motion.css';
 import './jurnl-f05-carousel.css';
 
@@ -50,6 +56,10 @@ const box = (r: { box: number[] }): Rect => ({ x: r.box[0]!, y: r.box[1]!, w: r.
 const at = (r: Rect): CSSProperties => ({ left: r.x, top: r.y, width: r.w, height: r.h });
 const TITLE = box(geometry.title_paper);
 const SEAL = box(geometry.wax_seal);
+/** Ambient light sits over the baked scenery (arch and coast, top right of the SIDEKICK); the art itself never moves. */
+const LIGHT: Rect = { x: SRC_W * 0.6, y: 0, w: SRC_W * 0.4, h: SRC_H * 0.36 };
+/** The parent offers soft light (D) over the scenery and material presence (C) on the wax seal: the only independent art. */
+const PARENT_AMBIENT = ['D', 'C'] as const;
 /** Approved chip squares (source px). The global menu takes the far-right square; search and add move one left. */
 const CHIP = C.chips.size;
 const CHIP_GAP = C.chips.gap;
@@ -95,6 +105,10 @@ const bez = (p: Thread, k: number): Pt => ({
  * Where a transfer's thread runs, from its canonical state only. Not left yet (scheduled, submitted, unconfirmed):
  * the token rests at the source. In transit / returning: the token rests between the papers. Finished: no thread.
  */
+/** Lowest board y a resting token's centre may reach: the metric buttons end at labelTop − 12 + 104 (CSS height),
+ *  then half the token (24) and a 6 px margin. */
+const TOKEN_MIN_Y = C.band.labelTop - 12 + 104 + 24 + 6;
+
 function threadFor(t: MoneyParentTransfer, A: Rect, B: Rect): Thread {
   const sameRow = Math.abs(A.y - B.y) < 20;
   let a: Pt;
@@ -104,7 +118,9 @@ function threadFor(t: MoneyParentTransfer, A: Rect, B: Rect): Thread {
   if (sameRow) {
     a = { x: A.x + A.w / 2, y: A.y };
     b = { x: B.x + B.w / 2, y: B.y };
-    c = { x: (a.x + b.x) / 2, y: Math.min(a.y, b.y) - 74 };
+    // the arc rises up to 74 board px, but a token resting on it stays clear of the summary band
+    const top = Math.min(a.y, b.y);
+    c = { x: (a.x + b.x) / 2, y: Math.max(top - 74, 2 * TOKEN_MIN_Y - top) };
     outward = -1;
   } else {
     const down = A.y < B.y;
@@ -127,16 +143,22 @@ const SHORT: Record<'TRANSFER' | 'CARD_PAYMENT', Record<string, string>> = {
   CARD_PAYMENT: { SCHEDULED: 'SCHEDULED', PENDING: 'SUBMITTED', IN_TRANSIT: 'NOT CONFIRMED', RETURNING: 'FAILED', NEEDS_RECONCILIATION: 'CONFIRM?' },
 };
 
-type Sheet = null | 'actions' | 'add' | 'move' | 'period';
+type Sheet = null | 'actions' | 'add' | 'move' | 'search' | 'period';
 
 const COLLECTION_LABEL: Record<CollectionId, string> = Object.fromEntries(COLLECTIONS.map((c) => [c.id, c.label])) as Record<CollectionId, string>;
 const slideLabel = (id: CollectionId) => `${COLLECTION_LABEL[id]}, ${COLLECTIONS.findIndex((c) => c.id === id) + 1} OF ${COLLECTIONS.length}`;
 
 export function MoneyMotionParent() {
   const { go, overlay, openOverlay, closeOverlay, showToast } = useJurnl();
+  // MANAGE POCKET: press and hold a Pocket paper (or right-click / Shift F10) — the same manager as the Pocket page
+  const manager = usePocketManager('parent');
+  const hold = useLongPress((el, key) => manager.open(key, el));
   useCurrency();
   useRepoTick();
   const reduced = useReducedMotion();
+  useAmbientChannels('f05-parent', PARENT_AMBIENT, !reduced);
+  // the corner hamburger wears the founder's MENU artwork while the MONEY parent is mounted (one control, never two)
+  useEffect(() => claimMenuArt(), []);
   const carousel = computeMoneyCarousel(undefined, formatMoney);
   const reading = carousel.reading;
   const stageRef = useRef<HTMLDivElement>(null);
@@ -145,11 +167,13 @@ export function MoneyMotionParent() {
   const [pressed, setPressed] = useState<string | null>(null);
   const [returned] = useState(readReturn);
   const [fresh, setFresh] = useState<string | null>(null);
+  /** the just-added pocket settles once (data-settle); `fresh` stays as its identity for the session */
+  const [settleOnce, setSettleOnce] = useState<string | null>(null);
   const [detail, setDetail] = useState<string | null>(null);
   const [ghosts, setGhosts] = useState<(Thread & { outcome: 'resolved' | 'closed' })[]>([]);
   const prevThreads = useRef<Thread[]>([]);
   const accountsRailRef = useRef<HTMLDivElement>(null);
-  const [railScroll, setRailScroll] = useState(0);
+  const [railScroll, setRailScroll] = useState(() => readF05Nav().railScroll ?? 0);
   const navigating = useRef(false);
   const { active, index: activeIndex, transition, surface, step, select, handlers } = useMoneyCarousel(reduced);
   const [moved, setMoved] = useState(false);
@@ -160,19 +184,35 @@ export function MoneyMotionParent() {
   useLayoutEffect(() => {
     const el = stageRef.current;
     if (!el) return;
-    const update = () => el.clientWidth && el.clientHeight && setVp({ w: el.clientWidth, h: el.clientHeight });
+    const update = () => {
+      if (!el.clientWidth) return;
+      const vv = typeof window !== 'undefined' ? window.visualViewport : null;
+      const h = vv?.height ? Math.round(vv.height) : el.clientHeight;
+      setVp({ w: el.clientWidth, h: Math.max(1, h) });
+    };
     update();
+    const vv = typeof window !== 'undefined' ? window.visualViewport : null;
+    vv?.addEventListener('resize', update);
+    vv?.addEventListener('scroll', update);
     if (typeof ResizeObserver === 'undefined') {
       window.addEventListener('resize', update);
-      return () => window.removeEventListener('resize', update);
+      return () => {
+        window.removeEventListener('resize', update);
+        vv?.removeEventListener('resize', update);
+        vv?.removeEventListener('scroll', update);
+      };
     }
     const ro = new ResizeObserver(update);
     ro.observe(el);
-    return () => ro.disconnect();
+    return () => {
+      ro.disconnect();
+      vv?.removeEventListener('resize', update);
+      vv?.removeEventListener('scroll', update);
+    };
   }, []);
 
   // Every collection is the same 2 x 2 grid in the same places: the shell never moves between collections.
-  const L = useMemo(() => computeF05MotionLayout(vp.w, vp.h, PAPERS_PER_COLLECTION), [vp.w, vp.h]);
+  const L = useMemo(() => computeF05MotionLayout(vp.w, vp.h, PAPERS_PER_COLLECTION, reading.accounts.length), [vp.w, vp.h, reading.accounts.length]);
   const bottomItems = bottomRowItems(reading.accounts.length);
   const accountPages = useMemo(() => {
     const pages: MoneyParentAccount[][] = [];
@@ -182,13 +222,36 @@ export function MoneyMotionParent() {
 
   useLayoutEffect(() => {
     const el = accountsRailRef.current;
-    if (!el || !fresh) return;
-    const idx = reading.accounts.findIndex((a) => a.account_id === fresh);
-    if (idx < 0) return;
-    const vp = accountRailViewport(L);
-    el.scrollLeft = Math.floor(idx / 2) * vp.w;
-    setRailScroll(el.scrollLeft);
-  }, [fresh, L, reading.accounts]);
+    if (!el) return;
+    const saved = readF05Nav().railScroll ?? 0;
+    if (!fresh && saved > 0 && el.scrollLeft === 0) {
+      el.scrollLeft = saved;
+      setRailScroll(saved);
+    }
+  }, [L, reading.accounts.length]);
+
+  // A just-added pocket settles once; the settle mark is then cleared so a later collection change never replays it.
+  useEffect(() => {
+    if (!settleOnce) return;
+    const id = window.setTimeout(() => setSettleOnce(null), 700);
+    return () => window.clearTimeout(id);
+  }, [settleOnce]);
+
+  // A pocket whose STORED balance changed (a recorded transfer, a correction) gets one restrained wash on its paper. Never
+  // on arrival, never for a pocket that just appeared, and the figure itself never moves.
+  const balanceKey = reading.accounts.map((a) => `${a.account_id}:${Math.round(a.amount * 100)}`).join('|');
+  const prevBalances = useRef<Map<string, number> | null>(null);
+  useEffect(() => {
+    const now = new Map(reading.accounts.map((a) => [a.account_id, Math.round(a.amount * 100)]));
+    const before = prevBalances.current;
+    prevBalances.current = now;
+    if (!before) return;
+    for (const [id, cents] of now) {
+      if (!before.has(id) || before.get(id) === cents) continue;
+      respond(stageRef.current?.querySelector(`[data-account-id="${CSS.escape(id)}"] .jrn-f05m__paper-ack`), 'balanceAck');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [balanceKey]);
 
   // Threads for unfinished transfers whose two places both have a paper (canonical state only).
   const slotOf = new Map<string, Rect>();
@@ -232,24 +295,24 @@ export function MoneyMotionParent() {
     handlers.onKeyDown(e);
   };
 
-  // Chips: the approved two squares, shifted one square left so the global menu sits where the approved "+" was.
+  // Chips: global menu on the far-right approved square; search and add sit to its left on the board.
   const chipRight = Math.min(CHIP_RIGHT, L.visibleX[1] - 14);
-  const plusX = chipRight - CHIP - (CHIP + CHIP_GAP);
-  const searchX = plusX - CHIP - CHIP_GAP;
   const menuX = chipRight - CHIP;
+  const plusX = menuX - CHIP - CHIP_GAP;
+  const searchX = plusX - CHIP - CHIP_GAP;
 
   // The dock and the global menu live outside this screen (viewport hosts); place them on the board through CSS vars.
   useLayoutEffect(() => {
     const root = stageRef.current?.closest('.jrn') as HTMLElement | null;
     if (!root) return;
     root.setAttribute('data-jrn-f05-motion', '');
-    const nav = toScreen(L, L.navZone);
+    const nav = motionBoardToScreen(L, { x: C.nav.x, y: C.nav.y, w: C.nav.w, h: C.nav.h });
     const menu = toScreen(L, { x: menuX, y: CHIP_TOP, w: CHIP, h: CHIP });
     const vars: Record<string, string> = {
       '--f05m-nav-x': `${nav.x}px`,
       '--f05m-nav-w': `${nav.w}px`,
       '--f05m-nav-h': `${nav.h}px`,
-      '--f05m-nav-b': `${vp.h - (nav.y + nav.h)}px`,
+      '--f05m-nav-b': `${vp.h - (nav.y + nav.h) - F05_MOTION_NAV_NUDGE_SCREEN}px`,
       '--f05m-menu-x': `${menu.x}px`,
       '--f05m-menu-y': `${menu.y}px`,
       '--f05m-chip': `${menu.w}px`,
@@ -303,7 +366,7 @@ export function MoneyMotionParent() {
   // With no places of the user's own, Safe to Spend reads the sample preview: say nothing rather than a sample figure.
   const unknown = reading.cashSource === 'MOCK';
   const metrics = [
-    { id: 'held', label: 'HELD', value: reading.held, aria: `HELD: ${formatMoney(reading.held)} IN YOUR ACCOUNTS. OPENS POCKETS.`, onOpen: () => go('money/places') },
+    { id: 'held', label: 'HELD', value: reading.held, aria: `HELD: ${formatMoney(reading.held)} IN YOUR POCKETS. OPENS POCKETS.`, onOpen: () => go('money/places') },
     { id: 'owed', label: 'OWED', value: reading.owed, aria: `OWED: ${formatMoney(reading.owed)} ON CARDS AND LOANS. OPENS CREDIT.`, onOpen: () => go('credit') },
     { id: 'committed', label: 'COMMITTED', value: reading.committed, aria: unknown ? 'COMMITTED: NOT KNOWN UNTIL YOU ADD A POCKET.' : `COMMITTED: ${formatMoney(reading.committed)} HELD BACK FOR BILLS, CARD MINIMUMS AND PLANS IN THE NEXT 30 DAYS. OPENS THE PLANNING PERIOD.`, onOpen: () => setSheet('period') },
     { id: 'available', label: 'AVAILABLE', value: reading.available, aria: unknown ? 'AVAILABLE: NOT KNOWN UNTIL YOU ADD A POCKET.' : `AVAILABLE: ${formatMoney(reading.available)}, SAFE TO SPEND FOR THE NEXT 30 DAYS. OPENS THE PLANNING PERIOD.`, onOpen: () => setSheet('period') },
@@ -342,10 +405,13 @@ export function MoneyMotionParent() {
   // Carousel geometry (source px): the swipe zone covers the papers and the dots; steps sit at the visible edges.
   const gridTop = L.slots[0]!.y;
   const gridBottom = Math.max(...L.slots.map((r) => r.y + r.h));
-  const swipeZone: Rect = { x: L.visibleX[0], y: gridTop - 24, w: L.visibleX[1] - L.visibleX[0], h: L.dots.y + L.dots.h + 12 - (gridTop - 24) };
-  const stepTop = (gridTop + gridBottom) / 2;
   const railVp = accountRailViewport(L);
   const railGap = accountRailGap(L);
+  // Horizontal swipe for collection change starts below the accounts rail so pocket row scroll is not stolen.
+  const railBottom = reading.accounts.length > 0 ? railVp.y + railVp.h : gridTop;
+  const swipeTop = reading.accounts.length > 0 ? railBottom + 6 : gridTop - 24;
+  const swipeZone: Rect = { x: L.visibleX[0], y: swipeTop, w: L.visibleX[1] - L.visibleX[0], h: L.dots.y + L.dots.h + 12 - swipeTop };
+  const stepTop = (gridTop + gridBottom) / 2;
 
   const renderAccountPaper = (a: MoneyParentAccount, staggerIndex: number, inRail: boolean): ReactNode => {
     const lines = a.lines;
@@ -362,21 +428,31 @@ export function MoneyMotionParent() {
         data-pressed={pressed === a.account_id ? 'true' : undefined}
         data-return={returned === a.account_id ? 'true' : undefined}
         data-fresh={fresh === a.account_id ? 'true' : undefined}
+        data-settle={settleOnce === a.account_id ? 'true' : undefined}
         aria-label={`${a.name}. ${a.nature === 'LIABILITY' ? `${formatMoney(a.amount)} OWED` : `${formatMoney(a.amount)} HELD`}${transit ? `. ${transit}` : ''}. OPEN.`}
-        style={{ ...(inRail ? undefined : at(L.slots[staggerIndex]!)), backgroundImage: inRail ? `url("${paperTile}")` : undefined, ['--i' as string]: staggerIndex } as CSSProperties}
-        onPointerDown={() => setPressed(a.account_id)}
+        style={{ ...(inRail ? undefined : at(L.slots[staggerIndex]!)), backgroundImage: inRail ? `url("${paperTile}")` : undefined, ['--i' as string]: inRail ? staggerIndex % 2 : staggerIndex } as CSSProperties}
+        aria-keyshortcuts="Shift+F10"
+        aria-description="PRESS AND HOLD, OR SHIFT F10, TO MANAGE THIS POCKET."
+        onPointerDown={(e) => {
+          setPressed(a.account_id);
+          hold.bind(a.account_id).onPointerDown(e);
+        }}
         onPointerUp={() => setPressed(null)}
         onPointerLeave={() => setPressed(null)}
+        onContextMenu={hold.bind(a.account_id).onContextMenu}
+        onClickCapture={hold.bind(a.account_id).onClickCapture}
+        onKeyDown={hold.bind(a.account_id).onKeyDown}
         onClick={(e) => openPlace(a, e.currentTarget)}
       >
         <img className="jrn-f05m__paper-art" src={ART[a.art]} alt="" draggable={false} />
+        <span className="jrn-f05m__paper-ack" aria-hidden />
         <span className="jrn-f05m__paper-name" style={{ fontSize: nameFont(lines) }}>
           {lines.map((l) => (
             <span key={l}>{l}</span>
           ))}
         </span>
-        <b className="jrn-f05m__paper-amount" data-jrn-amount-cents={Math.round(a.amount * 100)} style={{ fontSize: f05BoardType(amountSize(formatMoney(a.amount), C.card.amountSize)), top: C.card.nameTop + lines.length * C.card.namePitch + C.card.amountGap - (a.nature === 'LIABILITY' ? 4 : 0) }}>{formatMoney(a.amount)}</b>
-        {a.nature === 'LIABILITY' ? <i className="jrn-f05m__paper-note" style={{ top: C.card.nameTop + lines.length * C.card.namePitch + C.card.amountGap + C.card.amountSize + 4 }}>OWED</i> : null}
+        <b className="jrn-f05m__paper-amount" data-jrn-amount-cents={Math.round(a.amount * 100)} style={{ fontSize: f05BoardType(amountSize(formatMoney(a.amount), C.card.amountSize), F05_PAPER_VALUE_ROW_SUB_PX), top: C.card.nameTop + ACCOUNT_PAPER_TITLE_LINES * C.card.namePitch + C.card.amountGap - (a.nature === 'LIABILITY' ? 4 : 0) }}>{formatMoney(a.amount)}</b>
+        {a.nature === 'LIABILITY' ? <i className="jrn-f05m__paper-note" style={{ top: C.card.nameTop + ACCOUNT_PAPER_TITLE_LINES * C.card.namePitch + C.card.amountGap + C.card.amountSize + 4 }}>OWED</i> : null}
         {transit ? <i className="jrn-f05m__paper-note jrn-f05m__paper-note--transit" data-testid="f05m-transit">{transit}</i> : null}
         <svg className="jrn-f05m__chev" viewBox="0 0 14 24" aria-hidden>
           <path d="M2 2l10 10L2 22" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
@@ -399,7 +475,11 @@ export function MoneyMotionParent() {
           role="region"
           aria-label="YOUR POCKETS. SWIPE FOR MORE."
           style={{ ...at(railVp), ['--f05m-rail-gap' as string]: `${railGap}px` } as CSSProperties}
-          onScroll={(e) => setRailScroll(e.currentTarget.scrollLeft)}
+          onScroll={(e) => {
+            const left = e.currentTarget.scrollLeft;
+            setRailScroll(left);
+            patchF05Nav({ railScroll: left });
+          }}
           onPointerDown={stopCarouselPointer}
         >
           <div className="jrn-f05m__accounts-track">
@@ -512,7 +592,7 @@ export function MoneyMotionParent() {
 
   return (
     <JurnlScreen screenId="F05.00" familyPlate={F05_MOTION_PLATE} family productNav singlePlate>
-      <div ref={stageRef} className="jrn-f05m" data-jrn-f05-stage data-reduced={reduced ? 'true' : 'false'} data-sliced={L.sliced ? 'true' : 'false'} data-wide={L.ox > 0.5 ? 'true' : 'false'}>
+      <div ref={stageRef} className="jrn-f05m" data-jrn-surface-host data-jrn-f05-stage data-reduced={reduced ? 'true' : 'false'} data-sliced={L.sliced ? 'true' : 'false'} data-wide={L.ox > 0.5 ? 'true' : 'false'}>
         <div className="jrn-f05m__board" style={boardStyle} data-jrn-zone="board">
           {/* L0 — environment */}
           <div className="jrn-f05m__env" aria-hidden data-layer="L0">
@@ -531,9 +611,16 @@ export function MoneyMotionParent() {
               </div>}
           </div>
 
+          {/* ambient D — a faint warm light over the scenery, only while the director grants it */}
+          <span className="jma-light" aria-hidden data-jrn-ambient-channel="D" style={at(LIGHT)} />
+
           {/* L1 — collage objects with real alpha */}
           <img className="jrn-f05m__obj jrn-f05m__title-paper" data-layer="L1" src={titlePaper} alt="" draggable={false} style={at(TITLE)} />
           <img className="jrn-f05m__obj jrn-f05m__seal" data-layer="L1" src={waxSeal} alt="" draggable={false} style={at(SEAL)} />
+          {/* ambient C — light crossing the seal, masked to the seal's own alpha (the seal does not move) */}
+          <span className="jma-sheen" aria-hidden data-jrn-ambient-channel="C" style={{ ...at(SEAL), ['--jma-mask' as string]: `url("${waxSeal}")` } as CSSProperties}>
+            <i />
+          </span>
 
           {/* L2 — live type */}
           <p className="jrn-f05m__mark" aria-label="JURNL" style={{ left: C.mark.left, top: C.mark.top, fontSize: f05BoardType(C.mark.size), letterSpacing: `${C.mark.ls}em`, transform: `rotate(${C.mark.rot}deg)` }}>JURNL</p>
@@ -553,7 +640,6 @@ export function MoneyMotionParent() {
                 : <b className="jrn-f05m__metric-value" data-jrn-value={`money-${m.id}`} data-jrn-amount-cents={Math.round(m.value * 100)} style={{ fontSize: f05BoardType(amountSize(formatMoney(m.value), C.band.valueSize)) }}>{formatMoney(m.value)}</b>}
               </button>
             ))}
-            {unknown ? <p className="jrn-f05m__basis" data-testid="f05m-unknown">ADD A POCKET TO SEE WHAT IS COMMITTED AND AVAILABLE.</p> : null}
           </section>
 
           {/* L3 — the carousel: four collections, one region; only the papers move */}
@@ -594,7 +680,7 @@ export function MoneyMotionParent() {
                 data-collection={g.id}
                 data-phase={g.phase}
                 data-dir={transition?.dir}
-                style={g.phase === 'exit' ? ({ ['--f05m-drag' as string]: `${transition?.drag ?? 0}px` } as CSSProperties) : undefined}
+                style={g.phase === 'exit' ? ({ ['--f05m-drag' as string]: `${transition?.drag ?? 0}px`, ['--f05m-exit-ms' as string]: `${transition?.exitMs ?? 300}ms` } as CSSProperties) : undefined}
               >
                 {renderCollection(g.id)}
               </div>
@@ -616,39 +702,46 @@ export function MoneyMotionParent() {
           </section>
 
           {/* L4 — corner chips (approved squares; the global menu takes the far-right one) */}
-          <button type="button" className="jrn-f05m__chip" data-jrn-trigger="f05m-search" aria-label="SEARCH ACTIVITY" style={{ ...at({ x: searchX, y: CHIP_TOP, w: CHIP, h: CHIP }), top: CHIP_TOP_SAFE }} onClick={() => go('activity')}>
-            <svg viewBox="0 0 24 24" aria-hidden><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" strokeWidth="1.8" /><path d="M15.5 15.5L21 21" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
-          </button>
-          <button type="button" className="jrn-f05m__chip" data-jrn-trigger="f05m-actions" aria-label="ADD A POCKET OR MOVE MONEY" style={{ ...at({ x: plusX, y: CHIP_TOP, w: CHIP, h: CHIP }), top: CHIP_TOP_SAFE }} onClick={() => setSheet('actions')}>
-            <svg viewBox="0 0 24 24" aria-hidden><path d="M12 4v16M4 12h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
-          </button>
+          {/* founder-supplied SEARCH / ADD artwork on the approved chip squares (F05.UTILITY.*.GOLD); the disc is the square */}
+          <JurnlUtilityArtButton kind="search" className="jrn-f05m__chip" trigger="f05m-search" label="SEARCH POCKETS AND ACTIVITY" aria-haspopup="dialog" style={{ ...at({ x: searchX, y: CHIP_TOP, w: CHIP, h: CHIP }), top: CHIP_TOP_SAFE, ['--uab-disc' as string]: `${CHIP}px` } as CSSProperties} onClick={() => setSheet('search')} />
+          <JurnlUtilityArtButton kind="add" className="jrn-f05m__chip" trigger="f05m-actions" label="ADD A POCKET OR MOVE YOUR MONEY" style={{ ...at({ x: plusX, y: CHIP_TOP, w: CHIP, h: CHIP }), top: CHIP_TOP_SAFE, ['--uab-disc' as string]: `${CHIP}px` } as CSSProperties} onClick={() => setSheet('actions')} />
         </div>
       </div>
 
       <JurnlProductNav marks="parent" current="MONEY" onGo={go} onAdd={() => openOverlay('quick-add')} />
       {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F05" onClose={closeOverlay} /> : null}
       {overlay === 'ask' ? <AskJurnlSheet familyId="F05" nodeId="F05.00" onClose={closeOverlay} /> : null}
+      {manager.node}
       {sheet === 'actions' ?
-        <JurnlDrawer size="short" testId="f05m-actions-sheet" title="MONEY" lead="ADD WHERE MONEY LIVES, OR MOVE IT BETWEEN YOUR POCKETS." onClose={() => setSheet(null)}>
-          <JurnlButton trigger="f05m-actions-add" onClick={() => setSheet('add')}>ADD A POCKET</JurnlButton>
-          <JurnlButton variant="secondary" trigger="f05m-actions-move" disabled={reading.accounts.length < 2} onClick={() => setSheet('move')}>
-            {reading.accounts.length < 2 ? 'MOVE MONEY · ADD TWO POCKETS FIRST' : 'MOVE MONEY'}
-          </JurnlButton>
-        </JurnlDrawer>
+        <MoneyActionSheet canMove={reading.accounts.length >= 2} onAdd={() => setSheet('add')} onMove={() => setSheet('move')} onClose={() => setSheet(null)} />
       : null}
       {sheet === 'add' ?
         <AddPlaceSheet
           onClose={() => setSheet(null)}
           onSaved={(id) => {
             setSheet(null);
-            // the new place is shown on ACCOUNTS (or counted in ALL PLACES when more than four)
             if (active !== 'accounts') select('accounts');
+            // Keep the first page of pockets in view; swipe the rail to reach the one just added.
+            const el = accountsRailRef.current;
+            if (el) {
+              el.scrollLeft = 0;
+              setRailScroll(0);
+              patchF05Nav({ railScroll: 0 });
+            }
             setFresh(id);
-            showToast({ tone: 'success', title: 'POCKET ADDED', body: 'THE BALANCE IS WHAT YOU ENTERED. NO BANK IS CONNECTED.', testId: 'f05m-added' });
+            setSettleOnce(id);
+            const needsSwipe = reading.accounts.length + 1 > 2;
+            showToast({
+              tone: 'success',
+              title: 'POCKET ADDED',
+              body: needsSwipe ? 'SWIPE YOUR POCKETS LEFT TO SEE IT. THE BALANCE IS WHAT YOU ENTERED. NO BANK IS CONNECTED.' : 'THE BALANCE IS WHAT YOU ENTERED. NO BANK IS CONNECTED.',
+              testId: 'f05m-added',
+            });
           }}
         />
       : null}
       {sheet === 'move' ? <TransferSheet onClose={() => setSheet(null)} /> : null}
+      {sheet === 'search' ? <GlobalSearchDrawer onClose={() => setSheet(null)} /> : null}
       {sheet === 'period' ? <SafeHorizonSheet onClose={() => setSheet(null)} /> : null}
       {detail ? <TransferDetailSheet linkId={detail} onClose={() => setDetail(null)} /> : null}
     </JurnlScreen>

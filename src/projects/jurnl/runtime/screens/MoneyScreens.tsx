@@ -1,6 +1,8 @@
 /** F05 MONEY — structural completion (Wave 2). */
 
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react';
+import { EdAction, EdChoices, EditorialOverlay, type EdPlate } from '../surfaces/editorial/Editorial';
+import { TYPE_GLYPH, typeArt } from '../surfaces/editorial/MoneyOverlays';
 import { getRepository } from '../../data/repository/deviceRepository';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useLedgerPositions, usualPurposesFor } from '../../data/ledger/moneyPositions';
@@ -9,11 +11,12 @@ import { parseMoneyInput, renameAccount, setAccountBalance } from '../../data/le
 import { PURPOSE_LABEL } from '../../data/ledger/purposes';
 import { entryWhenLabel } from '../../data/home/money';
 import { formatRelativeDate, getTodayKey } from '../../data/foundation/dates';
-import { Chips, OpenTransfersPanel, PurposeSheet, TransferDetailSheet, TransferSheet } from '../finance/FinanceSheets';
+import { OpenTransfersPanel, PurposeSheet, TransferDetailSheet, TransferSheet } from '../finance/FinanceSheets';
 import { computeMoneyPicture } from '../../data/ledger/moneyPicture';
 import { useRepoTick } from '../../data/home/money';
 import { listActiveAccounts, accountById } from '../../data/foundation/accounts';
-import { archiveAccount, createManualAccount } from '../../data/foundation/accountMutations';
+import { createManualAccount } from '../../data/foundation/accountMutations';
+import { archiveAccountSafely, archiveBlockers } from '../../data/f05/dot01/archive';
 import { formatMoney, ledgerEntries, useCurrency } from '../../data/home/money';
 import { PARENT_PLATES } from '../../data/parents/plates';
 import { SIDEKICK_PLATES } from '../../data/parents/sidekickPlates';
@@ -295,6 +298,7 @@ export function MoneyPlaceDetailScreen() {
   const { positions } = useLedgerPositions();
   const [editOpen, setEditOpen] = useState(false);
   const [removeOpen, setRemoveOpen] = useState(false);
+  const [archiveErr, setArchiveErr] = useState<string | null>(null);
   const [moveOpen, setMoveOpen] = useState(false);
   const accounts = getRepository().listAccounts();
   const recent = useMemo(
@@ -361,7 +365,7 @@ export function MoneyPlaceDetailScreen() {
           EDIT
         </JurnlButton>
         {!liability ? <JurnlButton variant="secondary" trigger="money-place-move" onClick={() => setMoveOpen(true)}>MOVE MONEY</JurnlButton> : <JurnlButton variant="secondary" trigger="money-place-credit" onClick={() => go(`credit/${account.account_id}`)}>CARD DETAILS</JurnlButton>}
-        <JurnlButton variant="secondary" trigger="money-remove-place" onClick={() => setRemoveOpen(true)}>
+        <JurnlButton variant="secondary" trigger="money-remove-place" onClick={() => { setArchiveErr(null); setRemoveOpen(true); }}>
           ARCHIVE
         </JurnlButton>
       </div>
@@ -369,21 +373,57 @@ export function MoneyPlaceDetailScreen() {
         <EditPlaceSheet account={account} current={p ? (liability ? p.owed : p.held) : account.available_balance} liability={liability} onClose={() => setEditOpen(false)} />
       : null}
       {moveOpen ? <TransferSheet fromId={account.account_id} onClose={() => setMoveOpen(false)} /> : null}
-      {removeOpen ?
-        <JurnlDrawer size="long" testId="money-remove" title="ARCHIVE POCKET" lead="ITS TRANSACTIONS STAY IN ACTIVITY." onClose={() => setRemoveOpen(false)} footer={
-          <JurnlButton trigger="money-remove-confirm" onClick={() => { archiveAccount(account.account_id); setRemoveOpen(false); go('money/places'); }}>ARCHIVE</JurnlButton>
-        }>
-          <p>{account.display_name}</p>
-        </JurnlDrawer>
-      : null}
+      {removeOpen ? (() => {
+        const blockers = archiveBlockers(account.account_id, today);
+        const blocked = blockers.length > 0;
+        return (
+          <JurnlDrawer
+            size="long"
+            testId="money-remove"
+            title={blocked ? 'ARCHIVE BLOCKED' : 'DELETE THIS POCKET?'}
+            lead={blocked ? 'RESOLVE THESE BEFORE ARCHIVING.' : 'ITS TRANSACTIONS STAY IN ACTIVITY.'}
+            onClose={() => setRemoveOpen(false)}
+            footer={
+              blocked ? (
+                <>
+                  <JurnlButton trigger="money-remove-keep" onClick={() => setRemoveOpen(false)}>KEEP POCKET</JurnlButton>
+                  <JurnlButton variant="secondary" trigger="money-remove-resolve" onClick={() => { setRemoveOpen(false); go(blockers.find((b) => b.route)?.route ?? 'money/places'); }}>RESOLVE ISSUES</JurnlButton>
+                </>
+              ) : (
+                <>
+                  <JurnlButton trigger="money-remove-keep" variant="secondary" onClick={() => setRemoveOpen(false)}>KEEP POCKET</JurnlButton>
+                  <JurnlButton trigger="money-remove-confirm" onClick={() => {
+                    const r = archiveAccountSafely(account.account_id, today);
+                    if (!r.ok) return setArchiveErr(r.error);
+                    setRemoveOpen(false);
+                    go('money/places');
+                  }}>CONFIRM DELETE</JurnlButton>
+                </>
+              )
+            }
+          >
+            <p>{account.display_name}</p>
+            {blocked ? blockers.map((b) => <p key={b.kind}><b>{b.label}</b> · {b.detail}</p>) : null}
+            {archiveErr ? <p role="alert">{archiveErr}</p> : null}
+          </JurnlDrawer>
+        );
+      })() : null}
     </MoneyShell>
   );
 }
 
+/** OV02 regions on the regenerated shell (1024 × 1536): headline under the medallion, the paper, the actions above the coins. */
+export const OV02_PLATE = {
+  art: 'OV02_ADD_POCKET_SHELL',
+  head: [0.14, 0.255, 0.86, 0.352],
+  body: [0.1, 0.36, 0.88, 0.748],
+  foot: [0.17, 0.756, 0.88, 0.83],
+} as const satisfies EdPlate;
+
 const PLACE_KINDS: { id: AccountType; label: string }[] = [
-  { id: 'CHECKING', label: 'BANK ACCOUNT' },
+  { id: 'CHECKING', label: 'CHECKING' },
   { id: 'SAVINGS', label: 'SAVINGS' },
-  { id: 'DEBIT_CARD', label: 'DEBIT / PAYOUT CARD' },
+  { id: 'DEBIT_CARD', label: 'DEBIT CARD' },
   { id: 'CREDIT_CARD', label: 'CREDIT CARD' },
   { id: 'CASH', label: 'CASH' },
 ];
@@ -398,19 +438,51 @@ export function AddPlaceSheet({ onClose, onSaved }: { onClose: () => void; onSav
   const amount = parseMoneyInput(balance, true);
   const limitValue = limit.trim() ? parseMoneyInput(limit) : null;
   const valid = name.trim().length >= 2 && balance.trim() !== '' && amount != null && (!limit.trim() || limitValue != null);
+  const save = () => {
+    const a = createManualAccount(name, kind, amount ?? 0, getTodayKey(), { creditLimit: card ? limitValue : undefined, isPayoutCard: payout });
+    onSaved(a.account_id);
+  };
+  // founder OV02 shell (regenerated, named correct 2026-11-06): the statue, the purse medallion, the paper, the coins and
+  // the drape are the shell's; the headline, the type grid, the balance, the notes and CANCEL / SAVE POCKET are live on it
   return (
-    <JurnlDrawer size="long" testId="money-add-place" title="ADD A POCKET" lead="WHERE MONEY IS HELD OR OWED. YOU ENTER THE BALANCE; NO BANK CONNECTION." onClose={onClose} footer={
-      <JurnlButton trigger="money-add-save" disabled={!valid} onClick={() => { const a = createManualAccount(name, kind, amount ?? 0, getTodayKey(), { creditLimit: card ? limitValue : undefined, isPayoutCard: payout }); onSaved(a.account_id); }}>SAVE</JurnlButton>
-    }>
-      <JurnlInput label="NAME" value={name} onValue={setName} trigger="money-add-name" />
-      <Chips label="KIND" value={kind} options={PLACE_KINDS} onChange={(k) => { setKind(k); if (k === 'CREDIT_CARD' || k === 'CASH') setPayout(false); }} trigger="money-add-kind" />
-      <JurnlInput label={card ? 'BALANCE OWED NOW' : 'BALANCE NOW'} value={balance} onValue={setBalance} trigger="money-add-balance" inputMode="decimal" />
-      {card ? <JurnlInput label="CREDIT LIMIT (OPTIONAL)" value={limit} onValue={setLimit} trigger="money-add-limit" inputMode="decimal" /> : null}
-      {kind === 'DEBIT_CARD' || kind === 'CHECKING' ? (
-        <Chips label="RIDESHARE PAY" value={payout ? 'YES' : 'NO'} options={[{ id: 'NO', label: 'NOT A PAYOUT CARD' }, { id: 'YES', label: 'RECEIVES RIDESHARE PAY' }]} onChange={(v) => setPayout(v === 'YES')} trigger="money-add-payout" />
-      ) : null}
-      {card ? <p className="jrn-currency__note">A CREDIT CARD IS MONEY OWED. ITS AVAILABLE CREDIT IS NEVER COUNTED AS MONEY YOU HAVE.</p> : null}
-    </JurnlDrawer>
+    <EditorialOverlay
+      testId="money-add-place"
+      composition="register"
+      title={['ADD A POCKET']}
+      script="create a new stash for your money"
+      place="bottom"
+      onClose={onClose}
+      plate={OV02_PLATE}
+      footer={
+        <>
+          <EdAction trigger="money-add-cancel" material="cream" paper="B05-ADD-CANCEL" title="CANCEL" onClick={onClose} />
+          <EdAction trigger="money-add-save" material="olive" paper="B05-CREATE-POCKET" title="SAVE POCKET" disabled={!valid} onClick={save} />
+        </>
+      }
+    >
+      <div className="jed-sheet">
+        <div className="jed-field">
+          <JurnlInput label="NAME" value={name} onValue={setName} trigger="money-add-name" />
+        </div>
+        <span className="jed-label" id="money-add-kind-label">ACCOUNT TYPE</span>
+        <EdChoices label="ACCOUNT TYPE" value={kind} options={PLACE_KINDS.map((k) => ({ ...k, icon: typeArt(k.id) ?? TYPE_GLYPH[k.id], wide: k.id === 'CASH' }))} onChange={(k) => { setKind(k); if (k === 'CREDIT_CARD' || k === 'CASH') setPayout(false); }} trigger="money-add-kind" checkArt />
+        <div className="jed-field jed-balance" style={{ marginTop: 10 }}>
+          <JurnlInput label={card ? 'BALANCE OWED NOW' : 'BALANCE NOW'} value={balance} onValue={setBalance} trigger="money-add-balance" inputMode="decimal" />
+        </div>
+        {card ? (
+          <div className="jed-field" style={{ marginTop: 8 }}>
+            <JurnlInput label="CREDIT LIMIT (OPTIONAL)" value={limit} onValue={setLimit} trigger="money-add-limit" inputMode="decimal" />
+          </div>
+        ) : null}
+        {kind === 'DEBIT_CARD' || kind === 'CHECKING' ? (
+          <>
+            <span className="jed-label">RIDESHARE PAY</span>
+            <EdChoices label="RIDESHARE PAY" value={payout ? 'YES' : 'NO'} options={[{ id: 'NO', label: 'NOT A PAYOUT CARD' }, { id: 'YES', label: 'RECEIVES RIDESHARE PAY' }]} onChange={(v) => setPayout(v === 'YES')} trigger="money-add-payout" checkArt />
+          </>
+        ) : null}
+        {card ? <p className="jed-note">A CREDIT CARD IS MONEY OWED. ITS AVAILABLE CREDIT IS NEVER COUNTED AS MONEY YOU HAVE.</p> : <p className="jed-note">YOU ENTER THE BALANCE; NO BANK CONNECTION.</p>}
+      </div>
+    </EditorialOverlay>
   );
 }
 

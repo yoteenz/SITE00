@@ -1,0 +1,244 @@
+{
+ "id": "P02B_DELETE_BLOCKED",
+ "title": "DELETE BLOCKED: the bronze warning seal settles once, slowly; nothing celebrates or loops",
+ "viewport": {
+  "width": 393,
+  "height": 852
+ },
+ "reducedMotion": false,
+ "wallMs": 11475,
+ "steps": [
+  {
+   "n": 1,
+   "label": "arrived on the bank pocket",
+   "still": "P02B_DELETE_BLOCKED-01.png"
+  },
+  {
+   "n": 2,
+   "label": "DELETE on a pocket something depends on: the caution answers deliberately",
+   "still": "P02B_DELETE_BLOCKED-02.png"
+  },
+  {
+   "n": 3,
+   "label": "KEEP POCKET: the overlay closes with its copy",
+   "still": "P02B_DELETE_BLOCKED-03.png"
+  }
+ ],
+ "timeline": [
+  {
+   "t": 1597,
+   "mode": "FULL",
+   "phase": "NAVIGATING",
+   "ambient": "off"
+  },
+  {
+   "t": 1703,
+   "css": "d01-env",
+   "on": "jrn-d01__env"
+  },
+  {
+   "t": 1773,
+   "css": "d01-settle",
+   "on": "jrn-d01__layer"
+  },
+  {
+   "t": 1804,
+   "css": "d01-settle",
+   "on": "jrn-d01__layer"
+  },
+  {
+   "t": 1821,
+   "css": "d01-reveal",
+   "on": "jrn-d01__title"
+  },
+  {
+   "t": 1837,
+   "css": "d01-settle",
+   "on": "jrn-d01__layer"
+  },
+  {
+   "t": 1872,
+   "css": "d01-settle",
+   "on": "jrn-d01__layer"
+  },
+  {
+   "t": 1890,
+   "step": "arrived on the bank pocket"
+  },
+  {
+   "t": 1922,
+   "css": "d01-settle",
+   "on": "jrn-d01__layer"
+  },
+  {
+   "t": 1951,
+   "css": "d01-fade",
+   "on": "jrn-d01__on"
+  },
+  {
+   "t": 1951,
+   "css": "d01-fade",
+   "on": "jrn-d01__on"
+  },
+  {
+   "t": 1951,
+   "css": "d01-fade",
+   "on": "jrn-d01__stat"
+  },
+  {
+   "t": 1951,
+   "css": "d01-fade",
+   "on": "jrn-d01__stat"
+  },
+  {
+   "t": 1951,
+   "css": "d01-fade",
+   "on": "jrn-d01__stat"
+  },
+  {
+   "t": 1990,
+   "css": "d01-settle",
+   "on": "jrn-d01__layer"
+  },
+  {
+   "t": 1990,
+   "css": "d01-strip",
+   "on": "jrn-d01__strip"
+  },
+  {
+   "t": 2001,
+   "css": "d01-strip",
+   "on": "jrn-d01__strip"
+  },
+  {
+   "t": 2022,
+   "css": "d01-strip",
+   "on": "jrn-d01__strip"
+  },
+  {
+   "t": 2269,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 3269,
+   "mode": "FULL",
+   "phase": "IDLE",
+   "ambient": "off"
+  },
+  {
+   "t": 5322,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 5323,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 5360,
+   "css": "jv3-fade",
+   "on": "jrn-pop-backdrop"
+  },
+  {
+   "t": 5360,
+   "css": "jm-note-in",
+   "on": "jrn-pop"
+  },
+  {
+   "t": 6236,
+   "mode": "FULL",
+   "phase": "IDLE",
+   "ambient": "off"
+  },
+  {
+   "t": 6252,
+   "step": "DELETE on a pocket something depends on: the caution answers deliberately"
+  },
+  {
+   "t": 7105,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 7106,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 7193,
+   "css": "d01-env",
+   "on": "jrn-d01__env"
+  },
+  {
+   "t": 7193,
+   "css": "d01-overlay",
+   "on": "jrn-d01-overlay"
+  },
+  {
+   "t": 7322,
+   "css": "d01-reveal",
+   "on": "jrn-d01__title"
+  },
+  {
+   "t": 7371,
+   "css": "d01-strip",
+   "on": "d01-paper"
+  },
+  {
+   "t": 7371,
+   "css": "d01-strip",
+   "on": "jv3-caution"
+  },
+  {
+   "t": 7404,
+   "css": "d01-reveal",
+   "on": "jrn-d01__script"
+  },
+  {
+   "t": 7513,
+   "css": "jm-warn-seal",
+   "on": "jv3-seal"
+  },
+  {
+   "t": 8044,
+   "mode": "FULL",
+   "phase": "IDLE",
+   "ambient": "off"
+  },
+  {
+   "t": 9779,
+   "step": "KEEP POCKET: the overlay closes with its copy"
+  },
+  {
+   "t": 10505,
+   "mode": "FULL",
+   "phase": "INTERACTING",
+   "ambient": "off"
+  },
+  {
+   "t": 10506,
+   "mode": "FULL",
+   "phase": "SETTLING",
+   "ambient": "off"
+  },
+  {
+   "t": 10520,
+   "waapi": "none -> translateY(10px) scale(0.994)",
+   "ms": 220,
+   "on": "jrn-d01-overlay"
+  },
+  {
+   "t": 11420,
+   "mode": "FULL",
+   "phase": "IDLE",
+   "ambient": "off"
+  }
+ ]
+}

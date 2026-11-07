@@ -26,6 +26,9 @@ export const F05_COMPOSITION = {
     captionTop: 716,
   },
   card: { nameLeft: 30, nameTop: 18, nameSize: 32.4, nameLs: 0.085, nameLine: 1.08, namePitch: 35, amountGap: 21, captionGap: 63, linkFromBottom: 72, amountTop: 104, amountSize: 46, noteTop: 152, chevRight: 26, chevBottom: 24 },
+  /** Carousel panel papers (TRANSFERS / COMMITMENTS / OUTLOOK) keep the rhythm measured against screens C02–C04;
+   *  `card` above is authority 01's account papers. */
+  panel: { nameTop: 12, amountGap: 18 },
   chips: { size: 64, gap: 20, top: 44, right: 908, radius: 15 },
   dots: { x: 405, y: 1306, w: 132, h: 32 },
   /** VIEW ALL ACCOUNTS: the paper strip under the four account papers (ACCOUNTS collection). */

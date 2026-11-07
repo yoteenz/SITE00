@@ -6,9 +6,9 @@
  */
 import { getTodayKey, type CalendarDate } from '../../foundation/dates';
 import type { EntryReceipt, LedgerEntry } from '../../home/moneyTypes';
-import { formatMoney as money } from '../../home/currency';
-import { computeLedgerPositions, entryClass, legSettlement, toCents } from '../../ledger/accounting';
+import { computeLedgerPositions, entryClass } from '../../ledger/accounting';
 import { applyOp, buildExpense, buildTransfer, recordTransfer, type ExpenseInput, type TransferInput } from '../../ledger/ledgerOps';
+import { validateTransferFinancialLimits } from '../../ledger/transferFinancialLimits';
 import { getRepository } from '../../repository/deviceRepository';
 import { findDuplicatePurchase, type DuplicateMatch } from './receipt';
 import type { Done } from './result';
@@ -71,8 +71,6 @@ export function previewReversal(entryId: string, today: CalendarDate = getTodayK
   return impactOf(s.transactions, s.transactions.filter((x) => x.id !== entryId), [e.account_id], today);
 }
 
-const OPEN_LEG = new Set(['SCHEDULED', 'PENDING', 'NEEDS_RECONCILIATION']);
-
 export type TransferPreview = { linkId: string; kind: 'TRANSFER' | 'CARD_PAYMENT'; impact: Impact[]; input: TransferInput; warnings: string[] };
 
 /**
@@ -87,21 +85,26 @@ export function previewTransfer(input: TransferInput, today: CalendarDate = getT
   const built = buildTransfer(s.accounts, s.transactions, input);
   if (!built.ok) return built;
   const ids = [input.from_account_id, input.to_account_id].filter(Boolean) as string[];
-  const now = computeLedgerPositions(s.accounts, s.creditAttributes, s.transactions, today).positions;
-  const from = now.find((p) => p.account_id === input.from_account_id);
-  const to = now.find((p) => p.account_id === input.to_account_id);
-  const amount = toCents(Math.abs(input.amount));
-  const outstanding = (id: string) => toCents(s.transactions.filter((e) => e.link?.kind === 'CARD_PAYMENT' && e.account_id === id && OPEN_LEG.has(legSettlement(e, today))).reduce((t, e) => t + Math.abs(e.amount), 0));
-  if (to?.nature === 'LIABILITY') {
-    const left = toCents(to.owed - outstanding(to.account_id));
-    if (amount > left) return { ok: false, error: left <= 0 ? `${to.account.display_name} HAS NOTHING LEFT TO PAY (PAYMENTS ALREADY RECORDED COVER WHAT IT OWES). REVIEW THE CARD BALANCE FIRST.` : `THIS IS MORE THAN ${to.account.display_name} OWES AFTER PAYMENTS ALREADY RECORDED (${money(left)}). RECORD UP TO ${money(left)}, OR REVIEW THE CARD BALANCE FIRST.` };
-  }
-  const warnings: string[] = [];
-  if (from && from.nature === 'ASSET' && amount > from.held) {
-    if (from.account.account_type === 'CASH') return { ok: false, error: `${from.account.display_name} HOLDS ONLY ${money(from.held)}.` };
-    warnings.push(`THIS IS MORE THAN ${from.account.display_name} HOLDS (${money(from.held)}). IT WILL SHOW BELOW ZERO.`);
-  }
-  return { ok: true, value: { linkId: built.value.linkId, kind: built.value.kind, impact: impactOf(s.transactions, [...s.transactions, ...built.value.legs], ids, today), input: { ...input, link_id: built.value.linkId }, warnings } };
+  const limits = validateTransferFinancialLimits(
+    s.accounts,
+    s.creditAttributes,
+    s.transactions,
+    input.from_account_id,
+    input.to_account_id,
+    input.amount,
+    today,
+  );
+  if (!limits.ok) return limits;
+  return {
+    ok: true,
+    value: {
+      linkId: built.value.linkId,
+      kind: built.value.kind,
+      impact: impactOf(s.transactions, [...s.transactions, ...built.value.legs], ids, today),
+      input: { ...input, link_id: built.value.linkId },
+      warnings: limits.warnings,
+    },
+  };
 }
 
 export function saveTransfer(p: TransferPreview): Done<string> {

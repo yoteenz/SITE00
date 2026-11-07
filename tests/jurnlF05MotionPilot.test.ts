@@ -4,15 +4,21 @@
  */
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { artFor, computeMoneyParentReading, nameLines, OPEN_TRANSFER_STATES, pageAccounts } from '../src/projects/jurnl/data/f05/moneyParentReading';
 import { computeSafeToSpend } from '../src/projects/jurnl/data/f09/safeToSpend';
 import { recordTransfer, recordTransferStep } from '../src/projects/jurnl/data/ledger/ledgerOps';
 import { getRepository } from '../src/projects/jurnl/data/repository/deviceRepository';
 import { upsertCreditTerms } from '../src/projects/jurnl/data/f12/creditStore';
 import { addDays } from '../src/projects/jurnl/data/foundation/dates';
-import { accountItems, accountPaperRect, accountRailViewport, APPROVED_SLOTS, bottomRowItems, capacityFor, computeF05MotionLayout, CROP, SRC_H, SRC_W } from '../src/projects/jurnl/runtime/screens/f05/f05MotionLayout';
+import { F05_COMPOSITION as F05C } from '../src/projects/jurnl/runtime/screens/f05/f05Composition';
+import { accountItems, accountPaperRect, accountRailGap, accountRailViewport, APPROVED_SLOTS, bottomRowItems, capacityFor, computeF05MotionLayout, CROP, F05_ACCOUNTS_CHROME_NUDGE_SCREEN, F05_MOTION_SEAM_Y, f05SeamY, SRC_H, SRC_W } from '../src/projects/jurnl/runtime/screens/f05/f05MotionLayout';
+import { DIRECTORY_MAX_CROP } from '../src/projects/jurnl/runtime/screens/f05/dot01/directoryScene';
 import { resolveF05ParentVariant } from '../src/projects/jurnl/runtime/screens/f05/MoneyParentRoute';
+import { F05_NAV_KEY, mergeMoneySearchParams, patchF05Nav, readF05Nav } from '../src/projects/jurnl/runtime/screens/f05/f05NavPersistence';
+import { applyF05PreviewPocketSeed } from '../src/projects/jurnl/runtime/screens/f05/f05PreviewPocketSeed';
+import { createManualAccount } from '../src/projects/jurnl/data/foundation/accountMutations';
+import { listActiveAccounts } from '../src/projects/jurnl/data/foundation/accounts';
 import { TODAY, acct, position, world } from './helpers/jurnlFinancialWorld';
 
 const ASSET_DIR = path.resolve('src/projects/jurnl/families/F05_MONEY/MOTION_PILOT');
@@ -220,8 +226,8 @@ describe('Layout', () => {
   it('phones fit the width with at most the crop allowance; the extra height is elastic, never stretched', () => {
     for (const [w, h] of [[360, 780], [393, 852]] as const) {
       const L = computeF05MotionLayout(w, h, 6);
-      expect(L.u).toBeCloseTo(w / (SRC_W - 2 * CROP), 5);
-      expect(L.visibleX[0]).toBeCloseTo(CROP, 3);
+      expect(L.u).toBeCloseTo(w / (SRC_W - 2 * DIRECTORY_MAX_CROP), 5);
+      expect(L.visibleX[0]).toBeCloseTo(DIRECTORY_MAX_CROP, 3);
       expect(L.boardH * L.u).toBeCloseTo(h, 3);
       expect(L.sliced).toBe(true);
       // 9:16 composition: phones keep the reference's two rows of papers (4 per page)
@@ -234,12 +240,24 @@ describe('Layout', () => {
     }
   });
 
-  it('short phone viewports (browser chrome) still width-fit with no pillarboxing', () => {
+  it('VIEW ALL and collection dots nudge down together in screen pixels', () => {
+    const L = computeF05MotionLayout(393, 852, 4, 2);
+    const seam = { extra: L.extra, ey: F05_MOTION_SEAM_Y, z0: null as number | null };
+    const baseViewAll = f05SeamY(seam, F05C.viewAll.y);
+    const baseDots = f05SeamY(seam, F05C.dots.y);
+    expect((L.viewAll.y - baseViewAll) * L.u).toBeCloseTo(F05_ACCOUNTS_CHROME_NUDGE_SCREEN, 1);
+    expect((L.dots.y - baseDots) * L.u).toBeCloseTo(F05_ACCOUNTS_CHROME_NUDGE_SCREEN, 1);
+    expect(L.viewAll.y - L.dots.y).toBeCloseTo(baseViewAll - baseDots, 3);
+  });
+
+  it('short phone viewports height-fit the foot so the torn nav paper stays on screen', () => {
     for (const [w, h] of [[393, 620], [390, 664]] as const) {
-      const L = computeF05MotionLayout(w, h, 4);
-      expect(L.u).toBeCloseTo(w / (SRC_W - 2 * CROP), 5);
-      expect(L.ox).toBeLessThanOrEqual(0);
-      expect(L.visibleX[0]).toBeGreaterThanOrEqual(CROP - 1);
+      const L = computeF05MotionLayout(w, h, 4, 2);
+      expect(L.boardH * L.u).toBeCloseTo(h, 1);
+      expect((L.navZone.y + L.navZone.h) * L.u).toBeLessThanOrEqual(h + 2);
+      expect(L.u).toBeLessThan(w / (SRC_W - 2 * CROP));
+      const gridBottom = Math.max(...L.slots.map((s) => s.y + s.h));
+      expect(L.viewAll.y).toBeGreaterThanOrEqual(gridBottom + 8);
     }
   });
 
@@ -267,7 +285,8 @@ describe('Layout', () => {
     const vp = accountRailViewport(L);
     expect(vp.w).toBeCloseTo(L.slots[1]!.x + L.slots[1]!.w - L.slots[0]!.x, 0);
     expect(accountPaperRect(L, 0, 0).x).toBe(vp.x);
-    expect(accountPaperRect(L, 2, vp.w).x).toBeCloseTo(vp.x, 0);
+    const step = L.slots[0]!.w + accountRailGap(L);
+    expect(accountPaperRect(L, 2, 2 * step).x).toBeCloseTo(vp.x, 0);
     expect(pageAccounts([1, 2, 3, 4, 5], 4)).toEqual([[1, 2, 3, 4], [5]]);
   });
 });
@@ -314,5 +333,47 @@ describe('Opt-in route and assets', () => {
     expect(css).toContain('calc(108px - var(--f05-type-nudge, 0px))');
     // numbers never count up
     expect(css).not.toMatch(/counter|@property --num/);
+  });
+});
+
+describe('F05 preview pocket seed', () => {
+  it('cash-third adds CASH when two asset pockets exist and none is CASH', () => {
+    world({
+      user: 'f05-seed@jurnl.test',
+      accounts: [acct('one', 'ONE', 'CHECKING', 100), acct('two', 'TWO', 'SAVINGS', 200)],
+    });
+    expect(listActiveAccounts()).toHaveLength(2);
+    applyF05PreviewPocketSeed('cash-third');
+    const active = listActiveAccounts();
+    expect(active).toHaveLength(3);
+    expect(active.some((a) => a.account_type === 'CASH' && a.balance === 0)).toBe(true);
+  });
+});
+
+describe('F05 navigation persistence', () => {
+  const tab = new Map<string, string>();
+  beforeEach(() => {
+    tab.clear();
+    vi.stubGlobal('sessionStorage', {
+      getItem: (k: string) => tab.get(k) ?? null,
+      setItem: (k: string, v: string) => void tab.set(k, v),
+      removeItem: (k: string) => void tab.delete(k),
+    });
+  });
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('mergeMoneySearchParams keeps parent and carousel from the live URL or tab memory', () => {
+    patchF05Nav({ parent: 'motion', c: 'transfers' });
+    const merged = mergeMoneySearchParams(new URLSearchParams(), new URLSearchParams('parent=motion&c=commitments'));
+    expect(merged.get('parent')).toBe('motion');
+    expect(merged.get('c')).toBe('commitments');
+    const fromMemory = mergeMoneySearchParams(new URLSearchParams(), new URLSearchParams());
+    expect(fromMemory.get('parent')).toBe('motion');
+    expect(fromMemory.get('c')).toBe('transfers');
+    expect(readF05Nav().railScroll).toBeUndefined();
+    patchF05Nav({ railScroll: 120 });
+    expect(readF05Nav().railScroll).toBe(120);
   });
 });
