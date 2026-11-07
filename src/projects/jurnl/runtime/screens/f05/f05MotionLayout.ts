@@ -112,7 +112,7 @@ export const F05_MOTION_SEAM_Y = SEAM_C;
 export const F05_ACCOUNTS_CHROME_NUDGE_SCREEN = 3;
 
 /** MONEY motion parent only: nudge the five-item dock (labels + icons) toward the home-indicator (screen px). DOT 01 and other screens omit this. */
-export const F05_MOTION_NAV_NUDGE_SCREEN = 4;
+export const F05_MOTION_NAV_NUDGE_SCREEN = 8;
 
 /** Map authority y through the seam — matches Dot01 `by()`. */
 export function f05SeamY(L: { extra: number; ey: number; z0: number | null }, y: number): number {
