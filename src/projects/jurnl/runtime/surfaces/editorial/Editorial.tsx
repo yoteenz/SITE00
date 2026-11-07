@@ -147,11 +147,11 @@ export function EditorialOverlay({ testId, composition, title, script, onClose, 
   /** plate mode: one short live line under the script (an honesty note that belongs with the headline) */
   headNote?: ReactNode;
 }) {
-  if (plate) return <PlateOverlay {...{ testId, composition, title, script, onClose, head, children, footer, closeLabel, labelledBy, plate, headNote }} />;
+  if (plate) return <PlateOverlay {...{ testId, composition, title, script, onClose, head, children, footer, place, closeLabel, labelledBy, plate, headNote }} />;
   return <FolioOverlay {...{ testId, composition, title, script, onClose, decor, head, children, footer, place, closeLabel, labelledBy }} />;
 }
 
-function PlateOverlay({ testId, composition, title, script, onClose, head, children, footer, closeLabel, labelledBy, plate, headNote }: {
+function PlateOverlay({ testId, composition, title, script, onClose, head, children, footer, place, closeLabel, labelledBy, plate, headNote }: {
   testId: string;
   composition: string;
   title: string[];
@@ -160,6 +160,7 @@ function PlateOverlay({ testId, composition, title, script, onClose, head, child
   head?: ReactNode;
   children: ReactNode;
   footer?: ReactNode;
+  place: 'center' | 'bottom';
   closeLabel: string;
   labelledBy?: string;
   plate: EdPlate;
@@ -171,7 +172,7 @@ function PlateOverlay({ testId, composition, title, script, onClose, head, child
   const { ref: hostRef, w, h } = useShellPlate(1, art.width, art.height);
   return (
     <OverlayLayer>
-      <div ref={hostRef} className="jed-host" data-jrn-overlay={testId} data-jed={composition} data-plate="true" data-overlay-asset={plate.art}>
+      <div ref={hostRef} className="jed-host" data-jrn-overlay={testId} data-jed={composition} data-plate="true" data-place={place} data-overlay-asset={plate.art}>
         <div className="jed-scrim" onClick={onClose} aria-hidden />
         <div ref={ref} role="dialog" aria-modal="true" aria-labelledby={labelledBy ?? id} className="jed-folio jed-folio--plate" data-testid={`${testId}-folio`} style={{ width: w, height: h }}>
           <img className="jed-plate" src={art.src} width={art.width} height={art.height} alt="" aria-hidden draggable={false} data-asset-id={plate.art} />

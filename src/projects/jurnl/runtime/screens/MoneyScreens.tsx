@@ -450,6 +450,7 @@ export function AddPlaceSheet({ onClose, onSaved }: { onClose: () => void; onSav
       composition="register"
       title={['ADD A POCKET']}
       script="create a new stash for your money"
+      place="bottom"
       onClose={onClose}
       plate={OV02_PLATE}
       footer={

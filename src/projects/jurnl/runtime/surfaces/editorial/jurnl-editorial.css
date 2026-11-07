@@ -848,6 +848,10 @@
 .jrn .jed-host[data-plate='true'] {
   padding: 0;
 }
+.jrn .jed-host[data-plate='true'][data-place='bottom'] {
+  align-items: flex-end;
+  padding-bottom: max(10px, env(safe-area-inset-bottom));
+}
 .jrn .jed-host[data-plate='true'] .jed-folio--plate {
   display: block;
   flex: 0 0 auto;

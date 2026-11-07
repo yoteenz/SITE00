@@ -376,6 +376,7 @@ export function TransferSheet({ fromId, toId, onClose }: { fromId?: string | nul
       composition="transfer"
       title={toCard ? ['PAY A CARD'] : ['MOVE MONEY']}
       script={toCard ? 'record a card payment' : 'transfer between your pockets'}
+      place="bottom"
       onClose={onClose}
       plate={OV03_PLATE}
       headNote={
