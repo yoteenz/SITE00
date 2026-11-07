@@ -325,7 +325,9 @@ test.describe('OPUS3 · SEARCH on the regenerated OV05 shell', () => {
       await clickTrigger(page, 'f05m-search');
       const host = overlay(page, 'global-search');
       await expect(host).toHaveAttribute('data-overlay-asset', 'OV05_SEARCH_SHELL');
-      await expect(host.locator('img')).toHaveCount(1); // one art layer: no painted wells, no foreground duplicates
+      // one art layer (no painted wells, no foreground duplicates) plus the founder CLOSE artwork once on the live close (OPUS1)
+      const art = await host.locator('img').evaluateAll((els) => els.map((e) => e.getAttribute('data-asset-id')).sort());
+      expect(art).toEqual(['F05.UTILITY.CLOSE.GOLD', 'OV05_SEARCH_SHELL']);
       const pb = await insidePlate(page, 'global-search', ['search-input', 'search-filter-all', 'search-filter-pockets', 'search-filter-transactions', 'search-all-activity', 'search-advanced']);
       expect(pb.width / pb.height).toBeCloseTo(581 / 887, 2); // the regenerated OV05 shell's own ratio (one uniform scale)
       await trigger(page, 'search-input').fill('OPUS3');
@@ -409,7 +411,7 @@ test.describe('OPUS3 · SAFE TO SPEND BUFFER and PRIVACY & CONSENTS on the regen
     const host = overlay(page, 'global-buffer');
     await expect(host).toHaveAttribute('data-overlay-asset', 'CH01_BUFFER_SHELL');
     const ids = await host.locator('img').evaluateAll((els) => els.map((e) => e.getAttribute('data-asset-id')).sort());
-    expect(ids).toEqual(['CH01_AMOUNT_PAPER', 'CH01_BACK_PAPER', 'CH01_BUFFER_SHELL', 'CH01_EFFECT_PAPER']);
+    expect(ids).toEqual(['CH01_AMOUNT_PAPER', 'CH01_BACK_PAPER', 'CH01_BUFFER_SHELL', 'CH01_EFFECT_PAPER', 'F05.UTILITY.CLOSE.GOLD']); // + the founder CLOSE artwork once (OPUS1)
     // the shell has no tag or title paper: the headline is live cream type on its olive field, no wordmark is invented
     await expect(host.locator('.jsh-tag')).toHaveCount(0);
     await expect(host.locator('.jsh-head')).toHaveAttribute('data-tone', 'cream');
@@ -455,7 +457,7 @@ test.describe('OPUS3 · SAFE TO SPEND BUFFER and PRIVACY & CONSENTS on the regen
       const host = overlay(page, 'settings-consents-sheet');
       await expect(host).toHaveAttribute('data-overlay-asset', 'CH02_PRIVACY_SHELL');
       const ids = await host.locator('img').evaluateAll((els) => els.map((e) => e.getAttribute('data-asset-id')).sort());
-      expect(ids).toEqual(['CH02_BACK_PAPER', 'CH02_PRIVACY_SHELL', 'CH02_REMOVE_ACCESS_PAPER']);
+      expect(ids).toEqual(['CH02_BACK_PAPER', 'CH02_PRIVACY_SHELL', 'CH02_REMOVE_ACCESS_PAPER', 'F05.UTILITY.CLOSE.GOLD']); // + the founder CLOSE artwork once (OPUS1)
       await expect(host.locator('.jsh-tag')).toHaveText('JURNL');
       await settle(page, 'settings-consents-sheet');
       const list = host.locator('.jce-list');

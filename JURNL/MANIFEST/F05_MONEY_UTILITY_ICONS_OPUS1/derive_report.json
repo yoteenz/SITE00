@@ -1,0 +1,344 @@
+{
+ "sprint": "P0.JURNL.F05-MONEY.CANONICAL-UTILITY-ICON-FAMILY-INTEGRATION.OPUS1",
+ "crop_factor": 1.24,
+ "runtime_px": 256,
+ "psnr_min": 42.0,
+ "assets": [
+  {
+   "id": "F05.UTILITY.CLOSE.GOLD",
+   "runtime_id": "UTILITY_CLOSE_GOLD",
+   "kind": "close",
+   "provenance": "FOUNDER-SUPPLIED ARTWORK",
+   "approval": "FOUNDER-SUPPLIED, PLACEMENT PENDING FOUNDER REVIEW",
+   "source_upload": "9d97de54-image.png",
+   "master_file": "01_F05_UTILITY_CLOSE_GOLD.png",
+   "source_sha256": "78672c080d139df16b6c27bdb4f2b7949f65215201f8d855abd30b3457498f95",
+   "source_bytes": 1579570,
+   "source_px": [
+    1254,
+    1254
+   ],
+   "source_mode": "RGBA",
+   "transparency": {
+    "alpha_min": 0,
+    "alpha_max": 255,
+    "fully_opaque_px": 15,
+    "disc_alpha_p50": 252,
+    "transparent_pct": 43.7,
+    "partial_pct": 56.3,
+    "dust_px_cleared": 288392,
+    "coloured_fringe_px": 13320,
+    "verdict": "TRUE ALPHA (no checkerboard, no opaque background); disc alpha 251-254 (about 1 % translucent, kept); edge dust alpha <= 2 cleared"
+   },
+   "source_geometry": {
+    "disc_bbox": [
+     238,
+     993,
+     227,
+     996
+    ],
+    "disc_center": [
+     615.5,
+     611.5
+    ],
+    "disc_w": 756,
+    "disc_h": 770,
+    "glyph_bbox": [
+     481,
+     768,
+     476,
+     765
+    ],
+    "glyph_w": 288,
+    "glyph_h": 290,
+    "glyph_offset": [
+     9.0,
+     9.0
+    ],
+    "disc_to_canvas": 0.603,
+    "glyph_w_to_disc": 0.381,
+    "glyph_h_to_disc": 0.384
+   },
+   "crop": {
+    "side": 937,
+    "left": 147,
+    "top": 143,
+    "factor": 1.24,
+    "source_alpha_outside_crop_max": 3
+   },
+   "runtime": {
+    "file": "UTILITY_CLOSE_GOLD.webp",
+    "px": [
+     256,
+     256
+    ],
+    "sha256": "872efa5e1f4d3bc4cd401a52feaa082b00e6994aa34a647f62f0e606118a19a0",
+    "bytes": 63956,
+    "encoding": "lossless",
+    "psnr_db": {
+     "parchment": 40.46,
+     "olive": 40.46,
+     "oxblood": 40.47
+    },
+    "disc_w": 206,
+    "disc_center": [
+     127.5,
+     127.5
+    ],
+    "disc_to_image": 0.805
+   }
+  },
+  {
+   "id": "F05.UTILITY.MENU.GOLD",
+   "runtime_id": "UTILITY_MENU_GOLD",
+   "kind": "menu",
+   "provenance": "FOUNDER-SUPPLIED ARTWORK",
+   "approval": "FOUNDER-SUPPLIED, PLACEMENT PENDING FOUNDER REVIEW",
+   "source_upload": "e8e81e14-image.png",
+   "master_file": "02_F05_UTILITY_MENU_GOLD.png",
+   "source_sha256": "eb793847b75bf01835b420875411ce1f6699a50a8d02b8181e9ed3b2a5f87c82",
+   "source_bytes": 1922226,
+   "source_px": [
+    1254,
+    1254
+   ],
+   "source_mode": "RGBA",
+   "transparency": {
+    "alpha_min": 0,
+    "alpha_max": 255,
+    "fully_opaque_px": 45,
+    "disc_alpha_p50": 253,
+    "transparent_pct": 46.6,
+    "partial_pct": 53.3,
+    "dust_px_cleared": 116238,
+    "coloured_fringe_px": 10651,
+    "verdict": "TRUE ALPHA (no checkerboard, no opaque background); disc alpha 251-254 (about 1 % translucent, kept); edge dust alpha <= 2 cleared"
+   },
+   "source_geometry": {
+    "disc_bbox": [
+     170,
+     1054,
+     151,
+     1062
+    ],
+    "disc_center": [
+     612.0,
+     606.5
+    ],
+    "disc_w": 885,
+    "disc_h": 912,
+    "glyph_bbox": [
+     427,
+     819,
+     466,
+     757
+    ],
+    "glyph_w": 393,
+    "glyph_h": 292,
+    "glyph_offset": [
+     11.0,
+     5.0
+    ],
+    "disc_to_canvas": 0.706,
+    "glyph_w_to_disc": 0.444,
+    "glyph_h_to_disc": 0.33
+   },
+   "crop": {
+    "side": 1097,
+    "left": 64,
+    "top": 58,
+    "factor": 1.24,
+    "source_alpha_outside_crop_max": 0
+   },
+   "runtime": {
+    "file": "UTILITY_MENU_GOLD.webp",
+    "px": [
+     256,
+     256
+    ],
+    "sha256": "ada2e3763fd816f5030c5ff0cdfb1cb867546ef7c3be4fbe7b14f5b729b30e15",
+    "bytes": 57998,
+    "encoding": "lossless",
+    "psnr_db": {
+     "parchment": 40.99,
+     "olive": 40.99,
+     "oxblood": 41.0
+    },
+    "disc_w": 206,
+    "disc_center": [
+     127.5,
+     127.5
+    ],
+    "disc_to_image": 0.805
+   }
+  },
+  {
+   "id": "F05.UTILITY.SEARCH.GOLD",
+   "runtime_id": "UTILITY_SEARCH_GOLD",
+   "kind": "search",
+   "provenance": "FOUNDER-SUPPLIED ARTWORK",
+   "approval": "FOUNDER-SUPPLIED, PLACEMENT PENDING FOUNDER REVIEW",
+   "source_upload": "85eec5a0-image.png",
+   "master_file": "03_F05_UTILITY_SEARCH_GOLD.png",
+   "source_sha256": "f87f643c0b371e413b523169584d70ae668707d57349708bd8047faea4f99441",
+   "source_bytes": 1291748,
+   "source_px": [
+    1254,
+    1254
+   ],
+   "source_mode": "RGBA",
+   "transparency": {
+    "alpha_min": 0,
+    "alpha_max": 255,
+    "fully_opaque_px": 5,
+    "disc_alpha_p50": 252,
+    "transparent_pct": 52.0,
+    "partial_pct": 48.0,
+    "dust_px_cleared": 162665,
+    "coloured_fringe_px": 4961,
+    "verdict": "TRUE ALPHA (no checkerboard, no opaque background); disc alpha 251-254 (about 1 % translucent, kept); edge dust alpha <= 2 cleared"
+   },
+   "source_geometry": {
+    "disc_bbox": [
+     201,
+     1021,
+     184,
+     1018
+    ],
+    "disc_center": [
+     611.0,
+     601.0
+    ],
+    "disc_w": 821,
+    "disc_h": 835,
+    "glyph_bbox": [
+     426,
+     786,
+     416,
+     786
+    ],
+    "glyph_w": 361,
+    "glyph_h": 371,
+    "glyph_offset": [
+     -5.0,
+     0.0
+    ],
+    "disc_to_canvas": 0.655,
+    "glyph_w_to_disc": 0.44,
+    "glyph_h_to_disc": 0.452
+   },
+   "crop": {
+    "side": 1018,
+    "left": 102,
+    "top": 92,
+    "factor": 1.24,
+    "source_alpha_outside_crop_max": 0
+   },
+   "runtime": {
+    "file": "UTILITY_SEARCH_GOLD.webp",
+    "px": [
+     256,
+     256
+    ],
+    "sha256": "3792edaa4dd80a3480379120b3f47cf69930e06d3f267fd125a301c02437c921",
+    "bytes": 57180,
+    "encoding": "lossless",
+    "psnr_db": {
+     "parchment": 40.98,
+     "olive": 40.99,
+     "oxblood": 41.01
+    },
+    "disc_w": 206,
+    "disc_center": [
+     127.5,
+     128.0
+    ],
+    "disc_to_image": 0.805
+   }
+  },
+  {
+   "id": "F05.UTILITY.ADD.GOLD",
+   "runtime_id": "UTILITY_ADD_GOLD",
+   "kind": "add",
+   "provenance": "FOUNDER-SUPPLIED ARTWORK",
+   "approval": "FOUNDER-SUPPLIED, PLACEMENT PENDING FOUNDER REVIEW",
+   "source_upload": "8c6e740e-image.png",
+   "master_file": "04_F05_UTILITY_ADD_GOLD.png",
+   "source_sha256": "ea3595d40ca6be24232a56284c9014d1b9d9a1c1644b7631a54c568cba94a3a8",
+   "source_bytes": 1209198,
+   "source_px": [
+    1254,
+    1254
+   ],
+   "source_mode": "RGBA",
+   "transparency": {
+    "alpha_min": 0,
+    "alpha_max": 255,
+    "fully_opaque_px": 91,
+    "disc_alpha_p50": 253,
+    "transparent_pct": 69.7,
+    "partial_pct": 30.3,
+    "dust_px_cleared": 16123,
+    "coloured_fringe_px": 3744,
+    "verdict": "TRUE ALPHA (no checkerboard, no opaque background); disc alpha 251-254 (about 1 % translucent, kept); edge dust alpha <= 2 cleared"
+   },
+   "source_geometry": {
+    "disc_bbox": [
+     261,
+     975,
+     263,
+     989
+    ],
+    "disc_center": [
+     618.0,
+     626.0
+    ],
+    "disc_w": 715,
+    "disc_h": 727,
+    "glyph_bbox": [
+     480,
+     763,
+     481,
+     760
+    ],
+    "glyph_w": 284,
+    "glyph_h": 280,
+    "glyph_offset": [
+     3.5,
+     -5.5
+    ],
+    "disc_to_canvas": 0.57,
+    "glyph_w_to_disc": 0.397,
+    "glyph_h_to_disc": 0.392
+   },
+   "crop": {
+    "side": 887,
+    "left": 174,
+    "top": 182,
+    "factor": 1.24,
+    "source_alpha_outside_crop_max": 0
+   },
+   "runtime": {
+    "file": "UTILITY_ADD_GOLD.webp",
+    "px": [
+     256,
+     256
+    ],
+    "sha256": "c74b6eedb1971951292d3dfba01d9754433521169d5bcbde3bbd200b60b1b7e7",
+    "bytes": 57454,
+    "encoding": "lossless",
+    "psnr_db": {
+     "parchment": 41.52,
+     "olive": 41.54,
+     "oxblood": 41.55
+    },
+    "disc_w": 205,
+    "disc_center": [
+     128.0,
+     128.0
+    ],
+    "disc_to_image": 0.801
+   }
+  }
+ ]
+}

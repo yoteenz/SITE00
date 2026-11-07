@@ -17,6 +17,7 @@ import { OverlayLayer } from '../../components/primitives';
 import { useOverlayHost } from '../../components/OverlayAuthority';
 import { cleanArt, type CleanArtId } from '../../global/overlays/clean/registry';
 import { useStableFocus } from '../v3/V3Surfaces';
+import { JurnlUtilityArtButton } from '../../components/JurnlUtilityArtButton';
 import './jurnl-shell-overlays.css';
 
 /**
@@ -126,12 +127,9 @@ export function ShellOverlay({
             </span>
           ) : null}
           {children}
+          {/* the founder-supplied CLOSE artwork (F05.UTILITY.CLOSE.GOLD): the authorities draw this cream / gold disc */}
           {close ? (
-            <button type="button" className="jsh-close" data-jrn-trigger={`${testId}-close`} aria-label={closeLabel} onClick={onClose}>
-              <svg viewBox="0 0 24 24" aria-hidden>
-                <path d="M6.5 6.5l11 11M17.5 6.5l-11 11" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
-              </svg>
-            </button>
+            <JurnlUtilityArtButton kind="close" className="jsh-close" trigger={`${testId}-close`} label={closeLabel} onClick={onClose} />
           ) : null}
         </div>
       </div>

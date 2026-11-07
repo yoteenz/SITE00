@@ -45,6 +45,7 @@ import cardCredit from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_CARD
 import { useLongPress, usePocketManager } from './dot01/PocketManager';
 import { useAmbientChannels } from '../../motion/useMotion';
 import { respond } from '../../motion/materials';
+import { claimMenuArt, JurnlUtilityArtButton } from '../../components/JurnlUtilityArtButton';
 import './jurnl-f05-motion.css';
 import './jurnl-f05-carousel.css';
 
@@ -156,6 +157,8 @@ export function MoneyMotionParent() {
   useRepoTick();
   const reduced = useReducedMotion();
   useAmbientChannels('f05-parent', PARENT_AMBIENT, !reduced);
+  // the corner hamburger wears the founder's MENU artwork while the MONEY parent is mounted (one control, never two)
+  useEffect(() => claimMenuArt(), []);
   const carousel = computeMoneyCarousel(undefined, formatMoney);
   const reading = carousel.reading;
   const stageRef = useRef<HTMLDivElement>(null);
@@ -699,12 +702,9 @@ export function MoneyMotionParent() {
           </section>
 
           {/* L4 — corner chips (approved squares; the global menu takes the far-right one) */}
-          <button type="button" className="jrn-f05m__chip" data-jrn-trigger="f05m-search" aria-label="SEARCH POCKETS AND ACTIVITY" aria-haspopup="dialog" style={{ ...at({ x: searchX, y: CHIP_TOP, w: CHIP, h: CHIP }), top: CHIP_TOP_SAFE }} onClick={() => setSheet('search')}>
-            <svg viewBox="0 0 24 24" aria-hidden><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" strokeWidth="1.8" /><path d="M15.5 15.5L21 21" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
-          </button>
-          <button type="button" className="jrn-f05m__chip" data-jrn-trigger="f05m-actions" aria-label="ADD A POCKET OR MOVE YOUR MONEY" style={{ ...at({ x: plusX, y: CHIP_TOP, w: CHIP, h: CHIP }), top: CHIP_TOP_SAFE }} onClick={() => setSheet('actions')}>
-            <svg viewBox="0 0 24 24" aria-hidden><path d="M12 4v16M4 12h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
-          </button>
+          {/* founder-supplied SEARCH / ADD artwork on the approved chip squares (F05.UTILITY.*.GOLD); the disc is the square */}
+          <JurnlUtilityArtButton kind="search" className="jrn-f05m__chip" trigger="f05m-search" label="SEARCH POCKETS AND ACTIVITY" aria-haspopup="dialog" style={{ ...at({ x: searchX, y: CHIP_TOP, w: CHIP, h: CHIP }), top: CHIP_TOP_SAFE, ['--uab-disc' as string]: `${CHIP}px` } as CSSProperties} onClick={() => setSheet('search')} />
+          <JurnlUtilityArtButton kind="add" className="jrn-f05m__chip" trigger="f05m-actions" label="ADD A POCKET OR MOVE YOUR MONEY" style={{ ...at({ x: plusX, y: CHIP_TOP, w: CHIP, h: CHIP }), top: CHIP_TOP_SAFE, ['--uab-disc' as string]: `${CHIP}px` } as CSSProperties} onClick={() => setSheet('actions')} />
         </div>
       </div>
 

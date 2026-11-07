@@ -17,6 +17,7 @@ import { OverlayLayer } from '../../components/primitives';
 import { tornClip, useStableFocus } from '../v3/V3Surfaces';
 import { cleanArt, type CleanArtId } from '../../global/overlays/clean/registry';
 import { slot, useShellPlate, type ShellBox } from './Shell';
+import { JurnlUtilityArtButton } from '../../components/JurnlUtilityArtButton';
 import sk01 from '../../../families/F05_MONEY/MOTION_PILOT/F05_MOTION_SIDEKICK.webp';
 import heading from '../../../families/F05_MONEY/DOT01/F05_DOT01_01_HEADING_PARCHMENT.webp';
 import laurelSeal from '../../../families/F05_MONEY/DOT01/F05_DOT01_02_LAUREL_WAX_SEAL.webp';
@@ -184,9 +185,7 @@ function PlateOverlay({ testId, composition, title, script, onClose, head, child
           </div>
           <div className="jed-body" style={slot(plate.body)}>{children}</div>
           {footer ? <div className="jed-foot" style={slot(plate.foot ?? [plate.body[0], plate.body[3], plate.body[2], Math.min(0.98, plate.body[3] + 0.07)])}>{footer}</div> : null}
-          <button type="button" className="jed-close" data-jrn-trigger={`${testId}-close`} aria-label={closeLabel} onClick={onClose}>
-            <svg viewBox="0 0 24 24" aria-hidden><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" /></svg>
-          </button>
+          <JurnlUtilityArtButton kind="close" className="jed-close" trigger={`${testId}-close`} label={closeLabel} onClick={onClose} />
         </div>
       </div>
     </OverlayLayer>
@@ -220,9 +219,7 @@ function FolioOverlay({ testId, composition, title, script, onClose, decor, head
           <EdHead id={id} title={title} script={script}>{head}</EdHead>
           <div className="jed-body">{children}</div>
           {footer ? <div className="jed-foot">{footer}</div> : null}
-          <button type="button" className="jed-close" data-jrn-trigger={`${testId}-close`} aria-label={closeLabel} onClick={onClose}>
-            <svg viewBox="0 0 24 24" aria-hidden><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" /></svg>
-          </button>
+          <JurnlUtilityArtButton kind="close" className="jed-close" trigger={`${testId}-close`} label={closeLabel} onClick={onClose} />
         </div>
       </div>
     </OverlayLayer>

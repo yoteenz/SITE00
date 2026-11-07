@@ -129,8 +129,9 @@ describe('no duplicate artwork, no prepainted UI geometry', () => {
     expect(privacy).toMatch(/class="jsh-tag"[^>]*>JURNL</);
     expect(buffer).not.toContain('class="jsh-tag"');
     expect(buffer).toMatch(/class="jsh-head" data-tone="cream"/);
-    expect(assetIds(buffer).sort()).toEqual(['CH01_AMOUNT_PAPER', 'CH01_BACK_PAPER', 'CH01_BUFFER_SHELL', 'CH01_EFFECT_PAPER']);
-    expect(assetIds(privacy).sort()).toEqual(['CH02_BACK_PAPER', 'CH02_PRIVACY_SHELL', 'CH02_REMOVE_ACCESS_PAPER']);
+    // + the founder-supplied CLOSE artwork, once, on the live close control (utility icon family, OPUS1)
+    expect(assetIds(buffer).sort()).toEqual(['CH01_AMOUNT_PAPER', 'CH01_BACK_PAPER', 'CH01_BUFFER_SHELL', 'CH01_EFFECT_PAPER', 'F05.UTILITY.CLOSE.GOLD']);
+    expect(assetIds(privacy).sort()).toEqual(['CH02_BACK_PAPER', 'CH02_PRIVACY_SHELL', 'CH02_REMOVE_ACCESS_PAPER', 'F05.UTILITY.CLOSE.GOLD']);
   });
 
   it('D1b the live regions stay inside the shells and clear of their baked art (sprigs, coins, seal)', () => {
@@ -191,8 +192,9 @@ describe('no duplicate artwork, no prepainted UI geometry', () => {
   it('D3 SEARCH and the MENU are each one art layer; no retired shell (painted wells, rows or baked action papers) is drawn', () => {
     const search = render(createElement(GlobalSearchDrawer, { onClose: noop }));
     const menu = render(createElement(GlobalMenu, { onClose: noop, onOpen: noop }));
-    expect(assetIds(search)).toEqual(['OV05_SEARCH_SHELL']);
-    expect(assetIds(menu)).toEqual(['OV08_MENU_ENVIRONMENT']);
+    // one environment layer each, plus the founder CLOSE artwork once on the live close control (utility icon family, OPUS1)
+    expect(assetIds(search)).toEqual(['OV05_SEARCH_SHELL', 'F05.UTILITY.CLOSE.GOLD']);
+    expect(assetIds(menu)).toEqual(['OV08_MENU_ENVIRONMENT', 'F05.UTILITY.CLOSE.GOLD']);
     expect(menu).toMatch(/class="jgm-tag"[^>]*>JURNL</);
     for (const html of [search, menu]) expect(html).not.toMatch(/OV0\d_SHELL\.webp|OV0\d-IS-/);
   });
