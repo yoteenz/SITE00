@@ -19,6 +19,7 @@
  * Every state change is recorded by the user; none is bank- or issuer-confirmed (no provider exists).
  */
 
+import { isSupersededByBank } from '../banking/activity';
 import type { JurnlAccountRecord } from '../foundation/accounts';
 import type { CalendarDate } from '../foundation/dates';
 import type { LedgerEntry, LegSettlement, SettlementEvent } from '../home/moneyTypes';
@@ -89,7 +90,8 @@ export function deriveTransferState(out: LegSettlement | null, inn: LegSettlemen
 export function transferViews(entries: LedgerEntry[], today: CalendarDate): TransferView[] {
   const groups = new Map<string, LedgerEntry[]>();
   for (const e of entries) {
-    if (e.source !== 'ADDED' || !isTwoLegKind(e) || !e.link) continue;
+    // A recorded transfer the bank already reports is counted through the bank's record (never committed twice).
+    if (e.source !== 'ADDED' || !isTwoLegKind(e) || !e.link || isSupersededByBank(e)) continue;
     groups.set(e.link.id, [...(groups.get(e.link.id) ?? []), e]);
   }
   return [...groups.entries()].map(([linkId, legs]) => {

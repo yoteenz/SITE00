@@ -12,13 +12,22 @@ import { F01_ENTRY_V2_SCREENS, F01_FAMILY_BOUNDARY, F01_SCREENS, F01_STATE_OVERL
 import { f02ScreenForRoute, F02_SCREENS } from '../../data/f02/screens';
 import { jurnlFamilyScreenForPath } from '../../data/familyRouteTree';
 import { resolveFamilyRoute } from '../../data/foundation/familyRegistry';
-import { decideDeviceServerMerge } from '../../data/repository/deviceServerMerge';
-import { importSnapshotForUser, peekDeviceSnapshot, setRepositoryUserId } from '../../data/repository/deviceRepository';
+import { decideHydrate } from '../../data/repository/deviceServerMerge';
+import {
+  emptySnapshotForUser,
+  importSnapshotForUser,
+  markSnapshotSynced,
+  peekDeviceSnapshot,
+  purgeDeviceCacheForUser,
+  saveConflictCopy,
+  setRepositoryUserId,
+} from '../../data/repository/deviceRepository';
+import { dataModeForRuntime, getRepositoryDataMode, setRepositoryDataMode, viteDataModeSetting } from '../../data/repository/dataMode';
 import { resolveRepositoryUserId } from '../../data/repository/repositoryUserId';
 import {
   configureServerSync,
+  flushPush,
   pullServerSnapshotForHydrate,
-  pushSnapshotAfterLogin,
   subscribeServerSync,
   type ServerSyncState,
 } from '../../data/repository/serverSyncCoordinator';
@@ -167,15 +176,24 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
   const [device, setDeviceState] = useState<DeviceState>(() => initialDevice);
   const [session, setSessionState] = useState<SessionState>(() => {
     const initial = readJson(tab.get(SESSION_KEY) ?? local.get(SESSION_KEY), DEFAULT_SESSION);
-    setRepositoryUserId(
-      resolveRepositoryUserId({
-        mode,
-        sessionEmail: initial.account?.email,
-        rememberedEmail: initialDevice.remembered[0]?.email,
-      }),
-    );
+    // Data mode first: a production runtime never reads or writes design-preview data.
+    setRepositoryDataMode(dataModeForRuntime(mode, viteDataModeSetting()));
+    if (mode === 'production') {
+      // Real accounts are keyed by the verified auth user id only, set once the session is confirmed.
+      setRepositoryUserId('preview-guest');
+    } else {
+      setRepositoryUserId(
+        resolveRepositoryUserId({
+          mode,
+          sessionEmail: initial.account?.email,
+          rememberedEmail: initialDevice.remembered[0]?.email,
+        }),
+      );
+    }
     return initial;
   });
+  const sessionRef = useRef(session);
+  sessionRef.current = session;
   const relPath = location.pathname.slice(basePath.length).replace(/^\/+/, '');
   const stateOverlay = F01_STATE_OVERLAYS[`${f01ScreenForRoute(relPath)?.id ?? ''}:${q('state') ?? ''}`] ?? null;
   const [overlay, setOverlay] = useState<string | null>(() => q('overlay') ?? stateOverlay);
@@ -223,7 +241,11 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
     [local, tab],
   );
   const signOut = useCallback(() => {
-    if (mode === 'production') void getSupabase()?.auth.signOut();
+    if (mode === 'production') {
+      const prev = sessionRef.current.authPrincipalId;
+      if (prev) purgeDeviceCacheForUser(prev);
+      void getSupabase()?.auth.signOut();
+    }
     setSession({ ...DEFAULT_SESSION });
     setRepositoryUserId('preview-guest');
   }, [setSession, mode]);
@@ -376,31 +398,40 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
         emailVerified: Boolean(user.email_confirmed_at),
       };
       setRepositoryUserId(user.id);
-      let serverSnap = null as Awaited<ReturnType<typeof pullServerSnapshotForHydrate>>['snapshot'];
-      try {
-        const pulled = await pullServerSnapshotForHydrate(mode);
-        serverSnap = pulled.snapshot;
-      } catch (e) {
-        if (String(e).includes('AUTH')) {
-          trackJurnlSafeError('SESSION_EXPIRED', { surface: 'hydrate' });
-          void sb.auth.signOut();
-          setSession({ ...DEFAULT_SESSION });
-          setRepositoryUserId('preview-guest');
-          showToast({
-            tone: 'error',
-            title: 'SESSION ENDED',
-            body: 'SIGN IN AGAIN TO CONTINUE.',
-            testId: 'jurnl-session-expired',
-          });
-          return;
-        }
+      const pulled = await pullServerSnapshotForHydrate(mode);
+      if (!pulled.ok && pulled.code === 'AUTH') {
+        trackJurnlSafeError('SESSION_EXPIRED', { surface: 'hydrate' });
+        void sb.auth.signOut();
+        setSession({ ...DEFAULT_SESSION });
+        setRepositoryUserId('preview-guest');
+        showToast({ tone: 'error', title: 'SESSION ENDED', body: 'SIGN IN AGAIN TO CONTINUE.', testId: 'jurnl-session-expired' });
+        return;
       }
-      const emailKey = account.email.trim().toUpperCase();
-      const deviceSnap = peekDeviceSnapshot(user.id) ?? peekDeviceSnapshot(emailKey);
-      const decision = decideDeviceServerMerge(serverSnap, deviceSnap);
-      if (decision) {
-        importSnapshotForUser(user.id, { ...decision.snapshot, userId: user.id });
-        if (decision.action === 'UPLOAD_DEVICE') await pushSnapshotAfterLogin(mode, user.id);
+      // Only this user's own device copy in this data mode is ever considered (never an email-keyed or preview copy).
+      const dataMode = getRepositoryDataMode();
+      const decision = decideHydrate(
+        pulled.ok ? { ok: true, snapshot: pulled.pulled.snapshot, revision: pulled.pulled.revision } : { ok: false, code: pulled.code === 'AUTH' ? 'SERVER' : pulled.code },
+        peekDeviceSnapshot(user.id),
+        dataMode,
+        user.id,
+      );
+      if (decision.action === 'USE_SERVER') {
+        const device = peekDeviceSnapshot(user.id);
+        if (decision.keepDeviceAsConflictCopy && device) saveConflictCopy(device);
+        importSnapshotForUser(user.id, { ...decision.snapshot, userId: user.id, dataMode, syncBase: { revision: decision.revision, dirty: false, reconciledAt: new Date().toISOString() } });
+        if (decision.keepDeviceAsConflictCopy) {
+          showToast({ tone: 'error', title: 'NEWER DATA LOADED', body: 'CHANGES ON THIS DEVICE WERE OLDER THAN YOUR ACCOUNT. THEY ARE KEPT ON THIS DEVICE ONLY.', testId: 'jurnl-sync-conflict' });
+        }
+      } else if (decision.action === 'START_EMPTY') {
+        importSnapshotForUser(user.id, { ...emptySnapshotForUser(user.id), syncBase: { revision: 0, dirty: false, reconciledAt: new Date().toISOString() } });
+      } else if (decision.action === 'UPLOAD_DEVICE') {
+        markSnapshotSynced(user.id, decision.expectedRevision, { stillDirty: true });
+        void flushPush();
+      } else if (decision.action === 'USE_DEVICE_OFFLINE') {
+        showToast({ tone: 'error', title: 'OFFLINE', body: "SHOWING THIS DEVICE'S LAST SAVED COPY. CHANGES UPLOAD WHEN YOU ARE BACK ONLINE.", testId: 'jurnl-offline-cache' });
+      } else {
+        importSnapshotForUser(user.id, emptySnapshotForUser(user.id));
+        showToast({ tone: 'error', title: 'CANNOT REACH JURNL', body: 'YOUR SAVED DATA COULD NOT BE LOADED. NOTHING WAS CHANGED. TRY AGAIN SHORTLY.', testId: 'jurnl-hydrate-failed' });
       }
       setSession({ account, status: 'ACTIVE', authPrincipalId: user.id });
     };
@@ -411,6 +442,9 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
 
     const { data: sub } = sb.auth.onAuthStateChange((event, sess) => {
       if (event === 'SIGNED_OUT') {
+        const prev = sessionRef.current.authPrincipalId;
+        // Shared devices: a signed-out user's financial cache is removed (unless it holds unsynced changes).
+        if (prev) purgeDeviceCacheForUser(prev);
         setSession({ ...DEFAULT_SESSION });
         setRepositoryUserId('preview-guest');
         return;

@@ -62,7 +62,15 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.json({ limit: process.env.SITE00_API_JSON_LIMIT ?? '25mb' }));
+app.use(
+  express.json({
+    limit: process.env.SITE00_API_JSON_LIMIT ?? '25mb',
+    // Signed webhooks (provider JWT over the body hash) must see the exact bytes that were sent.
+    verify: (req, _res, buf) => {
+      if ((req as express.Request).originalUrl?.startsWith('/api/jurnl/bank-webhook')) (req as unknown as { rawBody?: string }).rawBody = buf.toString('utf8');
+    },
+  }),
+);
 
 app.get('/api/health', async (_req, res) => {
   const provider = resolveCreativeIntelligenceProviderConfig();

@@ -3,6 +3,7 @@
  * of each entry on the place is the canonical accounting.entryEffect, and a leg that has not settled moves nothing
  * yet (#1706): it is listed with its state and no effect.
  */
+import { isActivityEntry } from '../../banking/activity';
 import type { JurnlAccountRecord } from '../../foundation/accounts';
 import { compareCalendarDates, getTodayKey, type CalendarDate } from '../../foundation/dates';
 import type { LedgerEntry } from '../../home/moneyTypes';
@@ -94,7 +95,7 @@ export function searchHistory(f: HistoryFilter = {}, today: CalendarDate = getTo
   const snap = getRepository().getSnapshot();
   const q = (f.q ?? '').trim().toUpperCase();
   const rows = snap.transactions
-    .filter((e) => e.source === 'ADDED')
+    .filter((e) => isActivityEntry(e) || (e.source === 'IMPORTED' && e.import?.provider_state === 'REMOVED'))
     .map((e) => historyRow(e, snap.accounts, today))
     .filter((r) => (f.accountId ? r.account?.account_id === f.accountId : true))
     .filter((r) => (q ? `${r.label} ${r.category} ${r.entry.memo ?? ''} ${r.account?.display_name ?? ''}`.toUpperCase().includes(q) : true))

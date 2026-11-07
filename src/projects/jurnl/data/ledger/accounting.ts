@@ -21,6 +21,7 @@ import type { AccountType, TxnClass } from '../foundation/categories';
 import type { JurnlCreditAttributes } from '../foundation/creditAttributes';
 import { compareCalendarDates, daysUntil, normalizeDateInput, parseCalendarDate, type CalendarDate } from '../foundation/dates';
 import type { LedgerEntry, LegSettlement } from '../home/moneyTypes';
+import { effectiveTxnClass, isActivityEntry, isSupersededByBank } from '../banking/activity';
 
 export type AccountNature = 'ASSET' | 'LIABILITY';
 
@@ -37,7 +38,7 @@ export type HoldingClass = 'EXTERNAL_ACCOUNT' | 'MANUAL_CASH_LOCATION';
  * How sure a balance is. BANK_CONFIRMED is never produced in this build (no provider). ENTERED_BY_YOU: the user typed it.
  * NOT_VERIFIED: a registry or preview value nobody confirmed.
  */
-export type BalanceBasis = 'ENTERED_BY_YOU' | 'NOT_VERIFIED' | 'SAMPLE' | 'BANK_CONFIRMED';
+export type BalanceBasis = 'ENTERED_BY_YOU' | 'NOT_VERIFIED' | 'SAMPLE' | 'BANK_CONFIRMED' | 'NOT_ENTERED';
 
 /** Accounts every new repository is seeded with (accountSeed.ts). Their balances are sample numbers until the user enters one. */
 export const SAMPLE_ACCOUNT_IDS: ReadonlySet<string> = new Set(['acct-checking', 'acct-card']);
@@ -46,7 +47,8 @@ export const BALANCE_BASIS_LABEL: Record<BalanceBasis, string> = {
   ENTERED_BY_YOU: 'ENTERED BY YOU',
   SAMPLE: 'SAMPLE BALANCE',
   NOT_VERIFIED: 'NOT CONFIRMED BY A BANK',
-  BANK_CONFIRMED: 'CONFIRMED BY YOUR BANK',
+  BANK_CONFIRMED: 'FROM YOUR BANK',
+  NOT_ENTERED: 'BALANCE NOT ENTERED',
 };
 
 export const TXN_CLASS_LABEL: Record<TxnClass, string> = {
@@ -103,10 +105,12 @@ export function holdingClass(a: Pick<JurnlAccountRecord, 'account_type'>): Holdi
   return a.account_type === 'CASH' ? 'MANUAL_CASH_LOCATION' : 'EXTERNAL_ACCOUNT';
 }
 
-export function balanceBasis(a: Pick<JurnlAccountRecord, 'is_manual' | 'is_connected'> & Partial<Pick<JurnlAccountRecord, 'account_id' | 'balance_entered_by_user'>>): BalanceBasis {
-  // No bank aggregation provider exists (JURNL_BANK_CONNECTION_PROVIDER = PROVIDER_UNAVAILABLE). A "connected" preview
-  // account is still not bank-confirmed.
+export function balanceBasis(a: Pick<JurnlAccountRecord, 'is_manual' | 'is_connected'> & Partial<Pick<JurnlAccountRecord, 'account_id' | 'balance_entered_by_user' | 'connection'>>): BalanceBasis {
+  // A balance delivered by a connected institution (dated by `connection.balance_as_of`; freshness is shown with it).
+  if (a.connection) return 'BANK_CONFIRMED';
+  // A "connected" flag without provider data is not bank-confirmed (design preview).
   if (a.account_id && SAMPLE_ACCOUNT_IDS.has(a.account_id) && !a.balance_entered_by_user) return 'SAMPLE';
+  if (a.is_manual && a.balance_entered_by_user === false) return 'NOT_ENTERED';
   if (a.is_manual) return 'ENTERED_BY_YOU';
   return 'NOT_VERIFIED';
 }
@@ -138,8 +142,8 @@ export function resolveEntryAccount(entry: Pick<LedgerEntry, 'account_id' | 'acc
 }
 
 /** Accounting class: explicit on new entries, derived for legacy ones. */
-export function entryClass(entry: Pick<LedgerEntry, 'txn_class' | 'direction'>, account: JurnlAccountRecord | null): TxnClass {
-  if (entry.txn_class) return entry.txn_class;
+export function entryClass(entry: Pick<LedgerEntry, 'txn_class' | 'direction'> & Partial<Pick<LedgerEntry, 'bank_match'>>, account: JurnlAccountRecord | null): TxnClass {
+  if (entry.txn_class) return entry.bank_match ? effectiveTxnClass(entry as LedgerEntry, entry.txn_class) : entry.txn_class;
   const liability = account ? accountNature(account.account_type) === 'LIABILITY' : false;
   if (entry.direction === 'INCOME') return liability ? 'REFUND' : 'INCOME';
   return liability ? 'CREDIT_PURCHASE' : 'EXPENSE';
@@ -175,9 +179,13 @@ export function legApplies(e: Pick<LedgerEntry, 'settlement' | 'occurred_on' | '
   return legSettlement(e, today) === 'SETTLED';
 }
 
-/** Recorded by the user, settled, and not scheduled for a later date. Only these change a balance. */
+/**
+ * Recorded by the user, settled, and not scheduled for a later date. Only these change a balance.
+ * Imported entries never do: a connected account's balance comes from the institution, which already includes them.
+ */
 export function isEffective(entry: LedgerEntry, today: CalendarDate): boolean {
   if (entry.source !== 'ADDED') return false;
+  if (isSupersededByBank(entry)) return false;
   const d = entry.occurred_on ? parseCalendarDate(entry.occurred_on) : null;
   if (d && compareCalendarDates(d, today) > 0) return false;
   return legApplies(entry, today);
@@ -236,6 +244,13 @@ export type LedgerPositions = {
   unassigned: { count: number; delta: number; ids: string[] };
 };
 
+function recordedAfter(entry: LedgerEntry, iso: string): boolean {
+  if (!entry.recorded_at) return false;
+  const a = Date.parse(entry.recorded_at);
+  const b = Date.parse(iso);
+  return Number.isFinite(a) && Number.isFinite(b) && a > b;
+}
+
 function freshnessFor(updatedOn: CalendarDate | null, today: CalendarDate): { freshness: BalanceFreshness; days: number | null } {
   if (!updatedOn) return { freshness: 'UNKNOWN', days: null };
   const days = Math.max(0, daysUntil(updatedOn, today));
@@ -259,6 +274,9 @@ export function computeLedgerPositions(
   for (const entry of entries) {
     if (!isEffective(entry, today)) continue;
     const account = resolveEntryAccount(entry, accounts);
+    // Connected account: the provider balance is the anchor. A user entry changes it only when it was recorded after
+    // that balance was taken (until the next sync brings the institution's own record of it).
+    if (account?.connection && !recordedAfter(entry, account.connection.balance_as_of)) continue;
     if (!account) {
       unassigned.count += 1;
       unassigned.ids.push(entry.id);
@@ -282,7 +300,9 @@ export function computeLedgerPositions(
       const position = toCents(entered + recordedDelta);
       const limitRaw = attrs?.credit_limit ?? account.credit_limit;
       const creditLimit = nature === 'LIABILITY' && limitRaw != null && limitRaw > 0 ? toCents(limitRaw) : null;
-      const enteredOn = parseCalendarDate(attrs?.terms_entered_at ?? null) ?? parseCalendarDate(account.as_of) ?? parseCalendarDate(account.updated_at);
+      const enteredOn = account.connection
+        ? parseCalendarDate(account.connection.balance_as_of.slice(0, 10))
+        : parseCalendarDate(attrs?.terms_entered_at ?? null) ?? parseCalendarDate(account.as_of) ?? parseCalendarDate(account.updated_at);
       const updatedOn = maxDate(enteredOn, slot?.last ?? null);
       const fresh = freshnessFor(updatedOn, today);
       return {
@@ -353,7 +373,7 @@ export type FlowTotals = { income: number; spending: number; refunds: number; tr
 export function flowTotals(entries: LedgerEntry[], accounts: JurnlAccountRecord[], from: CalendarDate, through: CalendarDate, today: CalendarDate): FlowTotals {
   const buckets = { income: [] as number[], spending: [] as number[], refunds: [] as number[], transfers: [] as number[], cardPayments: [] as number[], adjustments: [] as number[] };
   for (const e of entries) {
-    if (e.source !== 'ADDED') continue;
+    if (!isActivityEntry(e)) continue;
     const d = entryDate(e, today);
     if (!d || compareCalendarDates(d, from) < 0 || compareCalendarDates(d, through) > 0) continue;
     const cls = entryClass(e, resolveEntryAccount(e, accounts));

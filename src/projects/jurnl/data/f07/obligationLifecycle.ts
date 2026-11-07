@@ -9,6 +9,7 @@
  *  - Recurrence only ever produces scheduled occurrences — never completed payments.
  */
 
+import { isActivityEntry } from '../banking/activity';
 import type { JurnlAccountRecord } from '../foundation/accounts';
 import {
   addDays,
@@ -50,12 +51,12 @@ export function anchorDayOf(ob: Pick<JurnlObligation, 'anchor_day' | 'next_due_d
 
 /** Σ recorded payments toward one occurrence of an obligation. */
 export function paidTowardOccurrence(entries: LedgerEntry[], obligationId: string, occurrence: CalendarDate): number {
-  return sumCents(entries.filter((e) => e.source === 'ADDED' && e.obligation_id === obligationId && e.occurrence_date === occurrence).map((e) => Math.abs(e.amount)));
+  return sumCents(entries.filter((e) => isActivityEntry(e) && e.obligation_id === obligationId && e.occurrence_date === occurrence).map((e) => Math.abs(e.amount)));
 }
 
 export function paymentsFor(entries: LedgerEntry[], obligationId: string): LedgerEntry[] {
   return entries
-    .filter((e) => e.source === 'ADDED' && e.obligation_id === obligationId)
+    .filter((e) => isActivityEntry(e) && e.obligation_id === obligationId)
     .sort((a, b) => (b.occurred_on ?? '').localeCompare(a.occurred_on ?? '') || (b.recorded_at ?? '').localeCompare(a.recorded_at ?? ''));
 }
 

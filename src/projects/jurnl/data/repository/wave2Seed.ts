@@ -43,13 +43,14 @@ export function seedIncomeFromSetup(draft: SetupDraft, existing: JurnlIncomeSour
   return [];
 }
 
-export function seedObligationsFromSetup(draft: SetupDraft, existing: JurnlObligation[]): JurnlObligation[] {
+export function seedObligationsFromSetup(draft: SetupDraft, existing: JurnlObligation[], opts: { allowSampleAmounts?: boolean } = { allowSampleAmounts: true }): JurnlObligation[] {
   if (existing.length) return existing;
   const now = new Date().toISOString();
   const today = getTodayKey();
   if (draft.obligations.length) {
     return draft.obligations.map((o, i) => {
-      const mock = MOCK_UPCOMING.find((m) => m.name.toUpperCase() === o.name.toUpperCase());
+      // Sample amounts fill a same-named bill only in the design preview; a real bill with no amount stays 0 (unknown).
+      const mock = opts.allowSampleAmounts ? MOCK_UPCOMING.find((m) => m.name.toUpperCase() === o.name.toUpperCase()) : undefined;
       return {
         obligation_id: `obl-setup-${i + 1}`,
         name: o.name.toUpperCase(),

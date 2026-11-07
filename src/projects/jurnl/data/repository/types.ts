@@ -16,6 +16,8 @@ import type { JurnlPaydownPlan } from '../foundation/paydown';
 import type { JurnlRecord } from '../foundation/records';
 import type { JurnlDailyEarnings } from '../foundation/dailyEarnings';
 import type { JurnlReservation } from '../foundation/reservations';
+import type { JurnlDataMode } from './dataMode';
+import type { BankLedgerState } from '../banking/types';
 
 export const REPOSITORY_SCHEMA_VERSION = 5;
 
@@ -73,6 +75,15 @@ export type RepositorySnapshot = {
   /** F07 / F12 money set aside toward specific payments (additive in schema v5; defaults to []). */
   reservations: JurnlReservation[];
   updatedAt: string;
+  /** Mode this snapshot was created in (see dataMode.ts). Missing on legacy snapshots = DESIGN_PREVIEW. */
+  dataMode?: JurnlDataMode;
+  /**
+   * Server sync bookkeeping (real modes only): the server revision this device copy was last reconciled with, and
+   * whether it holds changes the server has not accepted yet.
+   */
+  syncBase?: { revision: number; dirty: boolean; reconciledAt: string | null };
+  /** Connected-banking import state: provider watermark, per-import overrides and match decisions (additive). */
+  bank?: BankLedgerState;
 };
 
 /**
@@ -87,6 +98,7 @@ export type FinancialCommit = {
   obligations?: { upsert?: JurnlObligation[] };
   creditAttributes?: { upsert?: JurnlCreditAttributes[] };
   accounts?: { upsert?: JurnlAccountRecord[] };
+  bank?: BankLedgerState;
 };
 
 export type RepositoryListener = () => void;

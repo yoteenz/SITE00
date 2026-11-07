@@ -9,13 +9,16 @@ export function createVercelRequest(req: Request): VercelRequest {
     query[key] = value;
   }
 
-  return {
+  const vreq = {
     method: req.method,
     url: req.originalUrl,
     query,
     headers: req.headers as IncomingHttpHeaders,
     body: req.body,
   } as VercelRequest;
+  // Exact request bytes for signed webhooks (captured by express.json's verify hook in server/index.ts).
+  (vreq as unknown as { rawBody?: string }).rawBody = (req as unknown as { rawBody?: string }).rawBody;
+  return vreq;
 }
 
 export function createVercelResponse(res: Response): VercelResponse {
