@@ -898,6 +898,9 @@
   width: 100%;
   max-width: none;
 }
+.jrn .jed-host[data-plate='true'][data-jed='transfer'] .jed-head .jed-script {
+  color: var(--jed-oxblood);
+}
 .jrn .jed-host[data-plate='true'] .jed-body {
   position: absolute;
   z-index: 1;
