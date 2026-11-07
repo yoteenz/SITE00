@@ -1,0 +1,765 @@
+{
+ "sprint": "P0.JURNL.GLOBAL-OVERLAYS.CANONICAL-MICRO-ASSETS-AND-UTILITY-BUTTONS.CLEAN-MOUNT-CONVERGENCE.OPUS5",
+ "mounted": [
+  {
+   "id": "GROK2.B01-GEAR-REMEMBER-SETUP",
+   "stem": "B01-GEAR-REMEMBER-SETUP",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B01-GEAR-REMEMBER-SETUP.png",
+   "role": "CH02 REMEMBER SETUP icon",
+   "authority": "CH02",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "e222855727175d990b43a4da4153816567004d98762019a20f04460db17329ea",
+   "source_px": [
+    177,
+    177
+   ],
+   "runtime_file": "B01-GEAR-REMEMBER-SETUP.webp",
+   "runtime_px": [
+    177,
+    177
+   ],
+   "runtime_sha256": "8c9c17af94c38274565b78eb62597fbf9cee7678c38e1cc3b852b8c141451136",
+   "runtime_bytes": 35684
+  },
+  {
+   "id": "GROK2.B01-BANK-LINKED-ACCOUNTS",
+   "stem": "B01-BANK-LINKED-ACCOUNTS",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B01-BANK-LINKED-ACCOUNTS.png",
+   "role": "CH02 LINKED ACCOUNTS OPTIONAL icon \u00b7 OV08 CONNECTED ACCOUNTS icon",
+   "authority": "CH02 \u00b7 OV08",
+   "classification": "EXACT_EXTRACT \u00b7 VISUAL_MATCH_REUSE",
+   "source_sha256": "9d5f91462f565b7cea11579f2cde430d184c5b1f0e6a889a23e118b4db207686",
+   "source_px": [
+    180,
+    186
+   ],
+   "runtime_file": "B01-BANK-LINKED-ACCOUNTS.webp",
+   "runtime_px": [
+    180,
+    186
+   ],
+   "runtime_sha256": "18949a74470f0364cee98a24bb3839263d10589a85c4463a7bb114524538b6ae",
+   "runtime_bytes": 31764
+  },
+  {
+   "id": "GROK2.B01-SHIELD-NOTHING-SOLD",
+   "stem": "B01-SHIELD-NOTHING-SOLD",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B01-SHIELD-NOTHING-SOLD.png",
+   "role": "CH02 NOTHING SOLD statement emblem",
+   "authority": "CH02",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "ac5e66a0b2399f19a08ab1b438a3cb70bf115cc8f779bbfc33b35cffbded8b2d",
+   "source_px": [
+    159,
+    183
+   ],
+   "runtime_file": "B01-SHIELD-NOTHING-SOLD.webp",
+   "runtime_px": [
+    159,
+    183
+   ],
+   "runtime_sha256": "18a2587ef73509a9ae3882327cef9915a379b092742296cb6173863ae3f69aed",
+   "runtime_bytes": 29906
+  },
+  {
+   "id": "GROK2.B01-SPARKLE-ASK-CONTEXT",
+   "stem": "B01-SPARKLE-ASK-CONTEXT",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B01-SPARKLE-ASK-CONTEXT.png",
+   "role": "CH02 ASK JURNL CONTEXT icon \u00b7 OV08 ASK JURNL icon",
+   "authority": "CH02 \u00b7 OV08",
+   "classification": "EXACT_EXTRACT \u00b7 VISUAL_MATCH_REUSE",
+   "source_sha256": "890e2fe281323b5466fbdbf1cd2661b89c8b67f0e1ce213a773a353d583f432f",
+   "source_px": [
+    165,
+    171
+   ],
+   "runtime_file": "B01-SPARKLE-ASK-CONTEXT.webp",
+   "runtime_px": [
+    165,
+    171
+   ],
+   "runtime_sha256": "a3cbb332e55de70b7b51ce04cc84f4b2884a6d7412b2bdf835582ffa4da6f079",
+   "runtime_bytes": 25760
+  },
+  {
+   "id": "GROK2.B01-AI-STAR",
+   "stem": "B01-AI-STAR",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B01-AI-STAR.png",
+   "role": "CH02 AI ACCESS icon",
+   "authority": "CH02",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "ad87416d88b906343181366578d5c98b00fccdb4f4734d02e7f045fb204f483f",
+   "source_px": [
+    162,
+    168
+   ],
+   "runtime_file": "B01-AI-STAR.webp",
+   "runtime_px": [
+    162,
+    168
+   ],
+   "runtime_sha256": "efcec0f2348876946a52e584e43ba25b83921976e5173764e5f1d0a1f830986e",
+   "runtime_bytes": 24668
+  },
+  {
+   "id": "GROK2.B01-DATABASE-YOUR-DATA",
+   "stem": "B01-DATABASE-YOUR-DATA",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B01-DATABASE-YOUR-DATA.png",
+   "role": "CH02 YOUR DATA icon",
+   "authority": "CH02",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "3f30cbd070637665d0f672ec119cf109af72ea3a0e3e137be940465ac7aa716e",
+   "source_px": [
+    153,
+    174
+   ],
+   "runtime_file": "B01-DATABASE-YOUR-DATA.webp",
+   "runtime_px": [
+    153,
+    174
+   ],
+   "runtime_sha256": "ee17e69c179745ae5fbb80b99c95b4acfc55260e918aa7bf052caa99452c714b",
+   "runtime_bytes": 29208
+  },
+  {
+   "id": "GROK2.B01-EXPORT-DOWN",
+   "stem": "B01-EXPORT-DOWN",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B01-EXPORT-DOWN.png",
+   "role": "CH02 DATA EXPORT icon",
+   "authority": "CH02",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "8659faeb5252eb300416583a3dcbdc7cd53085ab7b2774d7f3c9e03db80e45b9",
+   "source_px": [
+    174,
+    162
+   ],
+   "runtime_file": "B01-EXPORT-DOWN.webp",
+   "runtime_px": [
+    174,
+    162
+   ],
+   "runtime_sha256": "dd5c6b84c7da554087475f6b97f20fbfd639a84203f04306ccc00f0e39c155ca",
+   "runtime_bytes": 21492
+  },
+  {
+   "id": "GROK2.B01-TRASH-REMOVE",
+   "stem": "B01-TRASH-REMOVE",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B01-TRASH-REMOVE.png",
+   "role": "CH02 REMOVE ACCESS icon",
+   "authority": "CH02",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "7a986f8c66e2c0dc58f46fa832d865e3cacf89fc8513eeb210cb52a9e6f6deb9",
+   "source_px": [
+    168,
+    183
+   ],
+   "runtime_file": "B01-TRASH-REMOVE.webp",
+   "runtime_px": [
+    168,
+    183
+   ],
+   "runtime_sha256": "fc5471948c62ced505027d5b4dacd6eca69f910b81d4773b95ea020079e190a3",
+   "runtime_bytes": 29602
+  },
+  {
+   "id": "GROK2.B01-CHEVRON",
+   "stem": "B01-CHEVRON",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B01-CHEVRON.png",
+   "role": "cream navigation chevron (CH02 rows, OV08 rows)",
+   "authority": "CH02 \u00b7 OV08",
+   "classification": "RECONSTRUCTED",
+   "source_sha256": "db775c79627b7da7492f1dc215148c79d06c281f7ae8c423dd64b3c36351ed1c",
+   "source_px": [
+    42,
+    63
+   ],
+   "runtime_file": "B01-CHEVRON.webp",
+   "runtime_px": [
+    42,
+    63
+   ],
+   "runtime_sha256": "01b2c6d31ae90d71a82c2fb9e95bb19648920f49f65947f4d4f6c2b1af5f3026",
+   "runtime_bytes": 910
+  },
+  {
+   "id": "GROK2.B01-TOGGLE-TRACK-OLIVE",
+   "stem": "B01-TOGGLE-TRACK-OLIVE",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B01-TOGGLE-TRACK-OLIVE.png",
+   "role": "consent switch track, ON",
+   "authority": "CH02",
+   "classification": "RECONSTRUCTED",
+   "source_sha256": "5e1a3c6b31c6f681a2a4f9c911405b66e1e383c6101ca32871016718f2142516",
+   "source_px": [
+    840,
+    360
+   ],
+   "runtime_file": "B01-TOGGLE-TRACK-OLIVE.webp",
+   "runtime_px": [
+    280,
+    120
+   ],
+   "runtime_sha256": "ff653d442324c082afa9dce04da2a2e61908b06d2bcb27e792f19b174dbfc161",
+   "runtime_bytes": 2168
+  },
+  {
+   "id": "GROK2.B01-TOGGLE-TRACK-CHARCOAL",
+   "stem": "B01-TOGGLE-TRACK-CHARCOAL",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B01-TOGGLE-TRACK-CHARCOAL.png",
+   "role": "consent switch track, OFF",
+   "authority": "CH02",
+   "classification": "RECONSTRUCTED",
+   "source_sha256": "6d485ebfed8d3d910c17bb99fb1ad1e4cc204da5fe46e0de220f551c07b1a01f",
+   "source_px": [
+    840,
+    360
+   ],
+   "runtime_file": "B01-TOGGLE-TRACK-CHARCOAL.webp",
+   "runtime_px": [
+    280,
+    120
+   ],
+   "runtime_sha256": "07c4b735ba961649063c09ec6e7a3d67da424ceee5224d6d8de500c315561b6f",
+   "runtime_bytes": 2494
+  },
+  {
+   "id": "GROK2.B01-TOGGLE-THUMB",
+   "stem": "B01-TOGGLE-THUMB",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B01-TOGGLE-THUMB.png",
+   "role": "consent switch thumb",
+   "authority": "CH02",
+   "classification": "RECONSTRUCTED",
+   "source_sha256": "01d13aea8c5698dcf31a52f6f9a69095b1b33c92edfe9c9bad0c3d93e38fcb8c",
+   "source_px": [
+    280,
+    280
+   ],
+   "runtime_file": "B01-TOGGLE-THUMB.webp",
+   "runtime_px": [
+    120,
+    120
+   ],
+   "runtime_sha256": "32955b44a15c990885dbd7f0fd8c81a1d92a74268852ab79a436e48d3b561075",
+   "runtime_bytes": 10942
+  },
+  {
+   "id": "GROK2.B02-COINS-CREAM",
+   "stem": "B02-COINS-CREAM",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B02-COINS-CREAM.png",
+   "role": "OV08 CURRENCY & EXCHANGE icon",
+   "authority": "OV08",
+   "classification": "RECONSTRUCTED",
+   "source_sha256": "88d0c672d964ff77326720727a1c54c0ac8a519459915b0818c9f05fd558fbe8",
+   "source_px": [
+    144,
+    141
+   ],
+   "runtime_file": "B02-COINS-CREAM.webp",
+   "runtime_px": [
+    144,
+    141
+   ],
+   "runtime_sha256": "b1c7b1f062eacbecf7fb874a281ef1d395a95a48fe36c67fa2117632d28e0da1",
+   "runtime_bytes": 5432
+  },
+  {
+   "id": "GROK2.B02-TAG-CREAM",
+   "stem": "B02-TAG-CREAM",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B02-TAG-CREAM.png",
+   "role": "OV08 CLASSIFICATION & LEARNING RULES icon",
+   "authority": "OV08",
+   "classification": "RECONSTRUCTED",
+   "source_sha256": "febd8c1fbc4535f9e8bc3555ef1f8b61baf1ae374779828c2b4de664e77f4693",
+   "source_px": [
+    93,
+    96
+   ],
+   "runtime_file": "B02-TAG-CREAM.webp",
+   "runtime_px": [
+    93,
+    96
+   ],
+   "runtime_sha256": "a58413b24bbabd934f21774d1006f953a7fec2c9020a0aae1628d2896aa70e72",
+   "runtime_bytes": 1938
+  },
+  {
+   "id": "GROK2.B02-PROFILE",
+   "stem": "B02-PROFILE",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B02-PROFILE.png",
+   "role": "OV08 ACCOUNT & PROFILE icon",
+   "authority": "OV08",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "56609c3abe0832f8049cead88c152f775d842223f55a946dac9a1e6163dd8f86",
+   "source_px": [
+    138,
+    138
+   ],
+   "runtime_file": "B02-PROFILE.webp",
+   "runtime_px": [
+    138,
+    138
+   ],
+   "runtime_sha256": "7772caf19636b00b2ade21b88681a429d33254a056ba90ea8a260582154a9c63",
+   "runtime_bytes": 19490
+  },
+  {
+   "id": "GROK2.B02-GEAR-PREFERENCES",
+   "stem": "B02-GEAR-PREFERENCES",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B02-GEAR-PREFERENCES.png",
+   "role": "OV08 PREFERENCES icon",
+   "authority": "OV08",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "84a9e2541ce8f9927e5f9678f69a6959445eb5cd9fdd79840bcef3db79159244",
+   "source_px": [
+    141,
+    135
+   ],
+   "runtime_file": "B02-GEAR-PREFERENCES.webp",
+   "runtime_px": [
+    141,
+    135
+   ],
+   "runtime_sha256": "a7832b76809d15f5e212a8385a249d02ae381edc75465a1bde458172bbb90154",
+   "runtime_bytes": 25340
+  },
+  {
+   "id": "GROK2.B02-SHIELD-PRIVACY",
+   "stem": "B02-SHIELD-PRIVACY",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B02-SHIELD-PRIVACY.png",
+   "role": "OV08 PRIVACY & CONSENTS icon",
+   "authority": "OV08",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "fc8a74a7124527d75f49755bfbcb19c9d4d14062ef8f57c686b674bb6103bd77",
+   "source_px": [
+    120,
+    141
+   ],
+   "runtime_file": "B02-SHIELD-PRIVACY.webp",
+   "runtime_px": [
+    120,
+    141
+   ],
+   "runtime_sha256": "56c33494edb757524b1be13b18ad0f94e3e46707265cbb78f0755829a21ec965",
+   "runtime_bytes": 20138
+  },
+  {
+   "id": "GROK2.B02-CROWN-MEMBERSHIP",
+   "stem": "B02-CROWN-MEMBERSHIP",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B02-CROWN-MEMBERSHIP.png",
+   "role": "OV08 MY MEMBERSHIP icon",
+   "authority": "OV08",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "337b962ff21fd311742c6e2b4e0782ef4c58867be6b373da783fc0ddf7d1886e",
+   "source_px": [
+    183,
+    150
+   ],
+   "runtime_file": "B02-CROWN-MEMBERSHIP.webp",
+   "runtime_px": [
+    183,
+    150
+   ],
+   "runtime_sha256": "a1c8a734e4bb6748a517b14b8e05813366bac59deeb266f6d8a7cdaa1ab227cb",
+   "runtime_bytes": 33448
+  },
+  {
+   "id": "GROK2.B02-FOUR-SQUARE",
+   "stem": "B02-FOUR-SQUARE",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B02-FOUR-SQUARE.png",
+   "role": "OV08 EXPLORE ADD-ONS icon",
+   "authority": "OV08",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "13760ebecd7b90b7f5ee18aac209b3ebd686610993035da251ce20ce6817a5dd",
+   "source_px": [
+    150,
+    147
+   ],
+   "runtime_file": "B02-FOUR-SQUARE.webp",
+   "runtime_px": [
+    150,
+    147
+   ],
+   "runtime_sha256": "7220153af0fc747f160b19b048d32ffda75a2047957626661a3d49a0752b0e9d",
+   "runtime_bytes": 24992
+  },
+  {
+   "id": "GROK2.B02-LIFEBUOY",
+   "stem": "B02-LIFEBUOY",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B02-LIFEBUOY.png",
+   "role": "OV08 HELP & SUPPORT icon",
+   "authority": "OV08",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "4ed46b9abb57cd95ede27902d335d9b86dd946f9b76b2f9359723af6082da1e2",
+   "source_px": [
+    147,
+    147
+   ],
+   "runtime_file": "B02-LIFEBUOY.webp",
+   "runtime_px": [
+    147,
+    147
+   ],
+   "runtime_sha256": "fdd3dcf21129ff5fbc2912712e6dcbcc77f52d6bf71660c0db1d5c618475b92f",
+   "runtime_bytes": 28308
+  },
+  {
+   "id": "GROK2.B02-SIGN-OUT",
+   "stem": "B02-SIGN-OUT",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B02-SIGN-OUT.png",
+   "role": "OV08 SIGN OUT icon",
+   "authority": "OV08",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "76ff5d751feb16add130aaaf6f3e5253a24583c30280d3e80069931f7f7e326a",
+   "source_px": [
+    141,
+    120
+   ],
+   "runtime_file": "B02-SIGN-OUT.webp",
+   "runtime_px": [
+    141,
+    120
+   ],
+   "runtime_sha256": "c0819ac5040ff6b5599b5c44b311a1efc7b3c7b695e0562a8a3eedfbbd0e4090",
+   "runtime_bytes": 16396
+  },
+  {
+   "id": "GROK2.B03-BANK-SOURCE",
+   "stem": "B03-BANK-SOURCE",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B03-BANK-SOURCE.png",
+   "role": "OV02 BANK ACCOUNT type \u00b7 OV03 FROM pocket \u00b7 OV05 POCKETS filter and pocket results",
+   "authority": "OV02 \u00b7 OV03 \u00b7 OV05",
+   "classification": "EXACT_EXTRACT \u00b7 VISUAL_MATCH_REUSE",
+   "source_sha256": "23322c41f8eccff4a3325cec0b8282305050961febb463ff8dec87118aa69f01",
+   "source_px": [
+    132,
+    111
+   ],
+   "runtime_file": "B03-BANK-SOURCE.webp",
+   "runtime_px": [
+    132,
+    111
+   ],
+   "runtime_sha256": "7a3d5be8a2b72c1a817efb8263b580c0497f9dbec0f49f669af8bc38c00ddba5",
+   "runtime_bytes": 17892
+  },
+  {
+   "id": "GROK2.B03-BANK-SELECTED",
+   "stem": "B03-BANK-SELECTED",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B03-BANK-SELECTED.png",
+   "role": "OV02 BANK ACCOUNT type, selected",
+   "authority": "OV02",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "15da4269bed977872551680ec8c80a95f8e159a0272164585c19f3a1ea3460db",
+   "source_px": [
+    156,
+    129
+   ],
+   "runtime_file": "B03-BANK-SELECTED.webp",
+   "runtime_px": [
+    156,
+    129
+   ],
+   "runtime_sha256": "e1559eb0fd81fd14a0b65de21fcd59ae35ece86e803efa566634e70cfc4d27ff",
+   "runtime_bytes": 20972
+  },
+  {
+   "id": "GROK2.B03-COIN-STACK",
+   "stem": "B03-COIN-STACK",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B03-COIN-STACK.png",
+   "role": "OV02 SAVINGS type",
+   "authority": "OV02",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "e62f25e24127469703c633901986c6542043c8e2cea01537fb8933acca2f0e5b",
+   "source_px": [
+    144,
+    141
+   ],
+   "runtime_file": "B03-COIN-STACK.webp",
+   "runtime_px": [
+    144,
+    141
+   ],
+   "runtime_sha256": "51fd4f6ad5048422d2c76020a5e0560609ed4fcbcad338efa7c69cb2ae9983a2",
+   "runtime_bytes": 27076
+  },
+  {
+   "id": "GROK2.B03-CARD-DEBIT",
+   "stem": "B03-CARD-DEBIT",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B03-CARD-DEBIT.png",
+   "role": "OV02 DEBIT / PAYOUT CARD type",
+   "authority": "OV02",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "49aa8e9f646f1c276fb67058b9abca74671d720f37b3af30e257eb7615b94154",
+   "source_px": [
+    162,
+    114
+   ],
+   "runtime_file": "B03-CARD-DEBIT.webp",
+   "runtime_px": [
+    162,
+    114
+   ],
+   "runtime_sha256": "bb5bc141c6e320a7259dd862a3f926c355475c1d9c22406bf693b225805ef0c6",
+   "runtime_bytes": 15280
+  },
+  {
+   "id": "GROK2.B03-CARD-CREDIT",
+   "stem": "B03-CARD-CREDIT",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B03-CARD-CREDIT.png",
+   "role": "OV02 CREDIT CARD type",
+   "authority": "OV02",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "ea91f9f687537b47653f427f872c0e57685f137c19bc16e6687e0e00ecb94d50",
+   "source_px": [
+    168,
+    117
+   ],
+   "runtime_file": "B03-CARD-CREDIT.webp",
+   "runtime_px": [
+    168,
+    117
+   ],
+   "runtime_sha256": "8c39ed7cadaf81505eecf56ecd5a92b2da17dc1055909905f2857c460e8f6440",
+   "runtime_bytes": 15460
+  },
+  {
+   "id": "GROK2.B03-CASH",
+   "stem": "B03-CASH",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B03-CASH.png",
+   "role": "OV02 CASH type",
+   "authority": "OV02",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "d3a07b3e9da7a7e2a96d23220440de4945d9ff0f1d36b949102c7553826e25a1",
+   "source_px": [
+    183,
+    132
+   ],
+   "runtime_file": "B03-CASH.webp",
+   "runtime_px": [
+    183,
+    132
+   ],
+   "runtime_sha256": "e63e96aa4bb50c25a1478fedbd3a612026c8308e516269306aa676c647d2d083",
+   "runtime_bytes": 26370
+  },
+  {
+   "id": "GROK2.B03-CHECK-SELECTED",
+   "stem": "B03-CHECK-SELECTED",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B03-CHECK-SELECTED.png",
+   "role": "OV02 selected-type indicator",
+   "authority": "OV02",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "fc7bb8231593d3bcdfbb6d73f4b4c8236d2deffeda52fe93f49f077be4c88631",
+   "source_px": [
+    99,
+    96
+   ],
+   "runtime_file": "B03-CHECK-SELECTED.webp",
+   "runtime_px": [
+    99,
+    96
+   ],
+   "runtime_sha256": "81d0607ec3d6c912369277ddec2ce105b3a5b8247b15237800383a63f45bfd6e",
+   "runtime_bytes": 10538
+  },
+  {
+   "id": "GROK2.B03-POCKET-MARK",
+   "stem": "B03-POCKET-MARK",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B03-POCKET-MARK.png",
+   "role": "OV03 TO pocket mark",
+   "authority": "OV03",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "ace94bab4b599536c1cd5d17537a4b14f44d2391a0951c9afa6cb1740e6c9124",
+   "source_px": [
+    120,
+    132
+   ],
+   "runtime_file": "B03-POCKET-MARK.webp",
+   "runtime_px": [
+    120,
+    132
+   ],
+   "runtime_sha256": "b58dd75ef75d45e186c12522349c91ab97a6090df06a34ff87381979e1336869",
+   "runtime_bytes": 21570
+  },
+  {
+   "id": "GROK2.B03-PENCIL",
+   "stem": "B03-PENCIL",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B03-PENCIL.png",
+   "role": "OV04 RENAME POCKET icon",
+   "authority": "OV04",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "1d1d2e862f81b8693821d728be7fdf9967e3e9d91c1fefa12ab47bb5b51c7b8d",
+   "source_px": [
+    135,
+    135
+   ],
+   "runtime_file": "B03-PENCIL.webp",
+   "runtime_px": [
+    135,
+    135
+   ],
+   "runtime_sha256": "cd50641910a3ceedc6a227efff2138794daa166fc63402a5de50515fb8c47fe5",
+   "runtime_bytes": 21870
+  },
+  {
+   "id": "GROK2.B03-TRASH",
+   "stem": "B03-TRASH",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B03-TRASH.png",
+   "role": "OV04 DELETE POCKET icon",
+   "authority": "OV04",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "d3035547b3c7aadf1a29d3f307572d47493a019acb7d7af09aef45af7544c76a",
+   "source_px": [
+    129,
+    138
+   ],
+   "runtime_file": "B03-TRASH.webp",
+   "runtime_px": [
+    129,
+    138
+   ],
+   "runtime_sha256": "c169628bd15cda4a705f9f0b03607cbbd0d99b0e6120e948d747e0b9f4351bd4",
+   "runtime_bytes": 16452
+  },
+  {
+   "id": "GROK2.B03-CHEVRON",
+   "stem": "B03-CHEVRON",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B03-CHEVRON.png",
+   "role": "dark navigation chevron (OV04 actions, OV01 choices)",
+   "authority": "OV03 \u00b7 OV04 \u00b7 OV01",
+   "classification": "EXACT_EXTRACT \u00b7 VISUAL_MATCH_REUSE",
+   "source_sha256": "260dc36dd258eef243196e50757ba8cf1c69805b89bd49f692515a3daa031c07",
+   "source_px": [
+    42,
+    63
+   ],
+   "runtime_file": "B03-CHEVRON.webp",
+   "runtime_px": [
+    42,
+    63
+   ],
+   "runtime_sha256": "080f226cc4659759971b97d0713c9a7cecc88204e2acd121d9c5e7e174be915c",
+   "runtime_bytes": 4266
+  },
+  {
+   "id": "GROK2.B04-SEARCH",
+   "stem": "B04-SEARCH",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B04-SEARCH.png",
+   "role": "OV05 field magnifier and activity results",
+   "authority": "OV05",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "26b9cf869e5c97b8ca3ea556010a132a8a20509d0e817253798cfb953efc1178",
+   "source_px": [
+    111,
+    108
+   ],
+   "runtime_file": "B04-SEARCH.webp",
+   "runtime_px": [
+    111,
+    108
+   ],
+   "runtime_sha256": "a470fd0b643f1ed1f97ca852fbdac6a42d358c7528807bfeb6a59499106be2ae",
+   "runtime_bytes": 14296
+  },
+  {
+   "id": "GROK2.B05-ADD-CANCEL",
+   "stem": "B05-ADD-CANCEL",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B05-ADD-CANCEL.png",
+   "role": "OV02 CANCEL paper",
+   "authority": "OV02",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "dd852aed531adfabe7b5e92af4733b1d082d5ef0940c8c4ce5cbb2c37e17a1f2",
+   "source_px": [
+    595,
+    265
+   ],
+   "runtime_file": "B05-ADD-CANCEL.webp",
+   "runtime_px": [
+    595,
+    265
+   ],
+   "runtime_sha256": "8f9efb4a2be2973de2e3b19ef662377eac9b1a1ce5077ee770fcaa707050f7bf",
+   "runtime_bytes": 170540
+  },
+  {
+   "id": "GROK2.B05-CREATE-POCKET",
+   "stem": "B05-CREATE-POCKET",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B05-CREATE-POCKET.png",
+   "role": "OV02 SAVE POCKET paper",
+   "authority": "OV02",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "9c85ee99c97f9f954fbbf1413a57dae0741d677f0a551a34db940aadad76ce7f",
+   "source_px": [
+    939,
+    283
+   ],
+   "runtime_file": "B05-CREATE-POCKET.webp",
+   "runtime_px": [
+    939,
+    283
+   ],
+   "runtime_sha256": "12908ecda4f485f0f39f4773ccaabe08dd0ff093b4e8c2e0443190ac01aa949d",
+   "runtime_bytes": 300788
+  },
+  {
+   "id": "GROK2.B05-MOVE-CANCEL",
+   "stem": "B05-MOVE-CANCEL",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B05-MOVE-CANCEL.png",
+   "role": "OV03 CANCEL paper",
+   "authority": "OV03",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "9ac0cf0b303b19d90ab11215b6b5503d8a0bb357af893c8b7c7d8f5fcba7b133",
+   "source_px": [
+    585,
+    201
+   ],
+   "runtime_file": "B05-MOVE-CANCEL.webp",
+   "runtime_px": [
+    585,
+    201
+   ],
+   "runtime_sha256": "20bbecc6410332c7d6131f9a1d562d4e1f718c0d054c738a81559383dcce804a",
+   "runtime_bytes": 127586
+  },
+  {
+   "id": "GROK2.B05-RECORD-TRANSFER",
+   "stem": "B05-RECORD-TRANSFER",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B05-RECORD-TRANSFER.png",
+   "role": "OV03 RECORD TRANSFER / RECORD CARD PAYMENT paper",
+   "authority": "OV03",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "89dfe5105017b72ba8e99ead89ca46100ffcac20d07ec16bc57b8122e791db24",
+   "source_px": [
+    1001,
+    217
+   ],
+   "runtime_file": "B05-RECORD-TRANSFER.webp",
+   "runtime_px": [
+    1001,
+    217
+   ],
+   "runtime_sha256": "b6bc8c1b273e4712ccd76650003996f7a0dd157ed3338929dc196b75956cfbde",
+   "runtime_bytes": 212304
+  },
+  {
+   "id": "GROK2.B06-INFO",
+   "stem": "B06-INFO",
+   "master": "01_INSTALLABLE_SOURCE_MASTERS/B06-INFO.png",
+   "role": "CH01 EFFECT ON SAFE TO SPEND information mark",
+   "authority": "CH01",
+   "classification": "EXACT_EXTRACT",
+   "source_sha256": "7516ebd474a40d21c1843f789daff6f9123a9fb608b2af677701c66de860ac55",
+   "source_px": [
+    78,
+    75
+   ],
+   "runtime_file": "B06-INFO.webp",
+   "runtime_px": [
+    78,
+    75
+   ],
+   "runtime_sha256": "7629da4b29fa93ce3549555c24b70489e9662d06e7a94c95cf0537862689e697",
+   "runtime_bytes": 8176
+  }
+ ]
+}

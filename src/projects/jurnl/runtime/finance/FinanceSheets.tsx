@@ -385,8 +385,8 @@ export function TransferSheet({ fromId, toId, onClose }: { fromId?: string | nul
           {error && /ALREADY RECORDED/.test(error) ? (
             <EdAction trigger="transfer-allow-duplicate" material="cream" title={allowDup ? 'IT HAPPENED TWICE ✓' : 'IT HAPPENED TWICE'} onClick={() => setAllowDup(true)} className="jed-action--wide" />
           ) : null}
-          <EdAction trigger="transfer-cancel" material="cream" title="CANCEL" onClick={onClose} />
-          <EdAction trigger="transfer-save" material="olive" title={toCard ? 'RECORD CARD PAYMENT' : 'RECORD TRANSFER'} disabled={value == null || !isCalendarDate(date.trim())} onClick={save} />
+          <EdAction trigger="transfer-cancel" material="cream" paper="B05-MOVE-CANCEL" title="CANCEL" onClick={onClose} />
+          <EdAction trigger="transfer-save" material="olive" paper="B05-RECORD-TRANSFER" title={toCard ? 'RECORD CARD PAYMENT' : 'RECORD TRANSFER'} disabled={value == null || !isCalendarDate(date.trim())} onClick={save} />
         </>
       }
     >

@@ -326,8 +326,13 @@ test.describe('OPUS3 · SEARCH on the regenerated OV05 shell', () => {
       const host = overlay(page, 'global-search');
       await expect(host).toHaveAttribute('data-overlay-asset', 'OV05_SEARCH_SHELL');
       // one art layer (no painted wells, no foreground duplicates) plus the founder CLOSE artwork once on the live close (OPUS1)
-      const art = await host.locator('img').evaluateAll((els) => els.map((e) => e.getAttribute('data-asset-id')).sort());
+      const art = await host.locator('img:not([data-asset-id^="GROK2."])').evaluateAll((els) => els.map((e) => e.getAttribute('data-asset-id')).sort());
       expect(art).toEqual(['F05.UTILITY.CLOSE.GOLD', 'OV05_SEARCH_SHELL']);
+      // + OPUS5 GROK2 micro-art, one per slot: the field magnifier, the POCKETS bank and a mark on each result row
+      await expect(host.locator('[data-micro-slot="search-input-mark"]')).toHaveCount(1);
+      await expect(host.locator('[data-micro-slot="search-filter-pockets-mark"]')).toHaveCount(1);
+      const rowMarks = await host.locator('[data-micro-slot^="search-hit-"]').count();
+      expect(rowMarks).toBe(await host.locator('[data-jrn-trigger^="search-hit-"]').count());
       const pb = await insidePlate(page, 'global-search', ['search-input', 'search-filter-all', 'search-filter-pockets', 'search-filter-transactions', 'search-all-activity', 'search-advanced']);
       expect(pb.width / pb.height).toBeCloseTo(581 / 887, 2); // the regenerated OV05 shell's own ratio (one uniform scale)
       await trigger(page, 'search-input').fill('OPUS3');
@@ -380,7 +385,7 @@ test.describe('OPUS3 · MANAGE POCKET with the independent papers', () => {
       expect(b.height, `${t} tap target`).toBeGreaterThanOrEqual(44);
       const ratio = await trigger(page, t).evaluate((e) => getComputedStyle(e).aspectRatio);
       expect(ratio, `${t} keeps its paper ratio`).toMatch(/^1645 \/ (319|346)$/);
-      expect(await trigger(page, t).locator('img').evaluate((e) => getComputedStyle(e).objectFit)).toBe('contain');
+      expect(await trigger(page, t).locator('img.jsp-paper__art').evaluate((e) => getComputedStyle(e).objectFit)).toBe('contain');
     }
     await trigger(page, 'd01-pocket-rename').focus();
     await page.keyboard.press('Enter');
@@ -410,8 +415,10 @@ test.describe('OPUS3 · SAFE TO SPEND BUFFER and PRIVACY & CONSENTS on the regen
     await clickTrigger(page, 'menu-buffer');
     const host = overlay(page, 'global-buffer');
     await expect(host).toHaveAttribute('data-overlay-asset', 'CH01_BUFFER_SHELL');
-    const ids = await host.locator('img').evaluateAll((els) => els.map((e) => e.getAttribute('data-asset-id')).sort());
+    const ids = await host.locator('img:not([data-asset-id^="GROK2."])').evaluateAll((els) => els.map((e) => e.getAttribute('data-asset-id')).sort());
     expect(ids).toEqual(['CH01_AMOUNT_PAPER', 'CH01_BACK_PAPER', 'CH01_BUFFER_SHELL', 'CH01_EFFECT_PAPER', 'F05.UTILITY.CLOSE.GOLD']); // + the founder CLOSE artwork once (OPUS1)
+    // + OPUS5: the GROK2 (i) on the effect paper, once
+    expect(await host.locator('img[data-asset-id^="GROK2."]').evaluateAll((els) => els.map((e) => e.getAttribute('data-asset-id')))).toEqual(['GROK2.B06-INFO']);
     // the shell has no tag or title paper: the headline is live cream type on its olive field, no wordmark is invented
     await expect(host.locator('.jsh-tag')).toHaveCount(0);
     await expect(host.locator('.jsh-head')).toHaveAttribute('data-tone', 'cream');
@@ -456,8 +463,12 @@ test.describe('OPUS3 · SAFE TO SPEND BUFFER and PRIVACY & CONSENTS on the regen
       await clickTrigger(page, 'menu-privacy');
       const host = overlay(page, 'settings-consents-sheet');
       await expect(host).toHaveAttribute('data-overlay-asset', 'CH02_PRIVACY_SHELL');
-      const ids = await host.locator('img').evaluateAll((els) => els.map((e) => e.getAttribute('data-asset-id')).sort());
+      const ids = await host.locator('img:not([data-asset-id^="GROK2."])').evaluateAll((els) => els.map((e) => e.getAttribute('data-asset-id')).sort());
       expect(ids).toEqual(['CH02_BACK_PAPER', 'CH02_PRIVACY_SHELL', 'CH02_REMOVE_ACCESS_PAPER', 'F05.UTILITY.CLOSE.GOLD']); // + the founder CLOSE artwork once (OPUS1)
+      // + OPUS5 GROK2 micro-art: eight row icons, four cream chevrons and the two consent switches (track + thumb each)
+      const micro = await host.locator('img[data-asset-id^="GROK2."]').evaluateAll((els) => els.map((e) => e.getAttribute('data-asset-id')!.replace('GROK2.', '')).sort());
+      expect(micro.filter((m) => !m.startsWith('B01-TOGGLE-TRACK'))).toEqual(['B01-AI-STAR', 'B01-BANK-LINKED-ACCOUNTS', 'B01-CHEVRON', 'B01-CHEVRON', 'B01-CHEVRON', 'B01-CHEVRON', 'B01-DATABASE-YOUR-DATA', 'B01-EXPORT-DOWN', 'B01-GEAR-REMEMBER-SETUP', 'B01-SHIELD-NOTHING-SOLD', 'B01-SPARKLE-ASK-CONTEXT', 'B01-TOGGLE-THUMB', 'B01-TOGGLE-THUMB', 'B01-TRASH-REMOVE']);
+      expect(micro.filter((m) => m.startsWith('B01-TOGGLE-TRACK'))).toHaveLength(2);
       await expect(host.locator('.jsh-tag')).toHaveText('JURNL');
       await settle(page, 'settings-consents-sheet');
       const list = host.locator('.jce-list');

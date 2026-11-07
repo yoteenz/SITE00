@@ -1,0 +1,78 @@
+slot_id,package,role,master_file,classification,review_status,authority,motion,notes
+B01-01,B01,Remember setup gear,B01-GEAR-REMEMBER-SETUP.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,CH02,CONTROL-ATTACHED,Cream line gear cut from the privacy authority.
+B01-02,B01,Linked accounts bank,B01-BANK-LINKED-ACCOUNTS.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,CH02,CONTROL-ATTACHED,"Classical bank column, cream on olive."
+B01-03,B01,Nothing sold shield,B01-SHIELD-NOTHING-SOLD.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,CH02,STATIC DECORATION,Privacy statement emblem. Not an editable consent.
+B01-04,B01,Ask Jurnl context sparkle,B01-SPARKLE-ASK-CONTEXT.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,CH02,CONTROL-ATTACHED,Four-point cluster.
+B01-05,B01,AI access star,B01-AI-STAR.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,CH02,CONTROL-ATTACHED,Distinct from the sparkle cluster.
+B01-06,B01,Your data cylinder,B01-DATABASE-YOUR-DATA.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,CH02,CONTROL-ATTACHED,Archival cylinder.
+B01-07,B01,Data export,B01-EXPORT-DOWN.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,CH02,CONTROL-ATTACHED,Downward export glyph.
+B01-08,B01,Remove access trash,B01-TRASH-REMOVE.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,CH02,CONTROL-ATTACHED,Oxblood trash. Distinct from the parchment delete trash.
+B01-09,B01,Child navigation chevron,B01-CHEVRON.png,RECONSTRUCTED,READY_FOR_FOUNDER_REVIEW,CH02,CONTROL-ATTACHED,Cream ink of the approved parchment chevron. Same > as the menu rows.
+B01-10,B01,Consent switch track,B01-TOGGLE-TRACK-OLIVE.png,RECONSTRUCTED,READY_FOR_FOUNDER_REVIEW,CH02,STATE-REACTIVE,"Gold rim, olive enamel. OFF track is the charcoal file. Opus places the thumb."
+B01-11,B01,Consent switch thumb,B01-TOGGLE-THUMB.png,RECONSTRUCTED,READY_FOR_FOUNDER_REVIEW,CH02,INDEPENDENTLY MOVABLE,"Cream disc from the authority thumb. ON = right, OFF = left."
+B01-12,B01,Close disc,B06-CLOSE-DISC.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV08,CONTROL-ATTACHED,Shared with every overlay that uses the parchment X disc.
+B02-01,B02,Connected accounts,B01-BANK-LINKED-ACCOUNTS.png,VISUAL_MATCH_REUSE,READY_FOR_FOUNDER_REVIEW,CH02,CONTROL-ATTACHED,FD-01 menu row. Not painted on the OV08 jpg. Same cream bank as privacy.
+B02-02,B02,Currency coins,B02-COINS-CREAM.png,RECONSTRUCTED,READY_FOR_FOUNDER_REVIEW,OV02,CONTROL-ATTACHED,"Cream ink of the approved coin stack, for the olive menu field."
+B02-03,B02,Safe to spend shield,,HELD_FOR_FOUNDER,HELD_FOR_FOUNDER,CH02,CONTROL-ATTACHED,The only approved shield includes the check (privacy). No plain buffer shield exists on an authority. The check shield is not mounted for this row. Not invented.
+B02-04,B02,Ask Jurnl sparkle,B01-SPARKLE-ASK-CONTEXT.png,VISUAL_MATCH_REUSE,READY_FOR_FOUNDER_REVIEW,CH02,CONTROL-ATTACHED,Same sparkle cluster.
+B02-05,B02,Classification tag,B02-TAG-CREAM.png,RECONSTRUCTED,READY_FOR_FOUNDER_REVIEW,OV05,CONTROL-ATTACHED,Cream ink of the search category tag.
+B02-06,B02,Account profile,B02-PROFILE.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV08,CONTROL-ATTACHED,Cut from the menu authority.
+B02-07,B02,Preferences gear,B02-GEAR-PREFERENCES.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV08,CONTROL-ATTACHED,
+B02-08,B02,Privacy shield,B02-SHIELD-PRIVACY.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV08,CONTROL-ATTACHED,
+B02-09,B02,Membership crown,B02-CROWN-MEMBERSHIP.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV08,CONTROL-ATTACHED,"Gold crown, not recolored."
+B02-10,B02,Explore add-ons,B02-FOUR-SQUARE.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV08,CONTROL-ATTACHED,
+B02-11,B02,Help lifebuoy,B02-LIFEBUOY.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV08,CONTROL-ATTACHED,
+B02-12,B02,Sign out,B02-SIGN-OUT.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV08,CONTROL-ATTACHED,
+B03-01,B03,Money-bag medallion,FG03-MONEY-BAG-LAUREL-MEDALLION.png,EXACT_APPROVED_REUSE,BAKED_DO_NOT_REMOUNT,OV02,BACKGROUND-BOUND,Already in the Add a Pocket illustration.
+B03-02,B03,Bank column,B03-BANK-SOURCE.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV03,CONTROL-ATTACHED,Dark ink bank. Selected state is the light bank file.
+B03-03,B03,Savings coin stack,B03-COIN-STACK.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV02,CONTROL-ATTACHED,
+B03-04,B03,Debit card,B03-CARD-DEBIT.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV02,CONTROL-ATTACHED,Card with the stripe. Distinct from credit.
+B03-05,B03,Credit card,B03-CARD-CREDIT.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV02,CONTROL-ATTACHED,Plain card. Distinct from debit.
+B03-06,B03,Cash,B03-CASH.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV02,CONTROL-ATTACHED,
+B03-07,B03,Selected indicator,B03-CHECK-SELECTED.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV02,STATE-REACTIVE,Check disc on the selected account type. Opus owns selected state.
+B03-08,B03,Directional wax seal,FG05-OXBLOOD-DIRECTIONAL-WAX-SEAL.png,EXACT_APPROVED_REUSE,BAKED_DO_NOT_REMOUNT,OV03,BACKGROUND-BOUND,Arrows are inside the seal.
+B03-09,B03,Two-way transfer arrows,FG05-OXBLOOD-DIRECTIONAL-WAX-SEAL.png,NOT_REQUIRED_AFTER_DEDUPLICATION,NOT_REQUIRED,OV03,BACKGROUND-BOUND,Same artwork as the wax seal. No second file.
+B03-10,B03,Source account icon,B03-BANK-SOURCE.png,NOT_REQUIRED_AFTER_DEDUPLICATION,NOT_REQUIRED,OV03,CONTROL-ATTACHED,Same dark bank as B03-02.
+B03-11,B03,Destination pocket mark,B03-POCKET-MARK.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV03,CONTROL-ATTACHED,Bowl mark beside Travel Fund.
+B03-12,B03,Transfer calendar,B03-CALENDAR.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV03,CONTROL-ATTACHED,Shared with search date filter.
+B03-13,B03,Rename pencil,B03-PENCIL.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV04,CONTROL-ATTACHED,
+B03-14,B03,Delete trash,B03-TRASH.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV04,CONTROL-ATTACHED,Dark ink. Not the oxblood privacy trash.
+B03-15,B03,Pocket action chevron,B03-CHEVRON.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV03,CONTROL-ATTACHED,Dark ink > used on parchment rows.
+B03-16,B03,Balance ornament,,NOT_REQUIRED_AFTER_DEDUPLICATION,NOT_REQUIRED,OV02,BACKGROUND-BOUND,Header sprig is baked into the parchment. No separate mount.
+B04-01,B04,Search magnifier,B04-SEARCH.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV05,CONTROL-ATTACHED,
+B04-02,B04,Date filter calendar,B03-CALENDAR.png,NOT_REQUIRED_AFTER_DEDUPLICATION,NOT_REQUIRED,OV05,CONTROL-ATTACHED,Same calendar as the transfer date.
+B04-03,B04,Account filter bank,B03-BANK-SOURCE.png,VISUAL_MATCH_REUSE,READY_FOR_FOUNDER_REVIEW,OV05,CONTROL-ATTACHED,Same dark bank. Search extract kept as B04-BANK-FILTER.png for comparison.
+B04-04,B04,Category tag,B04-TAG.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV05,CONTROL-ATTACHED,
+B04-05,B04,Advanced filter,,NOT_REQUIRED_AFTER_DEDUPLICATION,NOT_REQUIRED,OV05,,"OV05 has date, account, and category. No separate advanced-filter glyph."
+B04-06,B04,Result magnifier,B04-SEARCH.png,NOT_REQUIRED_AFTER_DEDUPLICATION,NOT_REQUIRED,OV05,CONTROL-ATTACHED,Same magnifier as the search field.
+B04-07,B04,Ledger stack,FG07-ARCHIVAL-LEDGER-STACK.png,EXACT_APPROVED_REUSE,BAKED_DO_NOT_REMOUNT,OV05,BACKGROUND-BOUND,
+B04-08,B04,Warning medallion,FG09-CAUTION-LAUREL-MEDALLION.png,EXACT_APPROVED_REUSE,BAKED_DO_NOT_REMOUNT,OV07,BACKGROUND-BOUND,
+B04-09,B04,Balance coins,B04-COINS-BALANCE.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV07,CONTROL-ATTACHED,Oxblood coin stack. Not the savings stack.
+B04-10,B04,Pending clock,B04-CLOCK.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV07,CONTROL-ATTACHED,
+B04-11,B04,Blocker chevron,B03-CHEVRON.png,NOT_REQUIRED_AFTER_DEDUPLICATION,NOT_REQUIRED,OV07,CONTROL-ATTACHED,Same parchment chevron.
+B04-12,B04,Architectural ornament,,NOT_REQUIRED_AFTER_DEDUPLICATION,NOT_REQUIRED,OV07,BACKGROUND-BOUND,Column is in the environment plate.
+B05-01,B05,Rename cream paper,B05-RENAME-CREAM.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV04,CONTROL-ATTACHED,Text removed. Torn cream. Not the blush delete.
+B05-02,B05,Delete blush paper,B05-DELETE-BLUSH.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV04,CONTROL-ATTACHED,Text removed. Distinct pink.
+B05-03,B05,Remove access paper,B05-REMOVE-ACCESS.png,EXACT_APPROVED_REUSE,READY_FOR_FOUNDER_REVIEW,CH02,CONTROL-ATTACHED,GROK4 oxblood backing. Text-free.
+B05-04,B05,Privacy back paper,B05-PRIVACY-BACK.png,EXACT_APPROVED_REUSE,READY_FOR_FOUNDER_REVIEW,CH02,CONTROL-ATTACHED,GROK4 cream backing.
+B05-05,B05,Buffer back paper,B05-BUFFER-BACK.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,CH01,CONTROL-ATTACHED,"Cream pill, letters removed."
+B05-06,B05,Buffer save paper,B05-SAVE-BUFFER.png,RECONSTRUCTED,READY_FOR_FOUNDER_REVIEW,CH01,CONTROL-ATTACHED,Gold-rim olive pill reconstructed from the authority capsule. Text-free. True alpha.
+B05-07,B05,Buffer amount paper,B05-BUFFER-AMOUNT.png,EXACT_APPROVED_REUSE,READY_FOR_FOUNDER_REVIEW,CH01,CONTROL-ATTACHED,GROK4 torn amount sheet.
+B05-08,B05,Buffer effect paper,B05-BUFFER-EFFECT.png,EXACT_APPROVED_REUSE,READY_FOR_FOUNDER_REVIEW,CH01,CONTROL-ATTACHED,GROK4 torn effect sheet.
+B05-09,B05,Search field paper,B05-SEARCH-FIELD.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV05,CONTROL-ATTACHED,"The authority has one search field, not a separate All Activity button."
+B05-10,B05,Advanced search paper,,NOT_REQUIRED_AFTER_DEDUPLICATION,NOT_REQUIRED,OV05,,No advanced-search button on OV05.
+B05-11,B05,Archive resolve paper,B05-RESOLVE.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV07,CONTROL-ATTACHED,Cut from the 2016 Move-free archive master. Text was already absent. Torn olive pill.
+B05-12,B05,Archive close paper,B05-ARCHIVE-CLOSE.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV07,CONTROL-ATTACHED,Replaced the partial crop with a cut from the 2016 archive master. Torn cream pill. Text-free.
+B05-13,B05,Create pocket paper,B05-CREATE-POCKET.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV02,CONTROL-ATTACHED,Replaced with a cut from the 2016 Add a Pocket master. Torn olive. Text-free.
+B05-14,B05,Record transfer paper,B05-RECORD-TRANSFER.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV03,CONTROL-ATTACHED,Cut from the 2016 Move Money master. Olive pill. Text was already absent.
+B06-01,B06,Close disc,B06-CLOSE-DISC.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV08,CONTROL-ATTACHED,Same file as B01-12.
+B06-02,B06,Return arrow,,REJECTED_GENERIC,NOT_REQUIRED,,,No back-arrow glyph on these authorities. DOT 01 bronze arrow is the wrong family.
+B06-03,B06,Navigation chevron,B03-CHEVRON.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV03,CONTROL-ATTACHED,Dark variant. Cream variant is B01-CHEVRON. Do not collapse them.
+B06-04,B06,Information mark,B06-INFO.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,CH01,CONTROL-ATTACHED,"The i inside the circle is the icon, not a label."
+B03-02S,B03,Selected bank (light),B03-BANK-SELECTED.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV02,STATE-REACTIVE,"Added. The selected account type uses a light bank, not the dark one."
+B05-15,B05,Cancel pocket paper,B05-ADD-CANCEL.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV02,CONTROL-ATTACHED,Added. Torn cream cancel cut from the 2016 Add a Pocket master. Text-free.
+B05-16,B05,Move money cancel paper,B05-MOVE-CANCEL.png,EXACT_EXTRACT,READY_FOR_FOUNDER_REVIEW,OV03,CONTROL-ATTACHED,Added. Torn cream cancel cut from the 2016 Move Money master. Text-free.
+U01,UTILITY,Founder CLOSE,,EXTERNAL_FOUNDER_SUPPLIED,EXTERNAL_NOT_IN_ENVIRONMENT,FOUNDER,CONTROL-ATTACHED,Supersedes older generic controls where the founder approved them. Not in this environment. Do not invent. Do not mount B06-CLOSE-DISC in place of U01.
+U02,UTILITY,Founder HAMBURGER,,EXTERNAL_FOUNDER_SUPPLIED,EXTERNAL_NOT_IN_ENVIRONMENT,FOUNDER,CONTROL-ATTACHED,Supersedes older generic controls where the founder approved them. Not in this environment. Do not invent. Do not mount B06-CLOSE-DISC in place of U01.
+U03,UTILITY,Founder SEARCH,,EXTERNAL_FOUNDER_SUPPLIED,EXTERNAL_NOT_IN_ENVIRONMENT,FOUNDER,CONTROL-ATTACHED,Supersedes older generic controls where the founder approved them. Not in this environment. Do not invent. Do not mount B06-CLOSE-DISC in place of U01.
+U04,UTILITY,Founder PLUS,,EXTERNAL_FOUNDER_SUPPLIED,EXTERNAL_NOT_IN_ENVIRONMENT,FOUNDER,CONTROL-ATTACHED,Supersedes older generic controls where the founder approved them. Not in this environment. Do not invent. Do not mount B06-CLOSE-DISC in place of U01.

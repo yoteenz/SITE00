@@ -10,6 +10,7 @@
  * Nothing here computes or moves money.
  */
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactNode } from 'react';
+import { JurnlMicroArt } from '../../../components/JurnlMicroArt';
 import { accountView, kindOf, type Dot01Kind } from '../../../../data/f05/dot01/accountView';
 import { getTodayKey } from '../../../../data/foundation/dates';
 import { renameAccount } from '../../../../data/ledger/ledgerOps';
@@ -175,15 +176,16 @@ function PocketMenu({ anchor, name, onRename, onDelete, onClose }: { anchor: HTM
         <div className="jsp-note__items" style={slot(OV04_NOTE_BOX.items)}>
         <button type="button" role="menuitem" className="jrn-menu__item jsp-paper jsp-menu-paper" data-paper="rename" data-jrn-trigger="d01-pocket-rename" onClick={onRename} style={{ aspectRatio: `${RENAME.width} / ${RENAME.height}` }}>
           <img className="jsp-paper__art" src={RENAME.src} alt="" aria-hidden draggable={false} data-asset-id="OV04_RENAME_PAPER" />
-          <svg viewBox="0 0 24 24" aria-hidden><path d="M4 20h4l11-11-4-4L4 16z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" /><path d="m13.5 6.5 4 4" fill="none" stroke="currentColor" strokeWidth="1.8" /></svg>
+          {/* OPUS5: the OV04 authority's pencil and dark chevron (GROK2), in place of the line glyphs */}
+          <JurnlMicroArt stem="B03-PENCIL" slot="d01-pocket-rename-icon" className="jma-icon" />
           <span>RENAME POCKET</span>
-          <svg className="jv3-chev" viewBox="0 0 10 16" aria-hidden><path d="M2 2l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          <JurnlMicroArt stem="B03-CHEVRON" slot="d01-pocket-rename-chevron" className="jv3-chev" />
         </button>
         <button type="button" role="menuitem" className="jrn-menu__item jrn-menu__item--danger jsp-paper jsp-menu-paper" data-paper="delete" data-jrn-trigger="d01-pocket-delete" onClick={onDelete} style={{ aspectRatio: `${DELETE.width} / ${DELETE.height}` }}>
           <img className="jsp-paper__art" src={DELETE.src} alt="" aria-hidden draggable={false} data-asset-id="OV04_DELETE_PAPER" />
-          <svg viewBox="0 0 24 24" aria-hidden><path d="M4 6.5h16M9 6.5V4h6v2.5M6.5 6.5 7.5 20h9l1-13.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" /></svg>
+          <JurnlMicroArt stem="B03-TRASH" slot="d01-pocket-delete-icon" className="jma-icon" />
           <span>DELETE POCKET</span>
-          <svg className="jv3-chev" viewBox="0 0 10 16" aria-hidden><path d="M2 2l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          <JurnlMicroArt stem="B03-CHEVRON" slot="d01-pocket-delete-chevron" className="jv3-chev" />
         </button>
         </div>
       </div>

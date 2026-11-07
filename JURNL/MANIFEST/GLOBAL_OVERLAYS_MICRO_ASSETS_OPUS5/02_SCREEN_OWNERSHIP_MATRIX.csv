@@ -1,0 +1,42 @@
+screen,element,layer,owner,asset_id,already_painted_in_background,decision,state_owner
+F05 MONEY PARENT,SIDEKICK environment,L0,BAKED_ENVIRONMENT,MONEY.ENVIRONMENT.MOTION_PILOT.SIDEKICK.V1,—,unchanged,—
+F05 MONEY PARENT,SEARCH / ADD / MENU buttons,L2,FOUNDER_UTILITY,F05.UTILITY.SEARCH.GOLD · ADD.GOLD · MENU.GOLD,NO,mounted (OPUS1),React (overlay host)
+OV01 MONEY ACTION,folio composition (bust · branches · coast · amphora · coin),L0+L1,EXISTING_EDITORIAL_ART,DOT01 / motion-pilot art,—,unchanged,—
+OV01 MONEY ACTION,ADD A POCKET / MOVE YOUR MONEY chevrons,L2,GROK2_MICRO_ART,GROK2.B03-CHEVRON,NO,MOUNTED (reuse of the OV03/OV04 dark chevron),React
+OV01 MONEY ACTION,close,L2,FOUNDER_UTILITY,F05.UTILITY.CLOSE.GOLD,NO,mounted (OPUS1),React
+OV02 ADD A POCKET,regenerated shell (statue · medallion · paper · coins · drape),L0+L1,BAKED_IN_SHELL,OV02_ADD_POCKET_SHELL,—,unchanged; the money-bag medallion (FG03) is baked: not remounted,—
+OV02 ADD A POCKET,type icons (bank · coins · debit · credit · cash),L2,GROK2_MICRO_ART,GROK2.B03-BANK-SOURCE / -BANK-SELECTED / -COIN-STACK / -CARD-DEBIT / -CARD-CREDIT / -CASH,NO (blank paper),MOUNTED,React (selected type)
+OV02 ADD A POCKET,selected indicator,L2,GROK2_MICRO_ART,GROK2.B03-CHECK-SELECTED,NO,MOUNTED,React
+OV02 ADD A POCKET,CANCEL / SAVE POCKET papers,L1,GROK2_MICRO_ART,GROK2.B05-ADD-CANCEL · B05-CREATE-POCKET,NO,MOUNTED (replace the generic panel / strip backings; never both),React (disabled until valid)
+OV02 ADD A POCKET,name / balance / notes fields,L2,LIVE_REACT,—,NO (no painted wells),unchanged,React
+OV03 MOVE MONEY,regenerated shell (paper · twine · wax seal · coins),L0+L1,BAKED_IN_SHELL,OV03_MOVE_MONEY_SHELL,—,unchanged; the directional seal (FG05) is baked: not remounted,—
+OV03 MOVE MONEY,FROM / TO marks,L2,GROK2_MICRO_ART,GROK2.B03-BANK-SOURCE · B03-POCKET-MARK,NO,MOUNTED (source bank / destination pocket as in the register),React (selected pockets)
+OV03 MOVE MONEY,transfer date calendar,L2,LIVE_REACT,(GROK2.B03-CALENDAR),NO,NOT MOUNTED: no clean slot in the half-width floating-label field,React
+OV03 MOVE MONEY,settlement status chips,L2,LIVE_REACT,—,NO,unchanged (no GROK2 art exists for them),React (recorded state)
+OV03 MOVE MONEY,CANCEL / RECORD TRANSFER papers,L1,GROK2_MICRO_ART,GROK2.B05-MOVE-CANCEL · B05-RECORD-TRANSFER,NO,MOUNTED (replace the generic backings),React
+OV04 MANAGE POCKET,regenerated note (paperclip · coastline · oxblood),L0+L1,BAKED_IN_SHELL,OV04_MANAGE_NOTE,— (no baked actions),unchanged; the clean-note candidate stays gated,—
+OV04 MANAGE POCKET,RENAME / DELETE papers,L1,INDEPENDENT_ART,OV04_RENAME_PAPER · OV04_DELETE_PAPER,NO,unchanged (GROK2 B05-RENAME-CREAM / -DELETE-BLUSH not mounted: role filled),React
+OV04 MANAGE POCKET,pencil / trash / chevrons,L2,GROK2_MICRO_ART,GROK2.B03-PENCIL · B03-TRASH · B03-CHEVRON,NO,MOUNTED,React
+OV05 SEARCH,regenerated shell (bust · lemon · arch · paper · ledgers),L0+L1,BAKED_IN_SHELL,OV05_SEARCH_SHELL,—,unchanged; the ledger stack (FG07) is baked: not remounted; the blank-folio candidate stays gated,—
+OV05 SEARCH,field magnifier,L2,GROK2_MICRO_ART,GROK2.B04-SEARCH,NO,MOUNTED (inside the live input; the text starts after it),React
+OV05 SEARCH,search field paper,L1,LIVE_REACT,(GROK2.B05-SEARCH-FIELD),NO,NOT MOUNTED: it would stretch or leave the live field uncovered,React
+OV05 SEARCH,POCKETS filter mark,L2,GROK2_MICRO_ART,GROK2.B03-BANK-SOURCE,NO,MOUNTED,React (filter)
+OV05 SEARCH,ACTIVITY filter mark,L2,LIVE_REACT,(GROK2.B04-TAG),NO,HELD: the cut carries a stray fragment; the line tag stays,React
+OV05 SEARCH,result marks,L2,GROK2_MICRO_ART,GROK2.B04-SEARCH · B03-BANK-SOURCE,NO,MOUNTED (activity / pocket results),React (live records)
+OV06 ACCOUNT / SETTINGS,F09 account drawer,L0–L2,PROTECTED_F09_AUTHORITY,F09_ACCOUNT_DRAWER_OVERLAY_SHELL,—,PROTECTED (FD-12): no new micro-assets,React
+OV07 ARCHIVE BLOCKED,DOT 01 V9 archive sheet (oxblood panel · caution medallion · blockers),L0–L2,EXISTING_DOT01_ART,DOT01 V9 composition,—,BLOCKED_ARTWORK: no clean OV07 environment; GROK2 RESOLVE / CLOSE / coins / clock not mounted,React (real blockers)
+OV08 GLOBAL MENU,sectioned menu environment,L0+L1,BAKED_ENVIRONMENT,OV08_MENU_ENVIRONMENT,— (no baked rows or icons),unchanged,—
+OV08 GLOBAL MENU,eleven row icons,L2,GROK2_MICRO_ART,GROK2.B01-BANK-LINKED-ACCOUNTS · B02-COINS-CREAM · B01-SPARKLE-ASK-CONTEXT · B02-TAG-CREAM · B02-PROFILE · B02-GEAR-PREFERENCES · B02-SHIELD-PRIVACY · B02-CROWN-MEMBERSHIP · B02-FOUR-SQUARE · B02-LIFEBUOY · B02-SIGN-OUT,NO,MOUNTED,React (12 destinations)
+OV08 GLOBAL MENU,SAFE TO SPEND BUFFER icon,L2,LIVE_REACT,(MENU_BUFFER_PLAIN_SHIELD candidate),NO,HELD_FOR_FOUNDER: keeps its glyph; the plain shield is an unapproved candidate,React
+OV08 GLOBAL MENU,row chevrons,L2,GROK2_MICRO_ART,GROK2.B01-CHEVRON ×12,NO,MOUNTED,React
+OV08 GLOBAL MENU,close,L2,FOUNDER_UTILITY,F05.UTILITY.CLOSE.GOLD,NO,mounted (OPUS1); no rectangular backing,React
+CH01 SAFE TO SPEND BUFFER,regenerated shell (bust · lemons · coast · olive field · drape · coins),L0+L1,BAKED_IN_SHELL,CH01_BUFFER_SHELL,— (coin reserve baked),unchanged; no second coin still life,—
+CH01 SAFE TO SPEND BUFFER,amount / effect / back papers,L1,INDEPENDENT_ART,CH01_AMOUNT_PAPER (= GROK2 B05-BUFFER-AMOUNT) · CH01_EFFECT_PAPER (= B05-BUFFER-EFFECT) · CH01_BACK_PAPER,NO,unchanged (already the GROK2 bytes for amount / effect),React (live amount · currency · effect)
+CH01 SAFE TO SPEND BUFFER,(i) information mark,L2,GROK2_MICRO_ART,GROK2.B06-INFO,NO,MOUNTED,React (disclosure)
+CH01 SAFE TO SPEND BUFFER,SAVE BUFFER,L2,LIVE_REACT,(GROK2.B05-SAVE-BUFFER),NO,NOT MOUNTED: unfit reconstruction; SAVED shows only after the store accepts,React (persistence)
+CH02 PRIVACY & CONSENTS,regenerated shell (bust · tag · title papers · arch · olive field),L0+L1,BAKED_IN_SHELL,CH02_PRIVACY_SHELL,— (header papers baked; no rows / switches / icons),unchanged; no second header,—
+CH02 PRIVACY & CONSENTS,eight row icons,L2,GROK2_MICRO_ART,GROK2.B01-GEAR-REMEMBER-SETUP · B01-BANK-LINKED-ACCOUNTS · B01-SHIELD-NOTHING-SOLD · B01-SPARKLE-ASK-CONTEXT · B01-AI-STAR · B01-DATABASE-YOUR-DATA · B01-EXPORT-DOWN · B01-TRASH-REMOVE,NO,MOUNTED,React
+CH02 PRIVACY & CONSENTS,consent switches (REMEMBER SETUP · ASK JURNL CONTEXT),L2+L3,GROK2_MICRO_ART,GROK2.B01-TOGGLE-TRACK-OLIVE / -CHARCOAL · B01-TOGGLE-THUMB,NO,MOUNTED (track by value; thumb moves; nothing baked),React (stored consent)
+CH02 PRIVACY & CONSENTS,NOTHING SOLD · LINKED ACCOUNTS OPTIONAL,L2,LIVE_REACT,—,NO,statements: no switch (policy / product disclosure),—
+CH02 PRIVACY & CONSENTS,REMOVE ACCESS / BACK papers,L1,INDEPENDENT_ART,CH02_REMOVE_ACCESS_PAPER (= GROK2 B05-REMOVE-ACCESS) · CH02_BACK_PAPER (= B05-PRIVACY-BACK),NO,unchanged (already the GROK2 bytes),React
+CH02 PRIVACY & CONSENTS,tool row chevrons,L2,GROK2_MICRO_ART,GROK2.B01-CHEVRON ×4,NO,MOUNTED,React
