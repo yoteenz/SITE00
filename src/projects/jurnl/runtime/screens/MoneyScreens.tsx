@@ -416,7 +416,8 @@ export function MoneyPlaceDetailScreen() {
 export const OV02_PLATE = {
   art: 'OV02_ADD_POCKET_SHELL',
   head: [0.14, 0.255, 0.86, 0.352],
-  body: [0.1, 0.36, 0.88, 0.754],
+  /** live form scrolls in the paper band; foot aligns to CANCEL / SAVE on the shell */
+  body: [0.1, 0.36, 0.88, 0.756],
   foot: [0.17, 0.756, 0.88, 0.83],
 } as const satisfies EdPlate;
 
