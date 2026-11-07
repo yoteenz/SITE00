@@ -378,7 +378,13 @@ export function TransferSheet({ fromId, toId, onClose }: { fromId?: string | nul
       script={toCard ? 'record a card payment' : 'transfer between your pockets'}
       onClose={onClose}
       plate={OV03_PLATE}
-      headNote="BETWEEN YOUR OWN ACCOUNTS. NOT INCOME OR SPENDING. JURNL RECORDS IT; IT DOES NOT MOVE REAL MONEY."
+      headNote={
+        <>
+          BETWEEN YOUR OWN ACCOUNTS. NOT INCOME OR SPENDING.
+          <br />
+          JURNL RECORDS IT; IT DOES NOT MOVE REAL MONEY.
+        </>
+      }
       footer={
         <>
           <ErrorLine error={error} />
