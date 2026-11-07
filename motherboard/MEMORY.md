@@ -16892,6 +16892,14 @@ Summary of the whole conversation in this chat.
 
 ---
 
+## 2026-11-07 — OV06 account drawer Option B (full folio mount)
+
+- **Context:** Founder chose Option B: full account drawer convergence on OV06 inner shell, not only utility CLOSE on the F09 torn replica.
+- **Decisions / outcomes:** `AccountSettingsDrawer` draws `OV06_ACCOUNT_SHELL` (lossless WebP in clean/registry) via `ShellOverlay`, right-aligned at ~62% host width; live profile/currency/connection/ask/buffer/privacy rows scroll on parchment; sign-out on the shell’s dark strip; close remains `F05.UTILITY.CLOSE.GOLD` (`account-drawer-close`). F09 `F09_ACCOUNT_DRAWER_SHELL` retired from runtime drawer path; full ACCOUNT page unchanged.
+- **Changes:** `AccountSettingsDrawer.tsx`, `jurnl-account-ov06.css`, `clean/registry.ts`, `eight/registry.ts` OV06 `MOUNTED`, tests (`jurnlOverlayReplica1`, global menu recovery, utility family). Commit `856bc9d02` on `cursor/jurnl-account-dot01-utility-convergence-4e5a`.
+
+---
+
 ## 2026-11-06 — FD-12 account drawer close + DOT01 utility search/add on tunnel
 
 - **Context:** Founder tunnel review: account drawer still had line close; TRANSACTIONS/DOT01 child pages still had line search/add despite OPUS1–OPUS5 on tunnel branch.
